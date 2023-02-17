@@ -1,0 +1,17 @@
+name: Check
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check:
+    uses: orcalabs/github-actions/.github/workflows/npm_check.yml@master
+    with:
+      src-dir: fhf-datafangst-client
+      eslint: false
