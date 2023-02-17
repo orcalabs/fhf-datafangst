@@ -9,4 +9,4 @@ export const get = async (vesselId: string) => {
   });
 };
 
-export const getVessels = () => apiGet<Vessel[]>("vessels");
+export const getVessels = async () => apiGet<Vessel[]>("vessels");

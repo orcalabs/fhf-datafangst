@@ -14,7 +14,7 @@ declare module "@mui/material/styles" {
 }
 
 export const fontStyle: any = {
-  fontFamily: '"Poppins", sans-serif',
+  fontFamily: "'Poppins', sans-serif",
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 500,
@@ -102,9 +102,9 @@ const theme = createTheme({
     },
     action: {
       selected: "#F1F3F8",
-      //hover: '#F5F7FA',
+      // hover: '#F5F7FA',
     },
-    //divider: '#E0E3EB',
+    // divider: '#E0E3EB',
   },
   breakpoints: {
     values: {
@@ -140,7 +140,7 @@ const theme = createTheme({
     MuiToolbar: {
       styleOverrides: {
         root: {
-          borderBottom: `none`,
+          borderBottom: "none",
         },
       },
     },

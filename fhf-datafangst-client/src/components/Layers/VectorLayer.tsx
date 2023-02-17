@@ -15,7 +15,7 @@ export const VectorLayer: FC<Props> = (props) => {
   useEffect(() => {
     if (!fishmap) return;
 
-    let vectorLayer = new OLVectorLayer({ source, style, zIndex });
+    const vectorLayer = new OLVectorLayer({ source, style, zIndex });
     fishmap.addLayer(vectorLayer);
 
     return () => {

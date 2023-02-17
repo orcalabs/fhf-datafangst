@@ -112,7 +112,7 @@ export const updateVesselsVector = (
   }
 };
 
-export const generateShorelineVector = (geoJsonObject: {}) =>
+export const generateShorelineVector = (geoJsonObject: any) =>
   new VectorSource({
     features: new GeoJSON({
       featureProjection: process.env.REACT_APP_EPSG as string,
@@ -120,7 +120,7 @@ export const generateShorelineVector = (geoJsonObject: {}) =>
     }).readFeatures(geoJsonObject),
   });
 
-export const generateLocationsGrid = (geoJsonObject: {}) => {
+export const generateLocationsGrid = (geoJsonObject: any) => {
   const features = new GeoJSON({
     featureProjection: process.env.REACT_APP_EPSG as string,
     geometryName: "fishingLocations",
