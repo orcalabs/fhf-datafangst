@@ -14,7 +14,7 @@ const image = new Icon({
 });
 
 export const vesselBuilder = (
-  builder: ActionReducerMapBuilder<AppState>
+  builder: ActionReducerMapBuilder<AppState>,
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(getVessels.fulfilled, (state, action) => {

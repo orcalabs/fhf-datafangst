@@ -3,12 +3,12 @@ import { selectAppState } from "store/selectors";
 
 export const selectVesselsLoading = createSelector(
   selectAppState,
-  (state) => state.vessels === undefined
+  (state) => state.vessels === undefined,
 );
 
 export const selectVessels = createSelector(
   selectAppState,
-  (state) => state.vessels ?? {}
+  (state) => state.vessels ?? {},
 );
 
 export const selectVessel = (id: number) =>
@@ -16,10 +16,10 @@ export const selectVessel = (id: number) =>
 
 export const selectSelectedVessel = createSelector(
   selectAppState,
-  (state) => state.selectedVessel
+  (state) => state.selectedVessel,
 );
 
 export const selectErsEnabled = createSelector(
   selectSelectedVessel,
-  (state) => state?.ersEnabled ?? true
+  (state) => state?.ersEnabled ?? true,
 );
