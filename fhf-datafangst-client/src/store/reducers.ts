@@ -17,8 +17,8 @@ class AppActionReducerMapBuilder<State> {
 
   extendBuilder(
     extender: (
-      _: ActionReducerMapBuilder<State>
-    ) => ActionReducerMapBuilder<State>
+      _: ActionReducerMapBuilder<State>,
+    ) => ActionReducerMapBuilder<State>,
   ) {
     extender(this.builder);
     return this;
@@ -37,5 +37,5 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(baseBuilder)
     .extendBuilder(fishmapBuilder)
     .extendBuilder(vesselBuilder)
-    .finish()
+    .finish(),
 );

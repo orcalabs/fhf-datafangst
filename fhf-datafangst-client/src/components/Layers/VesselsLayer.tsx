@@ -19,7 +19,7 @@ export const VesselsLayer: FC = () => {
   const [vesselsVector, setVesselsVector] = useState<VectorSource<Geometry>>();
 
   const [zoom, setZoom] = useState<number | undefined>(
-    state.map.getView().getZoom()
+    state.map.getView().getZoom(),
   );
 
   const iconSize = zoom ? zoom * 0.018 : state.zoom * 0.018;
@@ -42,8 +42,8 @@ export const VesselsLayer: FC = () => {
           f,
           (f.get("vessel") as Vessel).id === selectedVessel?.id
             ? iconSize * 2
-            : iconSize
-        )
+            : iconSize,
+        ),
       );
     }
   }, [zoom, iconSize, vesselsVector, selectedVessel]);

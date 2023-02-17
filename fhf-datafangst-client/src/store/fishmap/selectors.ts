@@ -3,7 +3,7 @@ import { selectAppState } from "store/selectors";
 
 export const selectFishmap = createSelector(
   selectAppState,
-  (state) => state.map
+  (state) => state.map,
 );
 
 export const selectFishmapState = createSelector(selectAppState, (state) => ({

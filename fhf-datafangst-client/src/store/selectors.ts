@@ -5,5 +5,5 @@ export const selectAppState = (state: AppState) => state;
 
 export const selectError = createSelector(
   selectAppState,
-  (state) => state.error
+  (state) => state.error,
 );
