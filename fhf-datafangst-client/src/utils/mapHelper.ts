@@ -28,7 +28,7 @@ export const generateVesselsVector = (vessels: Record<string, Vessel>) => {
     if (
       differenceInHours(
         new Date(),
-        new Date(vessel.currentPosition.timestamp)
+        new Date(vessel.currentPosition.timestamp),
       ) > Number(process.env.REACT_APP_VESSEL_MAP_THRESHOLD_HOURS as string)
     ) {
       style.setImage(
@@ -38,7 +38,7 @@ export const generateVesselsVector = (vessels: Record<string, Vessel>) => {
           anchor: [0.5, 0.5],
           scale: 0.05,
           src: greyVessel,
-        })
+        }),
       );
     }
 
@@ -48,8 +48,8 @@ export const generateVesselsVector = (vessels: Record<string, Vessel>) => {
     if (!geometry) {
       vessel.mapPlot.setGeometry(
         new Point(
-          fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat])
-        )
+          fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat]),
+        ),
       );
     }
     vesselsVector.addFeature(vessel.mapPlot);
@@ -60,7 +60,7 @@ export const generateVesselsVector = (vessels: Record<string, Vessel>) => {
 
 export const updateVesselsVector = (
   vector: VectorSource<Geometry>,
-  vessels: Record<string, Vessel>
+  vessels: Record<string, Vessel>,
 ) => {
   if (!vessels || !vector) {
     return;
@@ -78,13 +78,13 @@ export const updateVesselsVector = (
     if (!geometry) {
       vessel.mapPlot.setGeometry(
         new Point(
-          fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat])
-        )
+          fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat]),
+        ),
       );
       vector.addFeature(vessel.mapPlot);
     } else {
       geometry.setCoordinates(
-        fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat])
+        fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat]),
       );
     }
 
@@ -101,11 +101,11 @@ export const updateVesselsVector = (
         src:
           differenceInHours(
             new Date(),
-            new Date(vessel.currentPosition.timestamp)
+            new Date(vessel.currentPosition.timestamp),
           ) > Number(process.env.REACT_APP_VESSEL_MAP_THRESHOLD_HOURS)
             ? greyVessel
             : blueVessel,
-      })
+      }),
     );
 
     vessel.mapPlot.changed();
@@ -144,12 +144,12 @@ export const parseCapabilites = (capabilitesText: string) =>
 
 export const changeIconSizes = (
   vector: VectorSource<Geometry> | undefined,
-  size: number
+  size: number,
 ) => vector?.forEachFeature((f) => changeIconSizeFromFeature(f, size));
 
 export const changeIconSizeFromFeature = (
   feature: Feature<Geometry>,
-  size: number
+  size: number,
 ) => {
   const style = feature.getStyle() as Style;
   if (!style) return;
