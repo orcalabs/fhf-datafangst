@@ -1,0 +1,16 @@
+name: Build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  cache:
+    uses: orcalabs/github-actions/.github/workflows/npm_cache.yml@master
+    with:
+      src-dir: fhf-datafangst-client

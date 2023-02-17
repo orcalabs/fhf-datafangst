@@ -1,0 +1,13 @@
+name: Update npm dependencies
+
+on:
+  schedule:
+    # Runs "At 07:00 on Monday." (see https://crontab.guru)
+    - cron: '0 7 * * 1'
+
+jobs:
+  update:
+    uses: orcalabs/github-actions/.github/workflows/npm_update.yml@master
+    secrets: inherit
+    with:
+      src-dir: fhf-datafangst-client
