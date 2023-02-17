@@ -14,4 +14,3 @@ jobs:
     uses: orcalabs/github-actions/.github/workflows/npm_check.yml@master
     with:
       src-dir: fhf-datafangst-client
-      eslint: false

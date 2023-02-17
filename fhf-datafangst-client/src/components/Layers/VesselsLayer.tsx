@@ -27,7 +27,7 @@ export const VesselsLayer: FC = () => {
   // Store map zoom level in state
   useEffect(() => {
     state.map.on("moveend", function () {
-      var zoom = state.map.getView().getZoom();
+      const zoom = state.map.getView().getZoom();
       if (zoom) {
         setZoom(zoom);
       }
