@@ -1,6 +1,25 @@
 import { Box } from "@mui/material";
-import { MapBoxLayer, Map, FilterMenu, Header } from "components";
-import { FC } from "react";
+import {
+  MapBoxLayer,
+  Map,
+  FilterMenu,
+  Header,
+  MapFilters,
+  ShorelineLayer,
+  LocationsGrid,
+} from "components";
+import { FC, useState } from "react";
+
+export interface MapFilter {
+  coastline: boolean;
+  fishingLocations: boolean;
+  [key: string]: boolean;
+}
+
+const initialMapFilter: MapFilter = {
+  coastline: false,
+  fishingLocations: false,
+};
 
 const GridContainer = (props: any) => (
   <Box
@@ -46,6 +65,8 @@ const MenuArea = (props: any) => (
 );
 
 export const HomeView: FC = () => {
+  const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
+
   return (
     <>
       <GridContainer>
@@ -58,7 +79,10 @@ export const HomeView: FC = () => {
       </GridContainer>
       <Map>
         <MapBoxLayer />
+        {mapFilter.coastline && <ShorelineLayer />}
+        {mapFilter.fishingLocations && <LocationsGrid />}
       </Map>
+      <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
     </>
   );
 };
