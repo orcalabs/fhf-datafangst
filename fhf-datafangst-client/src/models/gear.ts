@@ -1,17 +1,4 @@
-export interface Gear {
-  id: number;
-  name: string;
-}
-
-export interface GearGroup {
-  id: number;
-  name: string;
-}
-
-export interface GearMainGroup {
-  id: number;
-  name: string;
-}
+import { GearGroup } from "generated/openapi";
 
 export const GearGroupCodes: GearGroup[] = [
   { name: "Not", id: 1 },

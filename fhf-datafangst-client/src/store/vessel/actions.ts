@@ -1,7 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "api";
+import * as Api from "api";
 
-export const getVessels = createAsyncThunk(
-  "vessel/getVessels",
-  api.vessels.getVessels,
-);
+export const getVessels = createAsyncThunk("vessel/getVessels", Api.getVessels);

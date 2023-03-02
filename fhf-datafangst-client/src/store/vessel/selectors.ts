@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { Haul } from "models";
+import { Haul } from "generated/openapi";
 import { selectAppState } from "store/selectors";
 
 export const selectVesselsLoading = createSelector(

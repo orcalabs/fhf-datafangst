@@ -1,4 +1,4 @@
-import { Gear, GearGroup, GearMainGroup } from "models";
+import { Gear, GearGroup, GearMainGroup } from "generated/openapi";
 
 export interface GearState {
   gear: Gear[];

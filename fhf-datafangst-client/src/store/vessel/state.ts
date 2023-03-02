@@ -1,4 +1,4 @@
-import { Vessel } from "models";
+import { Vessel } from "generated/openapi";
 
 export interface VesselState {
   vessels?: Record<number, Vessel>;

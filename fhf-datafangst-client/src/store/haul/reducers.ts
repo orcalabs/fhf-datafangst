@@ -1,5 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { GearGroup, HaulCatch, LengthGroup, SpeciesGroup } from "models";
+import { GearGroup, HaulCatch, SpeciesGroup } from "generated/openapi";
+import { LengthGroup } from "models";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { inRange, sumHaulCatches } from "utils";

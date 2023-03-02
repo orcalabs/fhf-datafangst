@@ -4,7 +4,7 @@ import {
   SpeciesFiskeridir,
   SpeciesGroup,
   SpeciesMainGroup,
-} from "models";
+} from "generated/openapi";
 
 export interface SpecieState {
   species: Species[];

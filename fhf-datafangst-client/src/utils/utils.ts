@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { nb } from "date-fns/locale";
-import { Haul, HaulCatch } from "models";
+import { Haul, HaulCatch } from "generated/openapi";
 
 const setCharAt = (str: string, index: number, chr: string) => {
   if (index > str.length - 1) return str;

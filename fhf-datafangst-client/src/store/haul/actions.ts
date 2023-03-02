@@ -1,9 +1,9 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "api";
+import * as Api from "api";
 import { HaulsArgs } from "api/haulsApi";
 import { HaulsFilter } from "models";
 
-export const getHauls = createAsyncThunk("haul/getHauls", api.hauls.getHauls);
+export const getHauls = createAsyncThunk("haul/getHauls", Api.getHauls);
 
 export const setHaulsSearch = createAction<HaulsArgs>("haul/setHaulsSearch");
 

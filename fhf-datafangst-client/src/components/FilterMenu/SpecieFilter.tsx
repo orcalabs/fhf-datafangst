@@ -3,7 +3,7 @@ import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import { StyledPopper } from "components";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { selectSpeciesGroups, useAppSelector } from "store";
-import { SpeciesGroup } from "models";
+import { SpeciesGroup } from "generated/openapi";
 
 interface Props {
   value?: SpeciesGroup[];
