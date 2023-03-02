@@ -7,3 +7,8 @@ export const selectError = createSelector(
   selectAppState,
   (state) => state.error,
 );
+
+export const selectViewMode = createSelector(
+  selectAppState,
+  (state) => state.viewMode,
+);

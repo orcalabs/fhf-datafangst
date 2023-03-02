@@ -2,13 +2,22 @@ import { HaulState, initialHaulState } from "./haul";
 import { FishmapState, initialFishmapState } from "./fishmap";
 import { initialSpecieState, SpecieState } from "./specie";
 import { VesselState, initialVesselState } from "./vessel";
+import { GearState, initialGearState } from "./gear";
+
+export enum ViewMode {
+  Grid = "grid",
+  Heatmap = "heatmap",
+  Hauls = "hauls",
+}
 
 export interface BaseState {
   error: boolean;
+  viewMode: ViewMode;
 }
 
 const initialBaseState: BaseState = {
   error: false,
+  viewMode: ViewMode.Grid,
 };
 
 export interface AppState
@@ -16,6 +25,7 @@ export interface AppState
     FishmapState,
     VesselState,
     HaulState,
+    GearState,
     SpecieState {}
 
 export const initialAppState: AppState = {
@@ -23,5 +33,6 @@ export const initialAppState: AppState = {
   ...initialFishmapState,
   ...initialVesselState,
   ...initialHaulState,
+  ...initialGearState,
   ...initialSpecieState,
 };

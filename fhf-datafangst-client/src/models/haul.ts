@@ -1,26 +1,43 @@
 export interface Haul {
-  id: number;
-  vesselId: number;
-  haulDistance?: number | undefined;
-  durationMinutes: number;
-  end: HaulLocation | undefined;
-  start: HaulLocation | undefined;
-  gear: string;
+  vesselCallSignErs: string;
+  ersActivityId: string;
+  quotaTypeId: number;
+  startTimestamp: string;
+  startLongitude: number;
+  startLatitude: number;
+  stopLatitude: number;
+  stopLongitude: number;
+  stopTimestamp: string;
+  duration: number;
+  oceanDepthEnd: number;
+  oceanDepthStart: number;
+  fiskeridirVesselId?: number;
+  gearFiskeridirId?: number;
+  haulDistance?: number;
+  catchFieldStart?: string;
+  catchFieldEnd?: string;
+  vesselCallSign?: string;
+  vesselName?: string;
+  vesselNameErs?: string;
   catches: HaulCatch[];
-  alternateStartTimestamp?: number | undefined;
-  alternateStartLat?: number | undefined;
-  alternateStartLon?: number | undefined;
-}
-
-export interface HaulLocation {
-  oceanDepth: number;
-  lat: number;
-  lon: number;
-  timestamp: number;
+  whaleCatches: WhaleCatch[];
 }
 
 export interface HaulCatch {
   livingWeight: number;
-  specieId: number;
-  specieName: string;
+  mainSpeciesFiskeridirId?: number;
+  speciesFiskeridirId?: number;
+  speciesGroupId?: number;
+}
+
+export interface WhaleCatch {
+  grenadeNumber: string;
+  blubberMeasureA?: number;
+  blubberMeasureB?: number;
+  blubberMeasureC?: number;
+  circumference?: number;
+  fetusLength?: number;
+  genderId?: string;
+  individualNumber?: number;
+  length?: number;
 }

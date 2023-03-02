@@ -1,4 +1,4 @@
-import { Map } from "ol";
+import { Feature, Map } from "ol";
 
 export interface FishmapState {
   map: Map;
@@ -6,6 +6,7 @@ export interface FishmapState {
   zoomLevel: number;
   zoomLevelTouch: number;
   zoomFactor: number;
+  selectedGrids: Feature[];
 }
 
 export const initialFishmapState: FishmapState = {
@@ -14,4 +15,5 @@ export const initialFishmapState: FishmapState = {
   zoomLevel: 2.7,
   zoomLevelTouch: 2.2,
   zoomFactor: 3.7,
+  selectedGrids: [],
 };

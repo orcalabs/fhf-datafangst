@@ -1,11 +1,23 @@
-import { Species, SpeciesGroup } from "models";
+import {
+  Species,
+  SpeciesFao,
+  SpeciesFiskeridir,
+  SpeciesGroup,
+  SpeciesMainGroup,
+} from "models";
 
 export interface SpecieState {
-  specieGroups: SpeciesGroup[];
   species: Species[];
+  speciesFao: SpeciesFao[];
+  speciesFiskeridir: SpeciesFiskeridir[];
+  speciesGroups: SpeciesGroup[];
+  speciesMainGroups: SpeciesMainGroup[];
 }
 
 export const initialSpecieState: SpecieState = {
   species: [],
-  specieGroups: [],
+  speciesFao: [],
+  speciesFiskeridir: [],
+  speciesGroups: [],
+  speciesMainGroups: [],
 };
