@@ -1,6 +1,12 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getSpecies, getSpecieGroups } from ".";
+import {
+  getSpecies,
+  getSpeciesGroups,
+  getSpeciesFao,
+  getSpeciesFiskeridir,
+  getSpeciesMainGroups,
+} from ".";
 
 export const specieBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -9,6 +15,15 @@ export const specieBuilder = (
     .addCase(getSpecies.fulfilled, (state, action) => {
       state.species = action.payload;
     })
-    .addCase(getSpecieGroups.fulfilled, (state, action) => {
-      state.specieGroups = action.payload;
+    .addCase(getSpeciesFao.fulfilled, (state, action) => {
+      state.speciesFao = action.payload;
+    })
+    .addCase(getSpeciesFiskeridir.fulfilled, (state, action) => {
+      state.speciesFiskeridir = action.payload;
+    })
+    .addCase(getSpeciesGroups.fulfilled, (state, action) => {
+      state.speciesGroups = action.payload;
+    })
+    .addCase(getSpeciesMainGroups.fulfilled, (state, action) => {
+      state.speciesMainGroups = action.payload;
     });

@@ -12,7 +12,20 @@ export const haulBuilder = (
       state.hauls = undefined;
     })
     .addCase(getHauls.fulfilled, (state, action) => {
-      state.hauls = action.payload;
+      const hauls = action.payload;
+      state.hauls = hauls;
+
+      state.haulsByArea = {};
+      for (const haul of hauls) {
+        if (haul.catchFieldStart) {
+          if (state.haulsByArea[haul.catchFieldStart]) {
+            state.haulsByArea[haul.catchFieldStart].push(haul);
+          } else {
+            state.haulsByArea[haul.catchFieldStart] = [haul];
+          }
+        }
+      }
+
       state.haulsLoading = false;
     })
     .addCase(getHauls.rejected, (state, _) => {
@@ -22,7 +35,7 @@ export const haulBuilder = (
       if (action.payload) {
         (action as any).asyncDispatch(getHauls(action.payload));
       }
-
+      console.log(action.payload);
       return {
         ...state,
         ...emptyState,

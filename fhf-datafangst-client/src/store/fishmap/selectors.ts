@@ -6,6 +6,11 @@ export const selectFishmap = createSelector(
   (state) => state.map,
 );
 
+export const selectSelectedGrids = createSelector(
+  selectAppState,
+  (state) => state.selectedGrids,
+);
+
 export const selectFishmapState = createSelector(selectAppState, (state) => ({
   map: state.map,
   centerCoordinate: state.centerCoordinate,

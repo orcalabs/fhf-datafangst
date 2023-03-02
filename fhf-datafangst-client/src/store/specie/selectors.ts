@@ -6,13 +6,24 @@ export const selectSpecies = createSelector(
   (state) => state.species,
 );
 
-export const selectSpecie = (code: number | undefined) =>
-  createSelector(selectSpecies, (state) =>
-    code ? state.find((s) => s.id === code) : undefined,
-  );
+export const selectSpeciesFao = createSelector(
+  selectAppState,
+  (state) => state.speciesFao,
+);
 
-export const selectSpecieGroups = createSelector(selectAppState, (state) =>
-  Array.from(state.specieGroups).sort((a, b) =>
+export const selectSpeciesFiskeridir = createSelector(
+  selectAppState,
+  (state) => state.speciesFiskeridir,
+);
+
+export const selectSpeciesGroups = createSelector(selectAppState, (state) =>
+  Array.from(state.speciesGroups).sort((a, b) =>
+    a.name.localeCompare(b.name, "no"),
+  ),
+);
+
+export const selectSpeciesMainGroups = createSelector(selectAppState, (state) =>
+  Array.from(state.speciesMainGroups).sort((a, b) =>
     a.name.localeCompare(b.name, "no"),
   ),
 );

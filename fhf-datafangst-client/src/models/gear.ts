@@ -1,4 +1,14 @@
+export interface Gear {
+  id: number;
+  name: string;
+}
+
 export interface GearGroup {
+  id: number;
+  name: string;
+}
+
+export interface GearMainGroup {
   id: number;
   name: string;
 }

@@ -8,3 +8,4 @@ export * from "./fishmap";
 export * from "./vessel";
 export * from "./specie";
 export * from "./haul";
+export * from "./gear";

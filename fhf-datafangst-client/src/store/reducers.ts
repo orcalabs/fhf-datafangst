@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
 import { AppState, initialAppState } from "./state";
-import { resetState, setError } from "./actions";
+import { resetState, setError, setViewMode } from "./actions";
 import { fishmapBuilder } from "./fishmap";
 import { vesselBuilder } from "./vessel";
 import { specieBuilder } from "./specie";
@@ -33,6 +33,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
   builder
     .addCase(setError, (state, action) => {
       state.error = action.payload;
+    })
+    .addCase(setViewMode, (state, action) => {
+      state.viewMode = action.payload;
     })
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 

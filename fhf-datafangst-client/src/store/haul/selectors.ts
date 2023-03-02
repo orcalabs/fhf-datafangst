@@ -10,3 +10,13 @@ export const selectHaulsSearch = createSelector(
   selectAppState,
   (state) => state.haulsSearch,
 );
+
+export const selectHauls = createSelector(
+  selectAppState,
+  (state) => state.hauls ?? [],
+);
+
+export const selectHaulsByArea = createSelector(
+  selectAppState,
+  (state) => state.haulsByArea ?? {},
+);
