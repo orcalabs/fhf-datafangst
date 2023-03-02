@@ -1,7 +1,7 @@
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import theme from "app/theme";
 import { ListboxComponent, StyledPopper } from "components";
-import { Vessel } from "models";
+import { Vessel } from "generated/openapi";
 import { FC, useMemo } from "react";
 import { selectVessels, useAppSelector } from "store";
 import { toTitleCase } from "utils";

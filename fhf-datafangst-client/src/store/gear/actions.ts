@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "api";
+import * as Api from "api";
 
-export const getGear = createAsyncThunk("gear/getGear", api.gears.getGear);
+export const getGear = createAsyncThunk("gear/getGear", Api.getGear);
 
 export const getGearGroups = createAsyncThunk(
   "gear/getGearGroups",
-  api.gears.getGearGroups,
+  Api.getGearGroups,
 );
 
 export const getGearMainGroups = createAsyncThunk(
   "gear/getGearMainGroups",
-  api.gears.getGearMainGroups,
+  Api.getGearMainGroups,
 );

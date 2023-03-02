@@ -1,21 +1,17 @@
-import {
-  Species,
-  SpeciesFao,
-  SpeciesFiskeridir,
-  SpeciesGroup,
-  SpeciesMainGroup,
-} from "models";
-import { apiGet } from ".";
+import { V1speciesApi } from "generated/openapi";
+import { apiConfiguration, apiGet } from ".";
 
-export const getSpecies = async () => apiGet<Species[]>("species");
+const api = new V1speciesApi(apiConfiguration);
 
-export const getSpeciesFao = async () => apiGet<SpeciesFao[]>("species_fao");
+export const getSpecies = async () => apiGet(async () => api.species());
+
+export const getSpeciesFao = async () => apiGet(async () => api.speciesFao());
 
 export const getSpeciesFiskeridir = async () =>
-  apiGet<SpeciesFiskeridir[]>("species_fiskeridir");
+  apiGet(async () => api.speciesFiskeridir());
 
 export const getSpeciesMainGroups = async () =>
-  apiGet<SpeciesMainGroup[]>("species_main_groups");
+  apiGet(async () => api.speciesMainGroups());
 
 export const getSpeciesGroups = async () =>
-  apiGet<SpeciesGroup[]>("species_groups");
+  apiGet(async () => api.speciesGroups());

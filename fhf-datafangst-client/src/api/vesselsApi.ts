@@ -1,12 +1,6 @@
-import { apiGet, axios } from ".";
-import { Vessel } from "models";
+import { apiConfiguration, apiGet } from ".";
+import { V1vesselApi } from "generated/openapi";
 
-export const get = async (vesselId: string) => {
-  return axios.get<Vessel>("vessels", {
-    params: {
-      vessel_id: vesselId,
-    },
-  });
-};
+const api = new V1vesselApi(apiConfiguration);
 
-export const getVessels = async () => apiGet<Vessel[]>("vessels");
+export const getVessels = async () => apiGet(async () => api.vessels());

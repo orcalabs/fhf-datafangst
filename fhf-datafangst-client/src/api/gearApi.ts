@@ -1,9 +1,11 @@
-import { Gear, GearGroup, GearMainGroup } from "models";
-import { apiGet } from ".";
+import { V1gearApi } from "generated/openapi";
+import { apiConfiguration, apiGet } from ".";
 
-export const getGear = async () => apiGet<Gear[]>("gear");
+const api = new V1gearApi(apiConfiguration);
 
-export const getGearGroups = async () => apiGet<GearGroup[]>("gear_groups");
+export const getGear = async () => apiGet(async () => api.gear());
+
+export const getGearGroups = async () => apiGet(async () => api.gearGroups());
 
 export const getGearMainGroups = async () =>
-  apiGet<GearMainGroup[]>("gear_main_groups");
+  apiGet(async () => api.gearMainGroups());

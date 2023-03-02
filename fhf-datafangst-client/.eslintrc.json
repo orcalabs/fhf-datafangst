@@ -24,10 +24,10 @@
     "react/react-in-jsx-scope": "off",
     "space-before-function-paren": "off",
     "@typescript-eslint/space-before-function-paren": "off",
-    "@typescript-eslint/quotes": ["error", "double"],
-    "@typescript-eslint/semi": ["error", "always"],
+    "@typescript-eslint/quotes": ["warn", "double"],
+    "@typescript-eslint/semi": ["warn", "always"],
     "@typescript-eslint/member-delimiter-style": [
-      "error",
+      "warn",
       {
         "multiline": {
           "delimiter": "semi",
@@ -40,7 +40,7 @@
         "multilineDetection": "brackets"
       }
     ],
-    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/comma-dangle": ["warn", "always-multiline"],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/consistent-type-imports": "off",
@@ -50,6 +50,10 @@
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/return-await": "off",
     "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
     "react/display-name": "off"
   }
 }

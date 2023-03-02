@@ -7,7 +7,7 @@ import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import { Haul } from "models";
+import { Haul } from "generated/openapi";
 import { Point } from "ol/geom";
 import ColorScale from "color-scales";
 import { findHighestHaulCatchWeight, sumHaulCatches } from "utils";

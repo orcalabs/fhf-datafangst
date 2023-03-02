@@ -1,5 +1,6 @@
 import { HaulsArgs } from "api/haulsApi";
-import { Haul, HaulsFilter } from "models";
+import { HaulsFilter } from "models";
+import { Haul } from "generated/openapi";
 
 export interface HaulState {
   hauls?: Haul[];

@@ -1,6 +1,6 @@
-import { apiGet } from ".";
-import { Haul } from "models";
+import { apiConfiguration, apiGet } from ".";
 import { setMonth, setYear } from "date-fns";
+import { V1haulApi } from "generated/openapi";
 
 export interface HaulsArgs {
   years?: number[];
@@ -16,7 +16,7 @@ const createTimestampsFromYearsMonths = (
     return [];
   }
   if (!months?.length) {
-    months = Array.from(new Array(12), (x, i) => i + 1);
+    months = Array.from(new Array(12), (_, i) => i + 1);
   }
   const timestamps: Date[] = [];
   for (const month of months) {
@@ -29,11 +29,16 @@ const createTimestampsFromYearsMonths = (
   return timestamps;
 };
 
+const api = new V1haulApi(apiConfiguration);
+
 export const getHauls = async (query: HaulsArgs) =>
-  apiGet<Haul[]>("hauls", {
-    months: query.years
-      ? createTimestampsFromYearsMonths(query.years, query.months)
-          .map((g) => g.toISOString())
-          .toString()
-      : undefined,
-  });
+  apiGet(async () =>
+    api.hauls({
+      months: query.years
+        ? createTimestampsFromYearsMonths(query.years, query.months)
+            .map((g) => g.toISOString())
+            .toString()
+        : undefined,
+      catchLocations: query.catchLocations?.join(","),
+    }),
+  );
