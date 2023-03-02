@@ -1,7 +1,7 @@
 import { Map } from "ol";
 import { fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
-import { Fill, Icon, Stroke, Style, Text } from "ol/style";
+import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
 import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
@@ -9,9 +9,57 @@ import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
 import blueVessel from "assets/icons/vessel-map.svg";
 import greyVessel from "assets/icons/vessel-map-grey.svg";
-import { Vessel } from "models";
+import { Haul, Vessel } from "models";
 import { differenceInHours } from "date-fns";
 import { Point } from "ol/geom";
+import ColorScale from "color-scales";
+import { findHighestHaulCatchWeight, sumHaulCatches } from "utils";
+
+export const getColorGrade = (colorGrade: number, maxGrade: number) => {
+  const colorScale = new ColorScale(
+    0,
+    maxGrade,
+    ["#66b2ab", "#1b8a5a", "#fbb021", "#f68838", "#ee3e32"],
+    0.7,
+  );
+
+  return colorScale.getColor(colorGrade).toRGBAString();
+};
+
+export const generateGridBoxStyle = (
+  areaCode: string,
+  colorGrade: number,
+  maxGrade: number,
+): Style => {
+  return new Style({
+    fill: new Fill({ color: getColorGrade(colorGrade, maxGrade) }),
+    // stroke: new Stroke({ color: "#387D90", width: 1 }),
+    text: new Text({
+      fill: new Fill({ color: "#387D90" }),
+      text: areaCode,
+    }),
+  });
+};
+
+export const defaultGridBoxStyle = (areaCode: string): Style => {
+  return new Style({
+    fill: new Fill({
+      color: [255, 255, 255, 0],
+    }),
+    // stroke: new Stroke({ color: "#387D90", width: 1 }),
+    text: new Text({ fill: new Fill({ color: "#387D90" }), text: areaCode }),
+  });
+};
+
+export const selectedGridBoxStyle = (areaCode: string): Style => {
+  return new Style({
+    fill: new Fill({
+      color: [255, 255, 255, 0.3],
+    }),
+    stroke: new Stroke({ color: "#387D90", width: 1 }),
+    text: new Text({ fill: new Fill({ color: "#387D90" }), text: areaCode }),
+  });
+};
 
 export const generateVesselsVector = (vessels: Record<string, Vessel>) => {
   const vesselsVector = new VectorSource();
@@ -112,6 +160,63 @@ export const updateVesselsVector = (
   }
 };
 
+export const generateHaulsVector = (hauls: Haul[] | undefined) => {
+  if (!hauls) {
+    return;
+  }
+
+  const haulsVector = new VectorSource();
+  const highestCatchSum = findHighestHaulCatchWeight(hauls);
+
+  for (let i = 0; i < hauls.length; i++) {
+    const haul = hauls[i];
+    const sum = sumHaulCatches(haul.catches);
+    const haulFeature = new Feature({
+      geometry: new Point(
+        fromLonLat([haul.startLongitude, haul.startLatitude]),
+      ),
+      haul,
+    });
+    haulFeature.setStyle(
+      new Style({
+        image: new Circle({
+          radius: 2,
+          fill: new Fill({
+            color: getColorGrade(sum, highestCatchSum),
+          }),
+        }),
+      }),
+    );
+
+    haulsVector.addFeature(haulFeature);
+  }
+
+  return haulsVector;
+};
+
+export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
+  if (!hauls) {
+    return;
+  }
+
+  const heatmapVector = new VectorSource();
+
+  for (let i = 0; i < hauls.length; i++) {
+    const haul = hauls[i];
+
+    const haulFeature = new Feature({
+      geometry: new Point(
+        fromLonLat([haul.startLongitude, haul.startLatitude]),
+      ),
+      weight: sumHaulCatches(haul.catches),
+    });
+
+    heatmapVector.addFeature(haulFeature);
+  }
+
+  return heatmapVector;
+};
+
 export const generateShorelineVector = (geoJsonObject: any) =>
   new VectorSource({
     features: new GeoJSON({
@@ -120,20 +225,34 @@ export const generateShorelineVector = (geoJsonObject: any) =>
     }).readFeatures(geoJsonObject),
   });
 
-export const generateLocationsGrid = (geoJsonObject: any) => {
+export const generateLocationsGrid = (
+  geoJsonObject: any,
+  colorMap: Record<string, number>,
+) => {
   const features = new GeoJSON({
     featureProjection: process.env.REACT_APP_EPSG as string,
     geometryName: "fishingLocations",
   }).readFeatures(geoJsonObject);
 
+  const highestValueIdx = Object.keys(colorMap).reduce(
+    (a, b) => (colorMap[a] > colorMap[b] ? a : b),
+    "0",
+  );
   for (let i = 0; i < features.length; i++) {
     const feature = features[i];
     const area = feature.get("lokref");
-    const style = new Style({
-      stroke: new Stroke({ color: "#387D90", width: 1 }),
-      text: new Text({ fill: new Fill({ color: "#387D90" }), text: area }),
-    });
-    feature.setStyle(style);
+
+    if (colorMap[area]) {
+      const style = generateGridBoxStyle(
+        area,
+        colorMap[area],
+        colorMap[highestValueIdx],
+      );
+      feature.setStyle(style);
+    } else {
+      const style = defaultGridBoxStyle(area.toString());
+      feature.setStyle(style);
+    }
   }
 
   return new VectorSource({ features });

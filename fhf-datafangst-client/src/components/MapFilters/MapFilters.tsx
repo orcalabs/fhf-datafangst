@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
 import { MapFilter } from "containers/HomeView/HomeView";
-import GridOnIcon from "@mui/icons-material/GridOn";
 import LayersIcon from "@mui/icons-material/Layers";
 import { CoastlineIcon } from "assets/icons";
 
@@ -65,13 +64,6 @@ export const MapFilters: FC<Props> = (props) => {
           onClick={() => handleChange("coastline")}
           icon={<CoastlineIcon />}
           tooltipTitle={"Vis kystlinje"}
-          tooltipPlacement="left"
-        />
-        <SpeedDialAction
-          sx={mapFilter.fishingLocations ? activeStyle : {}}
-          onClick={() => handleChange("fishingLocations")}
-          icon={<GridOnIcon />}
-          tooltipTitle={"Vis fiskelokasjoner"}
           tooltipPlacement="left"
         />
       </SpeedDial>

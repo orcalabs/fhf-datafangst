@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { nb } from "date-fns/locale";
+import { Haul, HaulCatch } from "models";
 
 const setCharAt = (str: string, index: number, chr: string) => {
   if (index > str.length - 1) return str;
@@ -71,3 +72,35 @@ export const toTitleCase = (name: string | undefined) => {
 
 export const middle = (a: number, b: number, c: number) =>
   a + b + c - Math.max(a, b, c) - Math.min(a, b, c);
+
+export const sumHaulCatches = (catches: HaulCatch[]) => {
+  const res = catches.reduce((sum, curr) => sum + (curr.livingWeight ?? 0), 0);
+  return res;
+};
+
+export const generateColormapFromHauls = (hauls: Haul[]) => {
+  const colorMap: Record<string, number> = {};
+  for (const haul of hauls) {
+    if (haul.catchFieldStart) {
+      if (colorMap[haul.catchFieldStart]) {
+        colorMap[haul.catchFieldStart] += sumHaulCatches(haul.catches);
+      } else {
+        colorMap[haul.catchFieldStart] = sumHaulCatches(haul.catches);
+      }
+    }
+  }
+
+  return colorMap;
+};
+
+export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
+  let highest = 0;
+  for (const haul of hauls) {
+    const sum = sumHaulCatches(haul.catches);
+    if (sum > highest) {
+      highest = sum;
+    }
+  }
+
+  return highest;
+};

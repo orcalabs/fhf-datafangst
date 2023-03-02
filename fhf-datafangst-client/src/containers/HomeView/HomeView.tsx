@@ -7,8 +7,12 @@ import {
   MapFilters,
   ShorelineLayer,
   LocationsGrid,
+  HaulsLayer,
+  HaulsHeatmapLayer,
+  ViewModeToggle,
 } from "components";
 import { FC, useState } from "react";
+import { selectViewMode, useAppSelector, ViewMode } from "store";
 
 export interface MapFilter {
   coastline: boolean;
@@ -19,6 +23,7 @@ export interface MapFilter {
 const initialMapFilter: MapFilter = {
   coastline: false,
   fishingLocations: false,
+  hauls: false,
 };
 
 const GridContainer = (props: any) => (
@@ -66,6 +71,7 @@ const MenuArea = (props: any) => (
 
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
+  const viewMode = useAppSelector(selectViewMode);
 
   return (
     <>
@@ -79,10 +85,13 @@ export const HomeView: FC = () => {
       </GridContainer>
       <Map>
         <MapBoxLayer />
+        {viewMode === ViewMode.Grid && <LocationsGrid />}
+        {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
+        {viewMode === ViewMode.Hauls && <HaulsLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
-        {mapFilter.fishingLocations && <LocationsGrid />}
       </Map>
       <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
+      <ViewModeToggle />
     </>
   );
 };
