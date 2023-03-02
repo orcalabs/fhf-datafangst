@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import { StyledPopper } from "components";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
-import { selectSpecieGroups, useAppSelector } from "store";
+import { selectSpeciesGroups, useAppSelector } from "store";
 import { SpeciesGroup } from "models";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 export const SpecieFilter: FC<Props> = (props) => {
   const { value, onChange } = props;
-  const speciesGroups = useAppSelector(selectSpecieGroups);
+  const speciesGroups = useAppSelector(selectSpeciesGroups);
 
   return (
     <Box

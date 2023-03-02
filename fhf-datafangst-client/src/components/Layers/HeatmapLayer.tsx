@@ -8,12 +8,13 @@ interface Props {
   source: any;
   blur: number;
   radius: number;
+  weightDenominator: number;
   zIndex: number;
 }
 
 // TODO: Change weighting to amount of fish caught
 export const HeatmapLayer: FC<Props> = (props) => {
-  const { source, blur, radius, zIndex } = props;
+  const { source, blur, radius, weightDenominator, zIndex } = props;
   const fishmap = useAppSelector(selectFishmap);
   const [heatmap, setHeatmap] = useState<Heatmap>();
 
@@ -28,7 +29,7 @@ export const HeatmapLayer: FC<Props> = (props) => {
       source,
       opacity: 0.75,
       weight: ((feature: Feature<Geometry>) =>
-        feature.get("features").length / 1000).toString(),
+        feature.get("weight") / weightDenominator).toString(),
     });
 
     fishmap.addLayer(heatmapLayer);

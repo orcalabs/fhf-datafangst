@@ -1,9 +1,14 @@
 import { VectorLayer } from "components";
 import locations from "assets/geojson/fishing-locations-grid.json";
-import { generateLocationsGrid } from "utils";
+import { generateColormapFromHauls, generateLocationsGrid } from "utils";
+import { selectHauls, useAppSelector } from "store";
 
 export const LocationsGrid = () => {
-  const shorelineVector = generateLocationsGrid(locations);
+  const hauls = useAppSelector(selectHauls);
 
-  return <VectorLayer source={shorelineVector} zIndex={1} />;
+  const colorMap = generateColormapFromHauls(hauls);
+
+  const grid = generateLocationsGrid(locations, colorMap);
+
+  return <VectorLayer source={grid} zIndex={1} />;
 };
