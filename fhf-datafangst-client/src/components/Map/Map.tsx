@@ -15,7 +15,6 @@ import {
 import Feature, { FeatureLike } from "ol/Feature";
 import { Geometry } from "ol/geom";
 import RenderFeature from "ol/render/Feature";
-import { defaultGridBoxStyle } from "utils";
 import { Stroke, Style } from "ol/style";
 
 interface Props {
@@ -34,11 +33,10 @@ export const Map: FC<Props> = (props) => {
 
   const handleGridSelect = (grid: Feature<Geometry>) => {
     const grids = [...selectedGrids];
-
     const selectedIndex = grids.indexOf(grid);
     if (selectedIndex < 0) {
-      grids.push(grid);
       const style = grid.getStyle() as Style;
+      grids.push(grid);
       style.setStroke(new Stroke({ color: "#ffffff", width: 2 }));
       style.setZIndex(1000);
 
@@ -46,7 +44,10 @@ export const Map: FC<Props> = (props) => {
       // grid.setStyle(selectedGridBoxStyle(grid.get("lokref")));
     } else {
       const removed = grids.splice(selectedIndex, 1);
-      grid.setStyle(defaultGridBoxStyle(removed[0].get("lokref")));
+      const style = removed[0].getStyle() as Style;
+      // removed[0].setStyle(defaultGridBoxStyle(removed[0].get("lokref")));
+      style.setStroke(new Stroke({ color: "rgba(255, 0, 0, 0)" }));
+      removed[0].changed();
     }
 
     dispatch(setSelectedGrids(grids));
