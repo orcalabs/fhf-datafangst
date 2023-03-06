@@ -28,8 +28,8 @@ export const HeatmapLayer: FC<Props> = (props) => {
     const heatmapLayer = new Heatmap({
       source,
       opacity: 0.75,
-      weight: ((feature: Feature<Geometry>) =>
-        feature.get("weight") / weightDenominator).toString(),
+      weight: (feature: Feature<Geometry>) =>
+        feature.get("weight") / weightDenominator,
     });
 
     fishmap.addLayer(heatmapLayer);
