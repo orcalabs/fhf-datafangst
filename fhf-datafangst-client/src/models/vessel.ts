@@ -1,19 +1,37 @@
-import { CurrentPosition } from "models";
-import Feature from "ol/Feature";
-import Geometry from "ol/geom/Geometry";
-
 export interface Vessel {
+  fiskeridirVessel: FiskeridirVessel;
+  aisVessel?: AisVessel;
+}
+
+export interface FiskeridirVessel {
   id: number;
-  mmsi?: number | undefined;
-  registrationId?: string | undefined;
-  name?: string | undefined;
-  hullLength?: number | undefined;
-  hullWidth?: number | undefined;
-  owner?: string | undefined;
-  ersEnabled: boolean;
-  gearGroupIds: number[];
-  specieGroupIds: number[];
-  deliveryPointIds: string[];
-  currentPosition?: CurrentPosition;
-  mapPlot: Feature<Geometry>;
+  nationId: string;
+  buildingYear?: number;
+  callSign?: string;
+  engineBuildingYear?: number;
+  enginePower?: number;
+  grosstonnage1969?: number;
+  grossTonnageOther?: number;
+  length?: number;
+  lengthGroupId?: number;
+  name?: string;
+  nationGroupId?: string;
+  norweiganCountyId?: number;
+  norwegianMunicipalityId?: number;
+  owner?: string;
+  rebuildingYear?: number;
+  registrationId?: string;
+  vesselTypeId?: number;
+  width?: number;
+}
+
+export interface AisVessel {
+  mmsi: number;
+  callSign?: string;
+  desitnation?: string;
+  eta?: string;
+  imoNumber?: number;
+  name?: string;
+  shipLength?: number;
+  shipWidth?: number;
 }

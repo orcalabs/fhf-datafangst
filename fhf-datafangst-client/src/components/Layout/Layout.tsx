@@ -9,6 +9,7 @@ import {
   getSpeciesFiskeridir,
   getSpeciesGroups,
   getSpeciesMainGroups,
+  getVessels,
   setHaulsSearch,
   useAppDispatch,
 } from "store";
@@ -28,6 +29,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
         years: [getYear(new Date())],
       }),
     );
+    dispatch(getVessels());
     dispatch(getGear());
     dispatch(getGearGroups());
     dispatch(getGearMainGroups());
