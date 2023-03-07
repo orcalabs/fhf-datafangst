@@ -10,9 +10,15 @@ import {
   HaulsLayer,
   HaulsHeatmapLayer,
   ViewModeToggle,
+  LoadingScreen,
 } from "components";
 import { FC, useState } from "react";
-import { selectViewMode, useAppSelector, ViewMode } from "store";
+import {
+  selectHaulsLoading,
+  selectViewMode,
+  useAppSelector,
+  ViewMode,
+} from "store";
 
 export interface MapFilter {
   coastline: boolean;
@@ -72,6 +78,7 @@ const MenuArea = (props: any) => (
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const viewMode = useAppSelector(selectViewMode);
+  const haulsLoading = useAppSelector(selectHaulsLoading);
 
   return (
     <>
@@ -92,6 +99,7 @@ export const HomeView: FC = () => {
       </Map>
       <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
       <ViewModeToggle />
+      <LoadingScreen open={haulsLoading} />
     </>
   );
 };
