@@ -1,16 +1,13 @@
 import { Map } from "ol";
 import { fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
-import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
+import { Circle, Fill, Stroke, Style, Text } from "ol/style";
 import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import blueVessel from "assets/icons/vessel-map.svg";
-import greyVessel from "assets/icons/vessel-map-grey.svg";
-import { Haul, Vessel } from "models";
-import { differenceInHours } from "date-fns";
+import { Haul } from "models";
 import { Point } from "ol/geom";
 import ColorScale from "color-scales";
 import { findHighestHaulCatchWeight, sumHaulCatches } from "utils";
@@ -59,105 +56,6 @@ export const selectedGridBoxStyle = (areaCode: string): Style => {
     stroke: new Stroke({ color: "#387D90", width: 1 }),
     text: new Text({ fill: new Fill({ color: "#387D90" }), text: areaCode }),
   });
-};
-
-export const generateVesselsVector = (vessels: Record<string, Vessel>) => {
-  const vesselsVector = new VectorSource();
-
-  for (const vesselId in vessels) {
-    const vessel = vessels[vesselId];
-    if (!vessel.currentPosition) {
-      continue;
-    }
-
-    const style = vessel.mapPlot.getStyle() as Style;
-
-    // Set grey icon on boats with stale position data
-    if (
-      differenceInHours(
-        new Date(),
-        new Date(vessel.currentPosition.timestamp),
-      ) > Number(process.env.REACT_APP_VESSEL_MAP_THRESHOLD_HOURS as string)
-    ) {
-      style.setImage(
-        new Icon({
-          rotation: ((vessel.currentPosition.cog ?? 0) * Math.PI) / 180,
-          opacity: 1,
-          anchor: [0.5, 0.5],
-          scale: 0.05,
-          src: greyVessel,
-        }),
-      );
-    }
-
-    vessel.mapPlot.setStyle(style);
-
-    const geometry = vessel.mapPlot.getGeometry();
-    if (!geometry) {
-      vessel.mapPlot.setGeometry(
-        new Point(
-          fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat]),
-        ),
-      );
-    }
-    vesselsVector.addFeature(vessel.mapPlot);
-  }
-
-  return vesselsVector;
-};
-
-export const updateVesselsVector = (
-  vector: VectorSource<Geometry>,
-  vessels: Record<string, Vessel>,
-) => {
-  if (!vessels || !vector) {
-    return;
-  }
-
-  for (const vesselId in vessels) {
-    const vessel = vessels[vesselId];
-    if (!vessel.currentPosition) {
-      continue;
-    }
-
-    const geometry = vessel.mapPlot.getGeometry() as Point;
-
-    // If there is no geometry object, add new geometry to vessel Feature.
-    if (!geometry) {
-      vessel.mapPlot.setGeometry(
-        new Point(
-          fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat]),
-        ),
-      );
-      vector.addFeature(vessel.mapPlot);
-    } else {
-      geometry.setCoordinates(
-        fromLonLat([vessel.currentPosition.lon, vessel.currentPosition.lat]),
-      );
-    }
-
-    const rotation = ((vessel.currentPosition.cog ?? 0) * Math.PI) / 180;
-    const style = vessel.mapPlot.getStyle() as Style;
-
-    // Set grey icon on boats with stale position data
-    style.setImage(
-      new Icon({
-        rotation,
-        opacity: 1,
-        anchor: [0.5, 0.5],
-        scale: style.getImage().getScale(),
-        src:
-          differenceInHours(
-            new Date(),
-            new Date(vessel.currentPosition.timestamp),
-          ) > Number(process.env.REACT_APP_VESSEL_MAP_THRESHOLD_HOURS)
-            ? greyVessel
-            : blueVessel,
-      }),
-    );
-
-    vessel.mapPlot.changed();
-  }
 };
 
 export const generateHaulsVector = (hauls: Haul[] | undefined) => {
