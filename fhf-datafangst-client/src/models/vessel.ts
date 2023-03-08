@@ -1,6 +1,6 @@
 export interface Vessel {
-  fiskeridirVessel: FiskeridirVessel;
-  aisVessel?: AisVessel;
+  fiskeridir: FiskeridirVessel;
+  ais?: AisVessel;
 }
 
 export interface FiskeridirVessel {

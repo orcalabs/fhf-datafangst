@@ -17,12 +17,11 @@ export const VesselFilter: FC<Props> = (props) => {
   const { value, onChange, useVirtualization } = props;
   const vesselsMap = useAppSelector(selectVessels);
   const vessels = Object.values(vesselsMap);
-
   const options = useMemo(
     () =>
       vessels.sort((a, b) =>
-        (a.fiskeridirVessel.name ?? "Ukjent").localeCompare(
-          b.fiskeridirVessel.name ?? "Ukjent",
+        (a.fiskeridir.name ?? "Ukjent").localeCompare(
+          b.fiskeridir.name ?? "Ukjent",
           "no",
         ),
       ),
@@ -56,14 +55,14 @@ export const VesselFilter: FC<Props> = (props) => {
         }
         options={options}
         getOptionLabel={(option: Vessel) =>
-          toTitleCase(option?.fiskeridirVessel.name ?? "Ukjent")
+          toTitleCase(option?.fiskeridir.name ?? "Ukjent")
         }
         renderInput={(params: any) => <TextField {...params} />}
         renderOption={(props: any, option: any) => (
           <li
             {...props}
-            key={option.id}
-            title={option.name.length > 31 ? option.name : undefined}
+            key={option.fiskeridir.id}
+            title={option.fiskeridir.name.length > 31 ? option.name : undefined}
           >
             <Box sx={{ display: "flex" }}>
               <Box
@@ -82,10 +81,10 @@ export const VesselFilter: FC<Props> = (props) => {
               </Box>
               <Box sx={{ ml: 2 }}>
                 <Typography variant="body2" noWrap sx={{ width: 210 }}>
-                  {toTitleCase(option?.name ?? "Ukjent")}
+                  {toTitleCase(option?.fiskeridir.name ?? "Ukjent")}
                 </Typography>
                 <Typography variant="caption" color="textSecondary">
-                  {option.registrationId}
+                  {option.fiskeridir.registrationId}
                 </Typography>
               </Box>
             </Box>

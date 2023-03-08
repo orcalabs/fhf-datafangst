@@ -1,3 +1,6 @@
+import { GearGroup, SpeciesGroup, Vessel, LengthGroup } from "models";
+import { Box } from "utils";
+
 export interface Haul {
   vesselCallSignErs: string;
   ersActivityId: string;
@@ -11,11 +14,12 @@ export interface Haul {
   duration: number;
   oceanDepthEnd: number;
   oceanDepthStart: number;
+  vesselLength: number;
   fiskeridirVesselId?: number;
-  gearFiskeridirId?: number;
+  gearGroupId?: number;
   haulDistance?: number;
-  catchFieldStart?: string;
-  catchFieldEnd?: string;
+  catchLocationStart?: string;
+  catchLocationEnd?: string;
   vesselCallSign?: string;
   vesselName?: string;
   vesselNameErs?: string;
@@ -40,4 +44,13 @@ export interface WhaleCatch {
   genderId?: string;
   individualNumber?: number;
   length?: number;
+}
+
+export interface HaulsFilter {
+  vessel?: Vessel;
+  region?: Box;
+  speciesGroups?: SpeciesGroup[];
+  gearGroups?: GearGroup[];
+  weight?: [number, number];
+  lengthGroups?: LengthGroup[];
 }

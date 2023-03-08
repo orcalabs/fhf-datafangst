@@ -12,3 +12,4 @@ export { MapFilters } from "./MapFilters/MapFilters";
 export { HaulsLayer } from "./Layers/HaulsLayer";
 export { HaulsHeatmapLayer } from "./Layers/HaulsHeatmapLayer";
 export { ViewModeToggle } from "./Layout/ViewModeToggle";
+export { LoadingScreen } from "./LoadingScreen/LoadingScreen";

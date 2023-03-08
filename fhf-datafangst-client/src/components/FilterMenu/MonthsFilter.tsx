@@ -1,12 +1,17 @@
 import { FC, useMemo } from "react";
-import { Autocomplete, TextField, Typography } from "@mui/material";
+import { Autocomplete, Checkbox, TextField, Typography } from "@mui/material";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { StyledPopper } from "components";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 interface Props {
   value?: number[];
   onChange: (_?: number[]) => void;
 }
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export const MonthsFilter: FC<Props> = (props) => {
   const { value, onChange } = props;
@@ -20,9 +25,10 @@ export const MonthsFilter: FC<Props> = (props) => {
       </Typography>
       <Autocomplete
         multiple
+        disableCloseOnSelect
         ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
-        blurOnSelect
+        // blurOnSelect
         PopperComponent={StyledPopper}
         limitTags={3}
         disablePortal
@@ -33,6 +39,17 @@ export const MonthsFilter: FC<Props> = (props) => {
         options={Array.from(new Array(12), (x, i) => i + 1)}
         getOptionLabel={(option: number) => option.toString()}
         renderInput={(params: any) => <TextField {...params} />}
+        renderOption={(props, option, { selected }) => (
+          <li {...props}>
+            <Checkbox
+              icon={icon}
+              checkedIcon={checkedIcon}
+              style={{ marginRight: 8 }}
+              checked={selected}
+            />
+            {option}
+          </li>
+        )}
       />
     </>
   );
