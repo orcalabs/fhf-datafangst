@@ -1,23 +1,11 @@
 import { apiGet } from ".";
-import { Box } from "utils";
-import { GearGroup, Haul, SpeciesGroup, Vessel } from "models";
+import { Haul } from "models";
 import { setMonth, setYear } from "date-fns";
 
 export interface HaulsArgs {
   years?: number[];
   months?: number[];
-  vessel?: Vessel;
-  startDate?: Date;
-  endDate?: Date;
-  region?: Box;
-  speciesGroups?: SpeciesGroup[];
-  gearGroups?: GearGroup[];
-  vesselLength?: [number, number];
-  weight?: [number, number];
-  sorting?: string;
-  ordering?: string;
-  offset?: number;
-  limit?: number;
+  catchLocations?: string[];
 }
 
 const createTimestampsFromYearsMonths = (
@@ -48,21 +36,4 @@ export const getHauls = async (query: HaulsArgs) =>
           .map((g) => g.toISOString())
           .toString()
       : undefined,
-    vesselId: query.vessel?.id,
-    gearGroupIds: query.gearGroups?.map((g) => g.id).toString(),
-    specieGroupsIds: query.speciesGroups?.map((g) => g.id).toString(),
-    maxWeight: query.weight ? query.weight[1] : undefined,
-    minWeight: query.weight ? query.weight[0] : undefined,
-    vesselMaxLength: query.vesselLength ? query.vesselLength[1] : undefined,
-    vesselMinLength: query.vesselLength ? query.vesselLength[0] : undefined,
-    limit: query.limit ?? undefined,
-    offset: query.offset ?? undefined,
-    startDate: query.startDate?.toISOString(),
-    endDate: query.endDate?.toISOString(),
-    x1: query.region?.x1,
-    y1: query.region?.y1,
-    x2: query.region?.x2,
-    y2: query.region?.y2,
-    ordering: query.ordering ?? undefined,
-    sorting: query.sorting ?? undefined,
   });

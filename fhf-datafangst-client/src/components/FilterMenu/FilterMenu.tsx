@@ -1,7 +1,9 @@
 import { Box, Drawer } from "@mui/material";
 import { FC } from "react";
 import {
+  selectHaulsFilter,
   selectHaulsSearch,
+  setHaulsFilter,
   setHaulsSearch,
   useAppDispatch,
   useAppSelector,
@@ -10,12 +12,12 @@ import { GearFilter } from "./GearFilter";
 import { MonthsFilter } from "./MonthsFilter";
 import { SpecieFilter } from "./SpecieFilter";
 import { VesselFilter } from "./VesselFilter";
-import { VesselLengthFilter } from "./VesselLengthFilter";
-import { WeightFilter } from "./WeightFilter";
+import { LengthGroupFilter } from "./LengthGroupFilter";
 import { YearsFilter } from "./YearsFilter";
 
 export const FilterMenu: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsSearch);
+  const haulsFilter = useAppSelector(selectHaulsFilter);
   const dispatch = useAppDispatch();
 
   return (
@@ -73,33 +75,28 @@ export const FilterMenu: FC = () => {
           </Box>
         </Box>
         <VesselFilter
-          value={haulsSearch?.vessel}
+          value={haulsFilter?.vessel}
           onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, vessel: value }))
+            dispatch(setHaulsFilter({ ...haulsFilter, vessel: value }))
           }
+          useVirtualization
         />
         <GearFilter
-          value={haulsSearch?.gearGroups}
+          value={haulsFilter?.gearGroups}
           onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, gearGroups: value }))
+            dispatch(setHaulsFilter({ ...haulsFilter, gearGroups: value }))
           }
         />
         <SpecieFilter
-          value={haulsSearch?.speciesGroups}
+          value={haulsFilter?.speciesGroups}
           onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, speciesGroups: value }))
+            dispatch(setHaulsFilter({ ...haulsFilter, speciesGroups: value }))
           }
         />
-        <VesselLengthFilter
-          value={haulsSearch?.vesselLength}
+        <LengthGroupFilter
+          value={haulsFilter?.lengthGroups}
           onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, vesselLength: value }))
-          }
-        />
-        <WeightFilter
-          value={haulsSearch?.weight}
-          onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, weight: value }))
+            dispatch(setHaulsFilter({ ...haulsFilter, lengthGroups: value }))
           }
         />
       </Drawer>

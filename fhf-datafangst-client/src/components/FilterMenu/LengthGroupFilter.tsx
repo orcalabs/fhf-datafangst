@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   Checkbox,
   FormControlLabel,
@@ -5,31 +6,29 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { GearGroup } from "models";
-import { FC } from "react";
+import { LengthGroup, LengthGroupCodes } from "models";
 import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
 import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
-import { selectGearGroups, useAppSelector } from "store";
 
 interface Props {
-  value?: GearGroup[];
-  onChange: (_?: GearGroup[]) => void;
+  value?: LengthGroup[];
+  onChange: (_?: LengthGroup[]) => void;
 }
 
-export const GearFilter: FC<Props> = (props) => {
-  const gearGroups = useAppSelector(selectGearGroups);
+export const LengthGroupFilter: FC<Props> = (props) => {
   const value = props.value ?? [];
-  const onChange = (value: GearGroup[]) =>
+
+  const onChange = (value: LengthGroup[]) =>
     props.onChange(value.length ? value : undefined);
 
   return (
     <>
       <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-        Redskap
+        Fartøylengde
       </Typography>
       <FormGroup>
         <Grid container rowSpacing={0.1} columnSpacing={1} width={330}>
-          {gearGroups.map((val, i) => {
+          {LengthGroupCodes.map((val, i) => {
             return (
               <Grid key={i} item xs={6}>
                 <FormControlLabel
@@ -41,12 +40,14 @@ export const GearFilter: FC<Props> = (props) => {
                       icon={<CheckBoxOutlineBlankSharpIcon />}
                       size="small"
                       name={val.name}
-                      checked={value.some((gear) => gear.id === val.id)}
+                      checked={value.some(
+                        (lengthGroup) => lengthGroup.id === val.id,
+                      )}
                       onChange={(_, checked) =>
                         onChange(
                           checked
                             ? [...value, val]
-                            : value.filter((g) => g.id !== val.id),
+                            : value.filter((wc) => wc.id !== val.id),
                         )
                       }
                     />

@@ -5,6 +5,7 @@ import { fishmapBuilder } from "./fishmap";
 import { vesselBuilder } from "./vessel";
 import { specieBuilder } from "./specie";
 import { haulBuilder } from "./haul";
+import { gearBuilder } from "./gear";
 
 export const emptyState = {
   hauls: undefined,
@@ -46,5 +47,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(vesselBuilder)
     .extendBuilder(haulBuilder)
     .extendBuilder(specieBuilder)
+    .extendBuilder(gearBuilder)
     .finish(),
 );

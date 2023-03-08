@@ -81,11 +81,11 @@ export const sumHaulCatches = (catches: HaulCatch[]) => {
 export const generateColormapFromHauls = (hauls: Haul[]) => {
   const colorMap: Record<string, number> = {};
   for (const haul of hauls) {
-    if (haul.catchFieldStart) {
-      if (colorMap[haul.catchFieldStart]) {
-        colorMap[haul.catchFieldStart] += sumHaulCatches(haul.catches);
+    if (haul.catchLocationStart) {
+      if (colorMap[haul.catchLocationStart]) {
+        colorMap[haul.catchLocationStart] += sumHaulCatches(haul.catches);
       } else {
-        colorMap[haul.catchFieldStart] = sumHaulCatches(haul.catches);
+        colorMap[haul.catchLocationStart] = sumHaulCatches(haul.catches);
       }
     }
   }
@@ -103,4 +103,11 @@ export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
   }
 
   return highest;
+};
+
+export const inRange = (val: number, min: number, max: number) => {
+  if (val >= min && val < max) {
+    return true;
+  }
+  return false;
 };
