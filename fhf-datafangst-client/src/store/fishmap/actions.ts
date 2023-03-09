@@ -3,6 +3,6 @@ import { Feature, Map } from "ol";
 
 export const initializeMap = createAction<Map>("fishmap/initializeMap");
 
-export const setSelectedGrids = createAction<Feature[]>(
-  "fishmap/setSelectedGrids",
+export const toggleSelectedArea = createAction<Feature>(
+  "fishmap/toggleSelectedArea",
 );
