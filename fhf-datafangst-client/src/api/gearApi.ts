@@ -1,7 +1,7 @@
 import { V1gearApi } from "generated/openapi";
-import { apiConfiguration, apiGet } from ".";
+import { apiConfiguration, apiGet, axiosInstance } from ".";
 
-const api = new V1gearApi(apiConfiguration);
+const api = new V1gearApi(apiConfiguration, undefined, axiosInstance);
 
 export const getGear = async () => apiGet(async () => api.gear());
 
