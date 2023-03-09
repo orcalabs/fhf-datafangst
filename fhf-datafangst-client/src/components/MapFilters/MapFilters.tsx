@@ -34,9 +34,8 @@ export const MapFilters: FC<Props> = (props) => {
   return (
     <Box
       sx={{
-        position: "absolute",
-        top: 60,
-        right: 10,
+        pr: 2,
+        pt: 2,
         pointerEvents: "none",
         height: 56,
         zIndex: 1000,

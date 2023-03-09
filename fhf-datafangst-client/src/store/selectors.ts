@@ -12,3 +12,8 @@ export const selectViewMode = createSelector(
   selectAppState,
   (state) => state.viewMode,
 );
+
+export const selectHaulsMenuOpen = createSelector(
+  selectAppState,
+  (state) => state.selectedGrids.length > 0,
+);
