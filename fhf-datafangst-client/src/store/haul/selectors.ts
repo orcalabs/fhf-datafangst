@@ -6,6 +6,11 @@ export const selectHaulsLoading = createSelector(
   (state) => state.haulsLoading,
 );
 
+export const selectHaulsGridLoading = createSelector(
+  selectAppState,
+  (state) => state.haulsGridLoading,
+);
+
 export const selectHaulsSearch = createSelector(
   selectAppState,
   (state) => state.haulsSearch,
@@ -14,6 +19,11 @@ export const selectHaulsSearch = createSelector(
 export const selectHauls = createSelector(
   selectAppState,
   (state) => state.hauls ?? [],
+);
+
+export const selectHaulsGrid = createSelector(
+  selectAppState,
+  (state) => state.haulsGrid,
 );
 
 export const selectHaulsByArea = createSelector(

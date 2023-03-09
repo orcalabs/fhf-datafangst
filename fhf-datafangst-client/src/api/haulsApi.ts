@@ -42,3 +42,15 @@ export const getHauls = async (query: HaulsArgs) =>
       catchLocations: query.catchLocations?.join(","),
     }),
   );
+
+export const getHaulsGrid = async (query: HaulsArgs) =>
+  apiGet(async () =>
+    api.haulsGrid({
+      months: query.years
+        ? createTimestampsFromYearsMonths(query.years, query.months)
+            .map((g) => g.toISOString())
+            .toString()
+        : undefined,
+      catchLocations: query.catchLocations?.join(","),
+    }),
+  );
