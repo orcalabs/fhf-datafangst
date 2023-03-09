@@ -14,6 +14,7 @@ import {
 } from "components";
 import { FC, useState } from "react";
 import {
+  selectHauls,
   selectHaulsLoading,
   selectViewMode,
   useAppSelector,
@@ -79,6 +80,7 @@ export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const viewMode = useAppSelector(selectViewMode);
   const haulsLoading = useAppSelector(selectHaulsLoading);
+  const hauls = useAppSelector(selectHauls);
 
   return (
     <>
@@ -94,7 +96,7 @@ export const HomeView: FC = () => {
         <MapBoxLayer />
         {viewMode === ViewMode.Grid && <LocationsGrid />}
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
-        {viewMode === ViewMode.Hauls && <HaulsLayer />}
+        {viewMode === ViewMode.Hauls && <HaulsLayer hauls={hauls} />}
         {mapFilter.coastline && <ShorelineLayer />}
       </Map>
       <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />

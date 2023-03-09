@@ -1,10 +1,14 @@
 import { FC } from "react";
 import { generateHaulsVector } from "utils";
 import { VectorLayer } from "components";
-import { selectHauls, useAppSelector } from "store";
+import { Haul } from "generated/openapi";
 
-export const HaulsLayer: FC = () => {
-  const hauls = useAppSelector(selectHauls);
+interface Props {
+  hauls: Haul[];
+}
+
+export const HaulsLayer: FC<Props> = (props) => {
+  const { hauls } = props;
   const haulsVector = generateHaulsVector(hauls);
 
   return (
