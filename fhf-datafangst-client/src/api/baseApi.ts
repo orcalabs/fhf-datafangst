@@ -5,11 +5,11 @@ export const apiConfiguration = new Configuration({
   basePath: process.env.REACT_APP_API_URL,
 });
 
-export const axios = defaultAxios.create({
+export const axiosInstance = defaultAxios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
-axios.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
   config.headers["Ocp-Apim-Subscription-Key"] = process.env.REACT_APP_API_KEY;
   return config;
 }, Promise.reject);

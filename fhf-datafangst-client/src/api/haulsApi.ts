@@ -1,4 +1,4 @@
-import { apiConfiguration, apiGet } from ".";
+import { apiConfiguration, apiGet, axiosInstance } from ".";
 import { setMonth, setYear } from "date-fns";
 import { V1haulApi } from "generated/openapi";
 
@@ -29,7 +29,7 @@ const createTimestampsFromYearsMonths = (
   return timestamps;
 };
 
-const api = new V1haulApi(apiConfiguration);
+const api = new V1haulApi(apiConfiguration, undefined, axiosInstance);
 
 export const getHauls = async (query: HaulsArgs) =>
   apiGet(async () =>

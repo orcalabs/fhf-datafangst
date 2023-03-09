@@ -1,7 +1,7 @@
 import { V1speciesApi } from "generated/openapi";
-import { apiConfiguration, apiGet } from ".";
+import { apiConfiguration, apiGet, axiosInstance } from ".";
 
-const api = new V1speciesApi(apiConfiguration);
+const api = new V1speciesApi(apiConfiguration, undefined, axiosInstance);
 
 export const getSpecies = async () => apiGet(async () => api.species());
 
