@@ -78,7 +78,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
     haulFeature.setStyle(
       new Style({
         image: new Circle({
-          radius: 2,
+          radius: 2.5,
           fill: new Fill({
             color: getColorGrade(sum, highestCatchSum),
           }),

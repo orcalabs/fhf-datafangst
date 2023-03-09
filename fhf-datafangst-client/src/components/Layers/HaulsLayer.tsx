@@ -2,14 +2,24 @@ import { FC } from "react";
 import { generateHaulsVector } from "utils";
 import { VectorLayer } from "components";
 import { Haul } from "generated/openapi";
+import { selectHaulsByArea, selectSelectedGrids, useAppSelector } from "store";
 
-interface Props {
-  hauls: Haul[];
-}
+export const HaulsLayer: FC = () => {
+  const haulsByArea = useAppSelector(selectHaulsByArea);
+  const selectedAreas = useAppSelector(selectSelectedGrids);
+  const hauls = () => {
+    const haulsArray: Haul[] = [];
+    for (const [key, value] of Object.entries(haulsByArea)) {
+      for (const area of selectedAreas) {
+        if (key === area.get("lokref")) {
+          haulsArray.push(...value);
+        }
+      }
+    }
+    return haulsArray;
+  };
 
-export const HaulsLayer: FC<Props> = (props) => {
-  const { hauls } = props;
-  const haulsVector = generateHaulsVector(hauls);
+  const haulsVector = generateHaulsVector(hauls());
 
   return (
     <>
