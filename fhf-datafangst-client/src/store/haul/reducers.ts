@@ -4,7 +4,7 @@ import { LengthGroup } from "models";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { inRange, sumHaulCatches } from "utils";
-import { getHauls, setHaulsFilter, setHaulsSearch } from ".";
+import { getHauls, getHaulsGrid, setHaulsFilter, setHaulsSearch } from ".";
 
 export const haulBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -35,6 +35,17 @@ export const haulBuilder = (
     })
     .addCase(getHauls.rejected, (state, _) => {
       state.haulsLoading = false;
+    })
+    .addCase(getHaulsGrid.pending, (state, _) => {
+      state.haulsGridLoading = true;
+      state.haulsGrid = undefined;
+    })
+    .addCase(getHaulsGrid.fulfilled, (state, action) => {
+      state.haulsGrid = action.payload;
+      state.haulsGridLoading = false;
+    })
+    .addCase(getHaulsGrid.rejected, (state, _) => {
+      state.haulsGridLoading = false;
     })
     .addCase(setHaulsSearch, (state, action) => {
       if (action.payload) {
