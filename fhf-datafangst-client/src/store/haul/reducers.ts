@@ -21,7 +21,6 @@ export const haulBuilder = (
 
       state.haulsByArea = {};
       for (const haul of hauls) {
-        // console.log(haul.vesselCallSignErs, haul.vesselLength);
         if (haul.catchLocationStart) {
           if (state.haulsByArea[haul.catchLocationStart]) {
             state.haulsByArea[haul.catchLocationStart].push(haul);
