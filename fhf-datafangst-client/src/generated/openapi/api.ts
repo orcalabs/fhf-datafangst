@@ -429,6 +429,12 @@ export interface Haul {
      * @type {number}
      * @memberof Haul
      */
+    'gearFiskeridirId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
     'gearGroupId'?: number;
     /**
      * 
@@ -436,6 +442,12 @@ export interface Haul {
      * @memberof Haul
      */
     'haulDistance'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Haul
+     */
+    'haulId': string;
     /**
      * 
      * @type {number}
@@ -1164,10 +1176,13 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
          * 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        hauls: async (months?: string, catchLocations?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        hauls: async (months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/hauls`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1188,6 +1203,18 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['catchLocations'] = catchLocations;
             }
 
+            if (gearGroupIds !== undefined) {
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
+            }
+
+            if (speciesGroupIds !== undefined) {
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
+            }
+
+            if (vesselLengthRanges !== undefined) {
+                localVarQueryParameter['vesselLengthRanges'] = vesselLengthRanges;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1203,10 +1230,13 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
          * 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        haulsGrid: async (months?: string, catchLocations?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        haulsGrid: async (months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/hauls_grid`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1225,6 +1255,18 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (catchLocations !== undefined) {
                 localVarQueryParameter['catchLocations'] = catchLocations;
+            }
+
+            if (gearGroupIds !== undefined) {
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
+            }
+
+            if (speciesGroupIds !== undefined) {
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
+            }
+
+            if (vesselLengthRanges !== undefined) {
+                localVarQueryParameter['vesselLengthRanges'] = vesselLengthRanges;
             }
 
 
@@ -1252,22 +1294,28 @@ export const V1haulApiFp = function(configuration?: Configuration) {
          * 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async hauls(months?: string, catchLocations?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.hauls(months, catchLocations, options);
+        async hauls(months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.hauls(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async haulsGrid(months?: string, catchLocations?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HaulsGrid>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.haulsGrid(months, catchLocations, options);
+        async haulsGrid(months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HaulsGrid>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.haulsGrid(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1287,7 +1335,7 @@ export const V1haulApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         hauls(requestParameters: V1haulApiHaulsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Haul>> {
-            return localVarFp.hauls(requestParameters.months, requestParameters.catchLocations, options).then((request) => request(axios, basePath));
+            return localVarFp.hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1296,7 +1344,7 @@ export const V1haulApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         haulsGrid(requestParameters: V1haulApiHaulsGridRequest = {}, options?: AxiosRequestConfig): AxiosPromise<HaulsGrid> {
-            return localVarFp.haulsGrid(requestParameters.months, requestParameters.catchLocations, options).then((request) => request(axios, basePath));
+            return localVarFp.haulsGrid(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1320,6 +1368,27 @@ export interface V1haulApiHaulsRequest {
      * @memberof V1haulApiHauls
      */
     readonly catchLocations?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHauls
+     */
+    readonly gearGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHauls
+     */
+    readonly speciesGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHauls
+     */
+    readonly vesselLengthRanges?: string
 }
 
 /**
@@ -1341,6 +1410,27 @@ export interface V1haulApiHaulsGridRequest {
      * @memberof V1haulApiHaulsGrid
      */
     readonly catchLocations?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsGrid
+     */
+    readonly gearGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsGrid
+     */
+    readonly speciesGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsGrid
+     */
+    readonly vesselLengthRanges?: string
 }
 
 /**
@@ -1358,7 +1448,7 @@ export class V1haulApi extends BaseAPI {
      * @memberof V1haulApi
      */
     public hauls(requestParameters: V1haulApiHaulsRequest = {}, options?: AxiosRequestConfig) {
-        return V1haulApiFp(this.configuration).hauls(requestParameters.months, requestParameters.catchLocations, options).then((request) => request(this.axios, this.basePath));
+        return V1haulApiFp(this.configuration).hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1369,7 +1459,7 @@ export class V1haulApi extends BaseAPI {
      * @memberof V1haulApi
      */
     public haulsGrid(requestParameters: V1haulApiHaulsGridRequest = {}, options?: AxiosRequestConfig) {
-        return V1haulApiFp(this.configuration).haulsGrid(requestParameters.months, requestParameters.catchLocations, options).then((request) => request(this.axios, this.basePath));
+        return V1haulApiFp(this.configuration).haulsGrid(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
