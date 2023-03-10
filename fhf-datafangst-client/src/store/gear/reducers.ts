@@ -7,7 +7,11 @@ export const gearBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(getGear.fulfilled, (state, action) => {
-      state.gear = action.payload;
+      const gears = action.payload;
+      state.gears = {};
+      for (const gear of gears) {
+        state.gears[gear.id] = gear;
+      }
     })
     .addCase(getGearGroups.fulfilled, (state, action) => {
       state.gearGroups = action.payload;

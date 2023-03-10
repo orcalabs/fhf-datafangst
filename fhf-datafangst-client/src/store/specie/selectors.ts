@@ -17,13 +17,13 @@ export const selectSpeciesFiskeridir = createSelector(
 );
 
 export const selectSpeciesGroups = createSelector(selectAppState, (state) =>
-  Array.from(state.speciesGroups).sort((a, b) =>
+  Object.values(state.speciesGroups).sort((a, b) =>
     a.name.localeCompare(b.name, "no"),
   ),
 );
 
 export const selectSpeciesMainGroups = createSelector(selectAppState, (state) =>
-  Array.from(state.speciesMainGroups).sort((a, b) =>
+  Object.values(state.speciesMainGroups).sort((a, b) =>
     a.name.localeCompare(b.name, "no"),
   ),
 );
