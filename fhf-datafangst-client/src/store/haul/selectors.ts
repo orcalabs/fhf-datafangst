@@ -40,3 +40,8 @@ export const selectHaulsFilter = createSelector(
   selectAppState,
   (state) => state.haulsFilter,
 );
+
+export const selectSelectedHaul = createSelector(
+  selectAppState,
+  (state) => state.selectedHaul,
+);

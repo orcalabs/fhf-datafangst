@@ -1,7 +1,10 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { selectAppState } from "store/selectors";
 
-export const selectGear = createSelector(selectAppState, (state) => state.gear);
+export const selectGears = createSelector(
+  selectAppState,
+  (state) => state.gears,
+);
 
 export const selectGearGroups = createSelector(
   selectAppState,

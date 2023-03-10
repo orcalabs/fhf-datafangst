@@ -7,17 +7,17 @@ import {
 } from "generated/openapi";
 
 export interface SpecieState {
-  species: Species[];
-  speciesFao: SpeciesFao[];
-  speciesFiskeridir: SpeciesFiskeridir[];
-  speciesGroups: SpeciesGroup[];
-  speciesMainGroups: SpeciesMainGroup[];
+  species: Record<number, Species>;
+  speciesFao: Record<string, SpeciesFao>;
+  speciesFiskeridir: Record<number, SpeciesFiskeridir>;
+  speciesGroups: Record<number, SpeciesGroup>;
+  speciesMainGroups: Record<number, SpeciesMainGroup>;
 }
 
 export const initialSpecieState: SpecieState = {
-  species: [],
-  speciesFao: [],
-  speciesFiskeridir: [],
-  speciesGroups: [],
-  speciesMainGroups: [],
+  species: {},
+  speciesFao: {},
+  speciesFiskeridir: {},
+  speciesGroups: {},
+  speciesMainGroups: {},
 };

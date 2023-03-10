@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { Haul } from "generated/openapi";
+import { Haul, Vessel } from "generated/openapi";
+import { selectHauls } from "store/haul";
 import { selectAppState } from "store/selectors";
 
 export const selectVesselsLoading = createSelector(
@@ -15,6 +16,24 @@ export const selectVessels = createSelector(
 export const selectVesselsByCallsign = createSelector(
   selectAppState,
   (state) => state.vesselsByCallsign ?? {},
+);
+
+export const selectVesselsByHaulId = createSelector(
+  selectVessels,
+  selectVesselsByCallsign,
+  selectHauls,
+  (vessels, vesselsByCallSign, hauls) => {
+    const vesselsMap: Record<string, Vessel> = {};
+    for (const haul of hauls) {
+      if (haul.fiskeridirVesselId) {
+        vesselsMap[haul.haulId] = vessels[haul.fiskeridirVesselId];
+      } else {
+        vesselsMap[haul.haulId] = vesselsByCallSign[haul.vesselCallSignErs];
+      }
+    }
+
+    return vesselsMap;
+  },
 );
 
 export const selectVessel = (haul: Haul) =>
