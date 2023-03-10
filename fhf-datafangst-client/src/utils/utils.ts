@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, formatDuration, intervalToDuration } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Haul, HaulCatch } from "generated/openapi";
 
@@ -111,3 +111,44 @@ export const inRange = (val: number, min: number, max: number) => {
   }
   return false;
 };
+
+export const distanceFormatter = (distance: number) =>
+  distance >= 1000
+    ? (distance / 1000).toFixed(1) + " km"
+    : distance.toFixed(1) + " m";
+
+export const createDurationString = (duration: Duration) => {
+  const durationString = formatDuration(duration, {
+    format: ["months", "days", "hours", "minutes"],
+    delimiter: ", ",
+    locale: nb,
+  });
+
+  if (!durationString[0]) {
+    return "Ukjent";
+  }
+
+  return durationString[0].toUpperCase() + durationString.substring(1);
+};
+
+export const createObjectDurationString = (obj: {
+  start: IntoDate;
+  end: IntoDate;
+}) =>
+  createDurationString(
+    intervalToDuration({
+      start: new Date(obj.start),
+      end: new Date(obj.end),
+    }),
+  );
+
+export const createHaulDurationString = (haul: Haul) =>
+  createObjectDurationString({
+    start: haul.startTimestamp,
+    end: haul.stopTimestamp,
+  });
+
+export const kilosOrTonsFormatter = (weight: number) =>
+  weight >= 1000
+    ? (weight / 1000).toFixed(1) + " tonn"
+    : weight.toFixed(1) + "  kg";

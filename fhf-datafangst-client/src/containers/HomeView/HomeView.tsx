@@ -11,6 +11,7 @@ import {
   HaulsHeatmapLayer,
   ViewModeToggle,
   LoadingScreen,
+  HaulsMenu,
 } from "components";
 import { FC, useState } from "react";
 import {
@@ -125,7 +126,9 @@ export const HomeView: FC = () => {
         <FilterButtonArea haulsMenuOpen={haulsMenuOpen}>
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
-        <HaulMenuArea></HaulMenuArea>
+        <HaulMenuArea>
+          <HaulsMenu />
+        </HaulMenuArea>
       </GridContainer>
       <Map>
         <MapBoxLayer />
