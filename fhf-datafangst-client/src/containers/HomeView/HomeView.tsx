@@ -13,11 +13,15 @@ import {
   LoadingScreen,
   HaulsMenu,
 } from "components";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
-  selectHaulsLoading,
+  getHauls,
+  selectHaulsGridLoading,
   selectHaulsMenuOpen,
+  selectHaulsSearch,
+  selectSelectedGridsString,
   selectViewMode,
+  useAppDispatch,
   useAppSelector,
   ViewMode,
 } from "store";
@@ -39,7 +43,7 @@ const GridContainer = (props: any) => (
     sx={{
       display: "grid",
       gridTemplateColumns:
-        "clamp(300px, 20%, 400px) 1fr clamp(300px, 20%, 400px)",
+        "clamp(500px, 20%, 600px) 1fr clamp(300px, 20%, 400px)",
       gridTemplateRows: "49px 1fr",
       position: "absolute",
       width: "100%",
@@ -87,6 +91,7 @@ const HaulMenuArea = (props: any) => (
       gridRowEnd: 3,
       display: "flex",
       flexDirection: "column",
+      overflowY: "auto",
     }}
   >
     {props.children}
@@ -109,10 +114,25 @@ const FilterButtonArea = (props: any) => (
 );
 
 export const HomeView: FC = () => {
+  const dispatch = useAppDispatch();
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const viewMode = useAppSelector(selectViewMode);
-  const haulsLoading = useAppSelector(selectHaulsLoading);
+  const haulsLoading = useAppSelector(selectHaulsGridLoading);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
+  const selectedGrids = useAppSelector(selectSelectedGridsString);
+  const haulsSearch = useAppSelector(selectHaulsSearch);
+
+  // Fetch hauls for selected grid
+  useEffect(() => {
+    if (selectedGrids.length) {
+      dispatch(
+        getHauls({
+          ...haulsSearch,
+          catchLocations: selectedGrids,
+        }),
+      );
+    }
+  }, [dispatch, selectedGrids]);
 
   return (
     <>

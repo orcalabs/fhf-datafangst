@@ -9,6 +9,8 @@ import { gearBuilder } from "./gear";
 
 export const emptyState = {
   hauls: undefined,
+  selectedGrids: [],
+  selectedGridsString: [],
 };
 
 class AppActionReducerMapBuilder<State> {

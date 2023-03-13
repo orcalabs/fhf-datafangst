@@ -7,7 +7,7 @@ import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import { Haul } from "generated/openapi";
+import { Haul, HaulsGrid } from "generated/openapi";
 import { Point } from "ol/geom";
 import ColorScale from "color-scales";
 import { findHighestHaulCatchWeight, sumHaulCatches } from "utils";
@@ -125,26 +125,25 @@ export const generateShorelineVector = (geoJsonObject: any) =>
 
 export const generateLocationsGrid = (
   geoJsonObject: any,
-  colorMap: Record<string, number>,
+  haulsGrid?: HaulsGrid,
 ) => {
+  if (!haulsGrid) {
+    return;
+  }
   const features = new GeoJSON({
     featureProjection: process.env.REACT_APP_EPSG as string,
     geometryName: "fishingLocations",
   }).readFeatures(geoJsonObject);
 
-  const highestValueIdx = Object.keys(colorMap).reduce(
-    (a, b) => (colorMap[a] > colorMap[b] ? a : b),
-    "0",
-  );
   for (let i = 0; i < features.length; i++) {
     const feature = features[i];
     const area = feature.get("lokref");
 
-    if (colorMap[area]) {
+    if (haulsGrid.grid[area]) {
       const style = generateGridBoxStyle(
         area,
-        colorMap[area],
-        colorMap[highestValueIdx],
+        haulsGrid.grid[area],
+        haulsGrid.maxWeight,
       );
       feature.setStyle(style);
     } else {
@@ -152,7 +151,6 @@ export const generateLocationsGrid = (
       feature.setStyle(style);
     }
   }
-
   return new VectorSource({ features });
 };
 

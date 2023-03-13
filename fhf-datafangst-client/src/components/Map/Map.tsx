@@ -7,6 +7,7 @@ import { Types } from "ol/MapBrowserEventType";
 import {
   initializeMap,
   selectFishmapState,
+  store,
   toggleSelectedArea,
   useAppDispatch,
   useAppSelector,
@@ -53,7 +54,6 @@ export const Map: FC<Props> = (props) => {
         if (evt.dragging) {
           return;
         }
-
         const feature = mapState.map.forEachFeatureAtPixel(
           evt.pixel,
           pixelFeature,
@@ -61,7 +61,8 @@ export const Map: FC<Props> = (props) => {
         if (feature) {
           const grid = feature.get("lokref");
 
-          if (grid) {
+          // Avoid registering clicks on areas without catches
+          if (grid && store.getState().haulsGrid?.grid[grid]) {
             dispatch(toggleSelectedArea(feature));
           }
         } else {

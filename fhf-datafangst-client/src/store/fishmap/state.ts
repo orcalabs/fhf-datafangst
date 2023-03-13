@@ -7,6 +7,7 @@ export interface FishmapState {
   zoomLevelTouch: number;
   zoomFactor: number;
   selectedGrids: Feature[];
+  selectedGridsString: string[];
 }
 
 export const initialFishmapState: FishmapState = {
@@ -16,4 +17,5 @@ export const initialFishmapState: FishmapState = {
   zoomLevelTouch: 2.2,
   zoomFactor: 3.7,
   selectedGrids: [],
+  selectedGridsString: [],
 };

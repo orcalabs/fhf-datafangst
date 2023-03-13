@@ -1,11 +1,15 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 import { setMonth, setYear } from "date-fns";
-import { V1haulApi } from "generated/openapi";
+import { GearGroup, SpeciesGroup, V1haulApi } from "generated/openapi";
+import { LengthGroup } from "models";
 
 export interface HaulsArgs {
   years?: number[];
   months?: number[];
   catchLocations?: string[];
+  gearGroupIds?: GearGroup[];
+  speciesGroupIds?: SpeciesGroup[];
+  vesselLengthRanges?: LengthGroup[];
 }
 
 const createTimestampsFromYearsMonths = (
@@ -29,6 +33,23 @@ const createTimestampsFromYearsMonths = (
   return timestamps;
 };
 
+const createVesselLengthQueryString = (vesselLengthRanges?: LengthGroup[]) => {
+  if (!vesselLengthRanges) {
+    return undefined;
+  }
+
+  let res = "";
+  for (const l of vesselLengthRanges) {
+    if (l.max === Infinity) {
+      res += "[" + l.min.toString() + ",)";
+    } else {
+      res += "[" + l.min.toString() + "," + l.max.toString() + ")";
+    }
+  }
+
+  return res;
+};
+
 const api = new V1haulApi(apiConfiguration, undefined, axiosInstance);
 
 export const getHauls = async (query: HaulsArgs) =>
@@ -40,6 +61,11 @@ export const getHauls = async (query: HaulsArgs) =>
             .toString()
         : undefined,
       catchLocations: query.catchLocations?.join(","),
+      gearGroupIds: query.gearGroupIds?.map((g) => g.id).toString(),
+      speciesGroupIds: query.speciesGroupIds?.map((g) => g.id).toString(),
+      vesselLengthRanges: createVesselLengthQueryString(
+        query.vesselLengthRanges,
+      ),
     }),
   );
 
@@ -52,5 +78,10 @@ export const getHaulsGrid = async (query: HaulsArgs) =>
             .toString()
         : undefined,
       catchLocations: query.catchLocations?.join(","),
+      gearGroupIds: query.gearGroupIds?.map((g) => g.id).toString(),
+      speciesGroupIds: query.speciesGroupIds?.map((g) => g.id).toString(),
+      vesselLengthRanges: createVesselLengthQueryString(
+        query.vesselLengthRanges,
+      ),
     }),
   );

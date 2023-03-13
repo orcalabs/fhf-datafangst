@@ -101,7 +101,7 @@ export const CatchesTable: FC<Props> = (props) => {
             <TableRow>
               <StyledTableCell> Totalt: </StyledTableCell>
               <StyledTableCell align="right">
-                {sumHaulCatches(catches)}
+                {kilosOrTonsFormatter(sumHaulCatches(catches))}
               </StyledTableCell>
             </TableRow>
           </TableFooter>

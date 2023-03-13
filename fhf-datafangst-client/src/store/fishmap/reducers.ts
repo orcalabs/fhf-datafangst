@@ -12,7 +12,10 @@ export const fishmapBuilder = (
     })
     .addCase(toggleSelectedArea, (state, action) => {
       const selected = [...state.selectedGrids];
+      const selectedStrings = [...state.selectedGridsString];
       const area = action.payload;
+      const areaString = area.get("lokref");
+
       const index = selected.findIndex(
         (a) => a.get("objectid") === area.get("objectid"),
       );
@@ -29,8 +32,16 @@ export const fishmapBuilder = (
         removed[0].changed();
       }
 
+      const indexStrings = selectedStrings.indexOf(areaString);
+      if (indexStrings < 0) {
+        selectedStrings.push(areaString);
+      } else {
+        selectedStrings.splice(indexStrings, 1);
+      }
+
       return {
         ...state,
         selectedGrids: selected,
+        selectedGridsString: selectedStrings,
       };
     });

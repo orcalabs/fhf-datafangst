@@ -31,16 +31,6 @@ export const selectHaulsByArea = createSelector(
   (state) => state.haulsByArea ?? {},
 );
 
-export const selectFilteredHauls = createSelector(
-  selectAppState,
-  (state) => state.filteredHauls ?? [],
-);
-
-export const selectHaulsFilter = createSelector(
-  selectAppState,
-  (state) => state.haulsFilter,
-);
-
 export const selectSelectedHaul = createSelector(
   selectAppState,
   (state) => state.selectedHaul,
