@@ -11,6 +11,11 @@ export const selectSelectedGrids = createSelector(
   (state) => state.selectedGrids,
 );
 
+export const selectSelectedGridsString = createSelector(
+  selectAppState,
+  (state) => state.selectedGridsString,
+);
+
 export const selectFishmapState = createSelector(selectAppState, (state) => ({
   map: state.map,
   centerCoordinate: state.centerCoordinate,

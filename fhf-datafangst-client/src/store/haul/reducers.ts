@@ -1,16 +1,7 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { GearGroup, HaulCatch, SpeciesGroup } from "generated/openapi";
-import { LengthGroup } from "models";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
-import { inRange, sumHaulCatches } from "utils";
-import {
-  getHauls,
-  getHaulsGrid,
-  setHaulsFilter,
-  setHaulsSearch,
-  setSelectedHaul,
-} from ".";
+import { getHauls, getHaulsGrid, setHaulsSearch, setSelectedHaul } from ".";
 
 export const haulBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -22,10 +13,9 @@ export const haulBuilder = (
     })
     .addCase(getHauls.fulfilled, (state, action) => {
       const hauls = action.payload;
-      state.allHauls = hauls;
-      state.filteredHauls = hauls;
-
+      state.hauls = hauls;
       state.haulsByArea = {};
+
       for (const haul of hauls) {
         if (haul.catchLocationStart) {
           if (state.haulsByArea[haul.catchLocationStart]) {
@@ -57,60 +47,18 @@ export const haulBuilder = (
     })
     .addCase(setHaulsSearch, (state, action) => {
       if (action.payload) {
-        (action as any).asyncDispatch(getHauls(action.payload));
+        (action as any).asyncDispatch(
+          getHaulsGrid({ ...action.payload, catchLocations: undefined }),
+        );
+
+        if (action.payload.catchLocations) {
+          (action as any).asyncDispatch(getHauls({ ...action.payload }));
+        }
       }
 
       return {
         ...state,
         ...emptyState,
         haulsSearch: action.payload,
-      };
-    })
-    .addCase(setHaulsFilter, (state, action) => {
-      const filters2: Record<any, any> = { ...action.payload };
-
-      // Return full haul list if no filters are selected
-      if (Object.values(filters2).every((val) => val === undefined)) {
-        return {
-          ...state,
-          haulsFilter: {},
-          filteredHauls: state.hauls,
-        };
-      }
-      const filters = action.payload;
-      // Filter hauls
-      const filteredHauls = state.hauls?.filter((haul) => {
-        if (
-          (!filters.gearGroups ||
-            filters.gearGroups.some(
-              (g: GearGroup) => g.id === haul.gearGroupId,
-            )) &&
-          (!filters.speciesGroups ||
-            filters.speciesGroups.some((s: SpeciesGroup) => {
-              return haul.catches.some(
-                (c: HaulCatch) => c.speciesGroupId === s.id,
-              );
-            })) &&
-          (!filters.weight ||
-            inRange(
-              sumHaulCatches(haul.catches),
-              filters.weight[0],
-              filters.weight[1],
-            )) &&
-          (!filters.lengthGroups ||
-            filters.lengthGroups.some((lg: LengthGroup) =>
-              inRange(haul.vesselLength, lg.min, lg.max),
-            ))
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-
-      return {
-        ...state,
-        haulsFilter: action.payload,
-        filteredHauls,
       };
     });

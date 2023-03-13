@@ -5,6 +5,21 @@ import { StyledPopper } from "components";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
+const Months: Record<number, string> = {
+  1: "Januar",
+  2: "Februar",
+  3: "Mars",
+  4: "April",
+  5: "Mai",
+  6: "Juni",
+  7: "Juli",
+  8: "August",
+  9: "September",
+  10: "Oktober",
+  11: "November",
+  12: "Desember",
+};
+
 interface Props {
   value?: number[];
   onChange: (_?: number[]) => void;
@@ -28,7 +43,6 @@ export const MonthsFilter: FC<Props> = (props) => {
         disableCloseOnSelect
         ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
-        // blurOnSelect
         PopperComponent={StyledPopper}
         limitTags={3}
         disablePortal
@@ -37,7 +51,7 @@ export const MonthsFilter: FC<Props> = (props) => {
         value={values ?? []}
         onChange={(_, value) => onChange(value?.length ? value : undefined)}
         options={Array.from(new Array(12), (x, i) => i + 1)}
-        getOptionLabel={(option: number) => option.toString()}
+        getOptionLabel={(option: number) => Months[option]}
         renderInput={(params: any) => <TextField {...params} />}
         renderOption={(props, option, { selected }) => (
           <li {...props}>
@@ -47,7 +61,7 @@ export const MonthsFilter: FC<Props> = (props) => {
               style={{ marginRight: 8 }}
               checked={selected}
             />
-            {option}
+            {Months[option]}
           </li>
         )}
       />

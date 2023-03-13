@@ -28,7 +28,6 @@ export const YearsFilter: FC<Props> = (props) => {
         disableCloseOnSelect
         ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
-        // blurOnSelect
         PopperComponent={StyledPopper}
         limitTags={3}
         disablePortal

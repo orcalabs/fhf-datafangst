@@ -20,7 +20,6 @@ import {
   sumHaulCatches,
 } from "utils";
 import { CatchesTable } from "components";
-import theme from "app/theme";
 import {
   selectGears,
   selectHauls,
@@ -44,14 +43,16 @@ const accordionSx = {
   px: 2.5,
   color: "white",
   boxShadow: "none",
-  bgcolor: "primary.light",
+  bgcolor: "primary.main",
   "&.Mui-expanded": {
     m: 0,
     bgcolor: "primary.dark",
     "&:hover": { bgcolor: "primary.dark" },
   },
   "& .MuiAccordionSummary-root": { p: 0 },
-  "&:hover": { bgcolor: "primary.main" },
+  "& .MuiAccordionSummary-content": { m: 0 },
+
+  "&:hover": { bgcolor: "primary.dark" },
   "&:before": { display: "none" },
 };
 
@@ -93,17 +94,11 @@ export const HaulsMenu: FC<Props> = (props) => {
         <Box
           sx={{
             display: "flex",
-            marginTop: "6px",
-            marginBottom: "6px",
             alignItems: "center",
             "& svg": { mr: 2 },
           }}
         >
-          <FishLocationIcon
-            width="48"
-            height="48"
-            fill={theme.palette.secondary.main}
-          />
+          <FishLocationIcon width="48" height="48" fill={"white"} />
         </Box>
         <ListItemText primary={primary} secondary={secondary} />
       </AccordionSummary>
@@ -149,7 +144,7 @@ export const HaulsMenu: FC<Props> = (props) => {
 
   const item = (Icon: any, text: string) => (
     <Box sx={{ display: "flex", gap: 2 }}>
-      <SvgIcon sx={{ position: "relative", color: "secondary.main" }}>
+      <SvgIcon sx={{ position: "relative", color: "white" }}>
         <Icon width={20} height={20} />
       </SvgIcon>
       <Typography sx={{ color: "white" }}>{text}</Typography>
@@ -162,30 +157,30 @@ export const HaulsMenu: FC<Props> = (props) => {
         <Box
           sx={{
             height: "100%",
-            marginTop: "auto",
           }}
         >
           <Drawer
             sx={{
               height: "100%",
-
-              flexShrink: 0,
               "& .MuiDrawer-paper": {
+                flexShrink: 0,
+                boxSizing: "border-box",
+                height: "100%",
                 position: "relative",
-                backgroundColor: "primary.light",
+                backgroundColor: "primary.main",
               },
             }}
             open
             variant="persistent"
             anchor="right"
           >
-            <Box id="catch-menu" sx={{ overflowY: "auto" }}>
+            <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
               <List sx={{ color: "white", pt: 0 }}>
                 <ListSubheader
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
-                    bgcolor: "primary.light",
+                    bgcolor: "primary.main",
                     pl: 2.5,
                     pr: 0,
                     pt: 1,
@@ -217,7 +212,6 @@ export const HaulsMenu: FC<Props> = (props) => {
           </Drawer>
         </Box>
       )}
-      ;
     </>
   );
 };

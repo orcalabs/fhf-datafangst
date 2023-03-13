@@ -1,14 +1,19 @@
 import { VectorLayer } from "components";
 import locations from "assets/geojson/fishing-locations-grid.json";
-import { generateColormapFromHauls, generateLocationsGrid } from "utils";
-import { selectFilteredHauls, useAppSelector } from "store";
+import { generateLocationsGrid } from "utils";
+import { selectHaulsGrid, useAppSelector } from "store";
+import { Geometry } from "ol/geom";
+import { useEffect, useState } from "react";
+import VectorSource from "ol/source/Vector";
 
 export const LocationsGrid = () => {
-  const hauls = useAppSelector(selectFilteredHauls);
+  const haulsGrid = useAppSelector(selectHaulsGrid);
+  const [gridVector, setGridVector] = useState<VectorSource<Geometry>>();
 
-  const colorMap = generateColormapFromHauls(hauls);
+  useEffect(() => {
+    const grid = generateLocationsGrid(locations, haulsGrid);
+    setGridVector(grid);
+  }, [haulsGrid]);
 
-  const grid = generateLocationsGrid(locations, colorMap);
-
-  return <VectorLayer source={grid} zIndex={1} />;
+  return <VectorLayer source={gridVector} zIndex={1} />;
 };

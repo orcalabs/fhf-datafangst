@@ -31,5 +31,4 @@ export const LengthGroupCodes: LengthGroup[] = [
   { name: "15-20.9m", id: 3, min: 15, max: 21 },
   { name: "21-27.9m", id: 4, min: 21, max: 28 },
   { name: "Over 28m", id: 5, min: 28, max: Infinity },
-  { name: "Ukjent", id: 99, min: -2, max: -1 },
 ];
