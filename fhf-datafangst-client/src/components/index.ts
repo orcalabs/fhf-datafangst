@@ -15,3 +15,4 @@ export { ViewModeToggle } from "./Layout/ViewModeToggle";
 export { LoadingScreen } from "./LoadingScreen/LoadingScreen";
 export { HaulsMenu } from "./HaulsMenu/HaulsMenu";
 export { CatchesTable } from "./HaulsMenu/CatchesTable";
+export { AisLayer } from "./Layers/AisLayer";

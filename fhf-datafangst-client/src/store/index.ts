@@ -9,3 +9,4 @@ export * from "./vessel";
 export * from "./specie";
 export * from "./haul";
 export * from "./gear";
+export * from "./ais";
