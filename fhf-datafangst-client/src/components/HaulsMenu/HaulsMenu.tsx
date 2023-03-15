@@ -199,7 +199,7 @@ export const HaulsMenu: FC<Props> = (props) => {
                       listItem(
                         haul,
                         index,
-                        vessels[haul.haulId]?.fiskeridir.name ?? "Ukjent",
+                        vessels[haul.haulId]?.fiskeridir?.name ?? "Ukjent",
                         kilosOrTonsFormatter(sumHaulCatches(haul.catches)) +
                           " - " +
                           dateFormat(haul.startTimestamp, "PPP HH:mm"),

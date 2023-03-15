@@ -20,8 +20,8 @@ export const VesselFilter: FC<Props> = (props) => {
   const options = useMemo(
     () =>
       vessels.sort((a, b) =>
-        (a.fiskeridir.name ?? "Ukjent").localeCompare(
-          b.fiskeridir.name ?? "Ukjent",
+        (a.fiskeridir?.name ?? "Ukjent").localeCompare(
+          b.fiskeridir?.name ?? "Ukjent",
           "no",
         ),
       ),
@@ -55,7 +55,7 @@ export const VesselFilter: FC<Props> = (props) => {
         }
         options={options}
         getOptionLabel={(option: Vessel) =>
-          toTitleCase(option?.fiskeridir.name ?? "Ukjent")
+          toTitleCase(option?.fiskeridir?.name ?? "Ukjent")
         }
         renderInput={(params: any) => <TextField {...params} />}
         renderOption={(props: any, option: any) => (

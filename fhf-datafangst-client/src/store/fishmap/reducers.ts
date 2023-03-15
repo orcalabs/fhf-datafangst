@@ -1,5 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { Stroke, Style } from "ol/style";
+import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { initializeMap, toggleSelectedArea } from ".";
 
@@ -41,6 +42,7 @@ export const fishmapBuilder = (
 
       return {
         ...state,
+        ...emptyState,
         selectedGrids: selected,
         selectedGridsString: selectedStrings,
       };
