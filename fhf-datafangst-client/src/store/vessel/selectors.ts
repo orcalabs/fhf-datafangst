@@ -18,15 +18,21 @@ export const selectVesselsByCallsign = createSelector(
   (state) => state.vesselsByCallsign ?? {},
 );
 
+export const selectVesselsByFiskeridirId = createSelector(
+  selectAppState,
+  (state) => state.vesselsByFiskeridirId ?? {},
+);
+
 export const selectVesselsByHaulId = createSelector(
-  selectVessels,
+  selectVesselsByFiskeridirId,
   selectVesselsByCallsign,
   selectHauls,
-  (vessels, vesselsByCallSign, hauls) => {
+  (vesselsByFiskeridirId, vesselsByCallSign, hauls) => {
     const vesselsMap: Record<string, Vessel> = {};
     for (const haul of hauls) {
       if (haul.fiskeridirVesselId) {
-        vesselsMap[haul.haulId] = vessels[haul.fiskeridirVesselId];
+        vesselsMap[haul.haulId] =
+          vesselsByFiskeridirId[haul.fiskeridirVesselId];
       } else {
         vesselsMap[haul.haulId] = vesselsByCallSign[haul.vesselCallSignErs];
       }

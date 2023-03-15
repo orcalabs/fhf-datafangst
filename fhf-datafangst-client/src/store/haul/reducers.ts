@@ -1,4 +1,5 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { getAis } from "store/ais";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { getHauls, getHaulsGrid, setHaulsSearch, setSelectedHaul } from ".";
@@ -43,7 +44,22 @@ export const haulBuilder = (
       state.haulsGridLoading = false;
     })
     .addCase(setSelectedHaul, (state, action) => {
-      state.selectedHaul = action.payload.haul;
+      const haul = action.payload.haul;
+      state.selectedHaul = haul;
+      state.ais = undefined;
+
+      if (haul && state.vesselsByCallsign) {
+        const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
+        if (vessel.ais) {
+          (action as any).asyncDispatch(
+            getAis({
+              mmsi: vessel.ais.mmsi,
+              start: haul.startTimestamp,
+              end: haul.stopTimestamp,
+            }),
+          );
+        }
+      }
     })
     .addCase(setHaulsSearch, (state, action) => {
       if (action.payload) {

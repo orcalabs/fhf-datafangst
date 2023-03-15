@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Snackbar } from "@mui/material";
 import {
   MapBoxLayer,
   Map,
@@ -12,10 +12,12 @@ import {
   ViewModeToggle,
   LoadingScreen,
   HaulsMenu,
+  AisLayer,
 } from "components";
 import { FC, useEffect, useState } from "react";
 import {
   getHauls,
+  selectAisMissing,
   selectHaulsGridLoading,
   selectHaulsMenuOpen,
   selectHaulsSearch,
@@ -116,6 +118,7 @@ const FilterButtonArea = (props: any) => (
 export const HomeView: FC = () => {
   const dispatch = useAppDispatch();
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
+  const aisMissing = useAppSelector(selectAisMissing);
   const viewMode = useAppSelector(selectViewMode);
   const haulsLoading = useAppSelector(selectHaulsGridLoading);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
@@ -156,9 +159,29 @@ export const HomeView: FC = () => {
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
         <HaulsLayer />
+        <AisLayer />
       </Map>
       <ViewModeToggle />
       <LoadingScreen open={haulsLoading} />
+      <Box
+        sx={{
+          "& .MuiSnackbar-anchorOriginTopCenter": { top: 60 },
+          "& .MuiSnackbar-anchorOriginBottomCenter": { bottom: 80 },
+          "& .MuiSnackbarContent-root": {
+            bgcolor: "#725840",
+            borderRadius: 0,
+          },
+        }}
+      >
+        <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          open={aisMissing}
+          message={"Posisjonsdata for dette halet er ikke tilgjengelig"}
+        />
+      </Box>
     </>
   );
 };
