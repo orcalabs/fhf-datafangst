@@ -4,6 +4,7 @@ import { initialSpecieState, SpecieState } from "./specie";
 import { VesselState, initialVesselState } from "./vessel";
 import { GearState, initialGearState } from "./gear";
 import { AisState, initialAisState } from "./ais";
+import { initialTripState, TripState } from "./trip";
 
 export enum ViewMode {
   Grid = "grid",
@@ -28,6 +29,7 @@ export interface AppState
     HaulState,
     GearState,
     AisState,
+    TripState,
     SpecieState {}
 
 export const initialAppState: AppState = {
@@ -37,5 +39,6 @@ export const initialAppState: AppState = {
   ...initialHaulState,
   ...initialGearState,
   ...initialAisState,
+  ...initialTripState,
   ...initialSpecieState,
 };

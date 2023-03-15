@@ -17,3 +17,9 @@ export const selectHaulsMenuOpen = createSelector(
   selectAppState,
   (state) => state.selectedGrids.length > 0,
 );
+
+export const selectAisMissing = createSelector(
+  selectAppState,
+  (state) =>
+    state.selectedHaul && !state.ais?.positions.length && !state.aisLoading,
+);
