@@ -6,11 +6,15 @@ import { vesselBuilder } from "./vessel";
 import { specieBuilder } from "./specie";
 import { haulBuilder } from "./haul";
 import { gearBuilder } from "./gear";
+import { tripBuilder } from "./trip";
+import { aisBuilder } from "./ais";
 
 export const emptyState = {
   hauls: undefined,
+  selectedHaul: undefined,
   selectedGrids: [],
   selectedGridsString: [],
+  ais: undefined,
 };
 
 class AppActionReducerMapBuilder<State> {
@@ -50,5 +54,7 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(haulBuilder)
     .extendBuilder(specieBuilder)
     .extendBuilder(gearBuilder)
+    .extendBuilder(aisBuilder)
+    .extendBuilder(tripBuilder)
     .finish(),
 );
