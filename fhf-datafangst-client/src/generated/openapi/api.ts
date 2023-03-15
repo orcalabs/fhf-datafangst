@@ -34,13 +34,13 @@ export interface AisPosition {
      * @type {number}
      * @memberof AisPosition
      */
-    'cog'?: number;
+    'cog': number | null;
     /**
      * 
      * @type {AisPositionDetails}
      * @memberof AisPosition
      */
-    'det'?: AisPositionDetails;
+    'det': AisPositionDetails | null;
     /**
      * 
      * @type {number}
@@ -83,28 +83,26 @@ export interface AisPositionDetails {
      * @type {NavigationStatus}
      * @memberof AisPositionDetails
      */
-    'navigationalStatus'?: NavigationStatus;
+    'navigationalStatus': NavigationStatus | null;
     /**
      * 
      * @type {number}
      * @memberof AisPositionDetails
      */
-    'rateOfTurn'?: number;
+    'rateOfTurn': number | null;
     /**
      * 
      * @type {number}
      * @memberof AisPositionDetails
      */
-    'speedOverGround'?: number;
+    'speedOverGround': number | null;
     /**
      * 
      * @type {number}
      * @memberof AisPositionDetails
      */
-    'trueHeading'?: number;
+    'trueHeading': number | null;
 }
-
-
 /**
  * 
  * @export
@@ -116,25 +114,25 @@ export interface AisVessel {
      * @type {string}
      * @memberof AisVessel
      */
-    'callSign'?: string;
+    'callSign': string | null;
     /**
      * 
      * @type {string}
      * @memberof AisVessel
      */
-    'destination'?: string;
+    'destination': string | null;
     /**
      * 
      * @type {string}
      * @memberof AisVessel
      */
-    'eta'?: string;
+    'eta': string | null;
     /**
      * 
      * @type {number}
      * @memberof AisVessel
      */
-    'imoNumber'?: number;
+    'imoNumber': number | null;
     /**
      * 
      * @type {number}
@@ -146,19 +144,19 @@ export interface AisVessel {
      * @type {string}
      * @memberof AisVessel
      */
-    'name'?: string;
+    'name': string | null;
     /**
      * 
      * @type {number}
      * @memberof AisVessel
      */
-    'shipLength'?: number;
+    'shipLength': number | null;
     /**
      * 
      * @type {number}
      * @memberof AisVessel
      */
-    'shipWidth'?: number;
+    'shipWidth': number | null;
 }
 /**
  * 
@@ -198,6 +196,31 @@ export interface ErrorResponse {
 /**
  * 
  * @export
+ * @interface ErsVessel
+ */
+export interface ErsVessel {
+    /**
+     * 
+     * @type {string}
+     * @memberof ErsVessel
+     */
+    'callSign': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ErsVessel
+     */
+    'name': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ErsVessel
+     */
+    'registrationId': string | null;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -221,37 +244,37 @@ export interface FiskeridirVessel {
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'buildingYear'?: number;
+    'buildingYear': number | null;
     /**
      * 
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'callSign'?: string;
+    'callSign': string | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'engineBuildingYear'?: number;
+    'engineBuildingYear': number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'enginePower'?: number;
+    'enginePower': number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'grossTonnage1969'?: number;
+    'grossTonnage1969': number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'grossTonnageOther'?: number;
+    'grossTonnageOther': number | null;
     /**
      * 
      * @type {number}
@@ -263,25 +286,25 @@ export interface FiskeridirVessel {
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'length'?: number;
+    'length': number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'lengthGroupId'?: number;
+    'lengthGroupId': number | null;
     /**
      * 
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'name'?: string;
+    'name': string | null;
     /**
      * 
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'nationGroupId'?: string;
+    'nationGroupId': string | null;
     /**
      * 
      * @type {string}
@@ -293,43 +316,43 @@ export interface FiskeridirVessel {
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'norwegianCountyId'?: number;
+    'norwegianCountyId': number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'norwegianMunicipalityId'?: number;
+    'norwegianMunicipalityId': number | null;
     /**
      * 
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'owner'?: string;
+    'owner': string | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'rebuildingYear'?: number;
+    'rebuildingYear': number | null;
     /**
      * 
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'registrationId'?: string;
+    'registrationId': string | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'vesselTypeId'?: number;
+    'vesselTypeId': number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'width'?: number;
+    'width': number | null;
 }
 /**
  * 
@@ -399,7 +422,7 @@ export interface Haul {
      * @type {string}
      * @memberof Haul
      */
-    'catchLocationStart'?: string;
+    'catchLocationStart': string | null;
     /**
      * 
      * @type {Array<HaulCatch>}
@@ -423,25 +446,25 @@ export interface Haul {
      * @type {number}
      * @memberof Haul
      */
-    'fiskeridirVesselId'?: number;
+    'fiskeridirVesselId': number | null;
     /**
      * 
      * @type {number}
      * @memberof Haul
      */
-    'gearFiskeridirId'?: number;
+    'gearFiskeridirId': number | null;
     /**
      * 
      * @type {number}
      * @memberof Haul
      */
-    'gearGroupId'?: number;
+    'gearGroupId': number | null;
     /**
      * 
      * @type {number}
      * @memberof Haul
      */
-    'haulDistance'?: number;
+    'haulDistance': number | null;
     /**
      * 
      * @type {string}
@@ -507,7 +530,7 @@ export interface Haul {
      * @type {string}
      * @memberof Haul
      */
-    'vesselCallSign'?: string;
+    'vesselCallSign': string | null;
     /**
      * 
      * @type {string}
@@ -525,13 +548,13 @@ export interface Haul {
      * @type {string}
      * @memberof Haul
      */
-    'vesselName'?: string;
+    'vesselName': string | null;
     /**
      * 
      * @type {string}
      * @memberof Haul
      */
-    'vesselNameErs'?: string;
+    'vesselNameErs': string | null;
     /**
      * 
      * @type {Array<WhaleCatch>}
@@ -556,19 +579,19 @@ export interface HaulCatch {
      * @type {number}
      * @memberof HaulCatch
      */
-    'mainSpeciesFiskeridirId'?: number;
+    'mainSpeciesFiskeridirId': number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulCatch
      */
-    'speciesFiskeridirId'?: number;
+    'speciesFiskeridirId': number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulCatch
      */
-    'speciesGroupId'?: number;
+    'speciesGroupId': number | null;
 }
 /**
  * 
@@ -659,7 +682,7 @@ export interface SpeciesFao {
      * @type {string}
      * @memberof SpeciesFao
      */
-    'name'?: string;
+    'name': string | null;
 }
 /**
  * 
@@ -678,7 +701,7 @@ export interface SpeciesFiskeridir {
      * @type {string}
      * @memberof SpeciesFiskeridir
      */
-    'name'?: string;
+    'name': string | null;
 }
 /**
  * 
@@ -721,6 +744,31 @@ export interface SpeciesMainGroup {
 /**
  * 
  * @export
+ * @interface Trip
+ */
+export interface Trip {
+    /**
+     * 
+     * @type {string}
+     * @memberof Trip
+     */
+    'end': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Trip
+     */
+    'start': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Trip
+     */
+    'tripId': number;
+}
+/**
+ * 
+ * @export
  * @interface Vessel
  */
 export interface Vessel {
@@ -729,13 +777,25 @@ export interface Vessel {
      * @type {AisVessel}
      * @memberof Vessel
      */
-    'ais'?: AisVessel;
+    'ais': AisVessel | null;
+    /**
+     * 
+     * @type {ErsVessel}
+     * @memberof Vessel
+     */
+    'ers': ErsVessel | null;
     /**
      * 
      * @type {FiskeridirVessel}
      * @memberof Vessel
      */
-    'fiskeridir': FiskeridirVessel;
+    'fiskeridir': FiskeridirVessel | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Vessel
+     */
+    'id': number;
 }
 /**
  * 
@@ -748,37 +808,37 @@ export interface WhaleCatch {
      * @type {number}
      * @memberof WhaleCatch
      */
-    'blubberMeasureA'?: number;
+    'blubberMeasureA': number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'blubberMeasureB'?: number;
+    'blubberMeasureB': number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'blubberMeasureC'?: number;
+    'blubberMeasureC': number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'circumference'?: number;
+    'circumference': number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'fetusLength'?: number;
+    'fetusLength': number | null;
     /**
      * 
      * @type {WhaleGender}
      * @memberof WhaleCatch
      */
-    'genderId'?: WhaleGender;
+    'genderId': WhaleGender | null;
     /**
      * 
      * @type {string}
@@ -790,16 +850,14 @@ export interface WhaleCatch {
      * @type {number}
      * @memberof WhaleCatch
      */
-    'individualNumber'?: number;
+    'individualNumber': number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'length'?: number;
+    'length': number | null;
 }
-
-
 /**
  * 
  * @export
@@ -1778,6 +1836,121 @@ export class V1speciesApi extends BaseAPI {
      */
     public speciesMainGroups(options?: AxiosRequestConfig) {
         return V1speciesApiFp(this.configuration).speciesMainGroups(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * V1tripApi - axios parameter creator
+ * @export
+ */
+export const V1tripApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} haulId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        tripOfHaul: async (haulId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'haulId' is not null or undefined
+            assertParamExists('tripOfHaul', 'haulId', haulId)
+            const localVarPath = `/v1.0/trip_of_haul/{haul_id}`
+                .replace(`{${"haul_id"}}`, encodeURIComponent(String(haulId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1tripApi - functional programming interface
+ * @export
+ */
+export const V1tripApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1tripApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} haulId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async tripOfHaul(haulId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tripOfHaul(haulId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1tripApi - factory interface
+ * @export
+ */
+export const V1tripApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1tripApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {V1tripApiTripOfHaulRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        tripOfHaul(requestParameters: V1tripApiTripOfHaulRequest, options?: AxiosRequestConfig): AxiosPromise<Trip> {
+            return localVarFp.tripOfHaul(requestParameters.haulId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for tripOfHaul operation in V1tripApi.
+ * @export
+ * @interface V1tripApiTripOfHaulRequest
+ */
+export interface V1tripApiTripOfHaulRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripApiTripOfHaul
+     */
+    readonly haulId: string
+}
+
+/**
+ * V1tripApi - object-oriented interface
+ * @export
+ * @class V1tripApi
+ * @extends {BaseAPI}
+ */
+export class V1tripApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1tripApiTripOfHaulRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripApi
+     */
+    public tripOfHaul(requestParameters: V1tripApiTripOfHaulRequest, options?: AxiosRequestConfig) {
+        return V1tripApiFp(this.configuration).tripOfHaul(requestParameters.haulId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
