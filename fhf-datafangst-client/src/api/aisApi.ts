@@ -4,8 +4,8 @@ import { V1aisApi } from "generated/openapi";
 
 export interface AisArgs {
   mmsi: number;
-  start?: Date;
-  end?: Date;
+  start?: string;
+  end?: string;
 }
 
 const api = new V1aisApi(apiConfiguration, undefined, axiosInstance);
@@ -14,7 +14,7 @@ export const getTrack = async (query: AisArgs) =>
   apiGet(async () =>
     api.aisTrack({
       mmsi: query.mmsi,
-      start: query.start?.toISOString(),
-      end: query.end?.toISOString(),
+      start: query.start,
+      end: query.end,
     }),
   ).then((positions): Track => ({ mmsi: query.mmsi, positions }));
