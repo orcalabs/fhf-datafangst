@@ -1,16 +1,24 @@
 import { Map } from "ol";
 import { fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
-import { Circle, Fill, Stroke, Style, Text } from "ol/style";
+import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
 import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import { Haul, HaulsGrid } from "generated/openapi";
-import { Point } from "ol/geom";
+import { AisPosition, Haul, HaulsGrid } from "generated/openapi";
+import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
 import { findHighestHaulCatchWeight, sumHaulCatches } from "utils";
+import { Track } from "models";
+import theme from "app/theme";
+import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
+
+export interface TravelVector {
+  vector: VectorSource<Geometry>;
+  style: Style;
+}
 
 export const getColorGrade = (colorGrade: number, maxGrade: number) => {
   const colorScale = new ColorScale(
@@ -211,4 +219,120 @@ export const boxSelect = (map: Map, callback: (box: Box) => void) => {
     map.removeInteraction(draw);
   });
   map.addInteraction(draw);
+};
+
+const mainStyle = new Style({
+  stroke: new Stroke({
+    color: theme.palette.third.main,
+    width: 2,
+  }),
+});
+
+const secondStyle = new Style({
+  stroke: new Stroke({
+    color: theme.palette.grey[700],
+    lineDash: [5],
+    width: 2,
+  }),
+});
+
+const trackVesselStyle = (pos: AisPosition, zoom?: number): Style => {
+  // Set max size for vessel icon
+  let iconSize = zoom ? zoom * 0.018 : 2.7 * 0.018;
+  if (iconSize > 0.06) {
+    iconSize = 0.06;
+  }
+  return new Style({
+    image: new Icon({
+      rotation: ((pos.cog ?? 0) * Math.PI) / 180,
+      opacity: 1,
+      anchor: [0.5, 0.5],
+      scale: iconSize,
+      src: pinkVesselPin,
+    }),
+  });
+};
+
+const lineFeature = (line: LineString): Feature =>
+  new Feature({
+    geometry: line,
+    name: "VesselLine",
+  });
+
+export const generateHaulTravelVector = (
+  ais: Track | undefined,
+  zoomLevel: number | undefined,
+): TravelVector[] => {
+  const positions = ais?.positions;
+  const lineVectors = [{ vector: new VectorSource(), style: mainStyle }];
+
+  if (!positions?.length) {
+    return lineVectors;
+  }
+
+  let detailNumber = 0;
+  let flag = false;
+  let lineVector = lineVectors[0];
+  let line = new LineString([]);
+
+  for (let i = 0; i < positions.length; i++) {
+    const pos = positions[i];
+
+    // Only draw vessels on line if we have a detailed point from backend
+    if (pos.det) {
+      // If we hit a vessel with `missingData === true`, we need to
+      // create a new lineVector to visualize the missing data as a grey dashed line.
+      // Subsequently, at the next vessel, we need to go back to the regular line.
+      const p = new Feature({
+        geometry: new Point(fromLonLat([pos.lon, pos.lat])),
+        aisPosition: pos,
+      });
+
+      p.setStyle(trackVesselStyle(pos, zoomLevel));
+
+      if (pos.det.missingData || flag) {
+        line.appendCoordinate(fromLonLat([pos.lon, pos.lat]));
+        lineVector.vector.addFeature(lineFeature(line));
+
+        lineVector = {
+          vector: new VectorSource(),
+          style: pos.det.missingData ? secondStyle : mainStyle,
+        };
+
+        lineVectors.push(lineVector);
+        line = new LineString([]);
+
+        flag = pos.det.missingData;
+      }
+
+      // Dynamically limit number of vessels drawn on track, relative to zoom level
+      // The math behind it is sort of hacky, but gives a nice output
+      detailNumber++;
+
+      // Make sure we draw a vessel on each end of a line and always start and stop symbols.
+      if (
+        zoomLevel &&
+        lineVector.vector.getFeatures().length > 2 &&
+        !(i === 0 || i === positions.length - 1)
+      ) {
+        if (Math.round(zoomLevel) === 1 && detailNumber % 5) {
+          continue;
+        } else if (Math.round(zoomLevel) === 2 && detailNumber % 4) {
+          continue;
+        } else if (Math.round(zoomLevel) === 3 && detailNumber % 3) {
+          continue;
+        } else if (Math.round(zoomLevel) === 4 && detailNumber % 2) {
+          continue;
+        } else if (Math.round(zoomLevel) === 5 && detailNumber % 1) {
+          continue;
+        }
+      }
+
+      lineVector.vector.addFeature(p);
+    }
+    line.appendCoordinate(fromLonLat([pos.lon, pos.lat]));
+  }
+  lineVector.vector.addFeature(lineFeature(line));
+
+  return lineVectors;
 };
