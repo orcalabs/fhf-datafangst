@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -10,6 +10,7 @@ import {
   SvgIcon,
   ListSubheader,
   Drawer,
+  TablePagination,
 } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import {
@@ -69,6 +70,27 @@ export const HaulsMenu: FC<Props> = (props) => {
   const hauls = useAppSelector(selectHauls);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaulId = useAppSelector(selectSelectedHaul)?.haulId;
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
+  const indexOfLastHaul = currentPage + 1 * haulsPerPage;
+  const indexOfFirstHaul = indexOfLastHaul - haulsPerPage;
+  const currentHauls = hauls.slice(indexOfFirstHaul, indexOfLastHaul);
+
+  const handleChangePage = (
+    _: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setCurrentPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setHaulsPerPage(parseInt(event.target.value, 10));
+    setCurrentPage(0);
+  };
 
   const handleHaulChange = (haul: Haul) => {
     const newHaul = haul.haulId === selectedHaulId ? undefined : haul;
@@ -174,19 +196,25 @@ export const HaulsMenu: FC<Props> = (props) => {
             variant="persistent"
             anchor="right"
           >
-            <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
+            <Box sx={{ flexGrow: 1, overflowY: "auto", height: "90%" }}>
               <List sx={{ color: "white", pt: 0 }}>
-                <ListSubheader
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    bgcolor: "primary.main",
-                    pl: 2.5,
-                    pr: 0,
-                    pt: 1,
-                  }}
-                >
-                  Hal
+                <ListSubheader sx={{ px: 0, borderBottom: "1px solid white" }}>
+                  <TablePagination
+                    sx={{
+                      bgcolor: "primary.main",
+                      width: "100%",
+                      color: "white",
+                      "& .MuiTablePagination-toolbar": { p: 0 },
+                    }}
+                    component="div"
+                    count={hauls.length}
+                    page={currentPage}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={haulsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    labelRowsPerPage={"Hal per side"}
+                    padding="none"
+                  />
                 </ListSubheader>
 
                 {haulsLoading ? (
@@ -194,8 +222,8 @@ export const HaulsMenu: FC<Props> = (props) => {
                 ) : !hauls?.length ? (
                   <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
                 ) : (
-                  <>
-                    {hauls?.map((haul, index) =>
+                  <Box sx={{ pt: 1 }}>
+                    {currentHauls?.map((haul, index) =>
                       listItem(
                         haul,
                         index,
@@ -205,7 +233,7 @@ export const HaulsMenu: FC<Props> = (props) => {
                           dateFormat(haul.startTimestamp, "PPP HH:mm"),
                       ),
                     )}
-                  </>
+                  </Box>
                 )}
               </List>
             </Box>
