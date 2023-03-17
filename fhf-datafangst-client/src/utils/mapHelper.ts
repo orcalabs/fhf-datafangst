@@ -10,7 +10,11 @@ import Geometry from "ol/geom/Geometry";
 import { AisPosition, Haul, HaulsGrid } from "generated/openapi";
 import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
-import { findHighestHaulCatchWeight, sumHaulCatches } from "utils";
+import {
+  differenceMinutes,
+  findHighestHaulCatchWeight,
+  sumHaulCatches,
+} from "utils";
 import { Track } from "models";
 import theme from "app/theme";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
@@ -262,6 +266,7 @@ const lineFeature = (line: LineString): Feature =>
 export const generateHaulTravelVector = (
   ais: Track | undefined,
   zoomLevel: number | undefined,
+  haul: Haul | undefined,
 ): TravelVector[] => {
   const positions = ais?.positions;
   const lineVectors = [{ vector: new VectorSource(), style: mainStyle }];
@@ -274,6 +279,47 @@ export const generateHaulTravelVector = (
   let flag = false;
   let lineVector = lineVectors[0];
   let line = new LineString([]);
+
+  // Draw dashed line from start of haul position to first AIS point if we're missing data
+  if (
+    haul &&
+    differenceMinutes(
+      new Date(positions[0].timestamp),
+      new Date(haul.startTimestamp),
+    ) > 5
+  ) {
+    const startLine = { vector: new VectorSource(), style: secondStyle };
+    const line = new LineString([
+      fromLonLat([haul.startLongitude, haul.startLatitude]),
+      fromLonLat([positions[0].lon, positions[0].lat]),
+    ]);
+
+    startLine.vector.addFeature(lineFeature(line));
+    // Use unshift because of drawing order (avoid line on top of vessel icon)
+    lineVectors.unshift(startLine);
+  }
+
+  // Draw dashed line from end of AIS track to haul's stop position if we're missing data
+  if (
+    haul &&
+    differenceMinutes(
+      new Date(positions[positions.length - 1].timestamp),
+      new Date(haul.stopTimestamp),
+    )
+  ) {
+    const stopLine = { vector: new VectorSource(), style: secondStyle };
+    const line = new LineString([
+      fromLonLat([haul.stopLongitude, haul.stopLatitude]),
+      fromLonLat([
+        positions[positions.length - 1].lon,
+        positions[positions.length - 1].lat,
+      ]),
+    ]);
+
+    stopLine.vector.addFeature(lineFeature(line));
+    // Use unshift because of drawing order (avoid line on top of vessel icon)
+    lineVectors.unshift(stopLine);
+  }
 
   for (let i = 0; i < positions.length; i++) {
     const pos = positions[i];
