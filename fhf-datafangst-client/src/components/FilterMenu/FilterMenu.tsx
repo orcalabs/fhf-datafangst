@@ -39,7 +39,7 @@ export const FilterMenu: FC = () => {
             width: "100%",
             "& .MuiChip-filled": {
               color: "black",
-              bgcolor: "secondary.main",
+              bgcolor: "text.secondary",
               borderRadius: 0,
             },
             "& .MuiButtonBase-root": {
