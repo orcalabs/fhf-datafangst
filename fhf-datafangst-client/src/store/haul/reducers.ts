@@ -50,7 +50,7 @@ export const haulBuilder = (
 
       if (haul && state.vesselsByCallsign) {
         const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
-        if (vessel.ais) {
+        if (vessel?.ais) {
           (action as any).asyncDispatch(
             getAis({
               mmsi: vessel.ais.mmsi,
