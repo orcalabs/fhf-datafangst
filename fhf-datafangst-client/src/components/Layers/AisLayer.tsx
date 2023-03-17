@@ -1,11 +1,17 @@
 import { FC, useEffect, useState } from "react";
 import { VectorLayer } from "components";
 import { generateHaulTravelVector, TravelVector } from "utils";
-import { selectAis, selectFishmapState, useAppSelector } from "store";
+import {
+  selectAis,
+  selectFishmapState,
+  selectSelectedHaul,
+  useAppSelector,
+} from "store";
 
 export const AisLayer: FC = () => {
   const ais = useAppSelector(selectAis);
   const state = useAppSelector(selectFishmapState);
+  const haul = useAppSelector(selectSelectedHaul);
 
   const [zoom, setZoom] = useState<number | undefined>(
     state.map.getView().getZoom(),
@@ -23,7 +29,7 @@ export const AisLayer: FC = () => {
   }, [state.map]);
 
   useEffect(() => {
-    const vec = generateHaulTravelVector(ais, zoom);
+    const vec = generateHaulTravelVector(ais, zoom, haul);
     setAisVectors(vec);
   }, [ais, zoom]);
 

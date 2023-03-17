@@ -1,4 +1,9 @@
-import { format, formatDuration, intervalToDuration } from "date-fns";
+import {
+  differenceInMinutes,
+  format,
+  formatDuration,
+  intervalToDuration,
+} from "date-fns";
 import { nb } from "date-fns/locale";
 import { Haul, HaulCatch } from "generated/openapi";
 
@@ -152,3 +157,11 @@ export const kilosOrTonsFormatter = (weight: number) =>
   weight >= 1000
     ? (weight / 1000).toFixed(1) + " tonn"
     : weight.toFixed(1) + "  kg";
+
+export const differenceMinutes = (date1: Date, date2: Date) => {
+  if (date1 > date2) {
+    return differenceInMinutes(date1, date2);
+  } else {
+    return differenceInMinutes(date2, date1);
+  }
+};
