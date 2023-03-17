@@ -33,7 +33,7 @@ import {
   useAppSelector,
 } from "store";
 import { Haul } from "generated/openapi";
-import { FishLocationIcon } from "assets/icons";
+import { FishIcon } from "assets/icons";
 import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
@@ -120,7 +120,7 @@ export const HaulsMenu: FC<Props> = (props) => {
             "& svg": { mr: 2 },
           }}
         >
-          <FishLocationIcon width="48" height="48" fill={"white"} />
+          <FishIcon width="48" height="48" fill={"white"} />
         </Box>
         <ListItemText primary={primary} secondary={secondary} />
       </AccordionSummary>
