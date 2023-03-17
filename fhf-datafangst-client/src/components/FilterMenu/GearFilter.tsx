@@ -28,7 +28,7 @@ export const GearFilter: FC<Props> = (props) => {
         Redskap
       </Typography>
       <FormGroup>
-        <Grid container rowSpacing={0.1} columnSpacing={1} width={330}>
+        <Grid container rowSpacing={0.1} columnSpacing={1} width={"100%"}>
           {gearGroups.map((val, i) => {
             return (
               <Grid key={i} item xs={6}>

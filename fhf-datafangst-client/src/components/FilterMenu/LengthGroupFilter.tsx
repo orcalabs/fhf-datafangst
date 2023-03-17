@@ -27,7 +27,7 @@ export const LengthGroupFilter: FC<Props> = (props) => {
         Fartøylengde
       </Typography>
       <FormGroup>
-        <Grid container rowSpacing={0.1} columnSpacing={1} width={330}>
+        <Grid container rowSpacing={0.1} columnSpacing={1} width={"100%"}>
           {LengthGroupCodes.map((val, i) => {
             return (
               <Grid key={i} item xs={6}>
