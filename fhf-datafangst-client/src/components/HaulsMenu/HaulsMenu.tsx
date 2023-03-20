@@ -82,6 +82,7 @@ export const HaulsMenu: FC<Props> = (props) => {
     _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
+    dispatch(setSelectedHaul({ haul: undefined }));
     setCurrentPage(newPage);
   };
 
