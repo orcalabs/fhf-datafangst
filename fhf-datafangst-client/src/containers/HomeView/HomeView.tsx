@@ -179,7 +179,7 @@ export const HomeView: FC = () => {
             horizontal: "center",
           }}
           open={aisMissing}
-          message={"Posisjonsdata for dette halet er ikke tilgjengelig"}
+          message={"AIS-spor for dette halet er ikke tilgjengelig"}
         />
       </Box>
     </>
