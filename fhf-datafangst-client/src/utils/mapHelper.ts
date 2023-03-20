@@ -24,12 +24,16 @@ export interface TravelVector {
   style: Style;
 }
 
-export const getColorGrade = (colorGrade: number, maxGrade: number) => {
+export const getColorGrade = (
+  colorGrade: number,
+  maxGrade: number,
+  opacity: number,
+) => {
   const colorScale = new ColorScale(
     0,
     maxGrade,
     ["#66b2ab", "#1b8a5a", "#fbb021", "#f68838", "#ee3e32"],
-    0.7,
+    opacity,
   );
 
   return colorScale.getColor(colorGrade).toRGBAString();
@@ -41,7 +45,7 @@ export const generateGridBoxStyle = (
   maxGrade: number,
 ): Style => {
   return new Style({
-    fill: new Fill({ color: getColorGrade(colorGrade, maxGrade) }),
+    fill: new Fill({ color: getColorGrade(colorGrade, maxGrade, 0.5) }),
     // stroke: new Stroke({ color: "#387D90", width: 1 }),
     text: new Text({
       fill: new Fill({ color: "#387D90" }),
@@ -92,7 +96,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
         image: new Circle({
           radius: 2.5,
           fill: new Fill({
-            color: getColorGrade(sum, highestCatchSum),
+            color: getColorGrade(sum, highestCatchSum, 1),
           }),
         }),
       }),
