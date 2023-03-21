@@ -19,7 +19,7 @@ export const dateFormat = (d: IntoDate | undefined, f: string) =>
 
 // Special title case formatter, specifically designed to format Vessel
 // and Delivery Point names
-export const toTitleCase = (name: string | undefined) => {
+export const toTitleCase = (name: string | undefined | null) => {
   if (!name) return "";
 
   // Ignore re-naming delivery points that are "Unntak i [region]"
