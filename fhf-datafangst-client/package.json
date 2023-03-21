@@ -8,6 +8,8 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
+    "@nivo/bar": "^0.80.0",
+    "@nivo/core": "^0.80.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
@@ -37,7 +39,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://localhost:8080/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true"
+    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://10.90.17.7:8080/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true"
   },
   "eslintConfig": {
     "extends": [
