@@ -19,6 +19,6 @@ export const vesselBuilder = (
         state.vesselsByFiskeridirId[vessel.fiskeridir.id] = vessel;
       }
 
-      state.vessels[vessel.id] = vessel;
+      // state.vessels[vessel.id] = vessel;
     }
   });

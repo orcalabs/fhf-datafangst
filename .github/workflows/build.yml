@@ -14,3 +14,16 @@ jobs:
     uses: orcalabs/github-actions/.github/workflows/npm_cache.yml@master
     with:
       src-dir: fhf-datafangst-client
+
+  images:
+    uses: orcalabs/github-actions/.github/workflows/images.yml@master
+    secrets: inherit
+    with:
+      keys: |
+        fhf-datafangst-client
+      object: '{
+           "fhf-datafangst-client" : {
+              "dockerfile" : "dockerfiles/fhf-datafangst-client/Dockerfile",
+              "registry" : "ghcr.io/orcalabs/fhf-datafangst/fhf-datafangst-client"
+           }
+        }'
