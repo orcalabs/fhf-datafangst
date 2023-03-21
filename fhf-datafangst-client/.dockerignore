@@ -1,0 +1,7 @@
+*
+!src/
+!public/
+!package*.json
+!tsconfig.json
+!env
+!env.production
