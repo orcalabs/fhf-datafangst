@@ -1,5 +1,6 @@
 import { FC } from "react";
 import {
+  Box,
   Checkbox,
   FormControlLabel,
   FormGroup,
@@ -9,6 +10,8 @@ import {
 import { LengthGroup, LengthGroupCodes } from "models";
 import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
 import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
+import { ResponsiveBar } from "@nivo/bar";
+import theme from "app/theme";
 
 interface Props {
   value?: LengthGroup[];
@@ -58,6 +61,46 @@ export const LengthGroupFilter: FC<Props> = (props) => {
           })}
         </Grid>
       </FormGroup>
+      <Box sx={{ height: "100px" }}>
+        <ResponsiveBar
+          data={[
+            { lengthGroup: "1", value: 1000 },
+            { lengthGroup: "2", value: 500 },
+          ].sort((a, b) => a.value - b.value)}
+          layout="horizontal"
+          indexBy={(index) => index.value.toString()}
+          label={(label) => label.data.lengthGroup}
+          valueScale={{ type: "linear" }}
+          enableGridY={false}
+          animate={false}
+          tooltip={() => <></>}
+          colors={[theme.palette.text.secondary]}
+          axisRight={{
+            tickSize: 0,
+            tickPadding: 15,
+            tickRotation: 0,
+          }}
+          margin={{
+            right: 45,
+            left: 5,
+          }}
+          onClick={(target) => {
+            console.log(target);
+          }}
+          theme={{
+            axis: {
+              ticks: { text: { fontSize: 13, fill: "white" } },
+            },
+          }}
+          onMouseEnter={(_data, event) => {
+            event.currentTarget.style.fill = "lightgrey";
+            event.currentTarget.style.cursor = "pointer";
+          }}
+          onMouseLeave={(_data, event) => {
+            event.currentTarget.style.fill = theme.palette.text.secondary;
+          }}
+        />
+      </Box>
     </>
   );
 };
