@@ -175,6 +175,80 @@ export type ApiError = typeof ApiError[keyof typeof ApiError];
 /**
  * 
  * @export
+ * @interface Catch
+ */
+export interface Catch {
+    /**
+     * 
+     * @type {number}
+     * @memberof Catch
+     */
+    'gross_weight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Catch
+     */
+    'living_weight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Catch
+     */
+    'product_quality_id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Catch
+     */
+    'product_quality_name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Catch
+     */
+    'product_weight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Catch
+     */
+    'species_id': number;
+}
+/**
+ * 
+ * @export
+ * @interface Delivery
+ */
+export interface Delivery {
+    /**
+     * 
+     * @type {Array<Catch>}
+     * @memberof Delivery
+     */
+    'delivered': Array<Catch>;
+    /**
+     * 
+     * @type {number}
+     * @memberof Delivery
+     */
+    'total_gross_weight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Delivery
+     */
+    'total_living_weight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Delivery
+     */
+    'total_product_weight': number;
+}
+/**
+ * 
+ * @export
  * @interface ErrorResponse
  */
 export interface ErrorResponse {
@@ -191,46 +265,6 @@ export interface ErrorResponse {
      */
     'error': ApiError;
 }
-
-
-/**
- * 
- * @export
- * @interface ErsVessel
- */
-export interface ErsVessel {
-    /**
-     * 
-     * @type {string}
-     * @memberof ErsVessel
-     */
-    'callSign': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ErsVessel
-     */
-    'name': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof ErsVessel
-     */
-    'registrationId': string | null;
-}
-/**
- * 
- * @export
- * @enum {string}
- */
-
-export const FiskdirVesselNationalityGroup = {
-    Foreign: 'Foreign',
-    Norwegian: 'Norwegian',
-    Test: 'Test'
-} as const;
-
-export type FiskdirVesselNationalityGroup = typeof FiskdirVesselNationalityGroup[keyof typeof FiskdirVesselNationalityGroup];
 
 
 /**
@@ -310,7 +344,7 @@ export interface FiskeridirVessel {
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'nationId': string;
+    'nationId': string | null;
     /**
      * 
      * @type {number}
@@ -545,6 +579,12 @@ export interface Haul {
     'vesselLength': number;
     /**
      * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'vesselLengthGroup': number;
+    /**
+     * 
      * @type {string}
      * @memberof Haul
      */
@@ -617,6 +657,24 @@ export interface HaulsGrid {
      * @memberof HaulsGrid
      */
     'minWeight': number;
+    /**
+     * 
+     * @type {{ [key: string]: number; }}
+     * @memberof HaulsGrid
+     */
+    'weightByGearGroup': { [key: string]: number; };
+    /**
+     * 
+     * @type {{ [key: string]: number; }}
+     * @memberof HaulsGrid
+     */
+    'weightBySpeciesGroup': { [key: string]: number; };
+    /**
+     * 
+     * @type {{ [key: string]: number; }}
+     * @memberof HaulsGrid
+     */
+    'weightByVesselLengthGroup': { [key: string]: number; };
 }
 /**
  * 
@@ -749,6 +807,24 @@ export interface SpeciesMainGroup {
 export interface Trip {
     /**
      * 
+     * @type {{ [key: string]: Delivery; }}
+     * @memberof Trip
+     */
+    'deliveredPerDeliveryPoint': { [key: string]: Delivery; };
+    /**
+     * 
+     * @type {Delivery}
+     * @memberof Trip
+     */
+    'delivery': Delivery;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Trip
+     */
+    'deliveryPointIds': Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof Trip
      */
@@ -758,7 +834,43 @@ export interface Trip {
      * @type {string}
      * @memberof Trip
      */
+    'endPortId': string | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof Trip
+     */
+    'gearIds': Array<number>;
+    /**
+     * 
+     * @type {Array<Haul>}
+     * @memberof Trip
+     */
+    'hauls': Array<Haul>;
+    /**
+     * 
+     * @type {string}
+     * @memberof Trip
+     */
+    'mostRecentDeliveryDate': string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Trip
+     */
+    'numDeliveries': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Trip
+     */
     'start': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Trip
+     */
+    'startPortId': string | null;
     /**
      * 
      * @type {number}
@@ -780,22 +892,10 @@ export interface Vessel {
     'ais': AisVessel | null;
     /**
      * 
-     * @type {ErsVessel}
-     * @memberof Vessel
-     */
-    'ers': ErsVessel | null;
-    /**
-     * 
      * @type {FiskeridirVessel}
      * @memberof Vessel
      */
-    'fiskeridir': FiskeridirVessel | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof Vessel
-     */
-    'id': number;
+    'fiskeridir': FiskeridirVessel;
 }
 /**
  * 
@@ -835,10 +935,10 @@ export interface WhaleCatch {
     'fetusLength': number | null;
     /**
      * 
-     * @type {WhaleGender}
+     * @type {number}
      * @memberof WhaleCatch
      */
-    'genderId': WhaleGender | null;
+    'genderId': number | null;
     /**
      * 
      * @type {string}
@@ -858,20 +958,6 @@ export interface WhaleCatch {
      */
     'length': number | null;
 }
-/**
- * 
- * @export
- * @enum {string}
- */
-
-export const WhaleGender = {
-    Male: 'Male',
-    Female: 'Female'
-} as const;
-
-export type WhaleGender = typeof WhaleGender[keyof typeof WhaleGender];
-
-
 
 /**
  * V1aisApi - axios parameter creator
