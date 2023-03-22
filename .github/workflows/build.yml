@@ -23,7 +23,9 @@ jobs:
         fhf-datafangst-client
       object: '{
            "fhf-datafangst-client" : {
+              "aks-path" : "apps/base/fhf-datafangst",
               "dockerfile" : "dockerfiles/fhf-datafangst-client/Dockerfile",
               "registry" : "ghcr.io/orcalabs/fhf-datafangst/fhf-datafangst-client"
            }
         }'
+      aks-repo: orcalabs/aks
