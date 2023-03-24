@@ -2,12 +2,12 @@ import { Gear, GearGroup, GearMainGroup } from "generated/openapi";
 
 export interface GearState {
   gears: Record<number, Gear>;
-  gearGroups: GearGroup[];
+  gearGroups: Record<number, GearGroup>;
   gearMainGroups: GearMainGroup[];
 }
 
 export const initialGearState: GearState = {
   gears: {},
-  gearGroups: [],
+  gearGroups: {},
   gearMainGroups: [],
 };

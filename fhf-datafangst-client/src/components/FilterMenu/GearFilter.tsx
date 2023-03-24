@@ -1,15 +1,8 @@
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { GearGroup } from "generated/openapi";
 import { FC } from "react";
-import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
-import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
-import { selectGearGroups, useAppSelector } from "store";
+import { selectGearFilterStats, selectGearGroups, useAppSelector } from "store";
+import { Bar } from "./Bar";
 
 interface Props {
   value?: GearGroup[];
@@ -18,45 +11,63 @@ interface Props {
 
 export const GearFilter: FC<Props> = (props) => {
   const gearGroups = useAppSelector(selectGearGroups);
+  const gearFilterStats = useAppSelector(selectGearFilterStats);
   const value = props.value ?? [];
   const onChange = (value: GearGroup[]) =>
     props.onChange(value.length ? value : undefined);
+
+  const total: number = gearFilterStats.reduce((acc: number, obj) => {
+    return acc + obj.value;
+  }, 0);
+
+  const handleClick = (id: number) => {
+    const gearGroup = gearGroups[id];
+    if (gearGroup) {
+      if (value.some((gearGroup) => gearGroup.id === id)) {
+        onChange(value.filter((lg) => lg.id !== id));
+      } else {
+        onChange([...value, gearGroup]);
+      }
+    }
+  };
+
+  if (!gearFilterStats.length) {
+    return <></>;
+  }
 
   return (
     <>
       <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
         Redskap
       </Typography>
-      <FormGroup>
-        <Grid container rowSpacing={0.1} columnSpacing={1} width={"100%"}>
-          {gearGroups.map((val, i) => {
+      <Box>
+        {[...gearFilterStats]
+          .sort((a, b) => b.value - a.value)
+          .map((val, i) => {
+            const barLength = (val.value / total) * 100;
+
             return (
-              <Grid key={i} item xs={6}>
-                <FormControlLabel
-                  sx={{ "& .MuiCheckbox-root": { borderRadius: 0 } }}
-                  label={val.name}
-                  control={
-                    <Checkbox
-                      checkedIcon={<CheckBoxSharpIcon />}
-                      icon={<CheckBoxOutlineBlankSharpIcon />}
-                      size="small"
-                      name={val.name}
-                      checked={value.some((gear) => gear.id === val.id)}
-                      onChange={(_, checked) =>
-                        onChange(
-                          checked
-                            ? [...value, val]
-                            : value.filter((g) => g.id !== val.id),
-                        )
-                      }
-                    />
-                  }
+              <Box
+                key={i}
+                sx={{
+                  ":hover": {
+                    cursor: "pointer",
+                  },
+                }}
+                onClick={() => handleClick(val.id)}
+              >
+                <Bar
+                  length={barLength}
+                  label={gearGroups[val.id].name}
+                  value={val.value}
+                  selected={value.some(
+                    (lengthGroup) => lengthGroup.id === val.id,
+                  )}
                 />
-              </Grid>
+              </Box>
             );
           })}
-        </Grid>
-      </FormGroup>
+      </Box>
     </>
   );
 };

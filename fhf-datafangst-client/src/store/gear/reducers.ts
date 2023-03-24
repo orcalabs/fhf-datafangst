@@ -14,7 +14,11 @@ export const gearBuilder = (
       }
     })
     .addCase(getGearGroups.fulfilled, (state, action) => {
-      state.gearGroups = action.payload;
+      const gearGroups = action.payload;
+      state.gearGroups = {};
+      for (const gg of gearGroups) {
+        state.gearGroups[gg.id] = gg;
+      }
     })
     .addCase(getGearMainGroups.fulfilled, (state, action) => {
       state.gearMainGroups = action.payload;
