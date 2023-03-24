@@ -14,7 +14,7 @@ export const Bar: FC<Props> = (props) => {
 
   return (
     <Box sx={{ display: "flex", mb: 1 }}>
-      <Box sx={{ width: 100, fontSize: 13 }}>{label}</Box>
+      <Box sx={{ width: 120, fontSize: 13 }}>{label}</Box>
       <Box
         sx={{
           width: "100%",
