@@ -24,11 +24,15 @@ export interface LengthGroup {
   min: number;
   max: number;
 }
+export const LengthGroupCodes: Record<number, LengthGroup> = {
+  1: { id: 1, name: "Under 11m", min: 0, max: 11 },
+  2: { id: 2, name: "11-14.9m", min: 11, max: 15 },
+  3: { id: 3, name: "15-20.9m", min: 15, max: 21 },
+  4: { id: 4, name: "21-27.9m", min: 21, max: 28 },
+  5: { id: 5, name: "Over 28m", min: 28, max: Infinity },
+};
 
-export const LengthGroupCodes: LengthGroup[] = [
-  { name: "Under 11m", id: 1, min: 0, max: 11 },
-  { name: "11-14.9m", id: 2, min: 11, max: 15 },
-  { name: "15-20.9m", id: 3, min: 15, max: 21 },
-  { name: "21-27.9m", id: 4, min: 21, max: 28 },
-  { name: "Over 28m", id: 5, min: 28, max: Infinity },
-];
+export interface FilterStats {
+  id: number;
+  value: number;
+}
