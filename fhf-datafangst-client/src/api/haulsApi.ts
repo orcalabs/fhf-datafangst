@@ -45,6 +45,13 @@ const createVesselLengthQueryString = (vesselLengthRanges?: LengthGroup[]) => {
     } else {
       res += "[" + l.min.toString() + "," + l.max.toString() + ")";
     }
+
+    res += ";";
+  }
+
+  // Remove last semicolon
+  if (res.length) {
+    res = res.slice(0, -1);
   }
 
   return res;
