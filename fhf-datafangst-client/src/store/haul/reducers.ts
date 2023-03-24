@@ -38,6 +38,25 @@ export const haulBuilder = (
     })
     .addCase(getHaulsGrid.fulfilled, (state, action) => {
       state.haulsGrid = action.payload;
+
+      state.gearFilterStats = Object.entries(
+        action.payload.weightByGearGroup,
+      ).map(([key, val]) => {
+        return { id: Number(key), value: val };
+      });
+
+      state.specieFilterStats = Object.entries(
+        action.payload.weightBySpeciesGroup,
+      ).map(([key, val]) => {
+        return { id: Number(key), value: val };
+      });
+
+      state.vesselLengthStats = Object.entries(
+        action.payload.weightByVesselLengthGroup,
+      ).map(([key, val]) => {
+        return { id: Number(key), value: val };
+      });
+
       state.haulsGridLoading = false;
     })
     .addCase(getHaulsGrid.rejected, (state, _) => {
