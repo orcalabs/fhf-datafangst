@@ -35,3 +35,18 @@ export const selectSelectedHaul = createSelector(
   selectAppState,
   (state) => state.selectedHaul,
 );
+
+export const selectGearFilterStats = createSelector(
+  selectAppState,
+  (state) => state.gearFilterStats ?? [],
+);
+
+export const selectSpeciesFilterStats = createSelector(
+  selectAppState,
+  (state) => state.specieFilterStats ?? [],
+);
+
+export const selectVesselLengthFilterStats = createSelector(
+  selectAppState,
+  (state) => state.vesselLengthStats ?? [],
+);
