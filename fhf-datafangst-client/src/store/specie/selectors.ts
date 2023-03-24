@@ -16,10 +16,9 @@ export const selectSpeciesFiskeridir = createSelector(
   (state) => state.speciesFiskeridir,
 );
 
-export const selectSpeciesGroups = createSelector(selectAppState, (state) =>
-  Object.values(state.speciesGroups).sort((a, b) =>
-    a.name.localeCompare(b.name, "no"),
-  ),
+export const selectSpeciesGroups = createSelector(
+  selectAppState,
+  (state) => state.speciesGroups,
 );
 
 export const selectSpeciesMainGroups = createSelector(selectAppState, (state) =>
