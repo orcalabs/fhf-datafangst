@@ -27,7 +27,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
     dispatch(checkLoggedIn());
     dispatch(
       setHaulsSearch({
-        months: [getMonth(new Date()) + 1],
+        months: [getMonth(new Date())],
         years: [getYear(new Date())],
       }),
     );
