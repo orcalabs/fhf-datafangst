@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import theme from "app/theme";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface Props {
   length: number;
@@ -11,6 +11,7 @@ interface Props {
 
 export const Bar: FC<Props> = (props) => {
   const { length, label, value, selected } = props;
+  const [hovering, setHovering] = useState(false);
 
   return (
     <Box sx={{ display: "flex", mb: 1 }}>
@@ -25,6 +26,8 @@ export const Bar: FC<Props> = (props) => {
         }}
       >
         <Box
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
           sx={{
             position: "absolute",
             fontSize: 13,
@@ -36,7 +39,11 @@ export const Bar: FC<Props> = (props) => {
             left: 0,
           }}
         >
-          {value}
+          {hovering
+            ? value
+            : length < 1
+            ? length.toPrecision(1) + "%"
+            : length.toFixed(1).toString() + "%"}
         </Box>
         <Box
           sx={{
