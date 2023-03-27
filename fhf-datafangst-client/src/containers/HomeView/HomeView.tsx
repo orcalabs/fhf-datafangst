@@ -78,6 +78,7 @@ const MenuArea = (props: any) => (
       gridRowEnd: 3,
       display: "flex",
       flexDirection: "column",
+      overflowY: "auto",
     }}
   >
     {props.children}
