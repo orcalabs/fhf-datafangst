@@ -9,7 +9,6 @@ import { initialTripState, TripState } from "./trip";
 export enum ViewMode {
   Grid = "grid",
   Heatmap = "heatmap",
-  Hauls = "hauls",
 }
 
 export interface BaseState {

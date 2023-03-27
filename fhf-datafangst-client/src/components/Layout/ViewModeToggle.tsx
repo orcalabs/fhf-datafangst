@@ -58,7 +58,6 @@ export const ViewModeToggle: FC = () => {
       >
         <ToggleButton value={ViewMode.Grid}>Grid</ToggleButton>
         <ToggleButton value={ViewMode.Heatmap}>Heatmap</ToggleButton>
-        <ToggleButton value={ViewMode.Hauls}>Hal</ToggleButton>
       </ToggleButtonGroup>
     </Box>
   );
