@@ -7,6 +7,7 @@ import {
 } from "store";
 import { SpeciesGroup } from "generated/openapi";
 import { Bar } from "./Bar";
+import { FilterStats } from "models";
 
 interface Props {
   value?: SpeciesGroup[];
@@ -21,9 +22,12 @@ export const SpecieFilter: FC<Props> = (props) => {
   const onChange = (value: SpeciesGroup[]) =>
     props.onChange(value.length ? value : undefined);
 
-  const total: number = speciesFilterStats.reduce((acc: number, obj) => {
-    return acc + obj.value;
-  }, 0);
+  const total: number = speciesFilterStats.reduce(
+    (acc: number, obj: FilterStats) => {
+      return acc + obj.value;
+    },
+    0,
+  );
 
   const handleClick = (id: number) => {
     const speciesGroup = speciesGroups[id];

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
-import { LengthGroup, LengthGroupCodes } from "models";
+import { FilterStats, LengthGroup, LengthGroupCodes } from "models";
 import { selectVesselLengthFilterStats, useAppSelector } from "store";
 import { Bar } from "./Bar";
 
@@ -13,9 +13,12 @@ export const LengthGroupFilter: FC<Props> = (props) => {
   const value = props.value ?? [];
   const vesselLengthStats = useAppSelector(selectVesselLengthFilterStats);
 
-  const total: number = vesselLengthStats.reduce((acc: number, obj) => {
-    return acc + obj.value;
-  }, 0);
+  const total: number = vesselLengthStats.reduce(
+    (acc: number, obj: FilterStats) => {
+      return acc + obj.value;
+    },
+    0,
+  );
 
   const onChange = (value: LengthGroup[]) =>
     props.onChange(value.length ? value : undefined);
