@@ -13,11 +13,6 @@ export enum Months {
   December,
 }
 
-export interface YearsMonths {
-  years: number[];
-  months: number[];
-}
-
 export interface LengthGroup {
   id: number;
   name: string;
