@@ -13,6 +13,11 @@ export const selectViewMode = createSelector(
   (state) => state.viewMode,
 );
 
+export const selectIsLoggedIn = createSelector(
+  selectAppState,
+  (state) => state.isLoggedIn,
+);
+
 export const selectHaulsMenuOpen = createSelector(
   selectAppState,
   (state) => state.selectedGrids.length > 0,

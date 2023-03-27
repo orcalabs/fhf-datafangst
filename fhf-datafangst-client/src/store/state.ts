@@ -15,11 +15,13 @@ export enum ViewMode {
 export interface BaseState {
   error: boolean;
   viewMode: ViewMode;
+  isLoggedIn: boolean;
 }
 
 const initialBaseState: BaseState = {
   error: false,
   viewMode: ViewMode.Grid,
+  isLoggedIn: false,
 };
 
 export interface AppState

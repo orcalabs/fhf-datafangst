@@ -5,3 +5,4 @@
 !tsconfig.json
 !env
 !env.production
+!config-override.js

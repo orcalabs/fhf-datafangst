@@ -1,7 +1,17 @@
-import { AppBar, Link, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Link, Toolbar, Typography } from "@mui/material";
 import { FC } from "react";
+import {
+  login,
+  logout,
+  selectIsLoggedIn,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 
 export const Header: FC = () => {
+  const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector(selectIsLoggedIn);
+
   return (
     <AppBar
       position="fixed"
@@ -12,9 +22,12 @@ export const Header: FC = () => {
         "& .MuiToolbar-root": { paddingLeft: 0, justifyContent: "center" },
       }}
     >
-      <Toolbar variant="dense">
+      <Toolbar
+        variant="dense"
+        sx={{ display: "grid", gridTemplateColumns: "1fr auto 1fr" }}
+      >
         <Link
-          sx={{ maxHeight: 50 }}
+          sx={{ maxHeight: 50, gridColumn: 2 }}
           underline="none"
           href={window.location.origin}
         >
@@ -22,6 +35,14 @@ export const Header: FC = () => {
             DataFangst
           </Typography>
         </Link>
+        <Box
+          sx={{ cursor: "pointer", gridColumn: 3, justifySelf: "end" }}
+          onClick={() => {
+            loggedIn ? dispatch(logout()) : dispatch(login());
+          }}
+        >
+          {loggedIn ? "Log out" : "Log in"}
+        </Box>
       </Toolbar>
     </AppBar>
   );
