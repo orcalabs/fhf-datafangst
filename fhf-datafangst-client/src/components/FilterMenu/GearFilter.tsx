@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { GearGroup } from "generated/openapi";
+import { FilterStats } from "models";
 import { FC } from "react";
 import { selectGearFilterStats, selectGearGroups, useAppSelector } from "store";
 import { Bar } from "./Bar";
@@ -16,9 +17,12 @@ export const GearFilter: FC<Props> = (props) => {
   const onChange = (value: GearGroup[]) =>
     props.onChange(value.length ? value : undefined);
 
-  const total: number = gearFilterStats.reduce((acc: number, obj) => {
-    return acc + obj.value;
-  }, 0);
+  const total: number = gearFilterStats.reduce(
+    (acc: number, obj: FilterStats) => {
+      return acc + obj.value;
+    },
+    0,
+  );
 
   const handleClick = (id: number) => {
     const gearGroup = gearGroups[id];
