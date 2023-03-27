@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect } from "react";
 import { Box } from "@mui/system";
 import {
+  checkLoggedIn,
   getGear,
   getGearGroups,
   getGearMainGroups,
@@ -23,6 +24,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(checkLoggedIn());
     dispatch(
       setHaulsSearch({
         months: [getMonth(new Date()) + 1],

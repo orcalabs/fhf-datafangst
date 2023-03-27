@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
 import { AppState, initialAppState } from "./state";
-import { resetState, setError, setViewMode } from "./actions";
+import { checkLoggedIn, resetState, setError, setViewMode } from "./actions";
 import { fishmapBuilder } from "./fishmap";
 import { vesselBuilder } from "./vessel";
 import { specieBuilder } from "./specie";
@@ -43,6 +43,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     })
     .addCase(setViewMode, (state, action) => {
       state.viewMode = action.payload;
+    })
+    .addCase(checkLoggedIn.fulfilled, (state, action) => {
+      state.isLoggedIn = action.payload;
     })
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 
