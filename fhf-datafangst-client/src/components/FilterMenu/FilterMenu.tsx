@@ -11,6 +11,7 @@ import { MonthsFilter } from "./MonthsFilter";
 import { SpecieFilter } from "./SpecieFilter";
 import { LengthGroupFilter } from "./LengthGroupFilter";
 import { YearsFilter } from "./YearsFilter";
+import { VesselFilter } from "./VesselFilter";
 
 export const FilterMenu: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsSearch);
@@ -70,13 +71,6 @@ export const FilterMenu: FC = () => {
             </Box>
           </Box>
         </Box>
-        {/* <VesselFilter
-          value={haulsSearch?.vessel}
-          onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, vessel: value }))
-          }
-          useVirtualization
-        /> */}
         <GearFilter
           value={haulsSearch?.gearGroupIds}
           onChange={(value) =>
@@ -96,6 +90,13 @@ export const FilterMenu: FC = () => {
               setHaulsSearch({ ...haulsSearch, vesselLengthRanges: value }),
             )
           }
+        />
+        <VesselFilter
+          value={haulsSearch?.vessels}
+          onChange={(value) =>
+            dispatch(setHaulsSearch({ ...haulsSearch, vessels: value }))
+          }
+          useVirtualization
         />
       </Drawer>
     </Box>

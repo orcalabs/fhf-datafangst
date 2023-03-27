@@ -3,19 +3,20 @@ import theme from "app/theme";
 import { ListboxComponent, StyledPopper } from "components";
 import { Vessel } from "generated/openapi";
 import { FC, useMemo } from "react";
-import { selectVessels, useAppSelector } from "store";
+import { selectVesselsByFiskeridirId, useAppSelector } from "store";
 import { toTitleCase } from "utils";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 interface Props {
-  value?: Vessel;
-  onChange: (vessel?: Vessel) => void;
+  value?: Vessel[];
+  onChange: (vessel?: Vessel[]) => void;
   useVirtualization?: boolean;
 }
 
 export const VesselFilter: FC<Props> = (props) => {
   const { value, onChange, useVirtualization } = props;
-  const vesselsMap = useAppSelector(selectVessels);
+  const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const vessels = Object.values(vesselsMap);
   const options = useMemo(
     () =>
@@ -44,25 +45,32 @@ export const VesselFilter: FC<Props> = (props) => {
           },
         }}
         size="small"
+        multiple
+        limitTags={3}
+        ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         PopperComponent={StyledPopper}
         ListboxComponent={useVirtualization ? ListboxComponent : undefined}
         disablePortal
         disableListWrap
         onKeyDown={(e) => e.stopPropagation()}
-        value={value ?? null}
-        onChange={(_: any, vessel: Vessel | null) =>
-          onChange(vessel ?? undefined)
+        value={value ?? []}
+        onChange={(_: any, vessels: Vessel[] | null) =>
+          onChange(vessels?.length ? vessels : undefined)
         }
         options={options}
         getOptionLabel={(option: Vessel) =>
           toTitleCase(option?.fiskeridir?.name ?? "Ukjent")
         }
         renderInput={(params: any) => <TextField {...params} />}
-        renderOption={(props: any, option: any) => (
+        renderOption={(props: any, option: Vessel) => (
           <li
             {...props}
             key={option.fiskeridir.id}
-            title={option.fiskeridir.name.length > 31 ? option.name : undefined}
+            title={
+              option.fiskeridir.name && option.fiskeridir.name.length > 31
+                ? option.fiskeridir.name
+                : undefined
+            }
           >
             <Box sx={{ display: "flex" }}>
               <Box
