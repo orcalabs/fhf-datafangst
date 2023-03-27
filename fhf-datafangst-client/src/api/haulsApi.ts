@@ -1,11 +1,12 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 import { setMonth, setYear } from "date-fns";
-import { GearGroup, SpeciesGroup, V1haulApi } from "generated/openapi";
+import { GearGroup, SpeciesGroup, V1haulApi, Vessel } from "generated/openapi";
 import { LengthGroup } from "models";
 
 export interface HaulsArgs {
   years?: number[];
   months?: number[];
+  vessels?: Vessel[];
   catchLocations?: string[];
   gearGroupIds?: GearGroup[];
   speciesGroupIds?: SpeciesGroup[];
@@ -67,6 +68,9 @@ export const getHauls = async (query: HaulsArgs) =>
             .map((g) => g.toISOString())
             .toString()
         : undefined,
+      fiskeridirVesselIds: query.vessels
+        ?.map((v) => v.fiskeridir.id)
+        .toString(),
       catchLocations: query.catchLocations?.join(","),
       gearGroupIds: query.gearGroupIds?.map((g) => g.id).toString(),
       speciesGroupIds: query.speciesGroupIds?.map((g) => g.id).toString(),
@@ -84,6 +88,9 @@ export const getHaulsGrid = async (query: HaulsArgs) =>
             .map((g) => g.toISOString())
             .toString()
         : undefined,
+      fiskeridirVesselIds: query.vessels
+        ?.map((v) => v.fiskeridir.id)
+        .toString(),
       catchLocations: query.catchLocations?.join(","),
       gearGroupIds: query.gearGroupIds?.map((g) => g.id).toString(),
       speciesGroupIds: query.speciesGroupIds?.map((g) => g.id).toString(),
