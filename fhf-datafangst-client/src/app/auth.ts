@@ -1,12 +1,14 @@
 import { AuthService } from "react-oauth2-pkce";
 
+const barentswatch = process.env.REACT_APP_BARENTSWATCH_AUTH as string;
+
 const authService = new AuthService({
   clientId: "fhf-datafangst",
   location: window.location,
-  provider: "https://id.barentswatch.net",
-  authorizeEndpoint: "https://id.barentswatch.net/connect/authorize",
-  logoutEndpoint: "https://id.barentswatch.net/connect/endsession",
-  tokenEndpoint: "https://id.barentswatch.net/connect/token",
+  provider: barentswatch,
+  authorizeEndpoint: barentswatch + "/connect/authorize",
+  logoutEndpoint: barentswatch + "/connect/endsession",
+  tokenEndpoint: barentswatch + "/connect/token",
   redirectUri: window.location.origin,
   autoRefresh: true,
   scopes: ["openid", "api"],
