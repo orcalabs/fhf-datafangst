@@ -837,6 +837,12 @@ export interface Trip {
     'endPortId'?: string | null;
     /**
      * 
+     * @type {number}
+     * @memberof Trip
+     */
+    'fiskeridirVesselId': number;
+    /**
+     * 
      * @type {Array<number>}
      * @memberof Trip
      */
