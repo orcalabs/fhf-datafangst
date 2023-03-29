@@ -62,7 +62,7 @@ export const GearFilter: FC<Props> = (props) => {
               >
                 <Bar
                   length={barLength}
-                  label={gearGroups[val.id].name}
+                  label={gearGroups[val.id]?.name}
                   value={val.value}
                   selected={value.some(
                     (lengthGroup) => lengthGroup.id === val.id,

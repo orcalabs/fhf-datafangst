@@ -67,7 +67,7 @@ export const SpecieFilter: FC<Props> = (props) => {
               >
                 <Bar
                   length={barLength}
-                  label={speciesGroups[val.id].name}
+                  label={speciesGroups[val.id]?.name}
                   value={val.value}
                   selected={value.some(
                     (lengthGroup) => lengthGroup.id === val.id,
