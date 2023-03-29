@@ -165,6 +165,7 @@ export interface AisVessel {
  */
 
 export const ApiError = {
+    InvalidCallSign: 'InvalidCallSign',
     InvalidDateRange: 'InvalidDateRange',
     InternalServerError: 'InternalServerError'
 } as const;
@@ -183,37 +184,37 @@ export interface Catch {
      * @type {number}
      * @memberof Catch
      */
-    'gross_weight': number;
+    'grossWeight': number;
     /**
      * 
      * @type {number}
      * @memberof Catch
      */
-    'living_weight': number;
+    'livingWeight': number;
     /**
      * 
      * @type {number}
      * @memberof Catch
      */
-    'product_quality_id': number;
+    'productQualityId': number;
     /**
      * 
      * @type {string}
      * @memberof Catch
      */
-    'product_quality_name': string;
+    'productQualityName': string;
     /**
      * 
      * @type {number}
      * @memberof Catch
      */
-    'product_weight': number;
+    'productWeight': number;
     /**
      * 
      * @type {number}
      * @memberof Catch
      */
-    'species_id': number;
+    'speciesFiskeridirId': number;
 }
 /**
  * 
@@ -232,19 +233,19 @@ export interface Delivery {
      * @type {number}
      * @memberof Delivery
      */
-    'total_gross_weight': number;
+    'totalGrossWeight': number;
     /**
      * 
      * @type {number}
      * @memberof Delivery
      */
-    'total_living_weight': number;
+    'totalLivingWeight': number;
     /**
      * 
      * @type {number}
      * @memberof Delivery
      */
-    'total_product_weight': number;
+    'totalProductWeight': number;
 }
 /**
  * 
@@ -619,19 +620,7 @@ export interface HaulCatch {
      * @type {number}
      * @memberof HaulCatch
      */
-    'mainSpeciesFiskeridirId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof HaulCatch
-     */
-    'speciesFiskeridirId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof HaulCatch
-     */
-    'speciesGroupId'?: number | null;
+    'speciesFiskeridirId': number;
 }
 /**
  * 
@@ -902,6 +891,43 @@ export interface Vessel {
      * @memberof Vessel
      */
     'fiskeridir': FiskeridirVessel;
+}
+/**
+ * 
+ * @export
+ * @interface VmsPosition
+ */
+export interface VmsPosition {
+    /**
+     * 
+     * @type {number}
+     * @memberof VmsPosition
+     */
+    'course'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof VmsPosition
+     */
+    'lat': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof VmsPosition
+     */
+    'lon': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof VmsPosition
+     */
+    'speed'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof VmsPosition
+     */
+    'timestamp': string;
 }
 /**
  * 
@@ -2163,6 +2189,151 @@ export class V1vesselApi extends BaseAPI {
      */
     public vessels(options?: AxiosRequestConfig) {
         return V1vesselApiFp(this.configuration).vessels(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * V1vmsApi - axios parameter creator
+ * @export
+ */
+export const V1vmsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} callSign 
+         * @param {string} [start] 
+         * @param {string} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        vmsPositions: async (callSign: string, start?: string, end?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'callSign' is not null or undefined
+            assertParamExists('vmsPositions', 'callSign', callSign)
+            const localVarPath = `/v1.0/vms/{call_sign}`
+                .replace(`{${"call_sign"}}`, encodeURIComponent(String(callSign)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1vmsApi - functional programming interface
+ * @export
+ */
+export const V1vmsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1vmsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} callSign 
+         * @param {string} [start] 
+         * @param {string} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async vmsPositions(callSign: string, start?: string, end?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<VmsPosition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.vmsPositions(callSign, start, end, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1vmsApi - factory interface
+ * @export
+ */
+export const V1vmsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1vmsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {V1vmsApiVmsPositionsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        vmsPositions(requestParameters: V1vmsApiVmsPositionsRequest, options?: AxiosRequestConfig): AxiosPromise<Array<VmsPosition>> {
+            return localVarFp.vmsPositions(requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for vmsPositions operation in V1vmsApi.
+ * @export
+ * @interface V1vmsApiVmsPositionsRequest
+ */
+export interface V1vmsApiVmsPositionsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1vmsApiVmsPositions
+     */
+    readonly callSign: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1vmsApiVmsPositions
+     */
+    readonly start?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1vmsApiVmsPositions
+     */
+    readonly end?: string
+}
+
+/**
+ * V1vmsApi - object-oriented interface
+ * @export
+ * @class V1vmsApi
+ * @extends {BaseAPI}
+ */
+export class V1vmsApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1vmsApiVmsPositionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1vmsApi
+     */
+    public vmsPositions(requestParameters: V1vmsApiVmsPositionsRequest, options?: AxiosRequestConfig) {
+        return V1vmsApiFp(this.configuration).vmsPositions(requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
