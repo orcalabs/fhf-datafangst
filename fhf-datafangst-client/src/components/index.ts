@@ -19,3 +19,4 @@ export { AisLayer } from "./Layers/AisLayer";
 export { PositionPopover } from "./Map/PositionPopover";
 export { ShorelinePopover } from "./Map/ShorelinePopover";
 export { HaulPopover } from "./Map/HaulPopover";
+export { TripsMenu } from "./TripsMenu/TripsMenu";

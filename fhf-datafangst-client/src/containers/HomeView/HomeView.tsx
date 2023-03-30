@@ -13,15 +13,18 @@ import {
   LoadingScreen,
   HaulsMenu,
   AisLayer,
+  TripsMenu,
 } from "components";
 import { FC, useEffect, useState } from "react";
 import {
   getHauls,
+  selectAisLoading,
   selectAisMissing,
   selectHaulsGridLoading,
   selectHaulsMenuOpen,
   selectHaulsSearch,
   selectSelectedGridsString,
+  selectSelectedHaulTrip,
   selectViewMode,
   useAppDispatch,
   useAppSelector,
@@ -45,7 +48,7 @@ const GridContainer = (props: any) => (
     sx={{
       display: "grid",
       gridTemplateColumns:
-        "clamp(500px, 20%, 600px) 1fr clamp(300px, 20%, 400px)",
+        "clamp(500px, 20%, 600px) 1fr clamp(320px, 20%, 420px)",
       gridTemplateRows: "49px 1fr",
       position: "absolute",
       width: "100%",
@@ -125,6 +128,8 @@ export const HomeView: FC = () => {
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsSearch);
+  const selectedTrip = useAppSelector(selectSelectedHaulTrip);
+  const aisLoading = useAppSelector(selectAisLoading);
 
   // Fetch hauls for selected grid
   useEffect(() => {
@@ -151,7 +156,14 @@ export const HomeView: FC = () => {
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
         <HaulMenuArea>
-          <HaulsMenu />
+          <Box sx={{ display: "grid", height: "100%" }}>
+            <Box sx={{ gridRow: 1, gridColumn: 1 }}>
+              <HaulsMenu />
+            </Box>
+            <Box sx={{ gridRow: 1, gridColumn: 1 }}>
+              {selectedTrip && <TripsMenu />}
+            </Box>
+          </Box>
         </HaulMenuArea>
       </GridContainer>
       <Map>
@@ -163,7 +175,7 @@ export const HomeView: FC = () => {
         <AisLayer />
       </Map>
       <ViewModeToggle />
-      <LoadingScreen open={haulsLoading} />
+      <LoadingScreen open={haulsLoading || aisLoading} />
       <Box
         sx={{
           "& .MuiSnackbar-anchorOriginTopCenter": { top: 60 },

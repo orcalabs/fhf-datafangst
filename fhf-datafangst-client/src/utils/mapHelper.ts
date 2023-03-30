@@ -13,7 +13,7 @@ import ColorScale from "color-scales";
 import {
   differenceMinutes,
   findHighestHaulCatchWeight,
-  sumHaulCatches,
+  sumCatches,
 } from "utils";
 import { Track } from "models";
 import theme from "app/theme";
@@ -84,7 +84,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
 
   for (let i = 0; i < hauls.length; i++) {
     const haul = hauls[i];
-    const sum = sumHaulCatches(haul.catches);
+    const sum = sumCatches(haul.catches);
     const haulFeature = new Feature({
       geometry: new Point(
         fromLonLat([haul.startLongitude, haul.startLatitude]),
@@ -122,7 +122,7 @@ export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
       geometry: new Point(
         fromLonLat([haul.startLongitude, haul.startLatitude]),
       ),
-      weight: sumHaulCatches(haul.catches),
+      weight: sumCatches(haul.catches),
     });
 
     heatmapVector.addFeature(haulFeature);
@@ -267,7 +267,7 @@ const lineFeature = (line: LineString): Feature =>
     name: "VesselLine",
   });
 
-export const generateHaulTravelVector = (
+export const generateVesselTrackVector = (
   ais: Track | undefined,
   zoomLevel: number | undefined,
   haul: Haul | undefined,

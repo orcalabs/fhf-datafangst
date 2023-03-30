@@ -3,7 +3,7 @@ import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import {
   dateFormat,
   kilosOrTonsFormatter,
-  sumHaulCatches,
+  sumCatches,
   toTitleCase,
 } from "utils";
 import theme from "app/theme";
@@ -31,9 +31,7 @@ export const HaulPopover: FC<Props> = ({ haul }) => {
             secondary={
               <span>
                 {dateFormat(haul.startTimestamp, "d MMM p")} <br />
-                <span>
-                  {kilosOrTonsFormatter(sumHaulCatches(haul.catches))}
-                </span>
+                <span>{kilosOrTonsFormatter(sumCatches(haul.catches))}</span>
               </span>
             }
             secondaryTypographyProps={{ color: "primary" }}

@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import { VectorLayer } from "components";
-import { generateHaulTravelVector, TravelVector } from "utils";
+import { generateVesselTrackVector, TravelVector } from "utils";
 import {
   selectAis,
   selectFishmapState,
   selectSelectedHaul,
+  selectSelectedHaulTrip,
   useAppSelector,
 } from "store";
 
@@ -12,6 +13,7 @@ export const AisLayer: FC = () => {
   const ais = useAppSelector(selectAis);
   const state = useAppSelector(selectFishmapState);
   const haul = useAppSelector(selectSelectedHaul);
+  const trip = useAppSelector(selectSelectedHaulTrip);
 
   const [zoom, setZoom] = useState<number | undefined>(
     state.map.getView().getZoom(),
@@ -29,7 +31,9 @@ export const AisLayer: FC = () => {
   }, [state.map]);
 
   useEffect(() => {
-    const vec = generateHaulTravelVector(ais, zoom, haul);
+    const vec = trip
+      ? generateVesselTrackVector(ais, zoom, undefined)
+      : generateVesselTrackVector(ais, zoom, haul);
     setAisVectors(vec);
   }, [ais, zoom]);
 

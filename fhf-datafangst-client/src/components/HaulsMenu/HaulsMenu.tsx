@@ -11,6 +11,7 @@ import {
   ListSubheader,
   Drawer,
   TablePagination,
+  Button,
 } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import {
@@ -18,14 +19,15 @@ import {
   dateFormat,
   distanceFormatter,
   kilosOrTonsFormatter,
-  sumHaulCatches,
+  sumCatches,
 } from "utils";
 import { CatchesTable } from "components";
 import {
+  getHaulTrip,
   selectGears,
-  selectHauls,
   selectHaulsLoading,
   selectHaulsMenuOpen,
+  selectHaulsSorted,
   selectSelectedHaul,
   selectVesselsByHaulId,
   setSelectedHaul,
@@ -37,6 +39,7 @@ import { FishIcon } from "assets/icons";
 import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
+import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 
 const accordionSx = {
   m: 0,
@@ -67,16 +70,17 @@ export const HaulsMenu: FC<Props> = (props) => {
   const open = useAppSelector(selectHaulsMenuOpen);
   const vessels = useAppSelector(selectVesselsByHaulId);
   const gears = useAppSelector(selectGears);
-  const hauls = useAppSelector(selectHauls);
+  const hauls = useAppSelector(selectHaulsSorted);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaulId = useAppSelector(selectSelectedHaul)?.haulId;
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
-  const indexOfLastHaul = currentPage + 1 * haulsPerPage;
-  const indexOfFirstHaul = indexOfLastHaul - haulsPerPage;
-  const currentHauls = hauls.slice(indexOfFirstHaul, indexOfLastHaul);
+  const currentHauls = hauls.slice(
+    currentPage * haulsPerPage,
+    currentPage * haulsPerPage + haulsPerPage,
+  );
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
@@ -159,6 +163,22 @@ export const HaulsMenu: FC<Props> = (props) => {
               Estimert fangst
             </Typography>
             <CatchesTable catches={haul.catches} />
+            <Button
+              size="small"
+              sx={{
+                width: "100%",
+                bgcolor: "secondary.main",
+                px: 2,
+                borderRadius: 0,
+                mt: 1,
+              }}
+              onClick={() => {
+                dispatch(getHaulTrip({ haul }));
+              }}
+              startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
+            >
+              <Typography sx={{ pl: 1, color: "white" }}> Vis tur </Typography>
+            </Button>
           </Box>
         )}
       </AccordionDetails>
@@ -229,7 +249,7 @@ export const HaulsMenu: FC<Props> = (props) => {
                         haul,
                         index,
                         vessels[haul.haulId]?.fiskeridir?.name ?? "Ukjent",
-                        kilosOrTonsFormatter(sumHaulCatches(haul.catches)) +
+                        kilosOrTonsFormatter(sumCatches(haul.catches)) +
                           " - " +
                           dateFormat(haul.startTimestamp, "PPP HH:mm"),
                       ),
