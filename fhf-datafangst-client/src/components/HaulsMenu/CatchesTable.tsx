@@ -12,9 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
-import { kilosOrTonsFormatter, sumHaulCatches } from "utils";
-import { HaulCatch } from "generated/openapi";
+import { kilosOrTonsFormatter, sumCatches } from "utils";
 import { selectSpeciesFiskeridir, useAppSelector } from "store";
+import { Catch } from "models";
+import { HaulCatch } from "generated/openapi";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,7 +44,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 interface Props {
-  catches: HaulCatch[];
+  catches: Catch[] | HaulCatch[];
 }
 
 export const CatchesTable: FC<Props> = (props) => {
@@ -101,7 +102,7 @@ export const CatchesTable: FC<Props> = (props) => {
             <TableRow>
               <StyledTableCell> Totalt: </StyledTableCell>
               <StyledTableCell align="right">
-                {kilosOrTonsFormatter(sumHaulCatches(catches))}
+                {kilosOrTonsFormatter(sumCatches(catches))}
               </StyledTableCell>
             </TableRow>
           </TableFooter>

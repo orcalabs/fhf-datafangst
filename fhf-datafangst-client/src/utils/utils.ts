@@ -5,16 +5,17 @@ import {
   intervalToDuration,
 } from "date-fns";
 import { nb } from "date-fns/locale";
-import { Haul, HaulCatch } from "generated/openapi";
+import { Gear, Haul } from "generated/openapi";
+import { Catch } from "models";
 
 const setCharAt = (str: string, index: number, chr: string) => {
   if (index > str.length - 1) return str;
   return str.substring(0, index) + chr + str.substring(index + 1);
 };
 
-export type IntoDate = Date | number | string;
+type IntoDate = Date | number | string;
 
-export const dateFormat = (d: IntoDate | undefined, f: string) =>
+export const dateFormat = (d: IntoDate | undefined | null, f: string) =>
   d ? format(new Date(d), f, { locale: nb }) : "";
 
 // Special title case formatter, specifically designed to format Vessel
@@ -78,7 +79,7 @@ export const toTitleCase = (name: string | undefined | null) => {
 export const middle = (a: number, b: number, c: number) =>
   a + b + c - Math.max(a, b, c) - Math.min(a, b, c);
 
-export const sumHaulCatches = (catches: HaulCatch[]) => {
+export const sumCatches = (catches: Catch[]) => {
   const res = catches.reduce((sum, curr) => sum + (curr.livingWeight ?? 0), 0);
   return res;
 };
@@ -88,9 +89,9 @@ export const generateColormapFromHauls = (hauls: Haul[]) => {
   for (const haul of hauls) {
     if (haul.catchLocationStart) {
       if (colorMap[haul.catchLocationStart]) {
-        colorMap[haul.catchLocationStart] += sumHaulCatches(haul.catches);
+        colorMap[haul.catchLocationStart] += sumCatches(haul.catches);
       } else {
-        colorMap[haul.catchLocationStart] = sumHaulCatches(haul.catches);
+        colorMap[haul.catchLocationStart] = sumCatches(haul.catches);
       }
     }
   }
@@ -101,20 +102,13 @@ export const generateColormapFromHauls = (hauls: Haul[]) => {
 export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
   let highest = 0;
   for (const haul of hauls) {
-    const sum = sumHaulCatches(haul.catches);
+    const sum = sumCatches(haul.catches);
     if (sum > highest) {
       highest = sum;
     }
   }
 
   return highest;
-};
-
-export const inRange = (val: number, min: number, max: number) => {
-  if (val >= min && val < max) {
-    return true;
-  }
-  return false;
 };
 
 export const distanceFormatter = (distance: number) =>
@@ -165,3 +159,44 @@ export const differenceMinutes = (date1: Date, date2: Date) => {
     return differenceInMinutes(date2, date1);
   }
 };
+
+export const createGearListString = (gears: Gear[]) =>
+  gears.map((g) => g.name).join(", ");
+
+export const reduceHaulsCatches = (
+  hauls: Haul[] | undefined,
+): Record<number, Catch> =>
+  hauls?.reduce((tot: Record<number, Catch>, cur) => {
+    for (const c of cur.catches) {
+      if (c.speciesFiskeridirId) {
+        const x = tot[c.speciesFiskeridirId];
+        if (x) {
+          x.livingWeight += c.livingWeight;
+        } else {
+          tot[c.speciesFiskeridirId] = {
+            speciesFiskeridirId: c.speciesFiskeridirId,
+            livingWeight: c.livingWeight,
+          };
+        }
+      }
+    }
+    return tot;
+  }, {}) ?? {};
+
+export const reduceCatchesOnSpecies = (
+  catches: Catch[],
+): Record<number, Catch> =>
+  catches?.reduce((tot: Record<number, Catch>, cur) => {
+    if (cur.speciesFiskeridirId) {
+      const x = tot[cur.speciesFiskeridirId];
+      if (x) {
+        x.livingWeight += cur.livingWeight;
+      } else {
+        tot[cur.speciesFiskeridirId] = {
+          speciesFiskeridirId: cur.speciesFiskeridirId,
+          livingWeight: cur.livingWeight,
+        };
+      }
+    }
+    return tot;
+  }, {}) ?? {};
