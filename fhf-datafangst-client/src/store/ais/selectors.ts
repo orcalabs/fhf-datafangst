@@ -7,8 +7,3 @@ export const selectAisLoading = createSelector(
 );
 
 export const selectAis = createSelector(selectAppState, (state) => state.ais);
-
-export const selectAisSearch = createSelector(
-  selectAppState,
-  (state) => state.aisSearch,
-);

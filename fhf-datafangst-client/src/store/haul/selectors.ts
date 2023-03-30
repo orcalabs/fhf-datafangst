@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { selectAppState } from "store/selectors";
+import { sumCatches } from "utils";
 
 export const selectHaulsLoading = createSelector(
   selectAppState,
@@ -19,6 +20,12 @@ export const selectHaulsSearch = createSelector(
 export const selectHauls = createSelector(
   selectAppState,
   (state) => state.hauls ?? [],
+);
+
+export const selectHaulsSorted = createSelector(selectHauls, (state) =>
+  Array.from(state).sort(
+    (a, b) => sumCatches(b.catches) - sumCatches(a.catches),
+  ),
 );
 
 export const selectHaulsGrid = createSelector(
