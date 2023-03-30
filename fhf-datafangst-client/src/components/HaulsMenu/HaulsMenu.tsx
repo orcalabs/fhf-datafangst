@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -28,6 +28,7 @@ import {
   selectHaulsLoading,
   selectHaulsMenuOpen,
   selectHaulsSorted,
+  selectSelectedGrids,
   selectSelectedHaul,
   selectVesselsByHaulId,
   setSelectedHaul,
@@ -73,6 +74,7 @@ export const HaulsMenu: FC<Props> = (props) => {
   const hauls = useAppSelector(selectHaulsSorted);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaulId = useAppSelector(selectSelectedHaul)?.haulId;
+  const selectedGrids = useAppSelector(selectSelectedGrids);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -102,6 +104,11 @@ export const HaulsMenu: FC<Props> = (props) => {
     dispatch(setSelectedHaul({ haul: newHaul }));
     onHaulChange?.(newHaul);
   };
+
+  // Reset pagination on new grid selection
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [selectedGrids]);
 
   const listItem = (
     haul: Haul,
@@ -228,7 +235,7 @@ export const HaulsMenu: FC<Props> = (props) => {
                       "& .MuiTablePagination-toolbar": { p: 0 },
                     }}
                     component="div"
-                    count={hauls.length}
+                    count={hauls.length === 0 ? -1 : hauls.length}
                     page={currentPage}
                     onPageChange={handleChangePage}
                     rowsPerPage={haulsPerPage}
