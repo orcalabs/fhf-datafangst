@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import theme from "app/theme";
 import { FC, useState } from "react";
+import { kilosOrTonsFormatter } from "utils";
 
 interface Props {
   length: number;
@@ -40,14 +41,14 @@ export const Bar: FC<Props> = (props) => {
           }}
         >
           {hovering
-            ? value
+            ? kilosOrTonsFormatter(value)
             : length < 1
             ? length.toPrecision(1) + "%"
             : length.toFixed(1).toString() + "%"}
         </Box>
         <Box
           sx={{
-            minWidth: "2%",
+            minWidth: "2px",
             width: length.toString() + "%",
             height: 20,
             bgcolor: selected ? "secondary.main" : "grey",
