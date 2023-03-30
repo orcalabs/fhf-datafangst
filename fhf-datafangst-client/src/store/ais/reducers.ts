@@ -1,7 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getAis, setAisSearch } from "./actions";
+import { getAis, getHaulAis } from "./actions";
 import { AppState } from "store/state";
-import { emptyState } from "store";
 
 export const aisBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -20,9 +19,19 @@ export const aisBuilder = (
     .addCase(getAis.rejected, (state, _) => {
       state.aisLoading = false;
     })
-    .addCase(setAisSearch, (state, action) => ({
-      ...state,
-      ...emptyState,
-      ais: action.payload ? state.ais : undefined,
-      aisSearch: action.payload,
-    }));
+    .addCase(getHaulAis, (state, action) => {
+      const haul = action.payload;
+
+      if (haul && state.vesselsByCallsign) {
+        const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
+        if (vessel?.ais) {
+          (action as any).asyncDispatch(
+            getAis({
+              mmsi: vessel.ais.mmsi,
+              start: haul.startTimestamp,
+              end: haul.stopTimestamp,
+            }),
+          );
+        }
+      }
+    });
