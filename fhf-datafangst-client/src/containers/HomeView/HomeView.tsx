@@ -18,6 +18,7 @@ import {
 import { FC, useEffect, useState } from "react";
 import {
   getHauls,
+  resetState,
   selectAisLoading,
   selectAisMissing,
   selectHaulsGridLoading,
@@ -107,7 +108,7 @@ const HaulMenuArea = (props: any) => (
 const FilterButtonArea = (props: any) => (
   <Box
     sx={{
-      gridColumnStart: props.haulsMenuOpen ? 2 : 2,
+      gridColumnStart: 2,
       gridColumnEnd: props.haulsMenuOpen ? 2 : 4,
       gridRowStart: 2,
       gridRowEnd: 3,
@@ -140,6 +141,8 @@ export const HomeView: FC = () => {
           catchLocations: selectedGrids,
         }),
       );
+    } else {
+      dispatch(resetState);
     }
   }, [dispatch, selectedGrids]);
 

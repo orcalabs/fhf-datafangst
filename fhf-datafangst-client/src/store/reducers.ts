@@ -11,6 +11,7 @@ import { aisBuilder } from "./ais";
 
 export const emptyState = {
   hauls: undefined,
+  haulsByArea: undefined,
   selectedHaul: undefined,
   selectedHaulTrip: undefined,
   selectedGrids: [],

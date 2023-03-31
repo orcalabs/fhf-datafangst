@@ -75,7 +75,7 @@ export const selectedGridBoxStyle = (areaCode: string): Style => {
 };
 
 export const generateHaulsVector = (hauls: Haul[] | undefined) => {
-  if (!hauls) {
+  if (!hauls?.length) {
     return;
   }
 
@@ -109,7 +109,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
 };
 
 export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
-  if (!hauls) {
+  if (!hauls?.length) {
     return;
   }
 
