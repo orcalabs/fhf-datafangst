@@ -1,6 +1,6 @@
 import { HaulState, initialHaulState } from "./haul";
 import { FishmapState, initialFishmapState } from "./fishmap";
-import { initialSpecieState, SpecieState } from "./specie";
+import { initialSpeciesState, SpeciesState } from "./species";
 import { VesselState, initialVesselState } from "./vessel";
 import { GearState, initialGearState } from "./gear";
 import { AisState, initialAisState } from "./ais";
@@ -35,7 +35,7 @@ export interface AppState
     TripState,
     VmsState,
     TrackState,
-    SpecieState {}
+    SpeciesState {}
 
 export const initialAppState: AppState = {
   ...initialBaseState,
@@ -47,5 +47,5 @@ export const initialAppState: AppState = {
   ...initialTripState,
   ...initialVmsState,
   ...initialTrackState,
-  ...initialSpecieState,
+  ...initialSpeciesState,
 };

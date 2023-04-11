@@ -8,7 +8,7 @@ import {
   getSpeciesMainGroups,
 } from ".";
 
-export const specieBuilder = (
+export const speciesBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
 ): ActionReducerMapBuilder<AppState> =>
   builder
