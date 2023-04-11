@@ -30,32 +30,26 @@ export interface TravelVector {
   style: Style;
 }
 
-export const getColorGrade = (
-  colorGrade: number,
-  maxGrade: number,
-  opacity: number,
-) => {
-  const colorScale = new ColorScale(
-    0,
-    maxGrade,
+export const createColorScale = (min: number, max: number, opacity?: number) =>
+  new ColorScale(
+    min,
+    max,
     ["#6A9DB2", "#1b8a5a", "#fbb021", "#f68838", "#ee3e32"],
-    opacity,
+    opacity ?? 0.6,
   );
-
-  return colorScale.getColor(colorGrade).toRGBAString();
-};
 
 export const generateGridBoxStyle = (
   areaCode: string,
   colorGrade: number,
-  maxGrade: number,
+  colorScale: ColorScale,
   selected?: boolean,
 ): Style => {
   if (selected) {
     return new Style({
       fill: new Fill({ color: "#C3E0E5" }),
       stroke: new Stroke({
-        color: getColorGrade(colorGrade, maxGrade, 1),
+        color:
+          colorScale.getColor(colorGrade).toRGBAString().slice(0, -2) + "ff",
         width: 2,
       }),
       text: new Text({
@@ -65,8 +59,7 @@ export const generateGridBoxStyle = (
     });
   } else {
     return new Style({
-      fill: new Fill({ color: getColorGrade(colorGrade, maxGrade, 0.6) }),
-      // stroke: new Stroke({ color: "#387D90", width: 1 }),
+      fill: new Fill({ color: colorScale.getColor(colorGrade).toRGBAString() }),
       text: new Text({
         fill: new Fill({ color: "#387D90" }),
         text: areaCode,
@@ -80,7 +73,6 @@ export const defaultGridBoxStyle = (areaCode: string): Style => {
     fill: new Fill({
       color: [255, 255, 255, 0],
     }),
-    // stroke: new Stroke({ color: "#387D90", width: 1 }),
     text: new Text({ fill: new Fill({ color: "#387D90" }), text: areaCode }),
   });
 };
@@ -103,6 +95,8 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
   const haulsVector = new VectorSource();
   const highestCatchSum = findHighestHaulCatchWeight(hauls);
 
+  const colorScale = createColorScale(0, highestCatchSum, 1);
+
   for (let i = 0; i < hauls.length; i++) {
     const haul = hauls[i];
     const sum = sumCatches(haul.catches);
@@ -117,7 +111,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
         image: new Circle({
           radius: 2.5,
           fill: new Fill({
-            color: getColorGrade(sum, highestCatchSum, 1),
+            color: colorScale.getColor(sum).toRGBAString(),
           }),
         }),
       }),
@@ -173,6 +167,8 @@ export const generateLocationsGrid = (
     geometryName: "fishingLocations",
   }).readFeatures(geoJsonObject);
 
+  const colorScale = createColorScale(haulsGrid.minWeight, haulsGrid.maxWeight);
+
   for (let i = 0; i < features.length; i++) {
     const feature = features[i];
     const area = feature.get("lokref");
@@ -181,7 +177,7 @@ export const generateLocationsGrid = (
       const style = generateGridBoxStyle(
         area,
         haulsGrid.grid[area],
-        haulsGrid.maxWeight,
+        colorScale,
         selectedGrids?.includes(area),
       );
 
