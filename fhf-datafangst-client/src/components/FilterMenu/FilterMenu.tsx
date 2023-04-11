@@ -8,7 +8,7 @@ import {
 } from "store";
 import { GearFilter } from "./GearFilter";
 import { MonthsFilter } from "./MonthsFilter";
-import { SpecieFilter } from "./SpecieFilter";
+import { SpecieFilter as SpeciesFilter } from "./SpeciesFilter";
 import { LengthGroupFilter } from "./LengthGroupFilter";
 import { YearsFilter } from "./YearsFilter";
 import { VesselFilter } from "./VesselFilter";

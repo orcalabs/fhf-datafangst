@@ -6,7 +6,7 @@ import {
   SpeciesMainGroup,
 } from "generated/openapi";
 
-export interface SpecieState {
+export interface SpeciesState {
   species: Record<number, Species>;
   speciesFao: Record<string, SpeciesFao>;
   speciesFiskeridir: Record<number, SpeciesFiskeridir>;
@@ -14,7 +14,7 @@ export interface SpecieState {
   speciesMainGroups: Record<number, SpeciesMainGroup>;
 }
 
-export const initialSpecieState: SpecieState = {
+export const initialSpeciesState: SpeciesState = {
   species: {},
   speciesFao: {},
   speciesFiskeridir: {},

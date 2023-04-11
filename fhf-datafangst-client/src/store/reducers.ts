@@ -9,7 +9,7 @@ import {
 } from "./actions";
 import { fishmapBuilder } from "./fishmap";
 import { vesselBuilder } from "./vessel";
-import { specieBuilder } from "./specie";
+import { speciesBuilder } from "./species";
 import { haulBuilder } from "./haul";
 import { gearBuilder } from "./gear";
 import { tripBuilder } from "./trip";
@@ -72,7 +72,7 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(fishmapBuilder)
     .extendBuilder(vesselBuilder)
     .extendBuilder(haulBuilder)
-    .extendBuilder(specieBuilder)
+    .extendBuilder(speciesBuilder)
     .extendBuilder(gearBuilder)
     .extendBuilder(aisBuilder)
     .extendBuilder(tripBuilder)

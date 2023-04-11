@@ -1,24 +1,27 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
 
-export const getSpecies = createAsyncThunk("specie/getSpecies", Api.getSpecies);
+export const getSpecies = createAsyncThunk(
+  "species/getSpecies",
+  Api.getSpecies,
+);
 
 export const getSpeciesFao = createAsyncThunk(
-  "specie/getSpeciesFao",
+  "species/getSpeciesFao",
   Api.getSpeciesFao,
 );
 
 export const getSpeciesFiskeridir = createAsyncThunk(
-  "specie/getSpeciesFiskeridir",
+  "species/getSpeciesFiskeridir",
   Api.getSpeciesFiskeridir,
 );
 
 export const getSpeciesGroups = createAsyncThunk(
-  "specie/getSpeciesGroups",
+  "species/getSpeciesGroups",
   Api.getSpeciesGroups,
 );
 
 export const getSpeciesMainGroups = createAsyncThunk(
-  "specie/getSpeciesMainGroups",
+  "species/getSpeciesMainGroups",
   Api.getSpeciesMainGroups,
 );
