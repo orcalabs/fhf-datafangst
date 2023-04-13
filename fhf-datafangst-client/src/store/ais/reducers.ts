@@ -1,6 +1,7 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { getAis, getHaulAis } from "./actions";
 import { AppState } from "store/state";
+import { getVms } from "store";
 
 export const aisBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -28,6 +29,15 @@ export const aisBuilder = (
           (action as any).asyncDispatch(
             getAis({
               mmsi: vessel.ais.mmsi,
+              start: haul.startTimestamp,
+              end: haul.stopTimestamp,
+            }),
+          );
+        }
+        if (vessel) {
+          (action as any).asyncDispatch(
+            getVms({
+              callSign: vessel.fiskeridir.callSign!,
               start: haul.startTimestamp,
               end: haul.stopTimestamp,
             }),

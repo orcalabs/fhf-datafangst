@@ -26,5 +26,9 @@ export const selectHaulsMenuOpen = createSelector(
 export const selectAisMissing = createSelector(
   selectAppState,
   (state) =>
-    state.selectedHaul && !state.ais?.positions.length && !state.aisLoading,
+    state.selectedHaul &&
+    !state.ais?.positions.length &&
+    !state.aisLoading &&
+    !state.vms?.length &&
+    !state.vmsLoading,
 );

@@ -10,6 +10,8 @@ export const setError = createAction<boolean>("base/setError");
 
 export const resetState = createAction("base/resetState");
 
+export const resetTrackState = createAction("base/resetTrackState");
+
 export const setViewMode = createAction<ViewMode>("base/setViewMode");
 
 export const login = createAsyncThunk("base/login", _login);
