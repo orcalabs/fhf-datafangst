@@ -1,6 +1,12 @@
 import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
 import { AppState, initialAppState } from "./state";
-import { checkLoggedIn, resetState, setError, setViewMode } from "./actions";
+import {
+  checkLoggedIn,
+  resetState,
+  resetTrackState,
+  setError,
+  setViewMode,
+} from "./actions";
 import { fishmapBuilder } from "./fishmap";
 import { vesselBuilder } from "./vessel";
 import { specieBuilder } from "./specie";
@@ -8,6 +14,7 @@ import { haulBuilder } from "./haul";
 import { gearBuilder } from "./gear";
 import { tripBuilder } from "./trip";
 import { aisBuilder } from "./ais";
+import { vmsBuilder } from "./vms";
 
 export const emptyState = {
   hauls: undefined,
@@ -17,6 +24,12 @@ export const emptyState = {
   selectedGrids: [],
   selectedGridsString: [],
   ais: undefined,
+  vms: undefined,
+};
+
+const emptyTrackState = {
+  ais: undefined,
+  vms: undefined,
 };
 
 class AppActionReducerMapBuilder<State> {
@@ -49,6 +62,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(checkLoggedIn.fulfilled, (state, action) => {
       state.isLoggedIn = action.payload;
     })
+    .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 
 export const appReducer = createReducer(initialAppState, (builder) =>
@@ -61,5 +75,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(gearBuilder)
     .extendBuilder(aisBuilder)
     .extendBuilder(tripBuilder)
+    .extendBuilder(vmsBuilder)
     .finish(),
 );
