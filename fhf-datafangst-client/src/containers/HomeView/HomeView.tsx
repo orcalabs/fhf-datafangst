@@ -27,6 +27,7 @@ import {
   selectSelectedGridsString,
   selectSelectedHaulTrip,
   selectViewMode,
+  selectVmsLoading,
   useAppDispatch,
   useAppSelector,
   ViewMode,
@@ -131,6 +132,7 @@ export const HomeView: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsSearch);
   const selectedTrip = useAppSelector(selectSelectedHaulTrip);
   const aisLoading = useAppSelector(selectAisLoading);
+  const vmsLoading = useAppSelector(selectVmsLoading);
 
   // Fetch hauls for selected grid
   useEffect(() => {
@@ -178,7 +180,7 @@ export const HomeView: FC = () => {
         <AisLayer />
       </Map>
       <ViewModeToggle />
-      <LoadingScreen open={haulsLoading || aisLoading} />
+      <LoadingScreen open={haulsLoading || aisLoading || vmsLoading} />
       <Box
         sx={{
           "& .MuiSnackbar-anchorOriginTopCenter": { top: 60 },

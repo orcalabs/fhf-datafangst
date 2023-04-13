@@ -11,6 +11,7 @@ import { FC, useState } from "react";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
   getHaulAis,
+  resetTrackState,
   selectGears,
   selectSelectedHaul,
   selectVesselsByFiskeridirId,
@@ -118,6 +119,7 @@ export const TripsMenu: FC = () => {
             <IconButton
               onClick={() => {
                 dispatch(setSelectedTrip(undefined));
+                dispatch(resetTrackState());
                 dispatch(getHaulAis(selectedHaul));
               }}
             >

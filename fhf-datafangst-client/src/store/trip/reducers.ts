@@ -1,6 +1,7 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { getAis } from "store/ais";
 import { AppState } from "store/state";
+import { getVms } from "store/vms";
 import { getHaulTrip, setSelectedTrip } from ".";
 
 export const tripBuilder = (
@@ -17,6 +18,15 @@ export const tripBuilder = (
           (action as any).asyncDispatch(
             getAis({
               mmsi: vessel.ais.mmsi,
+              start: trip.start,
+              end: trip.end,
+            }),
+          );
+        }
+        if (vessel) {
+          (action as any).asyncDispatch(
+            getVms({
+              callSign: vessel.fiskeridir.callSign!,
               start: trip.start,
               end: trip.end,
             }),
