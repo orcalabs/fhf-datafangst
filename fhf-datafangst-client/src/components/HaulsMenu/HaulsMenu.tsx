@@ -153,12 +153,7 @@ export const HaulsMenu: FC<Props> = (props) => {
               )}
               {item(TimerSharpIcon, createHaulDurationString(haul))}
               {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
-              {item(
-                PhishingSharpIcon,
-                haul?.gearFiskeridirId
-                  ? gears[haul.gearFiskeridirId].name
-                  : "Ukjent",
-              )}
+              {item(PhishingSharpIcon, gears[haul.gearId].name)}
             </Box>
             <Typography
               sx={{
