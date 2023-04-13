@@ -2,6 +2,7 @@ import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { Stroke, Style } from "ol/style";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
+import { generateGridBoxStyle } from "utils";
 import { initializeMap, toggleSelectedArea } from ".";
 
 export const fishmapBuilder = (
@@ -22,14 +23,24 @@ export const fishmapBuilder = (
       );
       if (index < 0) {
         const style = area.getStyle() as Style;
-        style.setStroke(new Stroke({ color: "#ffffff", width: 2 }));
+        const color = style.getFill().getColor()?.toString();
+        style.setStroke(new Stroke({ color, width: 2 }));
+        style.getFill().setColor("#C3E0E5");
         style.setZIndex(1000);
         area.changed();
         selected.push(area);
       } else {
         const removed = selected.splice(index, 1);
-        const style = removed[0].getStyle() as Style;
-        style.setStroke(new Stroke({ color: "rgba(255, 0, 0, 0)" }));
+        if (state.haulsGrid) {
+          removed[0].setStyle(
+            generateGridBoxStyle(
+              areaString,
+              state.haulsGrid.grid[areaString],
+              state.haulsGrid.maxWeight,
+            ),
+          );
+        }
+
         removed[0].changed();
       }
 
