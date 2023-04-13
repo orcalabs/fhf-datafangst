@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Box, Typography } from "@mui/material";
+import { FC, useState } from "react";
+import { Box, Button, Collapse, Typography } from "@mui/material";
 import {
   selectSpeciesFilterStats,
   selectSpeciesGroups,
@@ -8,6 +8,8 @@ import {
 import { SpeciesGroup } from "generated/openapi";
 import { Bar } from "./Bar";
 import { FilterStats } from "models";
+import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
+import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 
 interface Props {
   value?: SpeciesGroup[];
@@ -18,6 +20,11 @@ export const SpecieFilter: FC<Props> = (props) => {
   const speciesGroups = useAppSelector(selectSpeciesGroups);
   const speciesFilterStats = useAppSelector(selectSpeciesFilterStats);
   const value = props.value ?? [];
+  const [expanded, setExpanded] = useState<boolean>(false);
+
+  const handleExpandChange = () => {
+    setExpanded((prev) => !prev);
+  };
 
   const onChange = (value: SpeciesGroup[]) =>
     props.onChange(value.length ? value : undefined);
@@ -50,32 +57,56 @@ export const SpecieFilter: FC<Props> = (props) => {
         Art
       </Typography>
       <Box>
-        {[...speciesFilterStats]
-          .sort((a, b) => b.value - a.value)
-          .map((val, i) => {
-            const barLength = (val.value / total) * 100;
+        {/* Magic number: 30 = 20px bar height, 2px border, 8px margin */}
+        <Collapse in={expanded} collapsedSize={30 * 7}>
+          {[...speciesFilterStats]
+            .sort((a, b) => b.value - a.value)
+            .map((val, i) => {
+              const barLength = (val.value / total) * 100;
 
-            return (
-              <Box
-                key={i}
-                sx={{
-                  ":hover": {
-                    cursor: "pointer",
-                  },
-                }}
-                onClick={() => handleClick(val.id)}
-              >
-                <Bar
-                  length={barLength}
-                  label={speciesGroups[val.id]?.name}
-                  value={val.value}
-                  selected={value.some(
-                    (lengthGroup) => lengthGroup.id === val.id,
-                  )}
-                />
-              </Box>
-            );
-          })}
+              return (
+                <Box
+                  key={i}
+                  sx={{
+                    ":hover": {
+                      cursor: "pointer",
+                    },
+                  }}
+                  onClick={() => handleClick(val.id)}
+                >
+                  <Bar
+                    length={barLength}
+                    label={speciesGroups[val.id]?.name}
+                    value={val.value}
+                    selected={value.some(
+                      (lengthGroup) => lengthGroup.id === val.id,
+                    )}
+                  />
+                </Box>
+              );
+            })}
+        </Collapse>
+        <Box sx={{ width: "100%" }}>
+          <Button
+            disableRipple
+            size="small"
+            sx={{
+              float: "right",
+              fontSize: 12,
+              color: "white",
+              borderRadius: 0,
+              ":hover": {
+                borderRadius: 0,
+              },
+            }}
+            onClick={() => handleExpandChange()}
+            startIcon={
+              expanded ? <ExpandLessSharpIcon /> : <ExpandMoreSharpIcon />
+            }
+          >
+            {expanded ? "Vis mindre" : "Vis mer"}
+          </Button>
+        </Box>
       </Box>
     </>
   );
