@@ -33,6 +33,7 @@ export const FilterMenu: FC = () => {
             flexShrink: 0,
             height: "100%",
           },
+          "& .MuiOutlinedInput-root": { borderRadius: 0 },
         }}
       >
         <Box
