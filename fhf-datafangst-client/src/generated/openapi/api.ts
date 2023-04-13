@@ -487,13 +487,13 @@ export interface Haul {
      * @type {number}
      * @memberof Haul
      */
-    'gearFiskeridirId'?: number | null;
+    'gearGroupId': number;
     /**
      * 
      * @type {number}
      * @memberof Haul
      */
-    'gearGroupId'?: number | null;
+    'gearId': number;
     /**
      * 
      * @type {number}
