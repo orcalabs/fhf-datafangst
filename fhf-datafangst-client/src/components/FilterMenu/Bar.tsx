@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import theme from "app/theme";
 import { FC, useState } from "react";
 import { kilosOrTonsFormatter } from "utils";
@@ -16,7 +16,13 @@ export const Bar: FC<Props> = (props) => {
 
   return (
     <Box sx={{ display: "flex", mb: 1 }}>
-      <Box sx={{ width: 220, fontSize: 13 }}>{label}</Box>
+      <Typography
+        sx={{ width: 220, fontSize: 13 }}
+        noWrap
+        title={label?.length > 23 ? label : undefined}
+      >
+        {label}
+      </Typography>
       <Box
         sx={{
           width: "100%",
