@@ -52,15 +52,15 @@ const theme = createTheme(
     },
     palette: {
       primary: {
-        main: "#1A5E63",
-        light: "#028090",
-        dark: "#154B4F",
+        main: "#055772",
+        light: "#067593",
+        dark: "#001F3D",
         contrastText: "#fff",
       },
       secondary: {
-        main: "#399202",
-        light: "#42634B",
-        dark: "#0F3418",
+        main: "#7F88B5",
+        light: "#C1BFEB",
+        dark: "#1E5850",
       },
       third: {
         main: "#E81F76",
@@ -93,18 +93,14 @@ const theme = createTheme(
         500: "#CFD4E0",
         600: "#BCC1CF",
         700: "#9EA4B5",
-        // Blue
-        A100: "#0071ce",
-        // Light-light primary (filters, haulspopper)
+        // Grey (menu, unselected filter)
+        A100: "#80888C",
         A200: "#474E6B",
-        // Green used for filters
         A400: "#3B8786",
-        // Red used for DeliveryPoints
         A700: "#A46200",
       },
       action: {
         selected: "#F1F3F8",
-        // hover: '#F5F7FA',
       },
       // divider: '#E0E3EB',
     },

@@ -17,7 +17,7 @@ export const Bar: FC<Props> = (props) => {
   return (
     <Box sx={{ display: "flex", mb: 1 }}>
       <Typography
-        sx={{ width: 220, fontSize: 13 }}
+        sx={{ width: 220, fontSize: 15 }}
         noWrap
         title={label?.length > 23 ? label : undefined}
       >
@@ -29,7 +29,7 @@ export const Bar: FC<Props> = (props) => {
           position: "relative",
           border: selected
             ? `1px solid ${theme.palette.secondary.main}`
-            : "1px solid grey",
+            : `1px solid ${theme.palette.grey.A100}`,
         }}
       >
         <Box
@@ -37,7 +37,7 @@ export const Bar: FC<Props> = (props) => {
           onMouseLeave={() => setHovering(false)}
           sx={{
             position: "absolute",
-            fontSize: 13,
+            fontSize: 15,
             width: 200,
             textAlign: "center",
             marginRight: "auto",
@@ -56,8 +56,8 @@ export const Bar: FC<Props> = (props) => {
           sx={{
             minWidth: "2px",
             width: length.toString() + "%",
-            height: 20,
-            bgcolor: selected ? "secondary.main" : "grey",
+            height: 22,
+            bgcolor: selected ? "secondary.main" : `${theme.palette.grey.A100}`,
           }}
         ></Box>
       </Box>

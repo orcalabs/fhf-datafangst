@@ -34,6 +34,11 @@ export const FilterMenu: FC = () => {
             height: "100%",
           },
           "& .MuiOutlinedInput-root": { borderRadius: 0 },
+          "& .MuiChip-filled": {
+            color: "black",
+            bgcolor: "secondary.main",
+            borderRadius: 0,
+          },
         }}
       >
         <Box
@@ -41,7 +46,7 @@ export const FilterMenu: FC = () => {
             width: "100%",
             "& .MuiChip-filled": {
               color: "black",
-              bgcolor: "text.secondary",
+              bgcolor: "secondary.main",
               borderRadius: 0,
             },
             "& .MuiButtonBase-root": {

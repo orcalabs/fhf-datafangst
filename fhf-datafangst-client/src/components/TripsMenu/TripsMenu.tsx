@@ -109,7 +109,7 @@ export const TripsMenu: FC = () => {
           />
           <Box sx={{ marginLeft: 2 }}>
             <Typography variant="h5">LEVERANSE</Typography>
-            <Typography color="secondary.main" variant="h6">
+            <Typography color="secondary.light" variant="h6">
               {toTitleCase(
                 vessels[trip.fiskeridirVesselId].fiskeridir.name ?? "Ukjent",
               )}
@@ -123,7 +123,7 @@ export const TripsMenu: FC = () => {
                 dispatch(getHaulAis(selectedHaul));
               }}
             >
-              <CloseSharpIcon />
+              <CloseSharpIcon sx={{ color: "white" }} />
             </IconButton>
           </Box>
         </Box>

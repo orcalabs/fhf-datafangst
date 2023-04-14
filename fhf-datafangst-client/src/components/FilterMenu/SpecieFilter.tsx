@@ -58,7 +58,7 @@ export const SpecieFilter: FC<Props> = (props) => {
       </Typography>
       <Box>
         {/* Magic number: 30 = 20px bar height, 2px border, 8px margin */}
-        <Collapse in={expanded} collapsedSize={30 * 7}>
+        <Collapse in={expanded} collapsedSize={32 * 7}>
           {[...speciesFilterStats]
             .sort((a, b) => b.value - a.value)
             .map((val, i) => {
@@ -92,7 +92,7 @@ export const SpecieFilter: FC<Props> = (props) => {
             size="small"
             sx={{
               float: "right",
-              fontSize: 12,
+              fontSize: 13,
               color: "white",
               borderRadius: 0,
               ":hover": {
