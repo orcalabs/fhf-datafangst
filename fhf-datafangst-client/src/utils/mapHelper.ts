@@ -32,7 +32,7 @@ export const getColorGrade = (
   const colorScale = new ColorScale(
     0,
     maxGrade,
-    ["#66b2ab", "#1b8a5a", "#fbb021", "#f68838", "#ee3e32"],
+    ["#6A9DB2", "#1b8a5a", "#fbb021", "#f68838", "#ee3e32"],
     opacity,
   );
 
@@ -45,7 +45,7 @@ export const generateGridBoxStyle = (
   maxGrade: number,
 ): Style => {
   return new Style({
-    fill: new Fill({ color: getColorGrade(colorGrade, maxGrade, 0.5) }),
+    fill: new Fill({ color: getColorGrade(colorGrade, maxGrade, 0.6) }),
     // stroke: new Stroke({ color: "#387D90", width: 1 }),
     text: new Text({
       fill: new Fill({ color: "#387D90" }),

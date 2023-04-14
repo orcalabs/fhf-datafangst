@@ -20,7 +20,7 @@ import { HaulCatch } from "generated/openapi";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.text.secondary,
-    borderColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.light,
     fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
@@ -82,7 +82,7 @@ export const CatchesTable: FC<Props> = (props) => {
               sx={{
                 "&:last-of-type td": {
                   borderBottom: "1px solid",
-                  borderColor: "secondary.main",
+                  borderColor: "secondary.light",
                 },
               }}
             >
