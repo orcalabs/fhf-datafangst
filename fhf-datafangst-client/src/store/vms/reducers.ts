@@ -12,9 +12,7 @@ export const vmsBuilder = (
     })
     .addCase(getVms.fulfilled, (state, action) => {
       state.vmsLoading = false;
-      const vms = action.payload;
-      if (!vms) return;
-      state.vms = vms;
+      state.vms = action.payload;
     })
     .addCase(getVms.rejected, (state, _) => {
       state.vmsLoading = false;

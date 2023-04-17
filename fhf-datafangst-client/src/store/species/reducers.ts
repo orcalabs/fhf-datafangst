@@ -13,37 +13,17 @@ export const speciesBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(getSpecies.fulfilled, (state, action) => {
-      const species = action.payload;
-      state.species = {};
-      for (const s of species) {
-        state.species[s.id] = s;
-      }
+      state.species = action.payload;
     })
     .addCase(getSpeciesFao.fulfilled, (state, action) => {
-      const speciesFao = action.payload;
-      state.speciesFao = {};
-      for (const s of speciesFao) {
-        state.speciesFao[s.id] = s;
-      }
+      state.speciesFao = action.payload;
     })
     .addCase(getSpeciesFiskeridir.fulfilled, (state, action) => {
-      const speciesFiskeridir = action.payload;
-      state.speciesFiskeridir = {};
-      for (const s of speciesFiskeridir) {
-        state.speciesFiskeridir[s.id] = s;
-      }
+      state.speciesFiskeridir = action.payload;
     })
     .addCase(getSpeciesGroups.fulfilled, (state, action) => {
-      const speciesGroups = action.payload;
-      state.speciesGroups = {};
-      for (const s of speciesGroups) {
-        state.speciesGroups[s.id] = s;
-      }
+      state.speciesGroups = action.payload;
     })
     .addCase(getSpeciesMainGroups.fulfilled, (state, action) => {
-      const speciesMainGroups = action.payload;
-      state.speciesMainGroups = {};
-      for (const s of speciesMainGroups) {
-        state.speciesMainGroups[s.id] = s;
-      }
+      state.speciesMainGroups = action.payload;
     });

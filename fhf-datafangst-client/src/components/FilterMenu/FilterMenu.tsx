@@ -2,20 +2,25 @@ import { Box, Drawer } from "@mui/material";
 import { FC } from "react";
 import {
   selectHaulsSearch,
+  setHoveredFilter,
   setHaulsSearch,
   useAppDispatch,
   useAppSelector,
 } from "store";
 import { GearFilter } from "./GearFilter";
 import { MonthsFilter } from "./MonthsFilter";
-import { SpecieFilter as SpeciesFilter } from "./SpeciesFilter";
+import { SpeciesFilter } from "./SpeciesFilter";
 import { LengthGroupFilter } from "./LengthGroupFilter";
 import { YearsFilter } from "./YearsFilter";
 import { VesselFilter } from "./VesselFilter";
+import { HaulsFilter } from "api";
 
 export const FilterMenu: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsSearch);
   const dispatch = useAppDispatch();
+
+  const onFilterHover = (filter: HaulsFilter) =>
+    dispatch(setHoveredFilter(filter));
 
   return (
     <Box sx={{ height: "100%" }}>
@@ -58,7 +63,10 @@ export const FilterMenu: FC = () => {
             },
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box
+            sx={{ display: "flex", justifyContent: "space-between" }}
+            onMouseEnter={() => onFilterHover(HaulsFilter.Date)}
+          >
             <Box sx={{ width: "100%" }}>
               <YearsFilter
                 value={haulsSearch?.years}
@@ -77,33 +85,43 @@ export const FilterMenu: FC = () => {
             </Box>
           </Box>
         </Box>
-        <GearFilter
-          value={haulsSearch?.gearGroupIds}
-          onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, gearGroupIds: value }))
-          }
-        />
-        <SpecieFilter
-          value={haulsSearch?.speciesGroupIds}
-          onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, speciesGroupIds: value }))
-          }
-        />
-        <LengthGroupFilter
-          value={haulsSearch?.vesselLengthRanges}
-          onChange={(value) =>
-            dispatch(
-              setHaulsSearch({ ...haulsSearch, vesselLengthRanges: value }),
-            )
-          }
-        />
-        <VesselFilter
-          value={haulsSearch?.vessels}
-          onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, vessels: value }))
-          }
-          useVirtualization
-        />
+        <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
+          <GearFilter
+            value={haulsSearch?.gearGroupIds}
+            onChange={(value) =>
+              dispatch(setHaulsSearch({ ...haulsSearch, gearGroupIds: value }))
+            }
+          />
+        </Box>
+        <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
+          <SpeciesFilter
+            value={haulsSearch?.speciesGroupIds}
+            onChange={(value) =>
+              dispatch(
+                setHaulsSearch({ ...haulsSearch, speciesGroupIds: value }),
+              )
+            }
+          />
+        </Box>
+        <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
+          <LengthGroupFilter
+            value={haulsSearch?.vesselLengthRanges}
+            onChange={(value) =>
+              dispatch(
+                setHaulsSearch({ ...haulsSearch, vesselLengthRanges: value }),
+              )
+            }
+          />
+        </Box>
+        <Box onMouseEnter={() => onFilterHover(HaulsFilter.Vessel)}>
+          <VesselFilter
+            value={haulsSearch?.vessels}
+            onChange={(value) =>
+              dispatch(setHaulsSearch({ ...haulsSearch, vessels: value }))
+            }
+            useVirtualization
+          />
+        </Box>
       </Drawer>
     </Box>
   );

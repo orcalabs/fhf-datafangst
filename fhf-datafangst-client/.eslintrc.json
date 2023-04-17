@@ -55,6 +55,9 @@
       "warn",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
     ],
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "curly": "off",
+    "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/method-signature-style": "off"
   }
 }

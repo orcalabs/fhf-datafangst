@@ -12,9 +12,7 @@ export const aisBuilder = (
     })
     .addCase(getAis.fulfilled, (state, action) => {
       state.aisLoading = false;
-      const ais = action.payload;
-      if (!ais) return;
-      state.ais = ais;
+      state.ais = action.payload;
     })
     .addCase(getAis.rejected, (state, _) => {
       state.aisLoading = false;
