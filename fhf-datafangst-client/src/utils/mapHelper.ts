@@ -11,7 +11,6 @@ import {
   AisPosition,
   AisVmsPosition,
   Haul,
-  HaulsGrid,
   VmsPosition,
 } from "generated/openapi";
 import { LineString, Point } from "ol/geom";
@@ -19,11 +18,32 @@ import ColorScale from "color-scales";
 import {
   differenceMinutes,
   findHighestHaulCatchWeight,
+  matrixSum,
   sumCatches,
 } from "utils";
 import { Position } from "models";
 import theme from "app/theme";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
+import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
+import shoreline from "assets/geojson/shoreline.json";
+
+export const shorelineVector = new VectorSource({
+  features: new GeoJSON({
+    featureProjection: process.env.REACT_APP_EPSG as string,
+    geometryName: "shoreline",
+  }).readFeatures(shoreline),
+});
+
+export const fishingLocationAreas = fishingLocationsGrid.features
+  .map((f) => f.properties.lokref)
+  .sort((a, b) => a.localeCompare(b));
+
+const fishingLocationFeatures = new GeoJSON({
+  featureProjection: process.env.REACT_APP_EPSG as string,
+  geometryName: "fishingLocations",
+})
+  .readFeatures(fishingLocationsGrid)
+  .sort((a, b) => a.get("lokref").localeCompare(b.get("lokref")));
 
 export interface TravelVector {
   vector: VectorSource<Geometry>;
@@ -41,31 +61,33 @@ export const createColorScale = (min: number, max: number, opacity?: number) =>
 export const generateGridBoxStyle = (
   areaCode: string,
   colorGrade: number,
-  colorScale: ColorScale,
+  colorScale: ColorScale | string,
   selected?: boolean,
 ): Style => {
-  if (selected) {
-    return new Style({
-      fill: new Fill({ color: "#C3E0E5" }),
-      stroke: new Stroke({
-        color:
-          colorScale.getColor(colorGrade).toRGBAString().slice(0, -2) + "ff",
-        width: 2,
-      }),
-      text: new Text({
-        fill: new Fill({ color: "#387D90" }),
-        text: areaCode,
-      }),
-    });
-  } else {
-    return new Style({
-      fill: new Fill({ color: colorScale.getColor(colorGrade).toRGBAString() }),
-      text: new Text({
-        fill: new Fill({ color: "#387D90" }),
-        text: areaCode,
-      }),
-    });
-  }
+  const color =
+    typeof colorScale === "string"
+      ? colorScale
+      : colorScale.getColor(colorGrade).toRGBAString();
+
+  return selected
+    ? new Style({
+        fill: new Fill({ color: "#C3E0E5" }),
+        stroke: new Stroke({
+          color: color.replace(/[.0-9]+\)/, "1)"),
+          width: 2,
+        }),
+        text: new Text({
+          fill: new Fill({ color: "#387D90" }),
+          text: areaCode,
+        }),
+      })
+    : new Style({
+        fill: new Fill({ color }),
+        text: new Text({
+          fill: new Fill({ color: "#387D90" }),
+          text: areaCode,
+        }),
+      });
 };
 
 export const defaultGridBoxStyle = (areaCode: string): Style => {
@@ -73,16 +95,6 @@ export const defaultGridBoxStyle = (areaCode: string): Style => {
     fill: new Fill({
       color: [255, 255, 255, 0],
     }),
-    text: new Text({ fill: new Fill({ color: "#387D90" }), text: areaCode }),
-  });
-};
-
-export const selectedGridBoxStyle = (areaCode: string): Style => {
-  return new Style({
-    fill: new Fill({
-      color: [255, 255, 255, 0.3],
-    }),
-    stroke: new Stroke({ color: "#387D90", width: 1 }),
     text: new Text({ fill: new Fill({ color: "#387D90" }), text: areaCode }),
   });
 };
@@ -146,48 +158,63 @@ export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
   return heatmapVector;
 };
 
-export const generateShorelineVector = (geoJsonObject: any) =>
-  new VectorSource({
-    features: new GeoJSON({
-      featureProjection: process.env.REACT_APP_EPSG as string,
-      geometryName: "shoreline",
-    }).readFeatures(geoJsonObject),
-  });
-
-export const generateLocationsGrid = (
-  geoJsonObject: any,
-  haulsGrid?: HaulsGrid,
+export const generateLocationsMatrix = (
+  matrix: number[] | undefined,
+  selectedFilters: number[],
   selectedGrids?: string[],
 ) => {
-  if (!haulsGrid) {
+  if (!matrix) {
     return;
   }
-  const features = new GeoJSON({
-    featureProjection: process.env.REACT_APP_EPSG as string,
-    geometryName: "fishingLocations",
-  }).readFeatures(geoJsonObject);
 
-  const colorScale = createColorScale(haulsGrid.minWeight, haulsGrid.maxWeight);
+  const width = fishingLocationAreas.length;
+  const height = matrix.length / width;
+  const weights: number[] = Array(width);
 
-  for (let i = 0; i < features.length; i++) {
-    const feature = features[i];
-    const area = feature.get("lokref");
+  let max = -Infinity;
+  let min = Infinity;
 
-    if (haulsGrid.grid[area]) {
-      const style = generateGridBoxStyle(
-        area,
-        haulsGrid.grid[area],
-        colorScale,
-        selectedGrids?.includes(area),
-      );
-
-      feature.setStyle(style);
-    } else {
-      const style = defaultGridBoxStyle(area.toString());
-      feature.setStyle(style);
+  for (let x = 0; x < width; x++) {
+    let sum = 0;
+    if (selectedFilters.length)
+      for (let i = 0; i < selectedFilters.length; i++) {
+        const y = selectedFilters[i];
+        sum += matrixSum(matrix, width, x, y, x, y);
+      }
+    else {
+      sum += matrixSum(matrix, width, x, 0, x, height - 1);
     }
+    if (sum > max) max = sum;
+    if (sum < min) min = sum;
+    weights[x] = sum;
   }
-  return new VectorSource({ features });
+
+  // `ColorScale` cannot have equal min and max value
+  if (min === max) {
+    min--;
+  }
+
+  const colorScale = createColorScale(min, max);
+
+  for (let i = 0; i < fishingLocationFeatures.length; i++) {
+    const area = fishingLocationAreas[i];
+    const feature = fishingLocationFeatures[i];
+    const weight = weights[i];
+
+    feature.setProperties({ weight });
+    feature.setStyle(
+      weight > 0
+        ? generateGridBoxStyle(
+            area,
+            weight,
+            colorScale,
+            selectedGrids?.includes(area),
+          )
+        : defaultGridBoxStyle(area),
+    );
+  }
+
+  return new VectorSource({ features: fishingLocationFeatures });
 };
 
 export const parseCapabilites = (capabilitesText: string) =>

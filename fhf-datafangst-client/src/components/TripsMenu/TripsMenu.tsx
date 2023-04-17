@@ -12,7 +12,7 @@ import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
   getHaulTrack,
   resetTrackState,
-  selectGears,
+  selectGearsMap,
   selectSelectedHaul,
   selectVesselsByFiskeridirId,
   useAppDispatch,
@@ -57,7 +57,7 @@ export const TripsMenu: FC = () => {
   const dispatch = useAppDispatch();
   const [expanded, setExpanded] = useState<boolean>(false);
   const selectedHaul = useAppSelector(selectSelectedHaul);
-  const gears = useAppSelector(selectGears);
+  const gears = useAppSelector(selectGearsMap);
 
   if (!trip) {
     return <></>;

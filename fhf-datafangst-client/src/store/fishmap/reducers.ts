@@ -1,4 +1,5 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { Style } from "ol/style";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { generateGridBoxStyle } from "utils";
@@ -21,30 +22,23 @@ export const fishmapBuilder = (
         (a) => a.get("objectid") === area.get("objectid"),
       );
       if (index < 0) {
-        if (state.haulsGrid) {
-          area.setStyle(
-            generateGridBoxStyle(
-              areaString,
-              state.haulsGrid.grid[areaString],
-              state.haulsGrid.maxWeight,
-              true,
-            ),
-          );
-        }
+        const style = area.getStyle() as Style;
+        const color = style.getFill().getColor()?.toString();
+        area.setStyle(
+          generateGridBoxStyle(areaString, area.get("weight"), color!, true),
+        );
+        area.setProperties({ color });
         selected.push(area);
       } else {
-        const removed = selected.splice(index, 1);
-        if (state.haulsGrid) {
-          removed[0].setStyle(
-            generateGridBoxStyle(
-              areaString,
-              state.haulsGrid.grid[areaString],
-              state.haulsGrid.maxWeight,
-            ),
-          );
-        }
-
-        removed[0].changed();
+        const removed = selected.splice(index, 1)[0];
+        removed.setStyle(
+          generateGridBoxStyle(
+            areaString,
+            removed.get("weight"),
+            removed.get("color"),
+          ),
+        );
+        removed.changed();
       }
 
       const indexStrings = selectedStrings.indexOf(areaString);

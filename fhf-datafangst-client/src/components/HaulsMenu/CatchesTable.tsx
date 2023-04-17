@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { kilosOrTonsFormatter, sumCatches } from "utils";
-import { selectSpeciesFiskeridir, useAppSelector } from "store";
+import { selectSpeciesFiskeridirMap, useAppSelector } from "store";
 import { Catch } from "models";
 import { HaulCatch } from "generated/openapi";
 
@@ -49,7 +49,7 @@ interface Props {
 
 export const CatchesTable: FC<Props> = (props) => {
   const { catches } = props;
-  const fiskeridirSpecies = useAppSelector(selectSpeciesFiskeridir);
+  const fiskeridirSpecies = useAppSelector(selectSpeciesFiskeridirMap);
 
   if (catches.length === 0) {
     return (

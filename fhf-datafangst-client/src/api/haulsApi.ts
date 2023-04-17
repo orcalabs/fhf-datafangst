@@ -1,7 +1,20 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 import { setMonth, setYear } from "date-fns";
-import { GearGroup, SpeciesGroup, V1haulApi, Vessel } from "generated/openapi";
+import {
+  ActiveHaulsFilter,
+  GearGroup,
+  SpeciesGroup,
+  V1haulApi,
+  Vessel,
+} from "generated/openapi";
 import { LengthGroup } from "models";
+
+export const HaulsFilter = {
+  ...ActiveHaulsFilter,
+  Vessel: "vessel",
+} as const;
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export type HaulsFilter = (typeof HaulsFilter)[keyof typeof HaulsFilter];
 
 export interface HaulsArgs {
   years?: number[];
@@ -11,6 +24,7 @@ export interface HaulsArgs {
   gearGroupIds?: GearGroup[];
   speciesGroupIds?: SpeciesGroup[];
   vesselLengthRanges?: LengthGroup[];
+  filter?: HaulsFilter;
 }
 
 const createTimestampsFromYearsMonths = (
@@ -21,7 +35,7 @@ const createTimestampsFromYearsMonths = (
     return [];
   }
   if (!months?.length) {
-    months = Array.from(new Array(12), (_, i) => i + 1);
+    months = Array.from({ length: 12 }, (_, i) => i + 1);
   }
   const timestamps: Date[] = [];
   for (const month of months) {
@@ -80,22 +94,37 @@ export const getHauls = async (query: HaulsArgs) =>
     }),
   );
 
-export const getHaulsGrid = async (query: HaulsArgs) =>
+export const getHaulsMatrix = async (query: HaulsArgs) =>
   apiGet(async () =>
-    api.haulsGrid({
-      months: query.years
-        ? createTimestampsFromYearsMonths(query.years, query.months)
-            .map((g) => g.toISOString())
-            .toString()
-        : undefined,
+    api.haulsMatrix({
+      activeFilter:
+        query.filter === HaulsFilter.Vessel
+          ? ActiveHaulsFilter.VesselLength
+          : (query.filter as ActiveHaulsFilter),
+      months:
+        query.filter === HaulsFilter.Date
+          ? undefined
+          : query.years && query.months
+          ? query.years
+              .map((y) => query.months!.map((m) => y * 12 + m - 1))
+              .flat()
+              .join(",")
+          : undefined,
       fiskeridirVesselIds: query.vessels
         ?.map((v) => v.fiskeridir.id)
         .toString(),
       catchLocations: query.catchLocations?.join(","),
-      gearGroupIds: query.gearGroupIds?.map((g) => g.id).toString(),
-      speciesGroupIds: query.speciesGroupIds?.map((g) => g.id).toString(),
-      vesselLengthRanges: createVesselLengthQueryString(
-        query.vesselLengthRanges,
-      ),
+      gearGroupIds:
+        query.filter === HaulsFilter.GearGroup
+          ? undefined
+          : query.gearGroupIds?.map((g) => g.id).toString(),
+      speciesGroupIds:
+        query.filter === HaulsFilter.SpeciesGroup
+          ? undefined
+          : query.speciesGroupIds?.map((g) => g.id).toString(),
+      vesselLengthGroups:
+        query.filter === HaulsFilter.VesselLength
+          ? undefined
+          : query.vesselLengthRanges?.map((l) => l.id).join(","),
     }),
   );

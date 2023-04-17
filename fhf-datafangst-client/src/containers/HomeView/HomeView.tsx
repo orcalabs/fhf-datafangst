@@ -20,7 +20,6 @@ import {
   getHauls,
   resetState,
   selectTrackMissing,
-  selectHaulsGridLoading,
   selectHaulsMenuOpen,
   selectHaulsSearch,
   selectSelectedGridsString,
@@ -30,6 +29,7 @@ import {
   useAppDispatch,
   useAppSelector,
   ViewMode,
+  selectHaulsMatrixLoading,
 } from "store";
 
 export interface MapFilter {
@@ -125,7 +125,7 @@ export const HomeView: FC = () => {
   const dispatch = useAppDispatch();
   const trackMissing = useAppSelector(selectTrackMissing);
   const viewMode = useAppSelector(selectViewMode);
-  const haulsLoading = useAppSelector(selectHaulsGridLoading);
+  const haulsLoading = useAppSelector(selectHaulsMatrixLoading);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsSearch);

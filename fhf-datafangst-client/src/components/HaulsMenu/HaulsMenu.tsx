@@ -24,7 +24,7 @@ import {
 import { CatchesTable } from "components";
 import {
   getHaulTrip,
-  selectGears,
+  selectGearsMap,
   selectHaulsLoading,
   selectHaulsMenuOpen,
   selectHaulsSorted,
@@ -65,7 +65,7 @@ export const HaulsMenu: FC = () => {
   const dispatch = useAppDispatch();
   const open = useAppSelector(selectHaulsMenuOpen);
   const vessels = useAppSelector(selectVesselsByHaulId);
-  const gears = useAppSelector(selectGears);
+  const gears = useAppSelector(selectGearsMap);
   const hauls = useAppSelector(selectHaulsSorted);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaul = useAppSelector(selectSelectedHaul);

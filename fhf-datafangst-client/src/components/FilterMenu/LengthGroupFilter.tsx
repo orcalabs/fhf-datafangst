@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
-import { FilterStats, LengthGroup, LengthGroupCodes } from "models";
-import { selectVesselLengthFilterStats, useAppSelector } from "store";
+import { LengthGroup, LengthGroupsMap } from "models";
+import { selectVesselLengthFilterStatsSorted, useAppSelector } from "store";
 import { Bar } from "./Bar";
 
 interface Props {
@@ -11,66 +11,47 @@ interface Props {
 
 export const LengthGroupFilter: FC<Props> = (props) => {
   const value = props.value ?? [];
-  const vesselLengthStats = useAppSelector(selectVesselLengthFilterStats);
+  const vesselLengthStats = useAppSelector(selectVesselLengthFilterStatsSorted);
 
-  const total: number = vesselLengthStats.reduce(
-    (acc: number, obj: FilterStats) => {
-      return acc + obj.value;
-    },
-    0,
-  );
+  if (!vesselLengthStats.length) {
+    return <></>;
+  }
+
+  const total = vesselLengthStats.sum((v) => v.value);
 
   const onChange = (value: LengthGroup[]) =>
     props.onChange(value.length ? value : undefined);
 
   const handleClick = (id: number) => {
-    const lengthGroup = LengthGroupCodes[id];
-    if (lengthGroup) {
-      if (value.some((lengthGroup) => lengthGroup.id === id)) {
-        onChange(value.filter((lg) => lg.id !== id));
-      } else {
-        onChange([...value, lengthGroup]);
-      }
-    }
+    const lengthGroup = LengthGroupsMap[id];
+    if (lengthGroup)
+      onChange(
+        value.some((lengthGroup) => lengthGroup.id === id)
+          ? value.filter((l) => l.id !== id)
+          : [...value, lengthGroup],
+      );
   };
-
-  if (!vesselLengthStats.length) {
-    return <></>;
-  }
 
   return (
     <>
       <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
         Fartøylengde
       </Typography>
-
       <Box>
-        {[...vesselLengthStats]
-          .sort((a, b) => b.value - a.value)
-          .map((val, i) => {
-            const barLength = (val.value / total) * 100;
-
-            return (
-              <Box
-                key={i}
-                sx={{
-                  ":hover": {
-                    cursor: "pointer",
-                  },
-                }}
-                onClick={() => handleClick(val.id)}
-              >
-                <Bar
-                  length={barLength}
-                  label={LengthGroupCodes[val.id].name}
-                  value={val.value}
-                  selected={value.some(
-                    (lengthGroup) => lengthGroup.id === val.id,
-                  )}
-                />
-              </Box>
-            );
-          })}
+        {vesselLengthStats.map((val, i) => (
+          <Box
+            key={i}
+            sx={{ ":hover": { cursor: "pointer" } }}
+            onClick={() => handleClick(val.id)}
+          >
+            <Bar
+              length={(val.value / total) * 100}
+              label={LengthGroupsMap[val.id].name}
+              value={val.value}
+              selected={value.some((l) => l.id === val.id)}
+            />
+          </Box>
+        ))}
       </Box>
     </>
   );

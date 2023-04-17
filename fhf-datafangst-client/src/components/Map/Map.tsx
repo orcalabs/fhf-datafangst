@@ -3,12 +3,10 @@ import { defaults } from "ol/control";
 import { View, Map as OLMap, MapBrowserEvent } from "ol";
 import { Box, Popover, PopoverPosition } from "@mui/material";
 import { Types } from "ol/MapBrowserEventType";
-
 import {
   initializeMap,
   selectFishmapState,
   setSelectedHaul,
-  store,
   toggleSelectedArea,
   useAppDispatch,
   useAppSelector,
@@ -82,7 +80,7 @@ export const Map: FC<Props> = (props) => {
           const haul = feature.get("haul");
 
           // Avoid registering clicks on areas without catches
-          if (grid && store.getState().haulsGrid?.grid[grid]) {
+          if (grid && feature.get("weight") > 0) {
             dispatch(toggleSelectedArea(feature));
           } else if (haul) {
             dispatch(setSelectedHaul({ haul }));

@@ -1,29 +1,24 @@
-import { HaulsArgs } from "api/haulsApi";
-import { Haul, HaulsGrid } from "generated/openapi";
-import { FilterStats } from "models";
+import { HaulsArgs, HaulsFilter } from "api/haulsApi";
+import { Haul, HaulsMatrix } from "generated/openapi";
 
 export interface HaulState {
   hauls?: Haul[];
-  haulsGrid?: HaulsGrid;
   haulsByArea?: Record<string, Haul[]>;
+  haulsMatrix?: HaulsMatrix;
   haulsLoading: boolean;
-  haulsGridLoading: boolean;
+  haulsMatrixLoading: boolean;
   haulsSearch?: HaulsArgs;
+  hoveredFilter?: HaulsFilter;
   selectedHaul?: Haul;
-  gearFilterStats?: FilterStats[];
-  specieFilterStats?: FilterStats[];
-  vesselLengthStats?: FilterStats[];
 }
 
 export const initialHaulState: HaulState = {
   hauls: undefined,
-  haulsGrid: undefined,
   haulsByArea: undefined,
+  haulsMatrix: undefined,
   haulsLoading: false,
-  haulsGridLoading: false,
+  haulsMatrixLoading: false,
   haulsSearch: undefined,
+  hoveredFilter: undefined,
   selectedHaul: undefined,
-  gearFilterStats: undefined,
-  specieFilterStats: undefined,
-  vesselLengthStats: undefined,
 };

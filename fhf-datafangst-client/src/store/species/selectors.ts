@@ -3,7 +3,11 @@ import { selectAppState } from "store/selectors";
 
 export const selectSpecies = createSelector(
   selectAppState,
-  (state) => state.species,
+  (state) => state.species ?? [],
+);
+
+export const selectSpeciesMap = createSelector(selectSpecies, (state) =>
+  Object.fromEntries(state.map((s) => [s.id, s])),
 );
 
 export const selectSpeciesFao = createSelector(
@@ -13,16 +17,30 @@ export const selectSpeciesFao = createSelector(
 
 export const selectSpeciesFiskeridir = createSelector(
   selectAppState,
-  (state) => state.speciesFiskeridir,
+  (state) => state.speciesFiskeridir ?? [],
+);
+
+export const selectSpeciesFiskeridirMap = createSelector(
+  selectSpeciesFiskeridir,
+  (state) => Object.fromEntries(state.map((s) => [s.id, s])),
 );
 
 export const selectSpeciesGroups = createSelector(
   selectAppState,
-  (state) => state.speciesGroups,
+  (state) => state.speciesGroups ?? [],
 );
 
-export const selectSpeciesMainGroups = createSelector(selectAppState, (state) =>
-  Object.values(state.speciesMainGroups).sort((a, b) =>
-    a.name.localeCompare(b.name, "no"),
-  ),
+export const selectSpeciesGroupsSorted = createSelector(
+  selectSpeciesGroups,
+  (state) => [...state].sort((a, b) => a.id - b.id),
+);
+
+export const selectSpeciesGroupsMap = createSelector(
+  selectSpeciesGroups,
+  (state) => Object.fromEntries(state.map((s) => [s.id, s])),
+);
+
+export const selectSpeciesMainGroups = createSelector(
+  selectAppState,
+  (state) => state.speciesMainGroups,
 );

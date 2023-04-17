@@ -1,8 +1,15 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { getTrack } from "store";
+import { HaulsFilter } from "api";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
-import { getHauls, getHaulsGrid, setHaulsSearch, setSelectedHaul } from ".";
-import { getTrack } from "store";
+import {
+  getHauls,
+  setHaulsSearch,
+  setSelectedHaul,
+  getHaulsMatrix,
+  setHoveredFilter,
+} from ".";
 
 export const haulBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -32,35 +39,16 @@ export const haulBuilder = (
     .addCase(getHauls.rejected, (state, _) => {
       state.haulsLoading = false;
     })
-    .addCase(getHaulsGrid.pending, (state, _) => {
-      state.haulsGridLoading = true;
-      state.haulsGrid = undefined;
+    .addCase(getHaulsMatrix.pending, (state, _) => {
+      state.haulsMatrix = undefined;
+      state.haulsMatrixLoading = true;
     })
-    .addCase(getHaulsGrid.fulfilled, (state, action) => {
-      state.haulsGrid = action.payload;
-
-      state.gearFilterStats = Object.entries(
-        action.payload.weightByGearGroup,
-      ).map(([key, val]) => {
-        return { id: Number(key), value: val };
-      });
-
-      state.specieFilterStats = Object.entries(
-        action.payload.weightBySpeciesGroup,
-      ).map(([key, val]) => {
-        return { id: Number(key), value: val };
-      });
-
-      state.vesselLengthStats = Object.entries(
-        action.payload.weightByVesselLengthGroup,
-      ).map(([key, val]) => {
-        return { id: Number(key), value: val };
-      });
-
-      state.haulsGridLoading = false;
+    .addCase(getHaulsMatrix.fulfilled, (state, action) => {
+      state.haulsMatrix = action.payload;
+      state.haulsMatrixLoading = false;
     })
-    .addCase(getHaulsGrid.rejected, (state, _) => {
-      state.haulsGridLoading = false;
+    .addCase(getHaulsMatrix.rejected, (state, _) => {
+      state.haulsMatrixLoading = false;
     })
     .addCase(setSelectedHaul, (state, action) => {
       const haul = action.payload.haul;
@@ -83,11 +71,21 @@ export const haulBuilder = (
         }
       }
     })
+    .addCase(setHoveredFilter, (state, action) => {
+      state.hoveredFilter = action.payload;
+    })
     .addCase(setHaulsSearch, (state, action) => {
       if (action.payload) {
-        (action as any).asyncDispatch(
-          getHaulsGrid({ ...action.payload, catchLocations: undefined }),
-        );
+        if (
+          action.payload.filter === undefined ||
+          action.payload.filter !== state.hoveredFilter ||
+          action.payload.filter === HaulsFilter.Vessel
+        ) {
+          action.payload.filter = state.hoveredFilter ?? HaulsFilter.Date;
+          (action as any).asyncDispatch(
+            getHaulsMatrix({ ...action.payload, catchLocations: undefined }),
+          );
+        }
 
         if (action.payload.catchLocations) {
           (action as any).asyncDispatch(getHauls({ ...action.payload }));

@@ -1,8 +1,7 @@
 import { VectorLayer } from "components";
-import { generateShorelineVector } from "utils";
+import { shorelineVector } from "utils";
 import { Stroke, Style } from "ol/style";
 import theme from "app/theme";
-import shoreline from "assets/geojson/shoreline.json";
 
 const style = new Style({
   stroke: new Stroke({
@@ -11,8 +10,6 @@ const style = new Style({
   }),
 });
 
-export const ShorelineLayer = () => {
-  const shorelineVector = generateShorelineVector(shoreline);
-
-  return <VectorLayer source={shorelineVector} style={style} zIndex={1} />;
-};
+export const ShorelineLayer = () => (
+  <VectorLayer source={shorelineVector} style={style} zIndex={1} />
+);

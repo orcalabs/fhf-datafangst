@@ -79,10 +79,8 @@ export const toTitleCase = (name: string | undefined | null) => {
 export const middle = (a: number, b: number, c: number) =>
   a + b + c - Math.max(a, b, c) - Math.min(a, b, c);
 
-export const sumCatches = (catches: Catch[]) => {
-  const res = catches.reduce((sum, curr) => sum + (curr.livingWeight ?? 0), 0);
-  return res;
-};
+export const sumCatches = (catches: Catch[]) =>
+  catches.sum((c) => c.livingWeight ?? 0);
 
 export const generateColormapFromHauls = (hauls: Haul[]) => {
   const colorMap: Record<string, number> = {};
