@@ -43,15 +43,30 @@ export const generateGridBoxStyle = (
   areaCode: string,
   colorGrade: number,
   maxGrade: number,
+  selected?: boolean,
 ): Style => {
-  return new Style({
-    fill: new Fill({ color: getColorGrade(colorGrade, maxGrade, 0.6) }),
-    // stroke: new Stroke({ color: "#387D90", width: 1 }),
-    text: new Text({
-      fill: new Fill({ color: "#387D90" }),
-      text: areaCode,
-    }),
-  });
+  if (selected) {
+    return new Style({
+      fill: new Fill({ color: "#C3E0E5" }),
+      stroke: new Stroke({
+        color: getColorGrade(colorGrade, maxGrade, 1),
+        width: 2,
+      }),
+      text: new Text({
+        fill: new Fill({ color: "#387D90" }),
+        text: areaCode,
+      }),
+    });
+  } else {
+    return new Style({
+      fill: new Fill({ color: getColorGrade(colorGrade, maxGrade, 0.6) }),
+      // stroke: new Stroke({ color: "#387D90", width: 1 }),
+      text: new Text({
+        fill: new Fill({ color: "#387D90" }),
+        text: areaCode,
+      }),
+    });
+  }
 };
 
 export const defaultGridBoxStyle = (areaCode: string): Style => {
@@ -142,6 +157,7 @@ export const generateShorelineVector = (geoJsonObject: any) =>
 export const generateLocationsGrid = (
   geoJsonObject: any,
   haulsGrid?: HaulsGrid,
+  selectedGrids?: string[],
 ) => {
   if (!haulsGrid) {
     return;
@@ -160,7 +176,9 @@ export const generateLocationsGrid = (
         area,
         haulsGrid.grid[area],
         haulsGrid.maxWeight,
+        selectedGrids?.includes(area),
       );
+
       feature.setStyle(style);
     } else {
       const style = defaultGridBoxStyle(area.toString());

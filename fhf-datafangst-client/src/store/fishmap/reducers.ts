@@ -1,5 +1,4 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { Stroke, Style } from "ol/style";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { generateGridBoxStyle } from "utils";
@@ -22,12 +21,16 @@ export const fishmapBuilder = (
         (a) => a.get("objectid") === area.get("objectid"),
       );
       if (index < 0) {
-        const style = area.getStyle() as Style;
-        const color = style.getFill().getColor()?.toString();
-        style.setStroke(new Stroke({ color, width: 2 }));
-        style.getFill().setColor("#C3E0E5");
-        style.setZIndex(1000);
-        area.changed();
+        if (state.haulsGrid) {
+          area.setStyle(
+            generateGridBoxStyle(
+              areaString,
+              state.haulsGrid.grid[areaString],
+              state.haulsGrid.maxWeight,
+              true,
+            ),
+          );
+        }
         selected.push(area);
       } else {
         const removed = selected.splice(index, 1);
