@@ -58,9 +58,9 @@ const theme = createTheme(
         contrastText: "#fff",
       },
       secondary: {
-        main: "#7F88B5",
-        light: "#C1BFEB",
-        dark: "#1E5850",
+        main: "#4F9D95",
+        light: "#6FB7AF",
+        dark: "#3E7B74",
       },
       third: {
         main: "#E81F76",
@@ -95,7 +95,8 @@ const theme = createTheme(
         700: "#9EA4B5",
         // Grey (menu, unselected filter)
         A100: "#80888C",
-        A200: "#474E6B",
+        // Water color map
+        A200: "#b5ced9",
         A400: "#3B8786",
         A700: "#A46200",
       },
