@@ -67,6 +67,7 @@ export const haulBuilder = (
       const haul = action.payload.haul;
       state.selectedHaul = haul;
       state.ais = undefined;
+      state.vms = undefined;
 
       if (haul && state.vesselsByCallsign) {
         const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
