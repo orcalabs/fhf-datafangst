@@ -61,24 +61,20 @@ const accordionSx = {
   "&:before": { display: "none" },
 };
 
-interface Props {
-  onHaulChange?: (haul: Haul | undefined) => void;
-}
-
-export const HaulsMenu: FC<Props> = (props) => {
-  const { onHaulChange } = props;
+export const HaulsMenu: FC = () => {
   const dispatch = useAppDispatch();
   const open = useAppSelector(selectHaulsMenuOpen);
   const vessels = useAppSelector(selectVesselsByHaulId);
   const gears = useAppSelector(selectGears);
   const hauls = useAppSelector(selectHaulsSorted);
   const haulsLoading = useAppSelector(selectHaulsLoading);
-  const selectedHaulId = useAppSelector(selectSelectedHaul)?.haulId;
+  const selectedHaul = useAppSelector(selectSelectedHaul);
   const selectedGrids = useAppSelector(selectSelectedGrids);
+  const selectedHaulId = selectedHaul?.haulId;
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState<number>(0);
   const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const currentHauls = hauls.slice(
     currentPage * haulsPerPage,
     currentPage * haulsPerPage + haulsPerPage,
@@ -102,8 +98,20 @@ export const HaulsMenu: FC<Props> = (props) => {
   const handleHaulChange = (haul: Haul) => {
     const newHaul = haul.haulId === selectedHaulId ? undefined : haul;
     dispatch(setSelectedHaul({ haul: newHaul }));
-    onHaulChange?.(newHaul);
   };
+
+  // Change current page when Haul is selected from map click
+  useEffect(() => {
+    if (selectedHaul) {
+      const selectedIndex = hauls.findIndex(
+        (val) => val.haulId === selectedHaul?.haulId,
+      );
+
+      if (selectedIndex !== -1) {
+        setCurrentPage(Math.floor(selectedIndex / haulsPerPage));
+      }
+    }
+  }, [selectedHaul]);
 
   // Reset pagination on new grid selection
   useEffect(() => {
@@ -250,7 +258,9 @@ export const HaulsMenu: FC<Props> = (props) => {
                       listItem(
                         haul,
                         index,
-                        vessels[haul.haulId]?.fiskeridir?.name ?? "Ukjent",
+                        vessels[haul.haulId]?.fiskeridir?.name ??
+                          haul.vesselNameErs ??
+                          "Ukjent",
                         kilosOrTonsFormatter(sumCatches(haul.catches)) +
                           " - " +
                           dateFormat(haul.startTimestamp, "PPP HH:mm"),
