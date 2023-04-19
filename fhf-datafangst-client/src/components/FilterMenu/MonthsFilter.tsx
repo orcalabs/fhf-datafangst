@@ -45,7 +45,6 @@ export const MonthsFilter: FC<Props> = (props) => {
         size="small"
         PopperComponent={StyledPopper}
         limitTags={3}
-        disablePortal
         disableListWrap
         onKeyDown={(e) => e.stopPropagation()}
         value={values ?? []}
@@ -54,12 +53,13 @@ export const MonthsFilter: FC<Props> = (props) => {
         getOptionLabel={(option: number) => Months[option]}
         renderInput={(params: any) => <TextField {...params} />}
         renderOption={(props, option, { selected }) => (
-          <li {...props}>
+          <li {...props} style={{ paddingLeft: 6, paddingRight: 6 }}>
             <Checkbox
               icon={icon}
               checkedIcon={checkedIcon}
               style={{ marginRight: 8 }}
               checked={selected}
+              disableRipple
             />
             {Months[option]}
           </li>

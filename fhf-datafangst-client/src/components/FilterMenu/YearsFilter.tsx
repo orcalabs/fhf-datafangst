@@ -39,8 +39,9 @@ export const YearsFilter: FC<Props> = (props) => {
         getOptionLabel={(option: number) => option.toString()}
         renderInput={(params: any) => <TextField {...params} />}
         renderOption={(props, option, { selected }) => (
-          <li {...props}>
+          <li {...props} style={{ paddingLeft: 6, paddingRight: 6 }}>
             <Checkbox
+              disableRipple
               icon={icon}
               checkedIcon={checkedIcon}
               style={{ marginRight: 8 }}
