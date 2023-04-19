@@ -1,9 +1,8 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getAis } from "store/ais";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
-import { getVms } from "store/vms";
 import { getHauls, getHaulsGrid, setHaulsSearch, setSelectedHaul } from ".";
+import { getTrack } from "store";
 
 export const haulBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -71,20 +70,12 @@ export const haulBuilder = (
 
       if (haul && state.vesselsByCallsign) {
         const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
-        if (vessel?.ais) {
-          (action as any).asyncDispatch(
-            getAis({
-              mmsi: vessel.ais.mmsi,
-              start: haul.startTimestamp,
-              end: haul.stopTimestamp,
-            }),
-          );
-        }
 
         if (vessel) {
           (action as any).asyncDispatch(
-            getVms({
-              callSign: vessel.fiskeridir.callSign!,
+            getTrack({
+              mmsi: vessel.ais?.mmsi,
+              callSign: vessel.fiskeridir.callSign,
               start: haul.startTimestamp,
               end: haul.stopTimestamp,
             }),

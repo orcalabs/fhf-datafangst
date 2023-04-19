@@ -12,22 +12,21 @@ import {
   ViewModeToggle,
   LoadingScreen,
   HaulsMenu,
-  AisLayer,
+  TrackLayer,
   TripsMenu,
 } from "components";
 import { FC, useEffect, useState } from "react";
 import {
   getHauls,
   resetState,
-  selectAisLoading,
-  selectAisMissing,
+  selectTrackMissing,
   selectHaulsGridLoading,
   selectHaulsMenuOpen,
   selectHaulsSearch,
   selectSelectedGridsString,
   selectSelectedHaulTrip,
+  selectTrackLoading,
   selectViewMode,
-  selectVmsLoading,
   useAppDispatch,
   useAppSelector,
   ViewMode,
@@ -122,17 +121,16 @@ const FilterButtonArea = (props: any) => (
 );
 
 export const HomeView: FC = () => {
-  const dispatch = useAppDispatch();
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
-  const aisMissing = useAppSelector(selectAisMissing);
+  const dispatch = useAppDispatch();
+  const trackMissing = useAppSelector(selectTrackMissing);
   const viewMode = useAppSelector(selectViewMode);
   const haulsLoading = useAppSelector(selectHaulsGridLoading);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsSearch);
   const selectedTrip = useAppSelector(selectSelectedHaulTrip);
-  const aisLoading = useAppSelector(selectAisLoading);
-  const vmsLoading = useAppSelector(selectVmsLoading);
+  const trackLoading = useAppSelector(selectTrackLoading);
 
   // Fetch hauls for selected grid
   useEffect(() => {
@@ -177,10 +175,10 @@ export const HomeView: FC = () => {
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
         <HaulsLayer />
-        <AisLayer />
+        <TrackLayer />
       </Map>
       <ViewModeToggle />
-      <LoadingScreen open={haulsLoading || aisLoading || vmsLoading} />
+      <LoadingScreen open={haulsLoading || trackLoading} />
       <Box
         sx={{
           "& .MuiSnackbar-anchorOriginTopCenter": { top: 60 },
@@ -192,12 +190,13 @@ export const HomeView: FC = () => {
         }}
       >
         <Snackbar
+          sx={{ "& .MuiPaper-root": { minWidth: 0 } }}
           anchorOrigin={{
             vertical: "top",
             horizontal: "center",
           }}
-          open={aisMissing}
-          message={"AIS-spor for dette halet er ikke tilgjengelig"}
+          open={trackMissing}
+          message={"Spor for dette halet er ikke tilgjengelig"}
         />
       </Box>
     </>
