@@ -12,3 +12,4 @@ export * from "./gear";
 export * from "./ais";
 export * from "./trip";
 export * from "./vms";
+export * from "./track";

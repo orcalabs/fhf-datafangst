@@ -6,3 +6,4 @@ export * from "./gearApi";
 export * from "./aisApi";
 export * from "./tripsApi";
 export * from "./vmsApi";
+export * from "./trackApi";
