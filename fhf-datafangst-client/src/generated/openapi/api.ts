@@ -26,6 +26,22 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const ActiveHaulsFilter = {
+    Date: 'date',
+    GearGroup: 'gearGroup',
+    SpeciesGroup: 'speciesGroup',
+    VesselLength: 'vesselLength'
+} as const;
+
+export type ActiveHaulsFilter = typeof ActiveHaulsFilter[keyof typeof ActiveHaulsFilter];
+
+
+/**
+ * 
+ * @export
  * @interface AisPosition
  */
 export interface AisPosition {
@@ -161,13 +177,94 @@ export interface AisVessel {
 /**
  * 
  * @export
+ * @interface AisVmsPosition
+ */
+export interface AisVmsPosition {
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPosition
+     */
+    'cog'?: number | null;
+    /**
+     * 
+     * @type {AisVmsPositionDetails}
+     * @memberof AisVmsPosition
+     */
+    'det'?: AisVmsPositionDetails | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPosition
+     */
+    'lat': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPosition
+     */
+    'lon': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPosition
+     */
+    'speed'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof AisVmsPosition
+     */
+    'timestamp': string;
+}
+/**
+ * 
+ * @export
+ * @interface AisVmsPositionDetails
+ */
+export interface AisVmsPositionDetails {
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPositionDetails
+     */
+    'distanceToShore'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AisVmsPositionDetails
+     */
+    'missingData': boolean;
+    /**
+     * 
+     * @type {NavigationStatus}
+     * @memberof AisVmsPositionDetails
+     */
+    'navigationalStatus'?: NavigationStatus | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPositionDetails
+     */
+    'rateOfTurn'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPositionDetails
+     */
+    'trueHeading'?: number | null;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
 export const ApiError = {
     InvalidCallSign: 'InvalidCallSign',
     InvalidDateRange: 'InvalidDateRange',
-    InternalServerError: 'InternalServerError'
+    InternalServerError: 'InternalServerError',
+    MissingMmsiOrCallSign: 'MissingMmsiOrCallSign'
 } as const;
 
 export type ApiError = typeof ApiError[keyof typeof ApiError];
@@ -668,6 +765,37 @@ export interface HaulsGrid {
 /**
  * 
  * @export
+ * @interface HaulsMatrix
+ */
+export interface HaulsMatrix {
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof HaulsMatrix
+     */
+    'dates': Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof HaulsMatrix
+     */
+    'gearGroup': Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof HaulsMatrix
+     */
+    'lengthGroup': Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof HaulsMatrix
+     */
+    'speciesGroup': Array<number>;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -1137,6 +1265,165 @@ export class V1aisApi extends BaseAPI {
 
 
 /**
+ * V1aisVmsApi - axios parameter creator
+ * @export
+ */
+export const V1aisVmsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} [mmsi] 
+         * @param {string} [callSign] 
+         * @param {string} [start] 
+         * @param {string} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        aisVmsPositions: async (mmsi?: number, callSign?: string, start?: string, end?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/ais_vms_positions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (mmsi !== undefined) {
+                localVarQueryParameter['mmsi'] = mmsi;
+            }
+
+            if (callSign !== undefined) {
+                localVarQueryParameter['callSign'] = callSign;
+            }
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1aisVmsApi - functional programming interface
+ * @export
+ */
+export const V1aisVmsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1aisVmsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [mmsi] 
+         * @param {string} [callSign] 
+         * @param {string} [start] 
+         * @param {string} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async aisVmsPositions(mmsi?: number, callSign?: string, start?: string, end?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AisVmsPosition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.aisVmsPositions(mmsi, callSign, start, end, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1aisVmsApi - factory interface
+ * @export
+ */
+export const V1aisVmsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1aisVmsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {V1aisVmsApiAisVmsPositionsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        aisVmsPositions(requestParameters: V1aisVmsApiAisVmsPositionsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<AisVmsPosition>> {
+            return localVarFp.aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for aisVmsPositions operation in V1aisVmsApi.
+ * @export
+ * @interface V1aisVmsApiAisVmsPositionsRequest
+ */
+export interface V1aisVmsApiAisVmsPositionsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisVmsApiAisVmsPositions
+     */
+    readonly mmsi?: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1aisVmsApiAisVmsPositions
+     */
+    readonly callSign?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1aisVmsApiAisVmsPositions
+     */
+    readonly start?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1aisVmsApiAisVmsPositions
+     */
+    readonly end?: string
+}
+
+/**
+ * V1aisVmsApi - object-oriented interface
+ * @export
+ * @class V1aisVmsApi
+ * @extends {BaseAPI}
+ */
+export class V1aisVmsApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1aisVmsApiAisVmsPositionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1aisVmsApi
+     */
+    public aisVmsPositions(requestParameters: V1aisVmsApiAisVmsPositionsRequest = {}, options?: AxiosRequestConfig) {
+        return V1aisVmsApiFp(this.configuration).aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * V1gearApi - axios parameter creator
  * @export
  */
@@ -1466,6 +1753,69 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {ActiveHaulsFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {string} [months] 
+         * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
+         * @param {string} [fiskeridirVesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        haulsMatrix: async (activeFilter: ActiveHaulsFilter, months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'activeFilter' is not null or undefined
+            assertParamExists('haulsMatrix', 'activeFilter', activeFilter)
+            const localVarPath = `/v1.0/hauls_matrix/{active_filter}`
+                .replace(`{${"active_filter"}}`, encodeURIComponent(String(activeFilter)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (months !== undefined) {
+                localVarQueryParameter['months'] = months;
+            }
+
+            if (catchLocations !== undefined) {
+                localVarQueryParameter['catchLocations'] = catchLocations;
+            }
+
+            if (gearGroupIds !== undefined) {
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
+            }
+
+            if (speciesGroupIds !== undefined) {
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
+            }
+
+            if (vesselLengthRanges !== undefined) {
+                localVarQueryParameter['vesselLengthRanges'] = vesselLengthRanges;
+            }
+
+            if (fiskeridirVesselIds !== undefined) {
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1506,6 +1856,22 @@ export const V1haulApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.haulsGrid(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, fiskeridirVesselIds, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {ActiveHaulsFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {string} [months] 
+         * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
+         * @param {string} [fiskeridirVesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async haulsMatrix(activeFilter: ActiveHaulsFilter, months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HaulsMatrix>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.haulsMatrix(activeFilter, months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, fiskeridirVesselIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -1533,6 +1899,15 @@ export const V1haulApiFactory = function (configuration?: Configuration, basePat
          */
         haulsGrid(requestParameters: V1haulApiHaulsGridRequest = {}, options?: AxiosRequestConfig): AxiosPromise<HaulsGrid> {
             return localVarFp.haulsGrid(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1haulApiHaulsMatrixRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        haulsMatrix(requestParameters: V1haulApiHaulsMatrixRequest, options?: AxiosRequestConfig): AxiosPromise<HaulsMatrix> {
+            return localVarFp.haulsMatrix(requestParameters.activeFilter, requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1636,6 +2011,62 @@ export interface V1haulApiHaulsGridRequest {
 }
 
 /**
+ * Request parameters for haulsMatrix operation in V1haulApi.
+ * @export
+ * @interface V1haulApiHaulsMatrixRequest
+ */
+export interface V1haulApiHaulsMatrixRequest {
+    /**
+     * What feature to group by on the y-axis of the output matrices
+     * @type {ActiveHaulsFilter}
+     * @memberof V1haulApiHaulsMatrix
+     */
+    readonly activeFilter: ActiveHaulsFilter
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsMatrix
+     */
+    readonly months?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsMatrix
+     */
+    readonly catchLocations?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsMatrix
+     */
+    readonly gearGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsMatrix
+     */
+    readonly speciesGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsMatrix
+     */
+    readonly vesselLengthRanges?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1haulApiHaulsMatrix
+     */
+    readonly fiskeridirVesselIds?: string
+}
+
+/**
  * V1haulApi - object-oriented interface
  * @export
  * @class V1haulApi
@@ -1662,6 +2093,17 @@ export class V1haulApi extends BaseAPI {
      */
     public haulsGrid(requestParameters: V1haulApiHaulsGridRequest = {}, options?: AxiosRequestConfig) {
         return V1haulApiFp(this.configuration).haulsGrid(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1haulApiHaulsMatrixRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1haulApi
+     */
+    public haulsMatrix(requestParameters: V1haulApiHaulsMatrixRequest, options?: AxiosRequestConfig) {
+        return V1haulApiFp(this.configuration).haulsMatrix(requestParameters.activeFilter, requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
