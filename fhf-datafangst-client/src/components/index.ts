@@ -15,7 +15,7 @@ export { ViewModeToggle } from "./Layout/ViewModeToggle";
 export { LoadingScreen } from "./LoadingScreen/LoadingScreen";
 export { HaulsMenu } from "./HaulsMenu/HaulsMenu";
 export { CatchesTable } from "./HaulsMenu/CatchesTable";
-export { AisLayer } from "./Layers/AisLayer";
+export { TrackLayer } from "./Layers/TrackLayer";
 export { PositionPopover } from "./Map/PositionPopover";
 export { ShorelinePopover } from "./Map/ShorelinePopover";
 export { HaulPopover } from "./Map/HaulPopover";

@@ -10,7 +10,7 @@ import {
 import { FC, useState } from "react";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
-  getHaulAis,
+  getHaulTrack,
   resetTrackState,
   selectGears,
   selectSelectedHaul,
@@ -120,7 +120,7 @@ export const TripsMenu: FC = () => {
               onClick={() => {
                 dispatch(setSelectedTrip(undefined));
                 dispatch(resetTrackState());
-                dispatch(getHaulAis(selectedHaul));
+                dispatch(getHaulTrack(selectedHaul));
               }}
             >
               <CloseSharpIcon sx={{ color: "white" }} />

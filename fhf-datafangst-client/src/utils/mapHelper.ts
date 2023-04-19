@@ -7,7 +7,13 @@ import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import { AisPosition, Haul, HaulsGrid, VmsPosition } from "generated/openapi";
+import {
+  AisPosition,
+  AisVmsPosition,
+  Haul,
+  HaulsGrid,
+  VmsPosition,
+} from "generated/openapi";
 import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
 import {
@@ -262,7 +268,7 @@ const secondStyle = new Style({
   }),
 });
 
-const trackVesselStyle = (pos: AisPosition, zoom?: number): Style => {
+const trackVesselStyle = (pos: AisVmsPosition, zoom?: number): Style => {
   // Set max size for vessel icon
   let iconSize = zoom ? zoom * 0.018 : 2.7 * 0.018;
   if (iconSize > 0.06) {
@@ -286,7 +292,7 @@ const lineFeature = (line: LineString): Feature =>
   });
 
 export const generateVesselTrackVector = (
-  positions: Position[] | undefined,
+  positions: AisVmsPosition[] | undefined,
   zoomLevel: number | undefined,
   haul: Haul | undefined,
 ): TravelVector[] => {
