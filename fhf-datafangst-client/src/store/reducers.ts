@@ -15,6 +15,7 @@ import { gearBuilder } from "./gear";
 import { tripBuilder } from "./trip";
 import { aisBuilder } from "./ais";
 import { vmsBuilder } from "./vms";
+import { trackBuilder } from "./track";
 
 export const emptyState = {
   hauls: undefined,
@@ -25,11 +26,11 @@ export const emptyState = {
   selectedGridsString: [],
   ais: undefined,
   vms: undefined,
+  track: undefined,
 };
 
 const emptyTrackState = {
-  ais: undefined,
-  vms: undefined,
+  track: undefined,
 };
 
 class AppActionReducerMapBuilder<State> {
@@ -76,5 +77,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(aisBuilder)
     .extendBuilder(tripBuilder)
     .extendBuilder(vmsBuilder)
+    .extendBuilder(trackBuilder)
     .finish(),
 );

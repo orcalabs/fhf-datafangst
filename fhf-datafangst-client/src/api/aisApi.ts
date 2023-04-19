@@ -10,7 +10,7 @@ export interface AisArgs {
 
 const api = new V1aisApi(apiConfiguration, undefined, axiosInstance);
 
-export const getTrack = async (query: AisArgs) =>
+export const getAis = async (query: AisArgs) =>
   apiGet(async () =>
     api.aisTrack({
       mmsi: query.mmsi,
