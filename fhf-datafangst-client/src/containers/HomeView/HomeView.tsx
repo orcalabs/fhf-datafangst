@@ -14,6 +14,8 @@ import {
   HaulsMenu,
   TrackLayer,
   TripsMenu,
+  HeaderMenuButtons,
+  MyPage,
 } from "components";
 import { FC, useEffect, useState } from "react";
 import {
@@ -30,6 +32,7 @@ import {
   useAppSelector,
   ViewMode,
   selectHaulsMatrixLoading,
+  selectIsLoggedIn,
 } from "store";
 
 export interface MapFilter {
@@ -48,8 +51,7 @@ const GridContainer = (props: any) => (
   <Box
     sx={{
       display: "grid",
-      gridTemplateColumns:
-        "clamp(500px, 20%, 600px) 1fr clamp(320px, 20%, 420px)",
+      gridTemplateColumns: "500px 1fr clamp(320px, 20%, 420px)",
       gridTemplateRows: "49px 1fr",
       position: "absolute",
       width: "100%",
@@ -65,6 +67,19 @@ const HeaderTrack = (props: any) => (
     sx={{
       gridColumnStart: 1,
       gridColumnEnd: 4,
+      gridRowStart: 1,
+      gridRowEnd: 2,
+    }}
+  >
+    {props.children}
+  </Box>
+);
+
+const HeaderButtonCell = (props: any) => (
+  <Box
+    sx={{
+      gridColumnStart: 1,
+      gridColumnEnd: 2,
       gridRowStart: 1,
       gridRowEnd: 2,
     }}
@@ -123,6 +138,7 @@ const FilterButtonArea = (props: any) => (
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector(selectIsLoggedIn);
   const trackMissing = useAppSelector(selectTrackMissing);
   const viewMode = useAppSelector(selectViewMode);
   const haulsLoading = useAppSelector(selectHaulsMatrixLoading);
@@ -131,6 +147,13 @@ export const HomeView: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsSearch);
   const selectedTrip = useAppSelector(selectSelectedHaulTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
+  const [menuToggle, setMenuToggle] = useState<string>(
+    loggedIn ? "vesselprofile" : "catchdata",
+  );
+
+  const handleMenuToggle = (newValue: string) => {
+    setMenuToggle(newValue);
+  };
 
   // Fetch hauls for selected grid
   useEffect(() => {
@@ -152,8 +175,15 @@ export const HomeView: FC = () => {
         <HeaderTrack>
           <Header />
         </HeaderTrack>
+        <HeaderButtonCell>
+          <HeaderMenuButtons
+            value={menuToggle}
+            onToggleChange={handleMenuToggle}
+          />
+        </HeaderButtonCell>
         <MenuArea>
-          <FilterMenu />
+          {menuToggle === "vesselprofile" && <MyPage />}
+          {menuToggle === "catchdata" && <FilterMenu />}
         </MenuArea>
         <FilterButtonArea haulsMenuOpen={haulsMenuOpen}>
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
