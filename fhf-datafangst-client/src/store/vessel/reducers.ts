@@ -7,7 +7,7 @@ export const vesselBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder.addCase(getVessels.fulfilled, (state, action) => {
     const vessels = action.payload;
-    state.vessels = {};
+    state.vessels = vessels;
     state.vesselsByCallsign = {};
     state.vesselsByFiskeridirId = {};
     for (const vessel of vessels) {
@@ -18,7 +18,5 @@ export const vesselBuilder = (
       if (vessel.fiskeridir?.id) {
         state.vesselsByFiskeridirId[vessel.fiskeridir.id] = vessel;
       }
-
-      // state.vessels[vessel.id] = vessel;
     }
   });

@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { ViewMode } from "store";
+import * as Api from "api";
 import {
   login as _login,
   logout as _logout,
@@ -7,6 +8,11 @@ import {
 } from "app/auth";
 
 export const setError = createAction<boolean>("base/setError");
+
+export const getUserProfile = createAsyncThunk(
+  "base/getUserProfile",
+  Api.getUserProfile,
+);
 
 export const resetState = createAction("base/resetState");
 

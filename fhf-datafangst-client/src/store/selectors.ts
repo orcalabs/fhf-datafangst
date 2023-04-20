@@ -27,3 +27,8 @@ export const selectTrackMissing = createSelector(
   selectAppState,
   (state) => state.selectedHaul && !state.track?.length && !state.trackLoading,
 );
+
+export const selectBwUserProfile = createSelector(
+  selectAppState,
+  (state) => state.bwProfile,
+);
