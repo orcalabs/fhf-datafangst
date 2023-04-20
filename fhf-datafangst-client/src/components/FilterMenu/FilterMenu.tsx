@@ -49,14 +49,8 @@ export const FilterMenu: FC = () => {
         <Box
           sx={{
             width: "100%",
-            "& .MuiChip-filled": {
-              color: "black",
-              bgcolor: "secondary.main",
-              borderRadius: 0,
-            },
             "& .MuiButtonBase-root": {
               borderRadius: 0,
-
               "&:hover": {
                 borderRadius: 0,
               },
