@@ -99,6 +99,19 @@ export const defaultGridBoxStyle = (areaCode: string): Style => {
   });
 };
 
+const haulStyles: Record<string, Style> = {};
+
+const getHaulStyle = (color: string) => {
+  let style = haulStyles[color];
+  if (!style) {
+    style = new Style({
+      image: new Circle({ radius: 2.5, fill: new Fill({ color }) }),
+    });
+    haulStyles[color] = style;
+  }
+  return style;
+};
+
 export const generateHaulsVector = (hauls: Haul[] | undefined) => {
   if (!hauls?.length) {
     return;
@@ -116,19 +129,9 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
       geometry: new Point(
         fromLonLat([haul.startLongitude, haul.startLatitude]),
       ),
-      haul,
+      haulIdx: i,
     });
-    haulFeature.setStyle(
-      new Style({
-        image: new Circle({
-          radius: 2.5,
-          fill: new Fill({
-            color: colorScale.getColor(sum).toRGBAString(),
-          }),
-        }),
-      }),
-    );
-
+    haulFeature.setStyle(getHaulStyle(colorScale.getColor(sum).toRGBAString()));
     haulsVector.addFeature(haulFeature);
   }
 
