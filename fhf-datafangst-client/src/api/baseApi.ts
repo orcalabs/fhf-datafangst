@@ -4,9 +4,12 @@ import { Configuration } from "generated/openapi";
 export const apiConfiguration = new Configuration({
   basePath: process.env.REACT_APP_API_URL,
 });
-
 export const axiosInstance = defaultAxios.create({
   baseURL: process.env.REACT_APP_API_URL,
+});
+
+export const axiosBwInstance = defaultAxios.create({
+  baseURL: process.env.REACT_APP_BW_API_URL,
 });
 
 axiosInstance.interceptors.request.use((config) => {
