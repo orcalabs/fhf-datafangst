@@ -12,7 +12,7 @@ export const getHaulsMatrix = createAsyncThunk(
 
 export const setHaulsSearch = createAction<HaulsArgs>("haul/setHaulsSearch");
 
-export const setSelectedHaul = createAction<{ haul?: Haul }>(
+export const setSelectedHaul = createAction<Haul | number | undefined>(
   "haul/setSelectedHaul",
 );
 
