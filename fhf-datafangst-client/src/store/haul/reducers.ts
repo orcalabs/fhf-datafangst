@@ -10,6 +10,7 @@ import {
   getHaulsMatrix,
   setHoveredFilter,
 } from ".";
+import { Haul } from "generated/openapi";
 
 export const haulBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -51,7 +52,11 @@ export const haulBuilder = (
       state.haulsMatrixLoading = false;
     })
     .addCase(setSelectedHaul, (state, action) => {
-      const haul = action.payload.haul;
+      const haul =
+        typeof action.payload === "number"
+          ? state.hauls?.[action.payload]
+          : (action.payload as Haul);
+
       state.selectedHaul = haul;
       state.ais = undefined;
       state.vms = undefined;

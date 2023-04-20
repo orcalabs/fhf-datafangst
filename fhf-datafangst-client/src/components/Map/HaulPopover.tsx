@@ -8,13 +8,15 @@ import {
 } from "utils";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
-import { Haul } from "generated/openapi";
+import { selectHauls, useAppSelector } from "store";
 
 interface Props {
-  haul: Haul;
+  haulIdx: number;
 }
 
-export const HaulPopover: FC<Props> = ({ haul }) => {
+export const HaulPopover: FC<Props> = ({ haulIdx }) => {
+  const haul = useAppSelector(selectHauls)?.[haulIdx];
+
   return (
     <Box sx={{ px: 1 }}>
       <List dense disablePadding>

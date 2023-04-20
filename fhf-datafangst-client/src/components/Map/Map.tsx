@@ -14,7 +14,7 @@ import {
 import Feature, { FeatureLike } from "ol/Feature";
 import { Geometry } from "ol/geom";
 import RenderFeature from "ol/render/Feature";
-import { AisPosition, Haul } from "generated/openapi";
+import { AisPosition } from "generated/openapi";
 import { HaulPopover, PositionPopover, ShorelinePopover } from "components";
 
 interface Props {
@@ -31,7 +31,7 @@ export const Map: FC<Props> = (props) => {
   const mapState = useAppSelector(selectFishmapState);
   const [hoveredPosition, setHoveredPosition] = useState<AisPosition>();
   const [hoveredShoreline, setHoveredShoreline] = useState<boolean>(false);
-  const [hoveredHaul, setHoveredHaul] = useState<Haul>();
+  const [hoveredHaulIdx, setHoveredHaulIdx] = useState<number>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
 
   const handleClosePopover = () => {
@@ -43,7 +43,7 @@ export const Map: FC<Props> = (props) => {
   const resetHover = () => {
     setHoveredPosition(undefined);
     setHoveredShoreline(false);
-    setHoveredHaul(undefined);
+    setHoveredHaulIdx(undefined);
   };
 
   useEffect(() => {
@@ -77,13 +77,13 @@ export const Map: FC<Props> = (props) => {
         );
         if (feature) {
           const grid = feature.get("lokref");
-          const haul = feature.get("haul");
+          const haulIdx = feature.get("haulIdx");
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
             dispatch(toggleSelectedArea(feature));
-          } else if (haul) {
-            dispatch(setSelectedHaul({ haul }));
+          } else if (haulIdx !== undefined) {
+            dispatch(setSelectedHaul(haulIdx));
           }
         } else {
           // dispatch(resetState());
@@ -108,7 +108,7 @@ export const Map: FC<Props> = (props) => {
       if (feature) {
         const aisPosition = feature.get("aisPosition");
         const shoreLine = feature.getGeometryName();
-        const haul = feature.get("haul");
+        const haulIdx = feature.get("haulIdx");
 
         if (aisPosition) {
           setHoveredPosition(aisPosition);
@@ -116,9 +116,9 @@ export const Map: FC<Props> = (props) => {
         } else if (shoreLine === "shoreline") {
           setHoveredShoreline(true);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
-        } else if (haul) {
+        } else if (haulIdx !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
-          setHoveredHaul(haul);
+          setHoveredHaulIdx(haulIdx);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         }
       }
@@ -146,7 +146,7 @@ export const Map: FC<Props> = (props) => {
           <PositionPopover hoveredPosition={hoveredPosition} />
         )}
         {hoveredShoreline && <ShorelinePopover />}
-        {hoveredHaul && <HaulPopover haul={hoveredHaul} />}
+        {hoveredHaulIdx && <HaulPopover haulIdx={hoveredHaulIdx} />}
       </Popover>
       <Box id={"map"} sx={{ height: "100vh", width: "100%" }}>
         {children}

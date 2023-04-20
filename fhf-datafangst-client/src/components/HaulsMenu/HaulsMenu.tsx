@@ -84,7 +84,7 @@ export const HaulsMenu: FC = () => {
     _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
-    dispatch(setSelectedHaul({ haul: undefined }));
+    dispatch(setSelectedHaul(undefined));
     setCurrentPage(newPage);
   };
 
@@ -97,7 +97,7 @@ export const HaulsMenu: FC = () => {
 
   const handleHaulChange = (haul: Haul) => {
     const newHaul = haul.haulId === selectedHaulId ? undefined : haul;
-    dispatch(setSelectedHaul({ haul: newHaul }));
+    dispatch(setSelectedHaul(newHaul));
   };
 
   // Change current page when Haul is selected from map click
