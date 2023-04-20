@@ -19,3 +19,4 @@ export const login = async () => authService.login();
 export const logout = async () => authService.logout(true);
 
 export const checkLoggedIn = authService.isAuthenticated;
+export const getTokens = () => authService.getAuthTokens().access_token;

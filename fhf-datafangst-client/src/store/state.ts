@@ -7,6 +7,7 @@ import { AisState, initialAisState } from "./ais";
 import { initialTripState, TripState } from "./trip";
 import { initialVmsState, VmsState } from "./vms";
 import { TrackState, initialTrackState } from "./track";
+import { FiskInfoProfile } from "models";
 
 export enum ViewMode {
   Grid = "grid",
@@ -17,12 +18,14 @@ export interface BaseState {
   error: boolean;
   viewMode: ViewMode;
   isLoggedIn: boolean;
+  bwProfile?: FiskInfoProfile;
 }
 
 const initialBaseState: BaseState = {
   error: false,
   viewMode: ViewMode.Grid,
   isLoggedIn: false,
+  bwProfile: undefined,
 };
 
 export interface AppState

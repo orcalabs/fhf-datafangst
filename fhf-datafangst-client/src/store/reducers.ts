@@ -2,6 +2,7 @@ import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
 import { AppState, initialAppState } from "./state";
 import {
   checkLoggedIn,
+  getUserProfile,
   resetState,
   resetTrackState,
   setError,
@@ -16,6 +17,7 @@ import { tripBuilder } from "./trip";
 import { aisBuilder } from "./ais";
 import { vmsBuilder } from "./vms";
 import { trackBuilder } from "./track";
+import { getTokens } from "app/auth";
 
 export const emptyState = {
   hauls: undefined,
@@ -60,8 +62,15 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(setViewMode, (state, action) => {
       state.viewMode = action.payload;
     })
+    .addCase(getUserProfile.fulfilled, (state, action) => {
+      state.bwProfile = action.payload;
+    })
     .addCase(checkLoggedIn.fulfilled, (state, action) => {
       state.isLoggedIn = action.payload;
+
+      const token = getTokens();
+
+      (action as any).asyncDispatch(getUserProfile(token));
     })
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
