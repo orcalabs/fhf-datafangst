@@ -81,7 +81,8 @@ export const haulBuilder = (
           action.payload.filter !== state.hoveredFilter ||
           action.payload.filter === HaulsFilter.Vessel
         ) {
-          action.payload.filter = state.hoveredFilter ?? HaulsFilter.Date;
+          action.payload.filter =
+            state.hoveredFilter ?? HaulsFilter.VesselLength;
           (action as any).asyncDispatch(
             getHaulsMatrix({ ...action.payload, catchLocations: undefined }),
           );
