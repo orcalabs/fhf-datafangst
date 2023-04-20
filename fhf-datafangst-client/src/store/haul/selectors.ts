@@ -66,10 +66,10 @@ export const selectHaulsSelectedIndexes = createSelector(
   selectSpeciesGroupsSorted,
   (search, gearGroups, speciesGroups) => {
     const now = new Date();
-    const originalDates = Array.from(
-      { length: now.getFullYear() * 12 + now.getMonth() },
-      (_, i) => ({ id: 2010 * 12 + i }),
-    );
+    const datesLength = now.getFullYear() * 12 + now.getMonth() - 2010 * 12;
+    const originalDates = Array.from({ length: datesLength }, (_, i) => ({
+      id: 2010 * 12 + i,
+    }));
     const selectedDates =
       search?.years && search?.months
         ? search.years
@@ -180,17 +180,14 @@ const computeActiveStats = (
 
 export const selectGearFilterStats = createSelector(
   selectHaulsMatrix,
-  selectHaulsSearch,
   selectHaulsFilter,
   selectHaulsSelectedIndexes,
   selectHaulsFilterSelectionIndexes,
   selectGearGroupsSorted,
-  (matrix, search, filter, selection, activeSelection, gearGroups) => {
+  (matrix, filter, selection, activeSelection, gearGroups) => {
     if (!matrix) {
       return [];
     }
-
-    console.log(search?.gearGroupIds);
 
     return filter === HaulsFilter.GearGroup
       ? computeActiveStats(matrix.gearGroup, gearGroups, selection.gearGroups)
