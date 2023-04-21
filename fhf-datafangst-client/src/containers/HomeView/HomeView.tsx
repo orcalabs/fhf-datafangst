@@ -33,6 +33,10 @@ import {
   ViewMode,
   selectHaulsMatrixLoading,
   selectIsLoggedIn,
+  setHaulsSearch,
+  initialHaulsSearch,
+  selectBwUserProfile,
+  selectVesselsByCallsign,
 } from "store";
 
 export interface MapFilter {
@@ -150,9 +154,25 @@ export const HomeView: FC = () => {
   const [menuToggle, setMenuToggle] = useState<string>(
     loggedIn ? "vesselprofile" : "catchdata",
   );
+  const profile = useAppSelector(selectBwUserProfile);
+  const vesselInfo = profile?.vesselInfo;
+  const vessels = useAppSelector(selectVesselsByCallsign);
+  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
 
   const handleMenuToggle = (newValue: string) => {
     setMenuToggle(newValue);
+
+    if (newValue === "catchdata") {
+      dispatch(setHaulsSearch({ ...initialHaulsSearch, filter: undefined }));
+    } else if (newValue === "vesselprofile" && vessel) {
+      dispatch(
+        setHaulsSearch({
+          ...haulsSearch,
+          filter: undefined,
+          vessels: [vessel],
+        }),
+      );
+    }
   };
 
   // Fetch hauls for selected grid
@@ -182,7 +202,7 @@ export const HomeView: FC = () => {
           />
         </HeaderButtonCell>
         <MenuArea>
-          {menuToggle === "vesselprofile" && <MyPage />}
+          {menuToggle === "vesselprofile" && <MyPage vessel={vessel} />}
           {menuToggle === "catchdata" && <FilterMenu />}
         </MenuArea>
         <FilterButtonArea haulsMenuOpen={haulsMenuOpen}>
@@ -201,7 +221,8 @@ export const HomeView: FC = () => {
       </GridContainer>
       <Map>
         <MapBoxLayer />
-        {viewMode === ViewMode.Grid && <LocationsGrid />}
+        {viewMode === ViewMode.Grid &&
+          !(!vessel && menuToggle === "vesselprofile") && <LocationsGrid />}
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
         <HaulsLayer />

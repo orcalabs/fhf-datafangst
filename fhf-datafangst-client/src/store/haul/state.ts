@@ -1,4 +1,5 @@
 import { HaulsArgs, HaulsFilter } from "api/haulsApi";
+import { getMonth, getYear } from "date-fns";
 import { Haul, HaulsMatrix } from "generated/openapi";
 
 export interface HaulState {
@@ -21,4 +22,9 @@ export const initialHaulState: HaulState = {
   haulsSearch: undefined,
   hoveredFilter: undefined,
   selectedHaul: undefined,
+};
+
+export const initialHaulsSearch: HaulsArgs = {
+  months: [getMonth(new Date())],
+  years: [getYear(new Date())],
 };
