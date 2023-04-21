@@ -23,3 +23,4 @@ export { TripsMenu } from "./TripsMenu/TripsMenu";
 export { HeaderMenuButtons } from "./Layout/HeaderMenuButtons";
 export { MyPage } from "./MyPage/MyPage";
 export { VesselInfo } from "./MyPage/VesselInfo";
+export { Filters } from "./FilterMenu/Filters";

@@ -1,11 +1,50 @@
 import { Box, Button, Divider, Drawer, Typography } from "@mui/material";
-import { VesselInfo } from "components";
+import { Filters, VesselInfo } from "components";
+import { Vessel } from "generated/openapi";
 import { FC } from "react";
 import { login, selectIsLoggedIn, useAppDispatch, useAppSelector } from "store";
 
-export const MyPage: FC = () => {
+interface Props {
+  vessel?: Vessel;
+}
+
+export const MyPage: FC<Props> = (props) => {
+  const { vessel } = props;
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectIsLoggedIn);
+
+  const content = () => {
+    if (!loggedIn) {
+      return (
+        <>
+          <Typography variant="h6">
+            Du må være innlogget for å se denne siden
+            <Button
+              onClick={() => {
+                dispatch(login());
+              }}
+            >
+              Logg inn
+            </Button>
+          </Typography>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <VesselInfo vessel={vessel} />
+          {vessel && (
+            <>
+              <Divider
+                sx={{ bgcolor: "text.secondary", mt: 3, mb: 1, mx: 4 }}
+              />
+              <Filters selectedVessel={vessel} />
+            </>
+          )}
+        </>
+      );
+    }
+  };
 
   return (
     <Box sx={{ height: "100%" }}>
@@ -14,6 +53,7 @@ export const MyPage: FC = () => {
         sx={{
           height: "100%",
           "& .MuiDrawer-paper": {
+            p: 3,
             width: 500,
             position: "relative",
             boxSizing: "border-box",
@@ -30,20 +70,7 @@ export const MyPage: FC = () => {
           },
         }}
       >
-        {!loggedIn && (
-          <Typography variant="h6">
-            Du må være innlogget for å se denne siden
-            <Button
-              onClick={() => {
-                dispatch(login());
-              }}
-            >
-              Logg inn
-            </Button>
-          </Typography>
-        )}
-        <VesselInfo />
-        <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 1, mx: 4 }} />
+        {content()}
       </Drawer>
     </Box>
   );

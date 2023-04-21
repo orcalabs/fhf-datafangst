@@ -11,10 +11,10 @@ import {
   getSpeciesGroups,
   getSpeciesMainGroups,
   getVessels,
+  initialHaulsSearch,
   setHaulsSearch,
   useAppDispatch,
 } from "store";
-import { getMonth, getYear } from "date-fns";
 
 interface Props {
   children: ReactNode;
@@ -25,12 +25,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     dispatch(checkLoggedIn());
-    dispatch(
-      setHaulsSearch({
-        months: [getMonth(new Date())],
-        years: [getYear(new Date())],
-      }),
-    );
+    dispatch(setHaulsSearch(initialHaulsSearch));
     dispatch(getVessels());
     dispatch(getGear());
     dispatch(getGearGroups());

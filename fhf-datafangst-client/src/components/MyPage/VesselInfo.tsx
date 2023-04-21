@@ -12,15 +12,11 @@ import {
   styled,
 } from "@mui/material";
 import { FC } from "react";
-import {
-  selectBwUserProfile,
-  selectVesselsByCallsign,
-  useAppSelector,
-} from "store";
 import { toTitleCase } from "utils";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import theme from "app/theme";
+import { Vessel } from "generated/openapi";
 
 const StyledTableCell = styled(TableCell)(() => ({
   borderBottom: "none",
@@ -29,15 +25,16 @@ const StyledTableCell = styled(TableCell)(() => ({
   paddingRight: 0,
 }));
 
-export const VesselInfo: FC = () => {
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.vesselInfo;
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+interface Props {
+  vessel?: Vessel;
+}
 
-  if (!profile?.vesselInfo) {
+export const VesselInfo: FC<Props> = (props) => {
+  const { vessel } = props;
+
+  if (!vessel) {
     return (
-      <Typography variant="h6" sx={{ px: 4, pt: 3 }}>
+      <Typography variant="h6" sx={{ px: 2, pt: 1 }}>
         Du har ingen registrerte fartøy
       </Typography>
     );
@@ -49,8 +46,10 @@ export const VesselInfo: FC = () => {
         sx={{
           color: "white",
           bgcolor: "primary.main",
-          pl: 2.5,
-          pr: 2,
+          p: 0,
+          "& .MuiAccordionSummary-content": {
+            mt: 0,
+          },
         }}
         expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
       >
@@ -85,7 +84,7 @@ export const VesselInfo: FC = () => {
           </Box>
         </Box>
       </AccordionSummary>
-      <AccordionDetails sx={{ bgcolor: "primary.main", pb: 0, px: 4 }}>
+      <AccordionDetails sx={{ bgcolor: "primary.main", pb: 0, px: 2 }}>
         <TableContainer>
           <Table size="small">
             <TableBody>
