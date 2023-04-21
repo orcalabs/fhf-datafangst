@@ -38,7 +38,6 @@ export const fishmapBuilder = (
             removed.get("color"),
           ),
         );
-        removed.changed();
       }
 
       const indexStrings = selectedStrings.indexOf(areaString);

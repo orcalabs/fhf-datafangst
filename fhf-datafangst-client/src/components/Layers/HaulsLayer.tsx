@@ -23,8 +23,15 @@ export const HaulsLayer: FC = () => {
   };
 
   useEffect(() => {
-    const vec = generateHaulsVector(hauls());
-    setHaulsVector(vec);
+    // Prevent removing previous drawing when new hauls are loaded
+    if (Object.entries(haulsByArea).length) {
+      const vec = generateHaulsVector(hauls());
+      setHaulsVector(vec);
+    }
+
+    if (!selectedAreas.length) {
+      setHaulsVector(undefined);
+    }
   }, [haulsByArea]);
 
   return (
