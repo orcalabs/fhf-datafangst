@@ -19,14 +19,24 @@ export const MyPage: FC<Props> = (props) => {
         <>
           <Typography variant="h6">
             Du må være innlogget for å se denne siden
-            <Button
-              onClick={() => {
-                dispatch(login());
-              }}
-            >
-              Logg inn
-            </Button>
           </Typography>
+          <Button
+            sx={{
+              borderRadius: 0,
+              width: "110px",
+              mt: 1,
+              bgcolor: "secondary.main",
+              color: "white",
+              ":hover": {
+                bgcolor: "secondary.light",
+              },
+            }}
+            onClick={() => {
+              dispatch(login());
+            }}
+          >
+            Logg inn
+          </Button>
         </>
       );
     } else {

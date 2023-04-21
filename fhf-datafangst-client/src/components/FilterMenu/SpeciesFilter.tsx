@@ -10,6 +10,8 @@ import { Bar } from "./Bar";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 
+const NUM_BARS = 7;
+
 interface Props {
   value?: SpeciesGroup[];
   onChange: (_?: SpeciesGroup[]) => void;
@@ -51,8 +53,15 @@ export const SpeciesFilter: FC<Props> = (props) => {
         Art
       </Typography>
       <Box>
-        {/* Magic number: 30 = 20px bar height, 2px border, 8px margin */}
-        <Collapse in={expanded} collapsedSize={32 * 7}>
+        {/* Magic number: 32 = 22px bar height, 2px border, 8px margin */}
+        <Collapse
+          in={expanded}
+          collapsedSize={
+            speciesFilterStats.length >= NUM_BARS
+              ? 32 * NUM_BARS
+              : 32 * speciesFilterStats.length
+          }
+        >
           {speciesFilterStats.map((val, i) => (
             <Box
               key={i}
@@ -68,27 +77,29 @@ export const SpeciesFilter: FC<Props> = (props) => {
             </Box>
           ))}
         </Collapse>
-        <Box sx={{ width: "100%" }}>
-          <Button
-            disableRipple
-            size="small"
-            sx={{
-              float: "right",
-              fontSize: 13,
-              color: "white",
-              borderRadius: 0,
-              ":hover": {
+        {speciesFilterStats.length >= NUM_BARS && (
+          <Box sx={{ width: "100%" }}>
+            <Button
+              disableRipple
+              size="small"
+              sx={{
+                float: "right",
+                fontSize: 13,
+                color: "white",
                 borderRadius: 0,
-              },
-            }}
-            onClick={() => handleExpandChange()}
-            startIcon={
-              expanded ? <ExpandLessSharpIcon /> : <ExpandMoreSharpIcon />
-            }
-          >
-            {expanded ? "Vis mindre" : "Vis mer"}
-          </Button>
-        </Box>
+                ":hover": {
+                  borderRadius: 0,
+                },
+              }}
+              onClick={() => handleExpandChange()}
+              startIcon={
+                expanded ? <ExpandLessSharpIcon /> : <ExpandMoreSharpIcon />
+              }
+            >
+              {expanded ? "Vis mindre" : "Vis mer"}
+            </Button>
+          </Box>
+        )}
       </Box>
     </>
   );
