@@ -1,7 +1,7 @@
 import { Map } from "ol";
 import { fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
-import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
+import { Fill, Icon, Stroke, Style, Text } from "ol/style";
 import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
@@ -99,25 +99,12 @@ export const defaultGridBoxStyle = (areaCode: string): Style => {
   });
 };
 
-const haulStyles: Record<string, Style> = {};
-
-const getHaulStyle = (color: string) => {
-  let style = haulStyles[color];
-  if (!style) {
-    style = new Style({
-      image: new Circle({ radius: 2.5, fill: new Fill({ color }) }),
-    });
-    haulStyles[color] = style;
-  }
-  return style;
-};
-
 export const generateHaulsVector = (hauls: Haul[] | undefined) => {
   if (!hauls?.length) {
     return;
   }
 
-  const haulsVector = new VectorSource();
+  const haulsVector = new VectorSource<Point>();
   const highestCatchSum = findHighestHaulCatchWeight(hauls);
 
   const colorScale = createColorScale(0, highestCatchSum, 1);
@@ -125,13 +112,16 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
   for (let i = 0; i < hauls.length; i++) {
     const haul = hauls[i];
     const sum = sumCatches(haul.catches);
+    const color = colorScale.getColor(sum);
     const haulFeature = new Feature({
       geometry: new Point(
         fromLonLat([haul.startLongitude, haul.startLatitude]),
       ),
       haulIdx: i,
+      red: color.r,
+      green: color.g,
+      blue: color.b,
     });
-    haulFeature.setStyle(getHaulStyle(colorScale.getColor(sum).toRGBAString()));
     haulsVector.addFeature(haulFeature);
   }
 
