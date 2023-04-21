@@ -1,15 +1,19 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { generateHaulsVector } from "utils";
-import { VectorLayer } from "components";
 import { Haul } from "generated/openapi";
-import { selectHaulsByArea, selectSelectedGrids, useAppSelector } from "store";
-import VectorSource from "ol/source/Vector";
-import { Geometry } from "ol/geom";
+import {
+  selectFishmap,
+  selectHaulsByArea,
+  selectSelectedGrids,
+  useAppSelector,
+} from "store";
+import WebGLPointsLayer from "ol/layer/WebGLPoints";
 
 export const HaulsLayer: FC = () => {
-  const [haulsVector, setHaulsVector] = useState<VectorSource<Geometry>>();
   const haulsByArea = useAppSelector(selectHaulsByArea);
   const selectedAreas = useAppSelector(selectSelectedGrids);
+  const fishmap = useAppSelector(selectFishmap);
+
   const hauls = () => {
     const haulsArray: Haul[] = [];
     for (const [key, value] of Object.entries(haulsByArea)) {
@@ -23,20 +27,30 @@ export const HaulsLayer: FC = () => {
   };
 
   useEffect(() => {
-    // Prevent removing previous drawing when new hauls are loaded
-    if (Object.entries(haulsByArea).length) {
-      const vec = generateHaulsVector(hauls());
-      setHaulsVector(vec);
-    }
+    if (!fishmap) return;
 
-    if (!selectedAreas.length) {
-      setHaulsVector(undefined);
-    }
-  }, [haulsByArea]);
+    const source = generateHaulsVector(hauls());
+    if (source) {
+      const layer = new WebGLPointsLayer({
+        source,
+        zIndex: 5,
+        style: {
+          symbol: {
+            symbolType: "circle",
+            size: 6,
+            color: ["color", ["get", "red"], ["get", "green"], ["get", "blue"]],
+          },
+        },
+      });
+      fishmap.addLayer(layer);
 
-  return (
-    <>
-      <VectorLayer source={haulsVector} zIndex={5} />
-    </>
-  );
+      return () => {
+        if (fishmap) {
+          fishmap.removeLayer(layer);
+        }
+      };
+    }
+  }, [fishmap, haulsByArea]);
+
+  return null;
 };
