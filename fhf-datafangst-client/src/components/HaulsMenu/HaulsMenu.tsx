@@ -12,6 +12,7 @@ import {
   Drawer,
   TablePagination,
   Button,
+  Divider,
 } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import {
@@ -51,6 +52,7 @@ import { GearFilter } from "components/FilterMenu/GearFilter";
 import { LengthGroupFilter } from "components/FilterMenu/LengthGroupFilter";
 import { SpeciesFilter } from "components/FilterMenu/SpeciesFilter";
 import { HaulsFilter } from "api";
+import theme from "app/theme";
 
 const accordionSx = {
   m: 0,
@@ -154,7 +156,11 @@ export const HaulsMenu: FC = () => {
             "& svg": { mr: 2 },
           }}
         >
-          <FishIcon width="48" height="48" fill={"white"} />
+          <FishIcon
+            width="48"
+            height="48"
+            fill={`${theme.palette.secondary.light}`}
+          />
         </Box>
         <ListItemText primary={primary} secondary={secondary} />
       </AccordionSummary>
@@ -226,7 +232,6 @@ export const HaulsMenu: FC = () => {
             sx={{
               height: "100%",
               "& .MuiDrawer-paper": {
-                p: 3,
                 flexShrink: 0,
                 boxSizing: "border-box",
                 height: "100%",
@@ -240,60 +245,70 @@ export const HaulsMenu: FC = () => {
             anchor="right"
           >
             <Box sx={{ flexGrow: 1, overflowY: "auto", height: "90%" }}>
-              <Typography variant="h4" fontWeight="bold">
-                Selekterte områder
-              </Typography>
-
-              <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
-                <GearFilter
-                  value={haulsSearch?.gearGroupIds}
-                  onChange={(value) =>
-                    dispatch(
-                      setHaulsMatrix2Search({
-                        ...haulsSearch,
-                        gearGroupIds: value,
-                      }),
-                    )
-                  }
-                  statsSelector={selectGearFilterGridStatsSorted}
-                />
+              <Box sx={{ p: 2.5 }}>
+                <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
+                  VALGTE OMRÅDER
+                </Typography>
+                <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 1 }} />
+                <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
+                  <GearFilter
+                    value={haulsSearch?.gearGroupIds}
+                    onChange={(value) =>
+                      dispatch(
+                        setHaulsMatrix2Search({
+                          ...haulsSearch,
+                          gearGroupIds: value,
+                        }),
+                      )
+                    }
+                    statsSelector={selectGearFilterGridStatsSorted}
+                  />
+                </Box>
+                <Box
+                  onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}
+                >
+                  <SpeciesFilter
+                    value={haulsSearch?.speciesGroupIds}
+                    onChange={(value) =>
+                      dispatch(
+                        setHaulsMatrix2Search({
+                          ...haulsSearch,
+                          speciesGroupIds: value,
+                        }),
+                      )
+                    }
+                    statsSelector={selectSpeciesFilterGridStatsSorted}
+                  />
+                </Box>
+                <Box
+                  onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}
+                >
+                  <LengthGroupFilter
+                    value={haulsSearch?.vesselLengthRanges}
+                    onChange={(value) =>
+                      dispatch(
+                        setHaulsMatrix2Search({
+                          ...haulsSearch,
+                          vesselLengthRanges: value,
+                        }),
+                      )
+                    }
+                    statsSelector={selectVesselLengthFilterGridStatsSorted}
+                  />
+                </Box>
               </Box>
-              <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
-                <SpeciesFilter
-                  value={haulsSearch?.speciesGroupIds}
-                  onChange={(value) =>
-                    dispatch(
-                      setHaulsMatrix2Search({
-                        ...haulsSearch,
-                        speciesGroupIds: value,
-                      }),
-                    )
-                  }
-                  statsSelector={selectSpeciesFilterGridStatsSorted}
-                />
-              </Box>
-              <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
-                <LengthGroupFilter
-                  value={haulsSearch?.vesselLengthRanges}
-                  onChange={(value) =>
-                    dispatch(
-                      setHaulsMatrix2Search({
-                        ...haulsSearch,
-                        vesselLengthRanges: value,
-                      }),
-                    )
-                  }
-                  statsSelector={selectVesselLengthFilterGridStatsSorted}
-                />
-              </Box>
-              <List sx={{ pt: 4 }}>
-                <ListSubheader sx={{ px: 0, borderBottom: "1px solid white" }}>
+              <List sx={{ pt: 3 }}>
+                <ListSubheader
+                  sx={{
+                    px: 0,
+                  }}
+                >
                   <TablePagination
                     sx={{
                       bgcolor: "primary.main",
                       color: "white",
                       width: "100%",
-                      "& .MuiTablePagination-toolbar": { p: 0 },
+                      "& .MuiTablePagination-toolbar": { px: 3 },
                     }}
                     component="div"
                     count={hauls.length}
@@ -302,10 +317,12 @@ export const HaulsMenu: FC = () => {
                     rowsPerPage={haulsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     labelRowsPerPage={"Hal per side"}
-                    padding="none"
+                    padding="normal"
                   />
                 </ListSubheader>
-
+                <Divider
+                  sx={{ bgcolor: "secondary.light", mt: 0, mb: 1, mx: 5 }}
+                />
                 {haulsLoading ? (
                   <Box sx={{ pt: 2, pl: 2.5 }}>Laster...</Box>
                 ) : !hauls?.length ? (
