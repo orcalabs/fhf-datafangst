@@ -4,16 +4,20 @@ import { useEffect, useState } from "react";
 import VectorSource from "ol/source/Vector";
 import { generateLocationsMatrix } from "utils";
 import {
-  selectHaulsFilterSelectionIndexes,
+  selectHaulsMatrixActiveFilterSelectedIndexes,
   selectLocationsMatrix,
   selectSelectedGridsString,
+  selectSelectedHaulTrip,
   useAppSelector,
 } from "store";
 
 export const LocationsGrid = () => {
   const matrix = useAppSelector(selectLocationsMatrix);
-  const selectedFilters = useAppSelector(selectHaulsFilterSelectionIndexes);
+  const selectedFilters = useAppSelector(
+    selectHaulsMatrixActiveFilterSelectedIndexes,
+  );
   const selectedGrids = useAppSelector(selectSelectedGridsString);
+  const selectedTrip = useAppSelector(selectSelectedHaulTrip);
 
   const [gridVector, setGridVector] = useState<VectorSource<Geometry>>();
 
@@ -25,5 +29,5 @@ export const LocationsGrid = () => {
     [matrix, selectedFilters, selectedGrids],
   );
 
-  return <VectorLayer source={gridVector} zIndex={1} />;
+  return selectedTrip ? <></> : <VectorLayer source={gridVector} zIndex={1} />;
 };

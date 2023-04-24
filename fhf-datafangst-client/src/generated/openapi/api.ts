@@ -33,7 +33,8 @@ export const ActiveHaulsFilter = {
     Date: 'date',
     GearGroup: 'gearGroup',
     SpeciesGroup: 'speciesGroup',
-    VesselLength: 'vesselLength'
+    VesselLength: 'vesselLength',
+    CatchLocation: 'catchLocation'
 } as const;
 
 export type ActiveHaulsFilter = typeof ActiveHaulsFilter[keyof typeof ActiveHaulsFilter];
@@ -382,7 +383,7 @@ export interface FiskeridirVessel {
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'callSign'?: string | null;
+    'callSign': string;
     /**
      * 
      * @type {number}
@@ -718,49 +719,12 @@ export interface HaulCatch {
      * @memberof HaulCatch
      */
     'speciesFiskeridirId': number;
-}
-/**
- * 
- * @export
- * @interface HaulsGrid
- */
-export interface HaulsGrid {
-    /**
-     * 
-     * @type {{ [key: string]: number; }}
-     * @memberof HaulsGrid
-     */
-    'grid': { [key: string]: number; };
     /**
      * 
      * @type {number}
-     * @memberof HaulsGrid
+     * @memberof HaulCatch
      */
-    'maxWeight': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof HaulsGrid
-     */
-    'minWeight': number;
-    /**
-     * 
-     * @type {{ [key: string]: number; }}
-     * @memberof HaulsGrid
-     */
-    'weightByGearGroup': { [key: string]: number; };
-    /**
-     * 
-     * @type {{ [key: string]: number; }}
-     * @memberof HaulsGrid
-     */
-    'weightBySpeciesGroup': { [key: string]: number; };
-    /**
-     * 
-     * @type {{ [key: string]: number; }}
-     * @memberof HaulsGrid
-     */
-    'weightByVesselLengthGroup': { [key: string]: number; };
+    'speciesGroupId': number;
 }
 /**
  * 
@@ -1696,65 +1660,6 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @param {string} [months] 
-         * @param {string} [catchLocations] 
-         * @param {string} [gearGroupIds] 
-         * @param {string} [speciesGroupIds] 
-         * @param {string} [vesselLengthRanges] 
-         * @param {string} [fiskeridirVesselIds] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        haulsGrid: async (months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/hauls_grid`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (months !== undefined) {
-                localVarQueryParameter['months'] = months;
-            }
-
-            if (catchLocations !== undefined) {
-                localVarQueryParameter['catchLocations'] = catchLocations;
-            }
-
-            if (gearGroupIds !== undefined) {
-                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
-            }
-
-            if (speciesGroupIds !== undefined) {
-                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
-            }
-
-            if (vesselLengthRanges !== undefined) {
-                localVarQueryParameter['vesselLengthRanges'] = vesselLengthRanges;
-            }
-
-            if (fiskeridirVesselIds !== undefined) {
-                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {ActiveHaulsFilter} activeFilter What feature to group by on the y-axis of the output matrices
          * @param {string} [months] 
          * @param {string} [catchLocations] 
@@ -1843,21 +1748,6 @@ export const V1haulApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} [months] 
-         * @param {string} [catchLocations] 
-         * @param {string} [gearGroupIds] 
-         * @param {string} [speciesGroupIds] 
-         * @param {string} [vesselLengthRanges] 
-         * @param {string} [fiskeridirVesselIds] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async haulsGrid(months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HaulsGrid>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.haulsGrid(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, fiskeridirVesselIds, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @param {ActiveHaulsFilter} activeFilter What feature to group by on the y-axis of the output matrices
          * @param {string} [months] 
          * @param {string} [catchLocations] 
@@ -1890,15 +1780,6 @@ export const V1haulApiFactory = function (configuration?: Configuration, basePat
          */
         hauls(requestParameters: V1haulApiHaulsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Haul>> {
             return localVarFp.hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {V1haulApiHaulsGridRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        haulsGrid(requestParameters: V1haulApiHaulsGridRequest = {}, options?: AxiosRequestConfig): AxiosPromise<HaulsGrid> {
-            return localVarFp.haulsGrid(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1957,55 +1838,6 @@ export interface V1haulApiHaulsRequest {
      * 
      * @type {string}
      * @memberof V1haulApiHauls
-     */
-    readonly fiskeridirVesselIds?: string
-}
-
-/**
- * Request parameters for haulsGrid operation in V1haulApi.
- * @export
- * @interface V1haulApiHaulsGridRequest
- */
-export interface V1haulApiHaulsGridRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof V1haulApiHaulsGrid
-     */
-    readonly months?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof V1haulApiHaulsGrid
-     */
-    readonly catchLocations?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof V1haulApiHaulsGrid
-     */
-    readonly gearGroupIds?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof V1haulApiHaulsGrid
-     */
-    readonly speciesGroupIds?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof V1haulApiHaulsGrid
-     */
-    readonly vesselLengthRanges?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof V1haulApiHaulsGrid
      */
     readonly fiskeridirVesselIds?: string
 }
@@ -2082,17 +1914,6 @@ export class V1haulApi extends BaseAPI {
      */
     public hauls(requestParameters: V1haulApiHaulsRequest = {}, options?: AxiosRequestConfig) {
         return V1haulApiFp(this.configuration).hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {V1haulApiHaulsGridRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof V1haulApi
-     */
-    public haulsGrid(requestParameters: V1haulApiHaulsGridRequest = {}, options?: AxiosRequestConfig) {
-        return V1haulApiFp(this.configuration).haulsGrid(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

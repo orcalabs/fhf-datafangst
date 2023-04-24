@@ -15,11 +15,14 @@ const NUM_BARS = 7;
 interface Props {
   value?: SpeciesGroup[];
   onChange: (_?: SpeciesGroup[]) => void;
+  statsSelector?: typeof selectSpeciesFilterStatsSorted;
 }
 
 export const SpeciesFilter: FC<Props> = (props) => {
   const speciesGroups = useAppSelector(selectSpeciesGroupsMap);
-  const speciesFilterStats = useAppSelector(selectSpeciesFilterStatsSorted);
+  const speciesFilterStats = useAppSelector(
+    props.statsSelector ?? selectSpeciesFilterStatsSorted,
+  );
   const [expanded, setExpanded] = useState<boolean>(false);
 
   if (!speciesFilterStats.length) {

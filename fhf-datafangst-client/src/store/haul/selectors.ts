@@ -1,10 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { HaulsFilter } from "api";
+import { HaulsArgs, HaulsFilter } from "api";
+import { GearGroup, SpeciesGroup } from "generated/openapi";
 import { LengthGroups } from "models";
+import { selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroupsSorted } from "store/gear";
 import { selectAppState } from "store/selectors";
 import { selectSpeciesGroupsSorted } from "store/species";
-import { matrixSum, sumCatches } from "utils";
+import { fishingLocationAreas, matrixSum, sumCatches } from "utils";
 
 export const selectHaulsLoading = createSelector(
   selectAppState,
@@ -16,9 +18,24 @@ export const selectHaulsMatrixLoading = createSelector(
   (state) => state.haulsMatrixLoading,
 );
 
+export const selectHaulsMatrix2Loading = createSelector(
+  selectAppState,
+  (state) => state.haulsMatrix2Loading,
+);
+
 export const selectHaulsSearch = createSelector(
   selectAppState,
   (state) => state.haulsSearch,
+);
+
+export const selectHaulsMatrixSearch = createSelector(
+  selectAppState,
+  (state) => state.haulsMatrixSearch,
+);
+
+export const selectHaulsMatrix2Search = createSelector(
+  selectAppState,
+  (state) => state.haulsMatrix2Search,
 );
 
 export const selectHauls = createSelector(
@@ -37,6 +54,11 @@ export const selectHaulsMatrix = createSelector(
   (state) => state.haulsMatrix,
 );
 
+export const selectHaulsMatrix2 = createSelector(
+  selectAppState,
+  (state) => state.haulsMatrix2,
+);
+
 export const selectHaulsByArea = createSelector(
   selectAppState,
   (state) => state.haulsByArea ?? {},
@@ -48,62 +70,64 @@ export const selectSelectedHaul = createSelector(
 );
 
 export const selectHaulsFilter = createSelector(
-  selectHaulsSearch,
+  selectHaulsMatrixSearch,
   (state) => state?.filter,
 );
 
 const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
-  original.reduce((tot: number[], cur, idx) => {
-    if (selected?.some((s) => s.id === cur.id)) {
+  selected?.reduce((tot: number[], cur) => {
+    const idx = original.indexOf(cur);
+    if (idx >= 0) {
       tot.push(idx);
     }
     return tot;
-  }, []);
+  }, []) ?? [];
 
-export const selectHaulsSelectedIndexes = createSelector(
-  selectHaulsSearch,
+const _selectHaulsActiveFilterSelectedIndexes = (
+  search: HaulsArgs | undefined,
+  gearGroups: GearGroup[],
+  speciesGroups: SpeciesGroup[],
+) => {
+  if (search)
+    switch (search.filter) {
+      case HaulsFilter.Date:
+        const now = new Date();
+        const datesLength = now.getFullYear() * 12 + now.getMonth() - 2010 * 12;
+        const originalDates = Array.from({ length: datesLength }, (_, i) => ({
+          id: 2010 * 12 + i,
+        }));
+        const selectedDates =
+          search?.years && search?.months
+            ? search.years
+                .map((y) => search.months!.map((m) => ({ id: y * 12 + m - 1 })))
+                .flat()
+            : [];
+        return getIndexes(originalDates, selectedDates);
+      case HaulsFilter.GearGroup:
+        return getIndexes(gearGroups, search?.gearGroupIds);
+      case HaulsFilter.SpeciesGroup:
+        return getIndexes(speciesGroups, search?.speciesGroupIds);
+      case HaulsFilter.VesselLength:
+        return getIndexes(LengthGroups, search?.vesselLengthRanges);
+      case HaulsFilter.CatchLocation:
+        return [];
+    }
+
+  return [];
+};
+
+export const selectHaulsMatrixActiveFilterSelectedIndexes = createSelector(
+  selectHaulsMatrixSearch,
   selectGearGroupsSorted,
   selectSpeciesGroupsSorted,
-  (search, gearGroups, speciesGroups) => {
-    const now = new Date();
-    const datesLength = now.getFullYear() * 12 + now.getMonth() - 2010 * 12;
-    const originalDates = Array.from({ length: datesLength }, (_, i) => ({
-      id: 2010 * 12 + i,
-    }));
-    const selectedDates =
-      search?.years && search?.months
-        ? search.years
-            .map((y) => search.months!.map((m) => ({ id: y * 12 + m - 1 })))
-            .flat()
-        : [];
-
-    return {
-      dates: getIndexes(originalDates, selectedDates),
-      gearGroups: getIndexes(gearGroups, search?.gearGroupIds),
-      speciesGroups: getIndexes(speciesGroups, search?.speciesGroupIds),
-      lengthGroups: getIndexes(LengthGroups, search?.vesselLengthRanges),
-    };
-  },
+  _selectHaulsActiveFilterSelectedIndexes,
 );
 
-export const selectHaulsFilterSelectionIndexes = createSelector(
-  selectHaulsSearch,
-  selectHaulsSelectedIndexes,
-  (search, selections) => {
-    if (search)
-      switch (search.filter) {
-        case HaulsFilter.Date:
-          return selections.dates;
-        case HaulsFilter.GearGroup:
-          return selections.gearGroups;
-        case HaulsFilter.SpeciesGroup:
-          return selections.speciesGroups;
-        case HaulsFilter.VesselLength:
-          return selections.lengthGroups;
-      }
-
-    return [];
-  },
+export const selectHaulsMatrix2ActiveFilterSelectedIndexes = createSelector(
+  selectHaulsMatrix2Search,
+  selectGearGroupsSorted,
+  selectSpeciesGroupsSorted,
+  _selectHaulsActiveFilterSelectedIndexes,
 );
 
 export const selectLocationsMatrix = createSelector(
@@ -118,6 +142,8 @@ export const selectLocationsMatrix = createSelector(
       case HaulsFilter.SpeciesGroup:
         return matrix?.speciesGroup;
       case HaulsFilter.VesselLength:
+        return matrix?.lengthGroup;
+      case HaulsFilter.CatchLocation:
         return matrix?.lengthGroup;
       case HaulsFilter.Vessel:
         return matrix?.lengthGroup;
@@ -139,14 +165,8 @@ const computeStats = (
     let value = 0;
     if (activeSelected.length)
       for (let i = 0; i < activeSelected.length; i++) {
-        value += matrixSum(
-          matrix,
-          width,
-          x,
-          activeSelected[i],
-          x,
-          activeSelected[i],
-        );
+        const y = activeSelected[i];
+        value += matrixSum(matrix, width, x, y, x, y);
       }
     else {
       value = matrixSum(matrix, width, x, 0, x, height - 1);
@@ -162,41 +182,49 @@ const computeStats = (
 const computeActiveStats = (
   matrix: number[],
   heightArray: { id: any }[],
-  selected: number[],
+  selectedFilters: number[],
+  selectedLocations?: number[],
 ) => {
   const stats = [];
   const height = heightArray.length;
   const width = matrix.length / height;
 
-  for (let y = 0; y < height; y++) {
-    const value = matrixSum(matrix, width, 0, y, width - 1, y);
-    if (value > 0 || selected.includes(y)) {
-      stats.push({ id: heightArray[y].id, value });
+  if (selectedLocations)
+    for (let y = 0; y < height; y++) {
+      let value = 0;
+      for (let i = 0; i < selectedLocations.length; i++) {
+        const x = selectedLocations[i];
+        value += matrixSum(matrix, width, x, y, x, y);
+      }
+      if (value > 0 || selectedFilters.includes(y)) {
+        stats.push({ id: heightArray[y].id, value });
+      }
     }
-  }
+  else
+    for (let y = 0; y < height; y++) {
+      const value = matrixSum(matrix, width, 0, y, width - 1, y);
+      if (value > 0 || selectedFilters.includes(y)) {
+        stats.push({ id: heightArray[y].id, value });
+      }
+    }
 
   return stats;
 };
 
 export const selectGearFilterStats = createSelector(
   selectHaulsMatrix,
-  selectHaulsFilter,
-  selectHaulsSelectedIndexes,
-  selectHaulsFilterSelectionIndexes,
+  selectHaulsMatrixSearch,
   selectGearGroupsSorted,
-  (matrix, filter, selection, activeSelection, gearGroups) => {
+  selectHaulsMatrixActiveFilterSelectedIndexes,
+  (matrix, search, gearGroups, activeSelected) => {
     if (!matrix) {
       return [];
     }
 
-    return filter === HaulsFilter.GearGroup
-      ? computeActiveStats(matrix.gearGroup, gearGroups, selection.gearGroups)
-      : computeStats(
-          matrix.gearGroup,
-          gearGroups,
-          activeSelection,
-          selection.gearGroups,
-        );
+    const selected = getIndexes(gearGroups, search?.gearGroupIds);
+    return search?.filter === HaulsFilter.GearGroup
+      ? computeActiveStats(matrix.gearGroup, gearGroups, selected)
+      : computeStats(matrix.gearGroup, gearGroups, activeSelected, selected);
   },
 );
 
@@ -205,28 +233,64 @@ export const selectGearFilterStatsSorted = createSelector(
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
 
-export const selectSpeciesFilterStats = createSelector(
-  selectHaulsMatrix,
-  selectHaulsFilter,
-  selectHaulsSelectedIndexes,
-  selectHaulsFilterSelectionIndexes,
-  selectSpeciesGroupsSorted,
-  (matrix, filter, selection, activeSelection, speciesGroups) => {
+export const selectSelectedGridLocationIndexes = createSelector(
+  selectSelectedGridsString,
+  (state) =>
+    state.reduce((tot: number[], cur) => {
+      const idx = fishingLocationAreas.indexOf(cur);
+      if (idx >= 0) {
+        tot.push(idx);
+      }
+      return tot;
+    }, []),
+);
+
+export const selectGearFilterGridStats = createSelector(
+  selectHaulsMatrix2,
+  selectHaulsMatrix2Search,
+  selectGearGroupsSorted,
+  selectHaulsMatrix2ActiveFilterSelectedIndexes,
+  selectSelectedGridLocationIndexes,
+  (matrix, search, gearGroups, activeSelected, selectedLocations) => {
     if (!matrix) {
       return [];
     }
 
-    return filter === HaulsFilter.SpeciesGroup
+    const selected = getIndexes(gearGroups, search?.gearGroupIds);
+    return search?.filter === HaulsFilter.GearGroup
       ? computeActiveStats(
-          matrix.speciesGroup,
-          speciesGroups,
-          selection.speciesGroups,
+          matrix.gearGroup,
+          gearGroups,
+          selected,
+          selectedLocations,
         )
+      : computeStats(matrix.gearGroup, gearGroups, activeSelected, selected);
+  },
+);
+
+export const selectGearFilterGridStatsSorted = createSelector(
+  selectGearFilterGridStats,
+  (state) => [...state].sort((a, b) => b.value - a.value),
+);
+
+export const selectSpeciesFilterStats = createSelector(
+  selectHaulsMatrix,
+  selectHaulsMatrixSearch,
+  selectSpeciesGroupsSorted,
+  selectHaulsMatrixActiveFilterSelectedIndexes,
+  (matrix, search, speciesGroups, activeSelected) => {
+    if (!matrix) {
+      return [];
+    }
+
+    const selected = getIndexes(speciesGroups, search?.speciesGroupIds);
+    return search?.filter === HaulsFilter.SpeciesGroup
+      ? computeActiveStats(matrix.speciesGroup, speciesGroups, selected)
       : computeStats(
           matrix.speciesGroup,
           speciesGroups,
-          activeSelection,
-          selection.speciesGroups,
+          activeSelected,
+          selected,
         );
   },
 );
@@ -236,32 +300,93 @@ export const selectSpeciesFilterStatsSorted = createSelector(
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
 
-export const selectVesselLengthFilterStats = createSelector(
-  selectHaulsMatrix,
-  selectHaulsFilter,
-  selectHaulsSelectedIndexes,
-  selectHaulsFilterSelectionIndexes,
-  (matrix, filter, selection, activeSelection) => {
+export const selectSpeciesFilterGridStats = createSelector(
+  selectHaulsMatrix2,
+  selectHaulsMatrix2Search,
+  selectSpeciesGroupsSorted,
+  selectHaulsMatrix2ActiveFilterSelectedIndexes,
+  selectSelectedGridLocationIndexes,
+  (matrix, search, speciesGroups, activeSelected, selectedLocations) => {
     if (!matrix) {
       return [];
     }
 
-    return filter === HaulsFilter.VesselLength
+    const selected = getIndexes(speciesGroups, search?.speciesGroupIds);
+    return search?.filter === HaulsFilter.SpeciesGroup
       ? computeActiveStats(
-          matrix.lengthGroup,
-          LengthGroups,
-          selection.lengthGroups,
+          matrix.speciesGroup,
+          speciesGroups,
+          selected,
+          selectedLocations,
         )
+      : computeStats(
+          matrix.speciesGroup,
+          speciesGroups,
+          activeSelected,
+          selected,
+        );
+  },
+);
+
+export const selectSpeciesFilterGridStatsSorted = createSelector(
+  selectSpeciesFilterGridStats,
+  (state) => [...state].sort((a, b) => b.value - a.value),
+);
+
+export const selectVesselLengthFilterStats = createSelector(
+  selectHaulsMatrix,
+  selectHaulsMatrixSearch,
+  selectHaulsMatrixActiveFilterSelectedIndexes,
+  (matrix, search, activeSelected) => {
+    if (!matrix) {
+      return [];
+    }
+
+    const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
+    return search?.filter === HaulsFilter.VesselLength
+      ? computeActiveStats(matrix.lengthGroup, LengthGroups, selected)
       : computeStats(
           matrix.lengthGroup,
           LengthGroups,
-          activeSelection,
-          selection.lengthGroups,
+          activeSelected,
+          selected,
         );
   },
 );
 
 export const selectVesselLengthFilterStatsSorted = createSelector(
   selectVesselLengthFilterStats,
+  (state) => [...state].sort((a, b) => b.value - a.value),
+);
+
+export const selectVesselLengthFilterGridStats = createSelector(
+  selectHaulsMatrix2,
+  selectHaulsMatrix2Search,
+  selectHaulsMatrix2ActiveFilterSelectedIndexes,
+  selectSelectedGridLocationIndexes,
+  (matrix, search, activeSelected, selectedLocations) => {
+    if (!matrix) {
+      return [];
+    }
+
+    const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
+    return search?.filter === HaulsFilter.VesselLength
+      ? computeActiveStats(
+          matrix.lengthGroup,
+          LengthGroups,
+          selected,
+          selectedLocations,
+        )
+      : computeStats(
+          matrix.lengthGroup,
+          LengthGroups,
+          activeSelected,
+          selected,
+        );
+  },
+);
+
+export const selectVesselLengthFilterGridStatsSorted = createSelector(
+  selectVesselLengthFilterGridStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );

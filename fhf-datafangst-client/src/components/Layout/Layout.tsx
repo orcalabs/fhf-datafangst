@@ -11,8 +11,8 @@ import {
   getSpeciesGroups,
   getSpeciesMainGroups,
   getVessels,
-  initialHaulsSearch,
-  setHaulsSearch,
+  initialHaulsMatrixSearch,
+  setHaulsMatrixSearch,
   useAppDispatch,
 } from "store";
 
@@ -25,7 +25,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     dispatch(checkLoggedIn());
-    dispatch(setHaulsSearch(initialHaulsSearch));
+    dispatch(setHaulsMatrixSearch(initialHaulsMatrixSearch));
     dispatch(getVessels());
     dispatch(getGear());
     dispatch(getGearGroups());

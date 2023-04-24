@@ -34,6 +34,12 @@ import {
   setSelectedHaul,
   useAppDispatch,
   useAppSelector,
+  setHaulsMatrix2Search,
+  selectHaulsMatrix2Search,
+  selectGearFilterGridStatsSorted,
+  selectVesselLengthFilterGridStatsSorted,
+  selectSpeciesFilterGridStatsSorted,
+  setHoveredFilter,
 } from "store";
 import { Haul } from "generated/openapi";
 import { FishIcon } from "assets/icons";
@@ -41,6 +47,10 @@ import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import { GearFilter } from "components/FilterMenu/GearFilter";
+import { LengthGroupFilter } from "components/FilterMenu/LengthGroupFilter";
+import { SpeciesFilter } from "components/FilterMenu/SpeciesFilter";
+import { HaulsFilter } from "api";
 
 const accordionSx = {
   m: 0,
@@ -70,6 +80,7 @@ export const HaulsMenu: FC = () => {
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const selectedGrids = useAppSelector(selectSelectedGrids);
+  const haulsSearch = useAppSelector(selectHaulsMatrix2Search);
   const selectedHaulId = selectedHaul?.haulId;
 
   // Pagination state
@@ -99,6 +110,9 @@ export const HaulsMenu: FC = () => {
     const newHaul = haul.haulId === selectedHaulId ? undefined : haul;
     dispatch(setSelectedHaul(newHaul));
   };
+
+  const onFilterHover = (filter: HaulsFilter) =>
+    dispatch(setHoveredFilter(filter));
 
   // Change current page when Haul is selected from map click
   useEffect(() => {
@@ -207,20 +221,18 @@ export const HaulsMenu: FC = () => {
   return (
     <>
       {open && (
-        <Box
-          sx={{
-            height: "100%",
-          }}
-        >
+        <Box sx={{ height: "100%" }}>
           <Drawer
             sx={{
               height: "100%",
               "& .MuiDrawer-paper": {
+                p: 3,
                 flexShrink: 0,
                 boxSizing: "border-box",
                 height: "100%",
                 position: "relative",
                 backgroundColor: "primary.main",
+                color: "white",
               },
             }}
             open
@@ -228,17 +240,63 @@ export const HaulsMenu: FC = () => {
             anchor="right"
           >
             <Box sx={{ flexGrow: 1, overflowY: "auto", height: "90%" }}>
-              <List sx={{ color: "white", pt: 0 }}>
+              <Typography variant="h4" fontWeight="bold">
+                Selekterte områder
+              </Typography>
+
+              <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
+                <GearFilter
+                  value={haulsSearch?.gearGroupIds}
+                  onChange={(value) =>
+                    dispatch(
+                      setHaulsMatrix2Search({
+                        ...haulsSearch,
+                        gearGroupIds: value,
+                      }),
+                    )
+                  }
+                  statsSelector={selectGearFilterGridStatsSorted}
+                />
+              </Box>
+              <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
+                <SpeciesFilter
+                  value={haulsSearch?.speciesGroupIds}
+                  onChange={(value) =>
+                    dispatch(
+                      setHaulsMatrix2Search({
+                        ...haulsSearch,
+                        speciesGroupIds: value,
+                      }),
+                    )
+                  }
+                  statsSelector={selectSpeciesFilterGridStatsSorted}
+                />
+              </Box>
+              <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
+                <LengthGroupFilter
+                  value={haulsSearch?.vesselLengthRanges}
+                  onChange={(value) =>
+                    dispatch(
+                      setHaulsMatrix2Search({
+                        ...haulsSearch,
+                        vesselLengthRanges: value,
+                      }),
+                    )
+                  }
+                  statsSelector={selectVesselLengthFilterGridStatsSorted}
+                />
+              </Box>
+              <List sx={{ pt: 4 }}>
                 <ListSubheader sx={{ px: 0, borderBottom: "1px solid white" }}>
                   <TablePagination
                     sx={{
                       bgcolor: "primary.main",
-                      width: "100%",
                       color: "white",
+                      width: "100%",
                       "& .MuiTablePagination-toolbar": { p: 0 },
                     }}
                     component="div"
-                    count={hauls.length === 0 ? -1 : hauls.length}
+                    count={hauls.length}
                     page={currentPage}
                     onPageChange={handleChangePage}
                     rowsPerPage={haulsPerPage}

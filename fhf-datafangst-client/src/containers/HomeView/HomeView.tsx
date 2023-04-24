@@ -19,11 +19,10 @@ import {
 } from "components";
 import { FC, useEffect, useState } from "react";
 import {
-  getHauls,
   resetState,
   selectTrackMissing,
   selectHaulsMenuOpen,
-  selectHaulsSearch,
+  selectHaulsMatrixSearch,
   selectSelectedGridsString,
   selectSelectedHaulTrip,
   selectTrackLoading,
@@ -33,10 +32,11 @@ import {
   ViewMode,
   selectHaulsMatrixLoading,
   selectIsLoggedIn,
-  setHaulsSearch,
-  initialHaulsSearch,
+  setHaulsMatrixSearch,
+  initialHaulsMatrixSearch,
   selectBwUserProfile,
   selectVesselsByCallsign,
+  setHaulsMatrix2Search,
 } from "store";
 
 export interface MapFilter {
@@ -55,7 +55,7 @@ const GridContainer = (props: any) => (
   <Box
     sx={{
       display: "grid",
-      gridTemplateColumns: "500px 1fr clamp(320px, 20%, 420px)",
+      gridTemplateColumns: "500px 1fr 500px",
       gridTemplateRows: "49px 1fr",
       position: "absolute",
       width: "100%",
@@ -148,7 +148,7 @@ export const HomeView: FC = () => {
   const haulsLoading = useAppSelector(selectHaulsMatrixLoading);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
-  const haulsSearch = useAppSelector(selectHaulsSearch);
+  const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const selectedTrip = useAppSelector(selectSelectedHaulTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
   const [menuToggle, setMenuToggle] = useState<string>(
@@ -163,10 +163,15 @@ export const HomeView: FC = () => {
     setMenuToggle(newValue);
 
     if (newValue === "catchdata") {
-      dispatch(setHaulsSearch({ ...initialHaulsSearch, filter: undefined }));
+      dispatch(
+        setHaulsMatrixSearch({
+          ...initialHaulsMatrixSearch,
+          filter: undefined,
+        }),
+      );
     } else if (newValue === "vesselprofile" && vessel) {
       dispatch(
-        setHaulsSearch({
+        setHaulsMatrixSearch({
           ...haulsSearch,
           filter: undefined,
           vessels: [vessel],
@@ -179,8 +184,10 @@ export const HomeView: FC = () => {
   useEffect(() => {
     if (selectedGrids.length) {
       dispatch(
-        getHauls({
-          ...haulsSearch,
+        setHaulsMatrix2Search({
+          years: haulsSearch?.years,
+          months: haulsSearch?.months,
+          vessels: haulsSearch?.vessels,
           catchLocations: selectedGrids,
         }),
       );

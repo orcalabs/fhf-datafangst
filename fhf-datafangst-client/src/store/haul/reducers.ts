@@ -5,10 +5,12 @@ import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import {
   getHauls,
-  setHaulsSearch,
+  setHaulsMatrixSearch,
   setSelectedHaul,
   getHaulsMatrix,
   setHoveredFilter,
+  getHaulsMatrix2,
+  setHaulsMatrix2Search,
 } from ".";
 import { Haul } from "generated/openapi";
 
@@ -51,6 +53,17 @@ export const haulBuilder = (
     .addCase(getHaulsMatrix.rejected, (state, _) => {
       state.haulsMatrixLoading = false;
     })
+    .addCase(getHaulsMatrix2.pending, (state, _) => {
+      state.haulsMatrix2 = undefined;
+      state.haulsMatrix2Loading = true;
+    })
+    .addCase(getHaulsMatrix2.fulfilled, (state, action) => {
+      state.haulsMatrix2 = action.payload;
+      state.haulsMatrix2Loading = false;
+    })
+    .addCase(getHaulsMatrix2.rejected, (state, _) => {
+      state.haulsMatrix2Loading = false;
+    })
     .addCase(setSelectedHaul, (state, action) => {
       const haul =
         typeof action.payload === "number"
@@ -79,28 +92,34 @@ export const haulBuilder = (
     .addCase(setHoveredFilter, (state, action) => {
       state.hoveredFilter = action.payload;
     })
-    .addCase(setHaulsSearch, (state, action) => {
-      if (action.payload) {
-        if (
-          action.payload.filter === undefined ||
-          action.payload.filter !== state.hoveredFilter ||
-          action.payload.filter === HaulsFilter.Vessel
-        ) {
-          action.payload.filter =
-            state.hoveredFilter ?? HaulsFilter.VesselLength;
-          (action as any).asyncDispatch(
-            getHaulsMatrix({ ...action.payload, catchLocations: undefined }),
-          );
-        }
-
-        if (action.payload.catchLocations) {
-          (action as any).asyncDispatch(getHauls({ ...action.payload }));
-        }
+    .addCase(setHaulsMatrixSearch, (state, action) => {
+      if (
+        action.payload.filter === undefined ||
+        action.payload.filter !== state.hoveredFilter ||
+        action.payload.filter === HaulsFilter.Vessel
+      ) {
+        action.payload.filter = state.hoveredFilter ?? HaulsFilter.VesselLength;
+        (action as any).asyncDispatch(
+          getHaulsMatrix({ ...action.payload, catchLocations: undefined }),
+        );
       }
 
       return {
         ...state,
         ...emptyState,
-        haulsSearch: action.payload,
+        haulsMatrixSearch: action.payload,
       };
+    })
+    .addCase(setHaulsMatrix2Search, (state, action) => {
+      if (
+        action.payload.filter === undefined ||
+        action.payload.filter !== state.hoveredFilter ||
+        action.payload.filter === HaulsFilter.Vessel
+      ) {
+        action.payload.filter = state.hoveredFilter ?? HaulsFilter.VesselLength;
+        (action as any).asyncDispatch(getHaulsMatrix2(action.payload));
+      }
+
+      (action as any).asyncDispatch(getHauls(action.payload));
+      state.haulsMatrix2Search = action.payload;
     });
