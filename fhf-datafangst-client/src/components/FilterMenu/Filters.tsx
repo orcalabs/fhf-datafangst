@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { FC } from "react";
 import {
-  selectHaulsSearch,
+  selectHaulsMatrixSearch,
   setHoveredFilter,
   setHaulsMatrixSearch,
   useAppDispatch,
@@ -22,7 +22,7 @@ interface Props {
 
 export const Filters: FC<Props> = (props) => {
   const { selectedVessel } = props;
-  const haulsSearch = useAppSelector(selectHaulsSearch);
+  const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const dispatch = useAppDispatch();
 
   const onFilterHover = (filter: HaulsFilter) =>

@@ -23,20 +23,7 @@ export const haulBuilder = (
       state.hauls = undefined;
     })
     .addCase(getHauls.fulfilled, (state, action) => {
-      const hauls = action.payload;
-      state.hauls = hauls;
-      state.haulsByArea = {};
-
-      for (const haul of hauls) {
-        if (haul.catchLocationStart) {
-          if (state.haulsByArea[haul.catchLocationStart]) {
-            state.haulsByArea[haul.catchLocationStart].push(haul);
-          } else {
-            state.haulsByArea[haul.catchLocationStart] = [haul];
-          }
-        }
-      }
-
+      state.hauls = action.payload;
       state.haulsLoading = false;
     })
     .addCase(getHauls.rejected, (state, _) => {
