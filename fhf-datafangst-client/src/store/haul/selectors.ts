@@ -59,11 +59,6 @@ export const selectHaulsMatrix2 = createSelector(
   (state) => state.haulsMatrix2,
 );
 
-export const selectHaulsByArea = createSelector(
-  selectAppState,
-  (state) => state.haulsByArea ?? {},
-);
-
 export const selectSelectedHaul = createSelector(
   selectAppState,
   (state) => state.selectedHaul,
@@ -76,7 +71,7 @@ export const selectHaulsFilter = createSelector(
 
 const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
   selected?.reduce((tot: number[], cur) => {
-    const idx = original.indexOf(cur);
+    const idx = original.findIndex((o) => o.id === cur.id);
     if (idx >= 0) {
       tot.push(idx);
     }

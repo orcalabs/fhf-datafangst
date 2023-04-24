@@ -4,7 +4,6 @@ import { Haul, HaulsMatrix } from "generated/openapi";
 
 export interface HaulState {
   hauls?: Haul[];
-  haulsByArea?: Record<string, Haul[]>;
   haulsMatrix?: HaulsMatrix;
   haulsMatrix2?: HaulsMatrix;
   haulsLoading: boolean;
@@ -19,7 +18,6 @@ export interface HaulState {
 
 export const initialHaulState: HaulState = {
   hauls: undefined,
-  haulsByArea: undefined,
   haulsMatrix: undefined,
   haulsMatrix2: undefined,
   haulsLoading: false,
