@@ -71,9 +71,10 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(checkLoggedIn.fulfilled, (state, action) => {
       state.isLoggedIn = action.payload;
 
-      const token = getTokens();
-
-      (action as any).asyncDispatch(getUserProfile(token));
+      if (action.payload) {
+        const token = getTokens();
+        (action as any).asyncDispatch(getUserProfile(token));
+      }
     })
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
