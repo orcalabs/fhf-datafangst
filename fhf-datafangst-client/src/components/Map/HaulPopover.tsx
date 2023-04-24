@@ -17,6 +17,10 @@ interface Props {
 export const HaulPopover: FC<Props> = ({ haulIdx }) => {
   const haul = useAppSelector(selectHauls)?.[haulIdx];
 
+  if (!haul) {
+    return <></>;
+  }
+
   return (
     <Box sx={{ px: 1 }}>
       <List dense disablePadding>

@@ -10,7 +10,18 @@ export const getHaulsMatrix = createAsyncThunk(
   Api.getHaulsMatrix,
 );
 
-export const setHaulsSearch = createAction<HaulsArgs>("haul/setHaulsSearch");
+export const getHaulsMatrix2 = createAsyncThunk(
+  "haul/getHaulsMatrix2",
+  Api.getHaulsMatrix,
+);
+
+export const setHaulsMatrixSearch = createAction<HaulsArgs>(
+  "haul/setHaulsMatrixSearch",
+);
+
+export const setHaulsMatrix2Search = createAction<HaulsArgs>(
+  "haul/setHaulsMatrix2Search",
+);
 
 export const setSelectedHaul = createAction<Haul | number | undefined>(
   "haul/setSelectedHaul",

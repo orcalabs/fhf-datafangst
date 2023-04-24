@@ -11,11 +11,14 @@ import { Bar } from "./Bar";
 interface Props {
   value?: GearGroup[];
   onChange: (_?: GearGroup[]) => void;
+  statsSelector?: typeof selectGearFilterStatsSorted;
 }
 
 export const GearFilter: FC<Props> = (props) => {
   const gearGroups = useAppSelector(selectGearGroupsMap);
-  const gearFilterStats = useAppSelector(selectGearFilterStatsSorted);
+  const gearFilterStats = useAppSelector(
+    props.statsSelector ?? selectGearFilterStatsSorted,
+  );
 
   if (!gearFilterStats.length) {
     return <></>;

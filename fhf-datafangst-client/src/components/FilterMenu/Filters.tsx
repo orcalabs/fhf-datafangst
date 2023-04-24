@@ -3,7 +3,7 @@ import { FC } from "react";
 import {
   selectHaulsSearch,
   setHoveredFilter,
-  setHaulsSearch,
+  setHaulsMatrixSearch,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -49,7 +49,7 @@ export const Filters: FC<Props> = (props) => {
             <YearsFilter
               value={haulsSearch?.years}
               onChange={(value) =>
-                dispatch(setHaulsSearch({ ...haulsSearch, years: value }))
+                dispatch(setHaulsMatrixSearch({ ...haulsSearch, years: value }))
               }
             />
           </Box>
@@ -57,7 +57,9 @@ export const Filters: FC<Props> = (props) => {
             <MonthsFilter
               value={haulsSearch?.months}
               onChange={(value) =>
-                dispatch(setHaulsSearch({ ...haulsSearch, months: value }))
+                dispatch(
+                  setHaulsMatrixSearch({ ...haulsSearch, months: value }),
+                )
               }
             />
           </Box>
@@ -67,7 +69,9 @@ export const Filters: FC<Props> = (props) => {
         <GearFilter
           value={haulsSearch?.gearGroupIds}
           onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, gearGroupIds: value }))
+            dispatch(
+              setHaulsMatrixSearch({ ...haulsSearch, gearGroupIds: value }),
+            )
           }
         />
       </Box>
@@ -75,7 +79,9 @@ export const Filters: FC<Props> = (props) => {
         <SpeciesFilter
           value={haulsSearch?.speciesGroupIds}
           onChange={(value) =>
-            dispatch(setHaulsSearch({ ...haulsSearch, speciesGroupIds: value }))
+            dispatch(
+              setHaulsMatrixSearch({ ...haulsSearch, speciesGroupIds: value }),
+            )
           }
         />
       </Box>
@@ -84,7 +90,10 @@ export const Filters: FC<Props> = (props) => {
           value={haulsSearch?.vesselLengthRanges}
           onChange={(value) =>
             dispatch(
-              setHaulsSearch({ ...haulsSearch, vesselLengthRanges: value }),
+              setHaulsMatrixSearch({
+                ...haulsSearch,
+                vesselLengthRanges: value,
+              }),
             )
           }
         />
@@ -94,7 +103,7 @@ export const Filters: FC<Props> = (props) => {
           <VesselFilter
             value={haulsSearch?.vessels}
             onChange={(value) =>
-              dispatch(setHaulsSearch({ ...haulsSearch, vessels: value }))
+              dispatch(setHaulsMatrixSearch({ ...haulsSearch, vessels: value }))
             }
             useVirtualization
           />

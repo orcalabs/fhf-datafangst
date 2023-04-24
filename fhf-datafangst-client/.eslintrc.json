@@ -58,6 +58,7 @@
     "react/display-name": "off",
     "curly": "off",
     "@typescript-eslint/array-type": "off",
-    "@typescript-eslint/method-signature-style": "off"
+    "@typescript-eslint/method-signature-style": "off",
+    "no-case-declarations": "off"
   }
 }

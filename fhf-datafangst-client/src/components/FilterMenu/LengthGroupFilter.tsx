@@ -7,11 +7,14 @@ import { Bar } from "./Bar";
 interface Props {
   value?: LengthGroup[];
   onChange: (_?: LengthGroup[]) => void;
+  statsSelector?: typeof selectVesselLengthFilterStatsSorted;
 }
 
 export const LengthGroupFilter: FC<Props> = (props) => {
   const value = props.value ?? [];
-  const vesselLengthStats = useAppSelector(selectVesselLengthFilterStatsSorted);
+  const vesselLengthStats = useAppSelector(
+    props.statsSelector ?? selectVesselLengthFilterStatsSorted,
+  );
 
   if (!vesselLengthStats.length) {
     return <></>;

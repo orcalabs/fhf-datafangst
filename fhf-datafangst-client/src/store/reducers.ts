@@ -22,6 +22,9 @@ import { getTokens } from "app/auth";
 export const emptyState = {
   hauls: undefined,
   haulsByArea: undefined,
+  haulsSearch: undefined,
+  haulsMatrix2: undefined,
+  haulsMatrix2Search: undefined,
   selectedHaul: undefined,
   selectedHaulTrip: undefined,
   selectedGrids: [],
