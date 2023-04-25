@@ -6,7 +6,6 @@ import { generateLocationsMatrix } from "utils";
 import {
   selectHaulsMatrixActiveFilterSelectedIndexes,
   selectLocationsMatrix,
-  selectSelectedGridsString,
   selectSelectedHaulTrip,
   useAppSelector,
 } from "store";
@@ -16,18 +15,15 @@ export const LocationsGrid = () => {
   const selectedFilters = useAppSelector(
     selectHaulsMatrixActiveFilterSelectedIndexes,
   );
-  const selectedGrids = useAppSelector(selectSelectedGridsString);
   const selectedTrip = useAppSelector(selectSelectedHaulTrip);
 
   const [gridVector, setGridVector] = useState<VectorSource<Geometry>>();
 
-  useEffect(
-    () =>
-      setGridVector(
-        generateLocationsMatrix(matrix, selectedFilters, selectedGrids),
-      ),
-    [matrix, selectedFilters, selectedGrids],
-  );
+  useEffect(() => {
+    if (matrix) {
+      setGridVector(generateLocationsMatrix(matrix, selectedFilters));
+    }
+  }, [matrix, selectedFilters]);
 
   return selectedTrip ? <></> : <VectorLayer source={gridVector} zIndex={1} />;
 };
