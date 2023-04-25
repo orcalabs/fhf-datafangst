@@ -30,7 +30,6 @@ import {
   useAppDispatch,
   useAppSelector,
   ViewMode,
-  selectHaulsMatrixLoading,
   selectIsLoggedIn,
   setHaulsMatrixSearch,
   initialHaulsMatrixSearch,
@@ -145,7 +144,6 @@ export const HomeView: FC = () => {
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const trackMissing = useAppSelector(selectTrackMissing);
   const viewMode = useAppSelector(selectViewMode);
-  const haulsLoading = useAppSelector(selectHaulsMatrixLoading);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
@@ -236,7 +234,7 @@ export const HomeView: FC = () => {
         <TrackLayer />
       </Map>
       <ViewModeToggle />
-      <LoadingScreen open={haulsLoading || trackLoading} />
+      <LoadingScreen open={trackLoading} />
       <Box
         sx={{
           "& .MuiSnackbar-anchorOriginTopCenter": { top: 60 },

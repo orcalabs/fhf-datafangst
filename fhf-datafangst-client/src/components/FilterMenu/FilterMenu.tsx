@@ -1,8 +1,11 @@
-import { Box, Drawer } from "@mui/material";
+import { Box, CircularProgress, Drawer } from "@mui/material";
 import { FC } from "react";
 import { Filters } from "components";
+import { selectHaulsMatrixLoading, useAppSelector } from "store";
 
 export const FilterMenu: FC = () => {
+  const matrixLoading = useAppSelector(selectHaulsMatrixLoading);
+
   return (
     <Box sx={{ height: "100%" }}>
       <Drawer
@@ -27,7 +30,21 @@ export const FilterMenu: FC = () => {
           },
         }}
       >
-        <Filters />
+        {matrixLoading ? (
+          <Box
+            sx={{
+              display: "flex",
+              height: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+            }}
+          >
+            <CircularProgress color="inherit" disableShrink />
+          </Box>
+        ) : (
+          <Filters />
+        )}
       </Drawer>
     </Box>
   );
