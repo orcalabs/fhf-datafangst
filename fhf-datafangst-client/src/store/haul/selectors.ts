@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { HaulsArgs, HaulsFilter } from "api";
+import { getAllYearsArray } from "components/FilterMenu/YearsFilter";
 import { GearGroup, SpeciesGroup } from "generated/openapi";
 import { LengthGroups } from "models";
 import { selectSelectedGridsString } from "store/fishmap";
@@ -86,17 +87,24 @@ const _selectHaulsActiveFilterSelectedIndexes = (
   if (search)
     switch (search.filter) {
       case HaulsFilter.Date:
+        if (!search.years?.length && !search.months?.length) {
+          return [];
+        }
+
         const now = new Date();
         const datesLength = now.getFullYear() * 12 + now.getMonth() - 2010 * 12;
         const originalDates = Array.from({ length: datesLength }, (_, i) => ({
           id: 2010 * 12 + i,
         }));
-        const selectedDates =
-          search?.years && search?.months
-            ? search.years
-                .map((y) => search.months!.map((m) => ({ id: y * 12 + m - 1 })))
-                .flat()
-            : [];
+
+        const years = search.years?.length ? search.years : getAllYearsArray();
+        const months = search.months?.length
+          ? search.months
+          : Array.from({ length: 12 }, (_, i) => i + 1);
+
+        const selectedDates = years
+          .map((y) => months.map((m) => ({ id: y * 12 + m - 1 })))
+          .flat();
         return getIndexes(originalDates, selectedDates);
       case HaulsFilter.GearGroup:
         return getIndexes(gearGroups, search?.gearGroupIds);
