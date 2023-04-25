@@ -60,6 +60,7 @@ export const haulBuilder = (
       state.selectedHaul = haul;
       state.ais = undefined;
       state.vms = undefined;
+      state.track = undefined;
 
       if (haul && state.vesselsByCallsign) {
         const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
