@@ -8,6 +8,7 @@ import {
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
+import { getAllYearsArray } from "components/FilterMenu/YearsFilter";
 
 export const HaulsFilter = {
   ...ActiveHaulsFilter,
@@ -31,12 +32,17 @@ const createTimestampsFromYearsMonths = (
   years: number[] | undefined,
   months: number[] | undefined,
 ) => {
-  if (!years?.length) {
+  if (!years?.length && !months?.length) {
     return [];
+  }
+
+  if (!years?.length) {
+    years = getAllYearsArray();
   }
   if (!months?.length) {
     months = Array.from({ length: 12 }, (_, i) => i + 1);
   }
+
   const timestamps: Date[] = [];
   for (const month of months) {
     const date = setMonth(new Date(), month - 1);
