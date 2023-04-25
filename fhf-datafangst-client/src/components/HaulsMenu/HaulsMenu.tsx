@@ -13,6 +13,7 @@ import {
   TablePagination,
   Button,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import {
@@ -41,6 +42,7 @@ import {
   selectVesselLengthFilterGridStatsSorted,
   selectSpeciesFilterGridStatsSorted,
   setHoveredFilter,
+  selectHaulsMatrix2Loading,
 } from "store";
 import { Haul } from "generated/openapi";
 import { FishIcon } from "assets/icons";
@@ -83,6 +85,7 @@ export const HaulsMenu: FC = () => {
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const selectedGrids = useAppSelector(selectSelectedGrids);
   const haulsSearch = useAppSelector(selectHaulsMatrix2Search);
+  const matrixLoading = useAppSelector(selectHaulsMatrix2Loading);
   const selectedHaulId = selectedHaul?.haulId;
 
   // Pagination state
@@ -244,107 +247,125 @@ export const HaulsMenu: FC = () => {
             variant="persistent"
             anchor="right"
           >
-            <Box sx={{ flexGrow: 1, overflowY: "auto", height: "90%" }}>
-              <Box sx={{ p: 2.5 }}>
-                <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
-                  VALGTE OMRÅDER
-                </Typography>
-                <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 1 }} />
-                <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
-                  <GearFilter
-                    value={haulsSearch?.gearGroupIds}
-                    onChange={(value) =>
-                      dispatch(
-                        setHaulsMatrix2Search({
-                          ...haulsSearch,
-                          gearGroupIds: value,
-                        }),
-                      )
-                    }
-                    statsSelector={selectGearFilterGridStatsSorted}
-                  />
-                </Box>
-                <Box
-                  onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}
-                >
-                  <SpeciesFilter
-                    value={haulsSearch?.speciesGroupIds}
-                    onChange={(value) =>
-                      dispatch(
-                        setHaulsMatrix2Search({
-                          ...haulsSearch,
-                          speciesGroupIds: value,
-                        }),
-                      )
-                    }
-                    statsSelector={selectSpeciesFilterGridStatsSorted}
-                  />
-                </Box>
-                <Box
-                  onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}
-                >
-                  <LengthGroupFilter
-                    value={haulsSearch?.vesselLengthRanges}
-                    onChange={(value) =>
-                      dispatch(
-                        setHaulsMatrix2Search({
-                          ...haulsSearch,
-                          vesselLengthRanges: value,
-                        }),
-                      )
-                    }
-                    statsSelector={selectVesselLengthFilterGridStatsSorted}
-                  />
-                </Box>
-              </Box>
-              <List sx={{ pt: 3 }}>
-                <ListSubheader
-                  sx={{
-                    px: 0,
-                  }}
-                >
-                  <TablePagination
-                    sx={{
-                      bgcolor: "primary.main",
-                      color: "white",
-                      width: "100%",
-                      "& .MuiTablePagination-toolbar": { px: 3 },
-                    }}
-                    component="div"
-                    count={hauls.length}
-                    page={currentPage}
-                    onPageChange={handleChangePage}
-                    rowsPerPage={haulsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage={"Hal per side"}
-                    padding="normal"
-                  />
-                </ListSubheader>
-                <Divider
-                  sx={{ bgcolor: "secondary.light", mt: 0, mb: 1, mx: 5 }}
-                />
-                {haulsLoading ? (
-                  <Box sx={{ pt: 2, pl: 2.5 }}>Laster...</Box>
-                ) : !hauls?.length ? (
-                  <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
-                ) : (
-                  <Box sx={{ pt: 1 }}>
-                    {currentHauls?.map((haul, index) =>
-                      listItem(
-                        haul,
-                        index,
-                        vessels[haul.haulId]?.fiskeridir?.name ??
-                          haul.vesselNameErs ??
-                          "Ukjent",
-                        kilosOrTonsFormatter(sumCatches(haul.catches)) +
-                          " - " +
-                          dateFormat(haul.startTimestamp, "PPP HH:mm"),
-                      ),
-                    )}
-                  </Box>
-                )}
-              </List>
+            <Box sx={{ px: 2.5, pt: 2.5 }}>
+              <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
+                VALGTE OMRÅDER
+              </Typography>
+              <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 0 }} />
             </Box>
+            {haulsLoading || matrixLoading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                }}
+              >
+                <CircularProgress color="inherit" disableShrink />
+              </Box>
+            ) : (
+              <Box sx={{ flexGrow: 1, overflowY: "auto", height: "90%" }}>
+                <Box sx={{ px: 2.5, py: 1 }}>
+                  <Box
+                    onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}
+                  >
+                    <GearFilter
+                      value={haulsSearch?.gearGroupIds}
+                      onChange={(value) =>
+                        dispatch(
+                          setHaulsMatrix2Search({
+                            ...haulsSearch,
+                            gearGroupIds: value,
+                          }),
+                        )
+                      }
+                      statsSelector={selectGearFilterGridStatsSorted}
+                    />
+                  </Box>
+                  <Box
+                    onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}
+                  >
+                    <SpeciesFilter
+                      value={haulsSearch?.speciesGroupIds}
+                      onChange={(value) =>
+                        dispatch(
+                          setHaulsMatrix2Search({
+                            ...haulsSearch,
+                            speciesGroupIds: value,
+                          }),
+                        )
+                      }
+                      statsSelector={selectSpeciesFilterGridStatsSorted}
+                    />
+                  </Box>
+                  <Box
+                    onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}
+                  >
+                    <LengthGroupFilter
+                      value={haulsSearch?.vesselLengthRanges}
+                      onChange={(value) =>
+                        dispatch(
+                          setHaulsMatrix2Search({
+                            ...haulsSearch,
+                            vesselLengthRanges: value,
+                          }),
+                        )
+                      }
+                      statsSelector={selectVesselLengthFilterGridStatsSorted}
+                    />
+                  </Box>
+                </Box>
+                <List sx={{ pt: 3 }}>
+                  <ListSubheader
+                    sx={{
+                      px: 0,
+                    }}
+                  >
+                    <TablePagination
+                      sx={{
+                        bgcolor: "primary.main",
+                        color: "white",
+                        width: "100%",
+                        "& .MuiTablePagination-toolbar": { px: 3 },
+                      }}
+                      component="div"
+                      count={hauls.length}
+                      page={currentPage}
+                      onPageChange={handleChangePage}
+                      rowsPerPage={haulsPerPage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      labelRowsPerPage={"Hal per side"}
+                      padding="normal"
+                    />
+                  </ListSubheader>
+                  <Divider
+                    sx={{ bgcolor: "secondary.light", mt: 0, mb: 1, mx: 5 }}
+                  />
+                  {haulsLoading ? (
+                    <Box sx={{ pt: 2, pl: 2.5 }}>Laster...</Box>
+                  ) : !hauls?.length ? (
+                    <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
+                  ) : (
+                    <Box sx={{ pt: 1 }}>
+                      {currentHauls?.map((haul, index) =>
+                        listItem(
+                          haul,
+                          index,
+                          vessels[haul.haulId]?.fiskeridir?.name ??
+                            haul.vesselNameErs ??
+                            "Ukjent",
+                          kilosOrTonsFormatter(sumCatches(haul.catches)) +
+                            " - " +
+                            dateFormat(haul.startTimestamp, "PPP HH:mm"),
+                        ),
+                      )}
+                    </Box>
+                  )}
+                </List>
+              </Box>
+            )}
           </Drawer>
         </Box>
       )}
