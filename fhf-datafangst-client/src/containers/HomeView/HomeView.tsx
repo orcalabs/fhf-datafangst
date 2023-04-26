@@ -55,7 +55,7 @@ const GridContainer = (props: any) => (
     sx={{
       display: "grid",
       gridTemplateColumns: "500px 1fr 500px",
-      gridTemplateRows: "49px 1fr",
+      gridTemplateRows: "48px 56px 1fr",
       position: "absolute",
       width: "100%",
       height: "100%",
@@ -97,7 +97,7 @@ const MenuArea = (props: any) => (
       gridColumnStart: 1,
       gridColumnEnd: 2,
       gridRowStart: 2,
-      gridRowEnd: 3,
+      gridRowEnd: 4,
       display: "flex",
       flexDirection: "column",
       overflowY: "auto",
@@ -113,7 +113,7 @@ const HaulMenuArea = (props: any) => (
       gridColumnStart: 3,
       gridColumnEnd: 4,
       gridRowStart: 2,
-      gridRowEnd: 3,
+      gridRowEnd: 4,
       display: "flex",
       flexDirection: "column",
       overflowY: "auto",
@@ -214,14 +214,8 @@ export const HomeView: FC = () => {
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
         <HaulMenuArea>
-          <Box sx={{ display: "grid", height: "100%" }}>
-            <Box sx={{ gridRow: 1, gridColumn: 1 }}>
-              <HaulsMenu />
-            </Box>
-            <Box sx={{ gridRow: 1, gridColumn: 1 }}>
-              {selectedTrip && <TripsMenu />}
-            </Box>
-          </Box>
+          <HaulsMenu />
+          {selectedTrip && <TripsMenu />}
         </HaulMenuArea>
       </GridContainer>
       <Map>
