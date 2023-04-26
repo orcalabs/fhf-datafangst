@@ -266,7 +266,7 @@ export const HaulsMenu: FC = () => {
                 <CircularProgress color="inherit" disableShrink />
               </Box>
             ) : (
-              <Box sx={{ flexGrow: 1, overflowY: "auto", height: "90%" }}>
+              <>
                 <Box sx={{ px: 2.5, py: 1 }}>
                   <Box
                     onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}
@@ -364,7 +364,7 @@ export const HaulsMenu: FC = () => {
                     </Box>
                   )}
                 </List>
-              </Box>
+              </>
             )}
           </Drawer>
         </Box>
