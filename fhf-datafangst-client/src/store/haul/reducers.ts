@@ -109,6 +109,7 @@ export const haulBuilder = (
         ...emptyState,
         hauls: undefined,
         haulsMatrixSearch: action.payload,
+        haulsMatrix2Search: undefined,
       };
     })
     .addCase(setHaulsMatrix2Search, (state, action) => {
