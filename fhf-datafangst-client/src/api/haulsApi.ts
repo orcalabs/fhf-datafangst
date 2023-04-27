@@ -110,12 +110,9 @@ export const getHaulsMatrix = async (query: HaulsArgs) =>
       months:
         query.filter === HaulsFilter.Date
           ? undefined
-          : query.years && query.months
-          ? query.years
-              .map((y) => query.months!.map((m) => y * 12 + m - 1))
-              .flat()
-              .join(",")
-          : undefined,
+          : createTimestampsFromYearsMonths(query.years, query.months)
+              .map((d) => d.getFullYear() * 12 + d.getMonth())
+              .join(","),
       fiskeridirVesselIds: query.vessels
         ?.map((v) => v.fiskeridir.id)
         .toString(),
