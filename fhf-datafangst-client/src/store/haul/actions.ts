@@ -5,6 +5,10 @@ import { Haul } from "generated/openapi";
 
 export const getHauls = createAsyncThunk("haul/getHauls", Api.getHauls);
 
+export const addHauls = createAsyncThunk("haul/addHauls", Api.getHauls);
+
+export const removeHauls = createAction<string[]>("haul/removeHauls");
+
 export const getHaulsMatrix = createAsyncThunk(
   "haul/getHaulsMatrix",
   Api.getHaulsMatrix,

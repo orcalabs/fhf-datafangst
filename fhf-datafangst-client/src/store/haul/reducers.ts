@@ -11,6 +11,8 @@ import {
   setHoveredFilter,
   getHaulsMatrix2,
   setHaulsMatrix2Search,
+  removeHauls,
+  addHauls,
 } from ".";
 import { Haul } from "generated/openapi";
 
@@ -28,6 +30,16 @@ export const haulBuilder = (
     })
     .addCase(getHauls.rejected, (state, _) => {
       state.haulsLoading = false;
+    })
+    .addCase(addHauls.fulfilled, (state, action) => {
+      state.hauls = state.hauls
+        ? state.hauls.concat(action.payload)
+        : action.payload;
+    })
+    .addCase(removeHauls, (state, action) => {
+      state.hauls = state.hauls?.filter(
+        (h) => !action.payload.includes(h.catchLocationStart!),
+      );
     })
     .addCase(getHaulsMatrix.pending, (state, _) => {
       state.haulsMatrix = undefined;
@@ -95,6 +107,7 @@ export const haulBuilder = (
       return {
         ...state,
         ...emptyState,
+        hauls: undefined,
         haulsMatrixSearch: action.payload,
       };
     })
@@ -108,6 +121,20 @@ export const haulBuilder = (
         (action as any).asyncDispatch(getHaulsMatrix2(action.payload));
       }
 
-      (action as any).asyncDispatch(getHauls(action.payload));
+      const cur = action.payload.catchLocations ?? [];
+      const prev = state.haulsMatrix2Search?.catchLocations ?? [];
+
+      if (cur.length < prev.length) {
+        const x = prev.filter((c) => !cur.includes(c));
+        (action as any).asyncDispatch(removeHauls(x));
+      } else if (cur.length > prev.length) {
+        const x = cur.filter((c) => !prev.includes(c));
+        (action as any).asyncDispatch(
+          addHauls({ ...action.payload, catchLocations: x }),
+        );
+      } else {
+        (action as any).asyncDispatch(getHauls(action.payload));
+      }
+
       state.haulsMatrix2Search = action.payload;
     });
