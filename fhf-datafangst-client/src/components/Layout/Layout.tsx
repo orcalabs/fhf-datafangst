@@ -15,6 +15,7 @@ import {
   setHaulsMatrixSearch,
   useAppDispatch,
 } from "store";
+import { useAuth } from "oidc-react";
 
 interface Props {
   children: ReactNode;
@@ -22,9 +23,15 @@ interface Props {
 
 export const Layout: React.FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
+  const { userData, isLoading } = useAuth();
 
   useEffect(() => {
-    dispatch(checkLoggedIn());
+    if (userData && !isLoading) {
+      dispatch(checkLoggedIn(userData));
+    }
+  }, [userData, isLoading]);
+
+  useEffect(() => {
     dispatch(setHaulsMatrixSearch(initialHaulsMatrixSearch));
     dispatch(getVessels());
     dispatch(getGear());

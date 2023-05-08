@@ -17,7 +17,6 @@ import { tripBuilder } from "./trip";
 import { aisBuilder } from "./ais";
 import { vmsBuilder } from "./vms";
 import { trackBuilder } from "./track";
-import { getTokens } from "app/auth";
 
 export const emptyState = {
   haulsByArea: undefined,
@@ -66,11 +65,12 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(getUserProfile.fulfilled, (state, action) => {
       state.bwProfile = action.payload;
     })
-    .addCase(checkLoggedIn.fulfilled, (state, action) => {
-      state.isLoggedIn = action.payload;
+    .addCase(checkLoggedIn, (state, action) => {
+      const user = action.payload;
+      const token = user.access_token;
+      state.isLoggedIn = token !== undefined;
 
-      if (action.payload) {
-        const token = getTokens();
+      if (token) {
         (action as any).asyncDispatch(getUserProfile(token));
       }
     })

@@ -1,16 +1,11 @@
 import { AppBar, Box, Link, Toolbar, Typography } from "@mui/material";
+import { useAuth } from "oidc-react";
 import { FC } from "react";
-import {
-  login,
-  logout,
-  selectIsLoggedIn,
-  useAppDispatch,
-  useAppSelector,
-} from "store";
+import { selectIsLoggedIn, useAppSelector } from "store";
 
 export const Header: FC = () => {
-  const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectIsLoggedIn);
+  const { signIn, signOutRedirect } = useAuth();
 
   return (
     <AppBar
@@ -38,10 +33,10 @@ export const Header: FC = () => {
         <Box
           sx={{ cursor: "pointer", gridColumn: 3, justifySelf: "end" }}
           onClick={() => {
-            loggedIn ? dispatch(logout()) : dispatch(login());
+            loggedIn ? signOutRedirect() : signIn();
           }}
         >
-          {loggedIn ? "Log out" : "Log in"}
+          {loggedIn ? "Logg ut" : "Logg inn"}
         </Box>
       </Toolbar>
     </AppBar>
