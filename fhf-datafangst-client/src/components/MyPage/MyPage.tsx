@@ -2,7 +2,7 @@ import { Box, Button, Divider, Drawer, Typography } from "@mui/material";
 import { Filters, VesselInfo } from "components";
 import { Vessel } from "generated/openapi";
 import { FC } from "react";
-import { login, selectIsLoggedIn, useAppDispatch, useAppSelector } from "store";
+import { selectIsLoggedIn, useAppSelector } from "store";
 
 interface Props {
   vessel?: Vessel;
@@ -10,7 +10,6 @@ interface Props {
 
 export const MyPage: FC<Props> = (props) => {
   const { vessel } = props;
-  const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectIsLoggedIn);
 
   const content = () => {
@@ -30,9 +29,6 @@ export const MyPage: FC<Props> = (props) => {
               ":hover": {
                 bgcolor: "secondary.light",
               },
-            }}
-            onClick={() => {
-              dispatch(login());
             }}
           >
             Logg inn

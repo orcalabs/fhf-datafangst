@@ -1,22 +1,17 @@
-import { AuthService } from "react-oauth2-pkce";
+import { WebStorageStateStore } from "oidc-client-ts";
+import { AuthProviderProps, UserManager } from "oidc-react";
 
-const barentswatch = process.env.REACT_APP_BARENTSWATCH_AUTH as string;
-
-const authService = new AuthService({
-  clientId: "fhf-datafangst",
-  location: window.location,
-  provider: barentswatch,
-  authorizeEndpoint: barentswatch + "/connect/authorize",
-  logoutEndpoint: barentswatch + "/connect/endsession",
-  tokenEndpoint: barentswatch + "/connect/token",
-  redirectUri: window.location.origin,
-  autoRefresh: true,
-  scopes: ["openid", "api"],
-});
-
-export const login = async () => authService.login();
-
-export const logout = async () => authService.logout(true);
-
-export const checkLoggedIn = authService.isAuthenticated;
-export const getTokens = () => authService.getAuthTokens().access_token;
+export const authConfig: AuthProviderProps = {
+  autoSignIn: false,
+  userManager: new UserManager({
+    accessTokenExpiringNotificationTimeInSeconds: 1,
+    automaticSilentRenew: true,
+    authority: process.env.REACT_APP_BARENTSWATCH_AUTH as string,
+    client_id: "fhf-datafangst",
+    redirect_uri: window.location.origin,
+    scope: "openid api",
+    loadUserInfo: false,
+    post_logout_redirect_uri: window.location.origin,
+    userStore: new WebStorageStateStore({ store: window.localStorage }),
+  }),
+};
