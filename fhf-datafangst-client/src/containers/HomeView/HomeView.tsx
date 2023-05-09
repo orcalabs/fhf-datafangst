@@ -36,6 +36,7 @@ import {
   selectBwUserProfile,
   selectVesselsByCallsign,
   setHaulsMatrix2Search,
+  setHoveredFilter,
 } from "store";
 
 export interface MapFilter {
@@ -158,6 +159,8 @@ export const HomeView: FC = () => {
 
   const handleMenuToggle = (newValue: string) => {
     setMenuToggle(newValue);
+
+    dispatch(setHoveredFilter(undefined));
 
     if (newValue === "catchdata") {
       dispatch(
