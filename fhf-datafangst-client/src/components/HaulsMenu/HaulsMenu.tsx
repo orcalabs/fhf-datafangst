@@ -234,10 +234,8 @@ export const HaulsMenu: FC = () => {
           <Drawer
             sx={{
               height: "100%",
+              flexShrink: 0,
               "& .MuiDrawer-paper": {
-                flexShrink: 0,
-                boxSizing: "border-box",
-                height: "100%",
                 position: "relative",
                 backgroundColor: "primary.main",
                 color: "white",

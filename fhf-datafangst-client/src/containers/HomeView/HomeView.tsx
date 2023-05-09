@@ -116,7 +116,6 @@ const HaulMenuArea = (props: any) => (
       gridRowEnd: 4,
       display: "flex",
       flexDirection: "column",
-      overflowY: "auto",
     }}
   >
     {props.children}
@@ -214,8 +213,15 @@ export const HomeView: FC = () => {
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
         <HaulMenuArea>
-          <HaulsMenu />
-          {selectedTrip && <TripsMenu />}
+          {/* Use grid to set Trip menu on top when active, without removing HaulsMenu and its state */}
+          <Box sx={{ display: "grid", height: "100%" }}>
+            <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
+              <HaulsMenu />
+            </Box>
+            <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
+              {selectedTrip && <TripsMenu />}
+            </Box>
+          </Box>
         </HaulMenuArea>
       </GridContainer>
       <Map>
