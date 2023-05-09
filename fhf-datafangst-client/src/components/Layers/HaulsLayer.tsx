@@ -4,6 +4,7 @@ import {
   selectFishmap,
   selectHauls,
   selectSelectedGridsString,
+  selectSelectedHaulTrip,
   useAppSelector,
 } from "store";
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
@@ -12,6 +13,7 @@ export const HaulsLayer: FC = () => {
   const hauls = useAppSelector(selectHauls);
   const fishmap = useAppSelector(selectFishmap);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
+  const selectedTrip = useAppSelector(selectSelectedHaulTrip);
 
   const removeLayer = useCallback(() => {
     for (const layer of fishmap.getLayers().getArray()) {
@@ -23,7 +25,7 @@ export const HaulsLayer: FC = () => {
   }, [fishmap]);
 
   useEffect(() => {
-    if (!selectedGrids.length) {
+    if (!selectedGrids.length || selectedTrip) {
       removeLayer();
       return;
     }
@@ -47,7 +49,7 @@ export const HaulsLayer: FC = () => {
       removeLayer();
       fishmap.addLayer(layer);
     }
-  }, [fishmap, removeLayer, hauls, selectedGrids]);
+  }, [fishmap, removeLayer, hauls, selectedGrids, selectedTrip]);
 
   return null;
 };
