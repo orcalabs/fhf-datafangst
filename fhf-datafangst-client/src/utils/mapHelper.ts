@@ -7,12 +7,7 @@ import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import {
-  AisPosition,
-  AisVmsPosition,
-  Haul,
-  VmsPosition,
-} from "generated/openapi";
+import { AisVmsPosition, Haul } from "generated/openapi";
 import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
 import {
@@ -21,7 +16,6 @@ import {
   matrixSum,
   sumCatches,
 } from "utils";
-import { Position } from "models";
 import theme from "app/theme";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
 import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
@@ -418,47 +412,4 @@ export const generateVesselTrackVector = (
   lineVector.vector.addFeature(lineFeature(line));
 
   return lineVectors;
-};
-
-export const combineAisAndVms = (
-  ais: AisPosition[] | undefined,
-  vms: VmsPosition[] | undefined,
-) => {
-  if (!ais && !vms) {
-    return;
-  }
-
-  const positions: Position[] = [];
-
-  if (ais) {
-    for (const pos of ais) {
-      positions.push({
-        lat: pos.lat,
-        lon: pos.lon,
-        timestamp: pos.timestamp,
-        cog: pos.cog,
-        speed: pos.det?.speedOverGround,
-        det: pos.det,
-      });
-    }
-  }
-
-  if (vms) {
-    for (const pos of vms) {
-      positions.push({
-        lat: pos.lat,
-        lon: pos.lon,
-        timestamp: pos.timestamp,
-        cog: pos.course,
-        speed: pos.speed,
-        det: undefined,
-      });
-    }
-  }
-
-  positions.sort((a, b) => {
-    return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf();
-  });
-
-  return positions;
 };

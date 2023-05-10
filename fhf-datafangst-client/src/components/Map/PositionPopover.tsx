@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { dateFormat } from "utils";
-import { AisPosition } from "generated/openapi";
+import { AisVmsPosition } from "generated/openapi";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 interface Props {
-  hoveredPosition: AisPosition;
+  hoveredPosition: AisVmsPosition;
 }
 
 export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
@@ -22,9 +22,8 @@ export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
           <ListItemText
             primary={dateFormat(hoveredPosition.timestamp, "d MMM p")}
             secondary={
-              hoveredPosition.det.speedOverGround
-                ? Number(hoveredPosition.det.speedOverGround).toFixed(1) +
-                  " knop"
+              hoveredPosition.speed
+                ? Number(hoveredPosition.speed).toFixed(1) + " knop"
                 : "Ukjent fart"
             }
             secondaryTypographyProps={{ color: "primary" }}
