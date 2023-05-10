@@ -7,6 +7,7 @@ RUN npm ci
 
 COPY fhf-datafangst-client .
 RUN npm run build
+RUN npm run compress
 
 FROM nginx:alpine
 COPY dockerfiles/fhf-datafangst-client/nginx.conf /etc/nginx/nginx.conf
