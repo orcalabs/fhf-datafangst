@@ -5,7 +5,7 @@ import {
   intervalToDuration,
 } from "date-fns";
 import { nb } from "date-fns/locale";
-import { Gear, Haul } from "generated/openapi";
+import { Gear, Haul, RegisterVesselOwner } from "generated/openapi";
 import { Catch } from "models";
 
 const setCharAt = (str: string, index: number, chr: string) => {
@@ -160,6 +160,9 @@ export const differenceMinutes = (date1: Date, date2: Date) => {
 
 export const createGearListString = (gears: Gear[]) =>
   gears.map((g) => g.name).join(", ");
+
+export const createOwnersListString = (owners: RegisterVesselOwner[]) =>
+  owners.map((g) => toTitleCase(g.name)).join(", ");
 
 export const reduceHaulsCatches = (
   hauls: Haul[] | undefined,
