@@ -13,7 +13,6 @@ import {
   TablePagination,
   Button,
   Divider,
-  CircularProgress,
 } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import {
@@ -23,7 +22,7 @@ import {
   kilosOrTonsFormatter,
   sumCatches,
 } from "utils";
-import { CatchesTable } from "components";
+import { CatchesTable, LocalLoadingProgress } from "components";
 import {
   getHaulTrip,
   selectGearsMap,
@@ -252,17 +251,7 @@ export const HaulsMenu: FC = () => {
               <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 0 }} />
             </Box>
             {haulsLoading || matrixLoading ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  height: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                }}
-              >
-                <CircularProgress color="inherit" disableShrink />
-              </Box>
+              <LocalLoadingProgress />
             ) : (
               <>
                 <Box sx={{ px: 2.5, py: 1 }}>
