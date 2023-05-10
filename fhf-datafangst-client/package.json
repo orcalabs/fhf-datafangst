@@ -41,6 +41,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "compress": "compress-cra -c ./compress-cra.json",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint .",
@@ -67,6 +68,7 @@
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "compress-create-react-app": "^1.4.2",
     "eslint": "^8.36.0",
     "eslint-config-standard-with-typescript": "^34.0.0",
     "eslint-plugin-import": "^2.27.5",
