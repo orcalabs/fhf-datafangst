@@ -788,6 +788,20 @@ export type NavigationStatus = typeof NavigationStatus[keyof typeof NavigationSt
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const Ordering = {
+    Asc: 'asc',
+    Desc: 'desc'
+} as const;
+
+export type Ordering = typeof Ordering[keyof typeof Ordering];
+
+
+/**
+ * 
+ * @export
  * @interface Species
  */
 export interface Species {
@@ -2286,6 +2300,54 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {number} fiskeridirVesselId 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {Ordering} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        trips: async (fiskeridirVesselId: number, limit?: number, offset?: number, ordering?: Ordering, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fiskeridirVesselId' is not null or undefined
+            assertParamExists('trips', 'fiskeridirVesselId', fiskeridirVesselId)
+            const localVarPath = `/v1.0/trips/{fiskeridir_vessel_id}`
+                .replace(`{${"fiskeridir_vessel_id"}}`, encodeURIComponent(String(fiskeridirVesselId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (ordering !== undefined) {
+                localVarQueryParameter['ordering'] = ordering;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2304,6 +2366,19 @@ export const V1tripApiFp = function(configuration?: Configuration) {
          */
         async tripOfHaul(haulId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.tripOfHaul(haulId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} fiskeridirVesselId 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {Ordering} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async trips(fiskeridirVesselId: number, limit?: number, offset?: number, ordering?: Ordering, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Trip>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.trips(fiskeridirVesselId, limit, offset, ordering, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2325,6 +2400,15 @@ export const V1tripApiFactory = function (configuration?: Configuration, basePat
         tripOfHaul(requestParameters: V1tripApiTripOfHaulRequest, options?: AxiosRequestConfig): AxiosPromise<Trip> {
             return localVarFp.tripOfHaul(requestParameters.haulId, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {V1tripApiTripsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        trips(requestParameters: V1tripApiTripsRequest, options?: AxiosRequestConfig): AxiosPromise<Array<Trip>> {
+            return localVarFp.trips(requestParameters.fiskeridirVesselId, requestParameters.limit, requestParameters.offset, requestParameters.ordering, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -2343,6 +2427,41 @@ export interface V1tripApiTripOfHaulRequest {
 }
 
 /**
+ * Request parameters for trips operation in V1tripApi.
+ * @export
+ * @interface V1tripApiTripsRequest
+ */
+export interface V1tripApiTripsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof V1tripApiTrips
+     */
+    readonly fiskeridirVesselId: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1tripApiTrips
+     */
+    readonly limit?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1tripApiTrips
+     */
+    readonly offset?: number
+
+    /**
+     * 
+     * @type {Ordering}
+     * @memberof V1tripApiTrips
+     */
+    readonly ordering?: Ordering
+}
+
+/**
  * V1tripApi - object-oriented interface
  * @export
  * @class V1tripApi
@@ -2358,6 +2477,17 @@ export class V1tripApi extends BaseAPI {
      */
     public tripOfHaul(requestParameters: V1tripApiTripOfHaulRequest, options?: AxiosRequestConfig) {
         return V1tripApiFp(this.configuration).tripOfHaul(requestParameters.haulId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1tripApiTripsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripApi
+     */
+    public trips(requestParameters: V1tripApiTripsRequest, options?: AxiosRequestConfig) {
+        return V1tripApiFp(this.configuration).trips(requestParameters.fiskeridirVesselId, requestParameters.limit, requestParameters.offset, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
