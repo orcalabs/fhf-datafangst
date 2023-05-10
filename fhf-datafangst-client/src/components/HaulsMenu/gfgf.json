@@ -1,0 +1,1987 @@
+[
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070857,
+    "start": "2023-03-19T03:44:00Z",
+    "end": "2023-03-19T16:45:00Z",
+    "numDeliveries": 1,
+    "mostRecentDeliveryDate": "2023-03-19T18:23:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "356bbe8ecab421c3d538d3c820f6e63b",
+        "ersActivityId": "FIS",
+        "duration": 605,
+        "haulDistance": 4097,
+        "catchLocationStart": "00-03",
+        "oceanDepthEnd": -88,
+        "oceanDepthStart": -126,
+        "quotaTypeId": 1,
+        "startLatitude": 67.466,
+        "startLongitude": 11.665,
+        "startTimestamp": "2023-03-19T05:21:00Z",
+        "stopLatitude": 67.43,
+        "stopLongitude": 11.646,
+        "stopTimestamp": "2023-03-19T15:26:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 9400,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 12,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 6,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 14.85,
+          "grossWeight": 11.0,
+          "productWeight": 11.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 5.0,
+          "grossWeight": 5.0,
+          "productWeight": 5.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 17.55,
+          "grossWeight": 13.0,
+          "productWeight": 13.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 9505.5,
+          "grossWeight": 8487.0,
+          "productWeight": 8487.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 15.96,
+          "grossWeight": 14.0,
+          "productWeight": 14.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 9558.86,
+      "totalProductWeight": 8530.0,
+      "totalGrossWeight": 8530.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 14.85,
+            "grossWeight": 11.0,
+            "productWeight": 11.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 5.0,
+            "grossWeight": 5.0,
+            "productWeight": 5.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 17.55,
+            "grossWeight": 13.0,
+            "productWeight": 13.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 9505.5,
+            "grossWeight": 8487.0,
+            "productWeight": 8487.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 15.96,
+            "grossWeight": 14.0,
+            "productWeight": 14.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 9558.86,
+        "totalProductWeight": 8530.0,
+        "totalGrossWeight": 8530.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070856,
+    "start": "2023-03-16T05:27:00Z",
+    "end": "2023-03-17T17:22:00Z",
+    "numDeliveries": 2,
+    "mostRecentDeliveryDate": "2023-03-17T19:11:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "f05b496b8c5945c80722fc4f6d72f08e",
+        "ersActivityId": "FIS",
+        "duration": 509,
+        "haulDistance": 35515,
+        "catchLocationStart": "05-14",
+        "oceanDepthEnd": -176,
+        "oceanDepthStart": -116,
+        "quotaTypeId": 1,
+        "startLatitude": 68.407,
+        "startLongitude": 12.741999999999999,
+        "startTimestamp": "2023-03-17T02:46:00Z",
+        "stopLatitude": 68.097,
+        "stopLongitude": 12.546,
+        "stopTimestamp": "2023-03-17T11:15:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 11000,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 50,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 3,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 86.8,
+          "grossWeight": 62.0,
+          "productWeight": 62.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 10.8,
+          "grossWeight": 8.0,
+          "productWeight": 8.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 13.5,
+          "grossWeight": 10.0,
+          "productWeight": 10.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 11878.5,
+          "grossWeight": 10610.0,
+          "productWeight": 10610.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 11989.6,
+      "totalProductWeight": 10690.0,
+      "totalGrossWeight": 10690.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 86.8,
+            "grossWeight": 62.0,
+            "productWeight": 62.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 10.8,
+            "grossWeight": 8.0,
+            "productWeight": 8.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 13.5,
+            "grossWeight": 10.0,
+            "productWeight": 10.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 11878.5,
+            "grossWeight": 10610.0,
+            "productWeight": 10610.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 11989.6,
+        "totalProductWeight": 10690.0,
+        "totalGrossWeight": 10690.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070855,
+    "start": "2023-03-15T01:53:00Z",
+    "end": "2023-03-16T00:15:00Z",
+    "numDeliveries": 1,
+    "mostRecentDeliveryDate": "2023-03-16T02:57:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "8ed55ca08437708bf074c4a86dce823c",
+        "ersActivityId": "FIS",
+        "duration": 639,
+        "haulDistance": 4966,
+        "catchLocationStart": "05-14",
+        "oceanDepthEnd": -128,
+        "oceanDepthStart": -131,
+        "quotaTypeId": 1,
+        "startLatitude": 68.391,
+        "startLongitude": 12.686,
+        "startTimestamp": "2023-03-15T05:18:00Z",
+        "stopLatitude": 68.355,
+        "stopLongitude": 12.615,
+        "stopTimestamp": "2023-03-15T15:57:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 30500,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 15,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 6,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 60,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 1.4,
+          "grossWeight": 1.0,
+          "productWeight": 1.0,
+          "speciesFiskeridirId": 1021,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 154.0,
+          "grossWeight": 110.0,
+          "productWeight": 110.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 9.45,
+          "grossWeight": 7.0,
+          "productWeight": 7.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 1.0,
+          "grossWeight": 1.0,
+          "productWeight": 1.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 6.75,
+          "grossWeight": 5.0,
+          "productWeight": 5.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 31023.0,
+          "grossWeight": 31023.0,
+          "productWeight": 31023.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 13.68,
+          "grossWeight": 12.0,
+          "productWeight": 12.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 31209.28,
+      "totalProductWeight": 31159.0,
+      "totalGrossWeight": 31159.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 1.4,
+            "grossWeight": 1.0,
+            "productWeight": 1.0,
+            "speciesFiskeridirId": 1021,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 154.0,
+            "grossWeight": 110.0,
+            "productWeight": 110.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 9.45,
+            "grossWeight": 7.0,
+            "productWeight": 7.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 1.0,
+            "grossWeight": 1.0,
+            "productWeight": 1.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 6.75,
+            "grossWeight": 5.0,
+            "productWeight": 5.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 31023.0,
+            "grossWeight": 31023.0,
+            "productWeight": 31023.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 13.68,
+            "grossWeight": 12.0,
+            "productWeight": 12.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 31209.28,
+        "totalProductWeight": 31159.0,
+        "totalGrossWeight": 31159.0
+      }
+    },
+    "startPortId": "NORMB",
+    "endPortId": "NORMB"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070854,
+    "start": "2023-03-13T21:54:00Z",
+    "end": "2023-03-14T16:20:00Z",
+    "numDeliveries": 2,
+    "mostRecentDeliveryDate": "2023-03-14T17:24:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N2350", "N555"],
+    "hauls": [
+      {
+        "haulId": "a086ebf2034652953af9a7d871254b28",
+        "ersActivityId": "FIS",
+        "duration": 474,
+        "haulDistance": 15177,
+        "catchLocationStart": "05-14",
+        "oceanDepthEnd": -130,
+        "oceanDepthStart": -149,
+        "quotaTypeId": 1,
+        "startLatitude": 68.287,
+        "startLongitude": 12.57,
+        "startTimestamp": "2023-03-14T05:13:00Z",
+        "stopLatitude": 68.415,
+        "stopLongitude": 12.695,
+        "stopTimestamp": "2023-03-14T13:07:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 7000,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 40,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 150,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 100,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 5,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          },
+          {
+            "livingWeight": 5,
+            "speciesFiskeridirId": 1021,
+            "speciesGroupId": 220
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 9.8,
+          "grossWeight": 7.0,
+          "productWeight": 7.0,
+          "speciesFiskeridirId": 1021,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 646.8,
+          "grossWeight": 462.0,
+          "productWeight": 462.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 86.4,
+          "grossWeight": 64.0,
+          "productWeight": 64.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 13.0,
+          "grossWeight": 13.0,
+          "productWeight": 13.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 32.4,
+          "grossWeight": 24.0,
+          "productWeight": 24.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 22.4,
+          "grossWeight": 8.0,
+          "productWeight": 8.0,
+          "speciesFiskeridirId": 2411,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 30761.4,
+          "grossWeight": 27614.6,
+          "productWeight": 27614.6,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 76.38,
+          "grossWeight": 67.0,
+          "productWeight": 67.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 31648.579999999994,
+      "totalProductWeight": 28259.600000000002,
+      "totalGrossWeight": 28259.600000000002
+    },
+    "deliveredPerDeliveryPoint": {
+      "N2350": {
+        "delivered": [
+          {
+            "livingWeight": 233.8,
+            "grossWeight": 167.0,
+            "productWeight": 167.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 54.0,
+            "grossWeight": 40.0,
+            "productWeight": 40.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 3.0,
+            "grossWeight": 3.0,
+            "productWeight": 3.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 8.1,
+            "grossWeight": 6.0,
+            "productWeight": 6.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 6741.9,
+            "grossWeight": 6478.6,
+            "productWeight": 6478.6,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 42.18,
+            "grossWeight": 37.0,
+            "productWeight": 37.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 7082.98,
+        "totalProductWeight": 6731.6,
+        "totalGrossWeight": 6731.6
+      },
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 9.8,
+            "grossWeight": 7.0,
+            "productWeight": 7.0,
+            "speciesFiskeridirId": 1021,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 413.0,
+            "grossWeight": 295.0,
+            "productWeight": 295.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 32.4,
+            "grossWeight": 24.0,
+            "productWeight": 24.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 10.0,
+            "grossWeight": 10.0,
+            "productWeight": 10.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 24.3,
+            "grossWeight": 18.0,
+            "productWeight": 18.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 22.4,
+            "grossWeight": 8.0,
+            "productWeight": 8.0,
+            "speciesFiskeridirId": 2411,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 24019.5,
+            "grossWeight": 21136.0,
+            "productWeight": 21136.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 34.2,
+            "grossWeight": 30.0,
+            "productWeight": 30.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 24565.6,
+        "totalProductWeight": 21528.0,
+        "totalGrossWeight": 21528.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORMB"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070853,
+    "start": "2023-03-12T03:46:00Z",
+    "end": "2023-03-13T20:00:00Z",
+    "numDeliveries": 0,
+    "mostRecentDeliveryDate": null,
+    "gearIds": [],
+    "deliveryPointIds": [],
+    "hauls": [
+      {
+        "haulId": "ccb839cf8a34ed69871e125609220b6e",
+        "ersActivityId": "FIS",
+        "duration": 313,
+        "haulDistance": 11311,
+        "catchLocationStart": "05-08",
+        "oceanDepthEnd": -149,
+        "oceanDepthStart": -136,
+        "quotaTypeId": 1,
+        "startLatitude": 67.554,
+        "startLongitude": 11.689,
+        "startTimestamp": "2023-03-12T05:42:00Z",
+        "stopLatitude": 67.655,
+        "stopLongitude": 11.665,
+        "stopTimestamp": "2023-03-12T10:55:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 3500,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 55,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 30,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 2411,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 40,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          }
+        ],
+        "whaleCatches": []
+      },
+      {
+        "haulId": "234fae7bfdffdc655d6d222e90b75fab",
+        "ersActivityId": "FIS",
+        "duration": 595,
+        "haulDistance": 18962,
+        "catchLocationStart": "05-14",
+        "oceanDepthEnd": -167,
+        "oceanDepthStart": -132,
+        "quotaTypeId": 1,
+        "startLatitude": 68.414,
+        "startLongitude": 12.554,
+        "startTimestamp": "2023-03-13T02:56:00Z",
+        "stopLatitude": 68.244,
+        "stopLongitude": 12.554,
+        "stopTimestamp": "2023-03-13T12:51:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 21000,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 15,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 150,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 20,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 5,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 1021,
+            "speciesGroupId": 220
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [],
+      "totalLivingWeight": 0.0,
+      "totalProductWeight": 0.0,
+      "totalGrossWeight": 0.0
+    },
+    "deliveredPerDeliveryPoint": {},
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070852,
+    "start": "2023-03-11T03:51:00Z",
+    "end": "2023-03-11T15:00:00Z",
+    "numDeliveries": 1,
+    "mostRecentDeliveryDate": "2023-03-11T15:31:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "46102aea87930031f5562fe726f79614",
+        "ersActivityId": "FIS",
+        "duration": 453,
+        "haulDistance": 1329,
+        "catchLocationStart": "05-08",
+        "oceanDepthEnd": -130,
+        "oceanDepthStart": -131,
+        "quotaTypeId": 1,
+        "startLatitude": 67.552,
+        "startLongitude": 11.658,
+        "startTimestamp": "2023-03-11T05:41:00Z",
+        "stopLatitude": 67.563,
+        "stopLongitude": 11.67,
+        "stopTimestamp": "2023-03-11T13:14:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 3200,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 110,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 20,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 100,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 15,
+            "speciesFiskeridirId": 2411,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 60,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 210.0,
+          "grossWeight": 150.0,
+          "productWeight": 150.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 68.85,
+          "grossWeight": 51.0,
+          "productWeight": 51.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 11.0,
+          "grossWeight": 11.0,
+          "productWeight": 11.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 40.5,
+          "grossWeight": 30.0,
+          "productWeight": 30.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 39.2,
+          "grossWeight": 14.0,
+          "productWeight": 14.0,
+          "speciesFiskeridirId": 2411,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 3123.0,
+          "grossWeight": 2788.0,
+          "productWeight": 2788.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 108.3,
+          "grossWeight": 95.0,
+          "productWeight": 95.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 3600.85,
+      "totalProductWeight": 3139.0,
+      "totalGrossWeight": 3139.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 210.0,
+            "grossWeight": 150.0,
+            "productWeight": 150.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 68.85,
+            "grossWeight": 51.0,
+            "productWeight": 51.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 11.0,
+            "grossWeight": 11.0,
+            "productWeight": 11.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 40.5,
+            "grossWeight": 30.0,
+            "productWeight": 30.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 39.2,
+            "grossWeight": 14.0,
+            "productWeight": 14.0,
+            "speciesFiskeridirId": 2411,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 3123.0,
+            "grossWeight": 2788.0,
+            "productWeight": 2788.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 108.3,
+            "grossWeight": 95.0,
+            "productWeight": 95.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 3600.85,
+        "totalProductWeight": 3139.0,
+        "totalGrossWeight": 3139.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070851,
+    "start": "2023-03-10T03:49:00Z",
+    "end": "2023-03-10T14:15:00Z",
+    "numDeliveries": 1,
+    "mostRecentDeliveryDate": "2023-03-10T15:39:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "65e14b877cea290a7aa27db63be0b258",
+        "ersActivityId": "FIS",
+        "duration": 436,
+        "haulDistance": 10017,
+        "catchLocationStart": "00-03",
+        "oceanDepthEnd": -128,
+        "oceanDepthStart": -93,
+        "quotaTypeId": 1,
+        "startLatitude": 67.479,
+        "startLongitude": 11.735,
+        "startTimestamp": "2023-03-10T05:07:00Z",
+        "stopLatitude": 67.567,
+        "stopLongitude": 11.688,
+        "stopTimestamp": "2023-03-10T12:23:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 4000,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 180,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 100,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 20,
+            "speciesFiskeridirId": 2411,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 35,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 3,
+            "speciesFiskeridirId": 1034,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 15,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          },
+          {
+            "livingWeight": 4,
+            "speciesFiskeridirId": 1021,
+            "speciesGroupId": 220
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 4.2,
+          "grossWeight": 3.0,
+          "productWeight": 3.0,
+          "speciesFiskeridirId": 1021,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 182.0,
+          "grossWeight": 130.0,
+          "productWeight": 130.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 43.2,
+          "grossWeight": 32.0,
+          "productWeight": 32.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 3.9,
+          "grossWeight": 3.0,
+          "productWeight": 3.0,
+          "speciesFiskeridirId": 1034,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 13.0,
+          "grossWeight": 13.0,
+          "productWeight": 13.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 11.0,
+          "grossWeight": 10.0,
+          "productWeight": 10.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 16.8,
+          "grossWeight": 14.0,
+          "productWeight": 14.0,
+          "speciesFiskeridirId": 2411,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 3553.5,
+          "grossWeight": 3173.0,
+          "productWeight": 3173.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 129.96,
+          "grossWeight": 114.0,
+          "productWeight": 114.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 3957.5600000000004,
+      "totalProductWeight": 3492.0,
+      "totalGrossWeight": 3492.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 4.2,
+            "grossWeight": 3.0,
+            "productWeight": 3.0,
+            "speciesFiskeridirId": 1021,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 182.0,
+            "grossWeight": 130.0,
+            "productWeight": 130.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 43.2,
+            "grossWeight": 32.0,
+            "productWeight": 32.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 3.9,
+            "grossWeight": 3.0,
+            "productWeight": 3.0,
+            "speciesFiskeridirId": 1034,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 13.0,
+            "grossWeight": 13.0,
+            "productWeight": 13.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 11.0,
+            "grossWeight": 10.0,
+            "productWeight": 10.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 16.8,
+            "grossWeight": 14.0,
+            "productWeight": 14.0,
+            "speciesFiskeridirId": 2411,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 3553.5,
+            "grossWeight": 3173.0,
+            "productWeight": 3173.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 129.96,
+            "grossWeight": 114.0,
+            "productWeight": 114.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 3957.56,
+        "totalProductWeight": 3492.0,
+        "totalGrossWeight": 3492.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070850,
+    "start": "2023-03-09T03:46:00Z",
+    "end": "2023-03-09T14:40:00Z",
+    "numDeliveries": 1,
+    "mostRecentDeliveryDate": "2023-03-09T16:02:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "1eb0968c89c6a833722397f50259fa4e",
+        "ersActivityId": "FIS",
+        "duration": 421,
+        "haulDistance": 9329,
+        "catchLocationStart": "00-03",
+        "oceanDepthEnd": -120,
+        "oceanDepthStart": -133,
+        "quotaTypeId": 1,
+        "startLatitude": 67.498,
+        "startLongitude": 11.567,
+        "startTimestamp": "2023-03-09T05:48:00Z",
+        "stopLatitude": 67.576,
+        "stopLongitude": 11.646,
+        "stopTimestamp": "2023-03-09T12:49:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 1150,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 25,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 20,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 6,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 15,
+            "speciesFiskeridirId": 2411,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 6,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 10,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 4.2,
+          "grossWeight": 3.0,
+          "productWeight": 3.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 6.75,
+          "grossWeight": 5.0,
+          "productWeight": 5.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 15.0,
+          "grossWeight": 15.0,
+          "productWeight": 15.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 28.7,
+          "grossWeight": 22.0,
+          "productWeight": 22.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 14.0,
+          "grossWeight": 5.0,
+          "productWeight": 5.0,
+          "speciesFiskeridirId": 2411,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 849.0,
+          "grossWeight": 752.0,
+          "productWeight": 752.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 22.8,
+          "grossWeight": 20.0,
+          "productWeight": 20.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 940.45,
+      "totalProductWeight": 822.0,
+      "totalGrossWeight": 822.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 4.2,
+            "grossWeight": 3.0,
+            "productWeight": 3.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 6.75,
+            "grossWeight": 5.0,
+            "productWeight": 5.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 15.0,
+            "grossWeight": 15.0,
+            "productWeight": 15.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 28.7,
+            "grossWeight": 22.0,
+            "productWeight": 22.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 14.0,
+            "grossWeight": 5.0,
+            "productWeight": 5.0,
+            "speciesFiskeridirId": 2411,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 849.0,
+            "grossWeight": 752.0,
+            "productWeight": 752.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 22.8,
+            "grossWeight": 20.0,
+            "productWeight": 20.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 940.45,
+        "totalProductWeight": 822.0,
+        "totalGrossWeight": 822.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070849,
+    "start": "2023-03-08T03:49:00Z",
+    "end": "2023-03-08T13:02:00Z",
+    "numDeliveries": 1,
+    "mostRecentDeliveryDate": "2023-03-08T17:45:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "90421498ce5f47d1d1098374d4d968c6",
+        "ersActivityId": "FIS",
+        "duration": 374,
+        "haulDistance": 7379,
+        "catchLocationStart": "00-03",
+        "oceanDepthEnd": -93,
+        "oceanDepthStart": -137,
+        "quotaTypeId": 1,
+        "startLatitude": 67.488,
+        "startLongitude": 11.565,
+        "startTimestamp": "2023-03-08T05:33:00Z",
+        "stopLatitude": 67.479,
+        "stopLongitude": 11.736,
+        "stopTimestamp": "2023-03-08T11:47:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 1500,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 35,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 40,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 30,
+            "speciesFiskeridirId": 2411,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 30,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 3,
+            "speciesFiskeridirId": 1034,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 12,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 60.2,
+          "grossWeight": 43.0,
+          "productWeight": 43.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 35.1,
+          "grossWeight": 26.0,
+          "productWeight": 26.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 8.0,
+          "grossWeight": 8.0,
+          "productWeight": 8.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 81.2,
+          "grossWeight": 29.0,
+          "productWeight": 29.0,
+          "speciesFiskeridirId": 2411,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 1320.0,
+          "grossWeight": 1176.0,
+          "productWeight": 1176.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 20.52,
+          "grossWeight": 18.0,
+          "productWeight": 18.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 1525.02,
+      "totalProductWeight": 1300.0,
+      "totalGrossWeight": 1300.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 60.2,
+            "grossWeight": 43.0,
+            "productWeight": 43.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 35.1,
+            "grossWeight": 26.0,
+            "productWeight": 26.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 8.0,
+            "grossWeight": 8.0,
+            "productWeight": 8.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 81.2,
+            "grossWeight": 29.0,
+            "productWeight": 29.0,
+            "speciesFiskeridirId": 2411,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 1320.0,
+            "grossWeight": 1176.0,
+            "productWeight": 1176.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 20.52,
+            "grossWeight": 18.0,
+            "productWeight": 18.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 1525.02,
+        "totalProductWeight": 1300.0,
+        "totalGrossWeight": 1300.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  },
+  {
+    "fiskeridirVesselId": 1987004264,
+    "tripId": 4070848,
+    "start": "2023-03-07T03:46:00Z",
+    "end": "2023-03-07T14:50:00Z",
+    "numDeliveries": 1,
+    "mostRecentDeliveryDate": "2023-03-07T16:23:00Z",
+    "gearIds": [22],
+    "deliveryPointIds": ["N555"],
+    "hauls": [
+      {
+        "haulId": "a65a2a4f7babb450c54b952680c4f93e",
+        "ersActivityId": "FIS",
+        "duration": 480,
+        "haulDistance": 5749,
+        "catchLocationStart": "00-03",
+        "oceanDepthEnd": -134,
+        "oceanDepthStart": -96,
+        "quotaTypeId": 1,
+        "startLatitude": 67.434,
+        "startLongitude": 11.655,
+        "startTimestamp": "2023-03-07T05:27:00Z",
+        "stopLatitude": 67.482,
+        "stopLongitude": 11.704,
+        "stopTimestamp": "2023-03-07T13:27:00Z",
+        "gearId": 20,
+        "gearGroupId": 2,
+        "fiskeridirVesselId": 1987004264,
+        "vesselCallSign": "JXMK",
+        "vesselCallSignErs": "JXMK",
+        "vesselLength": 23.08,
+        "vesselLengthGroup": 4,
+        "vesselName": "SKOMVÆRFISK",
+        "vesselNameErs": "SKOMVÆRFISK",
+        "catches": [
+          {
+            "livingWeight": 1600,
+            "speciesFiskeridirId": 1022,
+            "speciesGroupId": 201
+          },
+          {
+            "livingWeight": 16,
+            "speciesFiskeridirId": 1027,
+            "speciesGroupId": 202
+          },
+          {
+            "livingWeight": 15,
+            "speciesFiskeridirId": 2311,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 25,
+            "speciesFiskeridirId": 1023,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 4,
+            "speciesFiskeridirId": 2411,
+            "speciesGroupId": 320
+          },
+          {
+            "livingWeight": 40,
+            "speciesFiskeridirId": 1032,
+            "speciesGroupId": 203
+          },
+          {
+            "livingWeight": 8,
+            "speciesFiskeridirId": 1034,
+            "speciesGroupId": 220
+          },
+          {
+            "livingWeight": 2,
+            "speciesFiskeridirId": 2202,
+            "speciesGroupId": 302
+          }
+        ],
+        "whaleCatches": []
+      }
+    ],
+    "delivery": {
+      "delivered": [
+        {
+          "livingWeight": 36.4,
+          "grossWeight": 26.0,
+          "productWeight": 26.0,
+          "speciesFiskeridirId": 1023,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 56.7,
+          "grossWeight": 42.0,
+          "productWeight": 42.0,
+          "speciesFiskeridirId": 1032,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 9.1,
+          "grossWeight": 7.0,
+          "productWeight": 7.0,
+          "speciesFiskeridirId": 1034,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 1.0,
+          "grossWeight": 1.0,
+          "productWeight": 1.0,
+          "speciesFiskeridirId": 2202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 25.65,
+          "grossWeight": 19.0,
+          "productWeight": 19.0,
+          "speciesFiskeridirId": 2311,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 47.6,
+          "grossWeight": 17.0,
+          "productWeight": 17.0,
+          "speciesFiskeridirId": 2411,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 1381.5,
+          "grossWeight": 1233.0,
+          "productWeight": 1233.0,
+          "speciesFiskeridirId": 102202,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        },
+        {
+          "livingWeight": 13.68,
+          "grossWeight": 12.0,
+          "productWeight": 12.0,
+          "speciesFiskeridirId": 102701,
+          "productQualityId": 20,
+          "productQualityName": "A"
+        }
+      ],
+      "totalLivingWeight": 1571.63,
+      "totalProductWeight": 1357.0,
+      "totalGrossWeight": 1357.0
+    },
+    "deliveredPerDeliveryPoint": {
+      "N555": {
+        "delivered": [
+          {
+            "livingWeight": 36.4,
+            "grossWeight": 26.0,
+            "productWeight": 26.0,
+            "speciesFiskeridirId": 1023,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 56.7,
+            "grossWeight": 42.0,
+            "productWeight": 42.0,
+            "speciesFiskeridirId": 1032,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 9.1,
+            "grossWeight": 7.0,
+            "productWeight": 7.0,
+            "speciesFiskeridirId": 1034,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 1.0,
+            "grossWeight": 1.0,
+            "productWeight": 1.0,
+            "speciesFiskeridirId": 2202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 25.65,
+            "grossWeight": 19.0,
+            "productWeight": 19.0,
+            "speciesFiskeridirId": 2311,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 47.6,
+            "grossWeight": 17.0,
+            "productWeight": 17.0,
+            "speciesFiskeridirId": 2411,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 1381.5,
+            "grossWeight": 1233.0,
+            "productWeight": 1233.0,
+            "speciesFiskeridirId": 102202,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          },
+          {
+            "livingWeight": 13.68,
+            "grossWeight": 12.0,
+            "productWeight": 12.0,
+            "speciesFiskeridirId": 102701,
+            "productQualityId": 20,
+            "productQualityName": "A"
+          }
+        ],
+        "totalLivingWeight": 1571.63,
+        "totalProductWeight": 1357.0,
+        "totalGrossWeight": 1357.0
+      }
+    },
+    "startPortId": "NORET",
+    "endPortId": "NORET"
+  }
+]
