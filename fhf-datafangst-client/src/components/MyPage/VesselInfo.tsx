@@ -12,7 +12,7 @@ import {
   styled,
 } from "@mui/material";
 import { FC } from "react";
-import { toTitleCase } from "utils";
+import { createOwnersListString, toTitleCase } from "utils";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import theme from "app/theme";
@@ -77,8 +77,8 @@ export const VesselInfo: FC<Props> = (props) => {
                   overflow: "hidden",
                 }}
               >
-                {vessel?.fiskeridir.owner
-                  ? toTitleCase(vessel.fiskeridir.owner)
+                {vessel?.fiskeridir.owners
+                  ? createOwnersListString(vessel.fiskeridir.owners)
                   : "Ukjent eier"}
               </Typography>
             </Box>
