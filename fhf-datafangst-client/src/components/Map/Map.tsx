@@ -14,7 +14,7 @@ import {
 import Feature, { FeatureLike } from "ol/Feature";
 import { Geometry } from "ol/geom";
 import RenderFeature from "ol/render/Feature";
-import { AisPosition } from "generated/openapi";
+import { AisVmsPosition } from "generated/openapi";
 import { HaulPopover, PositionPopover, ShorelinePopover } from "components";
 
 interface Props {
@@ -29,7 +29,7 @@ export const Map: FC<Props> = (props) => {
   const { children } = props;
   const dispatch = useAppDispatch();
   const mapState = useAppSelector(selectFishmapState);
-  const [hoveredPosition, setHoveredPosition] = useState<AisPosition>();
+  const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
   const [hoveredShoreline, setHoveredShoreline] = useState<boolean>(false);
   const [hoveredHaulIdx, setHoveredHaulIdx] = useState<number>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
