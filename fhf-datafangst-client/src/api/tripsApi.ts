@@ -1,14 +1,32 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
-import { Haul, V1tripApi } from "generated/openapi";
+import { Haul, V1tripApi, Ordering, Vessel } from "generated/openapi";
 
-export interface TripsArgs {
+export interface HaulsTripArgs {
   haul: Haul;
 }
+
+export interface TripsArgs {
+  vessel: Vessel;
+  ordering?: Ordering;
+  offset?: number;
+  limit?: number;
+}
+
 const api = new V1tripApi(apiConfiguration, undefined, axiosInstance);
 
-export const getTripFromHaul = async (query: TripsArgs) =>
+export const getTripFromHaul = async (query: HaulsTripArgs) =>
   apiGet(async () =>
     api.tripOfHaul({
-      haulId: query.haul?.haulId,
+      haulId: query.haul.haulId,
+    }),
+  );
+
+export const getTrips = async (query: TripsArgs) =>
+  apiGet(async () =>
+    api.trips({
+      fiskeridirVesselId: query.vessel.fiskeridir.id,
+      limit: query.limit ?? 10,
+      offset: query.offset ?? 0,
+      ordering: query.ordering ?? "desc",
     }),
   );

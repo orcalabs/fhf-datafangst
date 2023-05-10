@@ -4,7 +4,7 @@ import {
   selectFishmap,
   selectHauls,
   selectSelectedGridsString,
-  selectSelectedHaulTrip,
+  selectSelectedTrip,
   useAppSelector,
 } from "store";
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
@@ -13,7 +13,7 @@ export const HaulsLayer: FC = () => {
   const hauls = useAppSelector(selectHauls);
   const fishmap = useAppSelector(selectFishmap);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
-  const selectedTrip = useAppSelector(selectSelectedHaulTrip);
+  const selectedTrip = useAppSelector(selectSelectedTrip);
 
   const removeLayer = useCallback(() => {
     for (const layer of fishmap.getLayers().getArray()) {

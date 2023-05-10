@@ -1,9 +1,16 @@
+import { TripsArgs } from "api";
 import { Trip } from "generated/openapi";
 
 export interface TripState {
-  selectedHaulTrip?: Trip;
+  trips?: Trip[];
+  tripsLoading: boolean;
+  selectedTrip?: Trip;
+  tripsSearch?: TripsArgs;
 }
 
 export const initialTripState: TripState = {
-  selectedHaulTrip: undefined,
+  trips: undefined,
+  tripsLoading: false,
+  selectedTrip: undefined,
+  tripsSearch: undefined,
 };

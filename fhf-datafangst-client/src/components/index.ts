@@ -24,3 +24,6 @@ export { HeaderMenuButtons } from "./Layout/HeaderMenuButtons";
 export { MyPage } from "./MyPage/MyPage";
 export { VesselInfo } from "./MyPage/VesselInfo";
 export { Filters } from "./FilterMenu/Filters";
+export { MyTrips } from "./MyPage/MyTrips";
+export { PaginationButtons } from "./MyPage/PaginationButtons";
+export { LocalLoadingProgress } from "./Common/LocalLoadingProgress";

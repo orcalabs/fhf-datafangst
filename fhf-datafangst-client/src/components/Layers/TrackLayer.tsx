@@ -4,7 +4,7 @@ import { generateVesselTrackVector, TravelVector } from "utils";
 import {
   selectFishmapState,
   selectSelectedHaul,
-  selectSelectedHaulTrip,
+  selectSelectedTrip,
   selectTrack,
   useAppSelector,
 } from "store";
@@ -13,7 +13,7 @@ export const TrackLayer: FC = () => {
   const track = useAppSelector(selectTrack);
   const state = useAppSelector(selectFishmapState);
   const haul = useAppSelector(selectSelectedHaul);
-  const trip = useAppSelector(selectSelectedHaulTrip);
+  const trip = useAppSelector(selectSelectedTrip);
 
   const [zoom, setZoom] = useState<number | undefined>(
     state.map.getView().getZoom(),
