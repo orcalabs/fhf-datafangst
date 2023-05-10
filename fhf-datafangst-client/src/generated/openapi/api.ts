@@ -464,6 +464,12 @@ export interface FiskeridirVessel {
     'owner'?: string | null;
     /**
      * 
+     * @type {Array<RegisterVesselOwner>}
+     * @memberof FiskeridirVessel
+     */
+    'owners'?: Array<RegisterVesselOwner> | null;
+    /**
+     * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
@@ -802,6 +808,59 @@ export type Ordering = typeof Ordering[keyof typeof Ordering];
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const RegisterVesselEntityType = {
+    Company: 'COMPANY',
+    Person: 'PERSON'
+} as const;
+
+export type RegisterVesselEntityType = typeof RegisterVesselEntityType[keyof typeof RegisterVesselEntityType];
+
+
+/**
+ * 
+ * @export
+ * @interface RegisterVesselOwner
+ */
+export interface RegisterVesselOwner {
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterVesselOwner
+     */
+    'city'?: string | null;
+    /**
+     * 
+     * @type {RegisterVesselEntityType}
+     * @memberof RegisterVesselOwner
+     */
+    'entityType': RegisterVesselEntityType;
+    /**
+     * 
+     * @type {number}
+     * @memberof RegisterVesselOwner
+     */
+    'id'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterVesselOwner
+     */
+    'name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof RegisterVesselOwner
+     */
+    'postalCode': number;
+}
+
+
+/**
+ * 
+ * @export
  * @interface Species
  */
 export interface Species {
@@ -932,6 +991,12 @@ export interface Trip {
     'endPortId'?: string | null;
     /**
      * 
+     * @type {Array<VesselEvent>}
+     * @memberof Trip
+     */
+    'events': Array<VesselEvent>;
+    /**
+     * 
      * @type {number}
      * @memberof Trip
      */
@@ -997,6 +1062,37 @@ export interface Vessel {
      * @memberof Vessel
      */
     'fiskeridir': FiskeridirVessel;
+}
+/**
+ * 
+ * @export
+ * @interface VesselEvent
+ */
+export interface VesselEvent {
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselEvent
+     */
+    'eventId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselEvent
+     */
+    'eventName': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselEvent
+     */
+    'eventType': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselEvent
+     */
+    'timestamp': string;
 }
 /**
  * 
