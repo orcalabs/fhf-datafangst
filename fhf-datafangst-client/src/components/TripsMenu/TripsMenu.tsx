@@ -18,7 +18,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { selectSelectedHaulTrip, setSelectedTrip } from "store/trip";
+import { selectSelectedTrip, setSelectedTrip } from "store/trip";
 import {
   createGearListString,
   createObjectDurationString,
@@ -52,7 +52,7 @@ const iconStyle = {
 } as const;
 
 export const TripsMenu: FC = () => {
-  const trip = useAppSelector(selectSelectedHaulTrip);
+  const trip = useAppSelector(selectSelectedTrip);
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const dispatch = useAppDispatch();
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -196,7 +196,7 @@ export const TripsMenu: FC = () => {
               alignItems: "center",
             }}
           >
-            <Typography sx={{ fontSize: "1rem" }} variant="h6">
+            <Typography sx={{ fontSize: "1rem" }} variant="h5">
               Levert fangst
             </Typography>
           </Box>
@@ -215,7 +215,7 @@ export const TripsMenu: FC = () => {
           >
             <Typography
               style={{ display: "flex", alignItems: "center" }}
-              variant="h6"
+              variant="h5"
               sx={{ fontSize: "1rem" }}
             >
               Estimert fangst

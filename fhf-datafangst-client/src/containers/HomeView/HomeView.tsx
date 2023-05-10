@@ -24,7 +24,7 @@ import {
   selectHaulsMenuOpen,
   selectHaulsMatrixSearch,
   selectSelectedGridsString,
-  selectSelectedHaulTrip,
+  selectSelectedTrip,
   selectTrackLoading,
   selectViewMode,
   useAppDispatch,
@@ -147,7 +147,7 @@ export const HomeView: FC = () => {
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
-  const selectedTrip = useAppSelector(selectSelectedHaulTrip);
+  const selectedTrip = useAppSelector(selectSelectedTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
   const [menuToggle, setMenuToggle] = useState<string>(
     loggedIn ? "vesselprofile" : "catchdata",

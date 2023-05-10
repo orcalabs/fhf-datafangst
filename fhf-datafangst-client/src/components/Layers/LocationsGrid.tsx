@@ -6,7 +6,7 @@ import { generateLocationsMatrix } from "utils";
 import {
   selectHaulsMatrixActiveFilterSelectedIndexes,
   selectLocationsMatrix,
-  selectSelectedHaulTrip,
+  selectSelectedTrip,
   useAppSelector,
 } from "store";
 
@@ -15,7 +15,7 @@ export const LocationsGrid = () => {
   const selectedFilters = useAppSelector(
     selectHaulsMatrixActiveFilterSelectedIndexes,
   );
-  const selectedTrip = useAppSelector(selectSelectedHaulTrip);
+  const selectedTrip = useAppSelector(selectSelectedTrip);
 
   const [gridVector, setGridVector] = useState<VectorSource<Geometry>>();
 

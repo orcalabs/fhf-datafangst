@@ -1,16 +1,67 @@
-import { Box, Button, Divider, Drawer, Typography } from "@mui/material";
-import { Filters, VesselInfo } from "components";
+import {
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+} from "@mui/material";
+import theme from "app/theme";
+import { FishIcon } from "assets/icons";
+import { Filters, MyTrips, VesselInfo } from "components";
 import { Vessel } from "generated/openapi";
-import { FC } from "react";
-import { selectIsLoggedIn, useAppSelector } from "store";
+import { FC, useState } from "react";
+import {
+  selectIsLoggedIn,
+  selectTripsSearch,
+  setTripsSearch,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 
 interface Props {
   vessel?: Vessel;
 }
 
+const accordionSx = {
+  m: 0,
+  color: "white",
+  boxShadow: "none",
+  bgcolor: "primary.main",
+  "&.Mui-expanded": {
+    m: 0,
+    bgcolor: "primary.main",
+    "&:hover": { bgcolor: "primary.main" },
+  },
+  "& .MuiAccordionSummary-root": {
+    py: 2,
+    px: 2.5,
+    "&:hover": { bgcolor: "primary.dark" },
+  },
+  "& .MuiAccordionSummary-content": { m: 0, alignItems: "center" },
+
+  "&:before": { display: "none" },
+};
+
 export const MyPage: FC<Props> = (props) => {
+  const dispatch = useAppDispatch();
+  const tripsSearch = useAppSelector(selectTripsSearch);
+
   const { vessel } = props;
   const loggedIn = useAppSelector(selectIsLoggedIn);
+  const [expanded, setExpanded] = useState<string | false>("hauls");
+
+  const handleChange = (expandedName: string) => {
+    setExpanded(expandedName);
+
+    if (vessel) {
+      dispatch(setTripsSearch({ ...tripsSearch, vessel }));
+    }
+  };
 
   const content = () => {
     if (!loggedIn) {
@@ -44,7 +95,60 @@ export const MyPage: FC<Props> = (props) => {
               <Divider
                 sx={{ bgcolor: "text.secondary", mt: 3, mb: 1, mx: 4 }}
               />
-              <Filters selectedVessel={vessel} />
+              <Accordion
+                square
+                disableGutters
+                sx={accordionSx}
+                expanded={expanded === "hauls"}
+                onChange={() => handleChange("hauls")}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      "& svg": { mr: 2 },
+                    }}
+                  >
+                    <FishIcon
+                      width="32"
+                      height="32"
+                      fill={`${theme.palette.secondary.light}`}
+                    />
+                  </Box>
+                  <Typography variant="h6"> Mine hal </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ pb: 0 }}>
+                  <Filters selectedVessel={vessel} />
+                </AccordionDetails>
+              </Accordion>
+              <Accordion
+                square
+                disableGutters
+                sx={accordionSx}
+                expanded={expanded === "trips"}
+                onChange={() => handleChange("trips")}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      "& svg": { mr: 2 },
+                    }}
+                  >
+                    <AllInclusiveSharpIcon
+                      sx={{ color: "secondary.light", fontSize: 32 }}
+                    />
+                  </Box>
+                  <Typography variant="h6"> Mine turer </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ pb: 0 }}>
+                  <MyTrips />
+                </AccordionDetails>
+              </Accordion>
             </>
           )}
         </>
@@ -59,7 +163,6 @@ export const MyPage: FC<Props> = (props) => {
         sx={{
           height: "100%",
           "& .MuiDrawer-paper": {
-            p: 3,
             width: 500,
             position: "relative",
             boxSizing: "border-box",

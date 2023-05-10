@@ -45,8 +45,9 @@ export const VesselInfo: FC<Props> = (props) => {
       <AccordionSummary
         sx={{
           color: "white",
+          px: 3,
+          pt: 1,
           bgcolor: "primary.main",
-          p: 0,
           "& .MuiAccordionSummary-content": {
             mt: 0,
           },
@@ -84,10 +85,20 @@ export const VesselInfo: FC<Props> = (props) => {
           </Box>
         </Box>
       </AccordionSummary>
-      <AccordionDetails sx={{ bgcolor: "primary.main", pb: 0, px: 2 }}>
+      <AccordionDetails sx={{ bgcolor: "primary.main", pb: 0, px: 4 }}>
         <TableContainer>
           <Table size="small">
             <TableBody>
+              <TableRow>
+                <StyledTableCell sx={{ color: "text.secondary" }}>
+                  Kallesignal:
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <Typography>
+                    {vessel?.fiskeridir.callSign ?? "Ukjent"}
+                  </Typography>
+                </StyledTableCell>
+              </TableRow>
               <TableRow>
                 <StyledTableCell sx={{ color: "text.secondary" }}>
                   Reg.nr.:
@@ -104,10 +115,9 @@ export const VesselInfo: FC<Props> = (props) => {
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Typography>
-                    {vessel
-                      ? Number(vessel?.fiskeridir.length).toFixed(1)
-                      : "Ukjent"}{" "}
-                    m
+                    {vessel?.fiskeridir.length
+                      ? Number(vessel.fiskeridir.length).toFixed(1) + " m"
+                      : "Ukjent"}
                   </Typography>
                 </StyledTableCell>
               </TableRow>
@@ -117,10 +127,21 @@ export const VesselInfo: FC<Props> = (props) => {
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Typography>
-                    {vessel
-                      ? Number(vessel.fiskeridir.width).toFixed(1)
-                      : "Ukjent"}{" "}
-                    m
+                    {vessel?.fiskeridir.width
+                      ? Number(vessel.fiskeridir.width).toFixed(1) + " m"
+                      : "Ukjent"}
+                  </Typography>
+                </StyledTableCell>
+              </TableRow>
+              <TableRow>
+                <StyledTableCell sx={{ color: "text.secondary" }}>
+                  Motorkraft:
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <Typography>
+                    {vessel?.fiskeridir.enginePower
+                      ? vessel.fiskeridir.enginePower.toString() + " hk"
+                      : "Ukjent"}
                   </Typography>
                 </StyledTableCell>
               </TableRow>
