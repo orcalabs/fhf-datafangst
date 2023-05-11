@@ -6,6 +6,7 @@ import {
   setHaulsMatrixSearch,
   useAppDispatch,
   useAppSelector,
+  selectHaulsMatrixLoading,
 } from "store";
 import { GearFilter } from "./GearFilter";
 import { MonthsFilter } from "./MonthsFilter";
@@ -15,6 +16,7 @@ import { YearsFilter } from "./YearsFilter";
 import { VesselFilter } from "./VesselFilter";
 import { HaulsFilter } from "api";
 import { Vessel } from "generated/openapi";
+import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 
 interface Props {
   selectedVessel?: Vessel;
@@ -24,9 +26,14 @@ export const Filters: FC<Props> = (props) => {
   const { selectedVessel } = props;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const dispatch = useAppDispatch();
+  const matrixLoading = useAppSelector(selectHaulsMatrixLoading);
 
   const onFilterHover = (filter: HaulsFilter) =>
     dispatch(setHoveredFilter(filter));
+
+  if (matrixLoading) {
+    return <LocalLoadingProgress />;
+  }
 
   return (
     <>

@@ -13,6 +13,11 @@ export const selectViewMode = createSelector(
   (state) => state.viewMode,
 );
 
+export const selectViewState = createSelector(
+  selectAppState,
+  (state) => state.viewState,
+);
+
 export const selectIsLoggedIn = createSelector(
   selectAppState,
   (state) => state.isLoggedIn,

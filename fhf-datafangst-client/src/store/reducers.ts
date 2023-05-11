@@ -7,6 +7,7 @@ import {
   resetTrackState,
   setError,
   setViewMode,
+  setViewState,
 } from "./actions";
 import { fishmapBuilder } from "./fishmap";
 import { vesselBuilder } from "./vessel";
@@ -61,6 +62,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     })
     .addCase(setViewMode, (state, action) => {
       state.viewMode = action.payload;
+    })
+    .addCase(setViewState, (state, action) => {
+      state.viewState = action.payload;
     })
     .addCase(getUserProfile.fulfilled, (state, action) => {
       state.bwProfile = action.payload;

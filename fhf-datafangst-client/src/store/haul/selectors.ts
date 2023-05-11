@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { HaulsArgs, HaulsFilter } from "api";
-import { getAllYearsArray } from "components/FilterMenu/YearsFilter";
+import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { GearGroup, SpeciesGroup } from "generated/openapi";
 import { LengthGroups } from "models";
 import { selectSelectedGridsString } from "store/fishmap";

@@ -12,7 +12,7 @@ import {
   styled,
 } from "@mui/material";
 import { FC } from "react";
-import { createOwnersListString, toTitleCase } from "utils";
+import { createOwnersListString } from "utils";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import theme from "app/theme";
@@ -34,7 +34,7 @@ export const VesselInfo: FC<Props> = (props) => {
 
   if (!vessel) {
     return (
-      <Typography variant="h6" sx={{ px: 2, pt: 1 }}>
+      <Typography variant="h6" sx={{ p: 3 }}>
         Du har ingen registrerte fartøy
       </Typography>
     );

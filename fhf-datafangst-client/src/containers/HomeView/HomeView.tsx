@@ -2,7 +2,6 @@ import { Box, Snackbar } from "@mui/material";
 import {
   MapBoxLayer,
   Map,
-  FilterMenu,
   Header,
   MapFilters,
   ShorelineLayer,
@@ -15,7 +14,7 @@ import {
   TrackLayer,
   TripsMenu,
   HeaderMenuButtons,
-  MyPage,
+  MainMenu,
 } from "components";
 import { FC, useEffect, useState } from "react";
 import {
@@ -30,13 +29,11 @@ import {
   useAppDispatch,
   useAppSelector,
   ViewMode,
-  selectIsLoggedIn,
-  setHaulsMatrixSearch,
-  initialHaulsMatrixSearch,
   selectBwUserProfile,
   selectVesselsByCallsign,
   setHaulsMatrix2Search,
-  setHoveredFilter,
+  ViewState,
+  selectViewState,
 } from "store";
 
 export interface MapFilter {
@@ -141,7 +138,7 @@ const FilterButtonArea = (props: any) => (
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const viewState = useAppSelector(selectViewState);
   const trackMissing = useAppSelector(selectTrackMissing);
   const viewMode = useAppSelector(selectViewMode);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
@@ -149,36 +146,10 @@ export const HomeView: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const selectedTrip = useAppSelector(selectSelectedTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
-  const [menuToggle, setMenuToggle] = useState<string>(
-    loggedIn ? "vesselprofile" : "catchdata",
-  );
   const profile = useAppSelector(selectBwUserProfile);
   const vesselInfo = profile?.vesselInfo;
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
-
-  const handleMenuToggle = (newValue: string) => {
-    setMenuToggle(newValue);
-
-    dispatch(setHoveredFilter(undefined));
-
-    if (newValue === "catchdata") {
-      dispatch(
-        setHaulsMatrixSearch({
-          ...initialHaulsMatrixSearch,
-          filter: undefined,
-        }),
-      );
-    } else if (newValue === "vesselprofile" && vessel) {
-      dispatch(
-        setHaulsMatrixSearch({
-          ...haulsSearch,
-          filter: undefined,
-          vessels: [vessel],
-        }),
-      );
-    }
-  };
 
   // Fetch hauls for selected grid
   useEffect(() => {
@@ -203,14 +174,10 @@ export const HomeView: FC = () => {
           <Header />
         </HeaderTrack>
         <HeaderButtonCell>
-          <HeaderMenuButtons
-            value={menuToggle}
-            onToggleChange={handleMenuToggle}
-          />
+          <HeaderMenuButtons />
         </HeaderButtonCell>
         <MenuArea>
-          {menuToggle === "vesselprofile" && <MyPage vessel={vessel} />}
-          {menuToggle === "catchdata" && <FilterMenu />}
+          <MainMenu />
         </MenuArea>
         <FilterButtonArea haulsMenuOpen={haulsMenuOpen}>
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
@@ -230,7 +197,7 @@ export const HomeView: FC = () => {
       <Map>
         <MapBoxLayer />
         {viewMode === ViewMode.Grid &&
-          !(!vessel && menuToggle === "vesselprofile") && <LocationsGrid />}
+          !(!vessel && viewState === ViewState.MyPage) && <LocationsGrid />}
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
         <HaulsLayer />
