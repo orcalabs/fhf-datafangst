@@ -14,11 +14,17 @@ export enum ViewMode {
   Heatmap = "heatmap",
 }
 
+export enum ViewState {
+  Overview = "overview",
+  MyPage = "mypage",
+}
+
 export interface BaseState {
   error: boolean;
   viewMode: ViewMode;
   isLoggedIn: boolean;
   bwProfile?: FiskInfoProfile;
+  viewState: ViewState;
 }
 
 const initialBaseState: BaseState = {
@@ -26,6 +32,7 @@ const initialBaseState: BaseState = {
   viewMode: ViewMode.Grid,
   isLoggedIn: false,
   bwProfile: undefined,
+  viewState: ViewState.Overview,
 };
 
 export interface AppState

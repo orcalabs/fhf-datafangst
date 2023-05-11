@@ -1,10 +1,10 @@
 import { Box, Drawer } from "@mui/material";
+import { CatchData, MyPage } from "components";
 import { FC } from "react";
-import { Filters, LocalLoadingProgress } from "components";
-import { selectHaulsMatrixLoading, useAppSelector } from "store";
+import { ViewState, selectViewState, useAppSelector } from "store";
 
-export const FilterMenu: FC = () => {
-  const matrixLoading = useAppSelector(selectHaulsMatrixLoading);
+export const MainMenu: FC = () => {
+  const viewState = useAppSelector(selectViewState);
 
   return (
     <Box sx={{ height: "100%" }}>
@@ -13,7 +13,6 @@ export const FilterMenu: FC = () => {
         sx={{
           height: "100%",
           "& .MuiDrawer-paper": {
-            p: 3,
             width: 500,
             position: "relative",
             boxSizing: "border-box",
@@ -30,7 +29,8 @@ export const FilterMenu: FC = () => {
           },
         }}
       >
-        {matrixLoading ? <LocalLoadingProgress /> : <Filters />}
+        {viewState === ViewState.Overview && <CatchData />}
+        {viewState === ViewState.MyPage && <MyPage />}
       </Drawer>
     </Box>
   );

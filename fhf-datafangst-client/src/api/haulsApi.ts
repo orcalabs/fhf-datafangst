@@ -8,7 +8,7 @@ import {
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
-import { getAllYearsArray } from "components/FilterMenu/YearsFilter";
+import { getAllYearsArray } from "components/Filters/YearsFilter";
 
 export const HaulsFilter = {
   ...ActiveHaulsFilter,

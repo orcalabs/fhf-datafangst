@@ -1,13 +1,23 @@
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { FC } from "react";
+import {
+  ViewState,
+  selectViewState,
+  setHoveredFilter,
+  setViewState,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 
-interface Props {
-  value: string | undefined;
-  onToggleChange: (selectedButton: string) => void;
-}
+export const HeaderMenuButtons: FC = () => {
+  const dispatch = useAppDispatch();
+  const viewState = useAppSelector(selectViewState);
 
-export const HeaderMenuButtons: FC<Props> = (props) => {
-  const { value, onToggleChange } = props;
+  const handleChange = (newValue: ViewState) => {
+    dispatch(setViewState(newValue));
+    dispatch(setHoveredFilter(undefined));
+  };
+
   return (
     <Box
       sx={{
@@ -42,14 +52,14 @@ export const HeaderMenuButtons: FC<Props> = (props) => {
     >
       <ToggleButtonGroup
         size="small"
-        value={value}
+        value={viewState}
         exclusive
-        onChange={(_: React.MouseEvent<HTMLElement>, newValue: string) =>
-          onToggleChange(newValue)
+        onChange={(_: React.MouseEvent<HTMLElement>, newValue: ViewState) =>
+          handleChange(newValue)
         }
       >
-        <ToggleButton value="catchdata">Fangstdata</ToggleButton>
-        <ToggleButton value="vesselprofile">Mitt fartøy</ToggleButton>
+        <ToggleButton value={ViewState.Overview}>Fangstdata</ToggleButton>
+        <ToggleButton value={ViewState.MyPage}>Mitt fartøy</ToggleButton>
       </ToggleButtonGroup>
     </Box>
   );

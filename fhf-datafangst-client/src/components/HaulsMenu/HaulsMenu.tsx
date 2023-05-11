@@ -49,9 +49,9 @@ import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
-import { GearFilter } from "components/FilterMenu/GearFilter";
-import { LengthGroupFilter } from "components/FilterMenu/LengthGroupFilter";
-import { SpeciesFilter } from "components/FilterMenu/SpeciesFilter";
+import { GearFilter } from "components/Filters/GearFilter";
+import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
+import { SpeciesFilter } from "components/Filters/SpeciesFilter";
 import { HaulsFilter } from "api";
 import theme from "app/theme";
 
