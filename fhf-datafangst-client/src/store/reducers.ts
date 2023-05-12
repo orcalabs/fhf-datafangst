@@ -64,6 +64,10 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       state.viewMode = action.payload;
     })
     .addCase(setViewState, (state, action) => {
+      // Prevent wrong matrix state if clicking the tabs quickly
+      if (state.haulsMatrixLoading) {
+        return;
+      }
       state.viewState = action.payload;
     })
     .addCase(getUserProfile.fulfilled, (state, action) => {
