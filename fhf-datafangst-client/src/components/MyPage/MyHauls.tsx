@@ -29,5 +29,5 @@ export const MyHauls: FC<Props> = (props) => {
     }
   }, []);
 
-  return <Filters selectedVessel={selectedVessel} />;
+  return <Filters selectedVessel={selectedVessel} removeSingleEntryFilters />;
 };

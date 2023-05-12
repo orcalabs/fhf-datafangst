@@ -20,10 +20,11 @@ import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 
 interface Props {
   selectedVessel?: Vessel;
+  removeSingleEntryFilters?: boolean;
 }
 
 export const Filters: FC<Props> = (props) => {
-  const { selectedVessel } = props;
+  const { selectedVessel, removeSingleEntryFilters } = props;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const dispatch = useAppDispatch();
   const matrixLoading = useAppSelector(selectHaulsMatrixLoading);
@@ -80,6 +81,7 @@ export const Filters: FC<Props> = (props) => {
               setHaulsMatrixSearch({ ...haulsSearch, gearGroupIds: value }),
             )
           }
+          removeIfSingleEntry={removeSingleEntryFilters}
         />
       </Box>
       <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
@@ -103,6 +105,7 @@ export const Filters: FC<Props> = (props) => {
               }),
             )
           }
+          removeIfSingleEntry={removeSingleEntryFilters}
         />
       </Box>
       {!selectedVessel && (

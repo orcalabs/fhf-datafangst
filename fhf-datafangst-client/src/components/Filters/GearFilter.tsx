@@ -12,6 +12,7 @@ interface Props {
   value?: GearGroup[];
   onChange: (_?: GearGroup[]) => void;
   statsSelector?: typeof selectGearFilterStatsSorted;
+  removeIfSingleEntry?: boolean;
 }
 
 export const GearFilter: FC<Props> = (props) => {
@@ -21,6 +22,10 @@ export const GearFilter: FC<Props> = (props) => {
   );
 
   if (!gearFilterStats.length) {
+    return <></>;
+  }
+
+  if (gearFilterStats.length === 1 && props.removeIfSingleEntry) {
     return <></>;
   }
 
