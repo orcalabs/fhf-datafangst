@@ -33,19 +33,17 @@ const listItemSx = {
 
 export const MyTrips: FC = () => {
   const dispatch = useAppDispatch();
-
   const tripsLoading = useAppSelector(selectTripsLoading);
   const trips = useAppSelector(selectTrips);
   const selectedTripId = useAppSelector(selectSelectedTrip)?.tripId;
-
   const tripsSearch = useAppSelector(selectTripsSearch);
+
+  const offset = tripsSearch?.offset ?? 0;
+  const limit = tripsSearch?.limit ?? 10;
 
   const handleTripsPagination = (offset: number, limit: number) => {
     dispatch(paginateTripsSearch({ offset, limit }));
   };
-
-  const offset = tripsSearch?.offset ?? 0;
-  const limit = tripsSearch?.limit ?? 10;
 
   const handleTripChange = (trip: Trip) => {
     const newTrip = trip.tripId === selectedTripId ? undefined : trip;

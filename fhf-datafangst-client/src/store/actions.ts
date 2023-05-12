@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { ViewMode, ViewState } from "store";
+import { MenuViewState } from "store";
 import * as Api from "api";
 import { User } from "oidc-react";
 
@@ -14,8 +14,6 @@ export const resetState = createAction("base/resetState");
 
 export const resetTrackState = createAction("base/resetTrackState");
 
-export const setViewMode = createAction<ViewMode>("base/setViewMode");
-
 export const checkLoggedIn = createAction<User>("base/checkLoggedIn");
 
-export const setViewState = createAction<ViewState>("base/viewState");
+export const setViewState = createAction<MenuViewState>("base/viewState");

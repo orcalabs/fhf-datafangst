@@ -2,6 +2,7 @@ import { Filters } from "components";
 import { Vessel } from "generated/openapi";
 import { FC, useEffect } from "react";
 import {
+  initialHaulsMatrixSearch,
   selectHaulsMatrixSearch,
   setHaulsMatrixSearch,
   useAppDispatch,
@@ -21,6 +22,7 @@ export const MyHauls: FC<Props> = (props) => {
     if (selectedVessel) {
       dispatch(
         setHaulsMatrixSearch({
+          ...initialHaulsMatrixSearch,
           ...haulsSearch,
           filter: undefined,
           vessels: [selectedVessel],

@@ -13,9 +13,11 @@ import { MyHauls, MyTrips, VesselInfo } from "components";
 import { FC, useState } from "react";
 import {
   selectBwUserProfile,
+  selectHaulsMatrixSearch,
   selectIsLoggedIn,
   selectTripsSearch,
   selectVesselsByCallsign,
+  setHaulsMatrixSearch,
   setTripsSearch,
   useAppDispatch,
   useAppSelector,
@@ -23,6 +25,11 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import { useAuth } from "oidc-react";
+
+enum MenuTab {
+  Trips = "trips",
+  Hauls = "hauls",
+}
 
 const accordionSx = {
   m: 0,
@@ -49,17 +56,26 @@ export const MyPage: FC = () => {
   const { signIn } = useAuth();
   const tripsSearch = useAppSelector(selectTripsSearch);
   const loggedIn = useAppSelector(selectIsLoggedIn);
-  const [expanded, setExpanded] = useState<string | false>("hauls");
+  const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Hauls);
   const profile = useAppSelector(selectBwUserProfile);
   const vesselInfo = profile?.vesselInfo;
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
 
-  const handleChange = (expandedName: string) => {
-    setExpanded(expandedName);
+  const handleTabChange = (expandedTab: MenuTab) => {
+    setExpanded(expandedTab);
 
-    if (vessel) {
+    if (expandedTab === MenuTab.Trips && vessel) {
       dispatch(setTripsSearch({ ...tripsSearch, vessel }));
+    } else if (expandedTab === MenuTab.Hauls && vessel) {
+      dispatch(
+        setHaulsMatrixSearch({
+          ...haulsSearch,
+          filter: undefined,
+          vessels: [vessel],
+        }),
+      );
     }
   };
 
@@ -106,8 +122,8 @@ export const MyPage: FC = () => {
         square
         disableGutters
         sx={accordionSx}
-        expanded={expanded === "hauls"}
-        onChange={() => handleChange("hauls")}
+        expanded={expanded === MenuTab.Hauls}
+        onChange={() => handleTabChange(MenuTab.Hauls)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
@@ -134,8 +150,8 @@ export const MyPage: FC = () => {
         square
         disableGutters
         sx={accordionSx}
-        expanded={expanded === "trips"}
-        onChange={() => handleChange("trips")}
+        expanded={expanded === MenuTab.Trips}
+        onChange={() => handleTabChange(MenuTab.Trips)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}

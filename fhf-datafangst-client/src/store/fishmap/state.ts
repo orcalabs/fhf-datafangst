@@ -1,5 +1,10 @@
 import { Feature, Map } from "ol";
 
+export enum ViewMode {
+  Grid = "grid",
+  Heatmap = "heatmap",
+}
+
 export interface FishmapState {
   map: Map;
   centerCoordinate: number[];
@@ -8,6 +13,7 @@ export interface FishmapState {
   zoomFactor: number;
   selectedGrids: Feature[];
   selectedGridsString: string[];
+  viewMode: ViewMode;
 }
 
 export const initialFishmapState: FishmapState = {
@@ -18,4 +24,5 @@ export const initialFishmapState: FishmapState = {
   zoomFactor: 3.7,
   selectedGrids: [],
   selectedGridsString: [],
+  viewMode: ViewMode.Grid,
 };

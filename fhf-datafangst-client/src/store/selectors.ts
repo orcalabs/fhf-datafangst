@@ -8,11 +8,6 @@ export const selectError = createSelector(
   (state) => state.error,
 );
 
-export const selectViewMode = createSelector(
-  selectAppState,
-  (state) => state.viewMode,
-);
-
 export const selectViewState = createSelector(
   selectAppState,
   (state) => state.viewState,
