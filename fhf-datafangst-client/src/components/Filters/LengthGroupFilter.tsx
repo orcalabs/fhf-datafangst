@@ -8,6 +8,7 @@ interface Props {
   value?: LengthGroup[];
   onChange: (_?: LengthGroup[]) => void;
   statsSelector?: typeof selectVesselLengthFilterStatsSorted;
+  removeIfSingleEntry?: boolean;
 }
 
 export const LengthGroupFilter: FC<Props> = (props) => {
@@ -17,6 +18,10 @@ export const LengthGroupFilter: FC<Props> = (props) => {
   );
 
   if (!vesselLengthStats.length) {
+    return <></>;
+  }
+
+  if (vesselLengthStats.length === 1 && props.removeIfSingleEntry) {
     return <></>;
   }
 
