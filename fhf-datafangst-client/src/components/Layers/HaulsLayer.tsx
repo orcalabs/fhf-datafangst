@@ -48,8 +48,12 @@ export const HaulsLayer: FC = () => {
       });
       removeLayer();
       fishmap.addLayer(layer);
+
+      return () => {
+        removeLayer();
+      };
     }
-  }, [fishmap, removeLayer, hauls, selectedGrids, selectedTrip]);
+  }, [fishmap, removeLayer, hauls, selectedTrip]);
 
   return null;
 };
