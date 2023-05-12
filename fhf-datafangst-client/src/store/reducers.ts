@@ -31,6 +31,7 @@ export const emptyState = {
   vms: undefined,
   track: undefined,
   trips: undefined,
+  selectedTrip: undefined,
 };
 
 const emptyTrackState = {
