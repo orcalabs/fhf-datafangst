@@ -6,7 +6,6 @@ import {
   resetState,
   resetTrackState,
   setError,
-  setViewMode,
   setViewState,
 } from "./actions";
 import { fishmapBuilder } from "./fishmap";
@@ -30,10 +29,25 @@ export const emptyState = {
   ais: undefined,
   vms: undefined,
   track: undefined,
+  trips: undefined,
 };
 
 const emptyTrackState = {
   track: undefined,
+};
+
+const emptyViewState = {
+  trips: undefined,
+  track: undefined,
+  selectedHaulTrip: undefined,
+  selectedGrids: [],
+  selectedGridsString: [],
+  haulsMatrix2: undefined,
+  haulsMatrix: undefined,
+  haulsByArea: undefined,
+  haulsSearch: undefined,
+  haulsMatrixSearch: undefined,
+  selectedTrip: undefined,
 };
 
 class AppActionReducerMapBuilder<State> {
@@ -60,15 +74,18 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setViewMode, (state, action) => {
-      state.viewMode = action.payload;
-    })
     .addCase(setViewState, (state, action) => {
+      const viewState = action.payload;
       // Prevent wrong matrix state if clicking the tabs quickly
       if (state.haulsMatrixLoading) {
         return;
       }
-      state.viewState = action.payload;
+
+      return {
+        ...state,
+        ...emptyViewState,
+        viewState,
+      };
     })
     .addCase(getUserProfile.fulfilled, (state, action) => {
       state.bwProfile = action.payload;
@@ -76,6 +93,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(checkLoggedIn, (state, action) => {
       const user = action.payload;
       const token = user.access_token;
+
       state.isLoggedIn = token !== undefined;
 
       if (token) {

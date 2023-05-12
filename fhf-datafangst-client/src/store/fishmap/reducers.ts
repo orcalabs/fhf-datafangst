@@ -3,7 +3,7 @@ import { Style } from "ol/style";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { generateGridBoxStyle } from "utils";
-import { initializeMap, toggleSelectedArea } from ".";
+import { initializeMap, setViewMode, toggleSelectedArea } from ".";
 
 export const fishmapBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -11,6 +11,9 @@ export const fishmapBuilder = (
   builder
     .addCase(initializeMap, (state, action) => {
       state.map = action.payload;
+    })
+    .addCase(setViewMode, (state, action) => {
+      state.viewMode = action.payload;
     })
     .addCase(toggleSelectedArea, (state, action) => {
       const selected = [...state.selectedGrids];

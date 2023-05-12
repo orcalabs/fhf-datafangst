@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { selectAppState } from "store/selectors";
+import { ViewMode } from "./state";
 
 export const selectFishmap = createSelector(
   selectAppState,
@@ -22,3 +23,15 @@ export const selectFishmapState = createSelector(selectAppState, (state) => ({
   zoom: state.zoomLevel,
   zoomFactor: state.zoomFactor,
 }));
+
+export const selectViewMode = createSelector(
+  selectAppState,
+  (state) => state.viewMode,
+);
+
+export const selectShowGrid = createSelector(
+  selectAppState,
+  (state) =>
+    state.viewMode === ViewMode.Grid &&
+    !(state.selectedTrip ?? state.trips?.length),
+);

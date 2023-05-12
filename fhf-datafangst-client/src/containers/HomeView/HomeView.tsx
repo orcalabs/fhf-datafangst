@@ -29,11 +29,8 @@ import {
   useAppDispatch,
   useAppSelector,
   ViewMode,
-  selectBwUserProfile,
-  selectVesselsByCallsign,
   setHaulsMatrix2Search,
-  ViewState,
-  selectViewState,
+  selectShowGrid,
 } from "store";
 
 export interface MapFilter {
@@ -138,7 +135,6 @@ const FilterButtonArea = (props: any) => (
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
-  const viewState = useAppSelector(selectViewState);
   const trackMissing = useAppSelector(selectTrackMissing);
   const viewMode = useAppSelector(selectViewMode);
   const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
@@ -146,10 +142,7 @@ export const HomeView: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const selectedTrip = useAppSelector(selectSelectedTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.vesselInfo;
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const showGrid = useAppSelector(selectShowGrid);
 
   // Fetch hauls for selected grid
   useEffect(() => {
@@ -196,11 +189,10 @@ export const HomeView: FC = () => {
       </GridContainer>
       <Map>
         <MapBoxLayer />
-        {viewMode === ViewMode.Grid &&
-          !(!vessel && viewState === ViewState.MyPage) && <LocationsGrid />}
+        {showGrid && <LocationsGrid />}
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
-        <HaulsLayer />
+        {viewMode !== ViewMode.Heatmap && <HaulsLayer />}
         <TrackLayer />
       </Map>
       <ViewModeToggle />
