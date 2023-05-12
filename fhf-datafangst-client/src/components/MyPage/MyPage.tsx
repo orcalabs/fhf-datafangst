@@ -10,7 +10,6 @@ import {
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
 import { MyHauls, MyTrips, VesselInfo } from "components";
-import { Vessel } from "generated/openapi";
 import { FC, useState } from "react";
 import {
   selectBwUserProfile,
@@ -24,10 +23,6 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import { useAuth } from "oidc-react";
-
-interface Props {
-  vessel?: Vessel;
-}
 
 const accordionSx = {
   m: 0,
@@ -49,7 +44,7 @@ const accordionSx = {
   "&:before": { display: "none" },
 };
 
-export const MyPage: FC<Props> = () => {
+export const MyPage: FC = () => {
   const dispatch = useAppDispatch();
   const { signIn } = useAuth();
   const tripsSearch = useAppSelector(selectTripsSearch);
@@ -95,68 +90,72 @@ export const MyPage: FC<Props> = () => {
     );
   }
 
+  if (!vessel) {
+    return (
+      <Typography variant="h6" sx={{ p: 3 }}>
+        Du har ingen registrerte fartøy
+      </Typography>
+    );
+  }
+
   return (
     <Box>
       <VesselInfo vessel={vessel} />
-      {vessel && (
-        <>
-          <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 1, mx: 4 }} />
-          <Accordion
-            square
-            disableGutters
-            sx={accordionSx}
-            expanded={expanded === "hauls"}
-            onChange={() => handleChange("hauls")}
+      <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 1, mx: 4 }} />
+      <Accordion
+        square
+        disableGutters
+        sx={accordionSx}
+        expanded={expanded === "hauls"}
+        onChange={() => handleChange("hauls")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              "& svg": { mr: 2 },
+            }}
           >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  "& svg": { mr: 2 },
-                }}
-              >
-                <FishIcon
-                  width="32"
-                  height="32"
-                  fill={`${theme.palette.secondary.light}`}
-                />
-              </Box>
-              <Typography variant="h6"> Mine hal </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ px: 2.5, pb: 2, pt: 0 }}>
-              <MyHauls selectedVessel={vessel} />
-            </AccordionDetails>
-          </Accordion>
-          <Accordion
-            square
-            disableGutters
-            sx={accordionSx}
-            expanded={expanded === "trips"}
-            onChange={() => handleChange("trips")}
+            <FishIcon
+              width="32"
+              height="32"
+              fill={`${theme.palette.secondary.light}`}
+            />
+          </Box>
+          <Typography variant="h6"> Mine hal </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ px: 2.5, pb: 2, pt: 0 }}>
+          <MyHauls selectedVessel={vessel} />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        square
+        disableGutters
+        sx={accordionSx}
+        expanded={expanded === "trips"}
+        onChange={() => handleChange("trips")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              "& svg": { mr: 2 },
+            }}
           >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  "& svg": { mr: 2 },
-                }}
-              >
-                <AllInclusiveSharpIcon
-                  sx={{ color: "secondary.light", fontSize: 32 }}
-                />
-              </Box>
-              <Typography variant="h6"> Mine turer </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ pb: 0 }}>
-              <MyTrips />
-            </AccordionDetails>
-          </Accordion>
-        </>
-      )}
+            <AllInclusiveSharpIcon
+              sx={{ color: "secondary.light", fontSize: 32 }}
+            />
+          </Box>
+          <Typography variant="h6"> Mine turer </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ pb: 0 }}>
+          <MyTrips />
+        </AccordionDetails>
+      </Accordion>
     </Box>
   );
 };

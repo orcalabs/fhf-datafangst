@@ -26,19 +26,11 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 interface Props {
-  vessel?: Vessel;
+  vessel: Vessel;
 }
 
 export const VesselInfo: FC<Props> = (props) => {
   const { vessel } = props;
-
-  if (!vessel) {
-    return (
-      <Typography variant="h6" sx={{ p: 3 }}>
-        Du har ingen registrerte fartøy
-      </Typography>
-    );
-  }
 
   return (
     <Accordion disableGutters square elevation={0}>
