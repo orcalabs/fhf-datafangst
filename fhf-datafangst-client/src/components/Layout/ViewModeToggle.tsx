@@ -5,7 +5,7 @@ import {
   setViewMode,
   useAppDispatch,
   useAppSelector,
-  ViewMode,
+  MapViewState,
 } from "store";
 
 export const ViewModeToggle: FC = () => {
@@ -14,7 +14,7 @@ export const ViewModeToggle: FC = () => {
 
   const handleChange = (
     _: React.MouseEvent<HTMLElement>,
-    newMode: ViewMode,
+    newMode: MapViewState,
   ) => {
     if (newMode !== null) {
       dispatch(setViewMode(newMode));
@@ -56,8 +56,8 @@ export const ViewModeToggle: FC = () => {
         exclusive
         onChange={handleChange}
       >
-        <ToggleButton value={ViewMode.Grid}>Grid</ToggleButton>
-        <ToggleButton value={ViewMode.Heatmap}>Heatmap</ToggleButton>
+        <ToggleButton value={MapViewState.Grid}>Grid</ToggleButton>
+        <ToggleButton value={MapViewState.Heatmap}>Heatmap</ToggleButton>
       </ToggleButtonGroup>
     </Box>
   );

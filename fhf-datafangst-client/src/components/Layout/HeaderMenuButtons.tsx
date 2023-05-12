@@ -1,7 +1,7 @@
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { FC } from "react";
 import {
-  ViewState,
+  MenuViewState,
   selectViewState,
   setHoveredFilter,
   setViewState,
@@ -13,7 +13,7 @@ export const HeaderMenuButtons: FC = () => {
   const dispatch = useAppDispatch();
   const viewState = useAppSelector(selectViewState);
 
-  const handleChange = (newValue: ViewState) => {
+  const handleChange = (newValue: MenuViewState) => {
     dispatch(setViewState(newValue));
     dispatch(setHoveredFilter(undefined));
   };
@@ -54,12 +54,12 @@ export const HeaderMenuButtons: FC = () => {
         size="small"
         value={viewState}
         exclusive
-        onChange={(_: React.MouseEvent<HTMLElement>, newValue: ViewState) =>
+        onChange={(_: React.MouseEvent<HTMLElement>, newValue: MenuViewState) =>
           handleChange(newValue)
         }
       >
-        <ToggleButton value={ViewState.Overview}>Fangstdata</ToggleButton>
-        <ToggleButton value={ViewState.MyPage}>Mitt fartøy</ToggleButton>
+        <ToggleButton value={MenuViewState.Overview}>Fangstdata</ToggleButton>
+        <ToggleButton value={MenuViewState.MyPage}>Mitt fartøy</ToggleButton>
       </ToggleButtonGroup>
     </Box>
   );
