@@ -1,7 +1,7 @@
 import { Box, Drawer } from "@mui/material";
 import { CatchData, MyPage } from "components";
 import { FC } from "react";
-import { ViewState, selectViewState, useAppSelector } from "store";
+import { MenuViewState, selectViewState, useAppSelector } from "store";
 
 export const MainMenu: FC = () => {
   const viewState = useAppSelector(selectViewState);
@@ -29,8 +29,8 @@ export const MainMenu: FC = () => {
           },
         }}
       >
-        {viewState === ViewState.Overview && <CatchData />}
-        {viewState === ViewState.MyPage && <MyPage />}
+        {viewState === MenuViewState.Overview && <CatchData />}
+        {viewState === MenuViewState.MyPage && <MyPage />}
       </Drawer>
     </Box>
   );

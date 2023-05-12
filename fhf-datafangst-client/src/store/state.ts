@@ -9,30 +9,30 @@ import { initialVmsState, VmsState } from "./vms";
 import { TrackState, initialTrackState } from "./track";
 import { FiskInfoProfile } from "models";
 
-export enum ViewMode {
+export enum MapViewState {
   Grid = "grid",
   Heatmap = "heatmap",
 }
 
-export enum ViewState {
+export enum MenuViewState {
   Overview = "overview",
   MyPage = "mypage",
 }
 
 export interface BaseState {
   error: boolean;
-  viewMode: ViewMode;
+  viewMode: MapViewState;
   isLoggedIn: boolean;
   bwProfile?: FiskInfoProfile;
-  viewState: ViewState;
+  viewState: MenuViewState;
 }
 
 const initialBaseState: BaseState = {
   error: false,
-  viewMode: ViewMode.Grid,
+  viewMode: MapViewState.Grid,
   isLoggedIn: false,
   bwProfile: undefined,
-  viewState: ViewState.Overview,
+  viewState: MenuViewState.Overview,
 };
 
 export interface AppState
