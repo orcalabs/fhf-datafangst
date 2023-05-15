@@ -13,17 +13,6 @@ export interface FishingFacilitiesArgs {
   removedRanges?: [Date, Date][];
 }
 
-const _FishingFacilityToolType = {
-  [FishingFacilityToolType.Undefined]: 1,
-  [FishingFacilityToolType.Crabpot]: 2,
-  [FishingFacilityToolType.Danpurseine]: 3,
-  [FishingFacilityToolType.Nets]: 4,
-  [FishingFacilityToolType.Longline]: 5,
-  [FishingFacilityToolType.Generic]: 6,
-  [FishingFacilityToolType.Sensorbuoy]: 7,
-  [FishingFacilityToolType.Sensorcable]: 8,
-};
-
 const api = new V1fishingFacilityApi(
   apiConfiguration,
   undefined,
@@ -36,9 +25,7 @@ export const getFishingFacilities = async (query?: FishingFacilitiesArgs) =>
       active: query?.active,
       mmsis: query?.mmsis?.join(","),
       callSigns: query?.callSigns?.join(","),
-      toolTypes: query?.toolTypes
-        ?.map((t) => _FishingFacilityToolType[t])
-        .join(","),
+      toolTypes: query?.toolTypes?.join(","),
       setupRanges: createRangeString(query?.setupRanges),
       removedRanges: createRangeString(query?.removedRanges),
     }),
