@@ -369,6 +369,165 @@ export interface ErrorResponse {
 /**
  * 
  * @export
+ * @interface FishingFacility
+ */
+export interface FishingFacility {
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'barentswatchVesselId'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'callSign'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'comment'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'contactEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'contactPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'geometryWkt': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingFacility
+     */
+    'imo'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'lastChanged': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingFacility
+     */
+    'mmsi'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'regNum'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'removedProcessedTimestamp'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'removedTimestamp'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'sbrRegNum'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'setupProcessedTimestamp'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'setupTimestamp': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'source'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'toolColor'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingFacility
+     */
+    'toolCount'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'toolId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingFacility
+     */
+    'toolType': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'toolTypeName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingFacility
+     */
+    'vesselName'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const FishingFacilityToolType = {
+    Undefined: 'Undefined',
+    Crabpot: 'Crabpot',
+    Danpurseine: 'Danpurseine',
+    Nets: 'Nets',
+    Longline: 'Longline',
+    Generic: 'Generic',
+    Sensorbuoy: 'Sensorbuoy',
+    Sensorcable: 'Sensorcable'
+} as const;
+
+export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeof FishingFacilityToolType];
+
+
+/**
+ * 
+ * @export
  * @interface FiskeridirVessel
  */
 export interface FiskeridirVessel {
@@ -1493,6 +1652,187 @@ export class V1aisVmsApi extends BaseAPI {
      */
     public aisVmsPositions(requestParameters: V1aisVmsApiAisVmsPositionsRequest = {}, options?: AxiosRequestConfig) {
         return V1aisVmsApiFp(this.configuration).aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * V1fishingFacilityApi - axios parameter creator
+ * @export
+ */
+export const V1fishingFacilityApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} [mmsis] 
+         * @param {string} [callSigns] 
+         * @param {string} [toolTypes] 
+         * @param {boolean} [active] 
+         * @param {string} [setupRanges] 
+         * @param {string} [removedRanges] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fishingFacilities: async (mmsis?: string, callSigns?: string, toolTypes?: string, active?: boolean, setupRanges?: string, removedRanges?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/fishing_facilities`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (mmsis !== undefined) {
+                localVarQueryParameter['mmsis'] = mmsis;
+            }
+
+            if (callSigns !== undefined) {
+                localVarQueryParameter['callSigns'] = callSigns;
+            }
+
+            if (toolTypes !== undefined) {
+                localVarQueryParameter['toolTypes'] = toolTypes;
+            }
+
+            if (active !== undefined) {
+                localVarQueryParameter['active'] = active;
+            }
+
+            if (setupRanges !== undefined) {
+                localVarQueryParameter['setupRanges'] = setupRanges;
+            }
+
+            if (removedRanges !== undefined) {
+                localVarQueryParameter['removedRanges'] = removedRanges;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1fishingFacilityApi - functional programming interface
+ * @export
+ */
+export const V1fishingFacilityApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1fishingFacilityApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} [mmsis] 
+         * @param {string} [callSigns] 
+         * @param {string} [toolTypes] 
+         * @param {boolean} [active] 
+         * @param {string} [setupRanges] 
+         * @param {string} [removedRanges] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fishingFacilities(mmsis?: string, callSigns?: string, toolTypes?: string, active?: boolean, setupRanges?: string, removedRanges?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingFacility>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingFacilities(mmsis, callSigns, toolTypes, active, setupRanges, removedRanges, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1fishingFacilityApi - factory interface
+ * @export
+ */
+export const V1fishingFacilityApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1fishingFacilityApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {V1fishingFacilityApiFishingFacilitiesRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fishingFacilities(requestParameters: V1fishingFacilityApiFishingFacilitiesRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<FishingFacility>> {
+            return localVarFp.fishingFacilities(requestParameters.mmsis, requestParameters.callSigns, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for fishingFacilities operation in V1fishingFacilityApi.
+ * @export
+ * @interface V1fishingFacilityApiFishingFacilitiesRequest
+ */
+export interface V1fishingFacilityApiFishingFacilitiesRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly mmsis?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly callSigns?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly toolTypes?: string
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly active?: boolean
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly setupRanges?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly removedRanges?: string
+}
+
+/**
+ * V1fishingFacilityApi - object-oriented interface
+ * @export
+ * @class V1fishingFacilityApi
+ * @extends {BaseAPI}
+ */
+export class V1fishingFacilityApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1fishingFacilityApiFishingFacilitiesRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fishingFacilityApi
+     */
+    public fishingFacilities(requestParameters: V1fishingFacilityApiFishingFacilitiesRequest = {}, options?: AxiosRequestConfig) {
+        return V1fishingFacilityApiFp(this.configuration).fishingFacilities(requestParameters.mmsis, requestParameters.callSigns, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

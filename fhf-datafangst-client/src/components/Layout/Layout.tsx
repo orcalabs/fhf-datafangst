@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from "react";
 import { Box } from "@mui/system";
 import {
   checkLoggedIn,
+  getFishingFacilities,
   getGear,
   getGearGroups,
   getGearMainGroups,
@@ -14,6 +15,7 @@ import {
   useAppDispatch,
 } from "store";
 import { useAuth } from "oidc-react";
+import { FishingFacilityToolType } from "generated/openapi";
 
 interface Props {
   children: ReactNode;
@@ -30,6 +32,11 @@ export const Layout: React.FC<Props> = ({ children }) => {
   }, [userData, isLoading]);
 
   useEffect(() => {
+    dispatch(
+      getFishingFacilities({
+        toolTypes: [FishingFacilityToolType.Nets],
+      }),
+    );
     dispatch(getVessels());
     dispatch(getGear());
     dispatch(getGearGroups());

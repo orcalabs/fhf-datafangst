@@ -17,6 +17,7 @@ import { tripBuilder } from "./trip";
 import { aisBuilder } from "./ais";
 import { vmsBuilder } from "./vms";
 import { trackBuilder } from "./track";
+import { fishingFacilityBuilder } from "./fishingFacility";
 
 export const emptyState = {
   haulsByArea: undefined,
@@ -115,5 +116,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(tripBuilder)
     .extendBuilder(vmsBuilder)
     .extendBuilder(trackBuilder)
+    .extendBuilder(fishingFacilityBuilder)
     .finish(),
 );
