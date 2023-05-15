@@ -8,6 +8,10 @@ import { initialTripState, TripState } from "./trip";
 import { initialVmsState, VmsState } from "./vms";
 import { TrackState, initialTrackState } from "./track";
 import { FiskInfoProfile } from "models";
+import {
+  FishingFacilityState,
+  initialFishingFacilitiesState,
+} from "./fishingFacility";
 
 export enum MenuViewState {
   Overview = "overview",
@@ -38,6 +42,7 @@ export interface AppState
     TripState,
     VmsState,
     TrackState,
+    FishingFacilityState,
     SpeciesState {}
 
 export const initialAppState: AppState = {
@@ -50,5 +55,6 @@ export const initialAppState: AppState = {
   ...initialTripState,
   ...initialVmsState,
   ...initialTrackState,
+  ...initialFishingFacilitiesState,
   ...initialSpeciesState,
 };

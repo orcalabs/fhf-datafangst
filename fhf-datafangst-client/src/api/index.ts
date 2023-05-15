@@ -8,3 +8,4 @@ export * from "./tripsApi";
 export * from "./vmsApi";
 export * from "./trackApi";
 export * from "./bwApi";
+export * from "./fishingFacilityApi";
