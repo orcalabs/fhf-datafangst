@@ -16,6 +16,7 @@ import { Geometry } from "ol/geom";
 import RenderFeature from "ol/render/Feature";
 import { AisVmsPosition } from "generated/openapi";
 import { HaulPopover, PositionPopover, ShorelinePopover } from "components";
+import { FishingFacilityPopover } from "./FishingFacilityPopover";
 
 interface Props {
   children: React.ReactNode;
@@ -32,6 +33,8 @@ export const Map: FC<Props> = (props) => {
   const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
   const [hoveredShoreline, setHoveredShoreline] = useState<boolean>(false);
   const [hoveredHaulIdx, setHoveredHaulIdx] = useState<number>();
+  const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
+    useState<number>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
 
   const handleClosePopover = () => {
@@ -44,6 +47,7 @@ export const Map: FC<Props> = (props) => {
     setHoveredPosition(undefined);
     setHoveredShoreline(false);
     setHoveredHaulIdx(undefined);
+    setHoveredFishingFacilityIdx(undefined);
   };
 
   useEffect(() => {
@@ -109,6 +113,7 @@ export const Map: FC<Props> = (props) => {
         const aisPosition = feature.get("aisPosition");
         const shoreLine = feature.getGeometryName();
         const haulIdx = feature.get("haulIdx");
+        const fishingFacilityIdx = feature.get("fishingFacilityIdx");
 
         if (aisPosition) {
           setHoveredPosition(aisPosition);
@@ -119,6 +124,10 @@ export const Map: FC<Props> = (props) => {
         } else if (haulIdx !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaulIdx(haulIdx);
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+        } else if (fishingFacilityIdx !== undefined) {
+          mapState.map.getTargetElement().style.cursor = "pointer";
+          setHoveredFishingFacilityIdx(fishingFacilityIdx);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         }
       }
@@ -146,7 +155,14 @@ export const Map: FC<Props> = (props) => {
           <PositionPopover hoveredPosition={hoveredPosition} />
         )}
         {hoveredShoreline && <ShorelinePopover />}
-        {hoveredHaulIdx && <HaulPopover haulIdx={hoveredHaulIdx} />}
+        {hoveredHaulIdx !== undefined && (
+          <HaulPopover haulIdx={hoveredHaulIdx} />
+        )}
+        {hoveredFishingFacilityIdx !== undefined && (
+          <FishingFacilityPopover
+            fishingFacilityIdx={hoveredFishingFacilityIdx}
+          />
+        )}
       </Popover>
       <Box id={"map"} sx={{ height: "100vh", width: "100%" }}>
         {children}

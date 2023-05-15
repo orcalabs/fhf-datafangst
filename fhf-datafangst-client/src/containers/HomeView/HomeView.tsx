@@ -16,6 +16,7 @@ import {
   HeaderMenuButtons,
   MainMenu,
 } from "components";
+import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
 import {
   resetState,
@@ -194,6 +195,7 @@ export const HomeView: FC = () => {
         {mapFilter.coastline && <ShorelineLayer />}
         {viewMode !== ViewMode.Heatmap && <HaulsLayer />}
         <TrackLayer />
+        <FishingFacilitiesLayer />
       </Map>
       <ViewModeToggle />
       <LoadingScreen open={trackLoading} />

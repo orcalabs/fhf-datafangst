@@ -512,14 +512,14 @@ export interface FishingFacility {
  */
 
 export const FishingFacilityToolType = {
-    Undefined: 'Undefined',
-    Crabpot: 'Crabpot',
-    Danpurseine: 'Danpurseine',
-    Nets: 'Nets',
-    Longline: 'Longline',
-    Generic: 'Generic',
-    Sensorbuoy: 'Sensorbuoy',
-    Sensorcable: 'Sensorcable'
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7,
+    NUMBER_8: 8
 } as const;
 
 export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeof FishingFacilityToolType];

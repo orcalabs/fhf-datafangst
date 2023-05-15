@@ -1,4 +1,5 @@
 import { Map } from "ol";
+import { WKT } from "ol/format";
 import { fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
 import { Fill, Icon, Stroke, Style, Text } from "ol/style";
@@ -7,7 +8,7 @@ import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import { AisVmsPosition, Haul } from "generated/openapi";
+import { AisVmsPosition, FishingFacility, Haul } from "generated/openapi";
 import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
 import {
@@ -120,6 +121,29 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
   }
 
   return haulsVector;
+};
+
+export const generateFishingFacilitiesVector = (
+  facilities: FishingFacility[],
+) => {
+  if (!facilities?.length) {
+    return;
+  }
+
+  const vector = new VectorSource();
+  const wkt = new WKT();
+
+  for (let i = 0; i < facilities.length; i++) {
+    const facility = facilities[i];
+    const geometry = wkt.readGeometry(facility.geometryWkt, {
+      dataProjection: "EPSG:4326",
+      featureProjection: "EPSG:3857",
+    });
+    const feature = new Feature({ geometry, fishingFacilityIdx: i });
+    vector.addFeature(feature);
+  }
+
+  return vector;
 };
 
 export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
