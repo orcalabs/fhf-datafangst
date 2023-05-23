@@ -2,14 +2,14 @@ import { Map } from "ol";
 import { WKT } from "ol/format";
 import { fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
-import { Fill, Icon, Stroke, Style, Text } from "ol/style";
+import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
 import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
 import { AisVmsPosition, FishingFacility, Haul } from "generated/openapi";
-import { LineString, Point } from "ol/geom";
+import { LineString, Point, SimpleGeometry } from "ol/geom";
 import ColorScale from "color-scales";
 import {
   differenceMinutes,
@@ -94,6 +94,42 @@ export const defaultGridBoxStyle = (areaCode: string): Style => {
   });
 };
 
+export const fishingFacilityStyle = (toolType: number, isLine?: boolean) => {
+  let color = "";
+  if (toolType === 2) {
+    color = "#f0ba29";
+  } else if (toolType === 3) {
+    color = "#8202c1";
+  } else if (toolType === 4) {
+    color = "#085382";
+  } else if (toolType === 5) {
+    color = "#d72424";
+  } else {
+    color = "orange";
+  }
+  if (isLine) {
+    return new Style({
+      stroke: new Stroke({
+        color,
+        width: 1,
+      }),
+    });
+  } else {
+    return new Style({
+      image: new Circle({
+        radius: 2,
+        fill: new Fill({
+          color,
+        }),
+        stroke: new Stroke({
+          color: "#ffffff",
+          width: 0.5,
+        }),
+      }),
+    });
+  }
+};
+
 export const generateHaulsVector = (hauls: Haul[] | undefined) => {
   if (!hauls?.length) {
     return;
@@ -139,7 +175,29 @@ export const generateFishingFacilitiesVector = (
       dataProjection: "EPSG:4326",
       featureProjection: "EPSG:3857",
     });
-    const feature = new Feature({ geometry, fishingFacilityIdx: i });
+
+    if (geometry.getType() === "LineString") {
+      const point = new Feature({
+        geometry: new Point((geometry as SimpleGeometry).getFirstCoordinate()),
+        fishingFacilityIdx: i,
+        // style: fishingFacilityStyle(facility.toolType),
+      });
+      point.setStyle(fishingFacilityStyle(facility.toolType));
+      vector.addFeature(point);
+    }
+
+    const feature = new Feature({
+      geometry,
+      fishingFacilityIdx: i,
+      // style: fishingFacilityStyle(facility.toolType),
+    });
+
+    feature.setStyle(
+      fishingFacilityStyle(
+        facility.toolType,
+        geometry.getType() === "LineString",
+      ),
+    );
     vector.addFeature(feature);
   }
 
