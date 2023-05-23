@@ -53,6 +53,7 @@ export const fishmapBuilder = (
       return {
         ...state,
         ...emptyState,
+        hauls: selected.length ? state.hauls : undefined,
         selectedGrids: selected,
         selectedGridsString: selectedStrings,
       };
