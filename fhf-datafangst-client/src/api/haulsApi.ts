@@ -33,7 +33,7 @@ const createTimestampsFromYearsMonths = (
   months: number[] | undefined,
 ) => {
   if (!years?.length && !months?.length) {
-    return [];
+    return undefined;
   }
 
   if (!years?.length) {
@@ -85,7 +85,7 @@ export const getHauls = async (query: HaulsArgs) =>
     api.hauls({
       months: query.years
         ? createTimestampsFromYearsMonths(query.years, query.months)
-            .map((g) => g.toISOString())
+            ?.map((g) => g.toISOString())
             .toString()
         : undefined,
       fiskeridirVesselIds: query.vessels
@@ -111,7 +111,7 @@ export const getHaulsMatrix = async (query: HaulsArgs) =>
         query.filter === HaulsFilter.Date
           ? undefined
           : createTimestampsFromYearsMonths(query.years, query.months)
-              .map((d) => d.getFullYear() * 12 + d.getMonth())
+              ?.map((d) => d.getFullYear() * 12 + d.getMonth())
               .join(","),
       fiskeridirVesselIds: query.vessels
         ?.map((v) => v.fiskeridir.id)
