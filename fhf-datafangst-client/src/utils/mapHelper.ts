@@ -230,6 +230,7 @@ export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
 export const generateLocationsMatrix = (
   matrix: number[] | undefined,
   selectedFilters: number[],
+  selectedGrids: string[],
 ) => {
   if (!matrix) {
     return;
@@ -272,7 +273,12 @@ export const generateLocationsMatrix = (
     feature.setProperties({ weight });
     feature.setStyle(
       weight > 0
-        ? generateGridBoxStyle(area, weight, colorScale)
+        ? generateGridBoxStyle(
+            area,
+            weight,
+            colorScale,
+            selectedGrids.includes(area),
+          )
         : defaultGridBoxStyle(area),
     );
   }
