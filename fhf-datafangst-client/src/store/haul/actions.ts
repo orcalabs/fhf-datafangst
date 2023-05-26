@@ -34,3 +34,7 @@ export const setSelectedHaul = createAction<Haul | number | undefined>(
 export const setHoveredFilter = createAction<HaulsFilter | undefined>(
   "haul/setHoveredFilter",
 );
+
+export const setSelectedTripHaul = createAction<Haul | undefined>(
+  "haul/setSelectedTripHaul",
+);

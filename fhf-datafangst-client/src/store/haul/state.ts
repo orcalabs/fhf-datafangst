@@ -14,6 +14,7 @@ export interface HaulState {
   haulsMatrix2Search?: HaulsArgs;
   hoveredFilter?: HaulsFilter;
   selectedHaul?: Haul;
+  selectedTripHaul?: Haul;
 }
 
 export const initialHaulState: HaulState = {
@@ -28,6 +29,7 @@ export const initialHaulState: HaulState = {
   haulsMatrix2Search: undefined,
   hoveredFilter: undefined,
   selectedHaul: undefined,
+  selectedTripHaul: undefined,
 };
 
 export const initialHaulsMatrixSearch: HaulsArgs = {

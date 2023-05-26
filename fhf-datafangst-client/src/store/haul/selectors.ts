@@ -65,6 +65,11 @@ export const selectSelectedHaul = createSelector(
   (state) => state.selectedHaul,
 );
 
+export const selectSelectedTripHaul = createSelector(
+  selectAppState,
+  (state) => state.selectedTripHaul,
+);
+
 export const selectHaulsFilter = createSelector(
   selectHaulsMatrixSearch,
   (state) =>

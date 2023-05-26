@@ -7,6 +7,8 @@ import {
   initializeMap,
   selectFishmapState,
   setSelectedHaul,
+  setSelectedTripHaul,
+  store,
   toggleSelectedArea,
   useAppDispatch,
   useAppSelector,
@@ -22,6 +24,9 @@ import {
   ShorelinePopover,
 } from "components";
 import { FishingFacilityPopover } from "./FishingFacilityPopover";
+import { pointerMove } from "ol/events/condition";
+import Select from "ol/interaction/Select";
+import { tripHaulStyle } from "utils";
 
 interface Props {
   children: React.ReactNode;
@@ -73,6 +78,40 @@ export const Map: FC<Props> = (props) => {
       }),
     });
 
+    // Interaction for handling hover effect on Hauls
+    const hoverInteraction = new Select({
+      condition: pointerMove,
+      filter: (feature) => {
+        // Ignore hover effect on selected hauls
+        const feat = pixelFeature(feature);
+        const haul = feat?.get("haul");
+        if (haul && haul.haulId !== store.getState().selectedTripHaul?.haulId) {
+          return true;
+        }
+
+        return false;
+      },
+      style: (feature) => {
+        const zoom = store.getState().map.getView().getZoom();
+        const feat = pixelFeature(feature);
+
+        feat?.set("hovered", true, true);
+
+        return tripHaulStyle(zoom ? zoom * 3 : mapState.zoom * 3, true, true);
+      },
+    });
+
+    // Listener for applying correct icon size from zoom level when deselecting a Haul.
+    hoverInteraction.on("select", (e) => {
+      const zoom = store.getState().map.getView().getZoom();
+      for (const f of e.deselected) {
+        f.setStyle(tripHaulStyle(zoom ? zoom * 3 : mapState.zoom * 3));
+        f.unset("hovered", true);
+      }
+    });
+
+    map.addInteraction(hoverInteraction);
+
     dispatch(initializeMap(map));
   }, [dispatch, mapState.centerCoordinate, mapState.zoom, mapState.zoomFactor]);
 
@@ -89,12 +128,19 @@ export const Map: FC<Props> = (props) => {
         if (feature) {
           const grid = feature.get("lokref");
           const haulIdx = feature.get("haulIdx");
+          const haul = feature.get("haul");
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
             dispatch(toggleSelectedArea(feature));
           } else if (haulIdx !== undefined) {
             dispatch(setSelectedHaul(haulIdx));
+          } else if (haul) {
+            if (haul.haulId === store.getState().selectedTripHaul?.haulId) {
+              dispatch(setSelectedTripHaul(undefined));
+              return;
+            }
+            dispatch(setSelectedTripHaul(haul));
           }
         } else {
           // dispatch(resetState());
