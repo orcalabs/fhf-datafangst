@@ -15,6 +15,7 @@ import {
   TripsMenu,
   HeaderMenuButtons,
   MainMenu,
+  TripsLayer,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
@@ -194,7 +195,8 @@ export const HomeView: FC = () => {
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
         {viewMode !== ViewMode.Heatmap && <HaulsLayer />}
-        <TrackLayer />
+        {!selectedTrip && <TrackLayer />}
+        {selectedTrip && <TripsLayer />}
         <FishingFacilitiesLayer />
       </Map>
       <ViewModeToggle />
