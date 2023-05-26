@@ -2,13 +2,21 @@ import { Map } from "ol";
 import { WKT } from "ol/format";
 import { fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
-import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
+import {
+  Circle,
+  Fill,
+  Icon,
+  RegularShape,
+  Stroke,
+  Style,
+  Text,
+} from "ol/style";
 import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import { AisVmsPosition, FishingFacility, Haul } from "generated/openapi";
+import { AisVmsPosition, FishingFacility, Haul, Trip } from "generated/openapi";
 import { LineString, Point, SimpleGeometry } from "ol/geom";
 import ColorScale from "color-scales";
 import {
@@ -21,6 +29,7 @@ import theme from "app/theme";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
 import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
 import shoreline from "assets/geojson/shoreline.json";
+import CircleStyle from "ol/style/Circle";
 
 export const shorelineVector = new VectorSource({
   features: new GeoJSON({
@@ -44,6 +53,46 @@ export interface TravelVector {
   vector: VectorSource<Geometry>;
   style: Style;
 }
+
+const startStyle = (zoom?: number, zIndex = 10): Style => {
+  // Set max size for start icon
+  let iconSize = zoom ? zoom * 1.2 : 4.5;
+  if (iconSize > 4.5) {
+    iconSize = 4.5;
+  }
+
+  return new Style({
+    image: new CircleStyle({
+      fill: new Fill({ color: "white" }),
+      stroke: new Stroke({ color: "#FF5F26", width: iconSize / 2.5 }),
+      radius: iconSize,
+    }),
+    zIndex,
+  });
+};
+
+const stopStyle = (zoom?: number, zIndex = 10): Style => {
+  // Set max size for stop icon
+  let iconSize = zoom ? zoom * 1.3 : 5.5;
+  if (iconSize > 5.5) {
+    iconSize = 5.5;
+  }
+  return new Style({
+    image: new RegularShape({
+      fill: new Fill({ color: "white" }),
+      stroke: new Stroke({
+        color: "#FF5F26",
+        width: iconSize / 3.1,
+        lineCap: "square",
+        lineJoin: "miter",
+      }),
+      points: 4,
+      radius: iconSize,
+      angle: Math.PI / 4,
+    }),
+    zIndex,
+  });
+};
 
 export const createColorScale = (min: number, max: number, opacity?: number) =>
   new ColorScale(
@@ -387,6 +436,7 @@ export const generateVesselTrackVector = (
   positions: AisVmsPosition[] | undefined,
   zoomLevel: number | undefined,
   haul: Haul | undefined,
+  showStartStop?: boolean,
 ): TravelVector[] => {
   const lineVectors = [{ vector: new VectorSource(), style: mainStyle }];
 
@@ -453,7 +503,13 @@ export const generateVesselTrackVector = (
         aisPosition: pos,
       });
 
-      p.setStyle(trackVesselStyle(pos, zoomLevel));
+      p.setStyle(
+        showStartStop && (i === 0 || i === positions.length - 1)
+          ? i === 0
+            ? startStyle(zoomLevel)
+            : stopStyle(zoomLevel)
+          : trackVesselStyle(pos, zoomLevel),
+      );
 
       if (pos.det.missingData || flag) {
         line.appendCoordinate(fromLonLat([pos.lon, pos.lat]));
@@ -500,4 +556,46 @@ export const generateVesselTrackVector = (
   lineVector.vector.addFeature(lineFeature(line));
 
   return lineVectors;
+};
+
+const tripHaulStyle = (zoom?: number) => {
+  // Set max size for start icon
+  let size = zoom ? zoom * 1.2 : 5;
+  if (size > 5) {
+    size = 5;
+  }
+  return new Style({
+    image: new CircleStyle({
+      fill: new Fill({ color: theme.palette.fourth.main }),
+      stroke: new Stroke({ color: "white", width: size / 3 }),
+      radius: size,
+    }),
+    zIndex: 10,
+  });
+};
+
+export const generateTripHaulsVector = (
+  trip: Trip,
+  zoomLevel: number | undefined,
+) => {
+  const hauls = trip.hauls;
+  if (!hauls?.length) {
+    return;
+  }
+
+  const haulsVector = new VectorSource<Point>();
+
+  for (let i = 0; i < hauls.length; i++) {
+    const haul = hauls[i];
+    const haulFeature = new Feature({
+      geometry: new Point(
+        fromLonLat([haul.startLongitude, haul.startLatitude]),
+      ),
+      haul,
+    });
+    haulFeature.setStyle(tripHaulStyle(zoomLevel));
+    haulsVector.addFeature(haulFeature);
+  }
+
+  return haulsVector;
 };
