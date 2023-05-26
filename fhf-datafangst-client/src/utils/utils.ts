@@ -1,11 +1,16 @@
 import {
-  differenceInMinutes,
+  differenceInHours,
   format,
   formatDuration,
   intervalToDuration,
 } from "date-fns";
 import { nb } from "date-fns/locale";
-import { Gear, Haul, RegisterVesselOwner } from "generated/openapi";
+import {
+  AisVmsPosition,
+  Gear,
+  Haul,
+  RegisterVesselOwner,
+} from "generated/openapi";
 import { Catch } from "models";
 
 const setCharAt = (str: string, index: number, chr: string) => {
@@ -150,11 +155,11 @@ export const kilosOrTonsFormatter = (weight: number) =>
     ? (weight / 1000).toFixed(1) + " tonn"
     : weight.toFixed(1) + "  kg";
 
-export const differenceMinutes = (date1: Date, date2: Date) => {
+export const differenceHours = (date1: Date, date2: Date) => {
   if (date1 > date2) {
-    return differenceInMinutes(date1, date2);
+    return differenceInHours(date1, date2);
   } else {
-    return differenceInMinutes(date2, date1);
+    return differenceInHours(date2, date1);
   }
 };
 
@@ -201,3 +206,26 @@ export const reduceCatchesOnSpecies = (
     }
     return tot;
   }, {}) ?? {};
+
+export const trackForHaul = (
+  track: AisVmsPosition[] | undefined,
+  haul: Haul | undefined,
+) => {
+  if (!track || !haul) {
+    return;
+  }
+  const haulTrack: AisVmsPosition[] = [];
+
+  for (let i = 0; i < track.length; i++) {
+    const pos = track[i];
+
+    if (
+      new Date(pos.timestamp) >= new Date(haul.startTimestamp) &&
+      new Date(pos.timestamp) <= new Date(haul.stopTimestamp)
+    ) {
+      haulTrack.push(pos);
+    }
+  }
+
+  return haulTrack;
+};

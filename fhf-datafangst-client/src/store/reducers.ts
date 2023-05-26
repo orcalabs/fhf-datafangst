@@ -24,7 +24,7 @@ export const emptyState = {
   haulsSearch: undefined,
   haulsMatrix2: undefined,
   selectedHaul: undefined,
-  selectedHaulTrip: undefined,
+  selectedTripHaul: undefined,
   selectedGrids: [],
   selectedGridsString: [],
   ais: undefined,
@@ -41,7 +41,7 @@ const emptyTrackState = {
 const emptyViewState = {
   trips: undefined,
   track: undefined,
-  selectedHaulTrip: undefined,
+  selectedTripHaul: undefined,
   selectedGrids: [],
   selectedGridsString: [],
   haulsMatrix2: undefined,

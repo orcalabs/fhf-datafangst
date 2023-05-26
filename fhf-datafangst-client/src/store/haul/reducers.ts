@@ -13,6 +13,7 @@ import {
   setHaulsMatrix2Search,
   removeHauls,
   addHauls,
+  setSelectedTripHaul,
 } from ".";
 import { Haul } from "generated/openapi";
 
@@ -88,6 +89,9 @@ export const haulBuilder = (
           );
         }
       }
+    })
+    .addCase(setSelectedTripHaul, (state, action) => {
+      state.selectedTripHaul = action.payload;
     })
     .addCase(setHoveredFilter, (state, action) => {
       state.hoveredFilter = action.payload;

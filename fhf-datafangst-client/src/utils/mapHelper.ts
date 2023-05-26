@@ -20,7 +20,7 @@ import { AisVmsPosition, FishingFacility, Haul, Trip } from "generated/openapi";
 import { LineString, Point, SimpleGeometry } from "ol/geom";
 import ColorScale from "color-scales";
 import {
-  differenceMinutes,
+  differenceHours,
   findHighestHaulCatchWeight,
   matrixSum,
   sumCatches,
@@ -30,6 +30,7 @@ import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
 import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
 import shoreline from "assets/geojson/shoreline.json";
 import CircleStyle from "ol/style/Circle";
+import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
 
 export const shorelineVector = new VectorSource({
   features: new GeoJSON({
@@ -394,14 +395,14 @@ export const boxSelect = (map: Map, callback: (box: Box) => void) => {
   map.addInteraction(draw);
 };
 
-const mainStyle = new Style({
+const mainLineStyle = new Style({
   stroke: new Stroke({
     color: theme.palette.third.main,
     width: 2,
   }),
 });
 
-const secondStyle = new Style({
+const dashedLineStyle = new Style({
   stroke: new Stroke({
     color: theme.palette.grey[700],
     lineDash: [5],
@@ -409,7 +410,26 @@ const secondStyle = new Style({
   }),
 });
 
-const trackVesselStyle = (pos: AisVmsPosition, zoom?: number): Style => {
+const selectedLineStyle = new Style({
+  stroke: new Stroke({
+    color: theme.palette.third.dark,
+    width: 3,
+  }),
+});
+
+const selectedDashedLineStyle = new Style({
+  stroke: new Stroke({
+    color: theme.palette.third.dark,
+    lineDash: [5],
+    width: 3,
+  }),
+});
+
+const trackVesselStyle = (
+  pos: AisVmsPosition,
+  zoom?: number,
+  selected?: boolean,
+): Style => {
   // Set max size for vessel icon
   let iconSize = zoom ? zoom * 0.018 : 2.7 * 0.018;
   if (iconSize > 0.06) {
@@ -420,8 +440,8 @@ const trackVesselStyle = (pos: AisVmsPosition, zoom?: number): Style => {
       rotation: ((pos.cog ?? 0) * Math.PI) / 180,
       opacity: 1,
       anchor: [0.5, 0.5],
-      scale: iconSize,
-      src: pinkVesselPin,
+      scale: selected ? iconSize * 1.3 : iconSize,
+      src: selected ? darkPinkVesselPin : pinkVesselPin,
     }),
   });
 };
@@ -437,8 +457,14 @@ export const generateVesselTrackVector = (
   zoomLevel: number | undefined,
   haul: Haul | undefined,
   showStartStop?: boolean,
+  selected?: boolean,
 ): TravelVector[] => {
-  const lineVectors = [{ vector: new VectorSource(), style: mainStyle }];
+  const lineVectors = [
+    {
+      vector: new VectorSource(),
+      style: selected ? selectedLineStyle : mainLineStyle,
+    },
+  ];
 
   if (!positions?.length) {
     return lineVectors;
@@ -452,12 +478,15 @@ export const generateVesselTrackVector = (
   // Draw dashed line from start of haul position to first AIS point if we're missing data
   if (
     haul &&
-    differenceMinutes(
+    differenceHours(
       new Date(positions[0].timestamp),
       new Date(haul.startTimestamp),
-    ) > 5
+    ) > 1
   ) {
-    const startLine = { vector: new VectorSource(), style: secondStyle };
+    const startLine = {
+      vector: new VectorSource(),
+      style: selected ? selectedDashedLineStyle : dashedLineStyle,
+    };
     const line = new LineString([
       fromLonLat([haul.startLongitude, haul.startLatitude]),
       fromLonLat([positions[0].lon, positions[0].lat]),
@@ -471,12 +500,15 @@ export const generateVesselTrackVector = (
   // Draw dashed line from end of AIS track to haul's stop position if we're missing data
   if (
     haul &&
-    differenceMinutes(
+    differenceHours(
       new Date(positions[positions.length - 1].timestamp),
       new Date(haul.stopTimestamp),
     )
   ) {
-    const stopLine = { vector: new VectorSource(), style: secondStyle };
+    const stopLine = {
+      vector: new VectorSource(),
+      style: selected ? selectedDashedLineStyle : dashedLineStyle,
+    };
     const line = new LineString([
       fromLonLat([haul.stopLongitude, haul.stopLatitude]),
       fromLonLat([
@@ -508,7 +540,7 @@ export const generateVesselTrackVector = (
           ? i === 0
             ? startStyle(zoomLevel)
             : stopStyle(zoomLevel)
-          : trackVesselStyle(pos, zoomLevel),
+          : trackVesselStyle(pos, zoomLevel, selected),
       );
 
       if (pos.det.missingData || flag) {
@@ -517,7 +549,14 @@ export const generateVesselTrackVector = (
 
         lineVector = {
           vector: new VectorSource(),
-          style: pos.det.missingData ? secondStyle : mainStyle,
+          style:
+            pos.det.missingData && selected
+              ? selectedDashedLineStyle
+              : pos.det.missingData
+              ? dashedLineStyle
+              : selected
+              ? selectedLineStyle
+              : mainLineStyle,
         };
 
         lineVectors.push(lineVector);
@@ -558,7 +597,11 @@ export const generateVesselTrackVector = (
   return lineVectors;
 };
 
-const tripHaulStyle = (zoom?: number) => {
+export const tripHaulStyle = (
+  zoom?: number,
+  selected?: boolean,
+  hovered?: boolean,
+) => {
   // Set max size for start icon
   let size = zoom ? zoom * 1.2 : 5;
   if (size > 5) {
@@ -566,17 +609,24 @@ const tripHaulStyle = (zoom?: number) => {
   }
   return new Style({
     image: new CircleStyle({
-      fill: new Fill({ color: theme.palette.fourth.main }),
+      fill: new Fill({
+        color:
+          hovered ?? selected
+            ? theme.palette.fourth.dark
+            : theme.palette.fourth.main,
+      }),
       stroke: new Stroke({ color: "white", width: size / 3 }),
-      radius: size,
+      radius: selected ? size * 1.3 : size,
     }),
     zIndex: 10,
   });
 };
 
+/* Generates map markers for Hauls in a Trip */
 export const generateTripHaulsVector = (
   trip: Trip,
   zoomLevel: number | undefined,
+  selectedTripHaul?: Haul,
 ) => {
   const hauls = trip.hauls;
   if (!hauls?.length) {
@@ -587,13 +637,14 @@ export const generateTripHaulsVector = (
 
   for (let i = 0; i < hauls.length; i++) {
     const haul = hauls[i];
+    const isSelected = haul.haulId === selectedTripHaul?.haulId;
     const haulFeature = new Feature({
       geometry: new Point(
         fromLonLat([haul.startLongitude, haul.startLatitude]),
       ),
       haul,
     });
-    haulFeature.setStyle(tripHaulStyle(zoomLevel));
+    haulFeature.setStyle(tripHaulStyle(zoomLevel, isSelected));
     haulsVector.addFeature(haulFeature);
   }
 
