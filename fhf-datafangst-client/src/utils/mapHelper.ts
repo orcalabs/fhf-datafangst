@@ -135,14 +135,11 @@ export const generateGridBoxStyle = (
       });
 };
 
-export const defaultGridBoxStyle = (areaCode: string): Style => {
-  return new Style({
-    fill: new Fill({
-      color: [255, 255, 255, 0],
-    }),
-    text: new Text({ fill: new Fill({ color: "#387D90" }), text: areaCode }),
-  });
-};
+const defaultGridBoxStyle = new Style({
+  fill: new Fill({
+    color: [255, 255, 255, 0],
+  }),
+});
 
 export const fishingFacilityStyle = (toolType: number, isLine?: boolean) => {
   let color = "";
@@ -329,7 +326,7 @@ export const generateLocationsMatrix = (
             colorScale,
             selectedGrids.includes(area),
           )
-        : defaultGridBoxStyle(area),
+        : defaultGridBoxStyle,
     );
   }
 
