@@ -14,8 +14,10 @@ export const HeaderMenuButtons: FC = () => {
   const viewState = useAppSelector(selectViewState);
 
   const handleChange = (newValue: MenuViewState) => {
-    dispatch(setViewState(newValue));
-    dispatch(setHoveredFilter(undefined));
+    if (newValue !== null) {
+      dispatch(setViewState(newValue));
+      dispatch(setHoveredFilter(undefined));
+    }
   };
 
   return (
