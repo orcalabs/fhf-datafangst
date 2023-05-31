@@ -31,3 +31,4 @@ export { CatchData } from "./CatchData/CatchData";
 export { MyHauls } from "./MyPage/MyHauls";
 export { TripsLayer } from "./Layers/TripsLayer";
 export { DetailedHaulPopover } from "./Map/DetailedHaulPopover";
+export { MyGears } from "./MyPage/MyGears";
