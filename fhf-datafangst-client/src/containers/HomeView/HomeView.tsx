@@ -16,13 +16,14 @@ import {
   HeaderMenuButtons,
   MainMenu,
   TripsLayer,
+  MapAttributions,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
 import {
   resetState,
   selectTrackMissing,
-  selectHaulsMenuOpen,
+  selectSecondaryMenuOpen,
   selectHaulsMatrixSearch,
   selectSelectedGridsString,
   selectSelectedTrip,
@@ -52,7 +53,7 @@ const GridContainer = (props: any) => (
     sx={{
       display: "grid",
       gridTemplateColumns: "500px 1fr 500px",
-      gridTemplateRows: "48px 56px 1fr",
+      gridTemplateRows: "48px 56px 1fr 40px",
       position: "absolute",
       width: "100%",
       height: "100%",
@@ -94,7 +95,7 @@ const MenuArea = (props: any) => (
       gridColumnStart: 1,
       gridColumnEnd: 2,
       gridRowStart: 2,
-      gridRowEnd: 4,
+      gridRowEnd: 5,
       display: "flex",
       flexDirection: "column",
       overflowY: "auto",
@@ -110,7 +111,7 @@ const HaulMenuArea = (props: any) => (
       gridColumnStart: 3,
       gridColumnEnd: 4,
       gridRowStart: 2,
-      gridRowEnd: 4,
+      gridRowEnd: 5,
       display: "flex",
       flexDirection: "column",
     }}
@@ -134,12 +135,28 @@ const FilterButtonArea = (props: any) => (
   </Box>
 );
 
+const MapAttributionsArea = (props: any) => (
+  <Box
+    sx={{
+      gridColumnStart: 2,
+      gridColumnEnd: props.haulsMenuOpen ? 3 : 4,
+      gridRowStart: 4,
+      gridRowEnd: 5,
+      display: "flex",
+      alignItems: "flex-end",
+      justifyContent: "space-between",
+    }}
+  >
+    {props.children}
+  </Box>
+);
+
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
   const trackMissing = useAppSelector(selectTrackMissing);
   const viewMode = useAppSelector(selectViewMode);
-  const haulsMenuOpen = useAppSelector(selectHaulsMenuOpen);
+  const haulsMenuOpen = useAppSelector(selectSecondaryMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const selectedTrip = useAppSelector(selectSelectedTrip);
@@ -188,6 +205,25 @@ export const HomeView: FC = () => {
             </Box>
           </Box>
         </HaulMenuArea>
+        <MapAttributionsArea haulsMenuOpen={haulsMenuOpen}>
+          <Box
+            id="scale-line"
+            sx={{
+              ".ol-scale-line": {
+                borderRadius: 0,
+                bgcolor: "rgba(0,60,136,.3)",
+              },
+              ".ol-scale-line-inner": {
+                borderColor: "#eee",
+                color: "#eee",
+              },
+              position: "relative",
+              zIndex: 1000,
+              left: 3,
+            }}
+          />
+          <MapAttributions />
+        </MapAttributionsArea>
       </GridContainer>
       <Map>
         <MapBoxLayer />

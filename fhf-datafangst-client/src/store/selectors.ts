@@ -18,9 +18,9 @@ export const selectIsLoggedIn = createSelector(
   (state) => state.isLoggedIn,
 );
 
-export const selectHaulsMenuOpen = createSelector(
+export const selectSecondaryMenuOpen = createSelector(
   selectAppState,
-  (state) => state.selectedGrids.length > 0,
+  (state) => state.selectedGrids.length > 0 || Boolean(state.selectedTrip),
 );
 
 export const selectTrackMissing = createSelector(
