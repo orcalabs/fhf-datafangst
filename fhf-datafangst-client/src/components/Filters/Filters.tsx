@@ -33,7 +33,11 @@ export const Filters: FC<Props> = (props) => {
     dispatch(setHoveredFilter(filter));
 
   if (matrixLoading) {
-    return <LocalLoadingProgress />;
+    return (
+      <Box sx={{ height: "100%", pt: 2, pl: 2.5 }}>
+        <LocalLoadingProgress />
+      </Box>
+    );
   }
 
   return (
