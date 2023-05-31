@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { defaults } from "ol/control";
+import { ScaleLine, defaults } from "ol/control";
 import { View, Map as OLMap, MapBrowserEvent } from "ol";
 import { Box, Popover, PopoverPosition } from "@mui/material";
 import { Types } from "ol/MapBrowserEventType";
@@ -77,6 +77,12 @@ export const Map: FC<Props> = (props) => {
         zoom: false,
       }),
     });
+
+    const control = new ScaleLine({
+      units: "metric",
+      target: "scale-line",
+    });
+    map.addControl(control);
 
     // Interaction for handling hover effect on Hauls
     const hoverInteraction = new Select({

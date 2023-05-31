@@ -27,7 +27,7 @@ import {
   getHaulTrip,
   selectGearsMap,
   selectHaulsLoading,
-  selectHaulsMenuOpen,
+  selectSecondaryMenuOpen,
   selectHaulsSorted,
   selectSelectedGrids,
   selectSelectedHaul,
@@ -76,7 +76,7 @@ const accordionSx = {
 
 export const HaulsMenu: FC = () => {
   const dispatch = useAppDispatch();
-  const open = useAppSelector(selectHaulsMenuOpen);
+  const open = useAppSelector(selectSecondaryMenuOpen);
   const vessels = useAppSelector(selectVesselsByHaulId);
   const gears = useAppSelector(selectGearsMap);
   const hauls = useAppSelector(selectHaulsSorted);
