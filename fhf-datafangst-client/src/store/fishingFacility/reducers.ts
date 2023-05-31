@@ -1,5 +1,9 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getFishingFacilities, setFishingFacilitiesSearch } from "./actions";
+import {
+  getFishingFacilities,
+  setFishingFacilitiesSearch,
+  setSelectedFishingFacility,
+} from "./actions";
 import { AppState } from "store/state";
 
 export const fishingFacilityBuilder = (
@@ -16,6 +20,9 @@ export const fishingFacilityBuilder = (
     })
     .addCase(getFishingFacilities.rejected, (state, _) => {
       state.fishingFacilitiesLoading = false;
+    })
+    .addCase(setSelectedFishingFacility, (state, action) => {
+      state.selectedFishingFacility = action.payload;
     })
     .addCase(setFishingFacilitiesSearch, (state, action) => {
       state.fishingFacilitiesSearch = action.payload;

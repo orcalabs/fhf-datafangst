@@ -11,5 +11,15 @@ export const selectFishingFacilities = createSelector(
   (state) => state.fishingFacilities,
 );
 
+export const selectSelectedFishingFacility = createSelector(
+  selectAppState,
+  (state) => state.selectedFishingFacility,
+);
+
+export const selectFishingFacilitySearch = createSelector(
+  selectAppState,
+  (state) => state.fishingFacilitiesSearch,
+);
+
 export const selectFishingFacility = (idx: number) =>
   createSelector(selectFishingFacilities, (state) => state?.[idx]);

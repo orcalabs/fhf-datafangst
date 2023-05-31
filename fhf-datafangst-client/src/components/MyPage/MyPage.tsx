@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
-import { MyHauls, MyTrips, VesselInfo } from "components";
+import { MyGears, MyHauls, MyTrips, VesselInfo } from "components";
 import { FC, useState } from "react";
 import {
   selectBwUserProfile,
@@ -24,11 +24,13 @@ import {
 } from "store";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
 
 enum MenuTab {
   Trips = "trips",
   Hauls = "hauls",
+  Gears = "gears",
 }
 
 const accordionSx = {
@@ -170,6 +172,32 @@ export const MyPage: FC = () => {
         </AccordionSummary>
         <AccordionDetails sx={{ pb: 0 }}>
           <MyTrips />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        square
+        disableGutters
+        sx={accordionSx}
+        expanded={expanded === MenuTab.Gears}
+        onChange={() => handleTabChange(MenuTab.Gears)}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              "& svg": { mr: 2 },
+            }}
+          >
+            <PhishingSharpIcon
+              sx={{ color: "secondary.light", fontSize: 32 }}
+            />
+          </Box>
+          <Typography variant="h6"> Mine redskap </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ pb: 0 }}>
+          <MyGears />
         </AccordionDetails>
       </Accordion>
     </Box>
