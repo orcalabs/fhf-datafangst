@@ -265,7 +265,10 @@ export const ApiError = {
     InvalidCallSign: 'InvalidCallSign',
     InvalidDateRange: 'InvalidDateRange',
     InternalServerError: 'InternalServerError',
-    MissingMmsiOrCallSign: 'MissingMmsiOrCallSign'
+    MissingMmsiOrCallSign: 'MissingMmsiOrCallSign',
+    Forbidden: 'Forbidden',
+    MissingBwToken: 'MissingBwToken',
+    InvalidBwToken: 'InvalidBwToken'
 } as const;
 
 export type ApiError = typeof ApiError[keyof typeof ApiError];
@@ -519,7 +522,10 @@ export const FishingFacilityToolType = {
     NUMBER_5: 5,
     NUMBER_6: 6,
     NUMBER_7: 7,
-    NUMBER_8: 8
+    NUMBER_8: 8,
+    NUMBER_9: 9,
+    NUMBER_10: 10,
+    NUMBER_11: 11
 } as const;
 
 export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeof FishingFacilityToolType];
@@ -765,10 +771,10 @@ export interface Haul {
     'haulDistance'?: number | null;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof Haul
      */
-    'haulId': string;
+    'haulId': number;
     /**
      * 
      * @type {number}
@@ -1215,6 +1221,12 @@ export interface Vessel {
      * @memberof Vessel
      */
     'ais'?: AisVessel | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Vessel
+     */
+    'fishCaughtPerHour'?: number | null;
     /**
      * 
      * @type {FiskeridirVessel}
@@ -2705,11 +2717,11 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {string} haulId 
+         * @param {number} haulId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tripOfHaul: async (haulId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        tripOfHaul: async (haulId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'haulId' is not null or undefined
             assertParamExists('tripOfHaul', 'haulId', haulId)
             const localVarPath = `/v1.0/trip_of_haul/{haul_id}`
@@ -2796,11 +2808,11 @@ export const V1tripApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} haulId 
+         * @param {number} haulId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tripOfHaul(haulId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
+        async tripOfHaul(haulId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.tripOfHaul(haulId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2856,10 +2868,10 @@ export const V1tripApiFactory = function (configuration?: Configuration, basePat
 export interface V1tripApiTripOfHaulRequest {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof V1tripApiTripOfHaul
      */
-    readonly haulId: string
+    readonly haulId: number
 }
 
 /**
