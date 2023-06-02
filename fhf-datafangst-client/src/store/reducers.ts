@@ -20,36 +20,34 @@ import { trackBuilder } from "./track";
 import { fishingFacilityBuilder } from "./fishingFacility";
 
 export const emptyState = {
-  haulsByArea: undefined,
-  haulsSearch: undefined,
+  ais: undefined,
   haulsMatrix2: undefined,
+  haulsSearch: undefined,
   selectedHaul: undefined,
-  selectedTripHaul: undefined,
   selectedGrids: [],
   selectedGridsString: [],
-  ais: undefined,
-  vms: undefined,
+  selectedTrip: undefined,
+  selectedTripHaul: undefined,
   track: undefined,
   trips: undefined,
-  selectedTrip: undefined,
+  vms: undefined,
 };
 
 const emptyTrackState = {
   track: undefined,
 };
 
-const emptyViewState = {
-  trips: undefined,
-  track: undefined,
-  selectedTripHaul: undefined,
+export const emptyViewState = {
+  haulsMatrix: undefined,
+  haulsMatrix2: undefined,
+  haulsMatrixSearch: undefined,
+  haulsSearch: undefined,
   selectedGrids: [],
   selectedGridsString: [],
-  haulsMatrix2: undefined,
-  haulsMatrix: undefined,
-  haulsByArea: undefined,
-  haulsSearch: undefined,
-  haulsMatrixSearch: undefined,
   selectedTrip: undefined,
+  selectedTripHaul: undefined,
+  track: undefined,
+  trips: undefined,
 };
 
 class AppActionReducerMapBuilder<State> {
