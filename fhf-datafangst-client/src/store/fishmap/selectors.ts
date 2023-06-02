@@ -32,6 +32,7 @@ export const selectViewMode = createSelector(
 export const selectShowGrid = createSelector(
   selectAppState,
   (state) =>
+    state.haulsMatrix &&
     state.viewMode === ViewMode.Grid &&
     !(state.selectedTrip ?? state.trips?.length),
 );
