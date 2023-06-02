@@ -15,6 +15,7 @@ export interface HaulState {
   hoveredFilter?: HaulsFilter;
   selectedHaul?: Haul;
   selectedTripHaul?: Haul;
+  showTimeSlider: boolean;
 }
 
 export const initialHaulState: HaulState = {
@@ -30,6 +31,7 @@ export const initialHaulState: HaulState = {
   hoveredFilter: undefined,
   selectedHaul: undefined,
   selectedTripHaul: undefined,
+  showTimeSlider: false,
 };
 
 export const initialHaulsMatrixSearch: HaulsArgs = {

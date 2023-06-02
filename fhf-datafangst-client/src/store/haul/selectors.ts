@@ -3,11 +3,20 @@ import { HaulsArgs, HaulsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { GearGroup, SpeciesGroup } from "generated/openapi";
 import { LengthGroups } from "models";
-import { selectSelectedGridsString } from "store/fishmap";
+import { ViewMode, selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroupsSorted } from "store/gear";
 import { selectAppState } from "store/selectors";
 import { selectSpeciesGroupsSorted } from "store/species";
 import { fishingLocationAreas, matrixSum, sumCatches } from "utils";
+
+export const selectShowTimeSlider = createSelector(
+  selectAppState,
+  (state) =>
+    state.haulsMatrix &&
+    state.viewMode === ViewMode.Grid &&
+    !(state.selectedTrip ?? state.trips?.length) &&
+    !state.selectedGrids.length,
+);
 
 export const selectHaulsLoading = createSelector(
   selectAppState,
@@ -113,6 +122,7 @@ const _selectHaulsActiveFilterSelectedIndexes = (
         const selectedDates = years
           .map((y) => months.map((m) => ({ id: y * 12 + m - 1 })))
           .flat();
+
         return getIndexes(originalDates, selectedDates);
       case HaulsFilter.GearGroup:
         return getIndexes(gearGroups, search?.gearGroupIds);
