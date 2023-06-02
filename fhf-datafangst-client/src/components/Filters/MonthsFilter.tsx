@@ -4,21 +4,7 @@ import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { StyledPopper } from "components";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-
-const Months: Record<number, string> = {
-  1: "Januar",
-  2: "Februar",
-  3: "Mars",
-  4: "April",
-  5: "Mai",
-  6: "Juni",
-  7: "Juli",
-  8: "August",
-  9: "September",
-  10: "Oktober",
-  11: "November",
-  12: "Desember",
-};
+import { Months } from "utils";
 
 interface Props {
   value?: number[];

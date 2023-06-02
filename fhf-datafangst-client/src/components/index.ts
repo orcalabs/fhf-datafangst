@@ -33,3 +33,4 @@ export { TripsLayer } from "./Layers/TripsLayer";
 export { DetailedHaulPopover } from "./Map/DetailedHaulPopover";
 export { MyGears } from "./MyPage/MyGears";
 export { MapAttributions } from "./MapAttributions/MapAttributions";
+export { TimeSlider } from "./TimeSlider/TimeSlider";
