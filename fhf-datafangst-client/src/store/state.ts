@@ -8,6 +8,7 @@ import { initialTripState, TripState } from "./trip";
 import { initialVmsState, VmsState } from "./vms";
 import { TrackState, initialTrackState } from "./track";
 import { FiskInfoProfile } from "models";
+import { User } from "oidc-react";
 import {
   FishingFacilityState,
   initialFishingFacilitiesState,
@@ -21,8 +22,9 @@ export enum MenuViewState {
 export interface BaseState {
   error: boolean;
   isLoggedIn: boolean;
-  bwProfile?: FiskInfoProfile;
   viewState: MenuViewState;
+  bwProfile?: FiskInfoProfile;
+  user?: User;
 }
 
 const initialBaseState: BaseState = {
@@ -30,6 +32,7 @@ const initialBaseState: BaseState = {
   isLoggedIn: false,
   bwProfile: undefined,
   viewState: MenuViewState.Overview,
+  user: undefined,
 };
 
 export interface AppState

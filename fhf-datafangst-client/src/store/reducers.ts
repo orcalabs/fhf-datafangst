@@ -95,6 +95,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       const token = user.access_token;
 
       state.isLoggedIn = token !== undefined;
+      state.user = user;
 
       if (token) {
         (action as any).asyncDispatch(getUserProfile(token));
