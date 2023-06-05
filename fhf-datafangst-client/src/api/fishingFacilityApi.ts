@@ -38,6 +38,10 @@ export const getFishingFacilities = async (query?: FishingFacilitiesArgs) =>
       toolTypes: query?.toolTypes?.join(","),
       setupRanges: createRangeString(query?.setupRanges),
       removedRanges: createRangeString(query?.removedRanges),
+      limit: query?.limit ?? 10,
+      offset: query?.offset ?? 0,
+      ordering: query?.ordering ?? Ordering.Desc,
+      sorting: query?.sorting ?? FishingFacilitiesSorting.Setup,
     }),
   );
 

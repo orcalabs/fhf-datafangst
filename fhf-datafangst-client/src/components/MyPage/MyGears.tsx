@@ -9,10 +9,11 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
-import { LocalLoadingProgress } from "components";
+import { LocalLoadingProgress, PaginationButtons } from "components";
 import { FishingFacility } from "generated/openapi";
 import { FC, useState } from "react";
 import {
+  paginateFishingFacilitiesSearch,
   selectFishingFacilities,
   selectFishingFacilitiesLoading,
   selectFishingFacilitySearch,
@@ -46,17 +47,17 @@ export const MyGears: FC = () => {
   const selectedGearId = useAppSelector(selectSelectedFishingFacility)?.toolId;
   const [showHistoric, setShowHistoric] = useState<boolean>(false);
 
-  // const offset = gearsSearch?.offset ?? 0;
-  // const limit = gearsSearch?.limit ?? 10;
+  const offset = gearsSearch?.offset ?? 0;
+  const limit = gearsSearch?.limit ?? 10;
 
   const handleGearChange = (gear: FishingFacility) => {
     const newGear = gear.toolId === selectedGearId ? undefined : gear;
     dispatch(setSelectedFishingFacility(newGear));
   };
 
-  // const handleGearsPagination = (offset: number, limit: number) => {
-  //   // dispatch(paginateGearsSearch({ offset, limit }));
-  // };
+  const handleGearsPagination = (offset: number, limit: number) => {
+    dispatch(paginateFishingFacilitiesSearch({ offset, limit }));
+  };
 
   const handleGearsViewChange = (checked: boolean) => {
     setShowHistoric(checked);
@@ -134,14 +135,14 @@ export const MyGears: FC = () => {
             </ListItemButton>
           ))}
 
-          {/* <Box sx={{ mt: 1 }}>
+          <Box sx={{ mt: 1 }}>
             <PaginationButtons
               numItems={gears?.length ?? 0}
               offset={offset}
               limit={limit}
               onPaginationChange={handleGearsPagination}
             />
-          </Box> */}
+          </Box>
         </>
       )}
     </List>
