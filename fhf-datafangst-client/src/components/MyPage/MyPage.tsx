@@ -13,10 +13,12 @@ import { MyGears, MyHauls, MyTrips, VesselInfo } from "components";
 import { FC, useState } from "react";
 import {
   selectBwUserProfile,
+  selectFishingFacilitySearch,
   selectHaulsMatrixSearch,
   selectIsLoggedIn,
   selectTripsSearch,
   selectVesselsByCallsign,
+  setFishingFacilitiesSearch,
   setHaulsMatrixSearch,
   setTripsSearch,
   useAppDispatch,
@@ -64,6 +66,7 @@ export const MyPage: FC = () => {
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
+  const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
 
   const handleTabChange = (expandedTab: MenuTab) => {
     setExpanded(expandedTab);
@@ -76,6 +79,14 @@ export const MyPage: FC = () => {
           ...haulsSearch,
           filter: undefined,
           vessels: [vessel],
+        }),
+      );
+    } else if (expandedTab === MenuTab.Gears && vessel) {
+      dispatch(
+        setFishingFacilitiesSearch({
+          ...fishingFacilitiesSearch,
+          callSigns: [vessel.fiskeridir.callSign],
+          active: true,
         }),
       );
     }
