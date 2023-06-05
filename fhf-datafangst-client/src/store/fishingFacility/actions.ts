@@ -15,3 +15,8 @@ export const setSelectedFishingFacility = createAction<
 export const setFishingFacilitiesSearch = createAction<FishingFacilitiesArgs>(
   "fishingFacility/setFishingFacilitiesSearch",
 );
+
+export const paginateFishingFacilitiesSearch = createAction<{
+  offset: number;
+  limit: number;
+}>("fishingFacility/paginateFishingFacilitiesSearch");
