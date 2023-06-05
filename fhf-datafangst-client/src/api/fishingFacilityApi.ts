@@ -1,21 +1,28 @@
 import {
+  FishingFacilitiesSorting,
   FishingFacilityToolType,
+  Ordering,
   V1fishingFacilityApi,
   Vessel,
 } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 
 export interface FishingFacilitiesArgs {
+  accessToken?: string;
   active?: boolean;
   mmsis?: number[];
   vessels?: Vessel[];
   toolTypes?: FishingFacilityToolType[];
   setupRanges?: [Date, Date][];
   removedRanges?: [Date, Date][];
+  limit?: number;
+  offset?: number;
+  ordering?: Ordering;
+  sorting?: FishingFacilitiesSorting;
 }
 
 const api = new V1fishingFacilityApi(
-  apiConfiguration,
+  localConfiguration,
   undefined,
   axiosInstance,
 );
