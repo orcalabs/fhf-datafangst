@@ -53,7 +53,7 @@ export const LengthGroupFilter: FC<Props> = (props) => {
             onClick={() => handleClick(val.id)}
           >
             <Bar
-              length={(val.value / total) * 100}
+              length={total > 0 ? (val.value / total) * 100 : 0}
               label={LengthGroupsMap[val.id].name}
               value={val.value}
               selected={value.some((l) => l.id === val.id)}

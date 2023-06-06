@@ -59,7 +59,7 @@ export const GearFilter: FC<Props> = (props) => {
             onClick={() => handleClick(val.id)}
           >
             <Bar
-              length={(val.value / total) * 100}
+              length={total > 0 ? (val.value / total) * 100 : 0}
               label={gearGroups[val.id]?.name}
               value={val.value}
               selected={value.some((g) => g.id === val.id)}
