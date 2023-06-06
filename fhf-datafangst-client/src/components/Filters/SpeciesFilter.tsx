@@ -72,7 +72,7 @@ export const SpeciesFilter: FC<Props> = (props) => {
               onClick={() => handleClick(val.id)}
             >
               <Bar
-                length={(val.value / total) * 100}
+                length={total > 0 ? (val.value / total) * 100 : 0}
                 label={speciesGroups[val.id]?.name}
                 value={val.value}
                 selected={value.some((s) => s.id === val.id)}
