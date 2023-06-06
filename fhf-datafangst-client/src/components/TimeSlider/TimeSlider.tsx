@@ -1,20 +1,59 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { Box, Button, Slider, Typography } from "@mui/material";
-import { selectHaulsMatrixSearch, useAppSelector } from "store";
+import {
+  selectHaulsMatrixSearch,
+  setCurrentDateSliderFrame,
+  setHaulsMatrixSearch,
+  setHoveredFilter,
+  useAppSelector,
+} from "store";
 import { Months } from "utils";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import { HaulsFilter } from "api";
+import { useDispatch } from "react-redux";
+
+const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
 
 export const TimeSlider: FC = () => {
+  const dispatch = useDispatch();
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleSliderChange = (_: number) => {
-    // Insert matrix change operation here.
+  const selectedDates = useMemo(() => {
+    const years = haulsSearch?.years?.length
+      ? haulsSearch?.years
+      : getAllYearsArray();
+    const months = haulsSearch?.months?.length
+      ? haulsSearch?.months
+      : allMonths;
+
+    return years
+      .map((y) => months.map((m) => new Date(y, m - 1, 1)))
+      .flat()
+      .sort((a, b) => a.getTime() - b.getTime());
+  }, [haulsSearch?.years, haulsSearch?.months]);
+
+  useEffect(() => {
+    if (haulsSearch?.filter !== HaulsFilter.Date) {
+      setOpen(false);
+    }
+  }, [haulsSearch?.filter]);
+
+  const handleSliderChange = (idx: number) => {
+    dispatch(setCurrentDateSliderFrame(selectedDates[idx]));
   };
 
   const handleOpenSlider = () => {
     setOpen(!open);
+
+    if (!open) {
+      dispatch(setHoveredFilter(HaulsFilter.Date));
+      dispatch(setHaulsMatrixSearch({ ...haulsSearch }));
+      dispatch(setCurrentDateSliderFrame(selectedDates[0]));
+    } else {
+      dispatch(setCurrentDateSliderFrame(undefined));
+    }
 
     // Reads the previous value before previous set, hence the wrongful logic of if-statement.
     // if (open) {
@@ -24,43 +63,17 @@ export const TimeSlider: FC = () => {
     // Insert first matrix call here
   };
 
-  const selectedDates = useMemo(() => {
-    const years = haulsSearch?.years?.length
-      ? haulsSearch?.years
-      : getAllYearsArray();
-    const months = haulsSearch?.months?.length
-      ? haulsSearch?.months
-      : Array.from({ length: 12 }, (_, i) => i + 1);
-
-    const selectedDates = years
-      .map((y) =>
-        months.map((m) => ({
-          id: y * 12 + m - 1,
-          value: new Date(y, m, 1),
-        })),
-      )
-      .flat();
-
-    return selectedDates.sort((a, b) => {
-      return a.value.getTime() - b.value.getTime();
-    });
-  }, [haulsSearch]);
-
   const createMarks = () => {
-    const marksArray = [];
-    if (!haulsSearch?.months) {
-      return;
-    }
-    for (let i = 0; i < selectedDates.length; i++) {
-      if (i % haulsSearch.months.length === 0) {
-        marksArray.push({
-          value: i,
-          label: selectedDates[i].value.getFullYear(),
-        });
+    const marks = [];
+    for (let i = 0, prev = -1; i < selectedDates.length; i++) {
+      const year = selectedDates[i].getFullYear();
+      if (year !== prev) {
+        marks.push({ value: i, label: year });
+        prev = year;
       }
     }
 
-    return marksArray;
+    return marks.length > 1 ? marks : undefined;
   };
 
   useEffect(() => {
@@ -80,8 +93,8 @@ export const TimeSlider: FC = () => {
     };
   }, [open]);
 
-  const valueLabelFormat = (value: number) => {
-    const month = selectedDates[value].value.getMonth();
+  const valueLabelFormat = (idx: number) => {
+    const month = selectedDates[idx].getMonth() + 1;
     return Months[month];
   };
 

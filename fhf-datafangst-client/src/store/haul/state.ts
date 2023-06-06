@@ -16,6 +16,7 @@ export interface HaulState {
   selectedHaul?: Haul;
   selectedTripHaul?: Haul;
   showTimeSlider: boolean;
+  currentDateSliderFrame?: Date;
 }
 
 export const initialHaulState: HaulState = {
