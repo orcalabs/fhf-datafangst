@@ -12,7 +12,7 @@ import { fishingLocationAreas, matrixSum, sumCatches } from "utils";
 export const selectShowTimeSlider = createSelector(
   selectAppState,
   (state) =>
-    state.haulsMatrix &&
+    (!!state.haulsMatrix || state.haulsMatrixLoading) &&
     state.viewMode === ViewMode.Grid &&
     !(state.selectedTrip ?? state.trips?.length) &&
     !state.selectedGrids.length,
@@ -87,6 +87,11 @@ export const selectHaulsFilter = createSelector(
       : state?.filter,
 );
 
+export const selectCurrentDateSliderFrame = createSelector(
+  selectAppState,
+  (state) => state.currentDateSliderFrame,
+);
+
 const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
   selected?.reduce((tot: number[], cur) => {
     const idx = original.findIndex((o) => o.id === cur.id);
@@ -100,19 +105,31 @@ const _selectHaulsActiveFilterSelectedIndexes = (
   search: HaulsArgs | undefined,
   gearGroups: GearGroup[],
   speciesGroups: SpeciesGroup[],
+  currentDateSliderFrame?: Date,
 ) => {
   if (search)
     switch (search.filter) {
       case HaulsFilter.Date:
-        if (!search.years?.length && !search.months?.length) {
+        if (
+          !search.years?.length &&
+          !search.months?.length &&
+          !currentDateSliderFrame
+        ) {
           return [];
         }
 
         const now = new Date();
-        const datesLength = now.getFullYear() * 12 + now.getMonth() - 2010 * 12;
+        const datesLength = (now.getFullYear() + 1) * 12 - 2010 * 12;
         const originalDates = Array.from({ length: datesLength }, (_, i) => ({
           id: 2010 * 12 + i,
         }));
+
+        if (currentDateSliderFrame) {
+          const d = currentDateSliderFrame;
+          return getIndexes(originalDates, [
+            { id: d.getFullYear() * 12 + d.getMonth() },
+          ]);
+        }
 
         const years = search.years?.length ? search.years : getAllYearsArray();
         const months = search.months?.length
@@ -141,6 +158,7 @@ export const selectHaulsMatrixActiveFilterSelectedIndexes = createSelector(
   selectHaulsMatrixSearch,
   selectGearGroupsSorted,
   selectSpeciesGroupsSorted,
+  selectCurrentDateSliderFrame,
   _selectHaulsActiveFilterSelectedIndexes,
 );
 
@@ -173,57 +191,31 @@ export const selectLocationsMatrix = createSelector(
 const computeStats = (
   matrix: number[],
   widthArray: { id: any }[],
-  activeSelected: number[],
-  selected: number[],
+  filters: number[],
+  activeFilters?: number[],
 ) => {
   const stats = [];
   const width = widthArray.length;
   const height = matrix.length / width;
 
-  for (let x = 0; x < width; x++) {
-    let value = 0;
-    if (activeSelected.length)
-      for (let i = 0; i < activeSelected.length; i++) {
-        const y = activeSelected[i];
-        value += matrixSum(matrix, width, x, y, x, y);
-      }
-    else {
-      value = matrixSum(matrix, width, x, 0, x, height - 1);
-    }
-    if (value > 0 || selected.includes(x)) {
-      stats.push({ id: widthArray[x].id, value });
-    }
-  }
-
-  return stats;
-};
-
-const computeActiveStats = (
-  matrix: number[],
-  heightArray: { id: any }[],
-  selectedFilters: number[],
-  selectedLocations?: number[],
-) => {
-  const stats = [];
-  const height = heightArray.length;
-  const width = matrix.length / height;
-
-  if (selectedLocations)
-    for (let y = 0; y < height; y++) {
+  if (activeFilters?.length)
+    for (let x = 0; x < width; x++) {
       let value = 0;
-      for (let i = 0; i < selectedLocations.length; i++) {
-        const x = selectedLocations[i];
-        value += matrixSum(matrix, width, x, y, x, y);
+      for (let i = 0; i < activeFilters.length; i++) {
+        const y = activeFilters[i];
+        if (y < height) {
+          value += matrixSum(matrix, width, x, y, x, y);
+        }
       }
-      if (value > 0 || selectedFilters.includes(y)) {
-        stats.push({ id: heightArray[y].id, value });
+      if (value > 0 || filters.includes(x)) {
+        stats.push({ id: widthArray[x].id, value });
       }
     }
   else
-    for (let y = 0; y < height; y++) {
-      const value = matrixSum(matrix, width, 0, y, width - 1, y);
-      if (value > 0 || selectedFilters.includes(y)) {
-        stats.push({ id: heightArray[y].id, value });
+    for (let x = 0; x < width; x++) {
+      const value = matrixSum(matrix, width, x, 0, x, height - 1);
+      if (value > 0 || filters.includes(x)) {
+        stats.push({ id: widthArray[x].id, value });
       }
     }
 
@@ -242,9 +234,12 @@ export const selectGearFilterStats = createSelector(
     }
 
     const selected = getIndexes(gearGroups, search?.gearGroupIds);
-    return filter === HaulsFilter.GearGroup
-      ? computeActiveStats(matrix.gearGroup, gearGroups, selected)
-      : computeStats(matrix.gearGroup, gearGroups, activeSelected, selected);
+    return computeStats(
+      matrix.gearGroup,
+      gearGroups,
+      selected,
+      filter === HaulsFilter.GearGroup ? undefined : activeSelected,
+    );
   },
 );
 
@@ -277,14 +272,14 @@ export const selectGearFilterGridStats = createSelector(
     }
 
     const selected = getIndexes(gearGroups, search?.gearGroupIds);
-    return search?.filter === HaulsFilter.GearGroup
-      ? computeActiveStats(
-          matrix.gearGroup,
-          gearGroups,
-          selected,
-          selectedLocations,
-        )
-      : computeStats(matrix.gearGroup, gearGroups, activeSelected, selected);
+    return computeStats(
+      matrix.gearGroup,
+      gearGroups,
+      selected,
+      search?.filter === HaulsFilter.GearGroup
+        ? selectedLocations
+        : activeSelected,
+    );
   },
 );
 
@@ -305,14 +300,12 @@ export const selectSpeciesFilterStats = createSelector(
     }
 
     const selected = getIndexes(speciesGroups, search?.speciesGroupIds);
-    return filter === HaulsFilter.SpeciesGroup
-      ? computeActiveStats(matrix.speciesGroup, speciesGroups, selected)
-      : computeStats(
-          matrix.speciesGroup,
-          speciesGroups,
-          activeSelected,
-          selected,
-        );
+    return computeStats(
+      matrix.speciesGroup,
+      speciesGroups,
+      selected,
+      filter === HaulsFilter.SpeciesGroup ? undefined : activeSelected,
+    );
   },
 );
 
@@ -333,19 +326,14 @@ export const selectSpeciesFilterGridStats = createSelector(
     }
 
     const selected = getIndexes(speciesGroups, search?.speciesGroupIds);
-    return search?.filter === HaulsFilter.SpeciesGroup
-      ? computeActiveStats(
-          matrix.speciesGroup,
-          speciesGroups,
-          selected,
-          selectedLocations,
-        )
-      : computeStats(
-          matrix.speciesGroup,
-          speciesGroups,
-          activeSelected,
-          selected,
-        );
+    return computeStats(
+      matrix.speciesGroup,
+      speciesGroups,
+      selected,
+      search?.filter === HaulsFilter.SpeciesGroup
+        ? selectedLocations
+        : activeSelected,
+    );
   },
 );
 
@@ -365,14 +353,12 @@ export const selectVesselLengthFilterStats = createSelector(
     }
 
     const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
-    return filter === HaulsFilter.VesselLength
-      ? computeActiveStats(matrix.lengthGroup, LengthGroups, selected)
-      : computeStats(
-          matrix.lengthGroup,
-          LengthGroups,
-          activeSelected,
-          selected,
-        );
+    return computeStats(
+      matrix.lengthGroup,
+      LengthGroups,
+      selected,
+      filter === HaulsFilter.VesselLength ? undefined : activeSelected,
+    );
   },
 );
 
@@ -392,19 +378,14 @@ export const selectVesselLengthFilterGridStats = createSelector(
     }
 
     const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
-    return search?.filter === HaulsFilter.VesselLength
-      ? computeActiveStats(
-          matrix.lengthGroup,
-          LengthGroups,
-          selected,
-          selectedLocations,
-        )
-      : computeStats(
-          matrix.lengthGroup,
-          LengthGroups,
-          activeSelected,
-          selected,
-        );
+    return computeStats(
+      matrix.lengthGroup,
+      LengthGroups,
+      selected,
+      search?.filter === HaulsFilter.VesselLength
+        ? selectedLocations
+        : activeSelected,
+    );
   },
 );
 

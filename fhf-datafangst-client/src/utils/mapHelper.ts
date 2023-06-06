@@ -283,26 +283,28 @@ export const generateLocationsMatrix = (
     return;
   }
 
-  const width = fishingLocationAreas.length;
-  const height = matrix.length / width;
-  const weights: number[] = Array(width);
+  const height = fishingLocationAreas.length;
+  const width = matrix.length / height;
+  const weights: number[] = Array(height);
 
-  let max = -Infinity;
-  let min = Infinity;
+  let max = 0;
+  let min = 0;
 
-  for (let x = 0; x < width; x++) {
+  for (let y = 0; y < height; y++) {
     let sum = 0;
     if (selectedFilters.length)
       for (let i = 0; i < selectedFilters.length; i++) {
-        const y = selectedFilters[i];
-        sum += matrixSum(matrix, width, x, y, x, y);
+        const x = selectedFilters[i];
+        if (x < width) {
+          sum += matrixSum(matrix, width, x, y, x, y);
+        }
       }
     else {
-      sum += matrixSum(matrix, width, x, 0, x, height - 1);
+      sum += matrixSum(matrix, width, 0, y, width - 1, y);
     }
     if (sum > max) max = sum;
     if (sum < min) min = sum;
-    weights[x] = sum;
+    weights[y] = sum;
   }
 
   // `ColorScale` cannot have equal min and max value

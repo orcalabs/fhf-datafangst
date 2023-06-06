@@ -14,6 +14,7 @@ import {
   removeHauls,
   addHauls,
   setSelectedTripHaul,
+  setCurrentDateSliderFrame,
 } from ".";
 import { Haul } from "generated/openapi";
 
@@ -142,4 +143,7 @@ export const haulBuilder = (
       }
 
       state.haulsMatrix2Search = action.payload;
+    })
+    .addCase(setCurrentDateSliderFrame, (state, action) => {
+      state.currentDateSliderFrame = action.payload;
     });
