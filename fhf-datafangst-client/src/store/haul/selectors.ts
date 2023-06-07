@@ -147,8 +147,6 @@ const _selectHaulsActiveFilterSelectedIndexes = (
         return getIndexes(speciesGroups, search?.speciesGroupIds);
       case HaulsFilter.VesselLength:
         return getIndexes(LengthGroups, search?.vesselLengthRanges);
-      case HaulsFilter.CatchLocation:
-        return [];
     }
 
   return [];
@@ -181,8 +179,6 @@ export const selectLocationsMatrix = createSelector(
       case HaulsFilter.SpeciesGroup:
         return matrix?.speciesGroup;
       case HaulsFilter.VesselLength:
-        return matrix?.lengthGroup;
-      case HaulsFilter.CatchLocation:
         return matrix?.lengthGroup;
     }
   },
