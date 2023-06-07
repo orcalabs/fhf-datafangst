@@ -1,13 +1,14 @@
 import {
   FishingFacilityToolType,
   V1fishingFacilityApi,
+  Vessel,
 } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 
 export interface FishingFacilitiesArgs {
   active?: boolean;
   mmsis?: number[];
-  callSigns?: string[];
+  vessels?: Vessel[];
   toolTypes?: FishingFacilityToolType[];
   setupRanges?: [Date, Date][];
   removedRanges?: [Date, Date][];
@@ -24,7 +25,9 @@ export const getFishingFacilities = async (query?: FishingFacilitiesArgs) =>
     api.fishingFacilities({
       active: query?.active,
       mmsis: query?.mmsis?.join(","),
-      callSigns: query?.callSigns?.join(","),
+      fiskeridirVesselIds: query?.vessels
+        ?.map((v) => v.fiskeridir.id)
+        .join(","),
       toolTypes: query?.toolTypes?.join(","),
       setupRanges: createRangeString(query?.setupRanges),
       removedRanges: createRangeString(query?.removedRanges),

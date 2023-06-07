@@ -33,8 +33,7 @@ export const ActiveHaulsFilter = {
     Date: 'date',
     GearGroup: 'gearGroup',
     SpeciesGroup: 'speciesGroup',
-    VesselLength: 'vesselLength',
-    CatchLocation: 'catchLocation'
+    VesselLength: 'vesselLength'
 } as const;
 
 export type ActiveHaulsFilter = typeof ActiveHaulsFilter[keyof typeof ActiveHaulsFilter];
@@ -372,6 +371,21 @@ export interface ErrorResponse {
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const FishingFacilitiesSorting = {
+    Setup: 'setup',
+    Removed: 'removed',
+    LastChanged: 'lastChanged'
+} as const;
+
+export type FishingFacilitiesSorting = typeof FishingFacilitiesSorting[keyof typeof FishingFacilitiesSorting];
+
+
+/**
+ * 
+ * @export
  * @interface FishingFacility
  */
 export interface FishingFacility {
@@ -405,6 +419,12 @@ export interface FishingFacility {
      * @memberof FishingFacility
      */
     'contactPhone'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingFacility
+     */
+    'fiskeridirVesselId'?: number | null;
     /**
      * 
      * @type {string}
@@ -1126,12 +1146,6 @@ export interface SpeciesMainGroup {
 export interface Trip {
     /**
      * 
-     * @type {{ [key: string]: Delivery; }}
-     * @memberof Trip
-     */
-    'deliveredPerDeliveryPoint': { [key: string]: Delivery; };
-    /**
-     * 
      * @type {Delivery}
      * @memberof Trip
      */
@@ -1160,6 +1174,12 @@ export interface Trip {
      * @memberof Trip
      */
     'events': Array<VesselEvent>;
+    /**
+     * 
+     * @type {Array<FishingFacility>}
+     * @memberof Trip
+     */
+    'fishingFacilities': Array<FishingFacility>;
     /**
      * 
      * @type {number}
@@ -1677,15 +1697,19 @@ export const V1fishingFacilityApiAxiosParamCreator = function (configuration?: C
         /**
          * 
          * @param {string} [mmsis] 
-         * @param {string} [callSigns] 
+         * @param {string} [fiskeridirVesselIds] 
          * @param {string} [toolTypes] 
          * @param {boolean} [active] 
          * @param {string} [setupRanges] 
          * @param {string} [removedRanges] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {Ordering} [ordering] 
+         * @param {FishingFacilitiesSorting} [sorting] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fishingFacilities: async (mmsis?: string, callSigns?: string, toolTypes?: string, active?: boolean, setupRanges?: string, removedRanges?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fishingFacilities: async (mmsis?: string, fiskeridirVesselIds?: string, toolTypes?: string, active?: boolean, setupRanges?: string, removedRanges?: string, limit?: number, offset?: number, ordering?: Ordering, sorting?: FishingFacilitiesSorting, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/fishing_facilities`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1702,8 +1726,8 @@ export const V1fishingFacilityApiAxiosParamCreator = function (configuration?: C
                 localVarQueryParameter['mmsis'] = mmsis;
             }
 
-            if (callSigns !== undefined) {
-                localVarQueryParameter['callSigns'] = callSigns;
+            if (fiskeridirVesselIds !== undefined) {
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
             }
 
             if (toolTypes !== undefined) {
@@ -1720,6 +1744,22 @@ export const V1fishingFacilityApiAxiosParamCreator = function (configuration?: C
 
             if (removedRanges !== undefined) {
                 localVarQueryParameter['removedRanges'] = removedRanges;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (ordering !== undefined) {
+                localVarQueryParameter['ordering'] = ordering;
+            }
+
+            if (sorting !== undefined) {
+                localVarQueryParameter['sorting'] = sorting;
             }
 
 
@@ -1746,16 +1786,20 @@ export const V1fishingFacilityApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} [mmsis] 
-         * @param {string} [callSigns] 
+         * @param {string} [fiskeridirVesselIds] 
          * @param {string} [toolTypes] 
          * @param {boolean} [active] 
          * @param {string} [setupRanges] 
          * @param {string} [removedRanges] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {Ordering} [ordering] 
+         * @param {FishingFacilitiesSorting} [sorting] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fishingFacilities(mmsis?: string, callSigns?: string, toolTypes?: string, active?: boolean, setupRanges?: string, removedRanges?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingFacility>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingFacilities(mmsis, callSigns, toolTypes, active, setupRanges, removedRanges, options);
+        async fishingFacilities(mmsis?: string, fiskeridirVesselIds?: string, toolTypes?: string, active?: boolean, setupRanges?: string, removedRanges?: string, limit?: number, offset?: number, ordering?: Ordering, sorting?: FishingFacilitiesSorting, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingFacility>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingFacilities(mmsis, fiskeridirVesselIds, toolTypes, active, setupRanges, removedRanges, limit, offset, ordering, sorting, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1775,7 +1819,7 @@ export const V1fishingFacilityApiFactory = function (configuration?: Configurati
          * @throws {RequiredError}
          */
         fishingFacilities(requestParameters: V1fishingFacilityApiFishingFacilitiesRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<FishingFacility>> {
-            return localVarFp.fishingFacilities(requestParameters.mmsis, requestParameters.callSigns, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, options).then((request) => request(axios, basePath));
+            return localVarFp.fishingFacilities(requestParameters.mmsis, requestParameters.fiskeridirVesselIds, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.sorting, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1798,7 +1842,7 @@ export interface V1fishingFacilityApiFishingFacilitiesRequest {
      * @type {string}
      * @memberof V1fishingFacilityApiFishingFacilities
      */
-    readonly callSigns?: string
+    readonly fiskeridirVesselIds?: string
 
     /**
      * 
@@ -1827,6 +1871,34 @@ export interface V1fishingFacilityApiFishingFacilitiesRequest {
      * @memberof V1fishingFacilityApiFishingFacilities
      */
     readonly removedRanges?: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly limit?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly offset?: number
+
+    /**
+     * 
+     * @type {Ordering}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly ordering?: Ordering
+
+    /**
+     * 
+     * @type {FishingFacilitiesSorting}
+     * @memberof V1fishingFacilityApiFishingFacilities
+     */
+    readonly sorting?: FishingFacilitiesSorting
 }
 
 /**
@@ -1844,7 +1916,7 @@ export class V1fishingFacilityApi extends BaseAPI {
      * @memberof V1fishingFacilityApi
      */
     public fishingFacilities(requestParameters: V1fishingFacilityApiFishingFacilitiesRequest = {}, options?: AxiosRequestConfig) {
-        return V1fishingFacilityApiFp(this.configuration).fishingFacilities(requestParameters.mmsis, requestParameters.callSigns, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, options).then((request) => request(this.axios, this.basePath));
+        return V1fishingFacilityApiFp(this.configuration).fishingFacilities(requestParameters.mmsis, requestParameters.fiskeridirVesselIds, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.sorting, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
