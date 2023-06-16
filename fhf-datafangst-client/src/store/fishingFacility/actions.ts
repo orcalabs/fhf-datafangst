@@ -9,7 +9,7 @@ export const getFishingFacilities = createAsyncThunk(
 );
 
 export const setSelectedFishingFacility = createAction<
-  FishingFacility | undefined
+  FishingFacility | number | undefined
 >("fishingFacility/setSelectedFishingFacility");
 
 export const setFishingFacilitiesSearch = createAction<FishingFacilitiesArgs>(
