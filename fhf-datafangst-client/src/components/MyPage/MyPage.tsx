@@ -85,7 +85,7 @@ export const MyPage: FC = () => {
       dispatch(
         setFishingFacilitiesSearch({
           ...fishingFacilitiesSearch,
-          callSigns: [vessel.fiskeridir.callSign],
+          vessels: [vessel],
           active: true,
         }),
       );
