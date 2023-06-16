@@ -89,6 +89,21 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     })
     .addCase(getUserProfile.fulfilled, (state, action) => {
       state.bwProfile = action.payload;
+
+      // Hijack Skomværfisk as a vessel for testing purposes.
+      if (state.bwProfile.contactPersonDetail.email === "post@orcalabs.no") {
+        state.bwProfile.vesselInfo = {
+          ircs: "JXMK",
+          mmsi: 257842500,
+          imo: -1,
+          regNum: "",
+          sbrRegNum: "",
+          vesselId: "",
+          vesselEmail: "",
+          vesselPhone: "",
+          vesselName: "",
+        };
+      }
     })
     .addCase(checkLoggedIn, (state, action) => {
       const user = action.payload;
