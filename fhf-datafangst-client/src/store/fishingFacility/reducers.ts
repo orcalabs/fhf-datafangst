@@ -7,6 +7,7 @@ import {
 } from "./actions";
 import { AppState } from "store/state";
 import { FishingFacilitiesArgs } from "api";
+import { FishingFacility } from "generated/openapi";
 
 export const fishingFacilityBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -24,7 +25,11 @@ export const fishingFacilityBuilder = (
       state.fishingFacilitiesLoading = false;
     })
     .addCase(setSelectedFishingFacility, (state, action) => {
-      state.selectedFishingFacility = action.payload;
+      const gear =
+        typeof action.payload === "number"
+          ? state.fishingFacilities?.[action.payload]
+          : (action.payload as FishingFacility);
+      state.selectedFishingFacility = gear;
     })
     .addCase(setFishingFacilitiesSearch, (state, action) => {
       state.fishingFacilitiesSearch = action.payload;
