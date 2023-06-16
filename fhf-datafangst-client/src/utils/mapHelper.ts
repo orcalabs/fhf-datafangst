@@ -17,7 +17,7 @@ import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
 import { AisVmsPosition, FishingFacility, Haul, Trip } from "generated/openapi";
-import { LineString, Point, SimpleGeometry } from "ol/geom";
+import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
 import {
   differenceHours,
@@ -141,36 +141,68 @@ const defaultGridBoxStyle = new Style({
   }),
 });
 
-export const fishingFacilityStyle = (toolType: number, isLine?: boolean) => {
+export const fishingFacilityStyle = (
+  toolType: number,
+  geometry?: Geometry,
+  selected?: boolean,
+) => {
+  if (!geometry) {
+    return;
+  }
+
   let color = "";
   if (toolType === 2) {
+    // Teine
     color = "#f0ba29";
   } else if (toolType === 3) {
+    // Snurrevad
     color = "#8202c1";
   } else if (toolType === 4) {
+    // Garn
     color = "#085382";
   } else if (toolType === 5) {
+    // Line
     color = "#d72424";
   } else {
     color = "orange";
   }
-  if (isLine) {
-    return new Style({
-      stroke: new Stroke({
-        color,
-        width: 1,
+
+  // Draw line with Circle at the start
+  if (geometry.getType() === "LineString") {
+    const geo = geometry as LineString;
+
+    return [
+      new Style({
+        stroke: new Stroke({
+          color,
+          width: selected ? 2 : 1,
+        }),
       }),
-    });
+      new Style({
+        geometry: new Point(geo.getFirstCoordinate()),
+        image: new Circle({
+          radius: selected ? 3 : 2,
+          fill: new Fill({
+            color,
+          }),
+          stroke: new Stroke({
+            color: "#ffffff",
+            width: selected ? 1 : 0.5,
+          }),
+        }),
+      }),
+    ];
+    // Draw a single Circle
   } else {
     return new Style({
       image: new Circle({
-        radius: 2,
+        radius: selected ? 3 : 2,
         fill: new Fill({
           color,
         }),
         stroke: new Stroke({
           color: "#ffffff",
-          width: 0.5,
+          width: selected ? 1 : 0.5,
         }),
       }),
     });
@@ -208,11 +240,11 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
 
 export const generateFishingFacilitiesVector = (
   facilities: FishingFacility[],
+  selectedFacility?: FishingFacility,
 ) => {
   if (!facilities?.length) {
     return;
   }
-
   const vector = new VectorSource();
   const wkt = new WKT();
 
@@ -223,28 +255,20 @@ export const generateFishingFacilitiesVector = (
       featureProjection: "EPSG:3857",
     });
 
-    if (geometry.getType() === "LineString") {
-      const point = new Feature({
-        geometry: new Point((geometry as SimpleGeometry).getFirstCoordinate()),
-        fishingFacilityIdx: i,
-        // style: fishingFacilityStyle(facility.toolType),
-      });
-      point.setStyle(fishingFacilityStyle(facility.toolType));
-      vector.addFeature(point);
-    }
-
     const feature = new Feature({
       geometry,
       fishingFacilityIdx: i,
-      // style: fishingFacilityStyle(facility.toolType),
+      toolType: facility.toolType,
     });
 
     feature.setStyle(
       fishingFacilityStyle(
         facility.toolType,
-        geometry.getType() === "LineString",
+        feature.getGeometry(),
+        facility.toolId === selectedFacility?.toolId,
       ),
     );
+
     vector.addFeature(feature);
   }
 

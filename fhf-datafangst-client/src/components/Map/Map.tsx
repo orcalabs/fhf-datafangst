@@ -5,7 +5,9 @@ import { Box, Popover, PopoverPosition } from "@mui/material";
 import { Types } from "ol/MapBrowserEventType";
 import {
   initializeMap,
+  selectFishingFacilities,
   selectFishmapState,
+  setSelectedFishingFacility,
   setSelectedHaul,
   setSelectedTripHaul,
   store,
@@ -26,7 +28,7 @@ import {
 import { FishingFacilityPopover } from "./FishingFacilityPopover";
 import { pointerMove } from "ol/events/condition";
 import Select from "ol/interaction/Select";
-import { tripHaulStyle } from "utils";
+import { fishingFacilityStyle, tripHaulStyle } from "utils";
 
 interface Props {
   children: React.ReactNode;
@@ -47,6 +49,7 @@ export const Map: FC<Props> = (props) => {
     useState<number>();
   const [hoveredHaul, setHoveredHaul] = useState<Haul>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
+  const fishingFacilities = useAppSelector(selectFishingFacilities);
 
   const handleClosePopover = () => {
     setAnchorPos(undefined);
@@ -107,6 +110,35 @@ export const Map: FC<Props> = (props) => {
       },
     });
 
+    // Interaction for handling hover effect on Gears
+    const gearHoverInteraction = new Select({
+      condition: pointerMove,
+      filter: (feature) => {
+        // Ignore hover effect on selected hauls
+        const feat = pixelFeature(feature);
+        const gear = feat?.get("fishingFacilityIdx");
+        const gears = store.getState().fishingFacilities;
+        if (
+          gear !== undefined &&
+          gears &&
+          gears[gear].toolId !==
+            store.getState().selectedFishingFacility?.toolId
+        ) {
+          return true;
+        }
+        return false;
+      },
+      style: (feature) => {
+        const feat = pixelFeature(feature);
+        const toolType = feat?.get("toolType");
+
+        const geometry = feat?.getGeometry();
+
+        feat?.set("hovered", true, true);
+        return fishingFacilityStyle(toolType, geometry, true);
+      },
+    });
+
     // Listener for applying correct icon size from zoom level when deselecting a Haul.
     hoverInteraction.on("select", (e) => {
       const zoom = store.getState().map.getView().getZoom();
@@ -117,6 +149,7 @@ export const Map: FC<Props> = (props) => {
     });
 
     map.addInteraction(hoverInteraction);
+    map.addInteraction(gearHoverInteraction);
 
     dispatch(initializeMap(map));
   }, [dispatch, mapState.centerCoordinate, mapState.zoom, mapState.zoomFactor]);
@@ -135,6 +168,7 @@ export const Map: FC<Props> = (props) => {
           const grid = feature.get("lokref");
           const haulIdx = feature.get("haulIdx");
           const haul = feature.get("haul");
+          const gearIdx = feature.get("fishingFacilityIdx");
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
@@ -147,6 +181,16 @@ export const Map: FC<Props> = (props) => {
               return;
             }
             dispatch(setSelectedTripHaul(haul));
+          } else if (gearIdx !== undefined) {
+            if (
+              fishingFacilities &&
+              fishingFacilities[gearIdx].toolId ===
+                store.getState().selectedFishingFacility?.toolId
+            ) {
+              dispatch(setSelectedFishingFacility(undefined));
+              return;
+            }
+            dispatch(setSelectedFishingFacility(gearIdx));
           }
         } else {
           // dispatch(resetState());
