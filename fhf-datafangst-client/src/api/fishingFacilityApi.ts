@@ -22,7 +22,7 @@ export interface FishingFacilitiesArgs {
 }
 
 const api = new V1fishingFacilityApi(
-  localConfiguration,
+  apiConfiguration,
   undefined,
   axiosInstance,
 );
