@@ -29,20 +29,23 @@ const api = new V1fishingFacilityApi(
 
 export const getFishingFacilities = async (query?: FishingFacilitiesArgs) =>
   apiGet(async () =>
-    api.fishingFacilities({
-      active: query?.active,
-      mmsis: query?.mmsis?.join(","),
-      fiskeridirVesselIds: query?.vessels
-        ?.map((v) => v.fiskeridir.id)
-        .join(","),
-      toolTypes: query?.toolTypes?.join(","),
-      setupRanges: createRangeString(query?.setupRanges),
-      removedRanges: createRangeString(query?.removedRanges),
-      limit: query?.limit ?? 10,
-      offset: query?.offset ?? 0,
-      ordering: query?.ordering ?? Ordering.Desc,
-      sorting: query?.sorting ?? FishingFacilitiesSorting.Setup,
-    }),
+    api.fishingFacilities(
+      {
+        active: query?.active,
+        mmsis: query?.mmsis?.join(","),
+        fiskeridirVesselIds: query?.vessels
+          ?.map((v) => v.fiskeridir.id)
+          .join(","),
+        toolTypes: query?.toolTypes?.join(","),
+        setupRanges: createRangeString(query?.setupRanges),
+        removedRanges: createRangeString(query?.removedRanges),
+        limit: query?.limit ?? 10,
+        offset: query?.offset ?? 0,
+        ordering: query?.ordering ?? Ordering.Desc,
+        sorting: query?.sorting ?? FishingFacilitiesSorting.Setup,
+      },
+      { headers: { "bw-token": query?.accessToken } },
+    ),
   );
 
 export const createRangeString = (
