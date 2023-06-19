@@ -39,8 +39,10 @@ export const haulBuilder = (
         : action.payload;
     })
     .addCase(removeHauls, (state, action) => {
-      state.hauls = state.hauls?.filter(
-        (h) => !action.payload.includes(h.catchLocationStart!),
+      state.hauls = state.hauls?.filter((h) =>
+        h.catchLocations
+          ? h.catchLocations.some((c) => state.selectedGridsString.includes(c))
+          : !action.payload.includes(h.catchLocationStart!),
       );
     })
     .addCase(getHaulsMatrix.pending, (state, _) => {
