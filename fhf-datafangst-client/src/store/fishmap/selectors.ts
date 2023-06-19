@@ -34,7 +34,8 @@ export const selectShowGrid = createSelector(
   (state) =>
     state.haulsMatrix &&
     state.viewMode === ViewMode.Grid &&
-    !(state.selectedTrip ?? state.trips?.length) &&
+    !state.selectedTrip &&
+    state.trips === undefined &&
     state.fishingFacilities === undefined &&
     !state.fishingFacilitiesLoading &&
     !state.tripsLoading,
