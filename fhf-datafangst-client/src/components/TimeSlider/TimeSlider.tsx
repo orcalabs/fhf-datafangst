@@ -54,13 +54,6 @@ export const TimeSlider: FC = () => {
     } else {
       dispatch(setCurrentDateSliderFrame(undefined));
     }
-
-    // Reads the previous value before previous set, hence the wrongful logic of if-statement.
-    // if (open) {
-    //   scale.style.bottom = "10px";
-    // }
-
-    // Insert first matrix call here
   };
 
   const createMarks = () => {
