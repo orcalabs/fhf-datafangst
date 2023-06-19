@@ -12,6 +12,7 @@ import { getAllYearsArray } from "components/Filters/YearsFilter";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { HaulsFilter } from "api";
 import { useDispatch } from "react-redux";
+import { isFuture } from "date-fns";
 
 const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -24,14 +25,25 @@ export const TimeSlider: FC = () => {
     const years = haulsSearch?.years?.length
       ? haulsSearch?.years
       : getAllYearsArray();
+
     const months = haulsSearch?.months?.length
       ? haulsSearch?.months
       : allMonths;
 
-    return years
+    const res = years
       .map((y) => months.map((m) => new Date(y, m - 1, 1)))
       .flat()
       .sort((a, b) => a.getTime() - b.getTime());
+
+    // Remove future months (happens when current year is selected)
+    for (let i = 0; i < res.length; i++) {
+      if (isFuture(res[i])) {
+        res.splice(i, res.length - 1);
+        break;
+      }
+    }
+
+    return res;
   }, [haulsSearch?.years, haulsSearch?.months]);
 
   useEffect(() => {
