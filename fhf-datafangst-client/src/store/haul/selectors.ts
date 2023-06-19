@@ -14,7 +14,8 @@ export const selectShowTimeSlider = createSelector(
   (state) =>
     (!!state.haulsMatrix || state.haulsMatrixLoading) &&
     state.viewMode === ViewMode.Grid &&
-    !(state.selectedTrip ?? state.trips?.length) &&
+    !state.selectedTrip &&
+    state.trips === undefined &&
     !state.selectedGrids.length &&
     state.fishingFacilities === undefined &&
     !state.fishingFacilitiesLoading &&
