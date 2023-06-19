@@ -84,9 +84,9 @@ export const MyPage: FC = () => {
     } else if (expandedTab === MenuTab.Gears && vessel) {
       dispatch(
         setFishingFacilitiesSearch({
+          active: true,
           ...fishingFacilitiesSearch,
           vessels: [vessel],
-          active: true,
         }),
       );
     }
