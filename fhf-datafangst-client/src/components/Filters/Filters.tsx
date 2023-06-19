@@ -32,14 +32,6 @@ export const Filters: FC<Props> = (props) => {
   const onFilterHover = (filter: HaulsFilter) =>
     dispatch(setHoveredFilter(filter));
 
-  if (matrixLoading) {
-    return (
-      <Box sx={{ height: "100%", pt: 2, pl: 2.5 }}>
-        <LocalLoadingProgress />
-      </Box>
-    );
-  }
-
   return (
     <>
       <Box
@@ -77,51 +69,64 @@ export const Filters: FC<Props> = (props) => {
           </Box>
         </Box>
       </Box>
-      <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
-        <GearFilter
-          value={haulsSearch?.gearGroupIds}
-          onChange={(value) =>
-            dispatch(
-              setHaulsMatrixSearch({ ...haulsSearch, gearGroupIds: value }),
-            )
-          }
-          removeIfSingleEntry={removeSingleEntryFilters}
-        />
-      </Box>
-      <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
-        <SpeciesFilter
-          value={haulsSearch?.speciesGroupIds}
-          onChange={(value) =>
-            dispatch(
-              setHaulsMatrixSearch({ ...haulsSearch, speciesGroupIds: value }),
-            )
-          }
-        />
-      </Box>
-      <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
-        <LengthGroupFilter
-          value={haulsSearch?.vesselLengthRanges}
-          onChange={(value) =>
-            dispatch(
-              setHaulsMatrixSearch({
-                ...haulsSearch,
-                vesselLengthRanges: value,
-              }),
-            )
-          }
-          removeIfSingleEntry={removeSingleEntryFilters}
-        />
-      </Box>
-      {!selectedVessel && (
-        <Box onMouseEnter={() => onFilterHover(HaulsFilter.Vessel)}>
-          <VesselFilter
-            value={haulsSearch?.vessels}
-            onChange={(value) =>
-              dispatch(setHaulsMatrixSearch({ ...haulsSearch, vessels: value }))
-            }
-            useVirtualization
-          />
+      {matrixLoading ? (
+        <Box sx={{ height: "50%", py: 5, pl: 2.5 }}>
+          <LocalLoadingProgress />
         </Box>
+      ) : (
+        <>
+          <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
+            <GearFilter
+              value={haulsSearch?.gearGroupIds}
+              onChange={(value) =>
+                dispatch(
+                  setHaulsMatrixSearch({ ...haulsSearch, gearGroupIds: value }),
+                )
+              }
+              removeIfSingleEntry={removeSingleEntryFilters}
+            />
+          </Box>
+          <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
+            <SpeciesFilter
+              value={haulsSearch?.speciesGroupIds}
+              onChange={(value) =>
+                dispatch(
+                  setHaulsMatrixSearch({
+                    ...haulsSearch,
+                    speciesGroupIds: value,
+                  }),
+                )
+              }
+            />
+          </Box>
+          <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
+            <LengthGroupFilter
+              value={haulsSearch?.vesselLengthRanges}
+              onChange={(value) =>
+                dispatch(
+                  setHaulsMatrixSearch({
+                    ...haulsSearch,
+                    vesselLengthRanges: value,
+                  }),
+                )
+              }
+              removeIfSingleEntry={removeSingleEntryFilters}
+            />
+          </Box>
+          {!selectedVessel && (
+            <Box onMouseEnter={() => onFilterHover(HaulsFilter.Vessel)}>
+              <VesselFilter
+                value={haulsSearch?.vessels}
+                onChange={(value) =>
+                  dispatch(
+                    setHaulsMatrixSearch({ ...haulsSearch, vessels: value }),
+                  )
+                }
+                useVirtualization
+              />
+            </Box>
+          )}
+        </>
       )}
     </>
   );
