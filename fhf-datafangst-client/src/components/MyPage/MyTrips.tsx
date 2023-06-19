@@ -57,7 +57,7 @@ export const MyTrips: FC = () => {
           <LocalLoadingProgress />
         </Box>
       ) : !trips?.length ? (
-        <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
+        <Box sx={{ py: 1, pl: 2.5 }}>Ingen resultater</Box>
       ) : (
         <>
           {trips?.map((t) => (
