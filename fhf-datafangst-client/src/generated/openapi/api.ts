@@ -749,6 +749,12 @@ export interface Haul {
     'catchLocationStart'?: string | null;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof Haul
+     */
+    'catchLocations'?: Array<string> | null;
+    /**
+     * 
      * @type {Array<HaulCatch>}
      * @memberof Haul
      */
