@@ -8,6 +8,7 @@ import {
 import { AppState } from "store/state";
 import { FishingFacilitiesArgs } from "api";
 import { FishingFacility } from "generated/openapi";
+import { emptyState } from "store";
 
 export const fishingFacilityBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -32,9 +33,15 @@ export const fishingFacilityBuilder = (
       state.selectedFishingFacility = gear;
     })
     .addCase(setFishingFacilitiesSearch, (state, action) => {
-      state.fishingFacilitiesSearch = action.payload;
-      state.fishingFacilitiesSearch.accessToken = state.user?.access_token;
+      const newSearch = action.payload;
+      newSearch.accessToken = state.user?.access_token;
       (action as any).asyncDispatch(getFishingFacilities(action.payload));
+
+      return {
+        ...state,
+        ...emptyState,
+        fishingFacilitiesSearch: newSearch,
+      };
     })
     .addCase(paginateFishingFacilitiesSearch, (state, action) => {
       state.fishingFacilitiesSearch!.offset = action.payload.offset;

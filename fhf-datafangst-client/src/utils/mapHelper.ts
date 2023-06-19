@@ -239,13 +239,14 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
 };
 
 export const generateFishingFacilitiesVector = (
-  facilities: FishingFacility[],
+  facilities?: FishingFacility[],
   selectedFacility?: FishingFacility,
 ) => {
-  if (!facilities?.length) {
-    return;
-  }
   const vector = new VectorSource();
+
+  if (!facilities?.length) {
+    return vector;
+  }
   const wkt = new WKT();
 
   for (let i = 0; i < facilities.length; i++) {

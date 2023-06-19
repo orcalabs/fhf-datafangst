@@ -21,9 +21,12 @@ import { fishingFacilityBuilder } from "./fishingFacility";
 
 export const emptyState = {
   ais: undefined,
+  fishingFacilities: undefined,
+  hauls: undefined,
   haulsMatrix2: undefined,
   haulsSearch: undefined,
   selectedHaul: undefined,
+  selectedFishingFacility: undefined,
   selectedGrids: [],
   selectedGridsString: [],
   selectedTrip: undefined,
@@ -38,6 +41,7 @@ const emptyTrackState = {
 };
 
 export const emptyViewState = {
+  fishingFacilities: undefined,
   haulsMatrix: undefined,
   haulsMatrix2: undefined,
   haulsMatrixSearch: undefined,

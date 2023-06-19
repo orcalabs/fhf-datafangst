@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { LocalLoadingProgress, PaginationButtons } from "components";
 import { FishingFacility } from "generated/openapi";
-import { FC, useState } from "react";
+import { FC } from "react";
 import {
   paginateFishingFacilitiesSearch,
   selectFishingFacilities,
@@ -45,7 +45,6 @@ export const MyGears: FC = () => {
   const gears = useAppSelector(selectFishingFacilities);
   const gearsSearch = useAppSelector(selectFishingFacilitySearch);
   const selectedGearId = useAppSelector(selectSelectedFishingFacility)?.toolId;
-  const [showHistoric, setShowHistoric] = useState<boolean>(false);
 
   const offset = gearsSearch?.offset ?? 0;
   const limit = gearsSearch?.limit ?? 10;
@@ -60,8 +59,6 @@ export const MyGears: FC = () => {
   };
 
   const handleGearsViewChange = (checked: boolean) => {
-    setShowHistoric(checked);
-
     if (checked) {
       dispatch(
         setFishingFacilitiesSearch({ ...gearsSearch, active: undefined }),
@@ -91,7 +88,7 @@ export const MyGears: FC = () => {
                 icon={<CheckBoxOutlineBlankSharpIcon />}
                 checkedIcon={<CheckBoxSharpIcon />}
                 size="small"
-                checked={showHistoric}
+                checked={!gearsSearch?.active}
                 onChange={(event) =>
                   handleGearsViewChange(event.target.checked)
                 }

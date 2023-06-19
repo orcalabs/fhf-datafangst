@@ -15,13 +15,11 @@ export const FishingFacilitiesLayer = () => {
   const [vector, setVector] = useState<VectorSource<Geometry>>();
 
   useEffect(() => {
-    if (fishingFacilities) {
-      const vector = generateFishingFacilitiesVector(
-        fishingFacilities,
-        selectedFishingFacility,
-      );
-      setVector(vector);
-    }
+    const vector = generateFishingFacilitiesVector(
+      fishingFacilities,
+      selectedFishingFacility,
+    );
+    setVector(vector);
   }, [fishingFacilities, selectedFishingFacility]);
 
   return <VectorLayer source={vector} zIndex={2} />;
