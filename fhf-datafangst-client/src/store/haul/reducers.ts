@@ -35,7 +35,11 @@ export const haulBuilder = (
     })
     .addCase(addHauls.fulfilled, (state, action) => {
       state.hauls = state.hauls
-        ? state.hauls.concat(action.payload)
+        ? state.hauls.concat(
+            action.payload.filter(
+              (haul) => !state.hauls?.some((h) => h.haulId === haul.haulId),
+            ),
+          )
         : action.payload;
     })
     .addCase(removeHauls, (state, action) => {
