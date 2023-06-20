@@ -42,6 +42,7 @@ const emptyTrackState = {
 
 export const emptyViewState = {
   fishingFacilities: undefined,
+  hauls: undefined,
   haulsMatrix: undefined,
   haulsMatrix2: undefined,
   haulsMatrixSearch: undefined,
@@ -52,6 +53,7 @@ export const emptyViewState = {
   selectedTripHaul: undefined,
   track: undefined,
   trips: undefined,
+  vms: undefined,
 };
 
 class AppActionReducerMapBuilder<State> {
