@@ -43,6 +43,9 @@ export const VesselFilter: FC<Props> = (props) => {
               borderRadius: 0,
             },
           },
+          "& .MuiAutocomplete-inputRoot": { color: "white" },
+          "& .MuiInputBase-root": { pb: "6px" },
+          "& .MuiIconButton-root": { color: "text.secondary" },
         }}
         size="small"
         multiple
@@ -61,7 +64,13 @@ export const VesselFilter: FC<Props> = (props) => {
         getOptionLabel={(option: Vessel) =>
           toTitleCase(option?.fiskeridir?.name ?? "Ukjent")
         }
-        renderInput={(params: any) => <TextField {...params} />}
+        renderInput={(params: any) => (
+          <TextField
+            {...params}
+            variant="standard"
+            placeholder={value ? "" : "Søk etter fartøy"}
+          />
+        )}
         renderOption={(props: any, option: Vessel) => (
           <li
             {...props}

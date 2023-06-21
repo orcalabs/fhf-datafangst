@@ -30,20 +30,27 @@ export const YearsFilter: FC<Props> = (props) => {
         År
       </Typography>
       <Autocomplete
+        sx={{
+          "& .MuiAutocomplete-inputRoot": { color: "text.secondary" },
+          "& .MuiInputBase-root": { pb: "6px" },
+          "& .MuiIconButton-root": { color: "text.secondary" },
+        }}
         multiple
         disableCloseOnSelect
+        componentsProps={{ popper: { placement: "right-start" } }}
         ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
         PopperComponent={StyledPopper}
         limitTags={3}
-        disablePortal
         disableListWrap
         onKeyDown={(e) => e.stopPropagation()}
         value={values ?? []}
         onChange={(_, value) => onChange(value?.length ? value : undefined)}
         options={getAllYearsArray()}
         getOptionLabel={(option: number) => option.toString()}
-        renderInput={(params: any) => <TextField {...params} />}
+        renderInput={(params: any) => (
+          <TextField {...params} variant="standard" />
+        )}
         renderOption={(props, option, { selected }) => (
           <li {...props} style={{ paddingLeft: 6, paddingRight: 6 }}>
             <Checkbox

@@ -171,6 +171,34 @@ const theme = createTheme(
           },
         },
       },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "rgba(128, 136, 140, 1)",
+            "--TextField-brandBorderHoverColor": "#4F9D95",
+            "--TextField-brandBorderFocusedColor": "#6FB7AF",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "1px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "1px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "1px solid var(--TextField-brandBorderFocusedColor)",
+            },
+          },
+        },
+      },
     },
   },
   nbNO,
