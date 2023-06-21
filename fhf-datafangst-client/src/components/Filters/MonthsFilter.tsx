@@ -25,8 +25,14 @@ export const MonthsFilter: FC<Props> = (props) => {
         Måned
       </Typography>
       <Autocomplete
+        sx={{
+          "& .MuiAutocomplete-inputRoot": { color: "text.secondary" },
+          "& .MuiInputBase-root": { pb: "6px" },
+          "& .MuiIconButton-root": { color: "text.secondary" },
+        }}
         multiple
         disableCloseOnSelect
+        componentsProps={{ popper: { placement: "right-start" } }}
         ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
         PopperComponent={StyledPopper}
@@ -37,7 +43,9 @@ export const MonthsFilter: FC<Props> = (props) => {
         onChange={(_, value) => onChange(value?.length ? value : undefined)}
         options={Array.from({ length: 12 }, (_, i) => i + 1)}
         getOptionLabel={(option: number) => Months[option]}
-        renderInput={(params: any) => <TextField {...params} />}
+        renderInput={(params: any) => (
+          <TextField {...params} variant="standard" />
+        )}
         renderOption={(props, option, { selected }) => (
           <li {...props} style={{ paddingLeft: 6, paddingRight: 6 }}>
             <Checkbox
