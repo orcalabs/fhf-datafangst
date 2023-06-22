@@ -7,6 +7,7 @@ import {
   initializeMap,
   selectFishingFacilities,
   selectFishmapState,
+  selectSelectedTrip,
   setSelectedFishingFacility,
   setSelectedHaul,
   setSelectedTripHaul,
@@ -50,6 +51,7 @@ export const Map: FC<Props> = (props) => {
   const [hoveredHaul, setHoveredHaul] = useState<Haul>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
   const fishingFacilities = useAppSelector(selectFishingFacilities);
+  const selectedTrip = useAppSelector(selectSelectedTrip);
 
   const handleClosePopover = () => {
     setAnchorPos(undefined);
@@ -230,7 +232,9 @@ export const Map: FC<Props> = (props) => {
           setHoveredHaulIdx(haulIdx);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (fishingFacilityIdx !== undefined) {
-          mapState.map.getTargetElement().style.cursor = "pointer";
+          if (!selectedTrip) {
+            mapState.map.getTargetElement().style.cursor = "pointer";
+          }
           setHoveredFishingFacilityIdx(fishingFacilityIdx);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (haul !== undefined) {

@@ -1,8 +1,12 @@
 import { FC } from "react";
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { dateFormat, toTitleCase } from "utils";
+import { dateFormat } from "utils";
 import theme from "app/theme";
-import { selectFishingFacility, useAppSelector } from "store";
+import {
+  selectFishingFacility,
+  selectSelectedTrip,
+  useAppSelector,
+} from "store";
 import PhishingSharp from "@mui/icons-material/PhishingSharp";
 import { FishingFacilityToolTypes } from "models";
 
@@ -11,7 +15,13 @@ interface Props {
 }
 
 export const FishingFacilityPopover: FC<Props> = ({ fishingFacilityIdx }) => {
-  const facility = useAppSelector(selectFishingFacility(fishingFacilityIdx));
+  let facility = useAppSelector(selectFishingFacility(fishingFacilityIdx));
+  const trip = useAppSelector(selectSelectedTrip);
+
+  // Fishing facility may be part of Trip instead of in state.
+  if (trip && !facility) {
+    facility = trip.fishingFacilities[fishingFacilityIdx];
+  }
 
   if (!facility) {
     return <></>;
@@ -30,7 +40,8 @@ export const FishingFacilityPopover: FC<Props> = ({ fishingFacilityIdx }) => {
           </ListItemIcon>
           <ListItemText
             primary={
-              facility.vesselName ? toTitleCase(facility.vesselName) : "Ukjent"
+              FishingFacilityToolTypes[facility.toolType] +
+              (facility.toolCount ? ` (${facility.toolCount})` : "")
             }
             secondary={
               <span>
@@ -38,9 +49,6 @@ export const FishingFacilityPopover: FC<Props> = ({ fishingFacilityIdx }) => {
                   (facility.removedTimestamp
                     ? ` - ${dateFormat(facility.removedTimestamp, "d MMM YYY")}`
                     : "")}
-                <br />
-                {FishingFacilityToolTypes[facility.toolType] +
-                  (facility.toolCount ? ` (${facility.toolCount})` : "")}
                 <br />
                 {facility.comment}
               </span>
