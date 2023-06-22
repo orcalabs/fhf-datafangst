@@ -44,7 +44,7 @@ export const Map: FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const mapState = useAppSelector(selectFishmapState);
   const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
-  const [hoveredShoreline, setHoveredShoreline] = useState<boolean>(false);
+  const [hoveredShoreline, setHoveredShoreline] = useState<string>();
   const [hoveredHaulIdx, setHoveredHaulIdx] = useState<number>();
   const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
     useState<number>();
@@ -61,7 +61,7 @@ export const Map: FC<Props> = (props) => {
 
   const resetHover = () => {
     setHoveredPosition(undefined);
-    setHoveredShoreline(false);
+    setHoveredShoreline(undefined);
     setHoveredHaulIdx(undefined);
     setHoveredFishingFacilityIdx(undefined);
     setHoveredHaul(undefined);
@@ -216,7 +216,7 @@ export const Map: FC<Props> = (props) => {
 
       if (feature) {
         const aisPosition = feature.get("aisPosition");
-        const shoreLine = feature.getGeometryName();
+        const shoreLine = feature.getProperties();
         const haulIdx = feature.get("haulIdx");
         const fishingFacilityIdx = feature.get("fishingFacilityIdx");
         const haul = feature.get("haul");
@@ -224,8 +224,11 @@ export const Map: FC<Props> = (props) => {
         if (aisPosition) {
           setHoveredPosition(aisPosition);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
-        } else if (shoreLine === "shoreline") {
-          setHoveredShoreline(true);
+        } else if (
+          shoreLine.navn === "12 nautiske mil" ||
+          shoreLine.navn === "4 nautiske mil"
+        ) {
+          setHoveredShoreline(shoreLine.navn);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (haulIdx !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
@@ -266,7 +269,7 @@ export const Map: FC<Props> = (props) => {
         {hoveredPosition && (
           <PositionPopover hoveredPosition={hoveredPosition} />
         )}
-        {hoveredShoreline && <ShorelinePopover />}
+        {hoveredShoreline && <ShorelinePopover name={hoveredShoreline} />}
         {hoveredHaulIdx !== undefined && (
           <HaulPopover haulIdx={hoveredHaulIdx} />
         )}

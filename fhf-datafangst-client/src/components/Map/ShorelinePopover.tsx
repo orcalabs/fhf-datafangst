@@ -2,7 +2,11 @@ import { FC } from "react";
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 
-export const ShorelinePopover: FC = () => {
+interface Props {
+  name: string;
+}
+
+export const ShorelinePopover: FC<Props> = ({ name }) => {
   return (
     <Box sx={{ px: 1 }}>
       <List dense disablePadding>
@@ -12,7 +16,7 @@ export const ShorelinePopover: FC = () => {
           </ListItemIcon>
           <ListItemText
             primary={"Fartsområde kystfiske"}
-            secondary={"12 nautiske mil"}
+            secondary={name}
             secondaryTypographyProps={{ color: "primary" }}
           />
         </ListItem>
