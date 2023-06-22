@@ -62,7 +62,10 @@ export const tripBuilder = (
       }
     })
     .addCase(setTripsSearch, (state, action) => {
-      if (action.payload) {
+      const newSearch = action.payload;
+
+      if (newSearch) {
+        newSearch.accessToken = state.user?.access_token;
         (action as any).asyncDispatch(getTrips(action.payload));
       }
 
