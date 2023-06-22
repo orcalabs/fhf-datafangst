@@ -175,19 +175,15 @@ export const fishingFacilityStyle = (
       new Style({
         stroke: new Stroke({
           color,
-          width: selected ? 2 : 1,
+          width: selected ? 3 : 2,
         }),
       }),
       new Style({
         geometry: new Point(geo.getFirstCoordinate()),
         image: new Circle({
-          radius: selected ? 3 : 2,
+          radius: selected ? 3.5 : 2.5,
           fill: new Fill({
             color,
-          }),
-          stroke: new Stroke({
-            color: "#ffffff",
-            width: selected ? 1 : 0.5,
           }),
         }),
       }),
@@ -196,13 +192,9 @@ export const fishingFacilityStyle = (
   } else {
     return new Style({
       image: new Circle({
-        radius: selected ? 3 : 2,
+        radius: selected ? 3.5 : 2.5,
         fill: new Fill({
           color,
-        }),
-        stroke: new Stroke({
-          color: "#ffffff",
-          width: selected ? 1 : 0.5,
         }),
       }),
     });
