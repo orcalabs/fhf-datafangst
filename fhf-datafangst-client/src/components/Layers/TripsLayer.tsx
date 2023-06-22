@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { VectorLayer } from "components";
 import {
+  generateFishingFacilitiesVector,
   generateTripHaulsVector,
   generateVesselTrackVector,
   trackForHaul,
@@ -14,7 +15,7 @@ import {
   useAppSelector,
 } from "store";
 import VectorSource from "ol/source/Vector";
-import { Point } from "ol/geom";
+import { Geometry, Point } from "ol/geom";
 
 export const TripsLayer: FC = () => {
   const track = useAppSelector(selectTrack);
@@ -29,6 +30,8 @@ export const TripsLayer: FC = () => {
   const [haulsVector, setHaulsVector] = useState<VectorSource<Point>>();
   const [selectedHaulTrackVector, setSelectedHaulTrackVector] =
     useState<TravelVector[]>();
+  const [fishingFacilityVector, setFishingFacilityVector] =
+    useState<VectorSource<Geometry>>();
 
   // Store map zoom level in state
   useEffect(() => {
@@ -44,9 +47,13 @@ export const TripsLayer: FC = () => {
     if (trip) {
       const vec = generateVesselTrackVector(track, zoom, undefined, true);
       const haulsVec = generateTripHaulsVector(trip, zoom, selectedTripHaul);
+      const fishingFacilityVec = generateFishingFacilitiesVector(
+        trip.fishingFacilities,
+      );
 
       setTrackVectors(vec);
       setHaulsVector(haulsVec);
+      setFishingFacilityVector(fishingFacilityVec);
     }
   }, [track, zoom, trip, selectedTripHaul]);
 
@@ -72,6 +79,7 @@ export const TripsLayer: FC = () => {
         <VectorLayer key={i} source={v.vector} zIndex={7} style={v.style} />
       ))}
       <VectorLayer source={haulsVector} zIndex={8} />
+      <VectorLayer source={fishingFacilityVector} zIndex={5} />
     </>
   );
 };
