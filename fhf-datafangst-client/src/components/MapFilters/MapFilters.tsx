@@ -3,6 +3,7 @@ import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
 import { MapFilter } from "containers/HomeView/HomeView";
 import LayersIcon from "@mui/icons-material/Layers";
 import { CoastlineIcon } from "assets/icons";
+import MapSharpIcon from "@mui/icons-material/MapSharp";
 
 interface Props {
   mapFilter: MapFilter;
@@ -63,6 +64,13 @@ export const MapFilters: FC<Props> = (props) => {
           onClick={() => handleChange("coastline")}
           icon={<CoastlineIcon />}
           tooltipTitle={"Vis kystlinje"}
+          tooltipPlacement="left"
+        />
+        <SpeedDialAction
+          sx={mapFilter.seamap ? activeStyle : {}}
+          onClick={() => handleChange("seamap")}
+          icon={<MapSharpIcon />}
+          tooltipTitle={"Vis sjøkart"}
           tooltipPlacement="left"
         />
       </SpeedDial>

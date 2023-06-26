@@ -18,6 +18,7 @@ import {
   TripsLayer,
   MapAttributions,
   TimeSlider,
+  SeamapLayer,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
@@ -40,14 +41,13 @@ import {
 
 export interface MapFilter {
   coastline: boolean;
-  fishingLocations: boolean;
+  seamap: boolean;
   [key: string]: boolean;
 }
 
 const initialMapFilter: MapFilter = {
   coastline: false,
-  fishingLocations: false,
-  hauls: false,
+  seamap: false,
 };
 
 const GridContainer = (props: any) => (
@@ -253,6 +253,7 @@ export const HomeView: FC = () => {
         {showGrid && <LocationsGrid />}
         {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
+        {mapFilter.seamap && <SeamapLayer />}
         {viewMode !== ViewMode.Heatmap && <HaulsLayer />}
         {!selectedTrip && <TrackLayer />}
         {selectedTrip && <TripsLayer />}
