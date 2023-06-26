@@ -59,7 +59,9 @@ export const DetailedHaulPopover: FC<Props> = ({ haul }) => {
 
             {item(
               CalendarMonthSharpIcon,
-              dateFormat(haul.startTimestamp, "PPP HH:mm"),
+              dateFormat(haul.startTimestamp, "d. MMM HH:mm") +
+                " - " +
+                dateFormat(haul.stopTimestamp, "d. MMM HH:mm yyyy"),
             )}
             {item(TimerSharpIcon, createHaulDurationString(haul))}
             {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
