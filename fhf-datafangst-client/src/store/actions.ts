@@ -5,9 +5,9 @@ import { User } from "oidc-react";
 
 export const setError = createAction<boolean>("base/setError");
 
-export const getUserProfile = createAsyncThunk(
-  "base/getUserProfile",
-  Api.getUserProfile,
+export const getBwProfile = createAsyncThunk(
+  "base/getBwProfile",
+  Api.getBwProfile,
 );
 
 export const resetState = createAction("base/resetState");

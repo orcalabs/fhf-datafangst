@@ -65,7 +65,7 @@ export const tripBuilder = (
       const newSearch = action.payload;
 
       if (newSearch) {
-        newSearch.accessToken = state.user?.access_token;
+        newSearch.accessToken = state.authUser?.access_token;
         (action as any).asyncDispatch(getTrips(action.payload));
       }
 

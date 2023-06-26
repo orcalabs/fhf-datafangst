@@ -34,7 +34,7 @@ export const fishingFacilityBuilder = (
     })
     .addCase(setFishingFacilitiesSearch, (state, action) => {
       const newSearch = action.payload;
-      newSearch.accessToken = state.user?.access_token;
+      newSearch.accessToken = state.authUser?.access_token;
       (action as any).asyncDispatch(getFishingFacilities(action.payload));
 
       return {

@@ -2,7 +2,7 @@ import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
 import { AppState, initialAppState } from "./state";
 import {
   checkLoggedIn,
-  getUserProfile,
+  getBwProfile,
   resetState,
   resetTrackState,
   setError,
@@ -18,6 +18,7 @@ import { aisBuilder } from "./ais";
 import { vmsBuilder } from "./vms";
 import { trackBuilder } from "./track";
 import { fishingFacilityBuilder } from "./fishingFacility";
+import { getUser, userBuilder } from "./user";
 
 export const emptyState = {
   ais: undefined,
@@ -93,7 +94,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         viewState,
       };
     })
-    .addCase(getUserProfile.fulfilled, (state, action) => {
+    .addCase(getBwProfile.fulfilled, (state, action) => {
       state.bwProfile = action.payload;
 
       // Hijack Skomværfisk as a vessel for testing purposes.
@@ -116,10 +117,11 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       const token = user.access_token;
 
       state.isLoggedIn = token !== undefined;
-      state.user = user;
+      state.authUser = user;
 
       if (token) {
-        (action as any).asyncDispatch(getUserProfile(token));
+        (action as any).asyncDispatch(getBwProfile(token));
+        (action as any).asyncDispatch(getUser(token));
       }
     })
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
@@ -138,5 +140,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(vmsBuilder)
     .extendBuilder(trackBuilder)
     .extendBuilder(fishingFacilityBuilder)
+    .extendBuilder(userBuilder)
     .finish(),
 );
