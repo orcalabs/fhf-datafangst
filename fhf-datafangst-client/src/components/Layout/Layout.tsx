@@ -5,6 +5,7 @@ import {
   getGear,
   getGearGroups,
   getGearMainGroups,
+  getSeamapCapabilities,
   getSpecies,
   getSpeciesFao,
   getSpeciesFiskeridir,
@@ -39,6 +40,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
     dispatch(getSpeciesFiskeridir());
     dispatch(getSpeciesGroups());
     dispatch(getSpeciesMainGroups());
+    dispatch(getSeamapCapabilities());
     // dispatch(setFishingFacilitiesSearch({}));
   }, [dispatch]);
 
