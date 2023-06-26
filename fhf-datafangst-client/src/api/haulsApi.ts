@@ -3,6 +3,8 @@ import { setMonth, setYear } from "date-fns";
 import {
   ActiveHaulsFilter,
   GearGroup,
+  HaulsSorting,
+  Ordering,
   SpeciesGroup,
   V1haulApi,
   Vessel,
@@ -26,6 +28,8 @@ export interface HaulsArgs {
   speciesGroupIds?: SpeciesGroup[];
   vesselLengthRanges?: LengthGroup[];
   filter?: HaulsFilter;
+  ordering?: Ordering;
+  sorting?: HaulsSorting;
 }
 
 const createTimestampsFromYearsMonths = (
@@ -97,6 +101,8 @@ export const getHauls = async (query: HaulsArgs) =>
       vesselLengthRanges: createVesselLengthQueryString(
         query.vesselLengthRanges,
       ),
+      ordering: query?.ordering,
+      sorting: query.sorting,
     }),
   );
 
