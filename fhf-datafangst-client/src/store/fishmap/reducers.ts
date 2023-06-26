@@ -3,7 +3,12 @@ import { Style } from "ol/style";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { generateGridBoxStyle } from "utils";
-import { initializeMap, setViewMode, toggleSelectedArea } from ".";
+import {
+  getSeamapCapabilities,
+  initializeMap,
+  setViewMode,
+  toggleSelectedArea,
+} from ".";
 
 export const fishmapBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -57,4 +62,7 @@ export const fishmapBuilder = (
         selectedGrids: selected,
         selectedGridsString: selectedStrings,
       };
+    })
+    .addCase(getSeamapCapabilities.fulfilled, (state, action) => {
+      state.seamapCapabilities = action.payload;
     });
