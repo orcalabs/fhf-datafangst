@@ -40,3 +40,8 @@ export const selectShowGrid = createSelector(
     !state.fishingFacilitiesLoading &&
     !state.tripsLoading,
 );
+
+export const selectSeamapCapabilities = createSelector(
+  selectAppState,
+  (state) => state.seamapCapabilities,
+);
