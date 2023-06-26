@@ -857,6 +857,12 @@ export interface Haul {
     'stopTimestamp': string;
     /**
      * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'totalLivingWeight': number;
+    /**
+     * 
      * @type {string}
      * @memberof Haul
      */
@@ -954,6 +960,21 @@ export interface HaulsMatrix {
      */
     'speciesGroup': Array<number>;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const HaulsSorting = {
+    StartDate: 'startDate',
+    StopDate: 'stopDate',
+    Weight: 'weight'
+} as const;
+
+export type HaulsSorting = typeof HaulsSorting[keyof typeof HaulsSorting];
+
+
 /**
  * 
  * @export
@@ -2160,10 +2181,12 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {string} [speciesGroupIds] 
          * @param {string} [vesselLengthRanges] 
          * @param {string} [fiskeridirVesselIds] 
+         * @param {HaulsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        hauls: async (months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        hauls: async (months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, sorting?: HaulsSorting, ordering?: Ordering, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/hauls`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2198,6 +2221,14 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (fiskeridirVesselIds !== undefined) {
                 localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
+            }
+
+            if (sorting !== undefined) {
+                localVarQueryParameter['sorting'] = sorting;
+            }
+
+            if (ordering !== undefined) {
+                localVarQueryParameter['ordering'] = ordering;
             }
 
 
@@ -2292,11 +2323,13 @@ export const V1haulApiFp = function(configuration?: Configuration) {
          * @param {string} [speciesGroupIds] 
          * @param {string} [vesselLengthRanges] 
          * @param {string} [fiskeridirVesselIds] 
+         * @param {HaulsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async hauls(months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.hauls(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, fiskeridirVesselIds, options);
+        async hauls(months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, sorting?: HaulsSorting, ordering?: Ordering, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.hauls(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, fiskeridirVesselIds, sorting, ordering, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2332,7 +2365,7 @@ export const V1haulApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         hauls(requestParameters: V1haulApiHaulsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Haul>> {
-            return localVarFp.hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
+            return localVarFp.hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2393,6 +2426,20 @@ export interface V1haulApiHaulsRequest {
      * @memberof V1haulApiHauls
      */
     readonly fiskeridirVesselIds?: string
+
+    /**
+     * 
+     * @type {HaulsSorting}
+     * @memberof V1haulApiHauls
+     */
+    readonly sorting?: HaulsSorting
+
+    /**
+     * 
+     * @type {Ordering}
+     * @memberof V1haulApiHauls
+     */
+    readonly ordering?: Ordering
 }
 
 /**
@@ -2466,7 +2513,7 @@ export class V1haulApi extends BaseAPI {
      * @memberof V1haulApi
      */
     public hauls(requestParameters: V1haulApiHaulsRequest = {}, options?: AxiosRequestConfig) {
-        return V1haulApiFp(this.configuration).hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
+        return V1haulApiFp(this.configuration).hauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
