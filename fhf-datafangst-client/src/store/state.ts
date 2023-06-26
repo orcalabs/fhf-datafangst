@@ -13,6 +13,7 @@ import {
   FishingFacilityState,
   initialFishingFacilitiesState,
 } from "./fishingFacility";
+import { initialUserState, UserState } from "./user";
 
 export enum MenuViewState {
   Overview = "overview",
@@ -24,7 +25,7 @@ export interface BaseState {
   isLoggedIn: boolean;
   viewState: MenuViewState;
   bwProfile?: FiskInfoProfile;
-  user?: User;
+  authUser?: User;
 }
 
 const initialBaseState: BaseState = {
@@ -32,7 +33,7 @@ const initialBaseState: BaseState = {
   isLoggedIn: false,
   bwProfile: undefined,
   viewState: MenuViewState.Overview,
-  user: undefined,
+  authUser: undefined,
 };
 
 export interface AppState
@@ -46,6 +47,7 @@ export interface AppState
     VmsState,
     TrackState,
     FishingFacilityState,
+    UserState,
     SpeciesState {}
 
 export const initialAppState: AppState = {
@@ -60,4 +62,5 @@ export const initialAppState: AppState = {
   ...initialTrackState,
   ...initialFishingFacilitiesState,
   ...initialSpeciesState,
+  ...initialUserState,
 };
