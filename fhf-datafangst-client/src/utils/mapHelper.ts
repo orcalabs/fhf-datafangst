@@ -1,6 +1,6 @@
 import { Map } from "ol";
 import { WKT } from "ol/format";
-import { fromLonLat, toLonLat } from "ol/proj";
+import { fromLonLat as _fromLonLat, toLonLat } from "ol/proj";
 import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
 import {
   Circle,
@@ -31,6 +31,17 @@ import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
 import shoreline from "assets/geojson/shoreline.json";
 import CircleStyle from "ol/style/Circle";
 import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
+
+const fromLonLat = (lon: number, lat: number) => {
+  if (lat > 90) {
+    lat = 180 - lat;
+    lon += 180;
+  } else if (lat < -90) {
+    lat = -180 - lat;
+    lon += 180;
+  }
+  return _fromLonLat([lon, lat]);
+};
 
 export const shorelineVector = new VectorSource({
   features: new GeoJSON({
@@ -216,9 +227,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
     const sum = sumCatches(haul.catches);
     const color = colorScale.getColor(sum);
     const haulFeature = new Feature({
-      geometry: new Point(
-        fromLonLat([haul.startLongitude, haul.startLatitude]),
-      ),
+      geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
       haulIdx: i,
       red: color.r,
       green: color.g,
@@ -279,9 +288,7 @@ export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
     const haul = hauls[i];
 
     const haulFeature = new Feature({
-      geometry: new Point(
-        fromLonLat([haul.startLongitude, haul.startLatitude]),
-      ),
+      geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
       weight: sumCatches(haul.catches),
     });
 
@@ -504,8 +511,8 @@ export const generateVesselTrackVector = (
       style: selected ? selectedDashedLineStyle : dashedLineStyle,
     };
     const line = new LineString([
-      fromLonLat([haul.startLongitude, haul.startLatitude]),
-      fromLonLat([positions[0].lon, positions[0].lat]),
+      fromLonLat(haul.startLongitude, haul.startLatitude),
+      fromLonLat(positions[0].lon, positions[0].lat),
     ]);
 
     startLine.vector.addFeature(lineFeature(line));
@@ -526,11 +533,11 @@ export const generateVesselTrackVector = (
       style: selected ? selectedDashedLineStyle : dashedLineStyle,
     };
     const line = new LineString([
-      fromLonLat([haul.stopLongitude, haul.stopLatitude]),
-      fromLonLat([
+      fromLonLat(haul.stopLongitude, haul.stopLatitude),
+      fromLonLat(
         positions[positions.length - 1].lon,
         positions[positions.length - 1].lat,
-      ]),
+      ),
     ]);
 
     stopLine.vector.addFeature(lineFeature(line));
@@ -547,7 +554,7 @@ export const generateVesselTrackVector = (
       // create a new lineVector to visualize the missing data as a grey dashed line.
       // Subsequently, at the next vessel, we need to go back to the regular line.
       const p = new Feature({
-        geometry: new Point(fromLonLat([pos.lon, pos.lat])),
+        geometry: new Point(fromLonLat(pos.lon, pos.lat)),
         aisPosition: pos,
       });
 
@@ -560,7 +567,7 @@ export const generateVesselTrackVector = (
       );
 
       if (pos.det.missingData || flag) {
-        line.appendCoordinate(fromLonLat([pos.lon, pos.lat]));
+        line.appendCoordinate(fromLonLat(pos.lon, pos.lat));
         lineVector.vector.addFeature(lineFeature(line));
 
         lineVector = {
@@ -606,7 +613,7 @@ export const generateVesselTrackVector = (
 
       lineVector.vector.addFeature(p);
     }
-    line.appendCoordinate(fromLonLat([pos.lon, pos.lat]));
+    line.appendCoordinate(fromLonLat(pos.lon, pos.lat));
   }
   lineVector.vector.addFeature(lineFeature(line));
 
@@ -655,9 +662,7 @@ export const generateTripHaulsVector = (
     const haul = hauls[i];
     const isSelected = haul.haulId === selectedTripHaul?.haulId;
     const haulFeature = new Feature({
-      geometry: new Point(
-        fromLonLat([haul.startLongitude, haul.startLatitude]),
-      ),
+      geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
       haul,
     });
     haulFeature.setStyle(tripHaulStyle(zoomLevel, isSelected));
