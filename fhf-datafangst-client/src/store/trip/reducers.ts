@@ -2,6 +2,7 @@ import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
 import {
   getCurrentTrip,
+  getCurrentTripTrack,
   getHaulTrip,
   getTrips,
   paginateTripsSearch,
@@ -105,4 +106,19 @@ export const tripBuilder = (
     })
     .addCase(getCurrentTrip.rejected, (state, _) => {
       state.currentTripLoading = false;
+    })
+    .addCase(getCurrentTripTrack, (state, action) => {
+      const callSign = state.bwProfile?.vesselInfo.ircs;
+      const vessel = callSign ? state.vesselsByCallsign?.[callSign] : undefined;
+
+      if (state.currentTrip && vessel) {
+        (action as any).asyncDispatch(
+          getTrack({
+            mmsi: vessel.ais?.mmsi,
+            callSign: vessel.fiskeridir.callSign,
+            start: state.currentTrip.departure,
+            end: new Date().toISOString(),
+          }),
+        );
+      }
     });

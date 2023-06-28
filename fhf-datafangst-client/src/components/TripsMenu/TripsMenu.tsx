@@ -18,7 +18,12 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { selectSelectedTrip, setSelectedTrip } from "store/trip";
+import {
+  getCurrentTripTrack,
+  selectCurrentTrip,
+  selectSelectedTrip,
+  setSelectedTrip,
+} from "store/trip";
 import {
   createGearListString,
   createObjectDurationString,
@@ -53,6 +58,7 @@ const iconStyle = {
 
 export const TripsMenu: FC = () => {
   const trip = useAppSelector(selectSelectedTrip);
+  const currentTrip = useAppSelector(selectCurrentTrip);
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const dispatch = useAppDispatch();
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -120,7 +126,12 @@ export const TripsMenu: FC = () => {
               onClick={() => {
                 dispatch(setSelectedTrip(undefined));
                 dispatch(resetTrackState());
-                dispatch(getHaulTrack(selectedHaul));
+
+                if (selectedHaul) {
+                  dispatch(getHaulTrack(selectedHaul));
+                } else if (currentTrip) {
+                  dispatch(getCurrentTripTrack());
+                }
               }}
             >
               <CloseSharpIcon sx={{ color: "white" }} />

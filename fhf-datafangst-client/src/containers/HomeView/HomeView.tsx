@@ -19,6 +19,7 @@ import {
   MapAttributions,
   TimeSlider,
   SeamapLayer,
+  CurrentTripMenu,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
@@ -28,7 +29,6 @@ import {
   selectSecondaryMenuOpen,
   selectHaulsMatrixSearch,
   selectSelectedGridsString,
-  selectSelectedOrCurrentTrip,
   selectTrackLoading,
   selectViewMode,
   useAppDispatch,
@@ -37,6 +37,8 @@ import {
   setHaulsMatrix2Search,
   selectShowGrid,
   selectShowTimeSlider,
+  selectCurrentTrip,
+  selectSelectedTrip,
 } from "store";
 
 export interface MapFilter {
@@ -177,7 +179,8 @@ export const HomeView: FC = () => {
   const haulsMenuOpen = useAppSelector(selectSecondaryMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
-  const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
+  const selectedTrip = useAppSelector(selectSelectedTrip);
+  const selectedCurrentTrip = useAppSelector(selectCurrentTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
   const showGrid = useAppSelector(selectShowGrid);
   const showTimeSlider = useAppSelector(selectShowTimeSlider);
@@ -221,6 +224,7 @@ export const HomeView: FC = () => {
             </Box>
             <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
               {selectedTrip && <TripsMenu />}
+              {selectedCurrentTrip && <CurrentTripMenu />}
             </Box>
           </Box>
         </HaulMenuArea>
@@ -256,7 +260,7 @@ export const HomeView: FC = () => {
         {mapFilter.seamap && <SeamapLayer />}
         {viewMode !== ViewMode.Heatmap && <HaulsLayer />}
         {!selectedTrip && <TrackLayer />}
-        {selectedTrip && <TripsLayer />}
+        {(selectedTrip ?? selectedCurrentTrip) && <TripsLayer />}
         <FishingFacilitiesLayer />
       </Map>
       <ViewModeToggle />
