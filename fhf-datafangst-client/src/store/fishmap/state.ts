@@ -14,7 +14,6 @@ export interface FishmapState {
   selectedGrids: Feature[];
   selectedGridsString: string[];
   viewMode: ViewMode;
-  seamapCapabilities?: string;
 }
 
 export const initialFishmapState: FishmapState = {
@@ -26,5 +25,4 @@ export const initialFishmapState: FishmapState = {
   selectedGrids: [],
   selectedGridsString: [],
   viewMode: ViewMode.Grid,
-  seamapCapabilities: undefined,
 };
