@@ -9,7 +9,7 @@ import {
 } from "utils";
 import {
   selectFishmapState,
-  selectSelectedTrip,
+  selectSelectedOrCurrentTrip,
   selectSelectedTripHaul,
   selectTrack,
   useAppSelector,
@@ -20,7 +20,7 @@ import { Geometry, Point } from "ol/geom";
 export const TripsLayer: FC = () => {
   const track = useAppSelector(selectTrack);
   const state = useAppSelector(selectFishmapState);
-  const trip = useAppSelector(selectSelectedTrip);
+  const trip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedTripHaul = useAppSelector(selectSelectedTripHaul);
 
   const [zoom, setZoom] = useState<number | undefined>(
@@ -46,7 +46,11 @@ export const TripsLayer: FC = () => {
   useEffect(() => {
     if (trip) {
       const vec = generateVesselTrackVector(track, zoom, undefined, true);
-      const haulsVec = generateTripHaulsVector(trip, zoom, selectedTripHaul);
+      const haulsVec = generateTripHaulsVector(
+        trip.hauls,
+        zoom,
+        selectedTripHaul,
+      );
       const fishingFacilityVec = generateFishingFacilitiesVector(
         trip.fishingFacilities,
       );

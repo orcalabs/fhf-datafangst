@@ -1,6 +1,7 @@
 import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
 import {
+  getCurrentTrip,
   getHaulTrip,
   getTrips,
   paginateTripsSearch,
@@ -82,4 +83,26 @@ export const tripBuilder = (
       (action as any).asyncDispatch(
         getTrips(current(state.tripsSearch) as TripsArgs),
       );
+    })
+    .addCase(getCurrentTrip.pending, (state, action) => {
+      action.meta.arg.accessToken = state.authUser?.access_token;
+      state.currentTrip = undefined;
+      state.currentTripLoading = true;
+    })
+    .addCase(getCurrentTrip.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.currentTrip = action.payload;
+        (action as any).asyncDispatch(
+          getTrack({
+            mmsi: action.meta.arg.vessel.ais?.mmsi,
+            callSign: action.meta.arg.vessel.fiskeridir.callSign,
+            start: action.payload.departure,
+            end: new Date().toISOString(),
+          }),
+        );
+      }
+      state.currentTripLoading = false;
+    })
+    .addCase(getCurrentTrip.rejected, (state, _) => {
+      state.currentTripLoading = false;
     });

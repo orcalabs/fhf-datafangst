@@ -9,6 +9,11 @@ export const getHaulTrip = createAsyncThunk(
   Api.getTripFromHaul,
 );
 
+export const getCurrentTrip = createAsyncThunk(
+  "trip/getCurrentTrip",
+  Api.getCurrentTrip,
+);
+
 export const setSelectedTrip = createAction<Trip | undefined>(
   "trip/setSelectedTrip",
 );
