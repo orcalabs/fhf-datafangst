@@ -33,6 +33,9 @@ export const haulBuilder = (
     .addCase(getHauls.rejected, (state, _) => {
       state.haulsLoading = false;
     })
+    .addCase(addHauls.pending, (state, _) => {
+      state.haulsLoading = true;
+    })
     .addCase(addHauls.fulfilled, (state, action) => {
       state.hauls = state.hauls
         ? state.hauls.concat(
@@ -41,6 +44,10 @@ export const haulBuilder = (
             ),
           )
         : action.payload;
+      state.haulsLoading = false;
+    })
+    .addCase(addHauls.rejected, (state, _) => {
+      state.haulsLoading = false;
     })
     .addCase(removeHauls, (state, action) => {
       state.hauls = state.hauls?.filter((h) =>
