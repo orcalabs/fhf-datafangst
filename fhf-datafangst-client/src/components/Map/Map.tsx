@@ -7,7 +7,7 @@ import {
   initializeMap,
   selectFishingFacilities,
   selectFishmapState,
-  selectSelectedTrip,
+  selectSelectedOrCurrentTrip,
   setSelectedFishingFacility,
   setSelectedHaul,
   setSelectedTripHaul,
@@ -51,7 +51,7 @@ export const Map: FC<Props> = (props) => {
   const [hoveredHaul, setHoveredHaul] = useState<Haul>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
   const fishingFacilities = useAppSelector(selectFishingFacilities);
-  const selectedTrip = useAppSelector(selectSelectedTrip);
+  const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
 
   const handleClosePopover = () => {
     setAnchorPos(undefined);

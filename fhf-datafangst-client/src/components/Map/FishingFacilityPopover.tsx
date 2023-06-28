@@ -4,7 +4,7 @@ import { dateFormat } from "utils";
 import theme from "app/theme";
 import {
   selectFishingFacility,
-  selectSelectedTrip,
+  selectSelectedOrCurrentTrip,
   useAppSelector,
 } from "store";
 import PhishingSharp from "@mui/icons-material/PhishingSharp";
@@ -16,7 +16,7 @@ interface Props {
 
 export const FishingFacilityPopover: FC<Props> = ({ fishingFacilityIdx }) => {
   let facility = useAppSelector(selectFishingFacility(fishingFacilityIdx));
-  const trip = useAppSelector(selectSelectedTrip);
+  const trip = useAppSelector(selectSelectedOrCurrentTrip);
 
   // Fishing facility may be part of Trip instead of in state.
   if (trip && !facility) {

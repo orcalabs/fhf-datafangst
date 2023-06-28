@@ -13,6 +13,11 @@ export interface TripsArgs {
   accessToken?: string;
 }
 
+export interface CurrentTripArgs {
+  vessel: Vessel;
+  accessToken?: string;
+}
+
 const api = new V1tripApi(apiConfiguration, undefined, axiosInstance);
 
 export const getTripFromHaul = async (query: HaulsTripArgs) =>
@@ -30,6 +35,16 @@ export const getTrips = async (query: TripsArgs) =>
         limit: query.limit ?? 10,
         offset: query.offset ?? 0,
         ordering: query.ordering ?? "desc",
+      },
+      { headers: { "bw-token": query?.accessToken } },
+    ),
+  );
+
+export const getCurrentTrip = async (query: CurrentTripArgs) =>
+  apiGet(async () =>
+    api.currentTrip(
+      {
+        fiskeridirVesselId: query.vessel.fiskeridir.id,
       },
       { headers: { "bw-token": query?.accessToken } },
     ),

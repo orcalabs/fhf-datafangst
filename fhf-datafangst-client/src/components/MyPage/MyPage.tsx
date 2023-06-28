@@ -12,6 +12,7 @@ import { FishIcon } from "assets/icons";
 import { MyGears, MyHauls, MyTrips, VesselInfo } from "components";
 import { FC, useState } from "react";
 import {
+  getCurrentTrip,
   selectBwUserProfile,
   selectFishingFacilitySearch,
   selectHaulsMatrixSearch,
@@ -72,6 +73,7 @@ export const MyPage: FC = () => {
     setExpanded(expandedTab);
 
     if (expandedTab === MenuTab.Trips && vessel) {
+      dispatch(getCurrentTrip({ vessel }));
       dispatch(setTripsSearch({ ...tripsSearch, vessel }));
     } else if (expandedTab === MenuTab.Hauls && vessel) {
       dispatch(

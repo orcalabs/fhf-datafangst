@@ -319,6 +319,37 @@ export interface Catch {
 /**
  * 
  * @export
+ * @interface CurrentTrip
+ */
+export interface CurrentTrip {
+    /**
+     * 
+     * @type {string}
+     * @memberof CurrentTrip
+     */
+    'departure': string;
+    /**
+     * 
+     * @type {Array<FishingFacility>}
+     * @memberof CurrentTrip
+     */
+    'fishingFacilities': Array<FishingFacility>;
+    /**
+     * 
+     * @type {Array<Haul>}
+     * @memberof CurrentTrip
+     */
+    'hauls': Array<Haul>;
+    /**
+     * 
+     * @type {number}
+     * @memberof CurrentTrip
+     */
+    'targetSpeciesFiskeridirId'?: number | null;
+}
+/**
+ * 
+ * @export
  * @interface Delivery
  */
 export interface Delivery {
@@ -2855,6 +2886,39 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
+         * @param {number} fiskeridirVesselId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        currentTrip: async (fiskeridirVesselId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fiskeridirVesselId' is not null or undefined
+            assertParamExists('currentTrip', 'fiskeridirVesselId', fiskeridirVesselId)
+            const localVarPath = `/v1.0/trips/current/{fiskeridir_vessel_id}`
+                .replace(`{${"fiskeridir_vessel_id"}}`, encodeURIComponent(String(fiskeridirVesselId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} haulId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2946,6 +3010,16 @@ export const V1tripApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} fiskeridirVesselId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async currentTrip(fiskeridirVesselId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentTrip>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.currentTrip(fiskeridirVesselId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {number} haulId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2979,6 +3053,15 @@ export const V1tripApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
+         * @param {V1tripApiCurrentTripRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        currentTrip(requestParameters: V1tripApiCurrentTripRequest, options?: AxiosRequestConfig): AxiosPromise<CurrentTrip> {
+            return localVarFp.currentTrip(requestParameters.fiskeridirVesselId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {V1tripApiTripOfHaulRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2997,6 +3080,20 @@ export const V1tripApiFactory = function (configuration?: Configuration, basePat
         },
     };
 };
+
+/**
+ * Request parameters for currentTrip operation in V1tripApi.
+ * @export
+ * @interface V1tripApiCurrentTripRequest
+ */
+export interface V1tripApiCurrentTripRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof V1tripApiCurrentTrip
+     */
+    readonly fiskeridirVesselId: number
+}
 
 /**
  * Request parameters for tripOfHaul operation in V1tripApi.
@@ -3054,6 +3151,17 @@ export interface V1tripApiTripsRequest {
  * @extends {BaseAPI}
  */
 export class V1tripApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1tripApiCurrentTripRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripApi
+     */
+    public currentTrip(requestParameters: V1tripApiCurrentTripRequest, options?: AxiosRequestConfig) {
+        return V1tripApiFp(this.configuration).currentTrip(requestParameters.fiskeridirVesselId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {V1tripApiTripOfHaulRequest} requestParameters Request parameters.

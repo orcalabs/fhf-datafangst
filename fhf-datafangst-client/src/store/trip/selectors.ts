@@ -6,9 +6,24 @@ export const selectTrips = createSelector(
   (state) => state.trips,
 );
 
+export const selectCurrentTrip = createSelector(
+  selectAppState,
+  (state) => state.currentTrip,
+);
+
+export const selectCurrentTripLoading = createSelector(
+  selectAppState,
+  (state) => state.currentTripLoading,
+);
+
 export const selectSelectedTrip = createSelector(
   selectAppState,
   (state) => state.selectedTrip,
+);
+
+export const selectSelectedOrCurrentTrip = createSelector(
+  selectAppState,
+  (state) => state.selectedTrip ?? state.currentTrip,
 );
 
 export const selectTripsSearch = createSelector(

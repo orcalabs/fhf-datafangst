@@ -28,7 +28,7 @@ import {
   selectSecondaryMenuOpen,
   selectHaulsMatrixSearch,
   selectSelectedGridsString,
-  selectSelectedTrip,
+  selectSelectedOrCurrentTrip,
   selectTrackLoading,
   selectViewMode,
   useAppDispatch,
@@ -177,7 +177,7 @@ export const HomeView: FC = () => {
   const haulsMenuOpen = useAppSelector(selectSecondaryMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
-  const selectedTrip = useAppSelector(selectSelectedTrip);
+  const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
   const showGrid = useAppSelector(selectShowGrid);
   const showTimeSlider = useAppSelector(selectShowTimeSlider);
