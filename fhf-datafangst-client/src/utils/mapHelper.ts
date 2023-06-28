@@ -31,7 +31,7 @@ import shoreline from "assets/geojson/shoreline.json";
 import CircleStyle from "ol/style/Circle";
 import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
 
-const fromLonLat = (lon: number, lat: number) => {
+export const fromLonLat = (lon: number, lat: number) => {
   if (lat > 90) {
     lat = 180 - lat;
     lon += 180;
