@@ -13,7 +13,6 @@ import {
 } from "ol/style";
 import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
-import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
 import { AisVmsPosition, FishingFacility, Haul, Trip } from "generated/openapi";
@@ -358,9 +357,6 @@ export const generateLocationsMatrix = (
 
   return new VectorSource({ features: fishingLocationFeatures });
 };
-
-export const parseCapabilites = (capabilitesText: string) =>
-  new WMTSCapabilities().read(capabilitesText);
 
 export const changeIconSizes = (
   vector: VectorSource<Geometry> | undefined,
