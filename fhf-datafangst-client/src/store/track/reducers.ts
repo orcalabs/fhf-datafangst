@@ -1,6 +1,29 @@
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder, Draft } from "@reduxjs/toolkit";
 import { getHaulTrack, getTrack } from "./actions";
 import { AppState } from "store/state";
+import { Map } from "ol";
+import { AisVmsPosition } from "generated/openapi";
+import { fromLonLat } from "utils";
+import { boundingExtent } from "ol/extent";
+
+// Set the map focus and zoom to a selected area surrounding a the track of a trip.
+const setMapFocus = (map: Draft<Map>, track: AisVmsPosition[]) => {
+  const coords = [];
+
+  if (track) {
+    for (const pos of track) {
+      coords.push(fromLonLat(pos.lon, pos.lat));
+    }
+  }
+
+  if (coords.length === 0) {
+    return;
+  }
+
+  const extent = boundingExtent(coords);
+
+  map.getView().fit(extent, { padding: [100, 500, 100, 500], maxZoom: 4 });
+};
 
 export const trackBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -15,6 +38,10 @@ export const trackBuilder = (
       const track = action.payload;
       if (!track) return;
       state.track = track;
+
+      if (state.selectedTrip && track.length) {
+        setMapFocus(state.map, track);
+      }
     })
     .addCase(getTrack.rejected, (state, _) => {
       state.trackLoading = false;
