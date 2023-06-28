@@ -30,6 +30,7 @@ import { FishingFacilityPopover } from "./FishingFacilityPopover";
 import { pointerMove } from "ol/events/condition";
 import Select from "ol/interaction/Select";
 import { fishingFacilityStyle, tripHaulStyle } from "utils";
+import { defaults as interactionDefaults } from "ol/interaction/defaults";
 
 interface Props {
   children: React.ReactNode;
@@ -80,6 +81,9 @@ export const Map: FC<Props> = (props) => {
         attribution: false,
         rotate: false,
         zoom: false,
+      }),
+      interactions: interactionDefaults({
+        doubleClickZoom: false,
       }),
     });
 
