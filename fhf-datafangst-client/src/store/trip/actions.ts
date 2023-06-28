@@ -14,6 +14,8 @@ export const getCurrentTrip = createAsyncThunk(
   Api.getCurrentTrip,
 );
 
+export const getCurrentTripTrack = createAction("trip/getCurrentTripTrack");
+
 export const setSelectedTrip = createAction<Trip | undefined>(
   "trip/setSelectedTrip",
 );

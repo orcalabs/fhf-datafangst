@@ -19,6 +19,7 @@ export { PositionPopover } from "./Map/PositionPopover";
 export { ShorelinePopover } from "./Map/ShorelinePopover";
 export { HaulPopover } from "./Map/HaulPopover";
 export { TripsMenu } from "./TripsMenu/TripsMenu";
+export { CurrentTripMenu } from "./CurrentTripMenu/CurrentTripMenu";
 export { HeaderMenuButtons } from "./Layout/HeaderMenuButtons";
 export { MyPage } from "./MyPage/MyPage";
 export { VesselInfo } from "./MyPage/VesselInfo";
