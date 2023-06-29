@@ -56,13 +56,13 @@ export const SpeciesFilter: FC<Props> = (props) => {
         Art
       </Typography>
       <Box>
-        {/* Magic number: 32 = 22px bar height, 2px border, 8px margin */}
+        {/* Magic number: 34 = 26px bar height, 8px margin */}
         <Collapse
           in={expanded}
           collapsedSize={
             speciesFilterStats.length >= NUM_BARS
-              ? 32 * NUM_BARS
-              : 32 * speciesFilterStats.length
+              ? 34 * NUM_BARS
+              : 34 * speciesFilterStats.length
           }
         >
           {speciesFilterStats.map((val, i) => (
