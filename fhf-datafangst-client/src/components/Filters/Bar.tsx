@@ -15,9 +15,12 @@ export const Bar: FC<Props> = (props) => {
   const [hovering, setHovering] = useState(false);
 
   return (
-    <Box sx={{ display: "flex", mb: 1 }}>
+    <Box sx={{ display: "flex", mb: 1, height: 26 }}>
       <Typography
-        sx={{ width: 220, fontSize: 15 }}
+        sx={{
+          width: 220,
+          fontSize: 15,
+        }}
         noWrap
         title={label?.length > 23 ? label : undefined}
       >
@@ -28,7 +31,7 @@ export const Bar: FC<Props> = (props) => {
           width: "100%",
           position: "relative",
           border: selected
-            ? `1px solid ${theme.palette.secondary.main}`
+            ? `2px solid ${theme.palette.secondary.main}`
             : `1px solid ${theme.palette.grey.A100}`,
         }}
       >
@@ -56,7 +59,7 @@ export const Bar: FC<Props> = (props) => {
           sx={{
             minWidth: "2px",
             width: length.toString() + "%",
-            height: 22,
+            height: 24,
             bgcolor: selected ? "secondary.main" : `${theme.palette.grey.A100}`,
           }}
         ></Box>
