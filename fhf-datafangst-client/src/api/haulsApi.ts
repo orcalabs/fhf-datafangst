@@ -101,8 +101,8 @@ export const getHauls = async (query: HaulsArgs) =>
       vesselLengthRanges: createVesselLengthQueryString(
         query.vesselLengthRanges,
       ),
-      ordering: query?.ordering,
-      sorting: query.sorting,
+      ordering: query?.ordering ?? Ordering.Desc,
+      sorting: query.sorting ?? HaulsSorting.StartDate,
     }),
   );
 

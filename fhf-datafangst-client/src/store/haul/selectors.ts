@@ -1,7 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { HaulsArgs, HaulsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
-import { GearGroup, SpeciesGroup } from "generated/openapi";
+import {
+  GearGroup,
+  HaulsSorting,
+  Ordering,
+  SpeciesGroup,
+} from "generated/openapi";
 import { LengthGroups } from "models";
 import { ViewMode, selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroupsSorted } from "store/gear";
@@ -57,11 +62,38 @@ export const selectHauls = createSelector(
   (state) => state.hauls ?? [],
 );
 
-export const selectHaulsSorted = createSelector(selectHauls, (state) =>
-  Array.from(state).sort(
-    (a, b) => sumCatches(b.catches) - sumCatches(a.catches),
-  ),
-);
+export const selectHaulsSorted = (sorting: HaulsSorting, ordering: Ordering) =>
+  createSelector(selectHauls, (state) => {
+    if (!state.length) {
+      return state;
+    }
+
+    if (ordering === Ordering.Desc && sorting === HaulsSorting.StartDate) {
+      return Array.from(state).sort(
+        (a, b) =>
+          new Date(b.startTimestamp).getTime() -
+          new Date(a.startTimestamp).getTime(),
+      );
+    } else if (
+      ordering === Ordering.Asc &&
+      sorting === HaulsSorting.StartDate
+    ) {
+      return Array.from(state).sort(
+        (a, b) =>
+          new Date(a.startTimestamp).getTime() -
+          new Date(b.startTimestamp).getTime(),
+      );
+    } else if (ordering === Ordering.Desc && sorting === HaulsSorting.Weight) {
+      return Array.from(state).sort(
+        (a, b) => sumCatches(b.catches) - sumCatches(a.catches),
+      );
+    } else if (ordering === Ordering.Asc && sorting === HaulsSorting.Weight) {
+      return Array.from(state).sort(
+        (a, b) => sumCatches(a.catches) - sumCatches(b.catches),
+      );
+    }
+    return state;
+  });
 
 export const selectHaulsMatrix = createSelector(
   selectAppState,

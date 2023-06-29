@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -13,6 +13,13 @@ import {
   TablePagination,
   Button,
   Divider,
+  IconButton,
+  Menu,
+  MenuItem,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import {
@@ -28,7 +35,6 @@ import {
   selectGearsMap,
   selectHaulsLoading,
   selectSecondaryMenuOpen,
-  selectHaulsSorted,
   selectSelectedGrids,
   selectSelectedHaul,
   selectVesselsByHaulId,
@@ -42,8 +48,9 @@ import {
   selectSpeciesFilterGridStatsSorted,
   setHoveredFilter,
   selectHaulsMatrix2Loading,
+  selectHaulsSorted,
 } from "store";
-import { Haul } from "generated/openapi";
+import { Haul, HaulsSorting, Ordering } from "generated/openapi";
 import { FishIcon } from "assets/icons";
 import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
@@ -54,6 +61,7 @@ import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
 import { SpeciesFilter } from "components/Filters/SpeciesFilter";
 import { HaulsFilter } from "api";
 import theme from "app/theme";
+import SortIcon from "@mui/icons-material/Sort";
 
 const accordionSx = {
   m: 0,
@@ -79,13 +87,24 @@ export const HaulsMenu: FC = () => {
   const open = useAppSelector(selectSecondaryMenuOpen);
   const vessels = useAppSelector(selectVesselsByHaulId);
   const gears = useAppSelector(selectGearsMap);
-  const hauls = useAppSelector(selectHaulsSorted);
+  const [sortOrder, setSortOrder] = useState<[HaulsSorting, Ordering]>([
+    HaulsSorting.StartDate,
+    Ordering.Desc,
+  ]);
+  // Memoize selector so we dont perform sorting on hauls each time component re-renders.
+  const selector = useMemo(
+    () => selectHaulsSorted(sortOrder[0], sortOrder[1]),
+    [sortOrder],
+  );
+  const hauls = useAppSelector(selector);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const selectedGrids = useAppSelector(selectSelectedGrids);
   const haulsSearch = useAppSelector(selectHaulsMatrix2Search);
   const matrixLoading = useAppSelector(selectHaulsMatrix2Loading);
   const selectedHaulId = selectedHaul?.haulId;
+  const [sortButtonAnchorEl, setSortButtonAnchorEl] =
+    useState<null | HTMLElement>(null);
 
   // Pagination state
   const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
@@ -94,6 +113,12 @@ export const HaulsMenu: FC = () => {
     currentPage * haulsPerPage,
     currentPage * haulsPerPage + haulsPerPage,
   );
+
+  const handleSortChange = (sortOrdering: [HaulsSorting, Ordering]) => {
+    setSortOrder(sortOrdering);
+    dispatch(setSelectedHaul(undefined));
+    setCurrentPage(0);
+  };
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
@@ -228,6 +253,66 @@ export const HaulsMenu: FC = () => {
     </Box>
   );
 
+  const radioControl = (label: string, value: string) => (
+    <FormControlLabel label={label} value={value} control={<Radio />} />
+  );
+
+  const sortButton = (
+    <>
+      <span>
+        <IconButton
+          sx={{ mr: 3, py: 0 }}
+          size="small"
+          onClick={(event) => {
+            setSortButtonAnchorEl(event.currentTarget);
+          }}
+        >
+          <SortIcon sx={{ color: "white" }} />
+        </IconButton>
+        <span style={{ paddingTop: 1 }}>Hal per side</span>
+      </span>
+
+      <Menu
+        anchorEl={sortButtonAnchorEl}
+        open={Boolean(sortButtonAnchorEl)}
+        onClose={() => {
+          setSortButtonAnchorEl(null);
+        }}
+        onClick={() => setSortButtonAnchorEl(null)}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+      >
+        <MenuItem>
+          <FormControl
+            sx={{
+              "& .MuiButtonBase-root": {
+                "&:hover": { borderRadius: 0 },
+              },
+            }}
+          >
+            <RadioGroup
+              defaultValue="female"
+              name="radio-sorting"
+              value={sortOrder.join(" ")}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleSortChange(
+                  (event.target as HTMLInputElement).value.split(" ") as [
+                    HaulsSorting,
+                    Ordering,
+                  ],
+                )
+              }
+            >
+              {radioControl("Dato nyest-eldst", "startDate desc")}
+              {radioControl("Dato eldst-nyest", "startDate asc")}
+              {radioControl("Vekt høy-lav", "weight desc")}
+              {radioControl("Vekt lav-høy", "weight asc")}
+            </RadioGroup>
+          </FormControl>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+
   return (
     <>
       {open && (
@@ -318,6 +403,7 @@ export const HaulsMenu: FC = () => {
                         color: "white",
                         width: "100%",
                         "& .MuiTablePagination-toolbar": { px: 3 },
+                        "& .MuiTablePagination-selectLabel": { mb: "0.9em" },
                       }}
                       component="div"
                       count={hauls.length}
@@ -325,7 +411,7 @@ export const HaulsMenu: FC = () => {
                       onPageChange={handleChangePage}
                       rowsPerPage={haulsPerPage}
                       onRowsPerPageChange={handleChangeRowsPerPage}
-                      labelRowsPerPage={"Hal per side"}
+                      labelRowsPerPage={sortButton}
                       padding="normal"
                     />
                   </ListSubheader>
