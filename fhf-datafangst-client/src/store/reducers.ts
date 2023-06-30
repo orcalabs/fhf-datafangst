@@ -32,6 +32,7 @@ export const emptyState = {
   selectedGridsString: [],
   selectedTrip: undefined,
   selectedTripHaul: undefined,
+  currentTrip: undefined,
   track: undefined,
   trips: undefined,
   vms: undefined,
