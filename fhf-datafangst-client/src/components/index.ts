@@ -9,8 +9,6 @@ export { HeatmapLayer } from "./Layers/HeatmapLayer";
 export * from "./Common/Common";
 export { MapFilters } from "./MapFilters/MapFilters";
 export { HaulsLayer } from "./Layers/HaulsLayer";
-export { HaulsHeatmapLayer } from "./Layers/HaulsHeatmapLayer";
-export { ViewModeToggle } from "./Layout/ViewModeToggle";
 export { LoadingScreen } from "./LoadingScreen/LoadingScreen";
 export { HaulsMenu } from "./HaulsMenu/HaulsMenu";
 export { CatchesTable } from "./HaulsMenu/CatchesTable";

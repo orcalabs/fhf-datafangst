@@ -276,27 +276,6 @@ export const generateFishingFacilitiesVector = (
   return vector;
 };
 
-export const generateHaulsHeatmap = (hauls: Haul[] | undefined) => {
-  if (!hauls?.length) {
-    return;
-  }
-
-  const heatmapVector = new VectorSource();
-
-  for (let i = 0; i < hauls.length; i++) {
-    const haul = hauls[i];
-
-    const haulFeature = new Feature({
-      geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
-      weight: sumCatches(haul.catches),
-    });
-
-    heatmapVector.addFeature(haulFeature);
-  }
-
-  return heatmapVector;
-};
-
 export const generateLocationsMatrix = (
   matrix: number[] | undefined,
   selectedFilters: number[],

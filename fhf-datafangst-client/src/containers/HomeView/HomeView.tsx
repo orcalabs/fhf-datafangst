@@ -7,8 +7,6 @@ import {
   ShorelineLayer,
   LocationsGrid,
   HaulsLayer,
-  HaulsHeatmapLayer,
-  ViewModeToggle,
   LoadingScreen,
   HaulsMenu,
   TrackLayer,
@@ -30,10 +28,8 @@ import {
   selectHaulsMatrixSearch,
   selectSelectedGridsString,
   selectTrackLoading,
-  selectViewMode,
   useAppDispatch,
   useAppSelector,
-  ViewMode,
   setHaulsMatrix2Search,
   selectShowGrid,
   selectShowTimeSlider,
@@ -175,7 +171,6 @@ export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
   const trackMissing = useAppSelector(selectTrackMissing);
-  const viewMode = useAppSelector(selectViewMode);
   const haulsMenuOpen = useAppSelector(selectSecondaryMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
@@ -255,15 +250,13 @@ export const HomeView: FC = () => {
       <Map>
         <MapBoxLayer />
         {showGrid && <LocationsGrid />}
-        {viewMode === ViewMode.Heatmap && <HaulsHeatmapLayer />}
         {mapFilter.coastline && <ShorelineLayer />}
         {mapFilter.seamap && <SeamapLayer />}
-        {viewMode !== ViewMode.Heatmap && <HaulsLayer />}
+        <HaulsLayer />
         {!selectedTrip && <TrackLayer />}
         {(selectedTrip ?? selectedCurrentTrip) && <TripsLayer />}
         <FishingFacilitiesLayer />
       </Map>
-      <ViewModeToggle />
       <LoadingScreen open={trackLoading} />
       <Box
         sx={{
