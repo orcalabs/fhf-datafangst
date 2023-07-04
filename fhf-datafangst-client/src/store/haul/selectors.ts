@@ -8,7 +8,7 @@ import {
   SpeciesGroup,
 } from "generated/openapi";
 import { LengthGroups } from "models";
-import { ViewMode, selectSelectedGridsString } from "store/fishmap";
+import { selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroupsSorted } from "store/gear";
 import { selectAppState } from "store/selectors";
 import { selectSpeciesGroupsSorted } from "store/species";
@@ -18,7 +18,6 @@ export const selectShowTimeSlider = createSelector(
   selectAppState,
   (state) =>
     (!!state.haulsMatrix || state.haulsMatrixLoading) &&
-    state.viewMode === ViewMode.Grid &&
     !state.selectedTrip &&
     state.trips === undefined &&
     !state.selectedGrids.length &&
