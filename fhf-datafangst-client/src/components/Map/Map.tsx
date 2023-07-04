@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { ScaleLine, defaults } from "ol/control";
+import { MousePosition, ScaleLine, defaults } from "ol/control";
 import { View, Map as OLMap, MapBrowserEvent } from "ol";
 import { Box, Popover, PopoverPosition } from "@mui/material";
 import { Types } from "ol/MapBrowserEventType";
@@ -31,6 +31,7 @@ import { pointerMove } from "ol/events/condition";
 import Select from "ol/interaction/Select";
 import { fishingFacilityStyle, tripHaulStyle } from "utils";
 import { defaults as interactionDefaults } from "ol/interaction/defaults";
+import { Coordinate, toStringHDMS } from "ol/coordinate";
 
 interface Props {
   children: React.ReactNode;
@@ -87,11 +88,19 @@ export const Map: FC<Props> = (props) => {
       }),
     });
 
-    const control = new ScaleLine({
+    const scaleLineControl = new ScaleLine({
       units: "metric",
       target: "scale-line",
     });
-    map.addControl(control);
+
+    const coordinateControl = new MousePosition({
+      coordinateFormat: (coord) => toStringHDMS(coord as Coordinate, 2),
+      projection: "EPSG:4326",
+      target: "map-coordinate",
+    });
+
+    map.addControl(scaleLineControl);
+    map.addControl(coordinateControl);
 
     // Interaction for handling hover effect on Hauls
     const hoverInteraction = new Select({

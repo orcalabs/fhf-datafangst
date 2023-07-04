@@ -18,6 +18,7 @@ import {
   TimeSlider,
   SeamapLayer,
   CurrentTripMenu,
+  MapControls,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
@@ -227,23 +228,7 @@ export const HomeView: FC = () => {
           {showTimeSlider && <TimeSlider />}
         </TimeSliderArea>
         <MapAttributionsArea haulsMenuOpen={haulsMenuOpen}>
-          <Box
-            id="scale-line"
-            sx={{
-              ".ol-scale-line": {
-                borderRadius: 0,
-                bgcolor: "rgba(0,60,136,.3)",
-                bottom: 10,
-              },
-              ".ol-scale-line-inner": {
-                borderColor: "#eee",
-                color: "#eee",
-              },
-              position: "relative",
-              zIndex: 1000,
-              left: 3,
-            }}
-          />
+          <MapControls />
           <MapAttributions />
         </MapAttributionsArea>
       </GridContainer>
