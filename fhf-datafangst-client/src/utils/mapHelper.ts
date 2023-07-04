@@ -1,7 +1,5 @@
-import { Map } from "ol";
 import { WKT } from "ol/format";
-import { fromLonLat as _fromLonLat, toLonLat } from "ol/proj";
-import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
+import { fromLonLat as _fromLonLat } from "ol/proj";
 import {
   Circle,
   Fill,
@@ -354,43 +352,6 @@ export const changeIconSizeFromFeature = (
 
   // Re-draw change on map
   feature.changed();
-};
-
-export interface Box {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-}
-
-export const boxSelect = (map: Map, callback: (box: Box) => void) => {
-  const source = new VectorSource({ wrapX: false });
-  const geometryFunction = createBox();
-  const draw = new Draw({
-    source,
-    geometryFunction,
-    type: "Circle",
-    freehand: true,
-  });
-  draw.on("drawend", (e: DrawEvent) => {
-    e.stopPropagation();
-    // `getCoordinates` exists on `Geometry`, trust me :)
-    const coords = (e.feature.getGeometry() as any).getCoordinates()[0];
-    if (coords?.length === 5) {
-      const a = toLonLat(coords[1]);
-      const b = toLonLat(coords[3]);
-      const res = {
-        x1: b[0],
-        y1: b[1],
-        x2: a[0],
-        y2: a[1],
-      };
-      callback(res);
-    }
-
-    map.removeInteraction(draw);
-  });
-  map.addInteraction(draw);
 };
 
 const mainLineStyle = new Style({

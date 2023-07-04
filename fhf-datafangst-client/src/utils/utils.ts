@@ -102,21 +102,6 @@ export const middle = (a: number, b: number, c: number) =>
 export const sumCatches = (catches: Catch[]) =>
   catches.sum((c) => c.livingWeight ?? 0);
 
-export const generateColormapFromHauls = (hauls: Haul[]) => {
-  const colorMap: Record<string, number> = {};
-  for (const haul of hauls) {
-    if (haul.catchLocationStart) {
-      if (colorMap[haul.catchLocationStart]) {
-        colorMap[haul.catchLocationStart] += sumCatches(haul.catches);
-      } else {
-        colorMap[haul.catchLocationStart] = sumCatches(haul.catches);
-      }
-    }
-  }
-
-  return colorMap;
-};
-
 export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
   let highest = 0;
   for (const haul of hauls) {
