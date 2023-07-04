@@ -82,9 +82,7 @@ export const TimeSlider: FC = () => {
   };
 
   useEffect(() => {
-    const scale = document.getElementsByClassName(
-      "ol-scale-line",
-    )[0] as HTMLElement;
+    const scale = document.getElementById("map-controls") as HTMLElement;
 
     // Move scale line up
     if (open) {

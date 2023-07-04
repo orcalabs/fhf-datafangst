@@ -34,3 +34,4 @@ export { MyGears } from "./MyPage/MyGears";
 export { MapAttributions } from "./MapAttributions/MapAttributions";
 export { TimeSlider } from "./TimeSlider/TimeSlider";
 export { SeamapLayer } from "./Layers/SeamapLayer";
+export { MapControls } from "./MapAttributions/MapControls";
