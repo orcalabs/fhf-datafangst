@@ -27,7 +27,10 @@ export const haulBuilder = (
       state.hauls = undefined;
     })
     .addCase(getHauls.fulfilled, (state, action) => {
-      state.hauls = action.payload;
+      state.hauls = {};
+      for (const haul of action.payload) {
+        state.hauls[haul.haulId] = haul;
+      }
       state.haulsLoading = false;
     })
     .addCase(getHauls.rejected, (state, _) => {
@@ -37,24 +40,40 @@ export const haulBuilder = (
       state.haulsLoading = true;
     })
     .addCase(addHauls.fulfilled, (state, action) => {
-      state.hauls = state.hauls
-        ? state.hauls.concat(
-            action.payload.filter(
-              (haul) => !state.hauls?.some((h) => h.haulId === haul.haulId),
-            ),
-          )
-        : action.payload;
+      let hauls = { ...state.hauls };
+      if (hauls) {
+        for (const haul of action.payload) {
+          hauls[haul.haulId] = haul;
+        }
+      } else {
+        hauls = action.payload;
+      }
+      state.hauls = hauls;
       state.haulsLoading = false;
     })
     .addCase(addHauls.rejected, (state, _) => {
       state.haulsLoading = false;
     })
     .addCase(removeHauls, (state, action) => {
-      state.hauls = state.hauls?.filter((h) =>
-        h.catchLocations
-          ? h.catchLocations.some((c) => state.selectedGridsString.includes(c))
-          : !action.payload.includes(h.catchLocationStart!),
-      );
+      for (const key in state.hauls) {
+        const haul = state.hauls[Number(key)];
+
+        if (haul.catchLocations) {
+          if (
+            !haul.catchLocations.some((c) =>
+              state.selectedGridsString.includes(c),
+            )
+          ) {
+            // eslint-disable-next-line
+            delete state.hauls[haul.haulId];
+          }
+        } else {
+          if (action.payload.includes(haul.catchLocationStart!)) {
+            // eslint-disable-next-line
+            delete state.hauls[haul.haulId];
+          }
+        }
+      }
     })
     .addCase(getHaulsMatrix.pending, (state, _) => {
       state.haulsMatrix = undefined;

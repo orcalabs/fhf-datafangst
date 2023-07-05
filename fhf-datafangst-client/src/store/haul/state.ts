@@ -3,7 +3,7 @@ import { getMonth, getYear } from "date-fns";
 import { Haul, HaulsMatrix } from "generated/openapi";
 
 export interface HaulState {
-  hauls?: Haul[];
+  hauls?: Record<number, Haul>;
   haulsMatrix?: HaulsMatrix;
   haulsMatrix2?: HaulsMatrix;
   haulsLoading: boolean;

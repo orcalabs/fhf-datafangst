@@ -11,11 +11,12 @@ import { FishIcon } from "assets/icons";
 import { selectHauls, useAppSelector } from "store";
 
 interface Props {
-  haulIdx: number;
+  haulId: number;
 }
 
-export const HaulPopover: FC<Props> = ({ haulIdx }) => {
-  const haul = useAppSelector(selectHauls)?.[haulIdx];
+export const HaulPopover: FC<Props> = ({ haulId }) => {
+  const hauls = useAppSelector(selectHauls);
+  const haul = hauls[haulId];
 
   if (!haul) {
     return <></>;

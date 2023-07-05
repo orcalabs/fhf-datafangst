@@ -47,7 +47,7 @@ export const Map: FC<Props> = (props) => {
   const mapState = useAppSelector(selectFishmapState);
   const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
   const [hoveredShoreline, setHoveredShoreline] = useState<string>();
-  const [hoveredHaulIdx, setHoveredHaulIdx] = useState<number>();
+  const [hoveredHaulId, setHoveredHaulId] = useState<number>();
   const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
     useState<number>();
   const [hoveredHaul, setHoveredHaul] = useState<Haul>();
@@ -64,7 +64,7 @@ export const Map: FC<Props> = (props) => {
   const resetHover = () => {
     setHoveredPosition(undefined);
     setHoveredShoreline(undefined);
-    setHoveredHaulIdx(undefined);
+    setHoveredHaulId(undefined);
     setHoveredFishingFacilityIdx(undefined);
     setHoveredHaul(undefined);
   };
@@ -181,15 +181,15 @@ export const Map: FC<Props> = (props) => {
         );
         if (feature) {
           const grid = feature.get("lokref");
-          const haulIdx = feature.get("haulIdx");
+          const haulId = feature.get("haulId");
           const haul = feature.get("haul");
           const gearIdx = feature.get("fishingFacilityIdx");
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
             dispatch(toggleSelectedArea(feature));
-          } else if (haulIdx !== undefined) {
-            dispatch(setSelectedHaul(haulIdx));
+          } else if (haulId !== undefined) {
+            dispatch(setSelectedHaul(haulId));
           } else if (haul) {
             if (haul.haulId === store.getState().selectedTripHaul?.haulId) {
               dispatch(setSelectedTripHaul(undefined));
@@ -230,7 +230,7 @@ export const Map: FC<Props> = (props) => {
       if (feature) {
         const aisPosition = feature.get("aisPosition");
         const shoreLine = feature.getProperties();
-        const haulIdx = feature.get("haulIdx");
+        const haulId = feature.get("haulId");
         const fishingFacilityIdx = feature.get("fishingFacilityIdx");
         const haul = feature.get("haul");
 
@@ -243,9 +243,9 @@ export const Map: FC<Props> = (props) => {
         ) {
           setHoveredShoreline(shoreLine.navn);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
-        } else if (haulIdx !== undefined) {
+        } else if (haulId !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
-          setHoveredHaulIdx(haulIdx);
+          setHoveredHaulId(haulId);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (fishingFacilityIdx !== undefined) {
           if (!selectedTrip) {
@@ -283,9 +283,7 @@ export const Map: FC<Props> = (props) => {
           <PositionPopover hoveredPosition={hoveredPosition} />
         )}
         {hoveredShoreline && <ShorelinePopover name={hoveredShoreline} />}
-        {hoveredHaulIdx !== undefined && (
-          <HaulPopover haulIdx={hoveredHaulIdx} />
-        )}
+        {hoveredHaulId !== undefined && <HaulPopover haulId={hoveredHaulId} />}
         {hoveredFishingFacilityIdx !== undefined && (
           <FishingFacilityPopover
             fishingFacilityIdx={hoveredFishingFacilityIdx}

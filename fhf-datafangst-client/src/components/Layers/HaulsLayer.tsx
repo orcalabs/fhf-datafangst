@@ -10,7 +10,8 @@ import {
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 
 export const HaulsLayer: FC = () => {
-  const hauls = useAppSelector(selectHauls);
+  const haulsMap = useAppSelector(selectHauls);
+  const hauls = Object.values(haulsMap);
   const fishmap = useAppSelector(selectFishmap);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
@@ -53,7 +54,7 @@ export const HaulsLayer: FC = () => {
         removeLayer();
       };
     }
-  }, [fishmap, removeLayer, hauls, selectedTrip]);
+  }, [fishmap, removeLayer, haulsMap, selectedTrip]);
 
   return null;
 };

@@ -29,7 +29,7 @@ export const selectVesselsByHaulId = createSelector(
   selectHauls,
   (vesselsByFiskeridirId, vesselsByCallSign, hauls) => {
     const vesselsMap: Record<string, Vessel> = {};
-    for (const haul of hauls) {
+    for (const haul of Object.values(hauls)) {
       if (haul.fiskeridirVesselId) {
         vesselsMap[haul.haulId] =
           vesselsByFiskeridirId[haul.fiskeridirVesselId];
