@@ -96,7 +96,8 @@ export const HaulsMenu: FC = () => {
     () => selectHaulsSorted(sortOrder[0], sortOrder[1]),
     [sortOrder],
   );
-  const hauls = useAppSelector(selector);
+  const haulsMap = useAppSelector(selector);
+  const hauls = Object.values(haulsMap);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const selectedGrids = useAppSelector(selectSelectedGrids);

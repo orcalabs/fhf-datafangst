@@ -58,17 +58,17 @@ export const selectHaulsMatrix2Search = createSelector(
 
 export const selectHauls = createSelector(
   selectAppState,
-  (state) => state.hauls ?? [],
+  (state) => state.hauls ?? {},
 );
 
 export const selectHaulsSorted = (sorting: HaulsSorting, ordering: Ordering) =>
   createSelector(selectHauls, (state) => {
-    if (!state.length) {
+    if (!Object.keys(state).length) {
       return state;
     }
 
     if (ordering === Ordering.Desc && sorting === HaulsSorting.StartDate) {
-      return Array.from(state).sort(
+      return Object.values(state).sort(
         (a, b) =>
           new Date(b.startTimestamp).getTime() -
           new Date(a.startTimestamp).getTime(),
@@ -77,17 +77,17 @@ export const selectHaulsSorted = (sorting: HaulsSorting, ordering: Ordering) =>
       ordering === Ordering.Asc &&
       sorting === HaulsSorting.StartDate
     ) {
-      return Array.from(state).sort(
+      return Object.values(state).sort(
         (a, b) =>
           new Date(a.startTimestamp).getTime() -
           new Date(b.startTimestamp).getTime(),
       );
     } else if (ordering === Ordering.Desc && sorting === HaulsSorting.Weight) {
-      return Array.from(state).sort(
+      return Object.values(state).sort(
         (a, b) => sumCatches(b.catches) - sumCatches(a.catches),
       );
     } else if (ordering === Ordering.Asc && sorting === HaulsSorting.Weight) {
-      return Array.from(state).sort(
+      return Object.values(state).sort(
         (a, b) => sumCatches(a.catches) - sumCatches(b.catches),
       );
     }

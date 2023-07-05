@@ -225,7 +225,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
     const color = colorScale.getColor(sum);
     const haulFeature = new Feature({
       geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
-      haulIdx: i,
+      haulId: haul.haulId,
       red: color.r,
       green: color.g,
       blue: color.b,
