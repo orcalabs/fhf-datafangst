@@ -21,3 +21,7 @@ export const setViewState = createAction<MenuViewState>("base/viewState");
 export const setMatrixToggle = createAction<MatrixToggle>(
   "base/setMatrixToggle",
 );
+
+export const setSearchFiltersAnchor = createAction<any | null>(
+  "base/setSearchFiltersAnchor",
+);

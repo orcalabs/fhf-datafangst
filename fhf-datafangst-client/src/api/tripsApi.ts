@@ -2,7 +2,7 @@ import { apiConfiguration, apiGet, axiosInstance } from ".";
 import { Haul, V1tripApi, Ordering, Vessel, Landing } from "generated/openapi";
 
 export interface TripsArgs {
-  vessel: Vessel;
+  vessel?: Vessel;
   ordering?: Ordering;
   offset?: number;
   limit?: number;
@@ -34,7 +34,7 @@ export const getTrips = async (query: TripsArgs) =>
   apiGet(async () =>
     api.trips(
       {
-        fiskeridirVesselId: query.vessel.fiskeridir.id,
+        fiskeridirVesselId: query.vessel?.fiskeridir.id ?? 123,
         limit: query.limit ?? 10,
         offset: query.offset ?? 0,
         ordering: query.ordering ?? "desc",

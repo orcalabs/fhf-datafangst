@@ -19,6 +19,7 @@ import { LandingState, initialLandingState } from "./landing";
 export enum MenuViewState {
   Overview = "overview",
   MyPage = "mypage",
+  Trips = "trips",
 }
 
 export enum MatrixToggle {
@@ -33,6 +34,7 @@ export interface BaseState {
   bwProfile?: FiskInfoProfile;
   authUser?: User;
   matrixToggle: MatrixToggle;
+  searchFiltersAnchor: HTMLButtonElement | null;
 }
 
 const initialBaseState: BaseState = {
@@ -42,6 +44,7 @@ const initialBaseState: BaseState = {
   viewState: MenuViewState.Overview,
   authUser: undefined,
   matrixToggle: MatrixToggle.Haul,
+  searchFiltersAnchor: null,
 };
 
 export interface AppState

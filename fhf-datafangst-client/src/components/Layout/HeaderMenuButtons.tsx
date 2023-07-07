@@ -46,7 +46,7 @@ export const HeaderMenuButtons: FC = () => {
           "&.Mui-selected": {
             backgroundColor: "primary.main",
             color: "white",
-            "&:hover": { bgcolor: "primary.light" },
+            "&:hover": { bgcolor: "primary.main" },
           },
           "&:hover": { bgcolor: "secondary.dark" },
         },
@@ -60,7 +60,8 @@ export const HeaderMenuButtons: FC = () => {
           handleChange(newValue)
         }
       >
-        <ToggleButton value={MenuViewState.Overview}>Fangstdata</ToggleButton>
+        <ToggleButton value={MenuViewState.Overview}>Områder</ToggleButton>
+        <ToggleButton value={MenuViewState.Trips}>Turer</ToggleButton>
         <ToggleButton value={MenuViewState.MyPage}>Mitt fartøy</ToggleButton>
       </ToggleButtonGroup>
     </Box>

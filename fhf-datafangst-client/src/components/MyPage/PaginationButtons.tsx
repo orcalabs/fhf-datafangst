@@ -33,7 +33,13 @@ export const PaginationButtons: FC<Props> = (props) => {
     onPaginationChange(offset < 0 ? 0 : offset, limit);
 
   return (
-    <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        "& .MuiButtonBase-root": { width: "156px" },
+      }}
+    >
       {!((!numItems && offset > 0) || numItems < limit) && (
         <PaginationButton
           startIcon={<ArrowBackIosIcon color="secondary" />}
@@ -76,7 +82,7 @@ export const PaginationButtons: FC<Props> = (props) => {
         </Select>
       )}
       {Boolean(offset) && (
-        <Box sx={{ mr: 0, ml: "auto", gridColumn: 3 }}>
+        <Box sx={{ gridColumn: 3 }}>
           <PaginationButton
             endIcon={<ArrowForwardIosIcon color="secondary" />}
             onClick={() => onChange(offset - limit, limit)}
