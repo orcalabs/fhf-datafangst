@@ -17,11 +17,9 @@ import {
   selectFishingFacilitySearch,
   selectHaulsMatrixSearch,
   selectIsLoggedIn,
-  selectTripsSearch,
   selectVesselsByCallsign,
   setFishingFacilitiesSearch,
   setHaulsMatrixSearch,
-  setTripsSearch,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -59,7 +57,6 @@ const accordionSx = {
 export const MyPage: FC = () => {
   const dispatch = useAppDispatch();
   const { signIn } = useAuth();
-  const tripsSearch = useAppSelector(selectTripsSearch);
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Hauls);
   const profile = useAppSelector(selectBwUserProfile);
@@ -74,7 +71,6 @@ export const MyPage: FC = () => {
 
     if (expandedTab === MenuTab.Trips && vessel) {
       dispatch(getCurrentTrip({ vessel }));
-      dispatch(setTripsSearch({ ...tripsSearch, vessel }));
     } else if (expandedTab === MenuTab.Hauls && vessel) {
       dispatch(
         setHaulsMatrixSearch({
@@ -164,6 +160,7 @@ export const MyPage: FC = () => {
       <Accordion
         square
         disableGutters
+        TransitionProps={{ unmountOnExit: true }}
         sx={accordionSx}
         expanded={expanded === MenuTab.Trips}
         onChange={() => handleTabChange(MenuTab.Trips)}
@@ -183,7 +180,7 @@ export const MyPage: FC = () => {
           </Box>
           <Typography variant="h6"> Mine turer </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ pb: 0 }}>
+        <AccordionDetails sx={{ pb: 0, pr: 0 }}>
           <MyTrips />
         </AccordionDetails>
       </Accordion>

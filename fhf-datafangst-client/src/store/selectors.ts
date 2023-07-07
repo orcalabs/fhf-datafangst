@@ -37,3 +37,8 @@ export const selectMatrixToggle = createSelector(
   selectAppState,
   (state) => state.matrixToggle,
 );
+
+export const selectSearchFiltersAnchor = createSelector(
+  selectAppState,
+  (state) => state.searchFiltersAnchor,
+);

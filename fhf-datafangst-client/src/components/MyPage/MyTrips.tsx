@@ -4,23 +4,34 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  ListSubheader,
 } from "@mui/material";
+import { TripsArgs } from "api";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
-import { LocalLoadingProgress, PaginationButtons } from "components";
-import { Trip } from "generated/openapi";
-import { FC } from "react";
 import {
+  LocalLoadingProgress,
+  PaginationButtons,
+  SearchFilters,
+} from "components";
+import { Trip } from "generated/openapi";
+import { FC, useEffect } from "react";
+import {
+  MenuViewState,
   paginateTripsSearch,
+  selectBwUserProfile,
   selectSelectedTrip,
   selectTrips,
   selectTripsLoading,
   selectTripsSearch,
+  selectVesselsByCallsign,
+  selectViewState,
   setSelectedTrip,
+  setTripsSearch,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { dateFormat, kilosOrTonsFormatter } from "utils";
+import { dateFormat, kilosOrTonsFormatter, withoutKeys } from "utils";
 
 const listItemSx = {
   px: 2.5,
@@ -31,15 +42,35 @@ const listItemSx = {
   "&:hover": { bgcolor: "primary.light" },
 };
 
+const filterParams: TripsArgs = {
+  // dateRange: undefined,
+  vessel: undefined,
+  // specieGroups: undefined,
+  // gearGroups: undefined,
+  // vesselLength: undefined,
+  // weight: undefined,
+  // sorting: undefined,
+};
+
 export const MyTrips: FC = () => {
   const dispatch = useAppDispatch();
   const tripsLoading = useAppSelector(selectTripsLoading);
   const trips = useAppSelector(selectTrips);
   const selectedTripId = useAppSelector(selectSelectedTrip)?.tripId;
   const tripsSearch = useAppSelector(selectTripsSearch);
+  const profile = useAppSelector(selectBwUserProfile);
+  const vessels = useAppSelector(selectVesselsByCallsign);
+  const vesselInfo = profile?.vesselInfo;
+  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const viewState = useAppSelector(selectViewState);
 
   const offset = tripsSearch?.offset ?? 0;
   const limit = tripsSearch?.limit ?? 10;
+
+  const activeFilterParams = {
+    ...withoutKeys(filterParams, "vessel"),
+    ...withoutKeys(tripsSearch, "vessel"),
+  };
 
   const handleTripsPagination = (offset: number, limit: number) => {
     dispatch(paginateTripsSearch({ offset, limit }));
@@ -50,8 +81,35 @@ export const MyTrips: FC = () => {
     dispatch(setSelectedTrip(newTrip));
   };
 
+  useEffect(() => {
+    if (vessel && viewState === MenuViewState.MyPage) {
+      dispatch(setTripsSearch({ ...tripsSearch, vessel }));
+    } else {
+      dispatch(setTripsSearch({ ...tripsSearch }));
+    }
+  }, []);
+
   return (
     <List sx={{ color: "white", pt: 0 }}>
+      <ListSubheader
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          bgcolor: "primary.main",
+          pl: 2.5,
+          pr: 0,
+          pt: viewState === MenuViewState.MyPage ? 0 : 1,
+          lineHeight: viewState === MenuViewState.MyPage ? "40px" : "48px",
+        }}
+      >
+        Leveranser
+        <SearchFilters
+          params={activeFilterParams}
+          onChange={(value) =>
+            dispatch(setTripsSearch({ ...tripsSearch, ...value, offset: 0 }))
+          }
+        />
+      </ListSubheader>
       {tripsLoading ? (
         <Box sx={{ pt: 2, pl: 2.5 }}>
           <LocalLoadingProgress />
@@ -82,7 +140,7 @@ export const MyTrips: FC = () => {
             </ListItemButton>
           ))}
 
-          <Box sx={{ mt: 1 }}>
+          <Box sx={{ mt: 1, mr: viewState === MenuViewState.MyPage ? 2 : 0 }}>
             <PaginationButtons
               numItems={trips?.length ?? 0}
               offset={offset}

@@ -1,5 +1,5 @@
 import { Box, Drawer } from "@mui/material";
-import { CatchData, MyPage } from "components";
+import { CatchData, MyPage, MyTrips } from "components";
 import { FC } from "react";
 import { MenuViewState, selectViewState, useAppSelector } from "store";
 
@@ -30,6 +30,7 @@ export const MainMenu: FC = () => {
         }}
       >
         {viewState === MenuViewState.Overview && <CatchData />}
+        {viewState === MenuViewState.Trips && <MyTrips />}
         {viewState === MenuViewState.MyPage && <MyPage />}
       </Drawer>
     </Box>

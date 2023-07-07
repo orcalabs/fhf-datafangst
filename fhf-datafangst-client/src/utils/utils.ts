@@ -232,3 +232,17 @@ export const trackForHaul = (
 
   return haulTrack;
 };
+
+export const withoutKeys = (
+  obj?: Record<any, any>,
+  ...keys: any[]
+): Record<any, any> | undefined => {
+  const res = { ...obj };
+
+  for (const key of keys) {
+    // eslint-disable-next-line
+    delete res[key];
+  }
+
+  return res;
+};

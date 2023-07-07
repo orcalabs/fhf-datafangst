@@ -237,7 +237,7 @@ export const HomeView: FC = () => {
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
         <HaulMenuArea>
-          {/* Use grid to set Trip menu on top when active, without removing HaulsMenu and its state */}
+          {/* Use grid to set Trip menu in front when active, without removing HaulsMenu and its state */}
           <Box sx={{ display: "grid", height: "100%" }}>
             <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
               {matrixToggle === MatrixToggle.Haul ? (
