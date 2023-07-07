@@ -1,6 +1,7 @@
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { HaulFilters, LandingFilters } from "components";
 import { FC, useEffect } from "react";
+import theme from "app/theme";
 import {
   initialHaulsMatrixSearch,
   initialLandingsMatrixSearch,
@@ -39,16 +40,36 @@ export const CatchData: FC = () => {
 
   return (
     <Box sx={{ height: "100%", px: 2.5, py: 1 }}>
-      <ToggleButtonGroup
-        color="secondary"
-        value={toggle}
-        exclusive
-        onChange={onToggleChange}
+      <Box
+        sx={{
+          pb: 1.5,
+          pt: 1,
+          "& .MuiToggleButtonGroup-grouped": {
+            borderRadius: 0,
+            color: "text.secondary",
+            borderColor: theme.palette.grey.A100,
+          },
+          "& .MuiToggleButton-root": {
+            "&.Mui-selected": {
+              backgroundColor: "secondary.main",
+              color: "white",
+              "&:hover": { bgcolor: "secondary.main" },
+            },
+            "&:hover": { bgcolor: "secondary.main" },
+          },
+        }}
       >
-        <ToggleButton value={MatrixToggle.Haul}>Hal</ToggleButton>
-        <ToggleButton value={MatrixToggle.Landing}>Landing</ToggleButton>
-      </ToggleButtonGroup>
-
+        <ToggleButtonGroup
+          exclusive
+          size="small"
+          value={toggle}
+          onChange={onToggleChange}
+          sx={{ width: "100%", alignSelf: "center" }}
+        >
+          <ToggleButton value={MatrixToggle.Haul}> ERS </ToggleButton>
+          <ToggleButton value={MatrixToggle.Landing}> Seddeldata </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
       {toggle === MatrixToggle.Haul ? <HaulFilters /> : <LandingFilters />}
     </Box>
   );
