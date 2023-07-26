@@ -5,17 +5,30 @@ import VectorSource from "ol/source/Vector";
 import { generateLocationsMatrix } from "utils";
 import {
   selectHaulsMatrixActiveFilterSelectedIndexes,
-  selectLocationsMatrix,
+  selectHaulLocationsMatrix,
   selectSelectedGridsString,
   selectSelectedOrCurrentTrip,
   useAppSelector,
+  selectMatrixToggle,
+  MatrixToggle,
+  selectLandingLocationsMatrix,
+  selectLandingsMatrixActiveFilterSelectedIndexes,
 } from "store";
 
 export const LocationsGrid = () => {
-  const matrix = useAppSelector(selectLocationsMatrix);
-  const selectedFilters = useAppSelector(
-    selectHaulsMatrixActiveFilterSelectedIndexes,
-  );
+  const matrixToggle = useAppSelector(selectMatrixToggle);
+
+  const [matrix, selectedFilters] =
+    matrixToggle === MatrixToggle.Haul
+      ? [
+          useAppSelector(selectHaulLocationsMatrix),
+          useAppSelector(selectHaulsMatrixActiveFilterSelectedIndexes),
+        ]
+      : [
+          useAppSelector(selectLandingLocationsMatrix),
+          useAppSelector(selectLandingsMatrixActiveFilterSelectedIndexes),
+        ];
+
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
 

@@ -8,13 +8,13 @@ import {
   setHaulsMatrixSearch,
   setSelectedHaul,
   getHaulsMatrix,
-  setHoveredFilter,
+  setHoveredHaulFilter,
   getHaulsMatrix2,
   setHaulsMatrix2Search,
   removeHauls,
   addHauls,
   setSelectedTripHaul,
-  setCurrentDateSliderFrame,
+  setHaulDateSliderFrame,
 } from ".";
 import { Haul } from "generated/openapi";
 
@@ -40,13 +40,9 @@ export const haulBuilder = (
       state.haulsLoading = true;
     })
     .addCase(addHauls.fulfilled, (state, action) => {
-      let hauls = { ...state.hauls };
-      if (hauls) {
-        for (const haul of action.payload) {
-          hauls[haul.haulId] = haul;
-        }
-      } else {
-        hauls = action.payload;
+      const hauls = { ...state.hauls };
+      for (const haul of action.payload) {
+        hauls[haul.haulId] = haul;
       }
       state.hauls = hauls;
       state.haulsLoading = false;
@@ -54,7 +50,7 @@ export const haulBuilder = (
     .addCase(addHauls.rejected, (state, _) => {
       state.haulsLoading = false;
     })
-    .addCase(removeHauls, (state, action) => {
+    .addCase(removeHauls, (state, _) => {
       for (const key in state.hauls) {
         const haul = state.hauls[Number(key)];
 
@@ -64,11 +60,6 @@ export const haulBuilder = (
               state.selectedGridsString.includes(c),
             )
           ) {
-            // eslint-disable-next-line
-            delete state.hauls[haul.haulId];
-          }
-        } else {
-          if (action.payload.includes(haul.catchLocationStart!)) {
             // eslint-disable-next-line
             delete state.hauls[haul.haulId];
           }
@@ -126,16 +117,17 @@ export const haulBuilder = (
     .addCase(setSelectedTripHaul, (state, action) => {
       state.selectedTripHaul = action.payload;
     })
-    .addCase(setHoveredFilter, (state, action) => {
-      state.hoveredFilter = action.payload;
+    .addCase(setHoveredHaulFilter, (state, action) => {
+      state.hoveredHaulFilter = action.payload;
     })
     .addCase(setHaulsMatrixSearch, (state, action) => {
       if (
         action.payload.filter === undefined ||
-        action.payload.filter !== state.hoveredFilter ||
+        action.payload.filter !== state.hoveredHaulFilter ||
         action.payload.filter === HaulsFilter.Vessel
       ) {
-        action.payload.filter = state.hoveredFilter ?? HaulsFilter.VesselLength;
+        action.payload.filter =
+          state.hoveredHaulFilter ?? HaulsFilter.VesselLength;
         (action as any).asyncDispatch(
           getHaulsMatrix({ ...action.payload, catchLocations: undefined }),
         );
@@ -144,6 +136,7 @@ export const haulBuilder = (
       return {
         ...state,
         ...emptyState,
+        landingsMatrix: undefined,
         hauls: undefined,
         haulsMatrixSearch: action.payload,
         haulsMatrix2Search: undefined,
@@ -152,10 +145,11 @@ export const haulBuilder = (
     .addCase(setHaulsMatrix2Search, (state, action) => {
       if (
         action.payload.filter === undefined ||
-        action.payload.filter !== state.hoveredFilter ||
+        action.payload.filter !== state.hoveredHaulFilter ||
         action.payload.filter === HaulsFilter.Vessel
       ) {
-        action.payload.filter = state.hoveredFilter ?? HaulsFilter.VesselLength;
+        action.payload.filter =
+          state.hoveredHaulFilter ?? HaulsFilter.VesselLength;
         (action as any).asyncDispatch(getHaulsMatrix2(action.payload));
       }
 
@@ -176,6 +170,6 @@ export const haulBuilder = (
 
       state.haulsMatrix2Search = action.payload;
     })
-    .addCase(setCurrentDateSliderFrame, (state, action) => {
-      state.currentDateSliderFrame = action.payload;
+    .addCase(setHaulDateSliderFrame, (state, action) => {
+      state.haulDateSliderFrame = action.payload;
     });

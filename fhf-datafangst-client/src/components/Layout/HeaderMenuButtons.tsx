@@ -3,7 +3,7 @@ import { FC } from "react";
 import {
   MenuViewState,
   selectViewState,
-  setHoveredFilter,
+  setHoveredHaulFilter,
   setViewState,
   useAppDispatch,
   useAppSelector,
@@ -16,7 +16,7 @@ export const HeaderMenuButtons: FC = () => {
   const handleChange = (newValue: MenuViewState) => {
     if (newValue !== null) {
       dispatch(setViewState(newValue));
-      dispatch(setHoveredFilter(undefined));
+      dispatch(setHoveredHaulFilter(undefined));
     }
   };
 

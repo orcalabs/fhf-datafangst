@@ -1,31 +1,24 @@
 import { Box, Typography } from "@mui/material";
 import { GearGroup } from "generated/openapi";
 import { FC } from "react";
-import {
-  selectGearFilterStatsSorted,
-  selectGearGroupsMap,
-  useAppSelector,
-} from "store";
+import { selectGearGroupsMap, useAppSelector } from "store";
 import { Bar } from "./Bar";
 
 interface Props {
   value?: GearGroup[];
   onChange: (_?: GearGroup[]) => void;
-  statsSelector?: typeof selectGearFilterStatsSorted;
+  stats: { id: any; value: number }[];
   removeIfSingleEntry?: boolean;
 }
 
 export const GearFilter: FC<Props> = (props) => {
   const gearGroups = useAppSelector(selectGearGroupsMap);
-  const gearFilterStats = useAppSelector(
-    props.statsSelector ?? selectGearFilterStatsSorted,
-  );
 
-  if (!gearFilterStats.length) {
+  if (!props.stats.length) {
     return <></>;
   }
 
-  if (gearFilterStats.length === 1 && props.removeIfSingleEntry) {
+  if (props.stats.length === 1 && props.removeIfSingleEntry) {
     return <></>;
   }
 
@@ -34,7 +27,7 @@ export const GearFilter: FC<Props> = (props) => {
   const onChange = (value: GearGroup[]) =>
     props.onChange(value.length ? value : undefined);
 
-  const total = gearFilterStats.sum((v) => v.value);
+  const total = props.stats.sum((v) => v.value);
 
   const handleClick = (id: number) => {
     const gearGroup = gearGroups[id];
@@ -52,7 +45,7 @@ export const GearFilter: FC<Props> = (props) => {
         Redskap
       </Typography>
       <Box>
-        {gearFilterStats.map((val, i) => (
+        {props.stats.map((val, i) => (
           <Box
             key={i}
             sx={{ ":hover": { cursor: "pointer" } }}

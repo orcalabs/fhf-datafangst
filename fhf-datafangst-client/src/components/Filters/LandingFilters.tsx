@@ -1,12 +1,15 @@
 import { Box } from "@mui/material";
 import { FC } from "react";
 import {
-  selectHaulsMatrixSearch,
-  setHoveredFilter,
-  setHaulsMatrixSearch,
+  selectLandingsMatrixSearch,
+  setHoveredLandingFilter,
+  setLandingsMatrixSearch,
   useAppDispatch,
   useAppSelector,
-  selectHaulsMatrixLoading,
+  selectLandingsMatrixLoading,
+  selectLandingGearFilterStats,
+  selectLandingSpeciesFilterStats,
+  selectLandingVesselLengthFilterStats,
 } from "store";
 import { GearFilter } from "./GearFilter";
 import { MonthsFilter } from "./MonthsFilter";
@@ -14,23 +17,28 @@ import { SpeciesFilter } from "./SpeciesFilter";
 import { LengthGroupFilter } from "./LengthGroupFilter";
 import { YearsFilter } from "./YearsFilter";
 import { VesselFilter } from "./VesselFilter";
-import { HaulsFilter } from "api";
+import { LandingsFilter } from "api";
 import { Vessel } from "generated/openapi";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
+import { MinLandingYear } from "utils";
 
 interface Props {
   selectedVessel?: Vessel;
   removeSingleEntryFilters?: boolean;
 }
 
-export const Filters: FC<Props> = (props) => {
+export const LandingFilters: FC<Props> = (props) => {
   const { selectedVessel, removeSingleEntryFilters } = props;
-  const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
-  const dispatch = useAppDispatch();
-  const matrixLoading = useAppSelector(selectHaulsMatrixLoading);
 
-  const onFilterHover = (filter: HaulsFilter) =>
-    dispatch(setHoveredFilter(filter));
+  const dispatch = useAppDispatch();
+  const landingsSearch = useAppSelector(selectLandingsMatrixSearch);
+  const matrixLoading = useAppSelector(selectLandingsMatrixLoading);
+  const gearStats = useAppSelector(selectLandingGearFilterStats);
+  const speciesStats = useAppSelector(selectLandingSpeciesFilterStats);
+  const lengthGroupStats = useAppSelector(selectLandingVesselLengthFilterStats);
+
+  const onFilterHover = (filter: LandingsFilter) =>
+    dispatch(setHoveredLandingFilter(filter));
 
   return (
     <>
@@ -47,22 +55,25 @@ export const Filters: FC<Props> = (props) => {
       >
         <Box
           sx={{ display: "flex", justifyContent: "space-between" }}
-          onMouseEnter={() => onFilterHover(HaulsFilter.Date)}
+          onMouseEnter={() => onFilterHover(LandingsFilter.Date)}
         >
           <Box sx={{ width: "100%" }}>
             <YearsFilter
-              value={haulsSearch?.years}
+              value={landingsSearch?.years}
+              minYear={MinLandingYear}
               onChange={(value) =>
-                dispatch(setHaulsMatrixSearch({ ...haulsSearch, years: value }))
+                dispatch(
+                  setLandingsMatrixSearch({ ...landingsSearch, years: value }),
+                )
               }
             />
           </Box>
           <Box sx={{ width: "100%" }}>
             <MonthsFilter
-              value={haulsSearch?.months}
+              value={landingsSearch?.months}
               onChange={(value) =>
                 dispatch(
-                  setHaulsMatrixSearch({ ...haulsSearch, months: value }),
+                  setLandingsMatrixSearch({ ...landingsSearch, months: value }),
                 )
               }
             />
@@ -75,37 +86,43 @@ export const Filters: FC<Props> = (props) => {
         </Box>
       ) : (
         <>
-          <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
+          <Box onMouseEnter={() => onFilterHover(LandingsFilter.GearGroup)}>
             <GearFilter
-              value={haulsSearch?.gearGroupIds}
+              value={landingsSearch?.gearGroupIds}
+              stats={gearStats}
               onChange={(value) =>
                 dispatch(
-                  setHaulsMatrixSearch({ ...haulsSearch, gearGroupIds: value }),
+                  setLandingsMatrixSearch({
+                    ...landingsSearch,
+                    gearGroupIds: value,
+                  }),
                 )
               }
               removeIfSingleEntry={removeSingleEntryFilters}
             />
           </Box>
-          <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
+          <Box onMouseEnter={() => onFilterHover(LandingsFilter.SpeciesGroup)}>
             <SpeciesFilter
-              value={haulsSearch?.speciesGroupIds}
+              value={landingsSearch?.speciesGroupIds}
+              stats={speciesStats}
               onChange={(value) =>
                 dispatch(
-                  setHaulsMatrixSearch({
-                    ...haulsSearch,
+                  setLandingsMatrixSearch({
+                    ...landingsSearch,
                     speciesGroupIds: value,
                   }),
                 )
               }
             />
           </Box>
-          <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
+          <Box onMouseEnter={() => onFilterHover(LandingsFilter.VesselLength)}>
             <LengthGroupFilter
-              value={haulsSearch?.vesselLengthRanges}
+              value={landingsSearch?.vesselLengthRanges}
+              stats={lengthGroupStats}
               onChange={(value) =>
                 dispatch(
-                  setHaulsMatrixSearch({
-                    ...haulsSearch,
+                  setLandingsMatrixSearch({
+                    ...landingsSearch,
                     vesselLengthRanges: value,
                   }),
                 )
@@ -114,12 +131,15 @@ export const Filters: FC<Props> = (props) => {
             />
           </Box>
           {!selectedVessel && (
-            <Box onMouseEnter={() => onFilterHover(HaulsFilter.Vessel)}>
+            <Box onMouseEnter={() => onFilterHover(LandingsFilter.Vessel)}>
               <VesselFilter
-                value={haulsSearch?.vessels}
+                value={landingsSearch?.vessels}
                 onChange={(value) =>
                   dispatch(
-                    setHaulsMatrixSearch({ ...haulsSearch, vessels: value }),
+                    setLandingsMatrixSearch({
+                      ...landingsSearch,
+                      vessels: value,
+                    }),
                   )
                 }
                 useVirtualization

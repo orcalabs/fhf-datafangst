@@ -27,16 +27,16 @@ export const setHaulsMatrix2Search = createAction<HaulsArgs>(
   "haul/setHaulsMatrix2Search",
 );
 
-export const setCurrentDateSliderFrame = createAction<Date | undefined>(
-  "haul/setCurrentDateSliderFrame",
+export const setHaulDateSliderFrame = createAction<Date | undefined>(
+  "haul/setHaulDateSliderFrame",
 );
 
 export const setSelectedHaul = createAction<Haul | number | undefined>(
   "haul/setSelectedHaul",
 );
 
-export const setHoveredFilter = createAction<HaulsFilter | undefined>(
-  "haul/setHoveredFilter",
+export const setHoveredHaulFilter = createAction<HaulsFilter | undefined>(
+  "haul/setHoveredHaulFilter",
 );
 
 export const setSelectedTripHaul = createAction<Haul | undefined>(

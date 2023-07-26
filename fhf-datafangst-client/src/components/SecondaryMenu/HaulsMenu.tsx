@@ -43,10 +43,10 @@ import {
   useAppSelector,
   setHaulsMatrix2Search,
   selectHaulsMatrix2Search,
-  selectGearFilterGridStatsSorted,
-  selectVesselLengthFilterGridStatsSorted,
-  selectSpeciesFilterGridStatsSorted,
-  setHoveredFilter,
+  selectHaulGearFilterGridStats,
+  selectHaulVesselLengthFilterGridStats,
+  selectHaulSpeciesFilterGridStats,
+  setHoveredHaulFilter,
   selectHaulsMatrix2Loading,
   selectHaulsSorted,
 } from "store";
@@ -103,6 +103,12 @@ export const HaulsMenu: FC = () => {
   const selectedGrids = useAppSelector(selectSelectedGrids);
   const haulsSearch = useAppSelector(selectHaulsMatrix2Search);
   const matrixLoading = useAppSelector(selectHaulsMatrix2Loading);
+  const gearStats = useAppSelector(selectHaulGearFilterGridStats);
+  const speciesStats = useAppSelector(selectHaulSpeciesFilterGridStats);
+  const lengthGroupStats = useAppSelector(
+    selectHaulVesselLengthFilterGridStats,
+  );
+
   const selectedHaulId = selectedHaul?.haulId;
   const [sortButtonAnchorEl, setSortButtonAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -142,7 +148,7 @@ export const HaulsMenu: FC = () => {
   };
 
   const onFilterHover = (filter: HaulsFilter) =>
-    dispatch(setHoveredFilter(filter));
+    dispatch(setHoveredHaulFilter(filter));
 
   // Change current page when Haul is selected from map click
   useEffect(() => {
@@ -233,7 +239,7 @@ export const HaulsMenu: FC = () => {
                 mt: 1,
               }}
               onClick={() => {
-                dispatch(getHaulTrip({ haul }));
+                dispatch(getHaulTrip(haul));
               }}
               startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
             >
@@ -254,7 +260,7 @@ export const HaulsMenu: FC = () => {
     </Box>
   );
 
-  const radioControl = (label: string, value: string) => (
+  const radioControl = (label: string, value: [HaulsSorting, Ordering]) => (
     <FormControlLabel label={label} value={value} control={<Radio />} />
   );
 
@@ -296,17 +302,29 @@ export const HaulsMenu: FC = () => {
               value={sortOrder.join(" ")}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 handleSortChange(
-                  (event.target as HTMLInputElement).value.split(" ") as [
+                  (event.target as HTMLInputElement).value.split(",") as [
                     HaulsSorting,
                     Ordering,
                   ],
                 )
               }
             >
-              {radioControl("Dato nyest-eldst", "startDate desc")}
-              {radioControl("Dato eldst-nyest", "startDate asc")}
-              {radioControl("Vekt høy-lav", "weight desc")}
-              {radioControl("Vekt lav-høy", "weight asc")}
+              {radioControl("Dato nyest-eldst", [
+                HaulsSorting.StartDate,
+                Ordering.Desc,
+              ])}
+              {radioControl("Dato eldst-nyest", [
+                HaulsSorting.StartDate,
+                Ordering.Asc,
+              ])}
+              {radioControl("Vekt høy-lav", [
+                HaulsSorting.Weight,
+                Ordering.Desc,
+              ])}
+              {radioControl("Vekt lav-høy", [
+                HaulsSorting.Weight,
+                Ordering.Asc,
+              ])}
             </RadioGroup>
           </FormControl>
         </MenuItem>
@@ -348,6 +366,7 @@ export const HaulsMenu: FC = () => {
                   >
                     <GearFilter
                       value={haulsSearch?.gearGroupIds}
+                      stats={gearStats}
                       onChange={(value) =>
                         dispatch(
                           setHaulsMatrix2Search({
@@ -356,7 +375,6 @@ export const HaulsMenu: FC = () => {
                           }),
                         )
                       }
-                      statsSelector={selectGearFilterGridStatsSorted}
                     />
                   </Box>
                   <Box
@@ -364,6 +382,7 @@ export const HaulsMenu: FC = () => {
                   >
                     <SpeciesFilter
                       value={haulsSearch?.speciesGroupIds}
+                      stats={speciesStats}
                       onChange={(value) =>
                         dispatch(
                           setHaulsMatrix2Search({
@@ -372,7 +391,6 @@ export const HaulsMenu: FC = () => {
                           }),
                         )
                       }
-                      statsSelector={selectSpeciesFilterGridStatsSorted}
                     />
                   </Box>
                   <Box
@@ -380,6 +398,7 @@ export const HaulsMenu: FC = () => {
                   >
                     <LengthGroupFilter
                       value={haulsSearch?.vesselLengthRanges}
+                      stats={lengthGroupStats}
                       onChange={(value) =>
                         dispatch(
                           setHaulsMatrix2Search({
@@ -388,7 +407,6 @@ export const HaulsMenu: FC = () => {
                           }),
                         )
                       }
-                      statsSelector={selectVesselLengthFilterGridStatsSorted}
                     />
                   </Box>
                 </Box>

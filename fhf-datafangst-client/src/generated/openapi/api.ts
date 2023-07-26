@@ -42,6 +42,22 @@ export type ActiveHaulsFilter = typeof ActiveHaulsFilter[keyof typeof ActiveHaul
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const ActiveLandingFilter = {
+    Date: 'date',
+    GearGroup: 'gearGroup',
+    SpeciesGroup: 'speciesGroup',
+    VesselLength: 'vesselLength'
+} as const;
+
+export type ActiveLandingFilter = typeof ActiveLandingFilter[keyof typeof ActiveLandingFilter];
+
+
+/**
+ * 
+ * @export
  * @interface AisPosition
  */
 export interface AisPosition {
@@ -267,7 +283,8 @@ export const ApiError = {
     MissingMmsiOrCallSign: 'MissingMmsiOrCallSign',
     Forbidden: 'Forbidden',
     MissingBwToken: 'MissingBwToken',
-    InvalidBwToken: 'InvalidBwToken'
+    InvalidBwToken: 'InvalidBwToken',
+    InvalidLandingId: 'InvalidLandingId'
 } as const;
 
 export type ApiError = typeof ApiError[keyof typeof ApiError];
@@ -1009,6 +1026,179 @@ export type HaulsSorting = typeof HaulsSorting[keyof typeof HaulsSorting];
 /**
  * 
  * @export
+ * @interface Landing
+ */
+export interface Landing {
+    /**
+     * 
+     * @type {string}
+     * @memberof Landing
+     */
+    'catchLocation'?: string | null;
+    /**
+     * 
+     * @type {Array<LandingCatch>}
+     * @memberof Landing
+     */
+    'catches': Array<LandingCatch>;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'fiskeridirVesselId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'gearGroupId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'gearId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Landing
+     */
+    'landingId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Landing
+     */
+    'landingTimestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'totalGrossWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'totalLivingWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'totalProductWeight': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Landing
+     */
+    'vesselCallSign'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'vesselLength'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'vesselLengthGroup': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Landing
+     */
+    'vesselName'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface LandingCatch
+ */
+export interface LandingCatch {
+    /**
+     * 
+     * @type {number}
+     * @memberof LandingCatch
+     */
+    'grossWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LandingCatch
+     */
+    'livingWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LandingCatch
+     */
+    'productWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LandingCatch
+     */
+    'speciesFiskeridirId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LandingCatch
+     */
+    'speciesGroupId': number;
+}
+/**
+ * 
+ * @export
+ * @interface LandingMatrix
+ */
+export interface LandingMatrix {
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof LandingMatrix
+     */
+    'dates': Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof LandingMatrix
+     */
+    'gearGroup': Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof LandingMatrix
+     */
+    'lengthGroup': Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof LandingMatrix
+     */
+    'speciesGroup': Array<number>;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const LandingsSorting = {
+    LandingTimestamp: 'landingTimestamp',
+    LivingWeight: 'livingWeight'
+} as const;
+
+export type LandingsSorting = typeof LandingsSorting[keyof typeof LandingsSorting];
+
+
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -1324,6 +1514,12 @@ export interface Vessel {
      * @memberof Vessel
      */
     'fiskeridir': FiskeridirVessel;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof Vessel
+     */
+    'gearGroups': Array<number>;
 }
 /**
  * 
@@ -2561,6 +2757,368 @@ export class V1haulApi extends BaseAPI {
 
 
 /**
+ * V1landingApi - axios parameter creator
+ * @export
+ */
+export const V1landingApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {ActiveLandingFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {string} [months] 
+         * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthGroups] 
+         * @param {string} [fiskeridirVesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        landingMatrix: async (activeFilter: ActiveLandingFilter, months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthGroups?: string, fiskeridirVesselIds?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'activeFilter' is not null or undefined
+            assertParamExists('landingMatrix', 'activeFilter', activeFilter)
+            const localVarPath = `/v1.0/landing_matrix/{active_filter}`
+                .replace(`{${"active_filter"}}`, encodeURIComponent(String(activeFilter)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (months !== undefined) {
+                localVarQueryParameter['months'] = months;
+            }
+
+            if (catchLocations !== undefined) {
+                localVarQueryParameter['catchLocations'] = catchLocations;
+            }
+
+            if (gearGroupIds !== undefined) {
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
+            }
+
+            if (speciesGroupIds !== undefined) {
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
+            }
+
+            if (vesselLengthGroups !== undefined) {
+                localVarQueryParameter['vesselLengthGroups'] = vesselLengthGroups;
+            }
+
+            if (fiskeridirVesselIds !== undefined) {
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [months] 
+         * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
+         * @param {string} [fiskeridirVesselIds] 
+         * @param {LandingsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        landings: async (months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, sorting?: LandingsSorting, ordering?: Ordering, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/landings`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (months !== undefined) {
+                localVarQueryParameter['months'] = months;
+            }
+
+            if (catchLocations !== undefined) {
+                localVarQueryParameter['catchLocations'] = catchLocations;
+            }
+
+            if (gearGroupIds !== undefined) {
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
+            }
+
+            if (speciesGroupIds !== undefined) {
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
+            }
+
+            if (vesselLengthRanges !== undefined) {
+                localVarQueryParameter['vesselLengthRanges'] = vesselLengthRanges;
+            }
+
+            if (fiskeridirVesselIds !== undefined) {
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
+            }
+
+            if (sorting !== undefined) {
+                localVarQueryParameter['sorting'] = sorting;
+            }
+
+            if (ordering !== undefined) {
+                localVarQueryParameter['ordering'] = ordering;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1landingApi - functional programming interface
+ * @export
+ */
+export const V1landingApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1landingApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {ActiveLandingFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {string} [months] 
+         * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthGroups] 
+         * @param {string} [fiskeridirVesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async landingMatrix(activeFilter: ActiveLandingFilter, months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthGroups?: string, fiskeridirVesselIds?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LandingMatrix>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.landingMatrix(activeFilter, months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [months] 
+         * @param {string} [catchLocations] 
+         * @param {string} [gearGroupIds] 
+         * @param {string} [speciesGroupIds] 
+         * @param {string} [vesselLengthRanges] 
+         * @param {string} [fiskeridirVesselIds] 
+         * @param {LandingsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async landings(months?: string, catchLocations?: string, gearGroupIds?: string, speciesGroupIds?: string, vesselLengthRanges?: string, fiskeridirVesselIds?: string, sorting?: LandingsSorting, ordering?: Ordering, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Landing>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.landings(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthRanges, fiskeridirVesselIds, sorting, ordering, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1landingApi - factory interface
+ * @export
+ */
+export const V1landingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1landingApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {V1landingApiLandingMatrixRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        landingMatrix(requestParameters: V1landingApiLandingMatrixRequest, options?: AxiosRequestConfig): AxiosPromise<LandingMatrix> {
+            return localVarFp.landingMatrix(requestParameters.activeFilter, requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1landingApiLandingsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        landings(requestParameters: V1landingApiLandingsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Landing>> {
+            return localVarFp.landings(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for landingMatrix operation in V1landingApi.
+ * @export
+ * @interface V1landingApiLandingMatrixRequest
+ */
+export interface V1landingApiLandingMatrixRequest {
+    /**
+     * What feature to group by on the y-axis of the output matrices
+     * @type {ActiveLandingFilter}
+     * @memberof V1landingApiLandingMatrix
+     */
+    readonly activeFilter: ActiveLandingFilter
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandingMatrix
+     */
+    readonly months?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandingMatrix
+     */
+    readonly catchLocations?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandingMatrix
+     */
+    readonly gearGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandingMatrix
+     */
+    readonly speciesGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandingMatrix
+     */
+    readonly vesselLengthGroups?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandingMatrix
+     */
+    readonly fiskeridirVesselIds?: string
+}
+
+/**
+ * Request parameters for landings operation in V1landingApi.
+ * @export
+ * @interface V1landingApiLandingsRequest
+ */
+export interface V1landingApiLandingsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandings
+     */
+    readonly months?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandings
+     */
+    readonly catchLocations?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandings
+     */
+    readonly gearGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandings
+     */
+    readonly speciesGroupIds?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandings
+     */
+    readonly vesselLengthRanges?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1landingApiLandings
+     */
+    readonly fiskeridirVesselIds?: string
+
+    /**
+     * 
+     * @type {LandingsSorting}
+     * @memberof V1landingApiLandings
+     */
+    readonly sorting?: LandingsSorting
+
+    /**
+     * 
+     * @type {Ordering}
+     * @memberof V1landingApiLandings
+     */
+    readonly ordering?: Ordering
+}
+
+/**
+ * V1landingApi - object-oriented interface
+ * @export
+ * @class V1landingApi
+ * @extends {BaseAPI}
+ */
+export class V1landingApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1landingApiLandingMatrixRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1landingApi
+     */
+    public landingMatrix(requestParameters: V1landingApiLandingMatrixRequest, options?: AxiosRequestConfig) {
+        return V1landingApiFp(this.configuration).landingMatrix(requestParameters.activeFilter, requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1landingApiLandingsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1landingApi
+     */
+    public landings(requestParameters: V1landingApiLandingsRequest = {}, options?: AxiosRequestConfig) {
+        return V1landingApiFp(this.configuration).landings(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthRanges, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * V1speciesApi - axios parameter creator
  * @export
  */
@@ -2952,6 +3510,39 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {string} landingId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        tripOfLanding: async (landingId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'landingId' is not null or undefined
+            assertParamExists('tripOfLanding', 'landingId', landingId)
+            const localVarPath = `/v1.0/trip_of_landing/{landing_id}`
+                .replace(`{${"landing_id"}}`, encodeURIComponent(String(landingId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} fiskeridirVesselId 
          * @param {number} [limit] 
          * @param {number} [offset] 
@@ -3030,6 +3621,16 @@ export const V1tripApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} landingId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async tripOfLanding(landingId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tripOfLanding(landingId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {number} fiskeridirVesselId 
          * @param {number} [limit] 
          * @param {number} [offset] 
@@ -3071,6 +3672,15 @@ export const V1tripApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {V1tripApiTripOfLandingRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        tripOfLanding(requestParameters: V1tripApiTripOfLandingRequest, options?: AxiosRequestConfig): AxiosPromise<Trip> {
+            return localVarFp.tripOfLanding(requestParameters.landingId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {V1tripApiTripsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3107,6 +3717,20 @@ export interface V1tripApiTripOfHaulRequest {
      * @memberof V1tripApiTripOfHaul
      */
     readonly haulId: number
+}
+
+/**
+ * Request parameters for tripOfLanding operation in V1tripApi.
+ * @export
+ * @interface V1tripApiTripOfLandingRequest
+ */
+export interface V1tripApiTripOfLandingRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripApiTripOfLanding
+     */
+    readonly landingId: string
 }
 
 /**
@@ -3171,6 +3795,17 @@ export class V1tripApi extends BaseAPI {
      */
     public tripOfHaul(requestParameters: V1tripApiTripOfHaulRequest, options?: AxiosRequestConfig) {
         return V1tripApiFp(this.configuration).tripOfHaul(requestParameters.haulId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1tripApiTripOfLandingRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripApi
+     */
+    public tripOfLanding(requestParameters: V1tripApiTripOfLandingRequest, options?: AxiosRequestConfig) {
+        return V1tripApiFp(this.configuration).tripOfLanding(requestParameters.landingId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -4,6 +4,7 @@ import {
   getCurrentTrip,
   getCurrentTripTrack,
   getHaulTrip,
+  getLandingTrip,
   getTrips,
   paginateTripsSearch,
   setSelectedTrip,
@@ -17,6 +18,25 @@ export const tripBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(getHaulTrip.fulfilled, (state, action) => {
+      const trip = action.payload;
+      state.selectedTrip = trip;
+
+      if (trip && state.vesselsByFiskeridirId) {
+        const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
+
+        if (vessel) {
+          (action as any).asyncDispatch(
+            getTrack({
+              mmsi: vessel.ais?.mmsi,
+              callSign: vessel.fiskeridir.callSign,
+              start: trip.start,
+              end: trip.end,
+            }),
+          );
+        }
+      }
+    })
+    .addCase(getLandingTrip.fulfilled, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
 

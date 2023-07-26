@@ -5,14 +5,15 @@ import { StyledPopper } from "components";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
-export const getAllYearsArray = () =>
+export const getAllYearsArray = (minYear: number) =>
   Array.from(
-    { length: new Date().getFullYear() - 2010 + 1 },
-    (_, i) => i + 2010,
+    { length: new Date().getFullYear() - minYear + 1 },
+    (_, i) => i + minYear,
   );
 
 interface Props {
   value?: number[];
+  minYear: number;
   onChange: (_?: number[]) => void;
 }
 
@@ -46,7 +47,7 @@ export const YearsFilter: FC<Props> = (props) => {
         onKeyDown={(e) => e.stopPropagation()}
         value={values ?? []}
         onChange={(_, value) => onChange(value?.length ? value : undefined)}
-        options={getAllYearsArray()}
+        options={getAllYearsArray(props.minYear)}
         getOptionLabel={(option: number) => option.toString()}
         renderInput={(params: any) => (
           <TextField {...params} variant="standard" />
