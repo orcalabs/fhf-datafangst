@@ -658,7 +658,7 @@ export interface FiskeridirVessel {
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'lengthGroupId'?: number | null;
+    'lengthGroupId': number;
     /**
      * 
      * @type {string}
