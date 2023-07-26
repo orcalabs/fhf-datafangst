@@ -21,6 +21,7 @@ export interface LengthGroup {
 }
 
 export const LengthGroups: LengthGroup[] = [
+  { id: 0, name: "Ukjent", min: -1, max: -1 },
   { id: 1, name: "Under 11m", min: 0, max: 11 },
   { id: 2, name: "11-14.9m", min: 11, max: 15 },
   { id: 3, name: "15-20.9m", min: 15, max: 21 },
