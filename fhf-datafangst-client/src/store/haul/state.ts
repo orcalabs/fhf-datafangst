@@ -12,11 +12,11 @@ export interface HaulState {
   haulsSearch?: HaulsArgs;
   haulsMatrixSearch?: HaulsArgs;
   haulsMatrix2Search?: HaulsArgs;
-  hoveredFilter?: HaulsFilter;
+  hoveredHaulFilter?: HaulsFilter;
   selectedHaul?: Haul;
   selectedTripHaul?: Haul;
   showTimeSlider: boolean;
-  currentDateSliderFrame?: Date;
+  haulDateSliderFrame?: Date;
 }
 
 export const initialHaulState: HaulState = {
@@ -29,7 +29,7 @@ export const initialHaulState: HaulState = {
   haulsSearch: undefined,
   haulsMatrixSearch: undefined,
   haulsMatrix2Search: undefined,
-  hoveredFilter: undefined,
+  hoveredHaulFilter: undefined,
   selectedHaul: undefined,
   selectedTripHaul: undefined,
   showTimeSlider: false,

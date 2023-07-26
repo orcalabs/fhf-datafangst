@@ -1,34 +1,29 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { Box, Button, Slider, Typography } from "@mui/material";
-import {
-  selectHaulsMatrixSearch,
-  setCurrentDateSliderFrame,
-  setHaulsMatrixSearch,
-  setHoveredFilter,
-  useAppSelector,
-} from "store";
 import { Months } from "utils";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-import { HaulsFilter } from "api";
-import { useDispatch } from "react-redux";
 import { isFuture } from "date-fns";
 
 const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
 
-export const TimeSlider: FC = () => {
-  const dispatch = useDispatch();
-  const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
+interface Props {
+  options?: { years?: number[]; months?: number[]; filter?: string };
+  minYear: number;
+  onValueChange: (date: Date) => void;
+  onOpenChange: (open: boolean) => void;
+}
+
+export const TimeSlider: FC<Props> = (props: Props) => {
+  const options = props.options;
   const [open, setOpen] = useState<boolean>(false);
 
   const selectedDates = useMemo(() => {
-    const years = haulsSearch?.years?.length
-      ? haulsSearch?.years
-      : getAllYearsArray();
+    const years = options?.years?.length
+      ? options?.years
+      : getAllYearsArray(props.minYear);
 
-    const months = haulsSearch?.months?.length
-      ? haulsSearch?.months
-      : allMonths;
+    const months = options?.months?.length ? options?.months : allMonths;
 
     const res = years
       .map((y) => months.map((m) => new Date(y, m - 1, 1)))
@@ -44,27 +39,24 @@ export const TimeSlider: FC = () => {
     }
 
     return res;
-  }, [haulsSearch?.years, haulsSearch?.months]);
+  }, [options?.years, options?.months]);
 
   useEffect(() => {
-    if (haulsSearch?.filter !== HaulsFilter.Date) {
+    if (options?.filter !== "date") {
       setOpen(false);
     }
-  }, [haulsSearch?.filter]);
+  }, [options?.filter]);
 
   const handleSliderChange = (idx: number) => {
-    dispatch(setCurrentDateSliderFrame(selectedDates[idx]));
+    props.onValueChange(selectedDates[idx]);
   };
 
   const handleOpenSlider = () => {
     setOpen(!open);
+    props.onOpenChange(!open);
 
     if (!open) {
-      dispatch(setHoveredFilter(HaulsFilter.Date));
-      dispatch(setHaulsMatrixSearch({ ...haulsSearch }));
-      dispatch(setCurrentDateSliderFrame(selectedDates[0]));
-    } else {
-      dispatch(setCurrentDateSliderFrame(undefined));
+      handleSliderChange(0);
     }
   };
 

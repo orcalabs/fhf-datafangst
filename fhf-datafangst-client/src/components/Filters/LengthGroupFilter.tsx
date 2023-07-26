@@ -1,31 +1,27 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import { LengthGroup, LengthGroupsMap } from "models";
-import { selectVesselLengthFilterStatsSorted, useAppSelector } from "store";
 import { Bar } from "./Bar";
 
 interface Props {
   value?: LengthGroup[];
   onChange: (_?: LengthGroup[]) => void;
-  statsSelector?: typeof selectVesselLengthFilterStatsSorted;
+  stats: { id: any; value: number }[];
   removeIfSingleEntry?: boolean;
 }
 
 export const LengthGroupFilter: FC<Props> = (props) => {
   const value = props.value ?? [];
-  const vesselLengthStats = useAppSelector(
-    props.statsSelector ?? selectVesselLengthFilterStatsSorted,
-  );
 
-  if (!vesselLengthStats.length) {
+  if (!props.stats.length) {
     return <></>;
   }
 
-  if (vesselLengthStats.length === 1 && props.removeIfSingleEntry) {
+  if (props.stats.length === 1 && props.removeIfSingleEntry) {
     return <></>;
   }
 
-  const total = vesselLengthStats.sum((v) => v.value);
+  const total = props.stats.sum((v) => v.value);
 
   const onChange = (value: LengthGroup[]) =>
     props.onChange(value.length ? value : undefined);
@@ -46,7 +42,7 @@ export const LengthGroupFilter: FC<Props> = (props) => {
         Fartøylengde
       </Typography>
       <Box>
-        {vesselLengthStats.map((val, i) => (
+        {props.stats.map((val, i) => (
           <Box
             key={i}
             sx={{ ":hover": { cursor: "pointer" } }}

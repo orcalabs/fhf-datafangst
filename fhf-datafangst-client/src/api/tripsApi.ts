@@ -1,9 +1,5 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
-import { Haul, V1tripApi, Ordering, Vessel } from "generated/openapi";
-
-export interface HaulsTripArgs {
-  haul: Haul;
-}
+import { Haul, V1tripApi, Ordering, Vessel, Landing } from "generated/openapi";
 
 export interface TripsArgs {
   vessel: Vessel;
@@ -20,10 +16,17 @@ export interface CurrentTripArgs {
 
 const api = new V1tripApi(apiConfiguration, undefined, axiosInstance);
 
-export const getTripFromHaul = async (query: HaulsTripArgs) =>
+export const getTripFromHaul = async (haul: Haul) =>
   apiGet(async () =>
     api.tripOfHaul({
-      haulId: query.haul.haulId,
+      haulId: haul.haulId,
+    }),
+  );
+
+export const getTripFromLanding = async (landing: Landing) =>
+  apiGet(async () =>
+    api.tripOfLanding({
+      landingId: landing.landingId,
     }),
   );
 

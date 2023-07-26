@@ -15,3 +15,4 @@ export * from "./vms";
 export * from "./track";
 export * from "./fishingFacility";
 export * from "./user";
+export * from "./landing";

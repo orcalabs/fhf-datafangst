@@ -6,6 +6,7 @@ import {
   resetState,
   resetTrackState,
   setError,
+  setMatrixToggle,
   setViewState,
 } from "./actions";
 import { fishmapBuilder } from "./fishmap";
@@ -19,6 +20,7 @@ import { vmsBuilder } from "./vms";
 import { trackBuilder } from "./track";
 import { fishingFacilityBuilder } from "./fishingFacility";
 import { getUser, userBuilder } from "./user";
+import { landingBuilder } from "./landing";
 
 export const emptyState = {
   ais: undefined,
@@ -26,7 +28,11 @@ export const emptyState = {
   hauls: undefined,
   haulsMatrix2: undefined,
   haulsSearch: undefined,
+  landings: undefined,
+  landingsMatrix2: undefined,
+  landingsSearch: undefined,
   selectedHaul: undefined,
+  selectedLanding: undefined,
   selectedFishingFacility: undefined,
   selectedGrids: [],
   selectedGridsString: [],
@@ -110,6 +116,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         (action as any).asyncDispatch(getUser(token));
       }
     })
+    .addCase(setMatrixToggle, (state, action) => {
+      state.matrixToggle = action.payload;
+    })
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 
@@ -127,5 +136,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(trackBuilder)
     .extendBuilder(fishingFacilityBuilder)
     .extendBuilder(userBuilder)
+    .extendBuilder(landingBuilder)
     .finish(),
 );

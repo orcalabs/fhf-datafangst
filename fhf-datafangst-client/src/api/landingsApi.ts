@@ -1,11 +1,11 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 import {
-  ActiveHaulsFilter,
+  ActiveLandingFilter,
   GearGroup,
-  HaulsSorting,
+  LandingsSorting,
   Ordering,
   SpeciesGroup,
-  V1haulApi,
+  V1landingApi,
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
@@ -13,16 +13,17 @@ import {
   createTimestampsFromYearsMonths,
   createVesselLengthQueryString,
 } from "./utils";
-import { MinErsYear } from "utils";
+import { MinLandingYear } from "utils";
 
-export const HaulsFilter = {
-  ...ActiveHaulsFilter,
+export const LandingsFilter = {
+  ...ActiveLandingFilter,
   Vessel: "vessel",
 } as const;
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HaulsFilter = (typeof HaulsFilter)[keyof typeof HaulsFilter];
+export type LandingsFilter =
+  (typeof LandingsFilter)[keyof typeof LandingsFilter];
 
-export interface HaulsArgs {
+export interface LandingsArgs {
   years?: number[];
   months?: number[];
   vessels?: Vessel[];
@@ -30,18 +31,22 @@ export interface HaulsArgs {
   gearGroupIds?: GearGroup[];
   speciesGroupIds?: SpeciesGroup[];
   vesselLengthRanges?: LengthGroup[];
-  filter?: HaulsFilter;
+  filter?: LandingsFilter;
   ordering?: Ordering;
-  sorting?: HaulsSorting;
+  sorting?: LandingsSorting;
 }
 
-const api = new V1haulApi(apiConfiguration, undefined, axiosInstance);
+const api = new V1landingApi(apiConfiguration, undefined, axiosInstance);
 
-export const getHauls = async (query: HaulsArgs) =>
+export const getLandings = async (query: LandingsArgs) =>
   apiGet(async () =>
-    api.hauls({
+    api.landings({
       months: query.years
-        ? createTimestampsFromYearsMonths(query.years, query.months, MinErsYear)
+        ? createTimestampsFromYearsMonths(
+            query.years,
+            query.months,
+            MinLandingYear,
+          )
             ?.map((g) => g.toISOString())
             .toString()
         : undefined,
@@ -55,24 +60,24 @@ export const getHauls = async (query: HaulsArgs) =>
         query.vesselLengthRanges,
       ),
       ordering: query?.ordering ?? Ordering.Desc,
-      sorting: query.sorting ?? HaulsSorting.StartDate,
+      sorting: query.sorting ?? LandingsSorting.LandingTimestamp,
     }),
   );
 
-export const getHaulsMatrix = async (query: HaulsArgs) =>
+export const getLandingsMatrix = async (query: LandingsArgs) =>
   apiGet(async () =>
-    api.haulsMatrix({
+    api.landingMatrix({
       activeFilter:
-        query.filter === HaulsFilter.Vessel
-          ? ActiveHaulsFilter.VesselLength
-          : (query.filter as ActiveHaulsFilter),
+        query.filter === LandingsFilter.Vessel
+          ? ActiveLandingFilter.VesselLength
+          : (query.filter as ActiveLandingFilter),
       months:
-        query.filter === HaulsFilter.Date
+        query.filter === LandingsFilter.Date
           ? undefined
           : createTimestampsFromYearsMonths(
               query.years,
               query.months,
-              MinErsYear,
+              MinLandingYear,
             )
               ?.map((d) => d.getFullYear() * 12 + d.getMonth())
               .join(","),
@@ -81,15 +86,15 @@ export const getHaulsMatrix = async (query: HaulsArgs) =>
         .toString(),
       catchLocations: query.catchLocations?.join(","),
       gearGroupIds:
-        query.filter === HaulsFilter.GearGroup
+        query.filter === LandingsFilter.GearGroup
           ? undefined
           : query.gearGroupIds?.map((g) => g.id).toString(),
       speciesGroupIds:
-        query.filter === HaulsFilter.SpeciesGroup
+        query.filter === LandingsFilter.SpeciesGroup
           ? undefined
           : query.speciesGroupIds?.map((g) => g.id).toString(),
       vesselLengthGroups:
-        query.filter === HaulsFilter.VesselLength
+        query.filter === LandingsFilter.VesselLength
           ? undefined
           : query.vesselLengthRanges?.map((l) => l.id).join(","),
     }),

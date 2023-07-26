@@ -32,3 +32,8 @@ export const selectBwUserProfile = createSelector(
   selectAppState,
   (state) => state.bwProfile,
 );
+
+export const selectMatrixToggle = createSelector(
+  selectAppState,
+  (state) => state.matrixToggle,
+);

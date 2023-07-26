@@ -1,10 +1,6 @@
 import { FC, useState } from "react";
 import { Box, Button, Collapse, Typography } from "@mui/material";
-import {
-  selectSpeciesFilterStatsSorted,
-  selectSpeciesGroupsMap,
-  useAppSelector,
-} from "store";
+import { selectSpeciesGroupsMap, useAppSelector } from "store";
 import { SpeciesGroup } from "generated/openapi";
 import { Bar } from "./Bar";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
@@ -15,17 +11,14 @@ const NUM_BARS = 7;
 interface Props {
   value?: SpeciesGroup[];
   onChange: (_?: SpeciesGroup[]) => void;
-  statsSelector?: typeof selectSpeciesFilterStatsSorted;
+  stats: { id: any; value: number }[];
 }
 
 export const SpeciesFilter: FC<Props> = (props) => {
   const speciesGroups = useAppSelector(selectSpeciesGroupsMap);
-  const speciesFilterStats = useAppSelector(
-    props.statsSelector ?? selectSpeciesFilterStatsSorted,
-  );
   const [expanded, setExpanded] = useState<boolean>(false);
 
-  if (!speciesFilterStats.length) {
+  if (!props.stats.length) {
     return <></>;
   }
 
@@ -38,7 +31,7 @@ export const SpeciesFilter: FC<Props> = (props) => {
   const onChange = (value: SpeciesGroup[]) =>
     props.onChange(value.length ? value : undefined);
 
-  const total = speciesFilterStats.sum((v) => v.value);
+  const total = props.stats.sum((v) => v.value);
 
   const handleClick = (id: number) => {
     const speciesGroup = speciesGroups[id];
@@ -60,12 +53,12 @@ export const SpeciesFilter: FC<Props> = (props) => {
         <Collapse
           in={expanded}
           collapsedSize={
-            speciesFilterStats.length >= NUM_BARS
+            props.stats.length >= NUM_BARS
               ? 34 * NUM_BARS
-              : 34 * speciesFilterStats.length
+              : 34 * props.stats.length
           }
         >
-          {speciesFilterStats.map((val, i) => (
+          {props.stats.map((val, i) => (
             <Box
               key={i}
               sx={{ ":hover": { cursor: "pointer" } }}
@@ -80,7 +73,7 @@ export const SpeciesFilter: FC<Props> = (props) => {
             </Box>
           ))}
         </Collapse>
-        {speciesFilterStats.length >= NUM_BARS && (
+        {props.stats.length >= NUM_BARS && (
           <Box sx={{ width: "100%", pb: 2 }}>
             <Button
               disableRipple

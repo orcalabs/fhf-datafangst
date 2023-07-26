@@ -1,9 +1,9 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { HaulsArgs, HaulsFilter } from "api";
+import { LandingsArgs, LandingsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import {
   GearGroup,
-  HaulsSorting,
+  LandingsSorting,
   Ordering,
   SpeciesGroup,
 } from "generated/openapi";
@@ -12,12 +12,12 @@ import { selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroupsSorted } from "store/gear";
 import { selectAppState } from "store/selectors";
 import { selectSpeciesGroupsSorted } from "store/species";
-import { fishingLocationAreas, matrixSum, MinErsYear, sumCatches } from "utils";
+import { fishingLocationAreas, matrixSum, MinLandingYear } from "utils";
 
-export const selectShowHaulTimeSlider = createSelector(
+export const selectShowLandingTimeSlider = createSelector(
   selectAppState,
   (state) =>
-    (!!state.haulsMatrix || state.haulsMatrixLoading) &&
+    (!!state.landingsMatrix || state.landingsMatrixLoading) &&
     !state.selectedTrip &&
     state.trips === undefined &&
     !state.selectedGrids.length &&
@@ -26,105 +26,117 @@ export const selectShowHaulTimeSlider = createSelector(
     !state.tripsLoading,
 );
 
-export const selectHaulsLoading = createSelector(
+export const selectLandingsLoading = createSelector(
   selectAppState,
-  (state) => state.haulsLoading,
+  (state) => state.landingsLoading,
 );
 
-export const selectHaulsMatrixLoading = createSelector(
+export const selectLandingsMatrixLoading = createSelector(
   selectAppState,
-  (state) => state.haulsMatrixLoading,
+  (state) => state.landingsMatrixLoading,
 );
 
-export const selectHaulsMatrix2Loading = createSelector(
+export const selectLandingsMatrix2Loading = createSelector(
   selectAppState,
-  (state) => state.haulsMatrix2Loading,
+  (state) => state.landingsMatrix2Loading,
 );
 
-export const selectHaulsSearch = createSelector(
+export const selectLandingsSearch = createSelector(
   selectAppState,
-  (state) => state.haulsSearch,
+  (state) => state.landingsSearch,
 );
 
-export const selectHaulsMatrixSearch = createSelector(
+export const selectLandingsMatrixSearch = createSelector(
   selectAppState,
-  (state) => state.haulsMatrixSearch,
+  (state) => state.landingsMatrixSearch,
 );
 
-export const selectHaulsMatrix2Search = createSelector(
+export const selectLandingsMatrix2Search = createSelector(
   selectAppState,
-  (state) => state.haulsMatrix2Search,
+  (state) => state.landingsMatrix2Search,
 );
 
-export const selectHauls = createSelector(
+export const selectLandings = createSelector(
   selectAppState,
-  (state) => state.hauls ?? {},
+  (state) => state.landings ?? {},
 );
 
-export const selectHaulsSorted = (sorting: HaulsSorting, ordering: Ordering) =>
-  createSelector(selectHauls, (state) => {
+export const selectLandingsSorted = (
+  sorting: LandingsSorting,
+  ordering: Ordering,
+) =>
+  createSelector(selectLandings, (state) => {
     if (!Object.keys(state).length) {
       return state;
     }
 
-    if (ordering === Ordering.Desc && sorting === HaulsSorting.StartDate) {
-      return Object.values(state).sort(
-        (a, b) =>
-          new Date(b.startTimestamp).getTime() -
-          new Date(a.startTimestamp).getTime(),
-      );
-    } else if (
-      ordering === Ordering.Asc &&
-      sorting === HaulsSorting.StartDate
+    if (
+      ordering === Ordering.Desc &&
+      sorting === LandingsSorting.LandingTimestamp
     ) {
       return Object.values(state).sort(
         (a, b) =>
-          new Date(a.startTimestamp).getTime() -
-          new Date(b.startTimestamp).getTime(),
+          new Date(b.landingTimestamp).getTime() -
+          new Date(a.landingTimestamp).getTime(),
       );
-    } else if (ordering === Ordering.Desc && sorting === HaulsSorting.Weight) {
+    } else if (
+      ordering === Ordering.Asc &&
+      sorting === LandingsSorting.LandingTimestamp
+    ) {
       return Object.values(state).sort(
-        (a, b) => sumCatches(b.catches) - sumCatches(a.catches),
+        (a, b) =>
+          new Date(a.landingTimestamp).getTime() -
+          new Date(b.landingTimestamp).getTime(),
       );
-    } else if (ordering === Ordering.Asc && sorting === HaulsSorting.Weight) {
+    } else if (
+      ordering === Ordering.Desc &&
+      sorting === LandingsSorting.LivingWeight
+    ) {
       return Object.values(state).sort(
-        (a, b) => sumCatches(a.catches) - sumCatches(b.catches),
+        (a, b) => b.totalLivingWeight - a.totalLivingWeight,
+      );
+    } else if (
+      ordering === Ordering.Asc &&
+      sorting === LandingsSorting.LivingWeight
+    ) {
+      return Object.values(state).sort(
+        (a, b) => a.totalLivingWeight - b.totalLivingWeight,
       );
     }
     return state;
   });
 
-export const selectHaulsMatrix = createSelector(
+export const selectLandingsMatrix = createSelector(
   selectAppState,
-  (state) => state.haulsMatrix,
+  (state) => state.landingsMatrix,
 );
 
-export const selectHaulsMatrix2 = createSelector(
+export const selectLandingsMatrix2 = createSelector(
   selectAppState,
-  (state) => state.haulsMatrix2,
+  (state) => state.landingsMatrix2,
 );
 
-export const selectSelectedHaul = createSelector(
+export const selectSelectedLanding = createSelector(
   selectAppState,
-  (state) => state.selectedHaul,
+  (state) => state.selectedLanding,
 );
 
-export const selectSelectedTripHaul = createSelector(
+export const selectSelectedTripLanding = createSelector(
   selectAppState,
-  (state) => state.selectedTripHaul,
+  (state) => state.selectedTripLanding,
 );
 
-export const selectHaulsFilter = createSelector(
-  selectHaulsMatrixSearch,
+export const selectLandingsFilter = createSelector(
+  selectLandingsMatrixSearch,
   (state) =>
-    state?.filter === HaulsFilter.Vessel
-      ? HaulsFilter.VesselLength
+    state?.filter === LandingsFilter.Vessel
+      ? LandingsFilter.VesselLength
       : state?.filter,
 );
 
-export const selectHaulDateSliderFrame = createSelector(
+export const selectLandingDateSliderFrame = createSelector(
   selectAppState,
-  (state) => state.haulDateSliderFrame,
+  (state) => state.landingDateSliderFrame,
 );
 
 const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
@@ -136,15 +148,15 @@ const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
     return tot;
   }, []) ?? [];
 
-const _selectHaulsActiveFilterSelectedIndexes = (
-  search: HaulsArgs | undefined,
+const _selectLandingsActiveFilterSelectedIndexes = (
+  search: LandingsArgs | undefined,
   gearGroups: GearGroup[],
   speciesGroups: SpeciesGroup[],
   currentDateSliderFrame?: Date,
 ) => {
   if (search)
     switch (search.filter) {
-      case HaulsFilter.Date:
+      case LandingsFilter.Date:
         if (
           !search.years?.length &&
           !search.months?.length &&
@@ -154,9 +166,9 @@ const _selectHaulsActiveFilterSelectedIndexes = (
         }
 
         const now = new Date();
-        const datesLength = (now.getFullYear() + 1) * 12 - MinErsYear * 12;
+        const datesLength = (now.getFullYear() + 1) * 12 - MinLandingYear * 12;
         const originalDates = Array.from({ length: datesLength }, (_, i) => ({
-          id: MinErsYear * 12 + i,
+          id: MinLandingYear * 12 + i,
         }));
 
         if (currentDateSliderFrame) {
@@ -168,7 +180,7 @@ const _selectHaulsActiveFilterSelectedIndexes = (
 
         const years = search.years?.length
           ? search.years
-          : getAllYearsArray(MinErsYear);
+          : getAllYearsArray(MinLandingYear);
         const months = search.months?.length
           ? search.months
           : Array.from({ length: 12 }, (_, i) => i + 1);
@@ -178,44 +190,44 @@ const _selectHaulsActiveFilterSelectedIndexes = (
           .flat();
 
         return getIndexes(originalDates, selectedDates);
-      case HaulsFilter.GearGroup:
+      case LandingsFilter.GearGroup:
         return getIndexes(gearGroups, search?.gearGroupIds);
-      case HaulsFilter.SpeciesGroup:
+      case LandingsFilter.SpeciesGroup:
         return getIndexes(speciesGroups, search?.speciesGroupIds);
-      case HaulsFilter.VesselLength:
+      case LandingsFilter.VesselLength:
         return getIndexes(LengthGroups, search?.vesselLengthRanges);
     }
 
   return [];
 };
 
-export const selectHaulsMatrixActiveFilterSelectedIndexes = createSelector(
-  selectHaulsMatrixSearch,
+export const selectLandingsMatrixActiveFilterSelectedIndexes = createSelector(
+  selectLandingsMatrixSearch,
   selectGearGroupsSorted,
   selectSpeciesGroupsSorted,
-  selectHaulDateSliderFrame,
-  _selectHaulsActiveFilterSelectedIndexes,
+  selectLandingDateSliderFrame,
+  _selectLandingsActiveFilterSelectedIndexes,
 );
 
-export const selectHaulsMatrix2ActiveFilterSelectedIndexes = createSelector(
-  selectHaulsMatrix2Search,
+export const selectLandingsMatrix2ActiveFilterSelectedIndexes = createSelector(
+  selectLandingsMatrix2Search,
   selectGearGroupsSorted,
   selectSpeciesGroupsSorted,
-  _selectHaulsActiveFilterSelectedIndexes,
+  _selectLandingsActiveFilterSelectedIndexes,
 );
 
-export const selectHaulLocationsMatrix = createSelector(
-  selectHaulsMatrix,
-  selectHaulsFilter,
+export const selectLandingLocationsMatrix = createSelector(
+  selectLandingsMatrix,
+  selectLandingsFilter,
   (matrix, filter) => {
     switch (filter) {
-      case HaulsFilter.Date:
+      case LandingsFilter.Date:
         return matrix?.dates;
-      case HaulsFilter.GearGroup:
+      case LandingsFilter.GearGroup:
         return matrix?.gearGroup;
-      case HaulsFilter.SpeciesGroup:
+      case LandingsFilter.SpeciesGroup:
         return matrix?.speciesGroup;
-      case HaulsFilter.VesselLength:
+      case LandingsFilter.VesselLength:
         return matrix?.lengthGroup;
     }
   },
@@ -256,11 +268,11 @@ const computeStats = (
 };
 
 const selectGearFilterStats = createSelector(
-  selectHaulsMatrix,
-  selectHaulsMatrixSearch,
-  selectHaulsFilter,
+  selectLandingsMatrix,
+  selectLandingsMatrixSearch,
+  selectLandingsFilter,
   selectGearGroupsSorted,
-  selectHaulsMatrixActiveFilterSelectedIndexes,
+  selectLandingsMatrixActiveFilterSelectedIndexes,
   (matrix, search, filter, gearGroups, activeSelected) => {
     if (!matrix) {
       return [];
@@ -271,12 +283,12 @@ const selectGearFilterStats = createSelector(
       matrix.gearGroup,
       gearGroups,
       selected,
-      filter === HaulsFilter.GearGroup ? undefined : activeSelected,
+      filter === LandingsFilter.GearGroup ? undefined : activeSelected,
     );
   },
 );
 
-export const selectHaulGearFilterStats = createSelector(
+export const selectLandingGearFilterStats = createSelector(
   selectGearFilterStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
@@ -294,10 +306,10 @@ const selectSelectedGridLocationIndexes = createSelector(
 );
 
 const selectGearFilterGridStats = createSelector(
-  selectHaulsMatrix2,
-  selectHaulsMatrix2Search,
+  selectLandingsMatrix2,
+  selectLandingsMatrix2Search,
   selectGearGroupsSorted,
-  selectHaulsMatrix2ActiveFilterSelectedIndexes,
+  selectLandingsMatrix2ActiveFilterSelectedIndexes,
   selectSelectedGridLocationIndexes,
   (matrix, search, gearGroups, activeSelected, selectedLocations) => {
     if (!matrix) {
@@ -309,24 +321,24 @@ const selectGearFilterGridStats = createSelector(
       matrix.gearGroup,
       gearGroups,
       selected,
-      search?.filter === HaulsFilter.GearGroup
+      search?.filter === LandingsFilter.GearGroup
         ? selectedLocations
         : activeSelected,
     );
   },
 );
 
-export const selectHaulGearFilterGridStats = createSelector(
+export const selectLandingGearFilterGridStats = createSelector(
   selectGearFilterGridStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
 
 const selectSpeciesFilterStats = createSelector(
-  selectHaulsMatrix,
-  selectHaulsMatrixSearch,
-  selectHaulsFilter,
+  selectLandingsMatrix,
+  selectLandingsMatrixSearch,
+  selectLandingsFilter,
   selectSpeciesGroupsSorted,
-  selectHaulsMatrixActiveFilterSelectedIndexes,
+  selectLandingsMatrixActiveFilterSelectedIndexes,
   (matrix, search, filter, speciesGroups, activeSelected) => {
     if (!matrix) {
       return [];
@@ -337,21 +349,21 @@ const selectSpeciesFilterStats = createSelector(
       matrix.speciesGroup,
       speciesGroups,
       selected,
-      filter === HaulsFilter.SpeciesGroup ? undefined : activeSelected,
+      filter === LandingsFilter.SpeciesGroup ? undefined : activeSelected,
     );
   },
 );
 
-export const selectHaulSpeciesFilterStats = createSelector(
+export const selectLandingSpeciesFilterStats = createSelector(
   selectSpeciesFilterStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
 
 const selectSpeciesFilterGridStats = createSelector(
-  selectHaulsMatrix2,
-  selectHaulsMatrix2Search,
+  selectLandingsMatrix2,
+  selectLandingsMatrix2Search,
   selectSpeciesGroupsSorted,
-  selectHaulsMatrix2ActiveFilterSelectedIndexes,
+  selectLandingsMatrix2ActiveFilterSelectedIndexes,
   selectSelectedGridLocationIndexes,
   (matrix, search, speciesGroups, activeSelected, selectedLocations) => {
     if (!matrix) {
@@ -363,23 +375,23 @@ const selectSpeciesFilterGridStats = createSelector(
       matrix.speciesGroup,
       speciesGroups,
       selected,
-      search?.filter === HaulsFilter.SpeciesGroup
+      search?.filter === LandingsFilter.SpeciesGroup
         ? selectedLocations
         : activeSelected,
     );
   },
 );
 
-export const selectHaulSpeciesFilterGridStats = createSelector(
+export const selectLandingSpeciesFilterGridStats = createSelector(
   selectSpeciesFilterGridStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
 
 const selectVesselLengthFilterStats = createSelector(
-  selectHaulsMatrix,
-  selectHaulsMatrixSearch,
-  selectHaulsFilter,
-  selectHaulsMatrixActiveFilterSelectedIndexes,
+  selectLandingsMatrix,
+  selectLandingsMatrixSearch,
+  selectLandingsFilter,
+  selectLandingsMatrixActiveFilterSelectedIndexes,
   (matrix, search, filter, activeSelected) => {
     if (!matrix) {
       return [];
@@ -390,20 +402,20 @@ const selectVesselLengthFilterStats = createSelector(
       matrix.lengthGroup,
       LengthGroups,
       selected,
-      filter === HaulsFilter.VesselLength ? undefined : activeSelected,
+      filter === LandingsFilter.VesselLength ? undefined : activeSelected,
     );
   },
 );
 
-export const selectHaulVesselLengthFilterStats = createSelector(
+export const selectLandingVesselLengthFilterStats = createSelector(
   selectVesselLengthFilterStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
 
 const selectVesselLengthFilterGridStats = createSelector(
-  selectHaulsMatrix2,
-  selectHaulsMatrix2Search,
-  selectHaulsMatrix2ActiveFilterSelectedIndexes,
+  selectLandingsMatrix2,
+  selectLandingsMatrix2Search,
+  selectLandingsMatrix2ActiveFilterSelectedIndexes,
   selectSelectedGridLocationIndexes,
   (matrix, search, activeSelected, selectedLocations) => {
     if (!matrix) {
@@ -415,14 +427,14 @@ const selectVesselLengthFilterGridStats = createSelector(
       matrix.lengthGroup,
       LengthGroups,
       selected,
-      search?.filter === HaulsFilter.VesselLength
+      search?.filter === LandingsFilter.VesselLength
         ? selectedLocations
         : activeSelected,
     );
   },
 );
 
-export const selectHaulVesselLengthFilterGridStats = createSelector(
+export const selectLandingVesselLengthFilterGridStats = createSelector(
   selectVesselLengthFilterGridStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );

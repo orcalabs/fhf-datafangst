@@ -14,10 +14,16 @@ import {
   initialFishingFacilitiesState,
 } from "./fishingFacility";
 import { initialUserState, UserState } from "./user";
+import { LandingState, initialLandingState } from "./landing";
 
 export enum MenuViewState {
   Overview = "overview",
   MyPage = "mypage",
+}
+
+export enum MatrixToggle {
+  Haul,
+  Landing,
 }
 
 export interface BaseState {
@@ -26,6 +32,7 @@ export interface BaseState {
   viewState: MenuViewState;
   bwProfile?: FiskInfoProfile;
   authUser?: User;
+  matrixToggle: MatrixToggle;
 }
 
 const initialBaseState: BaseState = {
@@ -34,6 +41,7 @@ const initialBaseState: BaseState = {
   bwProfile: undefined,
   viewState: MenuViewState.Overview,
   authUser: undefined,
+  matrixToggle: MatrixToggle.Haul,
 };
 
 export interface AppState
@@ -48,6 +56,7 @@ export interface AppState
     TrackState,
     FishingFacilityState,
     UserState,
+    LandingState,
     SpeciesState {}
 
 export const initialAppState: AppState = {
@@ -63,4 +72,5 @@ export const initialAppState: AppState = {
   ...initialFishingFacilitiesState,
   ...initialSpeciesState,
   ...initialUserState,
+  ...initialLandingState,
 };

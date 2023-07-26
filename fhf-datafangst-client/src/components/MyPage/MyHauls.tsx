@@ -1,4 +1,4 @@
-import { Filters } from "components";
+import { HaulFilters } from "components";
 import { Vessel } from "generated/openapi";
 import { FC, useEffect } from "react";
 import {
@@ -31,5 +31,7 @@ export const MyHauls: FC<Props> = (props) => {
     }
   }, []);
 
-  return <Filters selectedVessel={selectedVessel} removeSingleEntryFilters />;
+  return (
+    <HaulFilters selectedVessel={selectedVessel} removeSingleEntryFilters />
+  );
 };

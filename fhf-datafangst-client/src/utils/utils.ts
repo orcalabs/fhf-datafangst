@@ -28,6 +28,9 @@ export const Months: Record<number, string> = {
   12: "Desember",
 };
 
+export const MinErsYear = 2010;
+export const MinLandingYear = 1999;
+
 const setCharAt = (str: string, index: number, chr: string) => {
   if (index > str.length - 1) return str;
   return str.substring(0, index) + chr + str.substring(index + 1);

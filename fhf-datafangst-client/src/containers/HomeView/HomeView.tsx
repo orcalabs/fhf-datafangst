@@ -1,4 +1,5 @@
 import { Box, Snackbar } from "@mui/material";
+import { HaulsFilter, LandingsFilter } from "api";
 import {
   MapBoxLayer,
   Map,
@@ -9,6 +10,7 @@ import {
   HaulsLayer,
   LoadingScreen,
   HaulsMenu,
+  LandingsMenu,
   TrackLayer,
   TripsMenu,
   HeaderMenuButtons,
@@ -33,10 +35,22 @@ import {
   useAppSelector,
   setHaulsMatrix2Search,
   selectShowGrid,
-  selectShowTimeSlider,
+  selectShowHaulTimeSlider,
   selectCurrentTrip,
   selectSelectedTrip,
+  setHaulDateSliderFrame,
+  setHoveredHaulFilter,
+  setHaulsMatrixSearch,
+  selectLandingsMatrixSearch,
+  selectShowLandingTimeSlider,
+  setLandingDateSliderFrame,
+  setHoveredLandingFilter,
+  setLandingsMatrixSearch,
+  setLandingsMatrix2Search,
+  selectMatrixToggle,
+  MatrixToggle,
 } from "store";
+import { MinErsYear, MinLandingYear } from "utils";
 
 export interface MapFilter {
   coastline: boolean;
@@ -121,11 +135,11 @@ const HaulMenuArea = (props: any) => (
   </Box>
 );
 
-const FilterButtonArea = (props: any) => (
+const FilterButtonArea = (props: { open: boolean; children: any }) => (
   <Box
     sx={{
       gridColumnStart: 2,
-      gridColumnEnd: props.haulsMenuOpen ? 2 : 4,
+      gridColumnEnd: props.open ? 2 : 4,
       gridRowStart: 2,
       gridRowEnd: 3,
       display: "flex",
@@ -136,11 +150,11 @@ const FilterButtonArea = (props: any) => (
   </Box>
 );
 
-const MapAttributionsArea = (props: any) => (
+const MapAttributionsArea = (props: { open: boolean; children: any }) => (
   <Box
     sx={{
       gridColumnStart: 2,
-      gridColumnEnd: props.haulsMenuOpen ? 3 : 4,
+      gridColumnEnd: props.open ? 3 : 4,
       gridRowStart: 4,
       gridRowEnd: 5,
       display: "flex",
@@ -152,11 +166,11 @@ const MapAttributionsArea = (props: any) => (
   </Box>
 );
 
-const TimeSliderArea = (props: any) => (
+const TimeSliderArea = (props: { open: boolean; children: any }) => (
   <Box
     sx={{
       gridColumnStart: 2,
-      gridColumnEnd: props.haulsMenuOpen ? 2 : 4,
+      gridColumnEnd: props.open ? 2 : 4,
       gridRowStart: 4,
       gridRowEnd: 5,
       display: "flex",
@@ -172,25 +186,35 @@ export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
   const trackMissing = useAppSelector(selectTrackMissing);
-  const haulsMenuOpen = useAppSelector(selectSecondaryMenuOpen);
+  const secondaryMenuOpen = useAppSelector(selectSecondaryMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
+  const landingsSearch = useAppSelector(selectLandingsMatrixSearch);
   const selectedTrip = useAppSelector(selectSelectedTrip);
   const selectedCurrentTrip = useAppSelector(selectCurrentTrip);
   const trackLoading = useAppSelector(selectTrackLoading);
   const showGrid = useAppSelector(selectShowGrid);
-  const showTimeSlider = useAppSelector(selectShowTimeSlider);
+  const showHaulTimeSlider = useAppSelector(selectShowHaulTimeSlider);
+  const showLandingTimeSlider = useAppSelector(selectShowLandingTimeSlider);
+  const matrixToggle = useAppSelector(selectMatrixToggle);
 
   // Fetch hauls for selected grid
   useEffect(() => {
     if (selectedGrids.length) {
       dispatch(
-        setHaulsMatrix2Search({
-          years: haulsSearch?.years,
-          months: haulsSearch?.months,
-          vessels: haulsSearch?.vessels,
-          catchLocations: selectedGrids,
-        }),
+        matrixToggle === MatrixToggle.Haul
+          ? setHaulsMatrix2Search({
+              years: haulsSearch?.years,
+              months: haulsSearch?.months,
+              vessels: haulsSearch?.vessels,
+              catchLocations: selectedGrids,
+            })
+          : setLandingsMatrix2Search({
+              years: landingsSearch?.years,
+              months: landingsSearch?.months,
+              vessels: landingsSearch?.vessels,
+              catchLocations: selectedGrids,
+            }),
       );
     } else {
       dispatch(resetState);
@@ -209,14 +233,18 @@ export const HomeView: FC = () => {
         <MenuArea>
           <MainMenu />
         </MenuArea>
-        <FilterButtonArea haulsMenuOpen={haulsMenuOpen}>
+        <FilterButtonArea open={secondaryMenuOpen}>
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
         <HaulMenuArea>
           {/* Use grid to set Trip menu on top when active, without removing HaulsMenu and its state */}
           <Box sx={{ display: "grid", height: "100%" }}>
             <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
-              <HaulsMenu />
+              {matrixToggle === MatrixToggle.Haul ? (
+                <HaulsMenu />
+              ) : (
+                <LandingsMenu />
+              )}
             </Box>
             <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
               {selectedTrip && <TripsMenu />}
@@ -224,10 +252,45 @@ export const HomeView: FC = () => {
             </Box>
           </Box>
         </HaulMenuArea>
-        <TimeSliderArea haulsMenuOpen={haulsMenuOpen}>
-          {showTimeSlider && <TimeSlider />}
+        <TimeSliderArea open={secondaryMenuOpen}>
+          {showHaulTimeSlider && (
+            <TimeSlider
+              options={haulsSearch}
+              minYear={MinErsYear}
+              onValueChange={(date: Date) =>
+                dispatch(setHaulDateSliderFrame(date))
+              }
+              onOpenChange={(open: boolean) => {
+                if (open) {
+                  dispatch(setHoveredHaulFilter(HaulsFilter.Date));
+                  dispatch(setHaulsMatrixSearch({ ...haulsSearch }));
+                } else {
+                  dispatch(setHaulDateSliderFrame(undefined));
+                }
+              }}
+            />
+          )}
         </TimeSliderArea>
-        <MapAttributionsArea haulsMenuOpen={haulsMenuOpen}>
+        <TimeSliderArea open={secondaryMenuOpen}>
+          {showLandingTimeSlider && (
+            <TimeSlider
+              options={landingsSearch}
+              minYear={MinLandingYear}
+              onValueChange={(date: Date) =>
+                dispatch(setLandingDateSliderFrame(date))
+              }
+              onOpenChange={(open: boolean) => {
+                if (open) {
+                  dispatch(setHoveredLandingFilter(LandingsFilter.Date));
+                  dispatch(setLandingsMatrixSearch({ ...landingsSearch }));
+                } else {
+                  dispatch(setLandingDateSliderFrame(undefined));
+                }
+              }}
+            />
+          )}
+        </TimeSliderArea>
+        <MapAttributionsArea open={secondaryMenuOpen}>
           <MapControls />
           <MapAttributions />
         </MapAttributionsArea>

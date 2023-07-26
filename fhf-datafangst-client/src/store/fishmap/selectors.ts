@@ -26,7 +26,7 @@ export const selectFishmapState = createSelector(selectAppState, (state) => ({
 export const selectShowGrid = createSelector(
   selectAppState,
   (state) =>
-    state.haulsMatrix &&
+    (state.haulsMatrix ?? state.landingsMatrix) &&
     !state.selectedTrip &&
     state.trips === undefined &&
     state.fishingFacilities === undefined &&
