@@ -68,7 +68,6 @@ export const landingBuilder = (
     })
     .addCase(getLandingsMatrix.fulfilled, (state, action) => {
       state.landingsMatrix = action.payload;
-      console.log(state.landingsMatrix);
       state.landingsMatrixLoading = false;
     })
     .addCase(getLandingsMatrix.rejected, (state, _) => {
