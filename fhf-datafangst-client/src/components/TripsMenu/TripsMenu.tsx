@@ -164,7 +164,7 @@ export const TripsMenu: FC = () => {
                 <CalendarMonthSharpIcon />
               </SvgIcon>
               <Typography>
-                {dateFormat(trip.mostRecentDeliveryDate, "PPP")}
+                {dateFormat(trip.mostRecentDeliveryDate ?? trip.end, "PPP")}
               </Typography>
             </InfoItem>
             <InfoItem>
@@ -177,7 +177,9 @@ export const TripsMenu: FC = () => {
               <SvgIcon sx={iconStyle}>
                 <PhishingSharpIcon />
               </SvgIcon>
-              <Typography> {createGearListString(tripGears)} </Typography>
+              <Typography>
+                {tripGears.length ? createGearListString(tripGears) : "Ukjent"}
+              </Typography>
             </InfoItem>
             <InfoItem>
               <SvgIcon sx={iconStyle}>
@@ -185,7 +187,7 @@ export const TripsMenu: FC = () => {
               </SvgIcon>
               <Typography>
                 {trip.numDeliveries}{" "}
-                {trip.numDeliveries > 1 ? "sluttsedler" : "sluttseddel"}
+                {trip.numDeliveries === 1 ? "sluttseddel" : "sluttsedler"}
               </Typography>
             </InfoItem>
 
