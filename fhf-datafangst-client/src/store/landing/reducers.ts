@@ -51,7 +51,7 @@ export const landingBuilder = (
     })
     .addCase(removeLandings, (state, action) => {
       for (const key in state.landings) {
-        const landing = state.landings[Number(key)];
+        const landing = state.landings[key];
 
         if (
           landing.catchLocation &&
