@@ -22,6 +22,6 @@ export const setMatrixToggle = createAction<MatrixToggle>(
   "base/setMatrixToggle",
 );
 
-export const setSearchFiltersAnchor = createAction<any | null>(
-  "base/setSearchFiltersAnchor",
+export const setTripFiltersOpen = createAction<boolean>(
+  "base/setTripFiltersOpen",
 );

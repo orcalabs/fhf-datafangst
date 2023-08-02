@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import { Autocomplete, Checkbox, TextField, Typography } from "@mui/material";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
-import { StyledPopper } from "components";
+import { StyledDatePopper } from "components";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { Months } from "utils";
@@ -29,13 +29,18 @@ export const MonthsFilter: FC<Props> = (props) => {
           "& .MuiAutocomplete-inputRoot": { color: "text.secondary" },
           "& .MuiInputBase-root": { pb: "6px" },
           "& .MuiIconButton-root": { color: "text.secondary" },
+          "& .MuiChip-filled": {
+            color: "black",
+            bgcolor: "secondary.main",
+            borderRadius: 0,
+          },
         }}
         multiple
         disableCloseOnSelect
         componentsProps={{ popper: { placement: "right-start" } }}
         ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
-        PopperComponent={StyledPopper}
+        PopperComponent={StyledDatePopper}
         limitTags={3}
         disableListWrap
         onKeyDown={(e) => e.stopPropagation()}

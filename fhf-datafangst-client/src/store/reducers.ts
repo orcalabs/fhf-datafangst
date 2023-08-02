@@ -7,7 +7,7 @@ import {
   resetTrackState,
   setError,
   setMatrixToggle,
-  setSearchFiltersAnchor,
+  setTripFiltersOpen,
   setViewState,
 } from "./actions";
 import { fishmapBuilder } from "./fishmap";
@@ -25,6 +25,7 @@ import { landingBuilder } from "./landing";
 
 export const emptyState = {
   ais: undefined,
+  currentTrip: undefined,
   fishingFacilities: undefined,
   hauls: undefined,
   haulsMatrix2: undefined,
@@ -39,10 +40,10 @@ export const emptyState = {
   selectedGridsString: [],
   selectedTrip: undefined,
   selectedTripHaul: undefined,
-  searchFiltersAnchor: null,
-  currentTrip: undefined,
+  tripFiltersOpen: false,
   track: undefined,
   trips: undefined,
+  tripsSearch: undefined,
   vms: undefined,
 };
 
@@ -122,8 +123,8 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       state.matrixToggle = action.payload;
     })
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
-    .addCase(setSearchFiltersAnchor, (state, action) => {
-      state.searchFiltersAnchor = action.payload;
+    .addCase(setTripFiltersOpen, (state, action) => {
+      state.tripFiltersOpen = action.payload;
     })
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 

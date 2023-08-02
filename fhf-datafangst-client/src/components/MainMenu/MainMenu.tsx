@@ -1,5 +1,5 @@
 import { Box, Drawer } from "@mui/material";
-import { CatchData, MyPage, MyTrips } from "components";
+import { CatchData, MyPage, Trips } from "components";
 import { FC } from "react";
 import { MenuViewState, selectViewState, useAppSelector } from "store";
 
@@ -22,15 +22,10 @@ export const MainMenu: FC = () => {
             height: "100%",
           },
           "& .MuiOutlinedInput-root": { borderRadius: 0 },
-          "& .MuiChip-filled": {
-            color: "black",
-            bgcolor: "secondary.main",
-            borderRadius: 0,
-          },
         }}
       >
         {viewState === MenuViewState.Overview && <CatchData />}
-        {viewState === MenuViewState.Trips && <MyTrips />}
+        {viewState === MenuViewState.Trips && <Trips />}
         {viewState === MenuViewState.MyPage && <MyPage />}
       </Drawer>
     </Box>

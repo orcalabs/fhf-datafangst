@@ -35,6 +35,11 @@ export const selectSpeciesGroupsSorted = createSelector(
   (state) => [...state].sort((a, b) => a.id - b.id),
 );
 
+export const selectSpeciesGroupsSortedByName = createSelector(
+  selectSpeciesGroups,
+  (state) => [...state].sort((a, b) => a.name.localeCompare(b.name, "no")),
+);
+
 export const selectSpeciesGroupsMap = createSelector(
   selectSpeciesGroups,
   (state) => Object.fromEntries(state.map((s) => [s.id, s])),

@@ -1,85 +1,62 @@
 import {
-  InputAdornment,
-  OutlinedInput,
-  Slider,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Grid,
   Typography,
 } from "@mui/material";
-import { FC, useState } from "react";
-import { middle } from "utils";
+import { FC } from "react";
+import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
+import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
+import { LengthGroup, LengthGroups } from "models";
 
 interface Props {
-  value?: [number, number];
-  onChange: (_: [number, number]) => void;
-  minLength?: number;
-  maxLength?: number;
+  value?: LengthGroup[];
+  onChange: (_?: LengthGroup[]) => void;
 }
 
 export const VesselLengthFilter: FC<Props> = (props) => {
-  const onChange = props.onChange;
-  const minLength = props.minLength ?? 0;
-  const maxLength = props.maxLength ?? 300;
+  const value = props.value ?? [];
 
-  const [length, _setLength] = useState<number[]>(
-    props.value ?? [minLength, maxLength],
-  );
-
-  const setLength = (newValue: [number, number]) =>
-    _setLength([
-      middle(minLength, newValue[0], maxLength),
-      middle(minLength, newValue[1], maxLength),
-    ]);
+  const onChange = (value: LengthGroup[]) =>
+    props.onChange(value.length ? value : undefined);
 
   return (
     <>
       <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
         Fartøylengde
       </Typography>
-      <Slider
-        sx={{
-          left: "5px",
-          width: "calc(100% - 10px)",
-          color: "secondary.main",
-        }}
-        value={length}
-        onChange={(_: Event, newValue: number | number[]) => {
-          setLength(newValue as [number, number]);
-        }}
-        onChangeCommitted={(_: any, newValue: number | number[]) =>
-          onChange(newValue as [number, number])
-        }
-        valueLabelDisplay="off"
-        min={minLength}
-        max={maxLength}
-        disableSwap
-      />
-      <OutlinedInput
-        sx={{ width: 110, color: "black" }}
-        value={length[0]}
-        size="small"
-        onChange={(event) => setLength([+event.target.value, length[1]])}
-        onBlur={(
-          event: React.FocusEvent<
-            HTMLInputElement | HTMLTextAreaElement,
-            Element
-          >,
-        ) => onChange([+event.target.value, length[1]])}
-        endAdornment={<InputAdornment position="end">m</InputAdornment>}
-        inputProps={{ type: "number", inputMode: "numeric" }}
-      />
-      <OutlinedInput
-        sx={{ width: 110, float: "right", color: "black" }}
-        value={length[1]}
-        size="small"
-        onChange={(event) => setLength([length[0], +event.target.value])}
-        onBlur={(
-          event: React.FocusEvent<
-            HTMLInputElement | HTMLTextAreaElement,
-            Element
-          >,
-        ) => onChange([length[0], +event.target.value])}
-        endAdornment={<InputAdornment position="end">m</InputAdornment>}
-        inputProps={{ type: "number", inputMode: "numeric" }}
-      />
+      <FormGroup>
+        <Grid container rowSpacing={0.1} columnSpacing={1} width={330}>
+          {LengthGroups.map((val, i) => {
+            return (
+              <Grid key={i} item xs={6}>
+                <FormControlLabel
+                  key={i}
+                  sx={{ "& .MuiCheckbox-root": { borderRadius: 0 } }}
+                  label={val.name}
+                  control={
+                    <Checkbox
+                      checkedIcon={<CheckBoxSharpIcon />}
+                      icon={<CheckBoxOutlineBlankSharpIcon />}
+                      size="small"
+                      name={val.name}
+                      checked={value.some((lg) => lg.id === val.id)}
+                      onChange={(_, checked) =>
+                        onChange(
+                          checked
+                            ? [...value, val]
+                            : value.filter((g) => g.id !== val.id),
+                        )
+                      }
+                    />
+                  }
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      </FormGroup>
     </>
   );
 };

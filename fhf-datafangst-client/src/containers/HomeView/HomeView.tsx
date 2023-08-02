@@ -323,7 +323,11 @@ export const HomeView: FC = () => {
             horizontal: "center",
           }}
           open={trackMissing}
-          message={"Spor for dette halet er ikke tilgjengelig"}
+          message={
+            selectedTrip
+              ? "Spor for denne turen er ikke tilgjengelig"
+              : "Spor for dette halet er ikke tilgjengelig"
+          }
         />
       </Box>
     </>

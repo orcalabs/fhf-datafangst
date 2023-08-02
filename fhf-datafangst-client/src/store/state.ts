@@ -34,7 +34,7 @@ export interface BaseState {
   bwProfile?: FiskInfoProfile;
   authUser?: User;
   matrixToggle: MatrixToggle;
-  searchFiltersAnchor: HTMLButtonElement | null;
+  tripFiltersOpen: boolean;
 }
 
 const initialBaseState: BaseState = {
@@ -44,7 +44,7 @@ const initialBaseState: BaseState = {
   viewState: MenuViewState.Overview,
   authUser: undefined,
   matrixToggle: MatrixToggle.Haul,
-  searchFiltersAnchor: null,
+  tripFiltersOpen: false,
 };
 
 export interface AppState

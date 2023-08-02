@@ -1,22 +1,22 @@
 import { Box, Button, Popper } from "@mui/material";
-import { FC } from "react";
+import { FC, useRef } from "react";
 import {
   DateFilter,
   GearFilter,
   SortingFilter,
-  SpecieFilter,
-  VesselFilter,
+  SpeciesFilter,
   VesselLengthFilter,
   WeightFilter,
 } from "components";
 import {
-  selectSearchFiltersAnchor,
-  setSearchFiltersAnchor,
+  selectTripFiltersOpen,
+  setTripFiltersOpen,
   useAppDispatch,
   useAppSelector,
 } from "store";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
+import { VesselFilter } from "components/Filters/VesselFilter";
 
 interface Props {
   params: Record<string, any>;
@@ -25,13 +25,13 @@ interface Props {
 
 export const SearchFilters: FC<Props> = (props) => {
   const dispatch = useAppDispatch();
-  const filtersAnchor = useAppSelector(selectSearchFiltersAnchor);
+  const filtersAnchor = useAppSelector(selectTripFiltersOpen);
+  const filterButtonRef = useRef(null);
 
-  const handleFilterClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(
-      setSearchFiltersAnchor(filtersAnchor ? null : event.currentTarget),
-    );
+  const handleFilterClick = (_: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(setTripFiltersOpen(!filtersAnchor));
   };
+
   const handleChange = (param: any) =>
     props.onChange({ ...props.params, ...param });
 
@@ -39,7 +39,7 @@ export const SearchFilters: FC<Props> = (props) => {
     const onChange = (value: any) => handleChange({ [key]: value });
 
     switch (key) {
-      case "vessel":
+      case "vessels":
         return (
           <VesselFilter
             value={value}
@@ -49,11 +49,11 @@ export const SearchFilters: FC<Props> = (props) => {
         );
       case "dateRange":
         return <DateFilter value={value} onChange={onChange} />;
-      case "specieGroups":
-        return <SpecieFilter value={value} onChange={onChange} />;
+      case "speciesGroups":
+        return <SpeciesFilter value={value} onChange={onChange} />;
       case "gearGroups":
         return <GearFilter value={value} onChange={onChange} />;
-      case "vesselLength":
+      case "vesselLengthGroups":
         return <VesselLengthFilter value={value} onChange={onChange} />;
       case "weight":
         return <WeightFilter value={value} onChange={onChange} />;
@@ -131,6 +131,7 @@ export const SearchFilters: FC<Props> = (props) => {
         }}
       >
         <Button
+          ref={filterButtonRef}
           sx={[
             { color: "white" },
             !!filtersAnchor && {
@@ -160,8 +161,8 @@ export const SearchFilters: FC<Props> = (props) => {
         </Button>
       </Box>
       <Popper
-        open={!!filtersAnchor}
-        anchorEl={filtersAnchor}
+        open={filtersAnchor}
+        anchorEl={filterButtonRef.current}
         placement="right-start"
         sx={{
           zIndex: 1201,

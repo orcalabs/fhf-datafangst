@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
-import { MyGears, MyHauls, MyTrips, VesselInfo } from "components";
+import { MyGears, MyHauls, Trips, VesselInfo } from "components";
 import { FC, useState } from "react";
 import {
   getCurrentTrip,
@@ -181,7 +181,7 @@ export const MyPage: FC = () => {
           <Typography variant="h6"> Mine turer </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ pb: 0, pr: 0 }}>
-          <MyTrips />
+          <Trips />
         </AccordionDetails>
       </Accordion>
       <Accordion

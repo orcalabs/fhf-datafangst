@@ -126,7 +126,10 @@ export const HaulFilters: FC<Props> = (props) => {
             />
           </Box>
           {!selectedVessel && (
-            <Box onMouseEnter={() => onFilterHover(HaulsFilter.Vessel)}>
+            <Box
+              onMouseEnter={() => onFilterHover(HaulsFilter.Vessel)}
+              sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}
+            >
               <VesselFilter
                 value={haulsSearch?.vessels}
                 onChange={(value) =>

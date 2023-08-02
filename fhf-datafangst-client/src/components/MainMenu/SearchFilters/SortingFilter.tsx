@@ -5,25 +5,25 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { Ordering } from "generated/openapi";
+import { Ordering, TripSorting } from "generated/openapi";
 import { FC } from "react";
 
-const TripSorting = {
-  StartDate: "startDate",
-  StopDate: "stopDate",
-  Weight: "weight",
-} as const;
+// const TripSorting = {
+//   StartDate: "startDate",
+//   StopDate: "stopDate",
+//   Weight: "weight",
+// } as const;
 
-type TripsSorting = (typeof TripSorting)[keyof typeof TripSorting];
+// type TripsSorting = (typeof TripSorting)[keyof typeof TripSorting];
 
 interface Props {
-  value?: [TripsSorting, Ordering];
-  onChange: (_: [TripsSorting, Ordering]) => void;
+  value?: [TripSorting, Ordering];
+  onChange: (_: [TripSorting, Ordering]) => void;
 }
 
 export const SortingFilter: FC<Props> = (props) => {
   const { value, onChange } = props;
-  const controlValue = value?.join(" ") ?? "date desc";
+  const controlValue = value?.join(" ") ?? "stopDate desc";
 
   return (
     <>
@@ -44,14 +44,14 @@ export const SortingFilter: FC<Props> = (props) => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             onChange(
               (event.target as HTMLInputElement).value.split(" ") as [
-                TripsSorting,
+                TripSorting,
                 Ordering,
               ],
             )
           }
         >
-          {radioControl("Dato nyeste-eldste", "date desc")}
-          {radioControl("Dato eldste-nyeste", "date asc")}
+          {radioControl("Dato nyeste-eldste", "stopDate desc")}
+          {radioControl("Dato eldste-nyeste", "stopDate asc")}
           {radioControl("Vekt høy-lav", "weight desc")}
           {radioControl("Vekt lav-høy", "weight asc")}
         </RadioGroup>

@@ -25,6 +25,7 @@ import {
   selectTripsLoading,
   selectTripsSearch,
   selectVesselsByCallsign,
+  selectVesselsByFiskeridirId,
   selectViewState,
   setSelectedTrip,
   setTripsSearch,
@@ -43,16 +44,16 @@ const listItemSx = {
 };
 
 const filterParams: TripsArgs = {
-  // dateRange: undefined,
-  vessel: undefined,
-  // specieGroups: undefined,
-  // gearGroups: undefined,
-  // vesselLength: undefined,
-  // weight: undefined,
-  // sorting: undefined,
+  dateRange: undefined,
+  vessels: undefined,
+  speciesGroups: undefined,
+  gearGroups: undefined,
+  vesselLengthGroups: undefined,
+  weight: undefined,
+  sorting: undefined,
 };
 
-export const MyTrips: FC = () => {
+export const Trips: FC = () => {
   const dispatch = useAppDispatch();
   const tripsLoading = useAppSelector(selectTripsLoading);
   const trips = useAppSelector(selectTrips);
@@ -60,6 +61,7 @@ export const MyTrips: FC = () => {
   const tripsSearch = useAppSelector(selectTripsSearch);
   const profile = useAppSelector(selectBwUserProfile);
   const vessels = useAppSelector(selectVesselsByCallsign);
+  const vesselsById = useAppSelector(selectVesselsByFiskeridirId);
   const vesselInfo = profile?.vesselInfo;
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const viewState = useAppSelector(selectViewState);
@@ -67,10 +69,13 @@ export const MyTrips: FC = () => {
   const offset = tripsSearch?.offset ?? 0;
   const limit = tripsSearch?.limit ?? 10;
 
-  const activeFilterParams = {
-    ...withoutKeys(filterParams, "vessel"),
-    ...withoutKeys(tripsSearch, "vessel"),
-  };
+  const activeFilterParams =
+    viewState === MenuViewState.MyPage
+      ? {
+          ...withoutKeys(filterParams, "vessels", "vesselLengthGroups"),
+          ...withoutKeys(tripsSearch, "vessels"),
+        }
+      : { ...filterParams, ...tripsSearch };
 
   const handleTripsPagination = (offset: number, limit: number) => {
     dispatch(paginateTripsSearch({ offset, limit }));
@@ -83,7 +88,7 @@ export const MyTrips: FC = () => {
 
   useEffect(() => {
     if (vessel && viewState === MenuViewState.MyPage) {
-      dispatch(setTripsSearch({ ...tripsSearch, vessel }));
+      dispatch(setTripsSearch({ ...tripsSearch, vessels: [vessel] }));
     } else {
       dispatch(setTripsSearch({ ...tripsSearch }));
     }
@@ -134,8 +139,19 @@ export const MyTrips: FC = () => {
                 />
               </ListItemAvatar>
               <ListItemText
-                primary={dateFormat(t.end, "PPP")}
-                secondary={kilosOrTonsFormatter(t.delivery.totalLivingWeight)}
+                primary={
+                  viewState === MenuViewState.MyPage
+                    ? dateFormat(t.end, "PPP")
+                    : vesselsById[t.fiskeridirVesselId]?.fiskeridir.name ??
+                      "Ukjent"
+                }
+                secondary={
+                  viewState === MenuViewState.MyPage
+                    ? kilosOrTonsFormatter(t.delivery.totalLivingWeight)
+                    : `${kilosOrTonsFormatter(
+                        t.delivery.totalLivingWeight,
+                      )} - ${dateFormat(t.end, "PPP")}`
+                }
               />
             </ListItemButton>
           ))}

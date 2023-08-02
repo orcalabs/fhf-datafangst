@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { FC } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -34,11 +34,10 @@ export class DateRange {
 interface Props {
   value?: DateRange;
   onChange: (_?: DateRange) => void;
-  hideLabel?: boolean;
 }
 
 export const DateFilter: FC<Props> = (props) => {
-  const { value, onChange, hideLabel } = props;
+  const { value, onChange } = props;
 
   const handleStartDateChange = (date: Date | null) =>
     onChange(new DateRange(date, value?.rawEnd));
@@ -62,64 +61,32 @@ export const DateFilter: FC<Props> = (props) => {
                 borderRadius: 0,
               },
             },
-            "& .PrivatePickersYear-yearButton": {
-              borderRadius: 0,
-            },
-            "& .Mui-selected": {
-              bgcolor: "#9FCFCA!important" as any,
-            },
             "& .MuiIconButton-sizeMedium": {
               color: "secondary.main",
             },
             "& .MuiFormControl-root": {
               width: "49%",
             },
-            "& .MuiOutlinedInput-root": {
-              p: "6px",
-            },
-            "& .MuiOutlinedInput-input": {
-              p: "3px 4px 2px 6px",
-            },
             "& .MuiInputLabel-root": {
-              color: "black",
-            },
-            "& .MuiPickersPopper-paper": {
               color: "black",
             },
           }}
         >
           <DatePicker
+            label={"Fra"}
+            slotProps={{ textField: { size: "small" } }}
             onChange={handleStartDateChange}
-            // DialogProps={{ sx: { color: "black" } }}
-            // PopperProps={{ disablePortal: true }}
-            label={hideLabel ? "" : "Fra"}
             value={value?.rawStart ?? null}
-            minDate={new Date("2021-01-01")}
+            minDate={new Date("2011-01-01")}
             maxDate={value?.rawEnd ?? new Date()}
-            // renderInput={(props: any) => <TextField size="small" {...props} />}
-            // OpenPickerButtonProps={{
-            //   sx: {
-            //     borderRadius: 0,
-            //     mr: 0,
-            //     svg: { width: 18, height: 18 },
-            //   },
-            // }}
           />
           <DatePicker
-            label={hideLabel ? "" : "Til"}
+            label={"Til"}
+            slotProps={{ textField: { size: "small" } }}
             value={value?.rawEnd ?? null}
-            // PopperProps={{ disablePortal: true }}
             maxDate={new Date()}
-            minDate={value ? value.rawStart : new Date("2021-01-01")}
+            minDate={value ? value.rawStart : new Date("2011-01-01")}
             onChange={handleEndDateChange}
-            // renderInput={(props: any) => <TextField size="small" {...props} />}
-            // OpenPickerButtonProps={{
-            //   sx: {
-            //     borderRadius: 0,
-            //     mr: 0,
-            //     svg: { width: 18, height: 18 },
-            //   },
-            // }}
           />
         </Box>
       </LocalizationProvider>
