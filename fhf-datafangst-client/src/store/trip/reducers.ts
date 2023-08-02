@@ -12,6 +12,8 @@ import {
 } from ".";
 import { emptyState, getTrack } from "store";
 import { TripsArgs } from "api";
+import { getGearGroupsFromVessels } from "utils";
+import { GearGroup } from "generated/openapi";
 
 export const tripBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -86,15 +88,27 @@ export const tripBuilder = (
     .addCase(setTripsSearch, (state, action) => {
       const newSearch = action.payload;
 
+      // Remove gear filters that are not included in vessel filter
+      if (newSearch.vessels?.length && newSearch.gearGroups?.length) {
+        const newGearGroups: GearGroup[] = [];
+        const vesselsGearGroups = getGearGroupsFromVessels(newSearch.vessels);
+        for (const gg of newSearch.gearGroups) {
+          if (vesselsGearGroups.includes(gg.id)) {
+            newGearGroups.push(gg);
+          }
+        }
+        newSearch.gearGroups = newGearGroups.length ? newGearGroups : undefined;
+      }
+
       if (newSearch) {
         newSearch.accessToken = state.authUser?.access_token;
         (action as any).asyncDispatch(getTrips(action.payload));
       }
-
       return {
         ...state,
         ...emptyState,
         tripsSearch: action.payload,
+        tripFiltersOpen: state.tripFiltersOpen,
       };
     })
     .addCase(paginateTripsSearch, (state, action) => {

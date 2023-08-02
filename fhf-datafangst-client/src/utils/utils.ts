@@ -10,6 +10,7 @@ import {
   Gear,
   Haul,
   RegisterVesselOwner,
+  Vessel,
 } from "generated/openapi";
 import { Catch } from "models";
 
@@ -242,6 +243,15 @@ export const withoutKeys = (
   for (const key of keys) {
     // eslint-disable-next-line
     delete res[key];
+  }
+
+  return res;
+};
+
+export const getGearGroupsFromVessels = (vessels: Vessel[]) => {
+  let res: number[] = [];
+  for (const vessel of vessels) {
+    res = res.concat(vessel.gearGroups);
   }
 
   return res;

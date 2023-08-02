@@ -3,7 +3,12 @@ import theme from "app/theme";
 import { ListboxComponent, StyledPopper } from "components";
 import { Vessel } from "generated/openapi";
 import { FC, useMemo } from "react";
-import { selectVesselsByFiskeridirId, useAppSelector } from "store";
+import {
+  MenuViewState,
+  selectVesselsByFiskeridirId,
+  selectViewState,
+  useAppSelector,
+} from "store";
 import { toTitleCase } from "utils";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
@@ -16,6 +21,7 @@ interface Props {
 
 export const VesselFilter: FC<Props> = (props) => {
   const { value, onChange, useVirtualization } = props;
+  const viewState = useAppSelector(selectViewState);
   const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const vessels = Object.values(vesselsMap);
   const options = useMemo(
@@ -43,9 +49,15 @@ export const VesselFilter: FC<Props> = (props) => {
               borderRadius: 0,
             },
           },
-          "& .MuiAutocomplete-inputRoot": { color: "white" },
+          "& .MuiAutocomplete-inputRoot": {
+            color: viewState === MenuViewState.Overview ? "white" : "black",
+          },
           "& .MuiInputBase-root": { pb: "6px" },
-          "& .MuiIconButton-root": { color: "text.secondary" },
+          "& .MuiChip-filled": {
+            color: "black",
+            bgcolor: "secondary.main",
+            borderRadius: 0,
+          },
         }}
         size="small"
         multiple
@@ -67,8 +79,14 @@ export const VesselFilter: FC<Props> = (props) => {
         renderInput={(params: any) => (
           <TextField
             {...params}
-            variant="standard"
-            placeholder={value ? "" : "Søk etter fartøy"}
+            variant={
+              viewState === MenuViewState.Overview ? "standard" : "outlined"
+            }
+            placeholder={
+              value ?? viewState !== MenuViewState.Overview
+                ? ""
+                : "Søk etter fartøy"
+            }
           />
         )}
         renderOption={(props: any, option: Vessel) => (

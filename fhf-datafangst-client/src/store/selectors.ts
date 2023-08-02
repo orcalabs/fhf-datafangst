@@ -25,7 +25,10 @@ export const selectSecondaryMenuOpen = createSelector(
 
 export const selectTrackMissing = createSelector(
   selectAppState,
-  (state) => state.selectedHaul && !state.track?.length && !state.trackLoading,
+  (state) =>
+    (state.selectedHaul ?? state.selectedTrip) &&
+    !state.track?.length &&
+    !state.trackLoading,
 );
 
 export const selectBwUserProfile = createSelector(
@@ -38,7 +41,7 @@ export const selectMatrixToggle = createSelector(
   (state) => state.matrixToggle,
 );
 
-export const selectSearchFiltersAnchor = createSelector(
+export const selectTripFiltersOpen = createSelector(
   selectAppState,
-  (state) => state.searchFiltersAnchor,
+  (state) => state.tripFiltersOpen,
 );

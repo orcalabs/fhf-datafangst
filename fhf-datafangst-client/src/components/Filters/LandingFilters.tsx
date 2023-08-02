@@ -131,7 +131,10 @@ export const LandingFilters: FC<Props> = (props) => {
             />
           </Box>
           {!selectedVessel && (
-            <Box onMouseEnter={() => onFilterHover(LandingsFilter.Vessel)}>
+            <Box
+              onMouseEnter={() => onFilterHover(LandingsFilter.Vessel)}
+              sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}
+            >
               <VesselFilter
                 value={landingsSearch?.vessels}
                 onChange={(value) =>

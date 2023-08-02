@@ -7,6 +7,24 @@ import { style } from "@mui/system";
 export const StyledPopper = styled(Popper)(({ theme }) => ({
   [`& .${autocompleteClasses.listbox}`]: {
     padding: 0,
+  },
+  [`& .${autocompleteClasses.option}`]: {
+    borderBottom: "1px solid",
+    borderColor: theme.palette.text.secondary,
+    color: theme.palette.primary.dark,
+    "& .MuiTypography-caption": { color: "grey" },
+  },
+  [`& .${autocompleteClasses.paper}`]: {
+    borderRadius: 0,
+    marginRight: "1px",
+    marginLeft: "1px",
+    color: theme.palette.primary.main,
+  },
+}));
+
+export const StyledDatePopper = styled(Popper)(({ theme }) => ({
+  [`& .${autocompleteClasses.listbox}`]: {
+    padding: 0,
     display: "flex",
     flexFlow: "row wrap",
   },
