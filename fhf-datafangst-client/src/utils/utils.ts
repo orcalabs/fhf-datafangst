@@ -1,5 +1,6 @@
 import {
   differenceInHours,
+  differenceInMinutes,
   format,
   formatDuration,
   intervalToDuration,
@@ -164,6 +165,14 @@ export const differenceHours = (date1: Date, date2: Date) => {
     return differenceInHours(date1, date2);
   } else {
     return differenceInHours(date2, date1);
+  }
+};
+
+export const differenceMinutes = (date1: Date, date2: Date) => {
+  if (date1 > date2) {
+    return differenceInMinutes(date1, date2);
+  } else {
+    return differenceInMinutes(date2, date1);
   }
 };
 

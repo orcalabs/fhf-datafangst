@@ -18,6 +18,7 @@ import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
 import {
   differenceHours,
+  differenceMinutes,
   findHighestHaulCatchWeight,
   matrixSum,
   sumCatches,
@@ -437,10 +438,10 @@ export const generateVesselTrackVector = (
   // Draw dashed line from start of haul position to first AIS point if we're missing data
   if (
     haul &&
-    differenceHours(
+    differenceMinutes(
       new Date(positions[0].timestamp),
       new Date(haul.startTimestamp),
-    ) > 1
+    ) > 70
   ) {
     const startLine = {
       vector: new VectorSource(),
