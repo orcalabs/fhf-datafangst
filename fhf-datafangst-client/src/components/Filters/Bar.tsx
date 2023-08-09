@@ -47,6 +47,7 @@ export const Bar: FC<Props> = (props) => {
             marginLeft: "auto",
             right: 0,
             left: 0,
+            pt: selected ? "0px" : "1px",
           }}
         >
           {hovering
@@ -59,7 +60,7 @@ export const Bar: FC<Props> = (props) => {
           sx={{
             minWidth: "2px",
             width: length.toString() + "%",
-            height: 24,
+            height: selected ? 24 : 25,
             bgcolor: selected ? "secondary.main" : `${theme.palette.grey.A100}`,
           }}
         ></Box>
