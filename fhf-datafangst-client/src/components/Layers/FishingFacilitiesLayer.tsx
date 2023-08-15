@@ -22,5 +22,5 @@ export const FishingFacilitiesLayer = () => {
     setVector(vector);
   }, [fishingFacilities, selectedFishingFacility]);
 
-  return <VectorLayer source={vector} zIndex={2} />;
+  return <VectorLayer source={vector} zIndex={2} name="gearsLayer" />;
 };

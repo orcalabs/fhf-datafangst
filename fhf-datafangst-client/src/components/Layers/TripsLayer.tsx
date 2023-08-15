@@ -22,7 +22,6 @@ export const TripsLayer: FC = () => {
   const state = useAppSelector(selectFishmapState);
   const trip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedTripHaul = useAppSelector(selectSelectedTripHaul);
-
   const [zoom, setZoom] = useState<number | undefined>(
     state.map.getView().getZoom(),
   );
@@ -82,8 +81,12 @@ export const TripsLayer: FC = () => {
       {selectedHaulTrackVector?.map((v, i) => (
         <VectorLayer key={i} source={v.vector} zIndex={7} style={v.style} />
       ))}
-      <VectorLayer source={haulsVector} zIndex={8} />
-      <VectorLayer source={fishingFacilityVector} zIndex={5} />
+      <VectorLayer source={haulsVector} zIndex={8} name="tripHaulsLayer" />
+      <VectorLayer
+        source={fishingFacilityVector}
+        zIndex={5}
+        name="gearsLayer"
+      />
     </>
   );
 };

@@ -4,18 +4,24 @@ import { selectFishmap, useAppSelector } from "store";
 
 interface Props {
   source: any;
-  style?: any;
   zIndex: number;
+  style?: any;
+  name?: string;
 }
 
 export const VectorLayer: FC<Props> = (props) => {
-  const { source, style, zIndex } = props;
+  const { source, style, zIndex, name } = props;
   const fishmap = useAppSelector(selectFishmap);
 
   useEffect(() => {
     if (!fishmap) return;
 
-    const vectorLayer = new OLVectorLayer({ source, style, zIndex });
+    const vectorLayer = new OLVectorLayer({
+      source,
+      style,
+      zIndex,
+      properties: { name },
+    });
     fishmap.addLayer(vectorLayer);
 
     return () => {

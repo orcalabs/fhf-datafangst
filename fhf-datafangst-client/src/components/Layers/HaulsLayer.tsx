@@ -15,11 +15,11 @@ export const HaulsLayer: FC = () => {
   const fishmap = useAppSelector(selectFishmap);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
-
   const removeLayer = useCallback(() => {
     for (const layer of fishmap.getLayers().getArray()) {
       if (layer.get("name") === "HaulsLayer") {
         fishmap.removeLayer(layer);
+        layer.dispose();
         return;
       }
     }
@@ -49,7 +49,6 @@ export const HaulsLayer: FC = () => {
       });
       removeLayer();
       fishmap.addLayer(layer);
-
       return () => {
         removeLayer();
       };
