@@ -17,6 +17,7 @@ export const MapBoxLayer: FC<Props> = (props) => {
       styleUrl: process.env.REACT_APP_MAPBOX_STYLE_URL as string,
       accessToken: process.env.REACT_APP_MAPBOX_TOKEN as string,
       zIndex,
+      properties: { disableHitDetection: true },
     });
 
     fishmap.addLayer(vector);

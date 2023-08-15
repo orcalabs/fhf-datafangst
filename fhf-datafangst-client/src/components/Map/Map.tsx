@@ -54,6 +54,7 @@ export const Map: FC<Props> = (props) => {
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
+  let disableHitDetection = false;
 
   const handleClosePopover = () => {
     setAnchorPos(undefined);
@@ -105,6 +106,8 @@ export const Map: FC<Props> = (props) => {
     // Interaction for handling hover effect on Hauls
     const hoverInteraction = new Select({
       condition: pointerMove,
+      // Limit hit detection to targeted layer
+      layers: (layer) => layer.get("name") === "tripHaulsLayer",
       filter: (feature) => {
         // Ignore hover effect on selected hauls
         const feat = pixelFeature(feature);
@@ -128,8 +131,10 @@ export const Map: FC<Props> = (props) => {
     // Interaction for handling hover effect on Gears
     const gearHoverInteraction = new Select({
       condition: pointerMove,
+      // Limit hit detection to targeted layer
+      layers: (layer) => layer.get("name") === "gearsLayer",
       filter: (feature) => {
-        // Ignore hover effect on selected hauls
+        // Ignore hover effect on selected gears
         const feat = pixelFeature(feature);
         const gear = feat?.get("fishingFacilityIdx");
         const gears = store.getState().fishingFacilities;
@@ -146,10 +151,10 @@ export const Map: FC<Props> = (props) => {
       style: (feature) => {
         const feat = pixelFeature(feature);
         const toolType = feat?.get("toolType");
-
         const geometry = feat?.getGeometry();
 
         feat?.set("hovered", true, true);
+
         return fishingFacilityStyle(toolType, geometry, true);
       },
     });
@@ -178,6 +183,9 @@ export const Map: FC<Props> = (props) => {
         const feature = mapState.map.forEachFeatureAtPixel(
           evt.pixel,
           pixelFeature,
+          {
+            layerFilter: (layer) => !layer.get("disableHitDetection"),
+          },
         );
         if (feature) {
           const grid = feature.get("lokref");
@@ -213,11 +221,23 @@ export const Map: FC<Props> = (props) => {
       });
     };
 
+    // Hacky solution to the slow performance of OpenLayers' hit detection with WebGL Points Layer.
+    // By disabling pointer move event during panning we avoid lagg on high resolution monitors.
+    mapState.map.on("movestart", function (_) {
+      disableHitDetection = true;
+    });
+    mapState.map.on("moveend", function (_) {
+      disableHitDetection = false;
+    });
+
+    mapState.map.getView().on("change:resolution", function (_) {
+      disableHitDetection = true;
+    });
+
     mapState.map.on("pointermove", function (evt) {
-      if (evt.dragging) {
+      if (evt.dragging || disableHitDetection) {
         return;
       }
-
       mapState.map.getTargetElement().style.cursor = "";
       resetHover();
       handleClosePopover();
@@ -225,6 +245,9 @@ export const Map: FC<Props> = (props) => {
       const feature = mapState.map.forEachFeatureAtPixel(
         evt.pixel,
         pixelFeature,
+        {
+          layerFilter: (layer) => !layer?.get("disableHitDetection"),
+        },
       );
 
       if (feature) {
