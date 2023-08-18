@@ -21,7 +21,11 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { dateFormat, kilosOrTonsFormatter } from "utils";
+import {
+  dateFormat,
+  kilosOrTonsFormatter,
+  reduceCatchesOnSpecies,
+} from "utils";
 import { CatchesTable, LocalLoadingProgress } from "components";
 import {
   getLandingTrip,
@@ -166,79 +170,86 @@ export const LandingsMenu: FC = () => {
     key: number,
     primary: string,
     secondary: string,
-  ) => (
-    <Accordion
-      square
-      disableGutters
-      key={key}
-      sx={accordionSx}
-      expanded={landing.landingId === selectedLandingId}
-      onChange={() => handleLandingChange(landing)}
-    >
-      <AccordionSummary>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            "& svg": { mr: 2 },
-          }}
-        >
-          <FishIcon
-            width="48"
-            height="48"
-            fill={`${theme.palette.secondary.light}`}
-          />
-        </Box>
-        <ListItemText primary={primary} secondary={secondary} />
-      </AccordionSummary>
-      <AccordionDetails sx={{ pb: 0 }}>
-        {landing.landingId === selectedLandingId && (
-          <Box sx={{ py: 1 }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                "& svg": { mr: 2 },
-              }}
-            >
-              {item(
-                CalendarMonthSharpIcon,
-                dateFormat(landing.landingTimestamp, "d. MMM HH:mm"),
-              )}
-              {item(PhishingSharpIcon, gears[landing.gearId].name)}
-            </Box>
-            <Typography
-              sx={{
-                color: "white",
-                fontWeight: "bold",
-                mt: 3,
-              }}
-            >
-              Estimert fangst
-            </Typography>
-            <CatchesTable catches={landing.catches} />
-            <Button
-              size="small"
-              sx={{
-                width: "100%",
-                bgcolor: "secondary.main",
-                px: 2,
-                borderRadius: 0,
-                mt: 1,
-              }}
-              onClick={() => {
-                dispatch(getLandingTrip(landing));
-              }}
-              startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
-            >
-              <Typography sx={{ pl: 1, color: "white" }}> Vis tur </Typography>
-            </Button>
+  ) => {
+    const deliveryCatchesMap = reduceCatchesOnSpecies(landing.catches);
+    const landingCatches = Object.values(deliveryCatchesMap);
+    return (
+      <Accordion
+        square
+        disableGutters
+        key={key}
+        sx={accordionSx}
+        expanded={landing.landingId === selectedLandingId}
+        onChange={() => handleLandingChange(landing)}
+      >
+        <AccordionSummary>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              "& svg": { mr: 2 },
+            }}
+          >
+            <FishIcon
+              width="48"
+              height="48"
+              fill={`${theme.palette.secondary.light}`}
+            />
           </Box>
-        )}
-      </AccordionDetails>
-    </Accordion>
-  );
+          <ListItemText primary={primary} secondary={secondary} />
+        </AccordionSummary>
+        <AccordionDetails sx={{ pb: 0 }}>
+          {landing.landingId === selectedLandingId && (
+            <Box sx={{ py: 1 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                  "& svg": { mr: 2 },
+                }}
+              >
+                {item(
+                  CalendarMonthSharpIcon,
+                  dateFormat(landing.landingTimestamp, "d. MMM HH:mm"),
+                )}
+                {item(PhishingSharpIcon, gears[landing.gearId].name)}
+              </Box>
+              <Typography
+                sx={{
+                  color: "white",
+                  fontWeight: "bold",
+                  mt: 3,
+                }}
+              >
+                Levert fangst
+              </Typography>
+              <CatchesTable catches={landingCatches} />
+              <Button
+                size="small"
+                sx={{
+                  width: "100%",
+                  bgcolor: "secondary.main",
+                  px: 2,
+                  borderRadius: 0,
+                  mt: 1,
+                }}
+                onClick={() => {
+                  dispatch(getLandingTrip(landing));
+                }}
+                startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
+              >
+                <Typography sx={{ pl: 1, color: "white" }}>
+                  {" "}
+                  Vis tur{" "}
+                </Typography>
+              </Button>
+            </Box>
+          )}
+        </AccordionDetails>
+      </Accordion>
+    );
+  };
 
   const item = (Icon: any, text: string) => (
     <Box sx={{ display: "flex", gap: 2 }}>
