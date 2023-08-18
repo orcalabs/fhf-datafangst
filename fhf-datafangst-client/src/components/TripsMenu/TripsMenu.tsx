@@ -18,12 +18,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import {
-  getCurrentTripTrack,
-  selectCurrentTrip,
-  selectSelectedTrip,
-  setSelectedTrip,
-} from "store/trip";
+import { selectSelectedTrip, setSelectedTrip } from "store/trip";
 import {
   createGearListString,
   createObjectDurationString,
@@ -58,7 +53,6 @@ const iconStyle = {
 
 export const TripsMenu: FC = () => {
   const trip = useAppSelector(selectSelectedTrip);
-  const currentTrip = useAppSelector(selectCurrentTrip);
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const dispatch = useAppDispatch();
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -129,8 +123,6 @@ export const TripsMenu: FC = () => {
 
                 if (selectedHaul) {
                   dispatch(getHaulTrack(selectedHaul));
-                } else if (currentTrip) {
-                  dispatch(getCurrentTripTrack());
                 }
               }}
             >
