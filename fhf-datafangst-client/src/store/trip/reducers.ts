@@ -72,6 +72,10 @@ export const tripBuilder = (
       const trip = action.payload;
       state.selectedTrip = trip;
 
+      if (!trip && state.currentTrip) {
+        (action as any).asyncDispatch(getCurrentTripTrack());
+      }
+
       if (trip && state.vesselsByFiskeridirId) {
         const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
 
