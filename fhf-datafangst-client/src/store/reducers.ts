@@ -93,7 +93,11 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       state.bwProfile = action.payload;
 
       // Hijack Skomværfisk as a vessel for testing purposes.
-      if (state.bwProfile.contactPersonDetail.email === "post@orcalabs.no") {
+      if (
+        state.bwProfile.contactPersonDetail.email === "post@orcalabs.no" ||
+        state.bwProfile.contactPersonDetail.email ===
+          "stale.walderhaug@sintef.no"
+      ) {
         state.bwProfile.vesselInfo = {
           ircs: "JXMK",
           mmsi: 257842500,
