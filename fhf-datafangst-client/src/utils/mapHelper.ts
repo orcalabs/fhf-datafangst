@@ -280,7 +280,7 @@ export const generateLocationsMatrix = (
   selectedGrids: string[],
 ) => {
   if (!matrix) {
-    return;
+    return [];
   }
 
   const height = fishingLocationAreas.length;
@@ -332,7 +332,7 @@ export const generateLocationsMatrix = (
     );
   }
 
-  return new VectorSource({ features: fishingLocationFeatures });
+  return fishingLocationFeatures;
 };
 
 export const changeIconSizes = (

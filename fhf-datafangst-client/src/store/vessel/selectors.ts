@@ -14,6 +14,17 @@ export const selectVessels = createSelector(
   (state) => state.vessels,
 );
 
+export const selectVesselsSorted = createSelector(selectVessels, (state) =>
+  state
+    ? [...state].sort((a, b) =>
+        (a.fiskeridir?.name ?? "Ukjent").localeCompare(
+          b.fiskeridir?.name ?? "Ukjent",
+          "no",
+        ),
+      )
+    : [],
+);
+
 export const selectVesselsByCallsign = createSelector(
   selectAppState,
   (state) => state.vesselsByCallsign ?? {},
