@@ -32,13 +32,17 @@ export const LocationsGrid = () => {
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
 
-  const [gridVector, setGridVector] = useState<VectorSource<Geometry>>();
+  const [gridVector, _] = useState<VectorSource<Geometry>>(new VectorSource());
 
   useEffect(() => {
     if (matrix) {
-      setGridVector(
-        generateLocationsMatrix(matrix, selectedFilters, selectedGrids),
+      gridVector?.clear();
+      const features = generateLocationsMatrix(
+        matrix,
+        selectedFilters,
+        selectedGrids,
       );
+      gridVector?.addFeatures(features);
     }
   }, [matrix, selectedFilters]);
 
