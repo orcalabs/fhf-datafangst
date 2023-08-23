@@ -96,7 +96,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       if (
         state.bwProfile.contactPersonDetail.email === "post@orcalabs.no" ||
         state.bwProfile.contactPersonDetail.email ===
-          "stale.walderhaug@sintef.no"
+          "stale.walderhaug@sintef.no" ||
+        state.bwProfile.contactPersonDetail.email ===
+          "vetle.hofsoy-woie@sintef.no"
       ) {
         state.bwProfile.vesselInfo = {
           ircs: "JXMK",
