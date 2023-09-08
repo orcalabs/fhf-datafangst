@@ -45,7 +45,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint . --ext ts,tsx",
-    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://10.90.17.7:8080/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true"
+    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://192.168.0.60:8080/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true"
   },
   "eslintConfig": {
     "extends": [
@@ -76,6 +76,7 @@
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.0",
+    "react-virtuoso": "^4.5.1",
     "typescript": "^4.9.5"
   }
 }
