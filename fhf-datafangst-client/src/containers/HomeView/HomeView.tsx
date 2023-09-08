@@ -21,6 +21,7 @@ import {
   SeamapLayer,
   CurrentTripMenu,
   MapControls,
+  TripDetails,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
@@ -49,6 +50,7 @@ import {
   setLandingsMatrix2Search,
   selectMatrixToggle,
   MatrixToggle,
+  selectTripDetailsOpen,
 } from "store";
 import { MinErsYear, MinLandingYear } from "utils";
 
@@ -182,6 +184,21 @@ const TimeSliderArea = (props: { open: boolean; children: any }) => (
   </Box>
 );
 
+const CenterArea = (props: { open: boolean; children: any }) => (
+  <Box
+    sx={{
+      gridColumnStart: 2,
+      gridColumnEnd: props.open ? 2 : 4,
+      gridRowStart: 2,
+      gridRowEnd: 5,
+      display: "flex",
+      justifyContent: "flex-end",
+    }}
+  >
+    {props.children}
+  </Box>
+);
+
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
@@ -197,6 +214,7 @@ export const HomeView: FC = () => {
   const showHaulTimeSlider = useAppSelector(selectShowHaulTimeSlider);
   const showLandingTimeSlider = useAppSelector(selectShowLandingTimeSlider);
   const matrixToggle = useAppSelector(selectMatrixToggle);
+  const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
 
   // Fetch hauls for selected grid
   useEffect(() => {
@@ -294,6 +312,11 @@ export const HomeView: FC = () => {
           <MapControls />
           <MapAttributions />
         </MapAttributionsArea>
+        {tripDetailsOpen && (
+          <CenterArea open={secondaryMenuOpen}>
+            <TripDetails />
+          </CenterArea>
+        )}
       </GridContainer>
       <Map>
         <MapBoxLayer />

@@ -25,3 +25,7 @@ export const setMatrixToggle = createAction<MatrixToggle>(
 export const setTripFiltersOpen = createAction<boolean>(
   "base/setTripFiltersOpen",
 );
+
+export const setTripDetailsOpen = createAction<boolean>(
+  "base/setTripDetailsOpen",
+);

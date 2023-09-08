@@ -11,10 +11,12 @@ import { FC, useState } from "react";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
   getHaulTrack,
+  getLandings,
   resetTrackState,
   selectGearsMap,
   selectSelectedHaul,
   selectVesselsByFiskeridirId,
+  setTripDetailsOpen,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -39,6 +41,7 @@ import StickyNote2SharpIcon from "@mui/icons-material/StickyNote2Sharp";
 import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import WarehouseSharpIcon from "@mui/icons-material/WarehouseSharp";
 import CloseSharpIcon from "@mui/icons-material/CloseSharp";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",
@@ -116,6 +119,24 @@ export const TripsMenu: FC = () => {
             </Typography>
           </Box>
           <Box sx={{ marginLeft: "auto" }}>
+            {process.env.REACT_APP_ENV === "staging" ? (
+              <IconButton
+                sx={{ color: "text.secondary", borderRadius: 0 }}
+                edge="end"
+                onClick={() => {
+                  dispatch(setTripDetailsOpen(true));
+                  dispatch(
+                    getLandings({
+                      vessels: [vessels[trip.fiskeridirVesselId]],
+                    }),
+                  );
+                }}
+              >
+                <SettingsIcon />
+              </IconButton>
+            ) : (
+              <></>
+            )}
             <IconButton
               onClick={() => {
                 dispatch(setSelectedTrip(undefined));
