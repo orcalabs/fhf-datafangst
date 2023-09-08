@@ -520,6 +520,43 @@ export interface Delivery {
 /**
  * 
  * @export
+ * @interface DeliveryPoint
+ */
+export interface DeliveryPoint {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeliveryPoint
+     */
+    'address'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeliveryPoint
+     */
+    'id': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeliveryPoint
+     */
+    'latitude'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeliveryPoint
+     */
+    'longitude'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeliveryPoint
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface ErrorResponse
  */
 export interface ErrorResponse {
@@ -1163,6 +1200,12 @@ export interface Landing {
     'catches': Array<LandingCatch>;
     /**
      * 
+     * @type {string}
+     * @memberof Landing
+     */
+    'deliveryPointId'?: string | null;
+    /**
+     * 
      * @type {number}
      * @memberof Landing
      */
@@ -1685,7 +1728,13 @@ export interface VesselEvent {
      * @type {string}
      * @memberof VesselEvent
      */
-    'timestamp': string;
+    'occurenceTimestamp'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselEvent
+     */
+    'reportTimestamp': string;
 }
 /**
  * 
@@ -2086,6 +2135,100 @@ export class V1aisVmsApi extends BaseAPI {
      */
     public aisVmsPositions(requestParameters: V1aisVmsApiAisVmsPositionsRequest = {}, options?: AxiosRequestConfig) {
         return V1aisVmsApiFp(this.configuration).aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * V1deliveryPointApi - axios parameter creator
+ * @export
+ */
+export const V1deliveryPointApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deliveryPoints: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/delivery_points`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1deliveryPointApi - functional programming interface
+ * @export
+ */
+export const V1deliveryPointApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1deliveryPointApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deliveryPoints(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DeliveryPoint>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deliveryPoints(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1deliveryPointApi - factory interface
+ * @export
+ */
+export const V1deliveryPointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1deliveryPointApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deliveryPoints(options?: AxiosRequestConfig): AxiosPromise<Array<DeliveryPoint>> {
+            return localVarFp.deliveryPoints(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * V1deliveryPointApi - object-oriented interface
+ * @export
+ * @class V1deliveryPointApi
+ * @extends {BaseAPI}
+ */
+export class V1deliveryPointApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1deliveryPointApi
+     */
+    public deliveryPoints(options?: AxiosRequestConfig) {
+        return V1deliveryPointApiFp(this.configuration).deliveryPoints(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
