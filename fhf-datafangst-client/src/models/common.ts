@@ -32,3 +32,12 @@ export const LengthGroups: LengthGroup[] = [
 export const LengthGroupsMap: Record<number, LengthGroup> = Object.fromEntries(
   LengthGroups.map((l) => [l.id, l]),
 );
+
+export const EventType: Record<number, string> = {
+  1: "LND",
+  2: "DCA",
+  3: "POR",
+  4: "DEP",
+  5: "TRA",
+  6: "HAL",
+};

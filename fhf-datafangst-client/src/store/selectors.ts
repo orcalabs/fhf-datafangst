@@ -45,3 +45,8 @@ export const selectTripFiltersOpen = createSelector(
   selectAppState,
   (state) => state.tripFiltersOpen,
 );
+
+export const selectTripDetailsOpen = createSelector(
+  selectAppState,
+  (state) => state.tripDetailsOpen,
+);

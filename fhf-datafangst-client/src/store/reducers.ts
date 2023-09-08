@@ -7,6 +7,7 @@ import {
   resetTrackState,
   setError,
   setMatrixToggle,
+  setTripDetailsOpen,
   setTripFiltersOpen,
   setViewState,
 } from "./actions";
@@ -131,6 +132,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
     .addCase(setTripFiltersOpen, (state, action) => {
       state.tripFiltersOpen = action.payload;
+    })
+    .addCase(setTripDetailsOpen, (state, action) => {
+      state.tripDetailsOpen = action.payload;
     })
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 
