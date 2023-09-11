@@ -124,7 +124,7 @@ export const generateGridBoxStyle = (
 
   return selected
     ? new Style({
-        fill: new Fill({ color: "#C3E0E5" }),
+        fill: new Fill({ color: "rgba(195, 224, 229, 0.6)" }),
         stroke: new Stroke({
           color: color.replace(/[.0-9]+\)/, "1)"),
           width: 2,
