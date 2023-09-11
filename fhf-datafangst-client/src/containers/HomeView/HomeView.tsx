@@ -225,12 +225,18 @@ export const HomeView: FC = () => {
               years: haulsSearch?.years,
               months: haulsSearch?.months,
               vessels: haulsSearch?.vessels,
+              gearGroupIds: haulsSearch?.gearGroupIds,
+              speciesGroupIds: haulsSearch?.speciesGroupIds,
+              vesselLengthRanges: haulsSearch?.vesselLengthRanges,
               catchLocations: selectedGrids,
             })
           : setLandingsMatrix2Search({
               years: landingsSearch?.years,
               months: landingsSearch?.months,
               vessels: landingsSearch?.vessels,
+              gearGroupIds: landingsSearch?.gearGroupIds,
+              speciesGroupIds: landingsSearch?.speciesGroupIds,
+              vesselLengthRanges: landingsSearch?.vesselLengthRanges,
               catchLocations: selectedGrids,
             }),
       );
