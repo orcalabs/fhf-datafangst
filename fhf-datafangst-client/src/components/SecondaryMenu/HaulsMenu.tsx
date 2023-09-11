@@ -448,7 +448,7 @@ export const HaulsMenu: FC = () => {
                           haul,
                           index,
                           vessels[haul.haulId]?.fiskeridir?.name ??
-                            haul.vesselNameErs ??
+                            haul.vesselNameErs?.toUpperCase() ??
                             "Ukjent",
                           kilosOrTonsFormatter(sumCatches(haul.catches)) +
                             " - " +
