@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Box, Button, Collapse, Typography } from "@mui/material";
 import { selectSpeciesGroupsMap, useAppSelector } from "store";
 import { SpeciesGroup } from "generated/openapi";
@@ -17,6 +17,22 @@ interface Props {
 export const SpeciesFilter: FC<Props> = (props) => {
   const speciesGroups = useAppSelector(selectSpeciesGroupsMap);
   const [expanded, setExpanded] = useState<boolean>(false);
+
+  // Keep SpeciesFilter expanded if hidden options are selected
+  useEffect(() => {
+    let expand = false;
+    if (props.value?.length) {
+      value.forEach((sg, _) => {
+        const selectedIdx = props.stats.findIndex((item) => item.id === sg.id);
+        if (selectedIdx > NUM_BARS - 1) {
+          expand = true;
+        } else {
+          expand = expand || false;
+        }
+      });
+    }
+    setExpanded(expand);
+  }, [props.value]);
 
   if (!props.stats.length) {
     return <></>;
