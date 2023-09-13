@@ -42,6 +42,7 @@ import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import WarehouseSharpIcon from "@mui/icons-material/WarehouseSharp";
 import CloseSharpIcon from "@mui/icons-material/CloseSharp";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { TripAssemblerId } from "generated/openapi";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",
@@ -65,7 +66,6 @@ export const TripsMenu: FC = () => {
   if (!trip) {
     return <></>;
   }
-
   const haulCatchesMap = reduceHaulsCatches(trip.hauls);
   const haulCatches = Object.values(haulCatchesMap);
   const catchTotal = sumCatches(haulCatches);
@@ -228,32 +228,45 @@ export const TripsMenu: FC = () => {
           </Box>
           <CatchesTable catches={tripCatches} />
 
-          <Box
-            onClick={() => setExpanded(!expanded)}
-            sx={{
-              mt: 5,
-              mb: 1,
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              "&:hover": { cursor: "pointer" },
-            }}
-          >
-            <Typography
-              style={{ display: "flex", alignItems: "center" }}
-              variant="h5"
-              sx={{ fontSize: "1rem" }}
-            >
-              Estimert fangst
-              {expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </Typography>
-            {!expanded && (
-              <Typography color="text.secondary" variant="h6" fontSize="1rem">
-                {kilosOrTonsFormatter(catchTotal)}
-              </Typography>
+          {trip.tripAssemblerId === TripAssemblerId.Ers &&
+            Boolean(trip.hauls.length) && (
+              <>
+                <Box
+                  onClick={() => setExpanded(!expanded)}
+                  sx={{
+                    mt: 5,
+                    mb: 1,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    "&:hover": { cursor: "pointer" },
+                  }}
+                >
+                  <Typography
+                    style={{ display: "flex", alignItems: "center" }}
+                    variant="h5"
+                    sx={{ fontSize: "1rem" }}
+                  >
+                    Estimert fangst
+                    {expanded ? (
+                      <KeyboardArrowUpIcon />
+                    ) : (
+                      <KeyboardArrowDownIcon />
+                    )}
+                  </Typography>
+                  {!expanded && (
+                    <Typography
+                      color="text.secondary"
+                      variant="h6"
+                      fontSize="1rem"
+                    >
+                      {kilosOrTonsFormatter(catchTotal)}
+                    </Typography>
+                  )}
+                </Box>
+                {expanded && <CatchesTable catches={haulCatches} />}
+              </>
             )}
-          </Box>
-          {expanded && <CatchesTable catches={haulCatches} />}
         </Box>
       </Drawer>
     </Box>
