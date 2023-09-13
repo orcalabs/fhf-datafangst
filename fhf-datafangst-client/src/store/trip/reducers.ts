@@ -48,6 +48,7 @@ export const tripBuilder = (
         if (vessel) {
           (action as any).asyncDispatch(
             getTrack({
+              accessToken: state.authUser?.access_token,
               mmsi: vessel.ais?.mmsi,
               callSign: vessel.fiskeridir.callSign,
               start: trip.start,
@@ -81,6 +82,7 @@ export const tripBuilder = (
 
         (action as any).asyncDispatch(
           getTrack({
+            accessToken: state.authUser?.access_token,
             mmsi: vessel.ais?.mmsi,
             callSign: vessel.fiskeridir.callSign,
             start: trip.start,
@@ -133,6 +135,7 @@ export const tripBuilder = (
         state.currentTrip = action.payload;
         (action as any).asyncDispatch(
           getTrack({
+            accessToken: state.authUser?.access_token,
             mmsi: action.meta.arg.vessel.ais?.mmsi,
             callSign: action.meta.arg.vessel.fiskeridir.callSign,
             start: action.payload.departure,

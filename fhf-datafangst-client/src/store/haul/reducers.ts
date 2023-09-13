@@ -102,6 +102,7 @@ export const haulBuilder = (
       if (haul && state.vesselsByCallsign) {
         const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
 
+        // NOTE: If vessels under 15m report ERS, add BW-token here
         if (vessel) {
           (action as any).asyncDispatch(
             getTrack({
