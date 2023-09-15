@@ -12,11 +12,6 @@ export const axiosBwInstance = defaultAxios.create({
   baseURL: process.env.REACT_APP_BW_API_URL,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  config.headers["Ocp-Apim-Subscription-Key"] = process.env.REACT_APP_API_KEY;
-  return config;
-}, Promise.reject);
-
 export const apiGet = async <T>(
   fn: () => Promise<AxiosResponse<T, any>>,
 ): Promise<T> =>

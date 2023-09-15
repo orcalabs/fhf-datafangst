@@ -2,7 +2,7 @@ import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
 import { getWeather, setWeatherSearch } from ".";
 
-export const tripBuilder = (
+export const weatherBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
 ): ActionReducerMapBuilder<AppState> =>
   builder
