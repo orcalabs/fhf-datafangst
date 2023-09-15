@@ -23,6 +23,7 @@ import { trackBuilder } from "./track";
 import { fishingFacilityBuilder } from "./fishingFacility";
 import { getUser, userBuilder } from "./user";
 import { landingBuilder } from "./landing";
+import { weatherBuilder } from "./weather";
 
 export const emptyState = {
   ais: undefined,
@@ -153,5 +154,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(fishingFacilityBuilder)
     .extendBuilder(userBuilder)
     .extendBuilder(landingBuilder)
+    .extendBuilder(weatherBuilder)
     .finish(),
 );
