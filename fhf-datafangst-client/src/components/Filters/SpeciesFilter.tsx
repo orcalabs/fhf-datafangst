@@ -18,6 +18,8 @@ export const SpeciesFilter: FC<Props> = (props) => {
   const speciesGroups = useAppSelector(selectSpeciesGroupsMap);
   const [expanded, setExpanded] = useState<boolean>(false);
 
+  const value = props.value ?? [];
+
   // Keep SpeciesFilter expanded if hidden options are selected
   useEffect(() => {
     let expand = false;
@@ -37,8 +39,6 @@ export const SpeciesFilter: FC<Props> = (props) => {
   if (!props.stats.length) {
     return <></>;
   }
-
-  const value = props.value ?? [];
 
   const handleExpandChange = () => {
     setExpanded((prev) => !prev);
