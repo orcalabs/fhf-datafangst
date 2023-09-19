@@ -216,6 +216,8 @@ export const HomeView: FC = () => {
   const matrixToggle = useAppSelector(selectMatrixToggle);
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
 
+  const showHaulsMenu = Boolean(selectedGrids.length);
+
   // Fetch hauls for selected grid
   useEffect(() => {
     if (selectedGrids.length) {
@@ -263,13 +265,15 @@ export const HomeView: FC = () => {
         <HaulMenuArea>
           {/* Use grid to set Trip menu in front when active, without removing HaulsMenu and its state */}
           <Box sx={{ display: "grid", height: "100%" }}>
-            <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
-              {matrixToggle === MatrixToggle.Haul ? (
-                <HaulsMenu />
-              ) : (
-                <LandingsMenu />
-              )}
-            </Box>
+            {showHaulsMenu && (
+              <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
+                {matrixToggle === MatrixToggle.Haul ? (
+                  <HaulsMenu />
+                ) : (
+                  <LandingsMenu />
+                )}
+              </Box>
+            )}
             <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
               {selectedTrip && <TripsMenu />}
               {selectedCurrentTrip && <CurrentTripMenu />}

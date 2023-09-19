@@ -261,7 +261,13 @@ export const HaulsMenu: FC = () => {
   );
 
   const radioControl = (label: string, value: [HaulsSorting, Ordering]) => (
-    <FormControlLabel label={label} value={value} control={<Radio />} />
+    <MenuItem>
+      <FormControlLabel
+        label={label}
+        value={value.join(",")}
+        control={<Radio />}
+      />
+    </MenuItem>
   );
 
   const sortButton = (
@@ -288,46 +294,38 @@ export const HaulsMenu: FC = () => {
         onClick={() => setSortButtonAnchorEl(null)}
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
-        <MenuItem>
-          <FormControl
-            sx={{
-              "& .MuiButtonBase-root": {
-                "&:hover": { borderRadius: 0 },
-              },
-            }}
+        <FormControl
+          sx={{
+            "& .MuiRadio-root": {
+              "&:hover": { borderRadius: 0, bgcolor: "transparent" },
+            },
+          }}
+        >
+          <RadioGroup
+            defaultValue="female"
+            name="radio-sorting"
+            value={sortOrder.join(",")}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              handleSortChange(
+                (event.target as HTMLInputElement).value.split(",") as [
+                  HaulsSorting,
+                  Ordering,
+                ],
+              )
+            }
           >
-            <RadioGroup
-              defaultValue="female"
-              name="radio-sorting"
-              value={sortOrder.join(" ")}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleSortChange(
-                  (event.target as HTMLInputElement).value.split(",") as [
-                    HaulsSorting,
-                    Ordering,
-                  ],
-                )
-              }
-            >
-              {radioControl("Dato nyest-eldst", [
-                HaulsSorting.StartDate,
-                Ordering.Desc,
-              ])}
-              {radioControl("Dato eldst-nyest", [
-                HaulsSorting.StartDate,
-                Ordering.Asc,
-              ])}
-              {radioControl("Vekt høy-lav", [
-                HaulsSorting.Weight,
-                Ordering.Desc,
-              ])}
-              {radioControl("Vekt lav-høy", [
-                HaulsSorting.Weight,
-                Ordering.Asc,
-              ])}
-            </RadioGroup>
-          </FormControl>
-        </MenuItem>
+            {radioControl("Dato nyest-eldst", [
+              HaulsSorting.StartDate,
+              Ordering.Desc,
+            ])}
+            {radioControl("Dato eldst-nyest", [
+              HaulsSorting.StartDate,
+              Ordering.Asc,
+            ])}
+            {radioControl("Vekt høy-lav", [HaulsSorting.Weight, Ordering.Desc])}
+            {radioControl("Vekt lav-høy", [HaulsSorting.Weight, Ordering.Asc])}
+          </RadioGroup>
+        </FormControl>
       </Menu>
     </>
   );
