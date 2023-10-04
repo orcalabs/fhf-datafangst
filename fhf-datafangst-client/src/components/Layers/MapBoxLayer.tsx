@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { MapboxVector } from "ol/layer";
+import { MapboxVectorLayer } from "ol-mapbox-style";
 import { selectFishmap, useAppSelector } from "store";
 
 interface Props {
@@ -13,7 +13,7 @@ export const MapBoxLayer: FC<Props> = (props) => {
   useEffect(() => {
     if (!fishmap) return;
 
-    const vector = new MapboxVector({
+    const vector = new MapboxVectorLayer({
       styleUrl: process.env.REACT_APP_MAPBOX_STYLE_URL as string,
       accessToken: process.env.REACT_APP_MAPBOX_TOKEN as string,
       zIndex,

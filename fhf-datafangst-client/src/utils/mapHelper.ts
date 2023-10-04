@@ -25,6 +25,7 @@ import {
 import theme from "app/theme";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
 import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
+import weatherLocations from "assets/geojson/weather-locations.json";
 import shoreline from "assets/geojson/shoreline.json";
 import CircleStyle from "ol/style/Circle";
 import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
@@ -57,6 +58,16 @@ const fishingLocationFeatures = new GeoJSON({
 })
   .readFeatures(fishingLocationsGrid)
   .sort((a, b) => a.get("lokref").localeCompare(b.get("lokref")));
+
+export const weatherLocationFeatures = new GeoJSON({
+  featureProjection: process.env.REACT_APP_EPSG as string,
+  geometryName: "weatherLocations",
+}).readFeatures(weatherLocations);
+
+export const weatherLocationFeaturesMap: Record<number, Feature> =
+  Object.fromEntries(
+    weatherLocationFeatures.map((w) => [+w.get("weatherLocationId"), w]),
+  );
 
 export interface TravelVector {
   vector: VectorSource<Geometry>;
@@ -334,6 +345,59 @@ export const generateLocationsMatrix = (
 
   return fishingLocationFeatures;
 };
+
+// export function generateWeatherLocationFeatures(
+//   locations: WeatherLocation[],
+// ): Record<number, Feature> {
+//   const wkt = new WKT();
+//   const features: Record<number, Feature> = {};
+//   for (let i = 0; i < locations.length; i++) {
+//     const l = locations[i];
+//     features[l.id] = new Feature({
+//       geometry: wkt.readGeometry(l.polygon, {
+//         dataProjection: "EPSG:4326",
+//         featureProjection: "EPSG:3857",
+//       }),
+//       weatherLocationId: l.id,
+//     });
+//   }
+//   return features;
+// }
+// export function generateWeatherLocationFeatures2(
+//   latMin: number,
+//   latMax: number,
+//   lonMin: number,
+//   lonMax: number,
+// ): Record<number, Feature> {
+//   const wkt = new WKT();
+//   const features: Record<number, Feature> = {};
+
+//   for (let lat = latMin; lat <= latMax; lat++) {
+//     for (let lon = lonMin; lon <= lonMax; lon++) {
+//       const id = (lat + 1000) * 100_000 + (lon + 1000);
+//       features[id] = new Feature({
+//         geometry: wkt.readGeometry(
+//           `POLYGON ((${(lon / 10).toFixed(1)} ${(lat / 10).toFixed(1)}, ${(
+//             lon / 10 +
+//             0.1
+//           ).toFixed(1)} ${(lat / 10).toFixed(1)}, ${(lon / 10 + 0.1).toFixed(
+//             1,
+//           )} ${(lat / 10 + 0.1).toFixed(1)}, ${(lon / 10).toFixed(1)} ${(
+//             lat / 10 +
+//             0.1
+//           ).toFixed(1)}, ${(lon / 10).toFixed(1)} ${(lat / 10).toFixed(1)}))`,
+//           {
+//             dataProjection: "EPSG:4326",
+//             featureProjection: "EPSG:3857",
+//           },
+//         ),
+//         weatherLocationId: id,
+//       });
+//     }
+//   }
+
+//   return features;
+// }
 
 export const changeIconSizes = (
   vector: VectorSource<Geometry> | undefined,

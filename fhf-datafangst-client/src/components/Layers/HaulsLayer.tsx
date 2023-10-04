@@ -40,11 +40,13 @@ export const HaulsLayer: FC = () => {
         zIndex: 5,
         properties: { name: "HaulsLayer" },
         style: {
-          symbol: {
-            symbolType: "circle",
-            size: 6,
-            color: ["color", ["get", "red"], ["get", "green"], ["get", "blue"]],
-          },
+          "circle-radius": 3,
+          "circle-fill-color": [
+            "color",
+            ["get", "red"],
+            ["get", "green"],
+            ["get", "blue"],
+          ],
         },
       });
       removeLayer();

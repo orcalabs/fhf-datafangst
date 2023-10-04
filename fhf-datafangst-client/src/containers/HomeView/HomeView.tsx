@@ -22,6 +22,7 @@ import {
   CurrentTripMenu,
   MapControls,
   TripDetails,
+  WeatherLayer,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
@@ -256,9 +257,7 @@ export const HomeView: FC = () => {
         <HeaderButtonCell>
           <HeaderMenuButtons />
         </HeaderButtonCell>
-        <MenuArea>
-          <MainMenu />
-        </MenuArea>
+        <MenuArea>{false && <MainMenu />}</MenuArea>
         <FilterButtonArea open={secondaryMenuOpen}>
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
@@ -334,6 +333,7 @@ export const HomeView: FC = () => {
         {mapFilter.coastline && <ShorelineLayer />}
         {mapFilter.seamap && <SeamapLayer />}
         <HaulsLayer />
+        <WeatherLayer />
         {!selectedTrip && <TrackLayer />}
         {(selectedTrip ?? selectedCurrentTrip) && <TripsLayer />}
         <FishingFacilitiesLayer />

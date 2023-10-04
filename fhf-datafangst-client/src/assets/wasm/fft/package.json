@@ -1,0 +1,17 @@
+{
+  "name": "fft-wasm",
+  "collaborators": [
+    "Markus Bergum Hilbertsen <markus@orcalabs.no>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "fft_wasm_bg.wasm",
+    "fft_wasm.js",
+    "fft_wasm.d.ts"
+  ],
+  "module": "fft_wasm.js",
+  "types": "fft_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

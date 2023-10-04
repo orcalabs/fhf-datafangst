@@ -11,6 +11,7 @@ import {
   setSelectedFishingFacility,
   setSelectedHaul,
   setSelectedTripHaul,
+  setSelectedWeatherLocation,
   store,
   toggleSelectedArea,
   useAppDispatch,
@@ -32,6 +33,7 @@ import Select from "ol/interaction/Select";
 import { fishingFacilityStyle, tripHaulStyle } from "utils";
 import { defaults as interactionDefaults } from "ol/interaction/defaults";
 import { Coordinate, toStringHDMS } from "ol/coordinate";
+import { WeatherPopover } from "./WeatherPopover";
 
 interface Props {
   children: React.ReactNode;
@@ -51,16 +53,18 @@ export const Map: FC<Props> = (props) => {
   const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
     useState<number>();
   const [hoveredHaul, setHoveredHaul] = useState<Haul>();
-  const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
+  const [clickedWeatherLocation, setClickedWeatherLocation] = useState<
+    number | undefined
+  >();
+  const [hoverAnchor, setHoverAnchor] = useState<PopoverPosition>();
+  const [clickAnchor, setClickAnchor] = useState<PopoverPosition>();
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
   let disableHitDetection = false;
 
   const handleClosePopover = () => {
-    setAnchorPos(undefined);
+    setHoverAnchor(undefined);
   };
-
-  const open = Boolean(anchorPos);
 
   const resetHover = () => {
     setHoveredPosition(undefined);
@@ -183,15 +187,13 @@ export const Map: FC<Props> = (props) => {
         const feature = mapState.map.forEachFeatureAtPixel(
           evt.pixel,
           pixelFeature,
-          {
-            layerFilter: (layer) => !layer.get("disableHitDetection"),
-          },
         );
         if (feature) {
           const grid = feature.get("lokref");
           const haulId = feature.get("haulId");
           const haul = feature.get("haul");
           const gearIdx = feature.get("fishingFacilityIdx");
+          const weatherLocation = feature.get("weatherLocationId");
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
@@ -215,7 +217,15 @@ export const Map: FC<Props> = (props) => {
             }
             dispatch(setSelectedFishingFacility(gearIdx));
           }
+          if (weatherLocation) {
+            dispatch(setSelectedWeatherLocation(weatherLocation));
+            setClickedWeatherLocation(weatherLocation);
+            setClickAnchor({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          } else {
+            setClickAnchor(undefined);
+          }
         } else {
+          setClickAnchor(undefined);
           // dispatch(resetState());
         }
       });
@@ -259,27 +269,27 @@ export const Map: FC<Props> = (props) => {
 
         if (aisPosition) {
           setHoveredPosition(aisPosition);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setHoverAnchor({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (
           shoreLine.navn === "12 nautiske mil" ||
           shoreLine.navn === "4 nautiske mil"
         ) {
           setHoveredShoreline(shoreLine.navn);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setHoverAnchor({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (haulId !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaulId(haulId);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setHoverAnchor({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (fishingFacilityIdx !== undefined) {
           if (!selectedTrip) {
             mapState.map.getTargetElement().style.cursor = "pointer";
           }
           setHoveredFishingFacilityIdx(fishingFacilityIdx);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setHoverAnchor({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (haul !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaul(haul);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setHoverAnchor({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         }
       }
     });
@@ -292,12 +302,12 @@ export const Map: FC<Props> = (props) => {
       <Popover
         sx={{ pointerEvents: "none" }}
         PaperProps={{ square: true }}
-        open={open}
+        open={Boolean(hoverAnchor ?? clickAnchor)}
         elevation={5}
         disableRestoreFocus
         onClose={handleClosePopover}
         anchorReference="anchorPosition"
-        anchorPosition={anchorPos}
+        anchorPosition={hoverAnchor ?? clickAnchor}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         transformOrigin={{ vertical: "bottom", horizontal: "center" }}
         transitionDuration={0}
@@ -313,6 +323,9 @@ export const Map: FC<Props> = (props) => {
           />
         )}
         {hoveredHaul && <DetailedHaulPopover haul={hoveredHaul} />}
+        {clickedWeatherLocation && (
+          <WeatherPopover location={clickedWeatherLocation} />
+        )}
       </Popover>
       <Box id={"map"} sx={{ height: "100vh", width: "100%" }}>
         {children}

@@ -990,6 +990,42 @@ export interface Haul {
     'windSpeed10m'?: number | null;
     /**
      * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'oceanClimateDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'salinity'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'seaFloorDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'waterDirection'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'waterSpeed'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'waterTemperature'?: number | null;
+    /**
+     * 
      * @type {string}
      * @memberof Haul
      */
@@ -1344,6 +1380,49 @@ export interface HaulCatch {
      * @memberof HaulCatch
      */
     'speciesGroupId': number;
+}
+/**
+ * 
+ * @export
+ * @interface HaulOceanClimate
+ */
+export interface HaulOceanClimate {
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'oceanClimateDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'salinity'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'seaFloorDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'waterDirection'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'waterSpeed'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'waterTemperature'?: number | null;
 }
 /**
  * 
@@ -2150,6 +2229,12 @@ export interface Weather {
      * @type {number}
      * @memberof Weather
      */
+    'weatherLocationId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Weather
+     */
     'windDirection10m'?: number | null;
     /**
      * 
@@ -2157,6 +2242,93 @@ export interface Weather {
      * @memberof Weather
      */
     'windSpeed10m'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface WeatherFft
+ */
+export interface WeatherFft {
+    /**
+     * 
+     * @type {Array<WeatherFftEntry>}
+     * @memberof WeatherFft
+     */
+    'airPressureAtSeaLevel': Array<WeatherFftEntry>;
+    /**
+     * 
+     * @type {Array<WeatherFftEntry>}
+     * @memberof WeatherFft
+     */
+    'airTemperature2m': Array<WeatherFftEntry>;
+    /**
+     * 
+     * @type {Array<WeatherFftEntry>}
+     * @memberof WeatherFft
+     */
+    'precipitationAmount': Array<WeatherFftEntry>;
+    /**
+     * 
+     * @type {Array<WeatherFftEntry>}
+     * @memberof WeatherFft
+     */
+    'relativeHumidity2m': Array<WeatherFftEntry>;
+    /**
+     * 
+     * @type {string}
+     * @memberof WeatherFft
+     */
+    'timestamp': string;
+    /**
+     * 
+     * @type {Array<WeatherFftEntry>}
+     * @memberof WeatherFft
+     */
+    'windSpeed10m': Array<WeatherFftEntry>;
+}
+/**
+ * 
+ * @export
+ * @interface WeatherFftEntry
+ */
+export interface WeatherFftEntry {
+    /**
+     * 
+     * @type {number}
+     * @memberof WeatherFftEntry
+     */
+    'idx': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WeatherFftEntry
+     */
+    'im': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WeatherFftEntry
+     */
+    're': number;
+}
+/**
+ * 
+ * @export
+ * @interface WeatherLocation
+ */
+export interface WeatherLocation {
+    /**
+     * 
+     * @type {number}
+     * @memberof WeatherLocation
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof WeatherLocation
+     */
+    'polygon': string;
 }
 /**
  * 
@@ -5200,8 +5372,8 @@ export const V1weatherApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        weather: async (startDate?: string, endDate?: string, weatherLocationIds?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/weather`;
+        weatherAvg: async (startDate?: string, endDate?: string, weatherLocationIds?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/weather_avg`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -5240,6 +5412,82 @@ export const V1weatherApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} startDate 
+         * @param {string} endDate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        weatherFft: async (startDate: string, endDate: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'startDate' is not null or undefined
+            assertParamExists('weatherFft', 'startDate', startDate)
+            // verify required parameter 'endDate' is not null or undefined
+            assertParamExists('weatherFft', 'endDate', endDate)
+            const localVarPath = `/v1.0/weather_fft`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        weatherLocations: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/weather_locations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -5258,8 +5506,28 @@ export const V1weatherApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weather(startDate?: string, endDate?: string, weatherLocationIds?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Weather>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.weather(startDate, endDate, weatherLocationIds, options);
+        async weatherAvg(startDate?: string, endDate?: string, weatherLocationIds?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Weather>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.weatherAvg(startDate, endDate, weatherLocationIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} startDate 
+         * @param {string} endDate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async weatherFft(startDate: string, endDate: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WeatherFft>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.weatherFft(startDate, endDate, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async weatherLocations(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WeatherLocation>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.weatherLocations(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -5274,42 +5542,80 @@ export const V1weatherApiFactory = function (configuration?: Configuration, base
     return {
         /**
          * 
-         * @param {V1weatherApiWeatherRequest} requestParameters Request parameters.
+         * @param {V1weatherApiWeatherAvgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        weather(requestParameters: V1weatherApiWeatherRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Weather>> {
-            return localVarFp.weather(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(axios, basePath));
+        weatherAvg(requestParameters: V1weatherApiWeatherAvgRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Weather>> {
+            return localVarFp.weatherAvg(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1weatherApiWeatherFftRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        weatherFft(requestParameters: V1weatherApiWeatherFftRequest, options?: AxiosRequestConfig): AxiosPromise<Array<WeatherFft>> {
+            return localVarFp.weatherFft(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        weatherLocations(options?: AxiosRequestConfig): AxiosPromise<Array<WeatherLocation>> {
+            return localVarFp.weatherLocations(options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for weather operation in V1weatherApi.
+ * Request parameters for weatherAvg operation in V1weatherApi.
  * @export
- * @interface V1weatherApiWeatherRequest
+ * @interface V1weatherApiWeatherAvgRequest
  */
-export interface V1weatherApiWeatherRequest {
+export interface V1weatherApiWeatherAvgRequest {
     /**
      * 
      * @type {string}
-     * @memberof V1weatherApiWeather
+     * @memberof V1weatherApiWeatherAvg
      */
     readonly startDate?: string
 
     /**
      * 
      * @type {string}
-     * @memberof V1weatherApiWeather
+     * @memberof V1weatherApiWeatherAvg
      */
     readonly endDate?: string
 
     /**
      * 
      * @type {string}
-     * @memberof V1weatherApiWeather
+     * @memberof V1weatherApiWeatherAvg
      */
     readonly weatherLocationIds?: string
+}
+
+/**
+ * Request parameters for weatherFft operation in V1weatherApi.
+ * @export
+ * @interface V1weatherApiWeatherFftRequest
+ */
+export interface V1weatherApiWeatherFftRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1weatherApiWeatherFft
+     */
+    readonly startDate: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1weatherApiWeatherFft
+     */
+    readonly endDate: string
 }
 
 /**
@@ -5321,13 +5627,34 @@ export interface V1weatherApiWeatherRequest {
 export class V1weatherApi extends BaseAPI {
     /**
      * 
-     * @param {V1weatherApiWeatherRequest} requestParameters Request parameters.
+     * @param {V1weatherApiWeatherAvgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof V1weatherApi
      */
-    public weather(requestParameters: V1weatherApiWeatherRequest = {}, options?: AxiosRequestConfig) {
-        return V1weatherApiFp(this.configuration).weather(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(this.axios, this.basePath));
+    public weatherAvg(requestParameters: V1weatherApiWeatherAvgRequest = {}, options?: AxiosRequestConfig) {
+        return V1weatherApiFp(this.configuration).weatherAvg(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1weatherApiWeatherFftRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1weatherApi
+     */
+    public weatherFft(requestParameters: V1weatherApiWeatherFftRequest, options?: AxiosRequestConfig) {
+        return V1weatherApiFp(this.configuration).weatherFft(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1weatherApi
+     */
+    public weatherLocations(options?: AxiosRequestConfig) {
+        return V1weatherApiFp(this.configuration).weatherLocations(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
