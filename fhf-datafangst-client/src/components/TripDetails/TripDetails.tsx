@@ -27,6 +27,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { dateFormat } from "utils";
 import { EventType } from "models";
+import { VesselDetails } from "./VesselDetails";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -130,9 +131,9 @@ export const TripDetails: FC = () => {
       }}
     >
       <Box display="flex" justifyContent={"space-between"} sx={{ p: 2 }}>
-        <Typography variant="h4" fontWeight={700} sx={{ my: "auto" }}>
-          Tur ID: {trip?.tripId}
-        </Typography>
+        <Box sx={{ width: 350 }}>
+          <VesselDetails />
+        </Box>
         <IconButton
           sx={{ width: 40, height: 40 }}
           onClick={() => dispatch(setTripDetailsOpen(false))}
@@ -140,7 +141,8 @@ export const TripDetails: FC = () => {
           <ClearSharpIcon sx={{ color: "black" }} />
         </IconButton>
       </Box>
-      <Box sx={{ height: "45%", width: "100%" }}>
+
+      <Box sx={{ height: "40%", width: "100%" }}>
         <TableVirtuoso
           data={landings}
           components={VirtuosoTableComponents}
@@ -156,7 +158,7 @@ export const TripDetails: FC = () => {
           bgcolor: "action.hover",
           p: 2,
           mt: 2,
-          height: "50%",
+          height: "40%",
           "& .MuiStepLabel-labelContainer": { color: "black" },
           "& .MuiStepConnector-root": { ml: "17px" },
         }}
