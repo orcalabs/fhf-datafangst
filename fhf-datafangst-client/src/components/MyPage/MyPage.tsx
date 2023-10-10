@@ -27,6 +27,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
+import SpeedIcon from '@mui/icons-material/Speed';
+import { useNavigate } from "react-router-dom";
 
 enum MenuTab {
   Trips = "trips",
@@ -65,6 +67,7 @@ export const MyPage: FC = () => {
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
+  const navigate = useNavigate();
 
   const handleTabChange = (expandedTab: MenuTab) => {
     setExpanded(expandedTab);
@@ -210,6 +213,19 @@ export const MyPage: FC = () => {
           <MyGears />
         </AccordionDetails>
       </Accordion>
+      <Button variant="contained" onClick = {() => {navigate("/BenchmarkView")}}>
+        <Box
+              sx={{
+                display: "flex",
+                "& svg": { mr: 2 },
+              }}
+            >
+          <SpeedIcon
+          sx={{ color: "secondary.light", fontSize: 32 }}
+          />
+        </Box>
+        <Typography variant="h6"> Min statistikk </Typography>
+        </Button>
     </Box>
   );
 };
