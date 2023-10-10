@@ -1,4 +1,5 @@
-import { Box, Button } from "@mui/material";
+import { ArrowBackIos } from "@mui/icons-material";
+import { Box, Button, IconButton } from "@mui/material";
 import { FC } from "react";
 
 export const HeaderMenuButtons: FC = () => {
@@ -9,7 +10,7 @@ export const HeaderMenuButtons: FC = () => {
         width: "100%",
         position: "relative",
         zIndex: 10000,
-        "& .MuiButton-root": {
+        "& .MuiIconButton-root": {
           color: "white",
           px: 2,
           height: 49,
@@ -24,9 +25,10 @@ export const HeaderMenuButtons: FC = () => {
         },
       }}
     >
-      <Button onClick={() => history.back()}>
+      <IconButton onClick={() => history.back()}>
+        <ArrowBackIos />
         Tilbake til Kart
-      </Button>
+      </IconButton>
 
     </Box>
   );
