@@ -5,6 +5,7 @@ import { Ordering, TripSorting } from "generated/openapi";
 import { FC, useEffect, useState } from "react";
 import { useAuth } from "oidc-react";
 import { getTrips, selectBwUserProfile, selectIsLoggedIn, selectVesselsByCallsign, useAppDispatch, useAppSelector } from "store";
+import { useNavigate } from "react-router-dom";
 
 const GridContainer = (props: any) => (
   <Box
@@ -148,12 +149,14 @@ export const BenchmarkView: FC = () => {
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   if (!loggedIn) {
     signIn();
   }
 
   if (!vessel) {
+    navigate('/')
     return <p>No vessel associated with this user</p>;
   }
   useEffect(() => {
