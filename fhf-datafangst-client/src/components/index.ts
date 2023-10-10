@@ -47,3 +47,5 @@ export { SearchFilters } from "./MainMenu/SearchFilters/SearchFilters";
 export { TripDetails } from "./TripDetails/TripDetails";
 export { BenchmarkCards } from "./BenchmarkData/BenchmarkCards";
 export { BenchmarkCard } from "./BenchmarkData/BenchmarkCard";
+export { Header as BmHeader } from "./Benchmark/Header";
+export { HeaderMenuButtons as BmHeaderMenuButtons } from "./Benchmark/HeaderMenuButtons";
