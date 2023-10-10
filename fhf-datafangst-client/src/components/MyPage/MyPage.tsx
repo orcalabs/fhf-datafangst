@@ -27,7 +27,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
-import SpeedIcon from "@mui/icons-material/Speed";
+import SpeedIcon from '@mui/icons-material/Speed';
 import { useNavigate } from "react-router-dom";
 
 enum MenuTab {
@@ -213,33 +213,19 @@ export const MyPage: FC = () => {
           <MyGears />
         </AccordionDetails>
       </Accordion>
-      <Button
-        variant="contained"
-        sx={{
-          m: 0,
-          width: "100%",
-          py: 2,
-          px: 2.5,
-          justifyContent: "start",
-          borderRadius: 0,
-          color: "white",
-          boxShadow: "none",
-          bgcolor: "primary.main",
-        }}
-        onClick={() => {
-          navigate("/benchmark");
-        }}
-      >
+      <Button variant="contained" onClick = {() => {navigate("/BenchmarkView")}}>
         <Box
-          sx={{
-            display: "flex",
-            "& svg": { mr: 2 },
-          }}
-        >
-          <SpeedIcon sx={{ color: "secondary.light", fontSize: 32 }} />
+              sx={{
+                display: "flex",
+                "& svg": { mr: 2 },
+              }}
+            >
+          <SpeedIcon
+          sx={{ color: "secondary.light", fontSize: 32 }}
+          />
         </Box>
         <Typography variant="h6"> Min statistikk </Typography>
-      </Button>
+        </Button>
     </Box>
   );
 };

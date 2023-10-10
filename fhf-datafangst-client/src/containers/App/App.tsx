@@ -13,7 +13,7 @@ export const App: React.FC = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<HomeView />} />
-            <Route path="/benchmark" element={<BenchmarkView />} />
+            <Route path="/BenchmarkView" element={<BenchmarkView/>} />
           </Routes>
         </Layout>
       </AuthProvider>
