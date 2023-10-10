@@ -43,15 +43,17 @@ export const SpeciesHistogram: FC = () => {
     let data: Record<number, number> = {};
 
     data = sumObjectValues(hauls);
-    const current = HistogramOptions(data, species, "current");
+    // sort by weight
+
+    const current = HistogramOptions(data, species, "Siste tur ");
     const prev_data = sumObjectValues(trips[1].hauls);
 
-    const prev = HistogramOptions(prev_data, species, "previous");
+    const prev = HistogramOptions(prev_data, species, "Forrige tur");
     const opt = {
             ...current,
             xAxis: {
                 ...current.xAxis,
-                data: current.xAxis.data.concat(prev.xAxis.data),
+                data: current.xAxis.data.concat(prev.xAxis.data).filter((item, pos, self) => self.indexOf(item) === pos),
             },
             yAxis: [current.yAxis, prev.yAxis],
             series: [...current.series, ...prev.series],
