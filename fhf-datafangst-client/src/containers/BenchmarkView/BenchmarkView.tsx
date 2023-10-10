@@ -1,6 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { getBwProfile } from "api";
-import { BenchmarkCard, BenchmarkCards, BmHeader, BmHeaderMenuButtons, Header } from "components";
+import { BenchmarkCard, BenchmarkCards, BmHeader, BmHeaderMenuButtons, Header, SpeciesHistogram } from "components";
 import { Ordering, TripSorting } from "generated/openapi";
 import { FC, useEffect, useState } from "react";
 import { useAuth } from "oidc-react";
@@ -181,6 +181,7 @@ export const BenchmarkView: FC = () => {
     </GridContainer>
     <Box sx={{ height: "100vh", width: "100%", backgroundColor: "primary.main" }}>
       <BenchmarkCards/>
+      <SpeciesHistogram />
 
     </Box>
     </>
