@@ -45,3 +45,5 @@ export { WeightFilter } from "./MainMenu/SearchFilters/WeightFilter";
 export { SortingFilter } from "./MainMenu/SearchFilters/SortingFilter";
 export { SearchFilters } from "./MainMenu/SearchFilters/SearchFilters";
 export { TripDetails } from "./TripDetails/TripDetails";
+export { BenchmarkCards } from "./BenchmarkData/BenchmarkCards";
+export { BenchmarkCard } from "./BenchmarkData/BenchmarkCard";
