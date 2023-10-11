@@ -41,3 +41,5 @@ export const EventType: Record<number, string> = {
   5: "TRA",
   6: "HAL",
 };
+
+export type CatchWeightType = "livingWeight" | "grossWeight" | "productWeight";
