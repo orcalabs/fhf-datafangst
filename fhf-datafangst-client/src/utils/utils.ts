@@ -12,7 +12,7 @@ import {
   RegisterVesselOwner,
   Vessel,
 } from "generated/openapi";
-import { Catch } from "models";
+import { Catch, CatchWeightType } from "models";
 
 export const Months: Record<number, string> = {
   1: "Januar",
@@ -103,8 +103,12 @@ export const toTitleCase = (name: string | undefined | null) => {
 export const middle = (a: number, b: number, c: number) =>
   a + b + c - Math.max(a, b, c) - Math.min(a, b, c);
 
-export const sumCatches = (catches: Catch[]) =>
-  catches.sum((c) => c.livingWeight ?? 0);
+export const sumCatches = (
+  catches: Catch[],
+  weightType: CatchWeightType = "livingWeight",
+) => {
+  return catches.reduce((sum, curr) => sum + (curr[weightType] ?? 0), 0);
+};
 
 export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
   let highest = 0;
@@ -201,10 +205,18 @@ export const reduceCatchesOnSpecies = (
       const x = tot[cur.speciesFiskeridirId];
       if (x) {
         x.livingWeight += cur.livingWeight;
+        if (x.grossWeight !== undefined && cur.grossWeight !== undefined) {
+          x.grossWeight += cur.grossWeight;
+        }
+        if (x.productWeight !== undefined && cur.productWeight !== undefined) {
+          x.productWeight += cur.productWeight;
+        }
       } else {
         tot[cur.speciesFiskeridirId] = {
           speciesFiskeridirId: cur.speciesFiskeridirId,
           livingWeight: cur.livingWeight,
+          grossWeight: cur.grossWeight,
+          productWeight: cur.productWeight,
         };
       }
     }
