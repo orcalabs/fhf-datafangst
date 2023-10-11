@@ -24,19 +24,13 @@ export const fishmapBuilder = (
       if (index < 0) {
         const style = area.getStyle() as Style;
         const color = style.getFill().getColor()?.toString();
-        area.setStyle(
-          generateGridBoxStyle(areaString, area.get("weight"), color!, true),
-        );
+        area.setStyle(generateGridBoxStyle(area.get("weight"), color!, true));
         area.setProperties({ color });
         selected.push(area);
       } else {
         const removed = selected.splice(index, 1)[0];
         removed.setStyle(
-          generateGridBoxStyle(
-            areaString,
-            removed.get("weight"),
-            removed.get("color"),
-          ),
+          generateGridBoxStyle(removed.get("weight"), removed.get("color")),
         );
       }
 
