@@ -112,7 +112,6 @@ export const createColorScale = (min: number, max: number, opacity?: number) =>
   );
 
 export const generateGridBoxStyle = (
-  areaCode: string,
   colorGrade: number,
   colorScale: ColorScale | string,
   selected?: boolean,
@@ -131,14 +130,12 @@ export const generateGridBoxStyle = (
         }),
         text: new Text({
           fill: new Fill({ color: "#387D90" }),
-          text: areaCode,
         }),
       })
     : new Style({
         fill: new Fill({ color }),
         text: new Text({
           fill: new Fill({ color: "#387D90" }),
-          text: areaCode,
         }),
       });
 };
@@ -322,12 +319,7 @@ export const generateLocationsMatrix = (
     feature.setProperties({ weight });
     feature.setStyle(
       weight > 0
-        ? generateGridBoxStyle(
-            area,
-            weight,
-            colorScale,
-            selectedGrids.includes(area),
-          )
+        ? generateGridBoxStyle(weight, colorScale, selectedGrids.includes(area))
         : defaultGridBoxStyle,
     );
   }
