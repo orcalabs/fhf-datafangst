@@ -1,6 +1,7 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { setBenchmarkHistoric, setBenchmarkMetric, setBenchmarkModal } from "./actions";
+import { setBenchmarkDataSource, setBenchmarkHistoric, setBenchmarkMetric, setBenchmarkModal } from "./actions";
+import { selectBenchmarkDataSource } from "./selectors";
 
 export const benchmarkBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -16,4 +17,7 @@ export const benchmarkBuilder = (
     })
     .addCase(setBenchmarkMetric, (state, action) => {
       state.benchmarkMetric = action.payload
+    })
+    .addCase(setBenchmarkDataSource, (state, action) => {
+      state.benchmarkDataSource = action.payload
     })

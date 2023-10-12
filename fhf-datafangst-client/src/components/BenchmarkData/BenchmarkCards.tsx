@@ -8,7 +8,10 @@ import { Grid } from "@mui/material";
 import { BenchmarkModalParams, selectBenchmarkNumHistoric, setBenchmarkHistoric, setBenchmarkModal } from "store/benchmark";
 import { Trip } from "generated/openapi";
 import { BenchmarkModal } from "./BenchmarkModal";
-
+import ScaleRoundedIcon from '@mui/icons-material/ScaleRounded';
+import StraightenRoundedIcon from '@mui/icons-material/StraightenRounded';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PhishingRoundedIcon from '@mui/icons-material/PhishingRounded';
 
 const getTotalTimes = (trips: Trip[]) => {
   const totalTime: number[] = []
@@ -85,8 +88,6 @@ export const BenchmarkCards: FC= (props) => {
   const fishingDistanceMean =  fishingDistance.reduce((a,b) => a+b,0) / fishingDistance.length
   const fishingWeightMean =  fishingWeight.reduce((a,b) => a+b,0) / fishingWeight.length
 
-  console.log(fishingHours)
-  console.log(fishingDistance)
 
   const handleClick = (type: BenchmarkType) => {
     let benchmarkModal : BenchmarkModalParams = {};
@@ -130,6 +131,7 @@ export const BenchmarkCards: FC= (props) => {
     <Grid item xs={6}>
       <Box>
         <BenchmarkCard title = "Total tid" 
+          avatar={<AccessTimeIcon/>}
         value={
           totalTimes[0]
         } 
@@ -148,6 +150,7 @@ export const BenchmarkCards: FC= (props) => {
     <Grid item xs={6}>
       <Box>
         <BenchmarkCard title = "Fiske tid" 
+          avatar={<PhishingRoundedIcon/>}
           value={
             fishingHours[0]
           } 
@@ -167,6 +170,7 @@ export const BenchmarkCards: FC= (props) => {
     <Grid item xs={6}>
       <Box>
         <BenchmarkCard title = "Fiske distanse" 
+          avatar={<StraightenRoundedIcon/>}
           value={
             fishingDistance[0]
           } 
@@ -185,6 +189,7 @@ export const BenchmarkCards: FC= (props) => {
     <Grid item xs={6}>
       <Box>
         <BenchmarkCard title = "Total vekt" 
+          avatar={<ScaleRoundedIcon/>}
           value={
             fishingWeight[0]
           } 
