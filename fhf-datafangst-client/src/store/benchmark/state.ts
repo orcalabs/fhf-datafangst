@@ -9,6 +9,7 @@ export interface BenchmarkState {
     benchmarkXAxis? : string[],
     benchmarkMetric? : string,
     benchmarkNumHistoric : number,
+    benchmarkDataSource: boolean,
 }
 
 export const initialBenchmarkState: BenchmarkState = {
@@ -16,5 +17,6 @@ export const initialBenchmarkState: BenchmarkState = {
     benchmarkHistoric : undefined, 
     benchmarkMetric : undefined,
     benchmarkXAxis : undefined,
-    benchmarkNumHistoric : 10
+    benchmarkNumHistoric : 10,
+    benchmarkDataSource: false,
 };

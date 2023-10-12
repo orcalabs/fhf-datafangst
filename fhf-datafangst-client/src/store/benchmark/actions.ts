@@ -13,5 +13,9 @@ export const setBenchmarkHistoric = createAction<[string,string[],number[]]>(
 export const setBenchmarkMetric = createAction<string>(
   "benchmark/setBenchmarkMetric"
 )
+export const setBenchmarkDataSource = createAction<boolean>(
+  "benchmark/setBenchmarkDataSource"
+)
+
 
   

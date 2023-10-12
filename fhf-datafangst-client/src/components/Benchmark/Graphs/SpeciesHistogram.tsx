@@ -97,9 +97,7 @@ export const SpeciesHistogram: FC = () => {
 
     const lastTrip: Trip = trips[0];
     const landing = lastTrip.delivery;
-    console.log(landing);
     let data: Record<number, number> = {};
-    // data = sumObjectValues(landing);
     data = HaulToDict(landing);
 
     const prevData: Record<number, number> = trips

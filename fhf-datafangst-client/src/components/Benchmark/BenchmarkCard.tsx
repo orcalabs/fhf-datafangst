@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -7,7 +7,6 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, CardHeader, Grid, Tooltip } from "@mui/material";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useAppDispatch } from "store";
 import { setBenchmarkModal } from "store/benchmark";
 
@@ -22,11 +21,11 @@ interface BenchmarkCardProps {
     secondary_description?: string;
     third_value? : number;
     third_description?: string;
+    avatar : any;  
     onClick?: () => void
 }
 
 export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
-    console.log(props.primary_color)
   return (
     <Tooltip title={props.tooltip}>
     <Card  variant="outlined" style={{ margin: "auto",  backgroundColor:"#067593"}}>
@@ -34,7 +33,7 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
             onClick={props.onClick}
         >
         <CardHeader
-            avatar = {<AccessTimeIcon/>}
+            avatar = {props.avatar}
             title = {props.title}
             color="text.secondary"
             titleTypographyProps={{variant: 'h3'}}
