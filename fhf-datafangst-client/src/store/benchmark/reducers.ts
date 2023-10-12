@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getBenchmarkData, setBenchmarkModal } from "./actions";
+import { getBenchmarkData, setBenchmarkDataSource, setBenchmarkModal ,} from "./actions";
 
 export const benchmarkBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -9,4 +9,8 @@ export const benchmarkBuilder = (
     .addCase(setBenchmarkModal, (state, action) => {
         console.log("setting benchmark modal")
         state.benchmarkModal = action.payload
+    })
+    .addCase(setBenchmarkDataSource, (state, action) => {
+        console.log("setting benchmark modal")
+        state.benchmarkDataSource = action.payload
     })

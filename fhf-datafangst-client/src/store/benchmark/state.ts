@@ -1,9 +1,11 @@
 export interface BenchmarkState {
     benchmarkModal : boolean,
+    benchmarkDataSource: boolean,
     benchmarkNumHistoric : number,
 }
 
 export const initialBenchmarkState: BenchmarkState = {
     benchmarkModal : false,
-    benchmarkNumHistoric : 10
+    benchmarkDataSource: false,
+    benchmarkNumHistoric : 10,
 };

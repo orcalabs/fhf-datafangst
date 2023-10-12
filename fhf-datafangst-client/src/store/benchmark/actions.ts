@@ -5,4 +5,7 @@ export const getBenchmarkData = createAsyncThunk("benchmark/getBenchmarkData", A
 export const setBenchmarkModal = createAction<boolean>(
     "benchmark/setBenchmarkModal"
   );
+export const setBenchmarkDataSource = createAction<boolean>(
+    "benchmark/setBenchmarkDataSource"
+  );
   
