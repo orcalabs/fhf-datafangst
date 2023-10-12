@@ -1,8 +1,11 @@
 import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const HeaderMenuButtons: FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -25,7 +28,7 @@ export const HeaderMenuButtons: FC = () => {
         },
       }}
     >
-      <IconButton onClick={() => history.back()}>
+      <IconButton onClick={() => navigate("/")}>
         <ArrowBackIos />
         Tilbake til Kart
       </IconButton>
