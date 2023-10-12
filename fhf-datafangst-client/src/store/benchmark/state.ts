@@ -1,11 +1,20 @@
+export interface BenchmarkModalParams {
+    title?: string,
+    description?: string,
+}
+
 export interface BenchmarkState {
-    benchmarkModal : boolean,
-    benchmarkDataSource: boolean,
+    benchmarkModal? : BenchmarkModalParams,
+    benchmarkHistoric? : number[],
+    benchmarkXAxis? : string[],
+    benchmarkMetric? : string,
     benchmarkNumHistoric : number,
 }
 
 export const initialBenchmarkState: BenchmarkState = {
-    benchmarkModal : false,
-    benchmarkDataSource: false,
-    benchmarkNumHistoric : 10,
+    benchmarkModal : undefined,
+    benchmarkHistoric : undefined, 
+    benchmarkMetric : undefined,
+    benchmarkXAxis : undefined,
+    benchmarkNumHistoric : 10
 };
