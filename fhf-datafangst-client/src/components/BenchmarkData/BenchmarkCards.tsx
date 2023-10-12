@@ -2,60 +2,206 @@ import { FC, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import { BenchmarkCard } from "./BenchmarkCard";
-import { selectTrips, useAppSelector } from "store";
+import { selectTrips, useAppDispatch, useAppSelector } from "store";
 import { Trips } from "components/MainMenu/Trips";
 import { Grid } from "@mui/material";
+import { BenchmarkModalParams, selectBenchmarkNumHistoric, setBenchmarkHistoric, setBenchmarkModal } from "store/benchmark";
+import { Trip } from "generated/openapi";
+import { BenchmarkModal } from "./BenchmarkModal";
 
 
-export const BenchmarkCards: FC= (props) => {
+const getTotalTimes = (trips: Trip[]) => {
+  const totalTime: number[] = []
+  trips.forEach((trip) => {
+    totalTime.push(
+      ((new Date(trip.end)).getTime() - (new Date(trip.start).getTime())) / (1000 * 3600 )
+    )
+  })
+  return totalTime;
+}
 
-  
+const getFishingHours = (trips: Trip[]) => {
+  const fishingHours : number[] = []
+  trips.forEach((trip) => {
+    let fishing: number = 0;
+    trip.hauls.map((haul) => {
+      fishing += ((new Date(haul.stopTimestamp)).getTime() - (new Date(haul.startTimestamp).getTime())) / (1000 * 3600)
+    })
+    fishingHours.push(fishing)
+  })
+  return fishingHours
+}
+
+const getFishingDistance = (trips: Trip[]) => {
+  const fishingDistance : number[] = []
+  trips.forEach((trip) => {
+    let fishing: number = 0;
+    trip.hauls.map((haul) => {
+      fishing += haul.haulDistance? haul.haulDistance : 0
+    })
+    fishingDistance.push(fishing)
+  })
+  return fishingDistance
+}
+
+const getFishingWeight = (trips: Trip[]) => {
+  const fishingWeight : number[] = []
+  trips.forEach((trip) => {
+    fishingWeight.push(trip.delivery.totalGrossWeight)
+  })
+  return fishingWeight
+}
+
+const getTripDates = (trips: Trip[]) => {
+  const dates : string[] = []
+  trips.forEach((trip) => {
+    dates.push(trip.start)
+  })
+  return dates
+}
+
+enum BenchmarkType{
+  totalTime,
+  fishingHours,
+  fishingDistance,
+  fishingWeight,
+}
+
+export const BenchmarkCards: FC= (props) => {  
+  const dispatch = useAppDispatch()
   const trips = useAppSelector(selectTrips)
+  const num_historic = useAppSelector(selectBenchmarkNumHistoric)
+  let modal_title : string = '';
   if (!trips){
     return <></>
   }
-  const latest = trips[0];
-  const prev = trips[1];
-  
+
+  const totalTimes = getTotalTimes(trips)
+  const fishingHours = getFishingHours(trips)
+  const fishingDistance = getFishingDistance(trips)
+  const fishingWeight = getFishingWeight(trips)
+  const totalTimeMean =  totalTimes.reduce((a,b) => a+b,0) / totalTimes.length
+  const fishingHoursMean =  fishingHours.reduce((a,b) => a+b,0) / fishingHours.length
+  const fishingDistanceMean =  fishingDistance.reduce((a,b) => a+b,0) / fishingDistance.length
+  const fishingWeightMean =  fishingWeight.reduce((a,b) => a+b,0) / fishingWeight.length
+
+  console.log(fishingHours)
+  console.log(fishingDistance)
+
+  const handleClick = (type: BenchmarkType) => {
+    let benchmarkModal : BenchmarkModalParams = {};
+    let data : number[];
+    let metric: string;
+    if (type === BenchmarkType.totalTime){
+      benchmarkModal.title = "Total tid"
+      benchmarkModal.description = "Total tid er regnet som tiden mellom havneavgang og havneanløp." 
+      metric = "Timer"
+      data = totalTimes
+    } else if(type === BenchmarkType.fishingHours) {
+      benchmarkModal.title = "Fiske tid"
+      benchmarkModal.description = "Fiske tid er regnet som summen av tiden brukt under hver fangstmelding." 
+      metric = "Timer"
+      data = fishingHours
+    } else if(type === BenchmarkType.fishingDistance){
+      benchmarkModal.title = "Fiske distanse"
+      benchmarkModal.description = "Fiske distanse er regnet ut basert på vms/ais meldingene som ble sendt under hver fangstmelding" 
+      metric = "Meter"
+      data = fishingDistance
+    }else if(type === BenchmarkType.fishingWeight){
+      benchmarkModal.title = "Total vekt"
+      benchmarkModal.description = "Total vekt er basert på total landet vekt" 
+      metric = "Kilo"
+      data = fishingWeight
+    }else {
+      return
+    }
+    dispatch(setBenchmarkHistoric(
+      [metric,getTripDates(trips),data]
+    ))
+    dispatch(setBenchmarkModal(benchmarkModal))
+  }
 
   return (
     <Grid
     container
     spacing={3}
-    alignItems="center"
-     sx={{ margin: "10vh", justifyContent: "center", backgroundColor: "primary.main" }}
+     sx={{marginTop:"3vh", backgroundColor: "primary.main" }}
    >
-    <Grid item xs={3}>
+    <Grid item xs={6}>
       <Box>
-        <BenchmarkCard title = "Total time" 
+        <BenchmarkCard title = "Total tid" 
         value={
-          ((new Date(latest.end)).getTime() - (new Date(latest.start).getTime())) / (1000 * 3600 * 24)
+          totalTimes[0]
         } 
-        description="Latest trip"
+        description="Siste tur"
+        primary_color={totalTimes[0] > totalTimeMean ? "#6CE16A": "#93032E"}
         secondary_value={
-          ((new Date(prev.end)).getTime() - (new Date(prev.start).getTime())) / (1000 * 3600 * 24)
+          totalTimeMean
         }
-        secondary_description="Previous trip"
-
-        third_value={
-          5
-        }
-        third_description="Avarage friend trips"
-        metric="days"
-        tooltip="Calculated based on your last por and dep message"
+        secondary_description={"Gjennomsnitt siste " + num_historic + " turer"}
+        metric="Timer"
+        tooltip="Regnet ut basert på dine por og dep meldinger."
+        onClick={() => handleClick(BenchmarkType.totalTime)}
         />
       </Box>
     </Grid>
-    <Grid item xs={3}>
+    <Grid item xs={6}>
       <Box>
-        <BenchmarkCard title = "Total distance" value={450} secondary_value={337}/>
+        <BenchmarkCard title = "Fiske tid" 
+          value={
+            fishingHours[0]
+          } 
+          description="Siste tur"
+          primary_color={fishingHours[0] > fishingHoursMean ? "#6CE16A": "#93032E"}
+
+          secondary_value={
+            fishingHours.reduce((a,b) => a+b,0) / fishingHours.length
+          }
+          secondary_description={"Gjennomsnitt siste " + num_historic + " turer"}
+          metric="Timer"
+          tooltip="Regnet ut basert på dine fangstmeldinger."
+          onClick={() => handleClick(BenchmarkType.fishingHours)}
+          />
       </Box>
     </Grid>
-    <Grid item xs={3}>
+    <Grid item xs={6}>
       <Box>
-        <BenchmarkCard title = "Total fuel" value={450} secondary_value={337}/>
+        <BenchmarkCard title = "Fiske distanse" 
+          value={
+            fishingDistance[0]
+          } 
+          description="Siste tur"
+          primary_color={fishingDistance[0] > fishingDistanceMean ? "#6CE16A": "#93032E"}
+          secondary_value={
+            fishingDistance.reduce((a,b) => a+b,0) / fishingDistance.length
+          }
+          secondary_description={"Gjennomsnitt siste " + num_historic + " turer"}
+          metric="Meter"
+          tooltip="Regnet ut basert på dine fangstmeldinger."
+          onClick={() => handleClick(BenchmarkType.fishingDistance)}
+          />
       </Box>
     </Grid>
+    <Grid item xs={6}>
+      <Box>
+        <BenchmarkCard title = "Total vekt" 
+          value={
+            fishingWeight[0]
+          } 
+          description="Siste tur"
+          primary_color={fishingWeight[0] > fishingWeightMean ? "#6CE16A": "#93032E"}
+          secondary_value={
+            fishingWeight.reduce((a,b) => a+b,0) / fishingWeight.length
+          }
+          secondary_description={"Gjennomsnitt siste " + num_historic + " turer"}
+          metric="Kilo"
+          tooltip="Data basert på levert vekt."
+          onClick={() => handleClick(BenchmarkType.fishingWeight)}
+          />
+      </Box>
+    </Grid>
+    <BenchmarkModal/>
    </Grid>
+
   );
 };

@@ -178,14 +178,10 @@ export const BenchmarkView: FC = () => {
       <HeaderButtonCell>
           <BmHeaderMenuButtons />
       </HeaderButtonCell>
-      {/* <MenuArea>
-      </MenuArea> */}
     </GridContainer>
-    <Box sx={{ height: "100vh", width: "100%", backgroundColor: "primary.main" }}>
+    <Box sx={{ height: "100vh", width: "100vw", backgroundColor: "primary.main" }}>
       <BenchmarkCards/>
       <SpeciesHistogram />
-      <BenchmarkModal/>
-
     </Box>
     </>
   );
