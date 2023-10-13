@@ -15,9 +15,9 @@ export const benchmarkBuilder = (
       state.benchmarkModal = action.payload;
     })
     .addCase(setBenchmarkHistoric, (state, action) => {
-      state.benchmarkHistoric = action.payload[2];
-      state.benchmarkXAxis = action.payload[1];
-      state.benchmarkMetric = action.payload[0];
+      state.benchmarkHistoric = action.payload.data;
+      state.benchmarkXAxis = action.payload.xAxis;
+      state.benchmarkMetric = action.payload.metric;
     })
     .addCase(setBenchmarkMetric, (state, action) => {
       state.benchmarkMetric = action.payload;
