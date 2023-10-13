@@ -15,7 +15,6 @@ import {
 import {
   Delivery,
   Haul,
-  HaulCatch,
   SpeciesFiskeridir,
   Trip,
 } from "generated/openapi";
@@ -25,11 +24,8 @@ import {
   selectBenchmarkNumHistoric,
   setBenchmarkDataSource,
 } from "store/benchmark";
-import { Catch } from "models";
 import { Theme } from "./ChartsTheme";
 import ReactEChart from "echarts-for-react";
-
-
 
 const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};
@@ -46,7 +42,6 @@ const getDictSortedOnValue = (obj: Record<number, number>) =>
   Object.keys(obj).sort((a: string, b: string) => obj[+b] - obj[+a]);
 
 export const SpeciesHistogram: FC = () => {
-  const theme = {};
   const dispatch = useAppDispatch();
   const trips = useAppSelector(selectTrips);
   const species = useAppSelector(selectSpeciesFiskeridir);

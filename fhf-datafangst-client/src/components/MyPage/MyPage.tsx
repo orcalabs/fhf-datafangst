@@ -218,7 +218,7 @@ export const MyPage: FC = () => {
         sx = {{
           m: 0,
           width: "100%",
-          py:2,
+          py: 2,
           px: 2.5,
           justifyContent: "start",
           color: "white",

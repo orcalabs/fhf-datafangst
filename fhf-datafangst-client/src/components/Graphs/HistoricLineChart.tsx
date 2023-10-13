@@ -21,7 +21,7 @@ export const HistoricLineChart: FC = () => {
   const data = xAxis?.map((timestring, i) => {
     return [new Date(timestring), historic[i]];
   });
-  const theme = {...Theme, backgroundColor: "#067593"}
+  const theme = { ...Theme, backgroundColor: "#067593" };
   const opt = {
     xAxis: {
       type: "time",

@@ -6,7 +6,6 @@ import { selectTrips, useAppDispatch, useAppSelector } from "store";
 import { Grid } from "@mui/material";
 import {
   BenchmarkModalParams,
-  benchmarkHistoricParams,
   selectBenchmarkNumHistoric,
   setBenchmarkHistoric,
   setBenchmarkModal,
@@ -102,7 +101,7 @@ export const BenchmarkCards: FC = () => {
     } else {
       return;
     }
-    dispatch(setBenchmarkHistoric({metric : metric, xAxis: getTripDates(trips), data}));
+    dispatch(setBenchmarkHistoric({ metric, xAxis: getTripDates(trips), data }));
     dispatch(setBenchmarkModal(benchmarkModal));
   };
 

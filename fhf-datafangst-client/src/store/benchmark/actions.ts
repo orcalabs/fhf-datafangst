@@ -2,11 +2,10 @@ import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
 import { BenchmarkDataSource, BenchmarkModalParams } from "./state";
 
-
-export interface benchmarkHistoricParams{
-  metric: string,
-  xAxis: string[],
-  data: number[]
+export interface benchmarkHistoricParams {
+  metric: string;
+  xAxis: string[];
+  data: number[];
 }
 
 export const getBenchmarkData = createAsyncThunk(
