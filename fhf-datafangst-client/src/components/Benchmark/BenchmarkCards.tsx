@@ -17,59 +17,31 @@ import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PhishingRoundedIcon from "@mui/icons-material/PhishingRounded";
 
-const getTotalTimes = (trips: Trip[]) => {
-  const totalTime: number[] = [];
-  trips.forEach((trip) => {
-    totalTime.push(
-      (new Date(trip.end).getTime() - new Date(trip.start).getTime()) /
-        (1000 * 3600),
-    );
-  });
-  return totalTime;
-};
+const getTotalTimes = (trips: Trip[]) =>
+  trips.map(
+    (t) =>
+      (new Date(t.end).getTime() - new Date(t.start).getTime()) / 3_600_000,
+  );
 
-const getFishingHours = (trips: Trip[]) => {
-  const fishingHours: number[] = [];
-  trips.forEach((trip) => {
-    let fishing: number = 0;
-    trip.hauls.forEach((haul) => {
-      fishing +=
-        (new Date(haul.stopTimestamp).getTime() -
-          new Date(haul.startTimestamp).getTime()) /
-        (1000 * 3600);
-    });
-    fishingHours.push(fishing);
-  });
-  return fishingHours;
-};
+const getFishingHours = (trips: Trip[]) =>
+  trips.map((t) =>
+    t.hauls.reduce(
+      (tot, h) =>
+        tot +
+        (new Date(h.stopTimestamp).getTime() -
+          new Date(h.startTimestamp).getTime()) /
+          3_600_000,
+      0,
+    ),
+  );
 
-const getFishingDistance = (trips: Trip[]) => {
-  const fishingDistance: number[] = [];
-  trips.forEach((trip) => {
-    let fishing: number = 0;
-    trip.hauls.forEach((haul) => {
-      fishing += haul.haulDistance ? haul.haulDistance : 0;
-    });
-    fishingDistance.push(fishing);
-  });
-  return fishingDistance;
-};
+const getFishingDistance = (trips: Trip[]) =>
+  trips.map((t) => t.hauls.reduce((tot, h) => tot + (h.haulDistance ?? 0), 0));
 
-const getFishingWeight = (trips: Trip[]) => {
-  const fishingWeight: number[] = [];
-  trips.forEach((trip) => {
-    fishingWeight.push(trip.delivery.totalGrossWeight);
-  });
-  return fishingWeight;
-};
+const getFishingWeight = (trips: Trip[]) =>
+  trips.map((t) => t.delivery.totalLivingWeight);
 
-const getTripDates = (trips: Trip[]) => {
-  const dates: string[] = [];
-  trips.forEach((trip) => {
-    dates.push(trip.start);
-  });
-  return dates;
-};
+const getTripDates = (trips: Trip[]) => trips.map((t) => t.start);
 
 enum BenchmarkType {
   totalTime,
