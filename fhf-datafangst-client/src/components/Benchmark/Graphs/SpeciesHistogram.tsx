@@ -20,6 +20,7 @@ import {
   Trip,
 } from "generated/openapi";
 import {
+  BenchmarkDataSource,
   selectBenchmarkDataSource,
   selectBenchmarkNumHistoric,
   setBenchmarkDataSource,
@@ -112,7 +113,7 @@ export const SpeciesHistogram: FC = () => {
     return { data, prevData };
   };
 
-  const { data, prevData } = selectedDatasource
+  const { data, prevData } = selectedDatasource === BenchmarkDataSource.hauls
     ? generateHaulData(trips)
     : generateLandingData(trips);
 
@@ -134,11 +135,11 @@ export const SpeciesHistogram: FC = () => {
           aria-label="outlined primary button group"
           sx={{ margin: 2, alignSelf: "center" }}
         >
-          <Button onClick={() => dispatch(setBenchmarkDataSource(true))}>
-            Fangstdata{" "}
+          <Button onClick={() => dispatch(setBenchmarkDataSource(BenchmarkDataSource.hauls))}>
+            Fangstdata
           </Button>
-          <Button onClick={() => dispatch(setBenchmarkDataSource(false))}>
-            Landingsdata{" "}
+          <Button onClick={() => dispatch(setBenchmarkDataSource(BenchmarkDataSource.landings))}>
+            Landingsdata
           </Button>
         </ButtonGroup>
         {data && (

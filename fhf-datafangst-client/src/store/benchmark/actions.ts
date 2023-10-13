@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
-import { BenchmarkModalParams } from "./state";
+import { BenchmarkDataSource, BenchmarkModalParams } from "./state";
 
 export const getBenchmarkData = createAsyncThunk(
   "benchmark/getBenchmarkData",
@@ -16,6 +16,6 @@ export const setBenchmarkHistoric = createAction<[string, string[], number[]]>(
 export const setBenchmarkMetric = createAction<string>(
   "benchmark/setBenchmarkMetric",
 );
-export const setBenchmarkDataSource = createAction<boolean>(
+export const setBenchmarkDataSource = createAction<BenchmarkDataSource>(
   "benchmark/setBenchmarkDataSource",
 );
