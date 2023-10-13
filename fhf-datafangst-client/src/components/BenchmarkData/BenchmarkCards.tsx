@@ -4,7 +4,12 @@ import Box from "@mui/material/Box";
 import { BenchmarkCard } from "./BenchmarkCard";
 import { selectTrips, useAppDispatch, useAppSelector } from "store";
 import { Grid } from "@mui/material";
-import { BenchmarkModalParams, selectBenchmarkNumHistoric, setBenchmarkHistoric, setBenchmarkModal } from "store/benchmark";
+import {
+  BenchmarkModalParams,
+  selectBenchmarkNumHistoric,
+  setBenchmarkHistoric,
+  setBenchmarkModal,
+} from "store/benchmark";
 import { Trip } from "generated/openapi";
 import { BenchmarkModal } from "./BenchmarkModal";
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
@@ -16,7 +21,8 @@ const getTotalTimes = (trips: Trip[]) => {
   const totalTime: number[] = [];
   trips.forEach((trip) => {
     totalTime.push(
-      ((new Date(trip.end)).getTime() - (new Date(trip.start).getTime())) / (1000 * 3600),
+      (new Date(trip.end).getTime() - new Date(trip.start).getTime()) /
+        (1000 * 3600),
     );
   });
   return totalTime;
@@ -27,7 +33,10 @@ const getFishingHours = (trips: Trip[]) => {
   trips.forEach((trip) => {
     let fishing: number = 0;
     trip.hauls.forEach((haul) => {
-      fishing += ((new Date(haul.stopTimestamp)).getTime() - (new Date(haul.startTimestamp).getTime())) / (1000 * 3600);
+      fishing +=
+        (new Date(haul.stopTimestamp).getTime() -
+          new Date(haul.startTimestamp).getTime()) /
+        (1000 * 3600);
     });
     fishingHours.push(fishing);
   });
@@ -81,10 +90,14 @@ export const BenchmarkCards: FC = () => {
   const fishingHours = getFishingHours(trips);
   const fishingDistance = getFishingDistance(trips);
   const fishingWeight = getFishingWeight(trips);
-  const totalTimeMean = totalTimes.reduce((a, b) => a + b, 0) / totalTimes.length;
-  const fishingHoursMean = fishingHours.reduce((a, b) => a + b, 0) / fishingHours.length;
-  const fishingDistanceMean = fishingDistance.reduce((a, b) => a + b, 0) / fishingDistance.length;
-  const fishingWeightMean = fishingWeight.reduce((a, b) => a + b, 0) / fishingWeight.length;
+  const totalTimeMean =
+    totalTimes.reduce((a, b) => a + b, 0) / totalTimes.length;
+  const fishingHoursMean =
+    fishingHours.reduce((a, b) => a + b, 0) / fishingHours.length;
+  const fishingDistanceMean =
+    fishingDistance.reduce((a, b) => a + b, 0) / fishingDistance.length;
+  const fishingWeightMean =
+    fishingWeight.reduce((a, b) => a + b, 0) / fishingWeight.length;
 
   const handleClick = (type: BenchmarkType) => {
     const benchmarkModal: BenchmarkModalParams = {};
@@ -92,17 +105,20 @@ export const BenchmarkCards: FC = () => {
     let metric: string;
     if (type === BenchmarkType.totalTime) {
       benchmarkModal.title = "Total tid";
-      benchmarkModal.description = "Total tid er regnet som tiden mellom havneavgang og havneanløp.";
+      benchmarkModal.description =
+        "Total tid er regnet som tiden mellom havneavgang og havneanløp.";
       metric = "Timer";
       data = totalTimes;
     } else if (type === BenchmarkType.fishingHours) {
       benchmarkModal.title = "Fiske tid";
-      benchmarkModal.description = "Fiske tid er regnet som summen av tiden brukt under hver fangstmelding.";
+      benchmarkModal.description =
+        "Fiske tid er regnet som summen av tiden brukt under hver fangstmelding.";
       metric = "Timer";
       data = fishingHours;
     } else if (type === BenchmarkType.fishingDistance) {
       benchmarkModal.title = "Fiske distanse";
-      benchmarkModal.description = "Fiske distanse er regnet ut basert på vms/ais meldingene som ble sendt under hver fangstmelding";
+      benchmarkModal.description =
+        "Fiske distanse er regnet ut basert på vms/ais meldingene som ble sendt under hver fangstmelding";
       metric = "Meter";
       data = fishingDistance;
     } else if (type === BenchmarkType.fishingWeight) {
@@ -113,97 +129,104 @@ export const BenchmarkCards: FC = () => {
     } else {
       return;
     }
-    dispatch(setBenchmarkHistoric(
-      [metric, getTripDates(trips), data],
-    ));
+    dispatch(setBenchmarkHistoric([metric, getTripDates(trips), data]));
     dispatch(setBenchmarkModal(benchmarkModal));
   };
 
   return (
     <Grid
-    container
-    spacing={3}
-     sx={{ marginTop: "3vh", backgroundColor: "primary.main" }}
-   >
-    <Grid item xs={6}>
-      <Box>
-        <BenchmarkCard title = "Total tid"
-          avatar={<AccessTimeIcon/>}
-        value={
-          totalTimes[0]
-        }
-        description="Siste tur"
-        primary_color={totalTimes[0] > totalTimeMean ? "#6CE16A" : "#93032E"}
-        secondary_value={
-          totalTimeMean
-        }
-        secondary_description={"Gjennomsnitt siste " + numHistoric.toString() + " turer"}
-        metric="Timer"
-        tooltip="Regnet ut basert på dine por og dep meldinger."
-        onClick={() => handleClick(BenchmarkType.totalTime)}
-        />
-      </Box>
-    </Grid>
-    <Grid item xs={6}>
-      <Box>
-        <BenchmarkCard title = "Fiske tid"
-          avatar={<PhishingRoundedIcon/>}
-          value={
-            fishingHours[0]
-          }
-          description="Siste tur"
-          primary_color={fishingHours[0] > fishingHoursMean ? "#6CE16A" : "#93032E"}
-
-          secondary_value={
-            fishingHours.reduce((a, b) => a + b, 0) / fishingHours.length
-          }
-          secondary_description={"Gjennomsnitt siste " + numHistoric.toString() + " turer"}
-          metric="Timer"
-          tooltip="Regnet ut basert på dine fangstmeldinger."
-          onClick={() => handleClick(BenchmarkType.fishingHours)}
+      container
+      spacing={3}
+      sx={{ marginTop: "3vh", backgroundColor: "primary.main" }}
+    >
+      <Grid item xs={6}>
+        <Box>
+          <BenchmarkCard
+            title="Total tid"
+            avatar={<AccessTimeIcon />}
+            value={totalTimes[0]}
+            description="Siste tur"
+            primary_color={
+              totalTimes[0] > totalTimeMean ? "#6CE16A" : "#93032E"
+            }
+            secondary_value={totalTimeMean}
+            secondary_description={
+              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+            }
+            metric="Timer"
+            tooltip="Regnet ut basert på dine por og dep meldinger."
+            onClick={() => handleClick(BenchmarkType.totalTime)}
           />
-      </Box>
-    </Grid>
-    <Grid item xs={6}>
-      <Box>
-        <BenchmarkCard title = "Fiske distanse"
-          avatar={<StraightenRoundedIcon/>}
-          value={
-            fishingDistance[0]
-          }
-          description="Siste tur"
-          primary_color={fishingDistance[0] > fishingDistanceMean ? "#6CE16A" : "#93032E"}
-          secondary_value={
-            fishingDistance.reduce((a, b) => a + b, 0) / fishingDistance.length
-          }
-          secondary_description={"Gjennomsnitt siste " + numHistoric.toString() + " turer"}
-          metric="Meter"
-          tooltip="Regnet ut basert på dine fangstmeldinger."
-          onClick={() => handleClick(BenchmarkType.fishingDistance)}
+        </Box>
+      </Grid>
+      <Grid item xs={6}>
+        <Box>
+          <BenchmarkCard
+            title="Fiske tid"
+            avatar={<PhishingRoundedIcon />}
+            value={fishingHours[0]}
+            description="Siste tur"
+            primary_color={
+              fishingHours[0] > fishingHoursMean ? "#6CE16A" : "#93032E"
+            }
+            secondary_value={
+              fishingHours.reduce((a, b) => a + b, 0) / fishingHours.length
+            }
+            secondary_description={
+              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+            }
+            metric="Timer"
+            tooltip="Regnet ut basert på dine fangstmeldinger."
+            onClick={() => handleClick(BenchmarkType.fishingHours)}
           />
-      </Box>
-    </Grid>
-    <Grid item xs={6}>
-      <Box>
-        <BenchmarkCard title = "Total vekt"
-          avatar={<ScaleRoundedIcon/>}
-          value={
-            fishingWeight[0]
-          }
-          description="Siste tur"
-          primary_color={fishingWeight[0] > fishingWeightMean ? "#6CE16A" : "#93032E"}
-          secondary_value={
-            fishingWeight.reduce((a, b) => a + b, 0) / fishingWeight.length
-          }
-          secondary_description={"Gjennomsnitt siste " + numHistoric.toString() + " turer"}
-          metric="Kilo"
-          tooltip="Data basert på levert vekt."
-          onClick={() => handleClick(BenchmarkType.fishingWeight)}
+        </Box>
+      </Grid>
+      <Grid item xs={6}>
+        <Box>
+          <BenchmarkCard
+            title="Fiske distanse"
+            avatar={<StraightenRoundedIcon />}
+            value={fishingDistance[0]}
+            description="Siste tur"
+            primary_color={
+              fishingDistance[0] > fishingDistanceMean ? "#6CE16A" : "#93032E"
+            }
+            secondary_value={
+              fishingDistance.reduce((a, b) => a + b, 0) /
+              fishingDistance.length
+            }
+            secondary_description={
+              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+            }
+            metric="Meter"
+            tooltip="Regnet ut basert på dine fangstmeldinger."
+            onClick={() => handleClick(BenchmarkType.fishingDistance)}
           />
-      </Box>
+        </Box>
+      </Grid>
+      <Grid item xs={6}>
+        <Box>
+          <BenchmarkCard
+            title="Total vekt"
+            avatar={<ScaleRoundedIcon />}
+            value={fishingWeight[0]}
+            description="Siste tur"
+            primary_color={
+              fishingWeight[0] > fishingWeightMean ? "#6CE16A" : "#93032E"
+            }
+            secondary_value={
+              fishingWeight.reduce((a, b) => a + b, 0) / fishingWeight.length
+            }
+            secondary_description={
+              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+            }
+            metric="Kilo"
+            tooltip="Data basert på levert vekt."
+            onClick={() => handleClick(BenchmarkType.fishingWeight)}
+          />
+        </Box>
+      </Grid>
+      <BenchmarkModal />
     </Grid>
-    <BenchmarkModal/>
-   </Grid>
-
   );
 };

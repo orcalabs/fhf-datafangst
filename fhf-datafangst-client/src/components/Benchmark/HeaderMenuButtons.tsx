@@ -32,7 +32,6 @@ export const HeaderMenuButtons: FC = () => {
         <ArrowBackIos />
         Tilbake til Kart
       </IconButton>
-
     </Box>
   );
 };

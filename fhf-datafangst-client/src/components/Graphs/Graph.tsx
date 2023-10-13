@@ -4,12 +4,14 @@ import { FC } from "react";
 import { Box } from "@mui/material";
 
 interface GraphProps {
-    options: object;
-    theme: object | string;
+  options: object;
+  theme: object | string;
 }
 
 export const Graph: FC<GraphProps> = (props: GraphProps) => {
-    return <Box>
-        <ReactEChart option={props.options} theme={props.theme} />
-    </Box>;
+  return (
+    <Box>
+      <ReactEChart option={props.options} theme={props.theme} />
+    </Box>
+  );
 };

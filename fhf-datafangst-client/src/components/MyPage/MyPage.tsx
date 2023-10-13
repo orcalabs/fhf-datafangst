@@ -213,19 +213,22 @@ export const MyPage: FC = () => {
           <MyGears />
         </AccordionDetails>
       </Accordion>
-      <Button variant="contained" onClick = {() => { navigate("/BenchmarkView"); }}>
+      <Button
+        variant="contained"
+        onClick={() => {
+          navigate("/BenchmarkView");
+        }}
+      >
         <Box
-              sx={{
-                display: "flex",
-                "& svg": { mr: 2 },
-              }}
-            >
-          <SpeedIcon
-          sx={{ color: "secondary.light", fontSize: 32 }}
-          />
+          sx={{
+            display: "flex",
+            "& svg": { mr: 2 },
+          }}
+        >
+          <SpeedIcon sx={{ color: "secondary.light", fontSize: 32 }} />
         </Box>
         <Typography variant="h6"> Min statistikk </Typography>
-        </Button>
+      </Button>
     </Box>
   );
 };
