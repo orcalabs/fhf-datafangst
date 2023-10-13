@@ -20,6 +20,8 @@ import {
   setBenchmarkDataSource,
 } from "store/benchmark";
 import { Catch } from "models";
+import { Theme } from "./ChartsTheme";
+
 
 const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};
@@ -110,7 +112,7 @@ export const SpeciesHistogram: FC = () => {
   return (
     <>
       <Divider sx={{ mb: 2 }}>
-        <Typography variant="h3">
+        <Typography variant="h3" color='text.secondary'>
           {selectedDatasource ? "Fangstdata" : "Landingsdata"}
         </Typography>
       </Divider>
@@ -135,7 +137,7 @@ export const SpeciesHistogram: FC = () => {
         {data && (
           <Graph
             options={datasetOption(data, prevData, species)}
-            theme={theme}
+            theme={Theme}
           />
         )}
       </Box>
