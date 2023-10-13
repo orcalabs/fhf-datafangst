@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import {
   BenchmarkCards,
-  BmHeader,
+  Header,
   BmHeaderMenuButtons,
   SpeciesHistogram,
 } from "components";
@@ -93,7 +93,7 @@ export const BenchmarkView: FC = () => {
     <>
       <GridContainer>
         <HeaderTrack>
-          <BmHeader />
+          <Header />
         </HeaderTrack>
         <HeaderButtonCell>
           <BmHeaderMenuButtons />
