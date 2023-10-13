@@ -7,24 +7,30 @@ import {
   useAppSelector,
 } from "store";
 import { Graph } from "./Graph";
-import { Delivery, Haul, SpeciesFiskeridir, Trip } from "generated/openapi";
+import {
+  Delivery,
+  Haul,
+  HaulCatch,
+  SpeciesFiskeridir,
+  Trip,
+} from "generated/openapi";
 import {
   selectBenchmarkDataSource,
   selectBenchmarkNumHistoric,
   setBenchmarkDataSource,
 } from "store/benchmark";
+import { Catch } from "models";
 
-const toggleLandingHaul = (a: Haul | Delivery) =>
+const toggleLandingHaul = (a: Haul | Delivery): HaulCatch[] | Catch[] =>
   "catches" in a ? a.catches : a.delivered;
 
-const HaulToDict = (haul: Haul | Delivery) =>
-  toggleLandingHaul(haul).reduce(
-    (acc, curr) => ({
-      ...acc,
-      [curr.speciesFiskeridirId]: curr.livingWeight,
-    }),
-    {},
-  );
+const HaulToDict = (haul: Haul | Delivery) => {
+  const dict: Record<number, number> = {};
+  toggleLandingHaul(haul).forEach((value) => {
+    dict[value.speciesFiskeridirId] = value.livingWeight;
+  });
+  return dict;
+};
 
 const sumObjectValues = (obj: Haul[]) => {
   const data: Record<number, number> = {};
