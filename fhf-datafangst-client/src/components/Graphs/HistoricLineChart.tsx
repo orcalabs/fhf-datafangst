@@ -8,6 +8,8 @@ import {
   selectBenchmarkXAxis,
 } from "store/benchmark";
 
+import { Theme } from "./ChartsTheme";
+
 export const HistoricLineChart: FC = () => {
   const historic = useAppSelector(selectBenchmarkHistoric);
   const metric = useAppSelector(selectBenchmarkMetric);
@@ -19,8 +21,7 @@ export const HistoricLineChart: FC = () => {
   const data = xAxis?.map((timestring, i) => {
     return [new Date(timestring), historic[i]];
   });
-
-  const theme = {};
+  const theme = {...Theme, backgroundColor: "#067593"}
   const opt = {
     xAxis: {
       type: "time",
