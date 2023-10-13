@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
 import { FC } from "react";
 import { useAppSelector } from "store";
-import { Graph } from "./Graph";
 import {
   selectBenchmarkHistoric,
   selectBenchmarkMetric,
   selectBenchmarkXAxis,
 } from "store/benchmark";
+import ReactEChart from "echarts-for-react";
+
 
 import { Theme } from "./ChartsTheme";
 
@@ -52,7 +53,7 @@ export const HistoricLineChart: FC = () => {
         alignItems: "center",
       }}
     >
-      <Graph options={opt} theme={theme} />
+      <ReactEChart option={opt} theme={theme} />
     </Box>
   );
 };
