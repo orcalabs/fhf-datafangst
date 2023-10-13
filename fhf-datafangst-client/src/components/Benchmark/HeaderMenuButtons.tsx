@@ -18,6 +18,7 @@ export const HeaderMenuButtons: FC = () => {
           px: 2,
           height: 49,
           border: 0,
+          borderRadius:0,
           width: "50%",
           "&.Mui-selected": {
             backgroundColor: "primary.main",
