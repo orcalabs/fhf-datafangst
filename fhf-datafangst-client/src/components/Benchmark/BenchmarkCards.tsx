@@ -101,7 +101,9 @@ export const BenchmarkCards: FC = () => {
     } else {
       return;
     }
-    dispatch(setBenchmarkHistoric({ metric, xAxis: getTripDates(trips), data }));
+    dispatch(
+      setBenchmarkHistoric({ metric, xAxis: getTripDates(trips), data }),
+    );
     dispatch(setBenchmarkModal(benchmarkModal));
   };
 
