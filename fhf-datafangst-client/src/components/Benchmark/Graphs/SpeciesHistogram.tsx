@@ -27,6 +27,8 @@ import {
 } from "store/benchmark";
 import { Catch } from "models";
 import { Theme } from "./ChartsTheme";
+import ReactEChart from "echarts-for-react";
+
 
 const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};
@@ -140,8 +142,9 @@ export const SpeciesHistogram: FC = () => {
           </Button>
         </ButtonGroup>
         {data && (
-          <Graph
-            options={datasetOption(data, prevData, species)}
+
+          <ReactEChart
+            option={datasetOption(data, prevData, species)}
             theme={Theme}
           />
         )}
