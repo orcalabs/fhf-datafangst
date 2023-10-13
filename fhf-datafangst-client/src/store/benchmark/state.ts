@@ -3,13 +3,18 @@ export interface BenchmarkModalParams {
   description?: string;
 }
 
+export enum BenchmarkDataSource{
+    landings,
+    hauls
+}
+
 export interface BenchmarkState {
   benchmarkModal?: BenchmarkModalParams;
   benchmarkHistoric?: number[];
   benchmarkXAxis?: string[];
   benchmarkMetric?: string;
   benchmarkNumHistoric: number;
-  benchmarkDataSource: boolean;
+  benchmarkDataSource: BenchmarkDataSource;
 }
 
 export const initialBenchmarkState: BenchmarkState = {
@@ -18,5 +23,5 @@ export const initialBenchmarkState: BenchmarkState = {
   benchmarkMetric: undefined,
   benchmarkXAxis: undefined,
   benchmarkNumHistoric: 10,
-  benchmarkDataSource: false,
+  benchmarkDataSource: BenchmarkDataSource.landings,
 };
