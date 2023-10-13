@@ -171,7 +171,7 @@ const datasetOption = (
   },
 
   xAxis: { type: "category" },
-  yAxis: { gridIndex: 0 },
+  yAxis: { gridIndex: 0, name: "Kilo" },
   series: [{ type: "bar" }, { type: "bar" }],
 });
 
