@@ -4,18 +4,15 @@ import { BenchmarkModalParams } from "./state";
 
 export const getBenchmarkData = createAsyncThunk("benchmark/getBenchmarkData", Api.getTrips);
 export const setBenchmarkModal = createAction<BenchmarkModalParams | undefined>(
-    "benchmark/setBenchmarkModal"
+    "benchmark/setBenchmarkModal",
   );
-export const setBenchmarkHistoric = createAction<[string,string[],number[]]>(
-  "benchmark/setBenchmarkHistoric"
+export const setBenchmarkHistoric = createAction<[string, string[], number[]]>(
+  "benchmark/setBenchmarkHistoric",
 );
 
 export const setBenchmarkMetric = createAction<string>(
-  "benchmark/setBenchmarkMetric"
-)
+  "benchmark/setBenchmarkMetric",
+);
 export const setBenchmarkDataSource = createAction<boolean>(
-  "benchmark/setBenchmarkDataSource"
-)
-
-
-  
+  "benchmark/setBenchmarkDataSource",
+);

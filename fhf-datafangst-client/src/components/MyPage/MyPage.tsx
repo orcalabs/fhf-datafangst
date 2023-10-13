@@ -27,7 +27,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
-import SpeedIcon from '@mui/icons-material/Speed';
+import SpeedIcon from "@mui/icons-material/Speed";
 import { useNavigate } from "react-router-dom";
 
 enum MenuTab {
@@ -213,7 +213,7 @@ export const MyPage: FC = () => {
           <MyGears />
         </AccordionDetails>
       </Accordion>
-      <Button variant="contained" onClick = {() => {navigate("/BenchmarkView")}}>
+      <Button variant="contained" onClick = {() => { navigate("/BenchmarkView"); }}>
         <Box
               sx={{
                 display: "flex",

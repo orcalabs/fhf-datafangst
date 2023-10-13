@@ -50,4 +50,4 @@ export { BenchmarkCard } from "./BenchmarkData/BenchmarkCard";
 export { Header as BmHeader } from "./Benchmark/Header";
 export { HeaderMenuButtons as BmHeaderMenuButtons } from "./Benchmark/HeaderMenuButtons";
 export { SpeciesHistogram } from "./Graphs/SpeciesHistogram";
-export { BenchmarkModal } from "./BenchmarkData/BenchmarkModal"
+export { BenchmarkModal } from "./BenchmarkData/BenchmarkModal";
