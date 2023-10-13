@@ -215,6 +215,16 @@ export const MyPage: FC = () => {
       </Accordion>
       <Button
         variant="contained"
+        sx = {{
+          m: 0,
+          width: "100%",
+          py:2,
+          px: 2.5,
+          justifyContent: "start",
+          color: "white",
+          boxShadow: "none",
+          bgcolor: "primary.main",
+        }}
         onClick={() => {
           navigate("/BenchmarkView");
         }}
