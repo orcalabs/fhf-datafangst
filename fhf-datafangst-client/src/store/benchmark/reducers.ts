@@ -8,16 +8,16 @@ export const benchmarkBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(setBenchmarkModal, (state, action) => {
-        state.benchmarkModal = action.payload
+        state.benchmarkModal = action.payload;
     })
     .addCase(setBenchmarkHistoric, (state, action) => {
-      state.benchmarkHistoric = action.payload[2]
-      state.benchmarkXAxis = action.payload[1]
-      state.benchmarkMetric = action.payload[0]
+      state.benchmarkHistoric = action.payload[2];
+      state.benchmarkXAxis = action.payload[1];
+      state.benchmarkMetric = action.payload[0];
     })
     .addCase(setBenchmarkMetric, (state, action) => {
-      state.benchmarkMetric = action.payload
+      state.benchmarkMetric = action.payload;
     })
     .addCase(setBenchmarkDataSource, (state, action) => {
-      state.benchmarkDataSource = action.payload
-    })
+      state.benchmarkDataSource = action.payload;
+    });

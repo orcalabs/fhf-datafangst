@@ -7,6 +7,3 @@ export const selectBenchmarkNumHistoric = createSelector(selectAppState, (state)
 export const selectBenchmarkHistoric = createSelector(selectAppState, (state) => state.benchmarkHistoric);
 export const selectBenchmarkMetric = createSelector(selectAppState, (state) => state.benchmarkMetric);
 export const selectBenchmarkXAxis = createSelector(selectAppState, (state) => state.benchmarkXAxis);
-
-
-

@@ -5,42 +5,42 @@ import { Graph } from "./Graph";
 import { selectBenchmarkHistoric, selectBenchmarkMetric, selectBenchmarkXAxis } from "store/benchmark";
 
 export const HistoricLineChart: FC = () => {
-    const historic = useAppSelector(selectBenchmarkHistoric)
-    const metric = useAppSelector(selectBenchmarkMetric)
-    const xAxis = useAppSelector(selectBenchmarkXAxis)
+    const historic = useAppSelector(selectBenchmarkHistoric);
+    const metric = useAppSelector(selectBenchmarkMetric);
+    const xAxis = useAppSelector(selectBenchmarkXAxis);
 
-    if (!historic){
-      return <></>
+    if (!historic) {
+      return <></>;
     }
-    let data = xAxis?.map((timestring, i) => {
-      return [new Date(timestring), historic[i]]
-    })
+    const data = xAxis?.map((timestring, i) => {
+      return [new Date(timestring), historic[i]];
+    });
 
     const theme = {};
     const opt = {
         xAxis: {
-          type: 'time',
+          type: "time",
           name: "Dato",
-          axisLabel : {
-            formatter : (timestamp: number) => {
-              let date = new Date(timestamp)
-              return date.getMonth() + '/' + date.getDate()
-            }
-          }
+          axisLabel: {
+            formatter: (timestamp: number) => {
+              const date = new Date(timestamp);
+              return date.getMonth().toString() + "/" + date.getDate().toString();
+            },
+          },
         },
         yAxis: {
-          type: 'value',
-          name: metric
+          type: "value",
+          name: metric,
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: "axis",
         },
         series: [
           {
-            data: data,
-            type: 'line',
+            data,
+            type: "line",
           },
-        ]
+        ],
       };
 
     return <Box sx ={{

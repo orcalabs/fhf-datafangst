@@ -104,7 +104,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           "vetle.hofsoy-woie@sintef.no"
       ) {
         state.bwProfile.vesselInfo = {
-          ircs: "JXMK",
+          ircs: "LEGQ",
           mmsi: 257842500,
           imo: -1,
           regNum: "",
