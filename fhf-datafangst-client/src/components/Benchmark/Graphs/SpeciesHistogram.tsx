@@ -191,5 +191,5 @@ interface TooltipParams {
 const formatter = (data: TooltipParams[]) => {
   const params = data[0];
 
-  return `<h3>${params.value[0]}</h3> <br/> <b>Forrige tur </b>: ${params.value[1]} kg <br/> <b>Snitt </b>: ${params.value[2]} kg`;
+  return `<h3>${params.value[0]}</h3> <br/> <b> Forrige tur </b>: ${params.value[1]} kg <br/> <b>Snitt </b>: ${params.value[2]} kg`;
 };
