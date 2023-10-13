@@ -12,6 +12,8 @@ import ReactEChart from "echarts-for-react";
 import { Theme } from "./ChartsTheme";
 import { dateFormat } from "utils";
 
+import { Theme } from "./ChartsTheme";
+
 export const HistoricLineChart: FC = () => {
   const historic = useAppSelector(selectBenchmarkHistoric);
   const metric = useAppSelector(selectBenchmarkMetric);
