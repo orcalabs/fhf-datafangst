@@ -215,7 +215,7 @@ export const MyPage: FC = () => {
       </Accordion>
       <Button
         variant="contained"
-        sx = {{
+        sx={{
           m: 0,
           width: "100%",
           py: 2,

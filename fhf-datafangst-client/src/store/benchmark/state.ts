@@ -4,8 +4,8 @@ export interface BenchmarkModalParams {
 }
 
 export enum BenchmarkDataSource {
-    landings,
-    hauls,
+  landings,
+  hauls,
 }
 
 export interface BenchmarkState {

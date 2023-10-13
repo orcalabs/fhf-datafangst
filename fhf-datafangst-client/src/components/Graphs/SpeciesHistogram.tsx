@@ -6,12 +6,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import {
-  Delivery,
-  Haul,
-  SpeciesFiskeridir,
-  Trip,
-} from "generated/openapi";
+import { Delivery, Haul, SpeciesFiskeridir, Trip } from "generated/openapi";
 import {
   BenchmarkDataSource,
   selectBenchmarkDataSource,
@@ -102,14 +97,15 @@ export const SpeciesHistogram: FC = () => {
     return { data, prevData };
   };
 
-  const { data, prevData } = selectedDatasource === BenchmarkDataSource.hauls
-    ? generateHaulData(trips)
-    : generateLandingData(trips);
+  const { data, prevData } =
+    selectedDatasource === BenchmarkDataSource.hauls
+      ? generateHaulData(trips)
+      : generateLandingData(trips);
 
   return (
     <>
       <Divider sx={{ mb: 2 }}>
-        <Typography variant="h3" color='text.secondary'>
+        <Typography variant="h3" color="text.secondary">
           {selectedDatasource ? "Fangstdata" : "Landingsdata"}
         </Typography>
       </Divider>
@@ -124,15 +120,22 @@ export const SpeciesHistogram: FC = () => {
           aria-label="outlined primary button group"
           sx={{ margin: 2, alignSelf: "center" }}
         >
-          <Button onClick={() => dispatch(setBenchmarkDataSource(BenchmarkDataSource.hauls))}>
+          <Button
+            onClick={() =>
+              dispatch(setBenchmarkDataSource(BenchmarkDataSource.hauls))
+            }
+          >
             Fangstdata
           </Button>
-          <Button onClick={() => dispatch(setBenchmarkDataSource(BenchmarkDataSource.landings))}>
+          <Button
+            onClick={() =>
+              dispatch(setBenchmarkDataSource(BenchmarkDataSource.landings))
+            }
+          >
             Landingsdata
           </Button>
         </ButtonGroup>
         {data && (
-
           <ReactEChart
             option={datasetOption(data, prevData, species)}
             theme={Theme}
@@ -178,5 +181,9 @@ interface TooltipParams {
 const formatter = (data: TooltipParams[]) => {
   const params = data[0];
 
-  return `<h3>${params.value[0]}</h3> <br/> <b> Forrige tur </b>: ${params.value[1]} kg <br/> <b>Snitt </b>: ${params.value[2]} kg`;
+  return `<h3>${
+    params.value[0]
+  }</h3> <br/> <b> Forrige tur </b>: ${params.value[1].toFixed(
+    2,
+  )} kg <br/> <b>Snitt </b>: ${params.value[2].toFixed(2)} kg`;
 };

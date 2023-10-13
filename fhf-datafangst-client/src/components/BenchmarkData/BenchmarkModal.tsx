@@ -33,12 +33,22 @@ export const BenchmarkModal: FC = () => {
     >
       <Box sx={style}>
         {benchmarkModal?.title && (
-          <Typography id="modal-modal-title" variant="h1" color="text.secondary" component="h2">
+          <Typography
+            id="modal-modal-title"
+            variant="h1"
+            color="text.secondary"
+            component="h2"
+          >
             {benchmarkModal?.title}
           </Typography>
         )}
         {benchmarkModal?.description && (
-          <Typography id="modal-modal-description" variant="h6" color="text.secondary" sx={{ mt: 2 }}>
+          <Typography
+            id="modal-modal-description"
+            variant="h6"
+            color="text.secondary"
+            sx={{ mt: 2 }}
+          >
             {benchmarkModal?.description}
           </Typography>
         )}
