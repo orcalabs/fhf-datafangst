@@ -31,8 +31,7 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
           <CardHeader
             avatar={props.avatar}
             title={props.title}
-            color="text.secondary"
-            titleTypographyProps={{ variant: "h3" }}
+            titleTypographyProps={{ variant: "h3", color: "text.secondary"}}
           />
           <CardContent>
             <Grid container spacing={0}>
@@ -64,7 +63,7 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
               )}
               {props.secondary_description && (
                 <Grid item xs={6}>
-                  <Typography variant="h4">
+                  <Typography variant="h4" color="white">
                     {props.secondary_value?.toFixed(2)} {props.metric}
                   </Typography>
                 </Grid>
