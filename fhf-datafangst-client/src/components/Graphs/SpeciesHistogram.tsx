@@ -21,28 +21,15 @@ import {
 } from "store/benchmark";
 import { Catch } from "models";
 
-const toggleLandingHaul = (a: Haul | Delivery): HaulCatch[] | Catch[] =>
-  "catches" in a ? a.catches : a.delivered;
-
-const HaulToDict = (haul: Haul | Delivery) => {
-  const dict: Record<number, number> = {};
-  toggleLandingHaul(haul).forEach((value) => {
-    dict[value.speciesFiskeridirId] = value.livingWeight;
-  });
-  return dict;
-};
-
-const sumObjectValues = (obj: Haul[]) => {
-  const data: Record<number, number> = {};
-  obj.map((haul) => {
-    const haulData: Record<number, number> = HaulToDict(haul);
-    Object.keys(haulData).forEach((key: any) => {
-      data[key] = (data[key] || 0) + haulData[key];
-    });
-    return data;
-  });
-
-  return data;
+const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
+  const res: Record<number, number> = {};
+  for (const h of hauls) {
+    for (const c of (h as Haul).catches ?? (h as Delivery).delivered) {
+      res[c.speciesFiskeridirId] =
+        (res[c.speciesFiskeridirId] ?? 0) + c.livingWeight;
+    }
+  }
+  return res;
 };
 
 const getDictSortedOnValue = (obj: Record<number, number>) =>

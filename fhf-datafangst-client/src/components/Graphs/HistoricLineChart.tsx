@@ -26,10 +26,7 @@ export const HistoricLineChart: FC = () => {
       type: "time",
       name: "Dato",
       axisLabel: {
-        formatter: (timestamp: number) => {
-          const date = new Date(timestamp);
-          return date.getMonth().toString() + "/" + date.getDate().toString();
-        },
+        formatter: (timestamp: number) => dateFormat(timestamp, "M/d"),
       },
     },
     yAxis: {
