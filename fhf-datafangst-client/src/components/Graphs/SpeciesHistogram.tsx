@@ -1,17 +1,13 @@
 import { Box, Button, ButtonGroup, Divider, Typography } from "@mui/material";
 import { FC } from "react";
 import {
-  haulBuilder,
-  selectBwUserProfile,
   selectSpeciesFiskeridir,
   selectTrips,
-  selectVesselsByCallsign,
   useAppDispatch,
   useAppSelector,
 } from "store";
 import { Graph } from "./Graph";
 import { Delivery, Haul, SpeciesFiskeridir, Trip } from "generated/openapi";
-import { objectTraps } from "immer/dist/internal";
 import {
   selectBenchmarkDataSource,
   selectBenchmarkNumHistoric,
@@ -44,7 +40,7 @@ const sumObjectValues = (obj: Haul[]) => {
 };
 
 const getDictSortedOnValue = (obj: Record<number, number>) =>
-  Object.keys(obj).sort((a, b) => obj[b] - obj[a]);
+  Object.keys(obj).sort((a: string, b: string) => obj[+b] - obj[+a]);
 
 export const SpeciesHistogram: FC = () => {
   const theme = {};
@@ -119,86 +115,40 @@ export const SpeciesHistogram: FC = () => {
     : generateLandingData(trips);
 
   return (
-      <>
+    <>
       <Divider sx={{ mb: 2 }}>
         <Typography variant="h3">
           {selectedDatasource ? "Fangstdata" : "Landingsdata"}
         </Typography>
       </Divider>
-    <Box
-      sx={{
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+      <Box
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-      <ButtonGroup
-        variant="contained"
-        aria-label="outlined primary button group"
-        sx={{ margin: 2, alignSelf: "center" }}
+        <ButtonGroup
+          variant="contained"
+          aria-label="outlined primary button group"
+          sx={{ margin: 2, alignSelf: "center" }}
         >
-        <Button onClick={() => dispatch(setBenchmarkDataSource(true))}>
-          Fangstdata{" "}
-        </Button>
-        <Button onClick={() => dispatch(setBenchmarkDataSource(false))}>
-          Landingsdata{" "}
-        </Button>
-      </ButtonGroup>
-      {data && (
-        <Graph options={datasetOption(data, prevData, species)} theme={theme} />
+          <Button onClick={() => dispatch(setBenchmarkDataSource(true))}>
+            Fangstdata{" "}
+          </Button>
+          <Button onClick={() => dispatch(setBenchmarkDataSource(false))}>
+            Landingsdata{" "}
+          </Button>
+        </ButtonGroup>
+        {data && (
+          <Graph
+            options={datasetOption(data, prevData, species)}
+            theme={theme}
+          />
         )}
-    </Box>
-        </>
+      </Box>
+    </>
   );
 };
-
-const _concatOpts = (a: EChartsoptions, b: EChartsoptions) => ({
-  ...a,
-  xAxis: {
-    ...a.xAxis,
-    data: a.xAxis!.data
-      .concat(b.xAxis.data)
-      .filter((item, pos, self) => self.indexOf(item) === pos),
-  },
-  yAxis: [a.yAxis, b.yAxis],
-  series: [...a.series, ...b.series],
-});
-
-const _HistogramOptions = (
-  data: Record<number, number>,
-  species: object[],
-  name: string,
-) => ({
-  tooltip: {
-    trigger: "axis",
-    axisPointer: {
-      type: "shadow",
-    },
-  },
-  xAxis: {
-    type: "category",
-    data: getDictSortedOnValue(data).map(
-      (key) => species.find((s: any) => s.id === parseInt(key))?.name,
-    ),
-  },
-  yAxis: {
-    type: "value",
-    name,
-  },
-  grid: {
-    left: "3%",
-    right: "4%",
-    bottom: "3%",
-    containLabel: true,
-  },
-  series: [
-    {
-      name,
-      data: Object.values(getDictSortedOnValue(data).map((key) => data[key])),
-      type: "bar",
-    },
-  ],
-});
-type EChartsoptions = echarts.EChartsOption;
 
 const datasetOption = (
   a: Record<number, number>,
@@ -229,5 +179,11 @@ const datasetOption = (
   series: [{ type: "bar" }, { type: "bar" }],
 });
 
-const formatter = (params: any) =>
-  `<h3>${params[0].value[0]}</h3> <br/> <b>Forrige tur </b>: ${params[0].value[1]} kg <br/> <b>Snitt </b>: ${params[0].value[2]} kg`;
+interface TooltipParams {
+  value: number[];
+}
+const formatter = (data: TooltipParams[]) => {
+  const params = data[0];
+
+  return `<h3>${params.value[0]}</h3> <br/> <b>Forrige tur </b>: ${params.value[1]} kg <br/> <b>Snitt </b>: ${params.value[2]} kg`;
+};
