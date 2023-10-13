@@ -29,8 +29,6 @@ import { Catch } from "models";
 import { Theme } from "./ChartsTheme";
 import ReactEChart from "echarts-for-react";
 
-
-
 const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};
   for (const h of hauls) {
@@ -91,13 +89,13 @@ export const SpeciesHistogram: FC = () => {
     const lastTrip: Trip = trips[0];
     const landing = lastTrip.delivery;
     let data: Record<number, number> = {};
-    data = HaulToDict(landing);
+    data = sumObjectValues([landing]);
 
     const prevData: Record<number, number> = trips
       .slice(1, numHistoric)
       .map((trip) => {
         const landing = trip.delivery;
-        return HaulToDict(landing);
+        return sumObjectValues([landing]);
       })
       .reduce((acc: Record<number, number>, curr: Record<number, number>) => {
         Object.keys(curr).forEach((key: any) => {

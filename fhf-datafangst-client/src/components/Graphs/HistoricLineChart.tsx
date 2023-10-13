@@ -10,6 +10,7 @@ import ReactEChart from "echarts-for-react";
 
 
 import { Theme } from "./ChartsTheme";
+import { dateFormat } from "utils";
 
 export const HistoricLineChart: FC = () => {
   const historic = useAppSelector(selectBenchmarkHistoric);
