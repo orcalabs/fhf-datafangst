@@ -104,7 +104,7 @@ export const SpeciesHistogram: FC = () => {
   };
 
   const { data, prevData } =
-    selectedDatasource === BenchmarkDataSource.hauls
+    selectedDatasource === BenchmarkDataSource.Hauls
       ? generateHaulData(trips)
       : generateLandingData(trips);
 
@@ -128,14 +128,14 @@ export const SpeciesHistogram: FC = () => {
         >
           <Button
             onClick={() =>
-              dispatch(setBenchmarkDataSource(BenchmarkDataSource.hauls))
+              dispatch(setBenchmarkDataSource(BenchmarkDataSource.Hauls))
             }
           >
             Fangstdata
           </Button>
           <Button
             onClick={() =>
-              dispatch(setBenchmarkDataSource(BenchmarkDataSource.landings))
+              dispatch(setBenchmarkDataSource(BenchmarkDataSource.Landings))
             }
           >
             Landingsdata
