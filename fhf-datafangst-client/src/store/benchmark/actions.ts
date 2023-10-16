@@ -19,9 +19,6 @@ export const setBenchmarkHistoric = createAction<benchmarkHistoricParams>(
   "benchmark/setBenchmarkHistoric",
 );
 
-export const setBenchmarkMetric = createAction<string>(
-  "benchmark/setBenchmarkMetric",
-);
 export const setBenchmarkDataSource = createAction<BenchmarkDataSource>(
   "benchmark/setBenchmarkDataSource",
 );

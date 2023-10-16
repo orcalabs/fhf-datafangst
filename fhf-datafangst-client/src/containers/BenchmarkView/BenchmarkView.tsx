@@ -5,21 +5,16 @@ import {
   BmHeaderMenuButtons,
   SpeciesHistogram,
 } from "components";
-import { Ordering, TripSorting } from "generated/openapi";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useAuth } from "oidc-react";
 import {
-  getTrips,
   selectBwUserProfile,
   selectIsLoggedIn,
   selectTrips,
   selectVesselsByCallsign,
-  useAppDispatch,
   useAppSelector,
 } from "store";
 import { useNavigate } from "react-router-dom";
-import { selectBenchmarkNumHistoric } from "store/benchmark";
-import { text } from "stream/consumers";
 
 const GridContainer = (props: any) => (
   <Box
@@ -70,7 +65,6 @@ export const BenchmarkView: FC = () => {
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const navigate = useNavigate();
-  const numHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const trips = useAppSelector(selectTrips);
 
   if (!loggedIn) {
@@ -82,7 +76,14 @@ export const BenchmarkView: FC = () => {
     return <p>No vessel associated with this user</p>;
   }
   return (
-    <Box sx={{ display: "grid", backgroundColor: "primary.main", height: "100vh", width: "100vw" }}>
+    <Box
+      sx={{
+        display: "grid",
+        backgroundColor: "primary.main",
+        height: "100vh",
+        width: "100vw",
+      }}
+    >
       <GridContainer>
         <HeaderTrack>
           <Header />
@@ -91,16 +92,25 @@ export const BenchmarkView: FC = () => {
           <BmHeaderMenuButtons />
         </HeaderButtonCell>
       </GridContainer>
-      {trips && trips.length && <Box>
-        <BenchmarkCards />
-        <SpeciesHistogram />
-      </Box>
-      }
-      {(!trips || trips.length === 0) && <Box sx={{justifySelf: "center"}}>
-          <Typography color="text.secondary" variant="h2" > Du har ingen registrerte turer.</Typography>
-          <Typography color="text.secondary" variant="h5"> For at vi skal kunne gi deg statistikk må du ha registrert noen turer.</Typography>
+      {trips?.length && (
+        <Box>
+          <BenchmarkCards />
+          <SpeciesHistogram />
         </Box>
-      }
+      )}
+      {(!trips || trips.length === 0) && (
+        <Box sx={{ justifySelf: "center" }}>
+          <Typography color="text.secondary" variant="h2">
+            {" "}
+            Du har ingen registrerte turer.
+          </Typography>
+          <Typography color="text.secondary" variant="h5">
+            {" "}
+            For at vi skal kunne gi deg statistikk må du ha registrert noen
+            turer.
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

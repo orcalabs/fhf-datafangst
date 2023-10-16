@@ -3,7 +3,6 @@ import { AppState } from "store/state";
 import {
   setBenchmarkDataSource,
   setBenchmarkHistoric,
-  setBenchmarkMetric,
   setBenchmarkModal,
 } from "./actions";
 
@@ -16,11 +15,6 @@ export const benchmarkBuilder = (
     })
     .addCase(setBenchmarkHistoric, (state, action) => {
       state.benchmarkHistoric = action.payload.data;
-      state.benchmarkXAxis = action.payload.xAxis;
-      state.benchmarkMetric = action.payload.metric;
-    })
-    .addCase(setBenchmarkMetric, (state, action) => {
-      state.benchmarkMetric = action.payload;
     })
     .addCase(setBenchmarkDataSource, (state, action) => {
       state.benchmarkDataSource = action.payload;
