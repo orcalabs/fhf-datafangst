@@ -128,7 +128,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Total tid"
-            avatar={<AccessTimeIcon />}
+            avatar={<AccessTimeIcon sx={{color : "text.secondary" }}/>}
             value={createDurationFromHours(totalTimes[0])}
             description="Siste tur"
             primary_color={
@@ -147,7 +147,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Fiske tid"
-            avatar={<PhishingRoundedIcon />}
+            avatar={<PhishingRoundedIcon sx={{color : "text.secondary" }} />}
             value={createDurationFromHours(fishingHours[0])}
             description="Siste tur"
             primary_color={
@@ -166,7 +166,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Fiske distanse"
-            avatar={<StraightenRoundedIcon />}
+            avatar={<StraightenRoundedIcon sx={{color : "text.secondary" }} />}
             value={(fishingDistanceMean > 1852
               ? fishingDistance[0] / 1852
               : fishingDistance[0]
@@ -192,7 +192,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Total vekt"
-            avatar={<ScaleRoundedIcon />}
+            avatar={<ScaleRoundedIcon sx={{color : "text.secondary" }} />}
             value={(fishingWeightMean > 1000
               ? fishingWeight[0] / 1000
               : fishingWeight[0]
