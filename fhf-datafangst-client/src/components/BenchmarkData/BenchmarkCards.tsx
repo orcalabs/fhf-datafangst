@@ -16,6 +16,7 @@ import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PhishingRoundedIcon from "@mui/icons-material/PhishingRounded";
+import { createDurationFromHours } from "utils";
 
 const getTotalTimes = (trips: Trip[]) =>
   trips.map(
@@ -128,18 +129,15 @@ export const BenchmarkCards: FC = () => {
           <BenchmarkCard
             title="Total tid"
             avatar={<AccessTimeIcon />}
-            value={totalTimeMean > 24 ? totalTimes[0] / 24 : totalTimes[0]}
+            value={createDurationFromHours(totalTimes[0])}
             description="Siste tur"
             primary_color={
               totalTimes[0] > totalTimeMean ? "#6CE16A" : "#93032E"
             }
-            secondary_value={
-              totalTimeMean > 24 ? totalTimeMean / 24 : totalTimeMean
-            }
+            secondary_value={createDurationFromHours(totalTimeMean)}
             secondary_description={
               "Gjennomsnitt siste " + numHistoric.toString() + " turer"
             }
-            metric={totalTimeMean > 24 ? "Dager" : "Timer"}
             tooltip="Regnet ut basert på dine por og dep meldinger."
             onClick={() => handleClick(BenchmarkType.totalTime)}
           />
@@ -150,20 +148,15 @@ export const BenchmarkCards: FC = () => {
           <BenchmarkCard
             title="Fiske tid"
             avatar={<PhishingRoundedIcon />}
-            value={
-              fishingHoursMean > 24 ? fishingHours[0] / 24 : fishingHours[0]
-            }
+            value={createDurationFromHours(fishingHours[0])}
             description="Siste tur"
             primary_color={
               fishingHours[0] > fishingHoursMean ? "#6CE16A" : "#93032E"
             }
-            secondary_value={
-              fishingHoursMean > 24 ? fishingHoursMean / 24 : fishingHoursMean
-            }
+            secondary_value={createDurationFromHours(fishingHoursMean)}
             secondary_description={
               "Gjennomsnitt siste " + numHistoric.toString() + " turer"
             }
-            metric={fishingHoursMean > 24 ? "Dager" : "Timer"}
             tooltip="Regnet ut basert på dine fangstmeldinger."
             onClick={() => handleClick(BenchmarkType.fishingHours)}
           />
@@ -174,20 +167,18 @@ export const BenchmarkCards: FC = () => {
           <BenchmarkCard
             title="Fiske distanse"
             avatar={<StraightenRoundedIcon />}
-            value={
-              fishingDistanceMean > 1852
-                ? fishingDistance[0] / 1852
-                : fishingDistance[0]
-            }
+            value={(fishingDistanceMean > 1852
+              ? fishingDistance[0] / 1852
+              : fishingDistance[0]
+            ).toFixed(1)}
             description="Siste tur"
             primary_color={
               fishingDistance[0] > fishingDistanceMean ? "#6CE16A" : "#93032E"
             }
-            secondary_value={
-              fishingDistanceMean > 1852
-                ? fishingDistanceMean / 1852
-                : fishingDistanceMean
-            }
+            secondary_value={(fishingDistanceMean > 1852
+              ? fishingDistanceMean / 1852
+              : fishingDistanceMean
+            ).toFixed(1)}
             secondary_description={
               "Gjennomsnitt siste " + numHistoric.toString() + " turer"
             }
@@ -202,20 +193,18 @@ export const BenchmarkCards: FC = () => {
           <BenchmarkCard
             title="Total vekt"
             avatar={<ScaleRoundedIcon />}
-            value={
-              fishingWeightMean > 1000
-                ? fishingWeight[0] / 1000
-                : fishingWeight[0]
-            }
+            value={(fishingWeightMean > 1000
+              ? fishingWeight[0] / 1000
+              : fishingWeight[0]
+            ).toFixed(1)}
             description="Siste tur"
             primary_color={
               fishingWeight[0] > fishingWeightMean ? "#6CE16A" : "#93032E"
             }
-            secondary_value={
-              fishingWeightMean > 1000
-                ? fishingWeightMean / 1000
-                : fishingWeightMean
-            }
+            secondary_value={(fishingWeightMean > 1000
+              ? fishingWeightMean / 1000
+              : fishingWeightMean
+            ).toFixed(1)}
             secondary_description={
               "Gjennomsnitt siste " + numHistoric.toString() + " turer"
             }

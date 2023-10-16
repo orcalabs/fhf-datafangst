@@ -7,11 +7,11 @@ import { CardActionArea, CardHeader, Grid, Tooltip } from "@mui/material";
 
 interface BenchmarkCardProps {
   title: string;
-  value: number;
+  value: number | string;
   description?: string;
   primary_color?: string;
   metric?: string;
-  secondary_value?: number;
+  secondary_value?: number | string;
   tooltip?: string;
   secondary_description?: string;
   third_value?: number;
@@ -51,7 +51,7 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
                   component="div"
                   align="center"
                 >
-                  {props.value.toFixed(2)} {props.metric}
+                  {props.value} {props.metric ?? ""}
                 </Typography>
               </Grid>
               {props.secondary_description && (
@@ -64,7 +64,7 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
               {props.secondary_description && (
                 <Grid item xs={6}>
                   <Typography variant="h4" color="white">
-                    {props.secondary_value?.toFixed(2)} {props.metric}
+                    {props.secondary_value} {props.metric}
                   </Typography>
                 </Grid>
               )}
