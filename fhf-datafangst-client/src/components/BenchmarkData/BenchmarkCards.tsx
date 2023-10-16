@@ -136,7 +136,7 @@ export const BenchmarkCards: FC = () => {
             }
             secondary_value={createDurationFromHours(totalTimeMean)}
             secondary_description={
-              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+              "Gjennomsnitt siste " + totalTimes.length.toString() + " turer"
             }
             tooltip="Regnet ut basert på dine por og dep meldinger."
             onClick={() => handleClick(BenchmarkType.TotalTime)}
@@ -155,7 +155,7 @@ export const BenchmarkCards: FC = () => {
             }
             secondary_value={createDurationFromHours(fishingHoursMean)}
             secondary_description={
-              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+              "Gjennomsnitt siste " + fishingHours.length.toString() + " turer"
             }
             tooltip="Regnet ut basert på dine fangstmeldinger."
             onClick={() => handleClick(BenchmarkType.FishingHours)}
@@ -180,7 +180,7 @@ export const BenchmarkCards: FC = () => {
               : fishingDistanceMean
             ).toFixed(1)}
             secondary_description={
-              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+              "Gjennomsnitt siste " + fishingDistance.length.toString() + " turer"
             }
             metric={fishingDistanceMean > 1852 ? "Nautisk Mil" : "Meter"}
             tooltip="Regnet ut basert på dine fangstmeldinger."
@@ -206,7 +206,7 @@ export const BenchmarkCards: FC = () => {
               : fishingWeightMean
             ).toFixed(1)}
             secondary_description={
-              "Gjennomsnitt siste " + numHistoric.toString() + " turer"
+              "Gjennomsnitt siste " + fishingWeight.length.toString() + " turer"
             }
             metric={fishingWeightMean > 1000 ? "Tonn" : "Kilo"}
             tooltip="Data basert på levert vekt."
