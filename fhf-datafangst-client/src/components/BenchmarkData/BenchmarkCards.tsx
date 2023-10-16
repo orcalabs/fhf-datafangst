@@ -45,10 +45,10 @@ const getFishingWeight = (trips: Trip[]) =>
 const getTripDates = (trips: Trip[]) => trips.map((t) => t.start);
 
 enum BenchmarkType {
-  totalTime,
-  fishingHours,
-  fishingDistance,
-  fishingWeight,
+  TotalTime,
+  FishingHours,
+  FishingDistance,
+  FishingWeight,
 }
 
 export const BenchmarkCards: FC = () => {
@@ -76,14 +76,14 @@ export const BenchmarkCards: FC = () => {
     const benchmarkModal: BenchmarkModalParams = {};
     let data: number[];
     let metric: string;
-    if (type === BenchmarkType.totalTime) {
+    if (type === BenchmarkType.TotalTime) {
       benchmarkModal.title = "Total tid";
       benchmarkModal.description =
         "Total tid er regnet som tiden mellom havneavgang og havneanløp.";
       metric = totalTimeMean > 24 ? "Dager" : "Timer";
       data =
         totalTimeMean > 24 ? totalTimes.map((value) => value / 24) : totalTimes;
-    } else if (type === BenchmarkType.fishingHours) {
+    } else if (type === BenchmarkType.FishingHours) {
       benchmarkModal.title = "Fiske tid";
       benchmarkModal.description =
         "Fiske tid er regnet som summen av tiden brukt under hver fangstmelding.";
@@ -92,7 +92,7 @@ export const BenchmarkCards: FC = () => {
         fishingHoursMean > 24
           ? fishingHours.map((value) => value / 24)
           : fishingHours;
-    } else if (type === BenchmarkType.fishingDistance) {
+    } else if (type === BenchmarkType.FishingDistance) {
       benchmarkModal.title = "Fiske distanse";
       benchmarkModal.description =
         "Fiske distanse er regnet ut basert på vms/ais meldingene som ble sendt under hver fangstmelding";
@@ -101,7 +101,7 @@ export const BenchmarkCards: FC = () => {
         fishingDistanceMean > 1852
           ? fishingDistance.map((value) => value / 1852)
           : fishingDistance;
-    } else if (type === BenchmarkType.fishingWeight) {
+    } else if (type === BenchmarkType.FishingWeight) {
       benchmarkModal.title = "Total vekt";
       benchmarkModal.description = "Total vekt er basert på total landet vekt";
       metric = fishingWeightMean > 1000 ? "Tonn" : "Kilo";
@@ -139,7 +139,7 @@ export const BenchmarkCards: FC = () => {
               "Gjennomsnitt siste " + numHistoric.toString() + " turer"
             }
             tooltip="Regnet ut basert på dine por og dep meldinger."
-            onClick={() => handleClick(BenchmarkType.totalTime)}
+            onClick={() => handleClick(BenchmarkType.TotalTime)}
           />
         </Box>
       </Grid>
@@ -158,7 +158,7 @@ export const BenchmarkCards: FC = () => {
               "Gjennomsnitt siste " + numHistoric.toString() + " turer"
             }
             tooltip="Regnet ut basert på dine fangstmeldinger."
-            onClick={() => handleClick(BenchmarkType.fishingHours)}
+            onClick={() => handleClick(BenchmarkType.FishingHours)}
           />
         </Box>
       </Grid>
@@ -184,7 +184,7 @@ export const BenchmarkCards: FC = () => {
             }
             metric={fishingDistanceMean > 1852 ? "Nautisk Mil" : "Meter"}
             tooltip="Regnet ut basert på dine fangstmeldinger."
-            onClick={() => handleClick(BenchmarkType.fishingDistance)}
+            onClick={() => handleClick(BenchmarkType.FishingDistance)}
           />
         </Box>
       </Grid>
@@ -210,7 +210,7 @@ export const BenchmarkCards: FC = () => {
             }
             metric={fishingWeightMean > 1000 ? "Tonn" : "Kilo"}
             tooltip="Data basert på levert vekt."
-            onClick={() => handleClick(BenchmarkType.fishingWeight)}
+            onClick={() => handleClick(BenchmarkType.FishingWeight)}
           />
         </Box>
       </Grid>
