@@ -140,13 +140,42 @@ export const createDurationString = (duration: Duration) => {
 
   return durationString[0].toUpperCase() + durationString.substring(1);
 };
-export const createDurationFromHours = (hours: number) =>
-  createDurationString(
-    intervalToDuration({
-      start: new Date(0),
-      end: new Date(hours * 3_600_000),
-    }),
+export const HourstoDays = (hours: number) => {
+  hours = Math.round(hours);
+  const days = Math.floor(hours / 24);
+  const rest = hours % 24;
+
+  return { days, rest };
+};
+
+export const createDurationFromHours = (hours: number) => {
+  let { days, rest } = HourstoDays(hours);
+  let weeks = Math.floor(days / 7);
+  days = days % 7;
+  const months = Math.floor(weeks / 4);
+
+  weeks = weeks % 4;
+
+  const durationString = formatDuration(
+    {
+      months,
+      weeks,
+      days,
+      hours: rest,
+    },
+    {
+      format: ["months", "weeks", "days", "hours", "minutes"],
+      delimiter: ", ",
+      locale: nb,
+    },
   );
+
+  if (!durationString[0]) {
+    return "Ukjent";
+  }
+
+  return durationString[0].toUpperCase() + durationString.substring(1);
+};
 
 export const createObjectDurationString = (obj: {
   start: IntoDate;
