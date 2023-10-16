@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import {
   BenchmarkCards,
   Header,
@@ -12,12 +12,14 @@ import {
   getTrips,
   selectBwUserProfile,
   selectIsLoggedIn,
+  selectTrips,
   selectVesselsByCallsign,
   useAppDispatch,
   useAppSelector,
 } from "store";
 import { useNavigate } from "react-router-dom";
 import { selectBenchmarkNumHistoric } from "store/benchmark";
+import { text } from "stream/consumers";
 
 const GridContainer = (props: any) => (
   <Box
@@ -67,9 +69,9 @@ export const BenchmarkView: FC = () => {
   const vesselInfo = profile?.vesselInfo;
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const numHistoric = useAppSelector(selectBenchmarkNumHistoric);
+  const trips = useAppSelector(selectTrips);
 
   if (!loggedIn) {
     signIn();
@@ -79,18 +81,8 @@ export const BenchmarkView: FC = () => {
     navigate("/");
     return <p>No vessel associated with this user</p>;
   }
-  useEffect(() => {
-    dispatch(
-      getTrips({
-        vessels: [vessel],
-        sorting: [TripSorting.StopDate, Ordering.Desc],
-        limit: numHistoric,
-        offset: 0,
-      }),
-    );
-  });
   return (
-    <Box sx={{ display: "grid", backgroundColor: "primary.main" }}>
+    <Box sx={{ display: "grid", backgroundColor: "primary.main", height: "100vh", width: "100vw" }}>
       <GridContainer>
         <HeaderTrack>
           <Header />
@@ -99,16 +91,16 @@ export const BenchmarkView: FC = () => {
           <BmHeaderMenuButtons />
         </HeaderButtonCell>
       </GridContainer>
-      <Box
-        sx={{
-          height: "100vh",
-          width: "100vw",
-          backgroundColor: "primary.main",
-        }}
-      >
+      {trips && trips.length && <Box>
         <BenchmarkCards />
         <SpeciesHistogram />
       </Box>
+      }
+      {(!trips || trips.length === 0) && <Box sx={{justifySelf: "center"}}>
+          <Typography color="text.secondary" variant="h2" > Du har ingen registrerte turer.</Typography>
+          <Typography color="text.secondary" variant="h5"> For at vi skal kunne gi deg statistikk må du ha registrert noen turer.</Typography>
+        </Box>
+      }
     </Box>
   );
 };
