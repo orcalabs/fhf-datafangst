@@ -1,25 +1,20 @@
 import { Box } from "@mui/material";
 import { FC } from "react";
-import { useAppSelector } from "store";
-import {
-  selectBenchmarkHistoric,
-  selectBenchmarkMetric,
-  selectBenchmarkXAxis,
-} from "store/benchmark";
 import ReactEChart from "echarts-for-react";
 import { Theme } from "./ChartsTheme";
 import { dateFormat } from "utils";
 
-export const HistoricLineChart: FC = () => {
-  const historic = useAppSelector(selectBenchmarkHistoric);
-  const metric = useAppSelector(selectBenchmarkMetric);
-  const xAxis = useAppSelector(selectBenchmarkXAxis);
+interface HistoricLineChartProps {
+  xAxis: string[];
+  yAxis: number[];
+  metric?: string;
+}
 
-  if (!historic) {
-    return <></>;
-  }
+export const HistoricLineChart: FC<HistoricLineChartProps> = (props) => {
+  const { xAxis, yAxis, metric } = props;
+
   const data = xAxis?.map((timestring, i) => {
-    return [new Date(timestring), historic[i]];
+    return [new Date(timestring), yAxis[i]];
   });
   const theme = { ...Theme, backgroundColor: "#067593" };
   const opt = {

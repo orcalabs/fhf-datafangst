@@ -4,12 +4,7 @@ import Box from "@mui/material/Box";
 import { BenchmarkCard } from "./BenchmarkCard";
 import { selectTrips, useAppDispatch, useAppSelector } from "store";
 import { Grid } from "@mui/material";
-import {
-  BenchmarkModalParams,
-  selectBenchmarkNumHistoric,
-  setBenchmarkHistoric,
-  setBenchmarkModal,
-} from "store/benchmark";
+import { BenchmarkModalParams, setBenchmarkModal } from "store/benchmark";
 import { Trip } from "generated/openapi";
 import { BenchmarkModal } from "./BenchmarkModal";
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
@@ -54,7 +49,6 @@ enum BenchmarkType {
 export const BenchmarkCards: FC = () => {
   const dispatch = useAppDispatch();
   const trips = useAppSelector(selectTrips);
-  const numHistoric = useAppSelector(selectBenchmarkNumHistoric);
   if (!trips) {
     return <></>;
   }
@@ -72,50 +66,55 @@ export const BenchmarkCards: FC = () => {
   const fishingWeightMean =
     fishingWeight.reduce((a, b) => a + b, 0) / fishingWeight.length;
 
-  const handleClick = (type: BenchmarkType) => {
-    const benchmarkModal: BenchmarkModalParams = {};
-    let data: number[];
-    let metric: string;
-    if (type === BenchmarkType.TotalTime) {
-      benchmarkModal.title = "Total tid";
-      benchmarkModal.description =
-        "Total tid er regnet som tiden mellom havneavgang og havneanløp.";
-      metric = totalTimeMean > 24 ? "Dager" : "Timer";
-      data =
-        totalTimeMean > 24 ? totalTimes.map((value) => value / 24) : totalTimes;
-    } else if (type === BenchmarkType.FishingHours) {
-      benchmarkModal.title = "Fiske tid";
-      benchmarkModal.description =
-        "Fiske tid er regnet som summen av tiden brukt under hver fangstmelding.";
-      metric = totalTimeMean > 24 ? "Dager" : "Timer";
-      data =
-        fishingHoursMean > 24
-          ? fishingHours.map((value) => value / 24)
-          : fishingHours;
-    } else if (type === BenchmarkType.FishingDistance) {
-      benchmarkModal.title = "Fiske distanse";
-      benchmarkModal.description =
-        "Fiske distanse er regnet ut basert på vms/ais meldingene som ble sendt under hver fangstmelding";
-      metric = fishingDistanceMean > 1852 ? "Nautisk Mil" : "Meter";
-      data =
+  const xAxis = getTripDates(trips);
+  const modalParams: Record<BenchmarkType, BenchmarkModalParams> = {
+    [BenchmarkType.TotalTime]: {
+      title: "Total tid",
+      description:
+        "Total tid er regnet som tiden mellom havneavgang og havneanløp.",
+      yAxis: totalTimeMean > 24 ? totalTimes.map((t) => t / 24) : totalTimes,
+      metric: totalTimeMean > 24 ? "Dager" : "Timer",
+      xAxis,
+    },
+    [BenchmarkType.FishingHours]: {
+      title: "Fiske tid",
+      description:
+        "Fiske tid er regnet som summen av tiden brukt under hver fangstmelding.",
+      metric: fishingHoursMean > 24 ? "Dager" : "Timer",
+      yAxis:
+        fishingHoursMean > 24 ? fishingHours.map((t) => t / 24) : fishingHours,
+      xAxis,
+    },
+
+    [BenchmarkType.FishingDistance]: {
+      title: "Fiske distanse",
+      description:
+        "Fiske distanse er regnet ut basert på vms/ais meldingene som ble sendt under hver fangstmelding",
+      metric: fishingDistanceMean > 1852 ? "Nautisk Mil" : "Meter",
+      yAxis:
         fishingDistanceMean > 1852
-          ? fishingDistance.map((value) => value / 1852)
-          : fishingDistance;
-    } else if (type === BenchmarkType.FishingWeight) {
-      benchmarkModal.title = "Total vekt";
-      benchmarkModal.description = "Total vekt er basert på total landet vekt";
-      metric = fishingWeightMean > 1000 ? "Tonn" : "Kilo";
-      data =
+          ? fishingDistance.map((d) => d / 1852)
+          : fishingDistance,
+      xAxis,
+    },
+    [BenchmarkType.FishingWeight]: {
+      title: "Total vekt",
+      description: "Total vekt er basert på total landet vekt",
+      metric: fishingWeightMean > 1000 ? "Tonn" : "Kilo",
+      yAxis:
         fishingWeightMean > 1000
-          ? fishingWeight.map((value) => value / 1000)
-          : fishingWeight;
-    } else {
-      return;
-    }
-    dispatch(
-      setBenchmarkHistoric({ metric, xAxis: getTripDates(trips), data }),
-    );
-    dispatch(setBenchmarkModal(benchmarkModal));
+          ? fishingWeight.map((w) => w / 1000)
+          : fishingWeight,
+      xAxis,
+    },
+  };
+
+  const handleClick = (type: BenchmarkType) => {
+    const modal = {
+      ...modalParams[type],
+    };
+
+    dispatch(setBenchmarkModal(modal));
   };
 
   return (
@@ -128,7 +127,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Total tid"
-            avatar={<AccessTimeIcon sx={{color : "text.secondary" }}/>}
+            avatar={<AccessTimeIcon sx={{ color: "text.secondary" }} />}
             value={createDurationFromHours(totalTimes[0])}
             description="Siste tur"
             primary_color={
@@ -147,7 +146,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Fiske tid"
-            avatar={<PhishingRoundedIcon sx={{color : "text.secondary" }} />}
+            avatar={<PhishingRoundedIcon sx={{ color: "text.secondary" }} />}
             value={createDurationFromHours(fishingHours[0])}
             description="Siste tur"
             primary_color={
@@ -166,7 +165,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Fiske distanse"
-            avatar={<StraightenRoundedIcon sx={{color : "text.secondary" }} />}
+            avatar={<StraightenRoundedIcon sx={{ color: "text.secondary" }} />}
             value={(fishingDistanceMean > 1852
               ? fishingDistance[0] / 1852
               : fishingDistance[0]
@@ -180,7 +179,9 @@ export const BenchmarkCards: FC = () => {
               : fishingDistanceMean
             ).toFixed(1)}
             secondary_description={
-              "Gjennomsnitt siste " + fishingDistance.length.toString() + " turer"
+              "Gjennomsnitt siste " +
+              fishingDistance.length.toString() +
+              " turer"
             }
             metric={fishingDistanceMean > 1852 ? "Nautisk Mil" : "Meter"}
             tooltip="Regnet ut basert på dine fangstmeldinger."
@@ -192,7 +193,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Total vekt"
-            avatar={<ScaleRoundedIcon sx={{color : "text.secondary" }} />}
+            avatar={<ScaleRoundedIcon sx={{ color: "text.secondary" }} />}
             value={(fishingWeightMean > 1000
               ? fishingWeight[0] / 1000
               : fishingWeight[0]
