@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getWeather, setWeatherSearch } from ".";
+import { getWeather, setSelectedWeatherFeature, setWeatherSearch } from ".";
 
 export const weatherBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -16,6 +16,9 @@ export const weatherBuilder = (
     })
     .addCase(getWeather.rejected, (state, _) => {
       state.weatherLoading = false;
+    })
+    .addCase(setSelectedWeatherFeature, (state, action) => {
+      state.selectedWeatherFeature = action.payload;
     })
     .addCase(setWeatherSearch, (state, action) => {
       (action as any).asyncDispatch(getWeather(action.payload));

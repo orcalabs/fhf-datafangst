@@ -15,3 +15,8 @@ export const selectWeatherLoading = createSelector(
   selectAppState,
   (state) => state.weatherLoading,
 );
+
+export const selectSelectedWeatherFeature = createSelector(
+  selectAppState,
+  (state) => state.selectedWeatherFeature,
+);

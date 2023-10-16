@@ -4,7 +4,7 @@ import { V1weatherApi } from "generated/openapi";
 export interface WeatherArgs {
   startDate?: string;
   endDate?: string;
-  weatherLocationIds: string[];
+  weatherLocationIds?: string[];
 }
 
 const api = new V1weatherApi(apiConfiguration, undefined, axiosInstance);

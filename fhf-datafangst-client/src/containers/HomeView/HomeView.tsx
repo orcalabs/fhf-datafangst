@@ -22,6 +22,7 @@ import {
   CurrentTripMenu,
   MapControls,
   TripDetails,
+  WeatherLayer,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { FC, useEffect, useState } from "react";
@@ -243,7 +244,7 @@ export const HomeView: FC = () => {
             }),
       );
     } else {
-      dispatch(resetState);
+      dispatch(resetState());
     }
   }, [dispatch, selectedGrids]);
 
@@ -334,8 +335,17 @@ export const HomeView: FC = () => {
         {mapFilter.coastline && <ShorelineLayer />}
         {mapFilter.seamap && <SeamapLayer />}
         <HaulsLayer />
+
         {!selectedTrip && <TrackLayer />}
-        {(selectedTrip ?? selectedCurrentTrip) && <TripsLayer />}
+        {(selectedTrip ?? selectedCurrentTrip) && (
+          <>
+            <TripsLayer />
+            <WeatherLayer
+              key={selectedTrip?.tripId ?? "currentTrip"}
+              trip={(selectedTrip ?? selectedCurrentTrip)!}
+            />
+          </>
+        )}
         <FishingFacilitiesLayer />
       </Map>
       <LoadingScreen open={trackLoading} />

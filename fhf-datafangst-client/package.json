@@ -47,7 +47,8 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint . --ext ts,tsx",
-    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i https://api.dev.datafangst.orcalabs.no/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true"
+    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i https://api.dev.datafangst.orcalabs.no/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true",
+    "api-gen:local": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://localhost:8080/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true"
   },
   "eslintConfig": {
     "extends": [
