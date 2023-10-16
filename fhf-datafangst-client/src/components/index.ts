@@ -45,3 +45,8 @@ export { WeightFilter } from "./MainMenu/SearchFilters/WeightFilter";
 export { SortingFilter } from "./MainMenu/SearchFilters/SortingFilter";
 export { SearchFilters } from "./MainMenu/SearchFilters/SearchFilters";
 export { TripDetails } from "./TripDetails/TripDetails";
+export { BenchmarkCards } from "./BenchmarkData/BenchmarkCards";
+export { BenchmarkCard } from "./BenchmarkData/BenchmarkCard";
+export { HeaderMenuButtons as BmHeaderMenuButtons } from "./Benchmark/HeaderMenuButtons";
+export { SpeciesHistogram } from "./Graphs/SpeciesHistogram";
+export { BenchmarkModal } from "./BenchmarkData/BenchmarkModal";

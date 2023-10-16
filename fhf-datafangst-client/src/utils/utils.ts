@@ -140,6 +140,13 @@ export const createDurationString = (duration: Duration) => {
 
   return durationString[0].toUpperCase() + durationString.substring(1);
 };
+export const createDurationFromHours = (hours: number) =>
+  createDurationString(
+    intervalToDuration({
+      start: new Date(0),
+      end: new Date(hours * 3_600_000),
+    }),
+  );
 
 export const createObjectDurationString = (obj: {
   start: IntoDate;

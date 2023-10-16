@@ -13,6 +13,7 @@ import { MyGears, MyHauls, Trips, VesselInfo } from "components";
 import { FC, useState } from "react";
 import {
   getCurrentTrip,
+  getTrips,
   selectBwUserProfile,
   selectFishingFacilitySearch,
   selectHaulsMatrixSearch,
@@ -27,6 +28,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
+import SpeedIcon from "@mui/icons-material/Speed";
+import { useNavigate } from "react-router-dom";
+import { Ordering, TripSorting } from "generated/openapi";
+import { selectBenchmarkNumHistoric } from "store/benchmark";
 
 enum MenuTab {
   Trips = "trips",
@@ -65,6 +70,8 @@ export const MyPage: FC = () => {
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
+  const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
+  const navigate = useNavigate();
 
   const handleTabChange = (expandedTab: MenuTab) => {
     setExpanded(expandedTab);
@@ -210,6 +217,40 @@ export const MyPage: FC = () => {
           <MyGears />
         </AccordionDetails>
       </Accordion>
+      <Button
+        variant="contained"
+        sx={{
+          m: 0,
+          width: "100%",
+          py: 2,
+          px: 2.5,
+          justifyContent: "start",
+          color: "white",
+          boxShadow: "none",
+          bgcolor: "primary.main",
+        }}
+        onClick={() => {
+          navigate("/BenchmarkView");
+          dispatch(
+            getTrips({
+              vessels: [vessel],
+              sorting: [TripSorting.StopDate, Ordering.Desc],
+              limit: benchmarkHistoric,
+              offset: 0,
+            }),
+          );
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            "& svg": { mr: 2 },
+          }}
+        >
+          <SpeedIcon sx={{ color: "secondary.light", fontSize: 32 }} />
+        </Box>
+        <Typography variant="h6"> Min statistikk </Typography>
+      </Button>
     </Box>
   );
 };
