@@ -90,7 +90,7 @@ export const BenchmarkView: FC = () => {
     );
   });
   return (
-    <>
+    <Box sx={{ display: "grid", backgroundColor: "primary.main" }}>
       <GridContainer>
         <HeaderTrack>
           <Header />
@@ -109,6 +109,6 @@ export const BenchmarkView: FC = () => {
         <BenchmarkCards />
         <SpeciesHistogram />
       </Box>
-    </>
+    </Box>
   );
 };
