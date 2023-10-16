@@ -15,6 +15,7 @@ import {
 } from "store/benchmark";
 import { Theme } from "./ChartsTheme";
 import ReactEChart from "echarts-for-react";
+import { kilosOrTonsFormatter } from "utils";
 
 const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};
@@ -46,24 +47,15 @@ export const SpeciesHistogram: FC = () => {
     if (!trips) {
       return { data: {}, prevData: {} };
     }
-    const lastTrip: Trip = trips[0];
-    const hauls = lastTrip.hauls;
-    let data: Record<number, number> = {};
 
-    data = sumObjectValues(hauls);
-    // sort by weight
-    const prevData: Record<number, number> = {};
-    trips.slice(1, numHistoric).forEach((trip: any) => {
-      const tripData: Record<number, number> = sumObjectValues(trip.hauls);
+    const data = sumObjectValues(trips[0].hauls);
 
-      Object.keys(tripData).forEach((key: any) => {
-        prevData[key] = (prevData[key] || 0) + tripData[key];
-      });
-    });
+    const prevTrips = trips.slice(1, numHistoric);
+    const prevData = sumObjectValues(prevTrips.flatMap((t) => t.hauls));
+    for (const [key, value] of Object.entries(prevData)) {
+      prevData[+key] = value / prevTrips.length;
+    }
 
-    Object.keys(prevData).forEach((key: any) => {
-      prevData[key] = prevData[key] / trips.length;
-    });
     return { data, prevData };
   };
 
@@ -72,27 +64,13 @@ export const SpeciesHistogram: FC = () => {
       return { data: {}, prevData: {} };
     }
 
-    const lastTrip: Trip = trips[0];
-    const landing = lastTrip.delivery;
-    let data: Record<number, number> = {};
-    data = sumObjectValues([landing]);
+    const data = sumObjectValues([trips[0].delivery]);
 
-    const prevData: Record<number, number> = trips
-      .slice(1, numHistoric)
-      .map((trip) => {
-        const landing = trip.delivery;
-        return sumObjectValues([landing]);
-      })
-      .reduce((acc: Record<number, number>, curr: Record<number, number>) => {
-        Object.keys(curr).forEach((key: any) => {
-          acc[key] = (acc[key] || 0) + curr[key];
-        });
-        return acc;
-      }, {});
-
-    Object.keys(prevData).forEach((key: any) => {
-      prevData[key] = prevData[key] / trips.length;
-    });
+    const prevTrips = trips.slice(1, numHistoric);
+    const prevData = sumObjectValues(prevTrips.map((t) => t.delivery));
+    for (const [key, value] of Object.entries(prevData)) {
+      prevData[+key] = value / prevTrips.length;
+    }
 
     return { data, prevData };
   };
@@ -179,11 +157,10 @@ interface TooltipParams {
   value: number[];
 }
 const formatter = (data: TooltipParams[]) => {
-  const params = data[0];
+  const [species, prev, mean] = data[0].value;
 
-  return `<h3>${
-    params.value[0]
-  }</h3> <br/> <b> Forrige tur </b>: ${params.value[1].toFixed(
-    2,
-  )} kg <br/> <b>Snitt </b>: ${params.value[2].toFixed(2)} kg`;
+  return `<h3>${species}</h3>
+<b> Forrige tur </b>: ${kilosOrTonsFormatter(prev ?? 0)}
+<br/>
+<b>Snitt </b>: ${kilosOrTonsFormatter(mean ?? 0)}`;
 };
