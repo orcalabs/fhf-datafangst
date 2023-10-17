@@ -1,5 +1,5 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getUser, updateUser } from "./actions";
+import { getUser, updateUser, setSelectedVessels } from "./actions";
 import { AppState } from "store/state";
 
 export const userBuilder = (
@@ -19,4 +19,7 @@ export const userBuilder = (
     })
     .addCase(updateUser.fulfilled, (state, action) => {
       state.user = action.payload;
+    })
+    .addCase(setSelectedVessels, (state, action) => {
+      state.userVessels = action.payload;
     });
