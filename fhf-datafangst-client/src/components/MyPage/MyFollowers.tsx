@@ -1,17 +1,18 @@
 
 import { PersonAdd, PersonRemove } from "@mui/icons-material"
-import { Box, Divider, IconButton, Typography } from "@mui/material"
+import { Box, IconButton, } from "@mui/material"
 import { VesselFilter } from "components/Filters/VesselFilter"
 import { Vessel } from "generated/openapi"
 import { FC } from "react"
-import { selectVesselsByCallsign, useAppDispatch, useAppSelector, selectUser, selectUserVessels, setSelectedVessels, updateUser } from "store"
+import {  useAppDispatch, useAppSelector, selectUser, selectUserVessels, setSelectedVessels, updateUser, selectVesselsByFiskeridirId } from "store"
 import { VesselInfo } from "./VesselInfo"
 
 export const VesselFinder: FC = () => {
     const dispatch = useAppDispatch()
-    const vessels = useAppSelector(selectVesselsByCallsign)
+    const vessels = useAppSelector(selectVesselsByFiskeridirId)
     const followers = useAppSelector(selectUser);
     const selected_vessels = useAppSelector(selectUserVessels);
+
 
 
     const Content = () => selected_vessels.map((vessel) => {
@@ -28,7 +29,12 @@ export const VesselFinder: FC = () => {
                 }}
                 
                     onClick={() => {
-                    // dispatch(updateUser({ ...followers, following: isFollowing ? followers?.following?.filter((f) => f !== vessel?.fiskeridir.id) : [...followers?.following ?? [], vessel?.fiskeridir.id] })
+                        let follow_list = isFollowing ? followers?.following?.filter((f) => f !== vessel?.fiskeridir.id) : [...followers?.following ?? [], vessel?.fiskeridir.id]
+                        const following = follow_list?.map((f) => vessels[f]) ?? []
+
+                        dispatch(updateUser({
+                            following 
+                        }))
                     }} >
                     {!isFollowing ? <PersonAdd /> : <PersonRemove />}
                 </IconButton>
