@@ -1,56 +1,38 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import {
   BenchmarkCards,
   Header,
-  BmHeaderMenuButtons,
   SpeciesHistogram,
+  LocalLoadingProgress,
 } from "components";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";
 import {
+  getTrips,
+  selectBenchmarkNumHistoric,
   selectBwUserProfile,
   selectIsLoggedIn,
   selectTrips,
+  selectTripsLoading,
   selectVesselsByCallsign,
+  useAppDispatch,
   useAppSelector,
 } from "store";
+import { Ordering, TripSorting } from "generated/openapi";
+import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
+import { ArrowBackIos } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import theme from "app/theme";
 
-const GridContainer = (props: any) => (
+const GridMainArea = (props: any) => (
   <Box
     sx={{
       display: "grid",
-      gridTemplateColumns: "500px 1fr 500px",
-      gridTemplateRows: "48px 56px 1fr 100px",
-      position: "absolute",
-      width: "100%",
-      height: "100%",
-    }}
-  >
-    {props.children}
-  </Box>
-);
-
-const HeaderTrack = (props: any) => (
-  <Box
-    sx={{
+      bgcolor: "primary.main",
       gridColumnStart: 1,
       gridColumnEnd: 4,
-      gridRowStart: 1,
-      gridRowEnd: 2,
-    }}
-  >
-    {props.children}
-  </Box>
-);
-
-const HeaderButtonCell = (props: any) => (
-  <Box
-    sx={{
-      gridColumnStart: 1,
-      gridColumnEnd: 2,
-      gridRowStart: 1,
-      gridRowEnd: 2,
+      gridRowStart: 2,
+      gridRowEnd: 5,
     }}
   >
     {props.children}
@@ -58,59 +40,86 @@ const HeaderButtonCell = (props: any) => (
 );
 
 export const BenchmarkView: FC = () => {
-  const { signIn } = useAuth();
+  const { signIn, isLoading, userData } = useAuth();
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const profile = useAppSelector(selectBwUserProfile);
   const vesselInfo = profile?.vesselInfo;
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
-  const navigate = useNavigate();
   const trips = useAppSelector(selectTrips);
+  const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
+  const dispatch = useAppDispatch();
+  const tripsLoading = useAppSelector(selectTripsLoading);
+  const navigate = useNavigate();
 
-  if (!loggedIn) {
+  useEffect(() => {
+    if (vessel) {
+      dispatch(
+        getTrips({
+          vessels: [vessel],
+          sorting: [TripSorting.StopDate, Ordering.Desc],
+          limit: benchmarkHistoric,
+          offset: 0,
+        }),
+      );
+    }
+  }, [vessel]);
+
+  if (!vessel) {
+    return <></>;
+  }
+
+  if (!loggedIn && !isLoading && !userData) {
     signIn();
   }
 
-  if (!vessel) {
-    navigate("/");
-    return <p>No vessel associated with this user</p>;
-  }
   return (
-    <Box
-      sx={{
-        display: "grid",
-        backgroundColor: "primary.main",
-        height: "100vh",
-        width: "100vw",
-      }}
-    >
+    <>
       <GridContainer>
         <HeaderTrack>
           <Header />
         </HeaderTrack>
         <HeaderButtonCell>
-          <BmHeaderMenuButtons />
+          <Button
+            sx={{
+              borderRadius: 0,
+              borderBottom: `1px solid ${theme.palette.primary.dark}`,
+              p: 3,
+              height: "100%",
+              color: "white",
+              ":hover": {
+                bgcolor: "secondary.dark",
+                borderColor: "secondary.dark",
+              },
+              zIndex: 10000,
+            }}
+            onClick={() => navigate("/")}
+            startIcon={<ArrowBackIos />}
+          >
+            <Typography variant="h6">Tilbake til kart</Typography>
+          </Button>
         </HeaderButtonCell>
+        <GridMainArea>
+          {tripsLoading && <LocalLoadingProgress />}
+          {trips?.length && (
+            <Box>
+              <BenchmarkCards />
+              <SpeciesHistogram />
+            </Box>
+          )}
+          {!tripsLoading && !trips?.length && (
+            <Box sx={{ display: "grid", placeItems: "center" }}>
+              <Typography color="text.secondary" variant="h2">
+                Fant ingen turer for ditt fartøy
+              </Typography>
+              <Typography sx={{ pt: 3 }} color="text.secondary" variant="h5">
+                For å kunne gi deg statistikk for dine turer må du ha levert
+                landingssedler eller ERS-meldinger.
+              </Typography>
+            </Box>
+          )}
+        </GridMainArea>
       </GridContainer>
-      {trips?.length && (
-        <Box>
-          <BenchmarkCards />
-          <SpeciesHistogram />
-        </Box>
-      )}
-      {(!trips || trips.length === 0) && (
-        <Box sx={{ justifySelf: "center" }}>
-          <Typography color="text.secondary" variant="h2">
-            {" "}
-            Du har ingen registrerte turer.
-          </Typography>
-          <Typography color="text.secondary" variant="h5">
-            {" "}
-            For at vi skal kunne gi deg statistikk må du ha registrert noen
-            turer.
-          </Typography>
-        </Box>
-      )}
-    </Box>
+    </>
   );
 };

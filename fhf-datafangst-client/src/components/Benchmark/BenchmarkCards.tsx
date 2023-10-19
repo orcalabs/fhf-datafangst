@@ -1,5 +1,4 @@
 import { FC } from "react";
-
 import Box from "@mui/material/Box";
 import { BenchmarkCard } from "./BenchmarkCard";
 import { selectTrips, useAppDispatch, useAppSelector } from "store";
@@ -72,29 +71,34 @@ export const BenchmarkCards: FC = () => {
       title: "Total tid",
       description:
         "Total tid er regnet som tiden mellom havneavgang og havneanløp.",
-      yAxis: totalTimeMean > 24 ? totalTimes.map((t) => t / 24) : totalTimes,
+      yAxis:
+        totalTimeMean > 24
+          ? totalTimes.map((t) => Number((t / 24).toFixed(2)))
+          : totalTimes.map((t) => Number(t.toFixed(2))),
       metric: totalTimeMean > 24 ? "Dager" : "Timer",
       xAxis,
     },
     [BenchmarkType.FishingHours]: {
-      title: "Fiske tid",
+      title: "Fisketid",
       description:
-        "Fiske tid er regnet som summen av tiden brukt under hver fangstmelding.",
+        "Fisketid er regnet som summen av tiden brukt under hver fangstmelding.",
       metric: fishingHoursMean > 24 ? "Dager" : "Timer",
       yAxis:
-        fishingHoursMean > 24 ? fishingHours.map((t) => t / 24) : fishingHours,
+        fishingHoursMean > 24
+          ? fishingHours.map((t) => Number((t / 24).toFixed(2)))
+          : fishingHours.map((t) => Number(t.toFixed(2))),
       xAxis,
     },
 
     [BenchmarkType.FishingDistance]: {
-      title: "Fiske distanse",
+      title: "Fiskedistanse",
       description:
-        "Fiske distanse er regnet ut basert på vms/ais meldingene som ble sendt under hver fangstmelding",
-      metric: fishingDistanceMean > 1852 ? "Nautisk Mil" : "Meter",
+        "Fiskedistanse er regnet ut basert på VMS og AIS-meldingene som ble sendt under hver fangstmelding.",
+      metric: fishingDistanceMean > 1852 ? "Nautiske mil" : "Meter",
       yAxis:
         fishingDistanceMean > 1852
-          ? fishingDistance.map((d) => d / 1852)
-          : fishingDistance,
+          ? fishingDistance.map((d) => Number((d / 1852).toFixed(2)))
+          : fishingDistance.map((d) => Number(d.toFixed(2))),
       xAxis,
     },
     [BenchmarkType.FishingWeight]: {
@@ -103,8 +107,8 @@ export const BenchmarkCards: FC = () => {
       metric: fishingWeightMean > 1000 ? "Tonn" : "Kilo",
       yAxis:
         fishingWeightMean > 1000
-          ? fishingWeight.map((w) => w / 1000)
-          : fishingWeight,
+          ? fishingWeight.map((w) => Number((w / 1000).toFixed(2)))
+          : fishingWeight.map((w) => Number(w.toFixed(2))),
       xAxis,
     },
   };
@@ -121,7 +125,7 @@ export const BenchmarkCards: FC = () => {
     <Grid
       container
       spacing={3}
-      sx={{ marginTop: "3vh", backgroundColor: "primary.main" }}
+      sx={{ padding: 3, backgroundColor: "primary.main" }}
     >
       <Grid item xs={6}>
         <Box>
@@ -137,7 +141,7 @@ export const BenchmarkCards: FC = () => {
             secondary_description={
               "Gjennomsnitt siste " + totalTimes.length.toString() + " turer"
             }
-            tooltip="Regnet ut basert på dine por og dep meldinger."
+            tooltip="Regnet ut basert på dine DEP og POR meldinger"
             onClick={() => handleClick(BenchmarkType.TotalTime)}
           />
         </Box>
@@ -145,7 +149,7 @@ export const BenchmarkCards: FC = () => {
       <Grid item xs={6}>
         <Box>
           <BenchmarkCard
-            title="Fiske tid"
+            title="Fisketid"
             avatar={<PhishingRoundedIcon sx={{ color: "text.secondary" }} />}
             value={createDurationFromHours(fishingHours[0])}
             description="Siste tur"
@@ -156,7 +160,7 @@ export const BenchmarkCards: FC = () => {
             secondary_description={
               "Gjennomsnitt siste " + fishingHours.length.toString() + " turer"
             }
-            tooltip="Regnet ut basert på dine fangstmeldinger."
+            tooltip="Regnet ut basert på dine fangstmeldinger"
             onClick={() => handleClick(BenchmarkType.FishingHours)}
           />
         </Box>
@@ -164,7 +168,7 @@ export const BenchmarkCards: FC = () => {
       <Grid item xs={6}>
         <Box>
           <BenchmarkCard
-            title="Fiske distanse"
+            title="Fiskedistanse"
             avatar={<StraightenRoundedIcon sx={{ color: "text.secondary" }} />}
             value={(fishingDistanceMean > 1852
               ? fishingDistance[0] / 1852
@@ -183,8 +187,8 @@ export const BenchmarkCards: FC = () => {
               fishingDistance.length.toString() +
               " turer"
             }
-            metric={fishingDistanceMean > 1852 ? "Nautisk Mil" : "Meter"}
-            tooltip="Regnet ut basert på dine fangstmeldinger."
+            metric={fishingDistanceMean > 1852 ? "nautiske mil" : "meter"}
+            tooltip="Regnet ut basert på dine fangstmeldinger"
             onClick={() => handleClick(BenchmarkType.FishingDistance)}
           />
         </Box>
@@ -209,8 +213,8 @@ export const BenchmarkCards: FC = () => {
             secondary_description={
               "Gjennomsnitt siste " + fishingWeight.length.toString() + " turer"
             }
-            metric={fishingWeightMean > 1000 ? "Tonn" : "Kilo"}
-            tooltip="Data basert på levert vekt."
+            metric={fishingWeightMean > 1000 ? "tonn" : "kilo"}
+            tooltip="Data basert på levert vekt"
             onClick={() => handleClick(BenchmarkType.FishingWeight)}
           />
         </Box>

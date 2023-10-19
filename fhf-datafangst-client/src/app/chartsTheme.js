@@ -1,4 +1,4 @@
-export const Theme = {
+const chartsTheme = {
   color: [
     "#f9a976",
     "#e81f76",
@@ -366,3 +366,5 @@ export const Theme = {
     },
   },
 };
+
+export default chartsTheme;
