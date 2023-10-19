@@ -1,5 +1,5 @@
 import { Box, Modal, Typography } from "@mui/material";
-import { HistoricLineChart } from "components/Graphs/HistoricLineChart";
+import { HistoricLineChart } from "components";
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "store";
 import { selectBenchmarkModal } from "store/benchmark";
@@ -25,12 +25,7 @@ export const BenchmarkModal: FC = () => {
   };
 
   return (
-    <Modal
-      open={!!benchmarkModal}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+    <Modal open={!!benchmarkModal} onClose={handleClose}>
       <Box sx={style}>
         {benchmarkModal?.title && (
           <Typography

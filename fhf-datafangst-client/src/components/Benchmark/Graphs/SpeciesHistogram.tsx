@@ -1,4 +1,10 @@
-import { Box, Button, ButtonGroup, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
 import { FC } from "react";
 import {
   selectSpeciesFiskeridir,
@@ -13,9 +19,11 @@ import {
   selectBenchmarkNumHistoric,
   setBenchmarkDataSource,
 } from "store/benchmark";
-import { Theme } from "./ChartsTheme";
 import ReactEChart from "echarts-for-react";
 import { kilosOrTonsFormatter } from "utils";
+import chartsTheme from "app/chartsTheme";
+import { renderToStaticMarkup } from "react-dom/server";
+import theme from "app/theme";
 
 const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};
@@ -36,12 +44,7 @@ export const SpeciesHistogram: FC = () => {
   const trips = useAppSelector(selectTrips);
   const species = useAppSelector(selectSpeciesFiskeridir);
   const numHistoric = useAppSelector(selectBenchmarkNumHistoric);
-
   const selectedDatasource = useAppSelector(selectBenchmarkDataSource);
-
-  if (!trips) {
-    return <>No trips found</>;
-  }
 
   const generateHaulData = (trips?: Trip[]) => {
     if (!trips) {
@@ -82,44 +85,67 @@ export const SpeciesHistogram: FC = () => {
 
   return (
     <>
-      <Divider sx={{ mb: 2 }}>
-        <Typography variant="h3" color="text.secondary">
-          {selectedDatasource ? "Fangstdata" : "Landingsdata"}
-        </Typography>
-      </Divider>
+      <Divider sx={{ mb: 2 }} />
+
       <Box
         sx={{
+          display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          "& .MuiToggleButtonGroup-root": {
+            width: 400,
+          },
+          "& .MuiToggleButtonGroup-grouped": {
+            borderRadius: 0,
+            width: 400,
+            textTransform: "none",
+          },
+          "& .MuiToggleButton-root": {
+            color: "white",
+            px: 2,
+            fontSize: "1rem",
+            width: "50%",
+            border: `1px solid ${theme.palette.primary.dark}`,
+            "&.Mui-selected": {
+              backgroundColor: "primary.dark",
+              color: "white",
+              "&:hover": { bgcolor: "primary.dark" },
+            },
+            "&:hover": { bgcolor: "secondary.dark" },
+          },
         }}
       >
-        <ButtonGroup
-          variant="contained"
-          aria-label="outlined primary button group"
-          sx={{ margin: 2, alignSelf: "center" }}
+        <Typography variant="h3" color="text.secondary">
+          Fangst
+        </Typography>
+        <ToggleButtonGroup
+          sx={{ margin: 3 }}
+          size="small"
+          exclusive
+          value={selectedDatasource}
+          onChange={(
+            _: React.MouseEvent<HTMLElement>,
+            newSource: BenchmarkDataSource,
+          ) => {
+            dispatch(setBenchmarkDataSource(newSource));
+          }}
         >
-          <Button
-            onClick={() =>
-              dispatch(setBenchmarkDataSource(BenchmarkDataSource.Hauls))
-            }
-          >
-            Fangstdata
-          </Button>
-          <Button
-            onClick={() =>
-              dispatch(setBenchmarkDataSource(BenchmarkDataSource.Landings))
-            }
-          >
+          <ToggleButton value={BenchmarkDataSource.Landings}>
             Landingsdata
-          </Button>
-        </ButtonGroup>
-        {data && (
-          <ReactEChart
-            option={datasetOption(data, prevData, species)}
-            theme={Theme}
-          />
-        )}
+          </ToggleButton>
+          <ToggleButton value={BenchmarkDataSource.Hauls}>
+            Fangstdata (DCA)
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Box>
+
+      {data && (
+        <ReactEChart
+          option={datasetOption(data, prevData, species)}
+          theme={chartsTheme}
+        />
+      )}
     </>
   );
 };
@@ -158,9 +184,26 @@ interface TooltipParams {
 }
 const formatter = (data: TooltipParams[]) => {
   const [species, prev, mean] = data[0].value;
+  const tooltipContent = (
+    <Box>
+      <Typography
+        style={{
+          margin: 0,
+          marginBottom: 8,
+          color: `${theme.palette.secondary.dark}`,
+        }}
+        variant="h3"
+      >
+        {species}
+      </Typography>
+      <Typography style={{ margin: 0 }}>
+        <b>Forrige tur:</b> {kilosOrTonsFormatter(prev ?? 0)}
+      </Typography>
+      <Typography style={{ margin: 0 }}>
+        <b>Snitt:</b> {kilosOrTonsFormatter(mean ?? 0)}
+      </Typography>
+    </Box>
+  );
 
-  return `<h3>${species}</h3>
-<b> Forrige tur </b>: ${kilosOrTonsFormatter(prev ?? 0)}
-<br/>
-<b>Snitt </b>: ${kilosOrTonsFormatter(mean ?? 0)}`;
+  return renderToStaticMarkup(tooltipContent);
 };

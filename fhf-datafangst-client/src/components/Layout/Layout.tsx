@@ -42,6 +42,10 @@ export const Layout: React.FC<Props> = ({ children }) => {
     // dispatch(setFishingFacilitiesSearch({}));
   }, [dispatch]);
 
+  if (isLoading) {
+    return <></>;
+  }
+
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <main>{children}</main>

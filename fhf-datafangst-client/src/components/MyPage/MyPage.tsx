@@ -13,7 +13,6 @@ import { MyGears, MyHauls, Trips, VesselInfo } from "components";
 import { FC, useState } from "react";
 import {
   getCurrentTrip,
-  getTrips,
   selectBwUserProfile,
   selectFishingFacilitySearch,
   selectHaulsMatrixSearch,
@@ -30,8 +29,6 @@ import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
 import SpeedIcon from "@mui/icons-material/Speed";
 import { useNavigate } from "react-router-dom";
-import { Ordering, TripSorting } from "generated/openapi";
-import { selectBenchmarkNumHistoric } from "store/benchmark";
 
 enum MenuTab {
   Trips = "trips",
@@ -70,7 +67,6 @@ export const MyPage: FC = () => {
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
-  const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const navigate = useNavigate();
 
   const handleTabChange = (expandedTab: MenuTab) => {
@@ -225,20 +221,13 @@ export const MyPage: FC = () => {
           py: 2,
           px: 2.5,
           justifyContent: "start",
+          borderRadius: 0,
           color: "white",
           boxShadow: "none",
           bgcolor: "primary.main",
         }}
         onClick={() => {
-          navigate("/BenchmarkView");
-          dispatch(
-            getTrips({
-              vessels: [vessel],
-              sorting: [TripSorting.StopDate, Ordering.Desc],
-              limit: benchmarkHistoric,
-              offset: 0,
-            }),
-          );
+          navigate("/benchmark");
         }}
       >
         <Box

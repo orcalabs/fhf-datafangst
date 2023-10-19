@@ -24,6 +24,7 @@ import {
   TripDetails,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
+import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
 import { FC, useEffect, useState } from "react";
 import {
   resetState,
@@ -64,47 +65,6 @@ const initialMapFilter: MapFilter = {
   coastline: false,
   seamap: false,
 };
-
-const GridContainer = (props: any) => (
-  <Box
-    sx={{
-      display: "grid",
-      gridTemplateColumns: "500px 1fr 500px",
-      gridTemplateRows: "48px 56px 1fr 100px",
-      position: "absolute",
-      width: "100%",
-      height: "100%",
-    }}
-  >
-    {props.children}
-  </Box>
-);
-
-const HeaderTrack = (props: any) => (
-  <Box
-    sx={{
-      gridColumnStart: 1,
-      gridColumnEnd: 4,
-      gridRowStart: 1,
-      gridRowEnd: 2,
-    }}
-  >
-    {props.children}
-  </Box>
-);
-
-const HeaderButtonCell = (props: any) => (
-  <Box
-    sx={{
-      gridColumnStart: 1,
-      gridColumnEnd: 2,
-      gridRowStart: 1,
-      gridRowEnd: 2,
-    }}
-  >
-    {props.children}
-  </Box>
-);
 
 const MenuArea = (props: any) => (
   <Box
@@ -243,7 +203,7 @@ export const HomeView: FC = () => {
             }),
       );
     } else {
-      dispatch(resetState);
+      dispatch(resetState());
     }
   }, [dispatch, selectedGrids]);
 

@@ -16,3 +16,4 @@ export * from "./track";
 export * from "./fishingFacility";
 export * from "./user";
 export * from "./landing";
+export * from "./benchmark";
