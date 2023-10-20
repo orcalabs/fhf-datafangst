@@ -41,7 +41,9 @@ const VesselFilterInner = memo(
     return (
       <>
         <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-          Fartøy
+          {viewState !== MenuViewState.MyPage
+            ? "Fartøy"
+            : "Finn fartøy å følge"}
         </Typography>
         <Autocomplete
           sx={{
@@ -53,7 +55,11 @@ const VesselFilterInner = memo(
               },
             },
             "& .MuiAutocomplete-inputRoot": {
-              color: viewState === MenuViewState.Overview ? "white" : "black",
+              color:
+                viewState === MenuViewState.Overview ||
+                viewState === MenuViewState.MyPage
+                  ? "white"
+                  : "black",
             },
             "& .MuiInputBase-root": { pb: "6px" },
             "& .MuiChip-filled": {
@@ -83,7 +89,10 @@ const VesselFilterInner = memo(
             <TextField
               {...params}
               variant={
-                viewState === MenuViewState.Overview ? "standard" : "outlined"
+                viewState === MenuViewState.Overview ||
+                viewState === MenuViewState.MyPage
+                  ? "standard"
+                  : "outlined"
               }
               placeholder={
                 value ?? viewState !== MenuViewState.Overview

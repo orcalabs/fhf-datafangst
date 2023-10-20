@@ -31,7 +31,7 @@ import SpeedIcon from "@mui/icons-material/Speed";
 import { useNavigate } from "react-router-dom";
 import { Ordering, TripSorting } from "generated/openapi";
 import { selectBenchmarkNumHistoric } from "store/benchmark";
-import { VesselFinder } from "./MyFollowers";
+import { FollowList } from "./MyFollowers";
 import { PeopleOutline } from "@mui/icons-material";
 
 enum MenuTab {
@@ -219,6 +219,30 @@ export const MyPage: FC = () => {
           <MyGears />
         </AccordionDetails>
       </Accordion>
+      <Accordion
+        square
+        disableGutters
+        sx={accordionSx}
+        expanded={expanded === MenuTab.Following}
+        onChange={() => handleTabChange(MenuTab.Following)}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              "& svg": { mr: 2 },
+            }}
+          >
+            <PeopleOutline sx={{ color: "secondary.light", fontSize: 32 }} />
+          </Box>
+          <Typography variant="h6"> Min følgeliste </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ pb: 0 }}>
+          <FollowList />
+        </AccordionDetails>
+      </Accordion>
       <Button
         variant="contained"
         sx={{
@@ -253,30 +277,6 @@ export const MyPage: FC = () => {
         </Box>
         <Typography variant="h6"> Min statistikk </Typography>
       </Button>
-      <Accordion
-        square
-        disableGutters
-        sx={accordionSx}
-        expanded={expanded === MenuTab.Following}
-        onChange={() => handleTabChange(MenuTab.Following)}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              "& svg": { mr: 2 },
-            }}
-          >
-            <PeopleOutline sx={{ color: "secondary.light", fontSize: 32 }} />
-          </Box>
-          <Typography variant="h6"> Mine følgere </Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ pb: 0 }}>
-          <VesselFinder />
-        </AccordionDetails>
-      </Accordion>
     </Box>
   );
 };
