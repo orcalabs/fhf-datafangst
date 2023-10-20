@@ -13,12 +13,14 @@ import {
   selectVesselsByFiskeridirId,
 } from "store";
 import { VesselInfo } from "./VesselInfo";
+import { useAuth } from "oidc-react";
 
 interface ContentProps {
   vessels: Vessel[];
 }
 
 export const FollowList: FC = () => {
+  const { userData } = useAuth();
   const dispatch = useAppDispatch();
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const user = useAppSelector(selectUser);
@@ -68,6 +70,7 @@ export const FollowList: FC = () => {
                   dispatch(
                     updateUser({
                       following,
+                      accessToken: userData?.access_token,
                     }),
                   );
                 }}
