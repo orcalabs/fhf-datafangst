@@ -7,8 +7,3 @@ export const selectUserLoading = createSelector(
 );
 
 export const selectUser = createSelector(selectAppState, (state) => state.user);
-
-export const selectUserVessels = createSelector(
-  selectAppState,
-  (state) => state.userVessels,
-);
