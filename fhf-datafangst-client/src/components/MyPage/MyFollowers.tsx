@@ -2,13 +2,11 @@ import { PersonAdd, PersonRemove } from "@mui/icons-material";
 import { Box, Grid, IconButton } from "@mui/material";
 import { VesselFilter } from "components/Filters/VesselFilter";
 import { Vessel } from "generated/openapi";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   useAppDispatch,
   useAppSelector,
   selectUser,
-  selectUserVessels,
-  setSelectedVessels,
   updateUser,
   selectVesselsByFiskeridirId,
 } from "store";
@@ -24,7 +22,7 @@ export const FollowList: FC = () => {
   const dispatch = useAppDispatch();
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const user = useAppSelector(selectUser);
-  const selectedVessels = useAppSelector(selectUserVessels);
+  const [selectedVessels, setSelectedVessels] = useState<Vessel[]>(); // useAppSelector(selectUserVessels);
 
   const followList = user?.following.map(
     (fiskeriDirId) => vessels[fiskeriDirId],
@@ -91,10 +89,10 @@ export const FollowList: FC = () => {
 
   const onChange = (vessels?: Vessel[]) => {
     if (vessels === undefined) {
-      dispatch(setSelectedVessels([]));
+      setSelectedVessels([]);
       return;
     }
-    dispatch(setSelectedVessels(vessels));
+    setSelectedVessels(vessels);
   };
   return (
     <Box sx={{}}>
@@ -132,7 +130,9 @@ export const FollowList: FC = () => {
           margin: "5px",
         }}
       >
-        {selectedVessels.length > 0 && <Content vessels={selectedVessels} />}
+        {selectedVessels && selectedVessels.length > 0 && (
+          <Content vessels={selectedVessels} />
+        )}
       </Box>
     </Box>
   );
