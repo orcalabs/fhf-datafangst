@@ -14,7 +14,7 @@ interface BenchmarkCardProps {
   secondary_value?: number | string;
   tooltip?: string;
   secondary_description?: string;
-  third_value?: number;
+  third_value?: number | string;
   third_description?: string;
   avatar: any;
   onClick?: () => void;
@@ -55,14 +55,14 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
                 </Typography>
               </Grid>
               {props.secondary_description && (
-                <Grid item xs={6}>
+                <Grid item xs={3}>
                   <Typography color="text.secondary">
                     {props.secondary_description}
                   </Typography>
                 </Grid>
               )}
               {props.secondary_description && (
-                <Grid item xs={6}>
+                <Grid item xs={3}>
                   <Typography variant="h4" color="white">
                     {props.secondary_value} {props.metric}
                   </Typography>
@@ -77,8 +77,8 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
               )}
               {props.third_value && (
                 <Grid item xs={3}>
-                  <Typography variant="h4">
-                    {props.third_value.toFixed(2)} {props.metric}
+                  <Typography variant="h4" color="white">
+                    {props.third_value} {props.metric}
                   </Typography>
                 </Grid>
               )}

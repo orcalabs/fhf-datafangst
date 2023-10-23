@@ -9,13 +9,16 @@ import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";
 import {
   MenuViewState,
+  getBenchmarkData,
   getTrips,
   selectBenchmarkNumHistoric,
   selectBwUserProfile,
   selectIsLoggedIn,
   selectTrips,
   selectTripsLoading,
+  selectUser,
   selectVesselsByCallsign,
+  selectVesselsByFiskeridirId,
   setViewState,
   useAppDispatch,
   useAppSelector,
@@ -64,12 +67,16 @@ export const BenchmarkView: FC = () => {
   const profile = useAppSelector(selectBwUserProfile);
   const vesselInfo = profile?.vesselInfo;
   const vessels = useAppSelector(selectVesselsByCallsign);
+  const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId)
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const trips = useAppSelector(selectTrips);
+  const user = useAppSelector(selectUser);
   const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const dispatch = useAppDispatch();
   const tripsLoading = useAppSelector(selectTripsLoading);
   const navigate = useNavigate();
+
+  const followVessels = user?.following.map((id)=> fiskeridirVessels[id]);
 
   useEffect(() => {
     dispatch(setViewState(MenuViewState.Benchmark));
@@ -82,6 +89,18 @@ export const BenchmarkView: FC = () => {
           offset: 0,
         }),
       );
+    }
+    if (followVessels){
+      followVessels.forEach((vessel) => {
+        dispatch(
+          getBenchmarkData({
+            vessels: [vessel],
+            sorting: [TripSorting.StopDate, Ordering.Desc],
+            limit: benchmarkHistoric,
+            offset: 0,
+          })
+        )
+      })
     }
   }, [vessel]);
 

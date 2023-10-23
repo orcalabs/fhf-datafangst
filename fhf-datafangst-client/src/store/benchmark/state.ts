@@ -1,3 +1,5 @@
+import { Trip } from "generated/openapi";
+
 export interface BenchmarkModalParams {
   title?: string;
   description?: string;
@@ -13,7 +15,8 @@ export enum BenchmarkDataSource {
 
 export interface BenchmarkState {
   benchmarkModal?: BenchmarkModalParams;
-  benchmarkHistoric?: number[];
+  benchmarkTrips: Record<number, Trip[]>
+  benchmarkHistoric?: Record<string,number[]>;
   benchmarkNumHistoric: number;
   benchmarkDataSource: BenchmarkDataSource;
 }
@@ -21,6 +24,7 @@ export interface BenchmarkState {
 export const initialBenchmarkState: BenchmarkState = {
   benchmarkModal: undefined,
   benchmarkHistoric: undefined,
+  benchmarkTrips: {},
   benchmarkNumHistoric: 10,
   benchmarkDataSource: BenchmarkDataSource.Landings,
 };
