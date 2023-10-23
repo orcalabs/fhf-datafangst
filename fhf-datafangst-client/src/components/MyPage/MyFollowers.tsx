@@ -8,7 +8,7 @@ import { FollowListItems } from "./FollowListItems";
 export const FollowList: FC = () => {
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const user = useAppSelector(selectUser);
-  const [selectedVessels, setSelectedVessels] = useState<Vessel[]>(); // useAppSelector(selectUserVessels);
+  const [selectedVessels, setSelectedVessels] = useState<Vessel[]>();
 
   const followList = user?.following.map(
     (fiskeriDirId) => vessels[fiskeriDirId],
