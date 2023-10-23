@@ -17,3 +17,7 @@ export const selectBenchmarkHistoric = createSelector(
   selectAppState,
   (state) => state.benchmarkHistoric,
 );
+export const selectBenchmarkTrips = createSelector(
+  selectAppState,
+  (state) => state.benchmarkTrips,
+)

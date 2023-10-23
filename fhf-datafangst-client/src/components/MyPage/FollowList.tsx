@@ -29,7 +29,7 @@ export const FollowList: FC = () => {
           borderRadius: "5px",
           padding: "5px",
           margin: "5px",
-          "overflow-y": "auto",
+          overflowY: "auto",
         }}
       >
         {followList && <FollowListItems vessels={followList} />}
@@ -58,7 +58,7 @@ export const FollowList: FC = () => {
           padding: "5px",
           paddingBottom: "20px",
           margin: "5px",
-          "overflow-y": "auto",
+          overflowY: "auto",
         }}
       >
         {selectedVessels && selectedVessels.length > 0 && (

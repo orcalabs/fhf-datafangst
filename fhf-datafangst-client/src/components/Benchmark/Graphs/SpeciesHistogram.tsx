@@ -17,6 +17,7 @@ import {
   BenchmarkDataSource,
   selectBenchmarkDataSource,
   selectBenchmarkNumHistoric,
+  selectBenchmarkTrips,
   setBenchmarkDataSource,
 } from "store/benchmark";
 import ReactEChart from "echarts-for-react";
@@ -45,10 +46,12 @@ export const SpeciesHistogram: FC = () => {
   const species = useAppSelector(selectSpeciesFiskeridir);
   const numHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const selectedDatasource = useAppSelector(selectBenchmarkDataSource);
+  const followTrips = useAppSelector(selectBenchmarkTrips)
+  const followTripsList = Object.values(followTrips).reduce((acc: Trip[], pre: Trip[]) => [...pre, ...acc], []);
 
-  const generateHaulData = (trips?: Trip[]) => {
-    if (!trips) {
-      return { data: {}, prevData: {} };
+  const generateHaulData = (trips?: Trip[], followTrips? : Trip[]) => {
+    if (!trips || !followTrips) {
+      return { data: {}, prevData: {}, followData: {} };
     }
 
     const data = sumObjectValues(trips[0].hauls);
@@ -58,13 +61,16 @@ export const SpeciesHistogram: FC = () => {
     for (const [key, value] of Object.entries(prevData)) {
       prevData[+key] = value / prevTrips.length;
     }
-
-    return { data, prevData };
+    const followData = sumObjectValues(followTrips.flatMap((t) => t.hauls));
+    for (const [key, value] of Object.entries(followData)) {
+      followData[+key] = value / followTrips.length;
+    }
+    return { data, prevData, followData };
   };
 
-  const generateLandingData = (trips?: Trip[]) => {
-    if (!trips) {
-      return { data: {}, prevData: {} };
+  const generateLandingData = (trips?: Trip[], followTrips? : Trip[]) => {
+    if (!trips || !followTrips) {
+      return { data: {}, prevData: {}, followData: {} };
     }
 
     const data = sumObjectValues([trips[0].delivery]);
@@ -75,13 +81,18 @@ export const SpeciesHistogram: FC = () => {
       prevData[+key] = value / prevTrips.length;
     }
 
-    return { data, prevData };
+    const followData = sumObjectValues(followTrips?.map((t) => t.delivery));
+    for (const [key, value] of Object.entries(followData)) {
+      followData[+key] = value / followTrips.length;
+    }
+    return { data, prevData, followData };
   };
 
-  const { data, prevData } =
+
+  const { data, prevData, followData } =
     selectedDatasource === BenchmarkDataSource.Hauls
-      ? generateHaulData(trips)
-      : generateLandingData(trips);
+      ? generateHaulData(trips, followTripsList)
+      : generateLandingData(trips, followTripsList);
 
   return (
     <>
@@ -142,7 +153,7 @@ export const SpeciesHistogram: FC = () => {
 
       {data && (
         <ReactEChart
-          option={datasetOption(data, prevData, species)}
+          option={datasetOption(data, prevData, followData, species, numHistoric)}
           theme={chartsTheme}
         />
       )}
@@ -153,7 +164,9 @@ export const SpeciesHistogram: FC = () => {
 const datasetOption = (
   a: Record<number, number>,
   b: Record<number, number>,
+  c: Record<number, number>,
   species: SpeciesFiskeridir[],
+  numHistoric: number,
 ) => ({
   legend: {},
   tooltip: {
@@ -165,18 +178,19 @@ const datasetOption = (
   },
   dataset: {
     source: [
-      ["Art", "Forrige tur", "Snitt"],
+      ["Art", `Siste ${numHistoric} turer`, "Snitt",`Siste ${numHistoric} fulgtes turer`],
       ...getDictSortedOnValue(a).map((key) => [
         species.find((s: SpeciesFiskeridir) => s.id === parseInt(key))?.name,
         a[+key],
         b[+key],
+        c[+key],
       ]),
     ],
   },
 
   xAxis: { type: "category" },
   yAxis: { gridIndex: 0, name: "Kilo" },
-  series: [{ type: "bar" }, { type: "bar" }],
+  series: [{ type: "bar" }, { type: "bar" }, {type: "bar"}],
 });
 
 interface TooltipParams {

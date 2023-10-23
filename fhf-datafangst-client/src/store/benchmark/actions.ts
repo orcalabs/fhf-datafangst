@@ -5,7 +5,7 @@ import { BenchmarkDataSource, BenchmarkModalParams } from "./state";
 export interface BenchmarkHistoricParams {
   metric: string;
   xAxis: string[];
-  data: number[];
+  data: Record<string, number[]>;
 }
 
 export const getBenchmarkData = createAsyncThunk(
