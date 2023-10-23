@@ -21,7 +21,7 @@ export const HeaderTrack = (props: any) => (
       gridColumnStart: 1,
       gridColumnEnd: 4,
       gridRowStart: 1,
-      gridRowEnd: 2,
+      gridRowEnd: 1,
     }}
   >
     {props.children}
@@ -34,7 +34,7 @@ export const HeaderButtonCell = (props: any) => (
       gridColumnStart: 1,
       gridColumnEnd: 2,
       gridRowStart: 1,
-      gridRowEnd: 2,
+      gridRowEnd: 1,
     }}
   >
     {props.children}

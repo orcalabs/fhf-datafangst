@@ -18,23 +18,29 @@ export const FollowList: FC = () => {
     setSelectedVessels(vessels ?? []);
   };
   return (
-    <Box sx={{}}>
+    <Box sx={{ overflow: "hidden" }}>
       <Box
         sx={{
           width: "100%",
-          height: "100%",
+          height: "50vh",
           color: "black",
           boxShadow: "none",
           borderColor: "primary.dark",
           borderRadius: "5px",
           padding: "5px",
           margin: "5px",
+          "overflow-y": "auto",
         }}
       >
         {followList && <FollowListItems vessels={followList} />}
       </Box>
 
-      <Box sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}>
+      <Box
+        sx={{
+          "& .MuiIconButton-root": { color: "text.secondary" },
+          margin: "5px",
+        }}
+      >
         <VesselFilter
           onChange={onChange}
           value={selectedVessels}
@@ -44,13 +50,15 @@ export const FollowList: FC = () => {
       <Box
         sx={{
           width: "100%",
-          height: "100%",
+          height: "40vh",
           color: "black",
           boxShadow: "none",
           borderColor: "primary.dark",
           borderRadius: "5px",
           padding: "5px",
+          paddingBottom: "20px",
           margin: "5px",
+          "overflow-y": "auto",
         }}
       >
         {selectedVessels && selectedVessels.length > 0 && (

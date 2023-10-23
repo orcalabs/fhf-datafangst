@@ -41,7 +41,7 @@ const VesselFilterInner = memo(
     return (
       <>
         <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-          {viewState !== MenuViewState.MyPage
+          {viewState !== MenuViewState.Benchmark
             ? "Fartøy"
             : "Finn fartøy å følge"}
         </Typography>
@@ -57,7 +57,7 @@ const VesselFilterInner = memo(
             "& .MuiAutocomplete-inputRoot": {
               color:
                 viewState === MenuViewState.Overview ||
-                viewState === MenuViewState.MyPage
+                viewState === MenuViewState.Benchmark
                   ? "white"
                   : "black",
             },
@@ -90,7 +90,7 @@ const VesselFilterInner = memo(
               {...params}
               variant={
                 viewState === MenuViewState.Overview ||
-                viewState === MenuViewState.MyPage
+                viewState === MenuViewState.Benchmark
                   ? "standard"
                   : "outlined"
               }

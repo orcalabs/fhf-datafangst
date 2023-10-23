@@ -29,8 +29,6 @@ import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
 import SpeedIcon from "@mui/icons-material/Speed";
 import { useNavigate } from "react-router-dom";
-import { FollowList } from "./FollowList";
-import { PeopleOutline } from "@mui/icons-material";
 
 enum MenuTab {
   Trips = "trips",
@@ -214,30 +212,6 @@ export const MyPage: FC = () => {
         </AccordionSummary>
         <AccordionDetails sx={{ pb: 0 }}>
           <MyGears />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        square
-        disableGutters
-        sx={accordionSx}
-        expanded={expanded === MenuTab.Following}
-        onChange={() => handleTabChange(MenuTab.Following)}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              "& svg": { mr: 2 },
-            }}
-          >
-            <PeopleOutline sx={{ color: "secondary.light", fontSize: 32 }} />
-          </Box>
-          <Typography variant="h6"> Min følgeliste </Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ pb: 0 }}>
-          <FollowList />
         </AccordionDetails>
       </Accordion>
       <Button
