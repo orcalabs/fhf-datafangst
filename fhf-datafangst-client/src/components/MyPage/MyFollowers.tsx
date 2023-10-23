@@ -15,11 +15,7 @@ export const FollowList: FC = () => {
   );
 
   const onChange = (vessels?: Vessel[]) => {
-    if (vessels === undefined) {
-      setSelectedVessels([]);
-      return;
-    }
-    setSelectedVessels(vessels);
+    setSelectedVessels(vessels ?? []);
   };
   return (
     <Box sx={{}}>
