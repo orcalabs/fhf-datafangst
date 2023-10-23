@@ -29,7 +29,7 @@ import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import { useAuth } from "oidc-react";
 import SpeedIcon from "@mui/icons-material/Speed";
 import { useNavigate } from "react-router-dom";
-import { FollowList } from "./MyFollowers";
+import { FollowList } from "./FollowList";
 import { PeopleOutline } from "@mui/icons-material";
 
 enum MenuTab {
