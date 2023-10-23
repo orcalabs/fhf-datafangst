@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Drawer, Typography } from "@mui/material";
 import {
   BenchmarkCards,
   Header,
@@ -8,6 +8,7 @@ import {
 import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";
 import {
+  MenuViewState,
   getTrips,
   selectBenchmarkNumHistoric,
   selectBwUserProfile,
@@ -15,6 +16,7 @@ import {
   selectTrips,
   selectTripsLoading,
   selectVesselsByCallsign,
+  setViewState,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -23,16 +25,33 @@ import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
 import { ArrowBackIos } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import theme from "app/theme";
+import { FollowList } from "components/MyPage/FollowList";
 
 const GridMainArea = (props: any) => (
   <Box
     sx={{
       display: "grid",
       bgcolor: "primary.main",
-      gridColumnStart: 1,
+      gridColumnStart: 2,
       gridColumnEnd: 4,
       gridRowStart: 2,
       gridRowEnd: 5,
+    }}
+  >
+    {props.children}
+  </Box>
+);
+
+const FollowerArea = (props: any) => (
+  <Box
+    sx={{
+      gridColumnStart: 1,
+      gridColumnEnd: 1,
+      gridRowStart: 2,
+      gridRowEnd: 5,
+      display: "flex",
+      flexDirection: "column",
+      overflowY: "hidden",
     }}
   >
     {props.children}
@@ -53,6 +72,7 @@ export const BenchmarkView: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(setViewState(MenuViewState.Benchmark));
     if (vessel) {
       dispatch(
         getTrips({
@@ -93,12 +113,38 @@ export const BenchmarkView: FC = () => {
               },
               zIndex: 10000,
             }}
-            onClick={() => navigate("/")}
+            onClick={() => {
+              dispatch(setViewState(MenuViewState.Overview));
+              navigate("/");
+            }}
             startIcon={<ArrowBackIos />}
           >
             <Typography variant="h6">Tilbake til kart</Typography>
           </Button>
         </HeaderButtonCell>
+        <FollowerArea>
+          <Drawer
+            variant="permanent"
+            sx={{
+              height: "100%",
+              "& .MuiDrawer-paper": {
+                width: 500,
+                position: "relative",
+                boxSizing: "border-box",
+                bgcolor: "primary.main",
+                color: "white",
+                flexShrink: 0,
+                height: "100vh",
+              },
+              "& .MuiOutlinedInput-root": { borderRadius: 0 },
+            }}
+          >
+            <Typography color={"white"} variant="h5" sx={{ padding: "10px" }}>
+              FØLGELISTE
+            </Typography>
+            <FollowList />
+          </Drawer>
+        </FollowerArea>
         <GridMainArea>
           {tripsLoading && <LocalLoadingProgress />}
           {trips?.length && (
