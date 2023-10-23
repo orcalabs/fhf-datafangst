@@ -1,25 +1,11 @@
-import { PersonAdd, PersonRemove } from "@mui/icons-material";
-import { Box, Grid, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import { VesselFilter } from "components/Filters/VesselFilter";
 import { Vessel } from "generated/openapi";
-import React, { FC, useState } from "react";
-import {
-  useAppDispatch,
-  useAppSelector,
-  selectUser,
-  updateUser,
-  selectVesselsByFiskeridirId,
-} from "store";
-import { VesselInfo } from "./VesselInfo";
-import { useAuth } from "oidc-react";
-
-interface ContentProps {
-  vessels: Vessel[];
-}
+import { FC, useState } from "react";
+import { useAppSelector, selectUser, selectVesselsByFiskeridirId } from "store";
+import { FollowListItems } from "./FollowListItems";
 
 export const FollowList: FC = () => {
-  const { userData } = useAuth();
-  const dispatch = useAppDispatch();
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const user = useAppSelector(selectUser);
   const [selectedVessels, setSelectedVessels] = useState<Vessel[]>(); // useAppSelector(selectUserVessels);
@@ -27,65 +13,6 @@ export const FollowList: FC = () => {
   const followList = user?.following.map(
     (fiskeriDirId) => vessels[fiskeriDirId],
   );
-
-  const Content: FC<ContentProps> = (props: ContentProps) => {
-    if (!props) return <></>;
-    const vesselComponents = props.vessels.map((vessel) => {
-      const isFollowing = user?.following?.find(
-        (f) => f === vessel?.fiskeridir.id,
-      );
-      return (
-        <Box
-          key={vessel.fiskeridir?.id}
-          sx={{
-            alignContent: "center",
-            "& .MuiIconButton-root": {
-              color: "white",
-              px: 2,
-              height: "100%",
-              border: 0,
-              borderRadius: 0,
-              width: "100%",
-              "&.Mui-selected": {
-                backgroundColor: "primary.main",
-                color: "white",
-                "&:hover": { bgcolor: "primary.main" },
-              },
-              "&:hover": { bgcolor: "primary.dark" },
-            },
-          }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={1} alignContent={"center"}>
-              <IconButton
-                onClick={() => {
-                  const follow = isFollowing
-                    ? user?.following?.filter(
-                        (f) => f !== vessel?.fiskeridir.id,
-                      )
-                    : [...(user?.following ?? []), vessel?.fiskeridir.id];
-                  const following = follow?.map((f) => vessels[f]) ?? [];
-                  dispatch(
-                    updateUser({
-                      following,
-                      accessToken: userData?.access_token,
-                    }),
-                  );
-                }}
-              >
-                {!isFollowing ? <PersonAdd /> : <PersonRemove />}
-              </IconButton>
-            </Grid>
-            <Grid item xs={11}>
-              <VesselInfo vessel={vessel} />
-            </Grid>
-          </Grid>
-        </Box>
-      );
-    });
-
-    return <React.Fragment> {vesselComponents} </React.Fragment>;
-  };
 
   const onChange = (vessels?: Vessel[]) => {
     if (vessels === undefined) {
@@ -108,7 +35,7 @@ export const FollowList: FC = () => {
           margin: "5px",
         }}
       >
-        {followList && <Content vessels={followList} />}
+        {followList && <FollowListItems vessels={followList} />}
       </Box>
 
       <Box sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}>
@@ -131,7 +58,7 @@ export const FollowList: FC = () => {
         }}
       >
         {selectedVessels && selectedVessels.length > 0 && (
-          <Content vessels={selectedVessels} />
+          <FollowListItems vessels={selectedVessels} />
         )}
       </Box>
     </Box>
