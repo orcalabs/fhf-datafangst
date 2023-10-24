@@ -99,13 +99,42 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       if (
         state.bwProfile.contactPersonDetail.email === "post@orcalabs.no" ||
         state.bwProfile.contactPersonDetail.email ===
-          "stale.walderhaug@sintef.no" ||
-        state.bwProfile.contactPersonDetail.email ===
           "vetle.hofsoy-woie@sintef.no"
       ) {
         state.bwProfile.vesselInfo = {
           ircs: "JXMK",
           mmsi: 257842500,
+          imo: -1,
+          regNum: "",
+          sbrRegNum: "",
+          vesselId: "",
+          vesselEmail: "",
+          vesselPhone: "",
+          vesselName: "",
+        };
+        // Assign Gadus Njord to Ståle
+      } else if (
+        state.bwProfile.contactPersonDetail.email ===
+        "stale.walderhaug@sintef.no"
+      ) {
+        state.bwProfile.vesselInfo = {
+          ircs: "LDDF",
+          mmsi: 257656000,
+          imo: -1,
+          regNum: "",
+          sbrRegNum: "",
+          vesselId: "",
+          vesselEmail: "",
+          vesselPhone: "",
+          vesselName: "",
+        };
+        // Assign Hermes to Per
+      } else if (
+        state.bwProfile.contactPersonDetail.email === "pefin@fiskeridir.no"
+      ) {
+        state.bwProfile.vesselInfo = {
+          ircs: "LFNX",
+          mmsi: 257640000,
           imo: -1,
           regNum: "",
           sbrRegNum: "",
