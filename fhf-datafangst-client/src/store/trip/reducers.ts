@@ -72,6 +72,7 @@ export const tripBuilder = (
     .addCase(setSelectedTrip, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
+      state.selectedTripHaul = undefined;
 
       if (!trip && state.currentTrip) {
         (action as any).asyncDispatch(getCurrentTripTrack());
