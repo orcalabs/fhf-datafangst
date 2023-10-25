@@ -20,4 +20,4 @@ export const selectBenchmarkHistoric = createSelector(
 export const selectBenchmarkTrips = createSelector(
   selectAppState,
   (state) => state.benchmarkTrips,
-)
+);

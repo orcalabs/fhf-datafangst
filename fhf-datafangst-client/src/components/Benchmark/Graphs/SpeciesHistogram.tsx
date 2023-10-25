@@ -46,10 +46,13 @@ export const SpeciesHistogram: FC = () => {
   const species = useAppSelector(selectSpeciesFiskeridir);
   const numHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const selectedDatasource = useAppSelector(selectBenchmarkDataSource);
-  const followTrips = useAppSelector(selectBenchmarkTrips)
-  const followTripsList = Object.values(followTrips).reduce((acc: Trip[], pre: Trip[]) => [...pre, ...acc], []);
+  const followTrips = useAppSelector(selectBenchmarkTrips);
+  const followTripsList = Object.values(followTrips).reduce(
+    (acc: Trip[], pre: Trip[]) => [...pre, ...acc],
+    [],
+  );
 
-  const generateHaulData = (trips?: Trip[], followTrips? : Trip[]) => {
+  const generateHaulData = (trips?: Trip[], followTrips?: Trip[]) => {
     if (!trips || !followTrips) {
       return { data: {}, prevData: {}, followData: {} };
     }
@@ -68,7 +71,7 @@ export const SpeciesHistogram: FC = () => {
     return { data, prevData, followData };
   };
 
-  const generateLandingData = (trips?: Trip[], followTrips? : Trip[]) => {
+  const generateLandingData = (trips?: Trip[], followTrips?: Trip[]) => {
     if (!trips || !followTrips) {
       return { data: {}, prevData: {}, followData: {} };
     }
@@ -87,7 +90,6 @@ export const SpeciesHistogram: FC = () => {
     }
     return { data, prevData, followData };
   };
-
 
   const { data, prevData, followData } =
     selectedDatasource === BenchmarkDataSource.Hauls
@@ -153,7 +155,13 @@ export const SpeciesHistogram: FC = () => {
 
       {data && (
         <ReactEChart
-          option={datasetOption(data, prevData, followData, species, numHistoric)}
+          option={datasetOption(
+            data,
+            prevData,
+            followData,
+            species,
+            numHistoric,
+          )}
           theme={chartsTheme}
         />
       )}
@@ -178,7 +186,12 @@ const datasetOption = (
   },
   dataset: {
     source: [
-      ["Art", `Siste ${numHistoric} turer`, "Snitt",`Siste ${numHistoric} fulgtes turer`],
+      [
+        "Art",
+        `Siste ${numHistoric} turer`,
+        "Snitt",
+        `Siste ${numHistoric} fulgtes turer`,
+      ],
       ...getDictSortedOnValue(a).map((key) => [
         species.find((s: SpeciesFiskeridir) => s.id === parseInt(key))?.name,
         a[+key],
@@ -190,7 +203,7 @@ const datasetOption = (
 
   xAxis: { type: "category" },
   yAxis: { gridIndex: 0, name: "Kilo" },
-  series: [{ type: "bar" }, { type: "bar" }, {type: "bar"}],
+  series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }],
 });
 
 interface TooltipParams {

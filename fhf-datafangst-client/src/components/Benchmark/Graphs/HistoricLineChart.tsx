@@ -3,15 +3,21 @@ import { FC } from "react";
 import ReactEChart from "echarts-for-react";
 import { dateFormat } from "utils";
 import chartsTheme from "app/chartsTheme";
-import { BenchmarkModalParams } from "store";
+import { historicParams } from "store";
 import { renderToStaticMarkup } from "react-dom/server";
 
-export const HistoricLineChart: FC<BenchmarkModalParams> = (props) => {
-  const { xAxis, yAxis, metric } = props;
+const seriesEntry = {
+  type: "line",
+  datasetIndex: undefined,
+  name: undefined,
+  encode: {
+    x: "date",
+    y: "value",
+  },
+};
 
-  const data = xAxis?.map((timestring, i) => {
-    return [new Date(timestring), yAxis[i]];
-  });
+export const HistoricLineChart: FC<historicParams> = (props) => {
+  const { vesselNames, dataset, metric } = props;
   const theme = { ...chartsTheme, backgroundColor: "#067593" };
   const opt = {
     xAxis: {
@@ -21,6 +27,7 @@ export const HistoricLineChart: FC<BenchmarkModalParams> = (props) => {
         formatter: (timestamp: number) => dateFormat(timestamp, "d/M"),
       },
     },
+    legend: {},
     yAxis: {
       type: "value",
       name: metric,
@@ -29,12 +36,24 @@ export const HistoricLineChart: FC<BenchmarkModalParams> = (props) => {
       trigger: "axis",
       formatter,
     },
-    series: [
+    dataset: [
       {
-        data,
-        type: "line",
+        source: dataset,
       },
+      ...vesselNames.map((vesselName) => {
+        return {
+          transform: {
+            type: "filter",
+            config: { dimension: "vesselName", value: vesselName },
+          },
+        };
+      }),
     ],
+    series: vesselNames.map((name, i) => ({
+      ...seriesEntry,
+      name,
+      datasetIndex: i + 1,
+    })),
   };
 
   return (
@@ -54,7 +73,7 @@ interface TooltipParams {
   color: string;
 }
 const formatter = (data: TooltipParams[]) => {
-  const [date, weight] = data[0].value;
+  const [date, vessel, weight] = data[0].value;
 
   const tooltipContent = (
     <Box>
@@ -78,7 +97,9 @@ const formatter = (data: TooltipParams[]) => {
             backgroundColor: data[0].color,
           }}
         />
-        <b>{weight}</b>
+        <b>
+          {vessel} {weight.toFixed(2)}
+        </b>
       </Typography>
     </Box>
   );

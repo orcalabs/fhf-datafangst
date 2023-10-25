@@ -21,5 +21,6 @@ export const benchmarkBuilder = (
       state.benchmarkDataSource = action.payload;
     })
     .addCase(getBenchmarkData.fulfilled, (state, action) => {
-      state.benchmarkTrips[action.payload[0].fiskeridirVesselId] = action.payload;
-    })
+      state.benchmarkTrips[action.payload[0].fiskeridirVesselId] =
+        action.payload;
+    });
