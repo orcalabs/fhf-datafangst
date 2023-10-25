@@ -67,7 +67,7 @@ export const BenchmarkView: FC = () => {
   const profile = useAppSelector(selectBwUserProfile);
   const vesselInfo = profile?.vesselInfo;
   const vessels = useAppSelector(selectVesselsByCallsign);
-  const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId)
+  const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const trips = useAppSelector(selectTrips);
   const user = useAppSelector(selectUser);
@@ -76,7 +76,7 @@ export const BenchmarkView: FC = () => {
   const tripsLoading = useAppSelector(selectTripsLoading);
   const navigate = useNavigate();
 
-  const followVessels = user?.following.map((id)=> fiskeridirVessels[id]);
+  const followVessels = user?.following.map((id) => fiskeridirVessels[id]);
 
   useEffect(() => {
     dispatch(setViewState(MenuViewState.Benchmark));
@@ -90,7 +90,7 @@ export const BenchmarkView: FC = () => {
         }),
       );
     }
-    if (followVessels){
+    if (followVessels) {
       followVessels.forEach((vessel) => {
         dispatch(
           getBenchmarkData({
@@ -98,9 +98,9 @@ export const BenchmarkView: FC = () => {
             sorting: [TripSorting.StopDate, Ordering.Desc],
             limit: benchmarkHistoric,
             offset: 0,
-          })
-        )
-      })
+          }),
+        );
+      });
     }
   }, [vessel]);
 

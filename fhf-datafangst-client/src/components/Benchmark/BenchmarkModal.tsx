@@ -47,7 +47,7 @@ export const BenchmarkModal: FC = () => {
             {benchmarkModal?.description}
           </Typography>
         )}
-        {benchmarkModal && <HistoricLineChart {...benchmarkModal} />}
+        {benchmarkModal && <HistoricLineChart {...benchmarkModal.dataset} />}
       </Box>
     </Modal>
   );

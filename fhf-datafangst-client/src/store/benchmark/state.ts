@@ -1,11 +1,14 @@
 import { Trip } from "generated/openapi";
 
+export interface historicParams {
+  vesselNames: string[];
+  dataset: (string | number)[][];
+  metric?: string;
+}
 export interface BenchmarkModalParams {
   title?: string;
   description?: string;
-  yAxis: number[];
-  xAxis: string[];
-  metric?: string;
+  dataset: historicParams;
 }
 
 export enum BenchmarkDataSource {
@@ -15,8 +18,8 @@ export enum BenchmarkDataSource {
 
 export interface BenchmarkState {
   benchmarkModal?: BenchmarkModalParams;
-  benchmarkTrips: Record<number, Trip[]>
-  benchmarkHistoric?: Record<string,number[]>;
+  benchmarkTrips: Record<number, Trip[]>;
+  benchmarkHistoric?: Record<string, number[]>;
   benchmarkNumHistoric: number;
   benchmarkDataSource: BenchmarkDataSource;
 }
