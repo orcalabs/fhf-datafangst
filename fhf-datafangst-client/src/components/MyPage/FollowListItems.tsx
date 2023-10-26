@@ -14,6 +14,7 @@ import { useAuth } from "oidc-react";
 
 interface ContentProps {
   vessels: Vessel[];
+  onChange?: (vessel: Vessel, isFollowing?: number) => void;
 }
 
 export const FollowListItems: FC<ContentProps> = (props: ContentProps) => {
@@ -62,6 +63,7 @@ export const FollowListItems: FC<ContentProps> = (props: ContentProps) => {
                     accessToken: userData?.access_token,
                   }),
                 );
+                props.onChange?.(vessel, isFollowing);
               }}
             >
               {!isFollowing ? <PersonAdd /> : <PersonRemove />}

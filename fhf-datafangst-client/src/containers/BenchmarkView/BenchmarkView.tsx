@@ -9,6 +9,7 @@ import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";
 import {
   MenuViewState,
+  clearBenchmarkData,
   getBenchmarkData,
   getTrips,
   selectBenchmarkNumHistoric,
@@ -23,7 +24,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { Ordering, TripSorting } from "generated/openapi";
+import { Ordering, TripSorting, Vessel } from "generated/openapi";
 import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
 import { ArrowBackIos } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -77,6 +78,21 @@ export const BenchmarkView: FC = () => {
   const navigate = useNavigate();
 
   const followVessels = user?.following.map((id) => fiskeridirVessels[id]);
+
+  const updateFollowVessels = (vessel: Vessel, isFollowing?: number) => {
+    if (!isFollowing) {
+      dispatch(
+        getBenchmarkData({
+          vessels: [vessel],
+          sorting: [TripSorting.StopDate, Ordering.Desc],
+          limit: benchmarkHistoric,
+          offset: 0,
+        }),
+      );
+    } else {
+      dispatch(clearBenchmarkData(vessel));
+    }
+  };
 
   useEffect(() => {
     dispatch(setViewState(MenuViewState.Benchmark));
@@ -161,7 +177,7 @@ export const BenchmarkView: FC = () => {
             <Typography color={"white"} variant="h5" sx={{ padding: "10px" }}>
               FØLGELISTE
             </Typography>
-            <FollowList />
+            <FollowList onChange={updateFollowVessels} />
           </Drawer>
         </FollowerArea>
         <GridMainArea>

@@ -1,6 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
 import { BenchmarkDataSource, BenchmarkModalParams } from "./state";
+import { Vessel } from "generated/openapi";
 
 export interface BenchmarkHistoricParams {
   metric: string;
@@ -21,4 +22,8 @@ export const setBenchmarkHistoric = createAction<BenchmarkHistoricParams>(
 
 export const setBenchmarkDataSource = createAction<BenchmarkDataSource>(
   "benchmark/setBenchmarkDataSource",
+);
+
+export const clearBenchmarkData = createAction<Vessel>(
+  "benchmark/clearBenchmarkData",
 );
