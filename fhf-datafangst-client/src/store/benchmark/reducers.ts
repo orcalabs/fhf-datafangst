@@ -1,11 +1,13 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
 import {
+  clearBenchmarkData,
   getBenchmarkData,
   setBenchmarkDataSource,
   setBenchmarkHistoric,
   setBenchmarkModal,
 } from "./actions";
+import { Trip } from "generated/openapi";
 
 export const benchmarkBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -23,4 +25,15 @@ export const benchmarkBuilder = (
     .addCase(getBenchmarkData.fulfilled, (state, action) => {
       state.benchmarkTrips[action.payload[0].fiskeridirVesselId] =
         action.payload;
+    })
+    .addCase(clearBenchmarkData, (state, action) => {
+      const tmp: Record<number, Trip[]> = {};
+      Object.keys(state.benchmarkTrips)
+        .filter(
+          (fiskeridirId) => +fiskeridirId !== action.payload.fiskeridir.id,
+        )
+        .forEach((fiskeridirId) => {
+          tmp[+fiskeridirId] = state.benchmarkTrips[+fiskeridirId];
+        });
+      state.benchmarkTrips = tmp;
     });
