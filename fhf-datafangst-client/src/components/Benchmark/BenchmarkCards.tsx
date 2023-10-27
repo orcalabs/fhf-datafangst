@@ -92,7 +92,6 @@ export const BenchmarkCards: FC = () => {
     [],
   );
   const hasFollows = followTripsList.length !== 0;
-  console.log(hasFollows);
   const trips = useAppSelector(selectTrips);
   if (!trips) {
     return <></>;
@@ -211,21 +210,21 @@ export const BenchmarkCards: FC = () => {
             avatar={<AccessTimeIcon sx={{ color: "text.secondary" }} />}
             value={createDurationFromHours(myTotalTimes[0])}
             description="Siste tur"
-            primary_color={
+            primaryColor={
               myTotalTimes[0] > myTotalTimeMean ? "#6CE16A" : "#93032E"
             }
-            secondary_value={createDurationFromHours(myTotalTimeMean)}
-            secondary_description={
+            secondaryValue={createDurationFromHours(myTotalTimeMean)}
+            secondaryDescription={
               "Gjennomsnitt siste " + myTotalTimes.length.toString() + " turer"
             }
             tooltip="Regnet ut basert på dine DEP og POR meldinger"
             onClick={() => handleClick(BenchmarkType.TotalTime)}
-            third_value={
+            thirdValue={
               hasFollows
                 ? createDurationFromHours(followTotalTimeMean)
                 : undefined
             }
-            third_description={
+            thirdDescription={
               hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
             }
           />
@@ -238,23 +237,23 @@ export const BenchmarkCards: FC = () => {
             avatar={<PhishingRoundedIcon sx={{ color: "text.secondary" }} />}
             value={createDurationFromHours(myFishingHours[0])}
             description="Siste tur"
-            primary_color={
+            primaryColor={
               myFishingHours[0] > myFishingHoursMean ? "#6CE16A" : "#93032E"
             }
-            secondary_value={createDurationFromHours(myFishingHoursMean)}
-            secondary_description={
+            secondaryValue={createDurationFromHours(myFishingHoursMean)}
+            secondaryDescription={
               "Gjennomsnitt siste " +
               myFishingHours.length.toString() +
               " turer"
             }
             tooltip="Regnet ut basert på dine fangstmeldinger"
             onClick={() => handleClick(BenchmarkType.FishingHours)}
-            third_value={
+            thirdValue={
               hasFollows
                 ? createDurationFromHours(followFishingHoursMean)
                 : undefined
             }
-            third_description={
+            thirdDescription={
               hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
             }
           />
@@ -270,16 +269,16 @@ export const BenchmarkCards: FC = () => {
               : myFishingDistance[0]
             ).toFixed(1)}
             description="Siste tur"
-            primary_color={
+            primaryColor={
               myFishingDistance[0] > myFishingDistanceMean
                 ? "#6CE16A"
                 : "#93032E"
             }
-            secondary_value={(myFishingDistanceMean > 1852
+            secondaryValue={(myFishingDistanceMean > 1852
               ? myFishingDistanceMean / 1852
               : myFishingDistanceMean
             ).toFixed(1)}
-            secondary_description={
+            secondaryDescription={
               "Gjennomsnitt siste " +
               myFishingDistance.length.toString() +
               " turer"
@@ -287,7 +286,7 @@ export const BenchmarkCards: FC = () => {
             metric={myFishingDistanceMean > 1852 ? "nautiske mil" : "meter"}
             tooltip="Regnet ut basert på dine fangstmeldinger"
             onClick={() => handleClick(BenchmarkType.FishingDistance)}
-            third_value={
+            thirdValue={
               hasFollows
                 ? (followFishingDistanceMean > 1852
                     ? followFishingDistanceMean / 1852
@@ -295,7 +294,7 @@ export const BenchmarkCards: FC = () => {
                   ).toFixed(1)
                 : undefined
             }
-            third_description={
+            thirdDescription={
               hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
             }
           />
@@ -311,14 +310,14 @@ export const BenchmarkCards: FC = () => {
               : myFishingWeight[0]
             ).toFixed(1)}
             description="Siste tur"
-            primary_color={
+            primaryColor={
               myFishingWeight[0] > myFishingWeightMean ? "#6CE16A" : "#93032E"
             }
-            secondary_value={(myFishingWeightMean > 1000
+            secondaryValue={(myFishingWeightMean > 1000
               ? myFishingWeightMean / 1000
               : myFishingWeightMean
             ).toFixed(1)}
-            secondary_description={
+            secondaryDescription={
               "Gjennomsnitt siste " +
               myFishingWeight.length.toString() +
               " turer"
@@ -326,7 +325,7 @@ export const BenchmarkCards: FC = () => {
             metric={myFishingWeightMean > 1000 ? "tonn" : "kilo"}
             tooltip="Data basert på levert vekt"
             onClick={() => handleClick(BenchmarkType.FishingWeight)}
-            third_value={
+            thirdValue={
               hasFollows
                 ? (followFishingWeightMean > 1000
                     ? followFishingWeightMean / 1000
@@ -334,7 +333,7 @@ export const BenchmarkCards: FC = () => {
                   ).toFixed(1)
                 : undefined
             }
-            third_description={
+            thirdDescription={
               hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
             }
           />

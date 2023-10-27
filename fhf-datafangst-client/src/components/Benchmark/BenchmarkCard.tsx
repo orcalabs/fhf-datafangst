@@ -9,13 +9,13 @@ interface BenchmarkCardProps {
   title: string;
   value: number | string;
   description?: string;
-  primary_color?: string;
+  primaryColor?: string;
   metric?: string;
-  secondary_value?: number | string;
+  secondaryValue?: number | string;
   tooltip?: string;
-  secondary_description?: string;
-  third_value?: number | string;
-  third_description?: string;
+  secondaryDescription?: string;
+  thirdValue?: number | string;
+  thirdDescription?: string;
   avatar: any;
   onClick?: () => void;
 }
@@ -46,7 +46,7 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
                 <Typography
                   variant="h1"
                   color={
-                    props.primary_color ? props.primary_color : "text.primary"
+                    props.primaryColor ? props.primaryColor : "text.primary"
                   }
                   component="div"
                   align="center"
@@ -54,31 +54,31 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
                   {props.value} {props.metric ?? ""}
                 </Typography>
               </Grid>
-              {props.secondary_description && (
+              {props.secondaryDescription && (
                 <Grid item xs={3}>
                   <Typography color="text.secondary">
-                    {props.secondary_description}
+                    {props.secondaryDescription}
                   </Typography>
                 </Grid>
               )}
-              {props.secondary_description && (
+              {props.secondaryDescription && (
                 <Grid item xs={3}>
                   <Typography variant="h4" color="white">
-                    {props.secondary_value} {props.metric}
+                    {props.secondaryValue} {props.metric}
                   </Typography>
                 </Grid>
               )}
-              {props.third_description && (
+              {props.thirdDescription && (
                 <Grid item xs={3}>
                   <Typography color="text.secondary">
-                    {props.third_description}
+                    {props.thirdDescription}
                   </Typography>
                 </Grid>
               )}
-              {props.third_value && (
+              {props.thirdValue && (
                 <Grid item xs={3}>
                   <Typography variant="h4" color="white">
-                    {props.third_value} {props.metric}
+                    {props.thirdValue} {props.metric}
                   </Typography>
                 </Grid>
               )}
