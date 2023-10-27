@@ -91,6 +91,8 @@ export const BenchmarkCards: FC = () => {
     (acc: Trip[], pre: Trip[]) => [...pre, ...acc],
     [],
   );
+  const hasFollows = followTripsList.length !== 0;
+  console.log(hasFollows);
   const trips = useAppSelector(selectTrips);
   if (!trips) {
     return <></>;
@@ -218,8 +220,14 @@ export const BenchmarkCards: FC = () => {
             }
             tooltip="Regnet ut basert på dine DEP og POR meldinger"
             onClick={() => handleClick(BenchmarkType.TotalTime)}
-            third_value={createDurationFromHours(followTotalTimeMean)}
-            third_description="Gjennomsnitt fulgte fartøy"
+            third_value={
+              hasFollows
+                ? createDurationFromHours(followTotalTimeMean)
+                : undefined
+            }
+            third_description={
+              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
+            }
           />
         </Box>
       </Grid>
@@ -241,8 +249,14 @@ export const BenchmarkCards: FC = () => {
             }
             tooltip="Regnet ut basert på dine fangstmeldinger"
             onClick={() => handleClick(BenchmarkType.FishingHours)}
-            third_value={createDurationFromHours(followFishingHoursMean)}
-            third_description="Gjennomsnitt fulgte fartøy"
+            third_value={
+              hasFollows
+                ? createDurationFromHours(followFishingHoursMean)
+                : undefined
+            }
+            third_description={
+              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
+            }
           />
         </Box>
       </Grid>
@@ -273,11 +287,17 @@ export const BenchmarkCards: FC = () => {
             metric={myFishingDistanceMean > 1852 ? "nautiske mil" : "meter"}
             tooltip="Regnet ut basert på dine fangstmeldinger"
             onClick={() => handleClick(BenchmarkType.FishingDistance)}
-            third_value={(followFishingDistanceMean > 1852
-              ? followFishingDistanceMean / 1852
-              : followFishingDistanceMean
-            ).toFixed(1)}
-            third_description="Gjennomsnitt fulgte fartøy"
+            third_value={
+              hasFollows
+                ? (followFishingDistanceMean > 1852
+                    ? followFishingDistanceMean / 1852
+                    : followFishingDistanceMean
+                  ).toFixed(1)
+                : undefined
+            }
+            third_description={
+              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
+            }
           />
         </Box>
       </Grid>
@@ -306,11 +326,17 @@ export const BenchmarkCards: FC = () => {
             metric={myFishingWeightMean > 1000 ? "tonn" : "kilo"}
             tooltip="Data basert på levert vekt"
             onClick={() => handleClick(BenchmarkType.FishingWeight)}
-            third_value={(followFishingWeightMean > 1000
-              ? followFishingWeightMean / 1000
-              : followFishingWeightMean
-            ).toFixed(1)}
-            third_description="Gjennomsnitt fulgte fartøy"
+            third_value={
+              hasFollows
+                ? (followFishingWeightMean > 1000
+                    ? followFishingWeightMean / 1000
+                    : followFishingWeightMean
+                  ).toFixed(1)
+                : undefined
+            }
+            third_description={
+              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
+            }
           />
         </Box>
       </Grid>
