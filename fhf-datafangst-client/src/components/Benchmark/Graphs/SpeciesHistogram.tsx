@@ -205,11 +205,11 @@ const datasetOption = (
 
 interface TooltipParams {
   value: number[];
-  dimensionNames: string[];
   color: string;
+  seriesName: string;
+  seriesIndex: number;
 }
 const formatter = (data: TooltipParams[]) => {
-  const titles = data[0].dimensionNames;
   const values = data[0].value;
   const tooltipContent = (
     <Box>
@@ -223,7 +223,7 @@ const formatter = (data: TooltipParams[]) => {
       >
         {values[0]}
       </Typography>
-      {values.slice(1).map((val, i) => (
+      {data.map((d, i) => (
         <Typography style={{ margin: 0 }} key={i}>
           <span
             style={{
@@ -232,10 +232,13 @@ const formatter = (data: TooltipParams[]) => {
               borderRadius: 10,
               width: 10,
               height: 10,
-              backgroundColor: data[i].color,
+              backgroundColor: d.color,
             }}
           />
-          <b>{titles[i + 1]}</b> {val ? kilosOrTonsFormatter(val) : "-"}
+          <b>{d.seriesName}</b>{" "}
+          {values[d.seriesIndex + 1]
+            ? kilosOrTonsFormatter(values[d.seriesIndex + 1])
+            : "-"}
         </Typography>
       ))}
     </Box>
