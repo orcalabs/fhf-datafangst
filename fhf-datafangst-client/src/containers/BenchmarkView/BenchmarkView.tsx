@@ -4,6 +4,7 @@ import {
   Header,
   SpeciesHistogram,
   LocalLoadingProgress,
+  FollowList,
 } from "components";
 import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";
@@ -29,7 +30,6 @@ import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
 import { ArrowBackIos } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import theme from "app/theme";
-import { FollowList } from "components/MyPage/FollowList";
 
 const GridMainArea = (props: any) => (
   <Box

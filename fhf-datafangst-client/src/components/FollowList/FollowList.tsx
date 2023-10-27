@@ -5,10 +5,10 @@ import { FC, useState } from "react";
 import { useAppSelector, selectUser, selectVesselsByFiskeridirId } from "store";
 import { FollowListItems } from "./FollowListItems";
 
-interface FollowListProps {
+interface Props {
   onChange?: (vessel: Vessel, isFollowing?: number) => void;
 }
-export const FollowList: FC<FollowListProps> = (props) => {
+export const FollowList: FC<Props> = (props) => {
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const user = useAppSelector(selectUser);
   const [selectedVessels, setSelectedVessels] = useState<Vessel[]>();

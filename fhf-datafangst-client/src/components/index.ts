@@ -50,3 +50,4 @@ export { BenchmarkCard } from "./Benchmark/BenchmarkCard";
 export { SpeciesHistogram } from "./Benchmark/Graphs/SpeciesHistogram";
 export { HistoricLineChart } from "./Benchmark/Graphs/HistoricLineChart";
 export { BenchmarkModal } from "./Benchmark/BenchmarkModal";
+export { FollowList } from "./FollowList/FollowList";
