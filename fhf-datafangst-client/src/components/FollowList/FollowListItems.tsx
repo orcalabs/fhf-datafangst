@@ -1,5 +1,4 @@
 import { Vessel } from "generated/openapi";
-import { VesselInfo } from "./VesselInfo";
 import React, { FC } from "react";
 import { Box, Grid, IconButton } from "@mui/material";
 import {
@@ -11,6 +10,7 @@ import {
 } from "store";
 import { PersonAdd, PersonRemove } from "@mui/icons-material";
 import { useAuth } from "oidc-react";
+import { VesselInfo } from "components/MyPage/VesselInfo";
 
 interface ContentProps {
   vessels: Vessel[];
