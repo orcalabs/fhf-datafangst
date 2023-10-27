@@ -1,6 +1,6 @@
 import { Trip } from "generated/openapi";
 
-export interface historicParams {
+export interface HistoricParams {
   vesselNames: string[];
   dataset: (string | number)[][];
   metric?: string;
@@ -8,7 +8,7 @@ export interface historicParams {
 export interface BenchmarkModalParams {
   title?: string;
   description?: string;
-  dataset: historicParams;
+  dataset: HistoricParams;
 }
 
 export enum BenchmarkDataSource {

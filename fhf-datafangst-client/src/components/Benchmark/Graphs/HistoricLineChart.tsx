@@ -3,7 +3,7 @@ import { FC } from "react";
 import ReactEChart from "echarts-for-react";
 import { dateFormat } from "utils";
 import chartsTheme from "app/chartsTheme";
-import { historicParams } from "store";
+import { HistoricParams } from "store";
 import { renderToStaticMarkup } from "react-dom/server";
 
 const seriesEntry = {
@@ -16,7 +16,7 @@ const seriesEntry = {
   },
 };
 
-export const HistoricLineChart: FC<historicParams> = (props) => {
+export const HistoricLineChart: FC<HistoricParams> = (props) => {
   const { vesselNames, dataset, metric } = props;
   const theme = { ...chartsTheme, backgroundColor: "#067593" };
   const opt = {
