@@ -1,7 +1,10 @@
-import { Vessel } from "generated/openapi";
+import { Ordering, TripSorting, Vessel } from "generated/openapi";
 import React, { FC } from "react";
 import { Box, Grid, IconButton } from "@mui/material";
 import {
+  clearBenchmarkData,
+  getBenchmarkData,
+  selectBenchmarkNumHistoric,
   selectUser,
   selectVesselsByFiskeridirId,
   updateUser,
@@ -14,14 +17,29 @@ import { VesselInfo } from "components/MyPage/VesselInfo";
 
 interface ContentProps {
   vessels: Vessel[];
-  onChange?: (vessel: Vessel, isFollowing?: number) => void;
 }
 
 export const FollowListItems: FC<ContentProps> = (props: ContentProps) => {
   const { userData } = useAuth();
   const dispatch = useAppDispatch();
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
+  const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const user = useAppSelector(selectUser);
+
+  const updateFollowVessels = (vessel: Vessel, isFollowing?: number) => {
+    if (!isFollowing) {
+      dispatch(
+        getBenchmarkData({
+          vessels: [vessel],
+          sorting: [TripSorting.StopDate, Ordering.Desc],
+          limit: benchmarkHistoric,
+          offset: 0,
+        }),
+      );
+    } else {
+      dispatch(clearBenchmarkData(vessel));
+    }
+  };
 
   if (!props) return <></>;
   const vesselComponents = props.vessels.map((vessel) => {
@@ -63,7 +81,7 @@ export const FollowListItems: FC<ContentProps> = (props: ContentProps) => {
                     accessToken: userData?.access_token,
                   }),
                 );
-                props.onChange?.(vessel, isFollowing);
+                updateFollowVessels(vessel, isFollowing);
               }}
             >
               {!isFollowing ? <PersonAdd /> : <PersonRemove />}

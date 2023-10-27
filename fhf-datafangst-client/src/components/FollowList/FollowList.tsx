@@ -5,10 +5,7 @@ import { FC, useState } from "react";
 import { useAppSelector, selectUser, selectVesselsByFiskeridirId } from "store";
 import { FollowListItems } from "./FollowListItems";
 
-interface Props {
-  onChange?: (vessel: Vessel, isFollowing?: number) => void;
-}
-export const FollowList: FC<Props> = (props) => {
+export const FollowList: FC = () => {
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const user = useAppSelector(selectUser);
   const [selectedVessels, setSelectedVessels] = useState<Vessel[]>();
@@ -35,7 +32,7 @@ export const FollowList: FC<Props> = (props) => {
           overflowY: "auto",
         }}
       >
-        {followList && <FollowListItems vessels={followList} {...props} />}
+        {followList && <FollowListItems vessels={followList} />}
       </Box>
 
       <Box
@@ -65,7 +62,7 @@ export const FollowList: FC<Props> = (props) => {
         }}
       >
         {selectedVessels && selectedVessels.length > 0 && (
-          <FollowListItems vessels={selectedVessels} {...props} />
+          <FollowListItems vessels={selectedVessels} />
         )}
       </Box>
     </Box>
