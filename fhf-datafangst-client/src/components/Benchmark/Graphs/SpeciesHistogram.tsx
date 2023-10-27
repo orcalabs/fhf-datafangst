@@ -47,10 +47,7 @@ export const SpeciesHistogram: FC = () => {
   const numHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const selectedDatasource = useAppSelector(selectBenchmarkDataSource);
   const followTrips = useAppSelector(selectBenchmarkTrips);
-  const followTripsList = Object.values(followTrips).reduce(
-    (acc: Trip[], pre: Trip[]) => [...pre, ...acc],
-    [],
-  );
+  const followTripsList = Object.values(followTrips).flat();
 
   const generateHaulData = (trips?: Trip[], followTrips?: Trip[]) => {
     if (!trips || !followTrips) {

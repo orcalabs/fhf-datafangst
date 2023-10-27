@@ -86,11 +86,8 @@ const createDataset = (
 export const BenchmarkCards: FC = () => {
   const dispatch = useAppDispatch();
   const followTrips = useAppSelector(selectBenchmarkTrips);
+  const followTripsList = Object.values(followTrips).flat();
 
-  const followTripsList = Object.values(followTrips).reduce(
-    (acc: Trip[], pre: Trip[]) => [...pre, ...acc],
-    [],
-  );
   const hasFollows = followTripsList.length !== 0;
   const trips = useAppSelector(selectTrips);
   if (!trips) {
