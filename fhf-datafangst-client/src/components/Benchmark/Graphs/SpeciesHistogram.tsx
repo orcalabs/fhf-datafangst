@@ -185,8 +185,8 @@ const datasetOption = (
     source: [
       [
         "Art",
+        "Siste tur",
         `Siste ${numHistoric} turer`,
-        "Snitt",
         `Siste ${numHistoric} fulgtes turer`,
       ],
       ...getDictSortedOnValue(a).map((key) => [
@@ -205,9 +205,12 @@ const datasetOption = (
 
 interface TooltipParams {
   value: number[];
+  dimensionNames: string[];
+  color: string;
 }
 const formatter = (data: TooltipParams[]) => {
-  const [species, prev, mean] = data[0].value;
+  const titles = data[0].dimensionNames;
+  const values = data[0].value;
   const tooltipContent = (
     <Box>
       <Typography
@@ -218,14 +221,23 @@ const formatter = (data: TooltipParams[]) => {
         }}
         variant="h3"
       >
-        {species}
+        {values[0]}
       </Typography>
-      <Typography style={{ margin: 0 }}>
-        <b>Forrige tur:</b> {kilosOrTonsFormatter(prev ?? 0)}
-      </Typography>
-      <Typography style={{ margin: 0 }}>
-        <b>Snitt:</b> {kilosOrTonsFormatter(mean ?? 0)}
-      </Typography>
+      {values.slice(1).map((val, i) => (
+        <Typography style={{ margin: 0 }} key={i}>
+          <span
+            style={{
+              display: "inline-block",
+              marginRight: 10,
+              borderRadius: 10,
+              width: 10,
+              height: 10,
+              backgroundColor: data[i].color,
+            }}
+          />
+          <b>{titles[i + 1]}</b> {val ? kilosOrTonsFormatter(val) : "-"}
+        </Typography>
+      ))}
     </Box>
   );
 
