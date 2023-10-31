@@ -4,6 +4,7 @@ import {
   BenchmarkTimeSpanParams,
   selectBenchmarkTimeSpan,
   selectLandings,
+  selectSpeciesFiskeridir,
   useAppSelector,
 } from "store";
 import {
@@ -14,12 +15,12 @@ import {
   SpeciesFiskeridir,
   Trip,
 } from "generated/openapi";
+
 import ReactEChart from "echarts-for-react";
 import { Months, kilosOrTonsFormatter } from "utils";
 import chartsTheme from "app/chartsTheme";
 import { renderToStaticMarkup } from "react-dom/server";
 import theme from "app/theme";
-import { log } from "console";
 type BenchmarkTimeSpanObject = Record<
   number,
   Record<number, Record<number, number>>
@@ -36,7 +37,7 @@ const filterLandingOnTimespan = (
 
   for (const landing of landings) {
     const year = new Date(landing.landingTimestamp).getFullYear();
-    const monthIdx: number = new Date(landing.landingTimestamp).getMonth();
+    const monthIdx: number = new Date(landing.landingTimestamp).getMonth() + 1;
 
     data[year] = data[year] ?? {};
     data[year][monthIdx] = data[year][monthIdx] ?? {};
@@ -55,7 +56,7 @@ const filterLandingOnTimespan = (
 export const HistoricalCatches: FC = () => {
   const landings = useAppSelector(selectLandings);
   const landingTimespan = useAppSelector(selectBenchmarkTimeSpan);
-
+  const speciesList = useAppSelector(selectSpeciesFiskeridir)
   const { filtered, species } = filterLandingOnTimespan(
     Object.values(landings),
     landingTimespan,
@@ -118,6 +119,7 @@ const SpeciesStatOption = (
   legend: {},
   tooltip: {
     trigger: "axis",
+    
     axisPointer: {
       type: "shadow",
     },
@@ -126,27 +128,15 @@ const SpeciesStatOption = (
     {
       dimensions: ["Years", "Months", "Species", "Weight"],
       source: createSource(filtered, landingTimespan),
+      print: true,
     },
-    ...Object.keys(filtered).map((x) => {
-      return Object.values(filtered[+x]).map((y) => {
-        return Object.values(y).map((z) => ({
-          transform: {
-            type: "filter",
-            and: [
-              { dimension: "Years", "=": x },
-              { dimension: "Species", "=": z },
-            ],
-            print: true,
-          },
-        }));
-      });
-    }),
+    ...transformDataSource(filtered,landingTimespan);
   ],
   xAxis: {
     type: "category",
     name: "Months",
     axisLabel: {
-      formatter: (value: number) => Months[value + 1],
+      formatter: (value: number) => Months[value ],
     },
   },
 
@@ -164,29 +154,30 @@ interface TooltipParams {
   value: number[];
 }
 const formatter = (data: TooltipParams[]) => {
-  const [species, prev, mean] = data[0].value;
-  const tooltipContent = (
-    <Box>
-      <Typography
-        style={{
-          margin: 0,
-          marginBottom: 8,
-          color: `${theme.palette.secondary.dark}`,
-        }}
-        variant="h3"
-      >
-        {species}
-      </Typography>
-      <Typography style={{ margin: 0 }}>
-        <b>Forrige tur:</b> {kilosOrTonsFormatter(prev ?? 0)}
-      </Typography>
-      <Typography style={{ margin: 0 }}>
-        <b>Snitt:</b> {kilosOrTonsFormatter(mean ?? 0)}
-      </Typography>
-    </Box>
-  );
+  // const [species, prev, mean] = data[0].value;
+  console.log(data)
+  // const tooltipContent = (
+  //   <Box>
+  //     <Typography
+  //       style={{
+  //         margin: 0,
+  //         marginBottom: 8,
+  //         color: `${theme.palette.secondary.dark}`,
+  //       }}
+  //       variant="h3"
+  //     >
+  //       {species}
+  //     </Typography>
+  //     <Typography style={{ margin: 0 }}>
+  //       <b>Forrige tur:</b> {kilosOrTonsFormatter(prev ?? 0)}
+  //     </Typography>
+  //     <Typography style={{ margin: 0 }}>
+  //       <b>Snitt:</b> {kilosOrTonsFormatter(mean ?? 0)}
+  //     </Typography>
+  //   </Box>
+  // );
 
-  return renderToStaticMarkup(tooltipContent);
+  // return renderToStaticMarkup(tooltipContent);
 };
 
 type UnrollType = (string | number | object)[];
@@ -214,7 +205,7 @@ const unrollFiltered = (
     }
   }
 };
-const createSeries = (filtered: BenchmarkTimeSpanObject) => {
+const createSeries = (filtered: BenchmarkTimeSpanObject,  ) => {
   const series: object[] = [];
   unrollFiltered(
     filtered,
@@ -228,8 +219,12 @@ const createSeries = (filtered: BenchmarkTimeSpanObject) => {
       index: number | undefined,
     ) => {
       data.push({
+        name : species ,
         type: "bar",
-        stack: `${year}-${month}`,
+        stack: year,
+        emphasis:{
+          focus : "series",
+        },
         encode: {
           x: "Months",
           y: "Weight",
@@ -240,7 +235,6 @@ const createSeries = (filtered: BenchmarkTimeSpanObject) => {
     },
   );
 
-  console.log(series);
   return series
 };
 
@@ -255,18 +249,31 @@ const createSource = (
   unrollFiltered(filtered, source, (data, year, month, species, weight) => {
     data.push([+year, +month, +species, weight]);
   });
-  //   for (const year in filtered) {
-  //     for (const month in filtered[year]) {
-  //       for (const species in filtered[year][month]) {
-  //         source.push([
-  //           +year,
-  //           +month,
-  //           +species,
-  //           filtered[+year][+month][+species],
-  //         ]);
-  //       }
-  //     }
-  //   }
 
   return source;
 };
+const transformDataSource = (src: BenchmarkTimeSpanObject, year: BenchmarkTimeSpanParams) =>
+{
+
+
+
+  const createTransformObjectsBySpecies = (src : Record<number,Record<number,number>>,year:number)  =>{
+    const curr = src[year];
+    const uniqueSpecies = []
+    console.log(curr)
+    Object.keys(Months).forEach(element => {
+      console.log(Object.keys(curr[element] ?? {}))
+      uniqueSpecies.push(Object.keys(curr[element] ?? []));
+    });
+    const flatUniqueSpecies = [...new Set(uniqueSpecies.flat(Infinity))];
+    
+
+  return flatUniqueSpecies.map((s) => ({transform: {type: 'filter', config : {and:[{'dimension':'Years', "=":year},{ dimension:'Species' ,'=': s}]} }}))
+  }
+
+
+  const x=  [...createTransformObjectsBySpecies(src,year.startYear),...createTransformObjectsBySpecies(src,year.endYear)]
+  console.log(x)
+  return x
+}
+
