@@ -56,12 +56,15 @@ const filterLandingOnTimespan = (
 export const HistoricalCatches: FC = () => {
   const landings = useAppSelector(selectLandings);
   const landingTimespan = useAppSelector(selectBenchmarkTimeSpan);
-  const speciesList = useAppSelector(selectSpeciesFiskeridir)
+  const speciesList = useAppSelector(selectSpeciesFiskeridir);
   const { filtered, species } = filterLandingOnTimespan(
     Object.values(landings),
     landingTimespan,
   );
   console.log(filtered);
+
+  const option = SpeciesStatOption(filtered,landingTimespan,species,speciesList);
+  console.log(option);
 
   return (
     <>
@@ -103,7 +106,7 @@ export const HistoricalCatches: FC = () => {
 
       {filtered && (
         <ReactEChart
-          option={SpeciesStatOption(filtered, landingTimespan, species)}
+          option={SpeciesStatOption(filtered, landingTimespan, species,speciesList)}
           theme={chartsTheme}
         />
       )}
@@ -115,11 +118,13 @@ const SpeciesStatOption = (
   filtered: BenchmarkTimeSpanObject,
   landingTimespan: BenchmarkTimeSpanParams,
   speciesList: number[],
+  speciesNames: SpeciesFiskeridir[],
 ) => ({
   legend: {},
   tooltip: {
     trigger: "axis",
-    
+    formatter,
+
     axisPointer: {
       type: "shadow",
     },
@@ -130,13 +135,25 @@ const SpeciesStatOption = (
       source: createSource(filtered, landingTimespan),
       print: true,
     },
-    ...transformDataSource(filtered,landingTimespan);
+    // {
+    //   transform : {
+    //     type: "filter",
+    //     config: {dimension: "Years", value : landingTimespan.startYear,}
+    //   }
+    // },
+    // {
+    //   transform : {
+    //     type: "filter",
+    //     config: {dimension: "Years", value : landingTimespan.endYear,}
+    //   }
+    // },
+    ...transformDataSource(filtered, landingTimespan),
   ],
   xAxis: {
     type: "category",
     name: "Months",
     axisLabel: {
-      formatter: (value: number) => Months[value ],
+      formatter: (value: number) => Months[value],
     },
   },
 
@@ -146,16 +163,37 @@ const SpeciesStatOption = (
       formatter: (value: number) => kilosOrTonsFormatter(value),
     },
   },
-
-  series: createSeries(filtered),
+  series: [ 
+  //   {
+  //   type: "bar",
+  //   name : "2023-tot",
+  //   encode: {
+  //     x: "Months",
+  //     y: "Weight",
+  //   },
+  //   datasetIndex: 1,
+  // },
+  // {
+  //   type: "bar",
+  //   name : "2022-tot",
+  //   encode: {
+  //     x: "Months",
+  //     y: "Weight",
+  //   },
+  //     emphasis: {
+  //         focus: "series",
+  //       },
+  //   datasetIndex: 2,
+  // },
+  ...createSeries(filtered,speciesNames),
+] 
 });
 
 interface TooltipParams {
   value: number[];
 }
 const formatter = (data: TooltipParams[]) => {
-  // const [species, prev, mean] = data[0].value;
-  console.log(data)
+  console.log(data);
   // const tooltipContent = (
   //   <Box>
   //     <Typography
@@ -205,75 +243,94 @@ const unrollFiltered = (
     }
   }
 };
-const createSeries = (filtered: BenchmarkTimeSpanObject,  ) => {
+const createSeries = (filtered: BenchmarkTimeSpanObject,speciesNames: SpeciesFiskeridir[]) => {
   const series: object[] = [];
-  unrollFiltered(
-    filtered,
-    series,
-    (
-      data: UnrollType,
-      year: number,
-      month: number,
-      species: number,
-      weight: number,
-      index: number | undefined,
-    ) => {
-      data.push({
-        name : species ,
-        type: "bar",
-        stack: year,
-        emphasis:{
-          focus : "series",
-        },
-        encode: {
-          x: "Months",
-          y: "Weight",
-        },
-        datasetIndex: index,
-        
-      });
-    },
-  );
+  let idx = 1;
 
-  return series
+  for (const year in filtered) {
+    for (const month in filtered[year ]) {
+      for ( const species in filtered[year][month] ) {
+        series.push({
+          name: speciesNames.find((s) => s.id === +species)?.name ?? "Ukjent",
+          type: "bar",
+          stack: year,
+          emphasis: {
+            focus: "series",
+          },
+          encode: {
+            x: "Months",
+            y: "Weight",
+          },
+          datasetIndex: idx ,
+        });
+        idx += 1;
+      }
+    }
+  }
+
+  // unrollFiltered(
+  //   filtered,
+  //   series,
+  //   (
+  //     data: UnrollType,
+  //     year: number,
+  //     month: number,
+  //     species: number,
+  //     weight: number,
+  //     index: number | undefined,
+  //   ) => {
+  //     data.push({
+  //       name: speciesNames.find((s) => s.id === species)?.name ?? "Ukjent",
+  //       type: "bar",
+  //       stack: year,
+  //       emphasis: {
+  //         focus: "series",
+  //       },
+  //       encode: {
+  //         x: "Months",
+  //         y: "Weight",
+  //       },
+  //       datasetIndex: index + 3,
+
+  //     });
+  //   },
+  // );
+
+  return series;
 };
 
 const createSource = (
   filtered: BenchmarkTimeSpanObject,
-  _landingTimespan: BenchmarkTimeSpanParams,
+  landingTimespan: BenchmarkTimeSpanParams,
 ) => {
   const source: (string | number)[][] = [
     ["Years", "Months", "Species", "Weight"],
   ];
+  const dsIndex : Record<number,Record<number,number>> = {
+    [landingTimespan.startYear] : {},
+    [landingTimespan.endYear] : {}
+  };
 
-  unrollFiltered(filtered, source, (data, year, month, species, weight) => {
+  unrollFiltered(filtered, source, (data, year, month, species, weight,index) => {
     data.push([+year, +month, +species, weight]);
   });
 
+  console.log(dsIndex);
   return source;
 };
-const transformDataSource = (src: BenchmarkTimeSpanObject, year: BenchmarkTimeSpanParams) =>
-{
-
-
-
-  const createTransformObjectsBySpecies = (src : Record<number,Record<number,number>>,year:number)  =>{
+const transformDataSource = (src: BenchmarkTimeSpanObject, year: BenchmarkTimeSpanParams) => {
+  const createTransformObjectsBySpecies = (src: BenchmarkTimeSpanObject, year: number) => {
     const curr = src[year];
-    const uniqueSpecies = []
-    console.log(curr)
+    const uniqueSpecies: string[] = [];
     Object.keys(Months).forEach(element => {
-      console.log(Object.keys(curr[element] ?? {}))
-      uniqueSpecies.push(Object.keys(curr[element] ?? []));
+      uniqueSpecies.push(Object.keys(curr[+element] ?? []));
     });
-    const flatUniqueSpecies = [...new Set(uniqueSpecies.flat(Infinity))];
-    
+    const flatUniqueSpecies = uniqueSpecies.flat(Infinity).filter((value, index, array) => array.indexOf(value) === index);
 
-  return flatUniqueSpecies.map((s) => ({transform: {type: 'filter', config : {and:[{'dimension':'Years', "=":year},{ dimension:'Species' ,'=': s}]} }}))
-  }
+  return flatUniqueSpecies.map((s) => ({ transform: { type: "filter", config: { and: [{ dimension: "Years", "=": year }, { dimension: "Species", "=": s }] } ,print : true } }));
+  };
 
-
-  const x=  [...createTransformObjectsBySpecies(src,year.startYear),...createTransformObjectsBySpecies(src,year.endYear)]
-  console.log(x)
-  return x
-}
-
+  const x = [...createTransformObjectsBySpecies(src, year.endYear), ...createTransformObjectsBySpecies(src, year.startYear)];
+  console.log(x);
+  return x;
+};
