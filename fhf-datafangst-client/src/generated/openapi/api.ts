@@ -244,7 +244,7 @@ export interface AisVmsPositionDetails {
      * @type {number}
      * @memberof AisVmsPositionDetails
      */
-    'distanceToShore'?: number | null;
+    'distanceToShore': number;
     /**
      * 
      * @type {boolean}
@@ -274,7 +274,7 @@ export interface AisVmsPositionDetails {
  * @type ApiError
  * @export
  */
-export type ApiError = ApiErrorOneOf | ApiErrorOneOf1 | ApiErrorOneOf2 | ApiErrorOneOf3 | ApiErrorOneOf4 | ApiErrorOneOf5 | ApiErrorOneOf6 | ApiErrorOneOf7 | ApiErrorOneOf8;
+export type ApiError = ApiErrorOneOf | ApiErrorOneOf1 | ApiErrorOneOf2 | ApiErrorOneOf3 | ApiErrorOneOf4 | ApiErrorOneOf5 | ApiErrorOneOf6 | ApiErrorOneOf7 | ApiErrorOneOf8 | ApiErrorOneOf9;
 
 /**
  * 
@@ -396,6 +396,19 @@ export type ApiErrorOneOf8 = typeof ApiErrorOneOf8[keyof typeof ApiErrorOneOf8];
 /**
  * 
  * @export
+ * @interface ApiErrorOneOf9
+ */
+export interface ApiErrorOneOf9 {
+    /**
+     * 
+     * @type {number}
+     * @memberof ApiErrorOneOf9
+     */
+    'InvalidSpeciesGroupId': number;
+}
+/**
+ * 
+ * @export
  * @interface ApiErrorOneOfStartAfterEnd
  */
 export interface ApiErrorOneOfStartAfterEnd {
@@ -475,10 +488,10 @@ export interface CurrentTrip {
     'fishingFacilities': Array<FishingFacility>;
     /**
      * 
-     * @type {Array<Haul>}
+     * @type {Array<TripHaul>}
      * @memberof CurrentTrip
      */
-    'hauls': Array<Haul>;
+    'hauls': Array<TripHaul>;
     /**
      * 
      * @type {number}
@@ -759,6 +772,80 @@ export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeo
 /**
  * 
  * @export
+ * @interface FishingSpotPrediction
+ */
+export interface FishingSpotPrediction {
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingSpotPrediction
+     */
+    'latitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingSpotPrediction
+     */
+    'longitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingSpotPrediction
+     */
+    'species': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingSpotPrediction
+     */
+    'week': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingSpotPrediction
+     */
+    'year': number;
+}
+/**
+ * 
+ * @export
+ * @interface FishingWeightPrediction
+ */
+export interface FishingWeightPrediction {
+    /**
+     * 
+     * @type {string}
+     * @memberof FishingWeightPrediction
+     */
+    'catchLocationId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingWeightPrediction
+     */
+    'speciesGroupId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingWeightPrediction
+     */
+    'week': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingWeightPrediction
+     */
+    'weight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FishingWeightPrediction
+     */
+    'year': number;
+}
+/**
+ * 
+ * @export
  * @interface FiskeridirVessel
  */
 export interface FiskeridirVessel {
@@ -988,6 +1075,42 @@ export interface Haul {
      * @memberof Haul
      */
     'windSpeed10m'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'oceanClimateDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'salinity'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'seaFloorDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'waterDirection'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'waterSpeed'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'waterTemperature'?: number | null;
     /**
      * 
      * @type {string}
@@ -1344,6 +1467,49 @@ export interface HaulCatch {
      * @memberof HaulCatch
      */
     'speciesGroupId': number;
+}
+/**
+ * 
+ * @export
+ * @interface HaulOceanClimate
+ */
+export interface HaulOceanClimate {
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'oceanClimateDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'salinity'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'seaFloorDepth'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'waterDirection'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'waterSpeed'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulOceanClimate
+     */
+    'waterTemperature'?: number | null;
 }
 /**
  * 
@@ -1865,10 +2031,10 @@ export interface Trip {
     'gearIds': Array<number>;
     /**
      * 
-     * @type {Array<Haul>}
+     * @type {Array<TripHaul>}
      * @memberof Trip
      */
-    'hauls': Array<Haul>;
+    'hauls': Array<TripHaul>;
     /**
      * 
      * @type {string}
@@ -1940,6 +2106,109 @@ export const TripAssemblerId = {
 export type TripAssemblerId = typeof TripAssemblerId[keyof typeof TripAssemblerId];
 
 
+/**
+ * 
+ * @export
+ * @interface TripHaul
+ */
+export interface TripHaul {
+    /**
+     * 
+     * @type {Array<HaulCatch>}
+     * @memberof TripHaul
+     */
+    'catches': Array<HaulCatch>;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'duration': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TripHaul
+     */
+    'ersActivityId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'fiskeridirVesselId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'gearGroupId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'gearId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'haulDistance'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'haulId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'startLatitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'startLongitude': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TripHaul
+     */
+    'startTimestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'stopLatitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'stopLongitude': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TripHaul
+     */
+    'stopTimestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripHaul
+     */
+    'totalLivingWeight': number;
+    /**
+     * 
+     * @type {Array<WhaleCatch>}
+     * @memberof TripHaul
+     */
+    'whaleCatches': Array<WhaleCatch>;
+}
 /**
  * 
  * @export
@@ -2059,6 +2328,12 @@ export interface VmsPosition {
      * @type {number}
      * @memberof VmsPosition
      */
+    'distanceToShore': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof VmsPosition
+     */
     'lat': number;
     /**
      * 
@@ -2157,6 +2432,25 @@ export interface Weather {
      * @memberof Weather
      */
     'windSpeed10m'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface WeatherLocation
+ */
+export interface WeatherLocation {
+    /**
+     * 
+     * @type {number}
+     * @memberof WeatherLocation
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof WeatherLocation
+     */
+    'polygon': string;
 }
 /**
  * 
@@ -2847,6 +3141,349 @@ export class V1fishingFacilityApi extends BaseAPI {
      */
     public fishingFacilities(requestParameters: V1fishingFacilityApiFishingFacilitiesRequest = {}, options?: AxiosRequestConfig) {
         return V1fishingFacilityApiFp(this.configuration).fishingFacilities(requestParameters.mmsis, requestParameters.fiskeridirVesselIds, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.sorting, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * V1fishingPredictionApi - axios parameter creator
+ * @export
+ */
+export const V1fishingPredictionApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        allFishingSpotPredictions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/fishing_spot_predictions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        allFishingWeightPredictions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/fishing_weight_predictions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} speciesGroupId 
+         * @param {number} [week] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fishingSpotPredictions: async (speciesGroupId: number, week?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'speciesGroupId' is not null or undefined
+            assertParamExists('fishingSpotPredictions', 'speciesGroupId', speciesGroupId)
+            const localVarPath = `/v1.0/fishing_spot_predictions/{species_group_id}`
+                .replace(`{${"species_group_id"}}`, encodeURIComponent(String(speciesGroupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (week !== undefined) {
+                localVarQueryParameter['week'] = week;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} speciesGroupId 
+         * @param {number} [week] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fishingWeightPredictions: async (speciesGroupId: number, week?: number, limit?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'speciesGroupId' is not null or undefined
+            assertParamExists('fishingWeightPredictions', 'speciesGroupId', speciesGroupId)
+            const localVarPath = `/v1.0/fishing_weight_predictions/{species_group_id}`
+                .replace(`{${"species_group_id"}}`, encodeURIComponent(String(speciesGroupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (week !== undefined) {
+                localVarQueryParameter['week'] = week;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1fishingPredictionApi - functional programming interface
+ * @export
+ */
+export const V1fishingPredictionApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1fishingPredictionApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async allFishingSpotPredictions(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingSpotPrediction>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.allFishingSpotPredictions(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async allFishingWeightPredictions(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.allFishingWeightPredictions(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} speciesGroupId 
+         * @param {number} [week] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fishingSpotPredictions(speciesGroupId: number, week?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingSpotPrediction>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingSpotPredictions(speciesGroupId, week, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} speciesGroupId 
+         * @param {number} [week] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fishingWeightPredictions(speciesGroupId: number, week?: number, limit?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingWeightPrediction>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingWeightPredictions(speciesGroupId, week, limit, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1fishingPredictionApi - factory interface
+ * @export
+ */
+export const V1fishingPredictionApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1fishingPredictionApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        allFishingSpotPredictions(options?: AxiosRequestConfig): AxiosPromise<Array<FishingSpotPrediction>> {
+            return localVarFp.allFishingSpotPredictions(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        allFishingWeightPredictions(options?: AxiosRequestConfig): AxiosPromise<Array<FishingWeightPrediction>> {
+            return localVarFp.allFishingWeightPredictions(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1fishingPredictionApiFishingSpotPredictionsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fishingSpotPredictions(requestParameters: V1fishingPredictionApiFishingSpotPredictionsRequest, options?: AxiosRequestConfig): AxiosPromise<FishingSpotPrediction> {
+            return localVarFp.fishingSpotPredictions(requestParameters.speciesGroupId, requestParameters.week, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1fishingPredictionApiFishingWeightPredictionsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fishingWeightPredictions(requestParameters: V1fishingPredictionApiFishingWeightPredictionsRequest, options?: AxiosRequestConfig): AxiosPromise<FishingWeightPrediction> {
+            return localVarFp.fishingWeightPredictions(requestParameters.speciesGroupId, requestParameters.week, requestParameters.limit, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for fishingSpotPredictions operation in V1fishingPredictionApi.
+ * @export
+ * @interface V1fishingPredictionApiFishingSpotPredictionsRequest
+ */
+export interface V1fishingPredictionApiFishingSpotPredictionsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof V1fishingPredictionApiFishingSpotPredictions
+     */
+    readonly speciesGroupId: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1fishingPredictionApiFishingSpotPredictions
+     */
+    readonly week?: number
+}
+
+/**
+ * Request parameters for fishingWeightPredictions operation in V1fishingPredictionApi.
+ * @export
+ * @interface V1fishingPredictionApiFishingWeightPredictionsRequest
+ */
+export interface V1fishingPredictionApiFishingWeightPredictionsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof V1fishingPredictionApiFishingWeightPredictions
+     */
+    readonly speciesGroupId: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1fishingPredictionApiFishingWeightPredictions
+     */
+    readonly week?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1fishingPredictionApiFishingWeightPredictions
+     */
+    readonly limit?: number
+}
+
+/**
+ * V1fishingPredictionApi - object-oriented interface
+ * @export
+ * @class V1fishingPredictionApi
+ * @extends {BaseAPI}
+ */
+export class V1fishingPredictionApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fishingPredictionApi
+     */
+    public allFishingSpotPredictions(options?: AxiosRequestConfig) {
+        return V1fishingPredictionApiFp(this.configuration).allFishingSpotPredictions(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fishingPredictionApi
+     */
+    public allFishingWeightPredictions(options?: AxiosRequestConfig) {
+        return V1fishingPredictionApiFp(this.configuration).allFishingWeightPredictions(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1fishingPredictionApiFishingSpotPredictionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fishingPredictionApi
+     */
+    public fishingSpotPredictions(requestParameters: V1fishingPredictionApiFishingSpotPredictionsRequest, options?: AxiosRequestConfig) {
+        return V1fishingPredictionApiFp(this.configuration).fishingSpotPredictions(requestParameters.speciesGroupId, requestParameters.week, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1fishingPredictionApiFishingWeightPredictionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fishingPredictionApi
+     */
+    public fishingWeightPredictions(requestParameters: V1fishingPredictionApiFishingWeightPredictionsRequest, options?: AxiosRequestConfig) {
+        return V1fishingPredictionApiFp(this.configuration).fishingWeightPredictions(requestParameters.speciesGroupId, requestParameters.week, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4354,54 +4991,6 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @param {number} fiskeridirVesselId 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {Ordering} [ordering] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        tripsOfVessel: async (fiskeridirVesselId: number, limit?: number, offset?: number, ordering?: Ordering, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'fiskeridirVesselId' is not null or undefined
-            assertParamExists('tripsOfVessel', 'fiskeridirVesselId', fiskeridirVesselId)
-            const localVarPath = `/v1.0/trips/{fiskeridir_vessel_id}`
-                .replace(`{${"fiskeridir_vessel_id"}}`, encodeURIComponent(String(fiskeridirVesselId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-            if (ordering !== undefined) {
-                localVarQueryParameter['ordering'] = ordering;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -4464,19 +5053,6 @@ export const V1tripApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.trips(limit, offset, ordering, deliveryPoints, startDate, endDate, minWeight, maxWeight, sorting, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        /**
-         * 
-         * @param {number} fiskeridirVesselId 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {Ordering} [ordering] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async tripsOfVessel(fiskeridirVesselId: number, limit?: number, offset?: number, ordering?: Ordering, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Trip>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tripsOfVessel(fiskeridirVesselId, limit, offset, ordering, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
     }
 };
 
@@ -4522,15 +5098,6 @@ export const V1tripApiFactory = function (configuration?: Configuration, basePat
          */
         trips(requestParameters: V1tripApiTripsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Trip>> {
             return localVarFp.trips(requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {V1tripApiTripsOfVesselRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        tripsOfVessel(requestParameters: V1tripApiTripsOfVesselRequest, options?: AxiosRequestConfig): AxiosPromise<Array<Trip>> {
-            return localVarFp.tripsOfVessel(requestParameters.fiskeridirVesselId, requestParameters.limit, requestParameters.offset, requestParameters.ordering, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -4676,41 +5243,6 @@ export interface V1tripApiTripsRequest {
 }
 
 /**
- * Request parameters for tripsOfVessel operation in V1tripApi.
- * @export
- * @interface V1tripApiTripsOfVesselRequest
- */
-export interface V1tripApiTripsOfVesselRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof V1tripApiTripsOfVessel
-     */
-    readonly fiskeridirVesselId: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof V1tripApiTripsOfVessel
-     */
-    readonly limit?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof V1tripApiTripsOfVessel
-     */
-    readonly offset?: number
-
-    /**
-     * 
-     * @type {Ordering}
-     * @memberof V1tripApiTripsOfVessel
-     */
-    readonly ordering?: Ordering
-}
-
-/**
  * V1tripApi - object-oriented interface
  * @export
  * @class V1tripApi
@@ -4759,17 +5291,6 @@ export class V1tripApi extends BaseAPI {
      */
     public trips(requestParameters: V1tripApiTripsRequest = {}, options?: AxiosRequestConfig) {
         return V1tripApiFp(this.configuration).trips(requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {V1tripApiTripsOfVesselRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof V1tripApi
-     */
-    public tripsOfVessel(requestParameters: V1tripApiTripsOfVesselRequest, options?: AxiosRequestConfig) {
-        return V1tripApiFp(this.configuration).tripsOfVessel(requestParameters.fiskeridirVesselId, requestParameters.limit, requestParameters.offset, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5240,6 +5761,35 @@ export const V1weatherApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        weatherLocations: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/weather_locations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -5262,6 +5812,15 @@ export const V1weatherApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.weather(startDate, endDate, weatherLocationIds, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async weatherLocations(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WeatherLocation>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.weatherLocations(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -5280,6 +5839,14 @@ export const V1weatherApiFactory = function (configuration?: Configuration, base
          */
         weather(requestParameters: V1weatherApiWeatherRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<Weather>> {
             return localVarFp.weather(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        weatherLocations(options?: AxiosRequestConfig): AxiosPromise<Array<WeatherLocation>> {
+            return localVarFp.weatherLocations(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5328,6 +5895,16 @@ export class V1weatherApi extends BaseAPI {
      */
     public weather(requestParameters: V1weatherApiWeatherRequest = {}, options?: AxiosRequestConfig) {
         return V1weatherApiFp(this.configuration).weather(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1weatherApi
+     */
+    public weatherLocations(options?: AxiosRequestConfig) {
+        return V1weatherApiFp(this.configuration).weatherLocations(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -12,7 +12,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { Delivery, Haul, SpeciesFiskeridir, Trip } from "generated/openapi";
+import { Delivery, TripHaul, SpeciesFiskeridir, Trip } from "generated/openapi";
 import {
   BenchmarkDataSource,
   selectBenchmarkDataSource,
@@ -26,10 +26,10 @@ import chartsTheme from "app/chartsTheme";
 import { renderToStaticMarkup } from "react-dom/server";
 import theme from "app/theme";
 
-const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
+const sumObjectValues = (hauls: (TripHaul | Delivery)[]) => {
   const res: Record<number, number> = {};
   for (const h of hauls) {
-    for (const c of (h as Haul).catches ?? (h as Delivery).delivered) {
+    for (const c of (h as TripHaul).catches ?? (h as Delivery).delivered) {
       res[c.speciesFiskeridirId] =
         (res[c.speciesFiskeridirId] ?? 0) + c.livingWeight;
     }
