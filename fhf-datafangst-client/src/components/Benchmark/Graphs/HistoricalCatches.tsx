@@ -8,13 +8,11 @@ import {
   useAppSelector,
 } from "store";
 import { Landing, SpeciesFiskeridir } from "generated/openapi";
-
 import ReactEChart from "echarts-for-react";
 import { Months, kilosOrTonsFormatter } from "utils";
 import chartsTheme from "app/chartsTheme";
 import { renderToStaticMarkup } from "react-dom/server";
 import theme from "app/theme";
-import { Dictionary } from "@reduxjs/toolkit";
 
 type BenchmarkTimeSpanObject = Record<
   number,
@@ -49,12 +47,9 @@ const filterLandingOnTimespan = (
       data[year][monthIdx][c.speciesFiskeridirId] =
         (data[year][monthIdx][c.speciesFiskeridirId] ?? 0) + c.livingWeight;
 
-      // data[year][monthIdx][-1] =
-      //   (data[year][monthIdx][-1] ?? 0) + c.livingWeight;
       species.push(c.speciesFiskeridirId);
     }
   }
-  console.log(data);
 
   // add missing species
   for (const year in data) {
@@ -77,7 +72,7 @@ export const HistoricalCatches: FC = () => {
   );
 
   return (
-    <>
+    <Box>
       <Divider sx={{ mb: 2 }} />
 
       <Box
@@ -125,7 +120,7 @@ export const HistoricalCatches: FC = () => {
           theme={chartsTheme}
         />
       )}
-    </>
+    </Box>
   );
 };
 
@@ -165,18 +160,25 @@ const SpeciesStatOption = (
     formatter: (params: any) => {
       const topSpecies = 5;
       const paramSorted = params
-        .sort((a, b) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
+        .sort((a: any, b: any) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
         .filter((p: any) => p.value.slice(-1)[0] > 0);
 
       const linePlots = paramSorted
         .filter((p: any) => p.seriesType === "line")
+        .sort((a: any, b: any) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
         .reverse();
       const currYearbarPlot = paramSorted
         .filter((p: any) => p.seriesType === "bar")
-        .filter((p) => p.value[0] === landingTimespan.startYear);
+        .sort((a: any, b: any) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
+        .filter((p: any) => p.value[0] === landingTimespan.startYear)
+        .reverse()
+        .slice(0, topSpecies);
       const lastYearbarPlot = paramSorted
         .filter((p: any) => p.seriesType === "bar")
-        .filter((p) => p.value[0] === landingTimespan.endYear);
+        .sort((a: any, b: any) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
+        .filter((p: any) => p.value[0] === landingTimespan.endYear)
+        .reverse()
+        .slice(0, topSpecies);
 
       return renderToStaticMarkup(
         <Box>
@@ -186,7 +188,6 @@ const SpeciesStatOption = (
           {linePlots.map((p: any) => (
             <Box key={p.seriesName}>
               <Typography variant="body1" color="text.secondary">
-                asdasd
                 {p.seriesName}: {kilosOrTonsFormatter(p.value.slice(-1)[0])}
               </Typography>
             </Box>
@@ -210,16 +211,6 @@ const SpeciesStatOption = (
               {lastYearbarPlot.map((p: any) => (
                 <Box key={p.seriesName}>
                   <Typography variant="body1" color="text.secondary">
-                    {/* <span
-                      sx={{
-                        display: "inline-block",
-                        width: 10,
-                        height: 10,
-                        backgroundColor: p.color,
-                        mr: 4,
-                        borderRadius: 10,
-                      }}
-                    ></span>{" "} */}
                     {p.seriesName}: {kilosOrTonsFormatter(p.value.slice(-1)[0])}
                   </Typography>
                 </Box>
@@ -258,7 +249,6 @@ const SpeciesStatOption = (
           dimension: "Years",
           "=": landingTimespan.startYear,
         },
-        print: true,
       },
     },
     {
@@ -269,7 +259,6 @@ const SpeciesStatOption = (
           dimension: "Years",
           "=": landingTimespan.endYear,
         },
-        print: true,
       },
     },
 
@@ -277,7 +266,6 @@ const SpeciesStatOption = (
   ],
   xAxis: {
     type: "category",
-    name: "Months",
     axisLabel: {
       formatter: (value: number) => Months[value],
     },
@@ -294,6 +282,7 @@ const SpeciesStatOption = (
     {
       type: "value",
       name: "Totalvekt",
+
       axisLabel: {
         formatter: (value: number) => kilosOrTonsFormatter(value),
       },
@@ -341,7 +330,6 @@ const createSeries = (
   let idx = 4;
 
   const flat = createSource(filtered)[0].source;
-  console.log(flat);
 
   const pushSeries = (year: number) => {
     const yearList = flat.filter((x) => x[0] === year);
@@ -366,7 +354,6 @@ const createSeries = (
 
   pushSeries(landingTimespan.endYear);
   pushSeries(landingTimespan.startYear);
-  console.log("series", series);
 
   return series;
 };
@@ -421,7 +408,6 @@ const transformDataSource = (
             { dimension: "Species", "=": s },
           ],
         },
-        print: true,
       },
     }));
   };

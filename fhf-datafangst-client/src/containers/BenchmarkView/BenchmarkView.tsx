@@ -5,7 +5,7 @@ import {
   SpeciesHistogram,
   LocalLoadingProgress,
   FollowList,
-  HistoricalCatches
+  HistoricalCatches,
 } from "components";
 import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";

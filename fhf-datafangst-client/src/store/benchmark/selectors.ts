@@ -25,5 +25,3 @@ export const selectBenchmarkTimeSpan = createSelector(
   selectAppState,
   (state) => state.benchmarkTimeSpan,
 );
-
-;
