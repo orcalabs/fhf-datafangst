@@ -105,7 +105,7 @@ export const HistoricalCatches: FC = () => {
         }}
       >
         <Typography variant="h3" color="text.secondary">
-          Noe
+          Hittil i år
         </Typography>
       </Box>
 
