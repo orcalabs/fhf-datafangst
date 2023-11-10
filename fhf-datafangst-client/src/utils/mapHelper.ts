@@ -13,7 +13,12 @@ import Feature from "ol/Feature";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
-import { AisVmsPosition, FishingFacility, Haul } from "generated/openapi";
+import {
+  AisVmsPosition,
+  FishingFacility,
+  Haul,
+  TripHaul,
+} from "generated/openapi";
 import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
 import {
@@ -575,7 +580,7 @@ export const tripHaulStyle = (
 
 /* Generates map markers for Hauls in a Trip */
 export const generateTripHaulsVector = (
-  hauls: Haul[],
+  hauls: (Haul | TripHaul)[],
   zoomLevel: number | undefined,
   selectedTripHaul?: Haul,
 ) => {
