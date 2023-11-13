@@ -7,13 +7,12 @@ import {
   selectSpeciesFiskeridir,
   useAppSelector,
 } from "store";
-import { Landing, Species, SpeciesFiskeridir } from "generated/openapi";
+import { Landing, SpeciesFiskeridir } from "generated/openapi";
 import ReactEChart from "echarts-for-react";
 import { Months, kilosOrTonsFormatter } from "utils";
 import chartsTheme from "app/chartsTheme";
 import { renderToStaticMarkup } from "react-dom/server";
 import theme from "app/theme";
-import { fi } from "date-fns/locale";
 
 type BenchmarkTimeSpanObject = Record<
   number,
