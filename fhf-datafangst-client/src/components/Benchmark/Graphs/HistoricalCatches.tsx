@@ -36,7 +36,7 @@ const filterLandingOnTimespan = (
   });
 
   const species: number[] = [];
-  const totalWeight: Record<number,number> = {};
+  const totalWeight: Record<number, number> = {};
 
   for (const landing of landings) {
     const year = new Date(landing.landingTimestamp).getFullYear();
@@ -142,14 +142,14 @@ const SpeciesStatOption = (
     pageTextStyle: {
       color: "white",
     },
-    data : [...[landingTimespan.endYear.toString(),landingTimespan.startYear.toString()],...Object.keys(speciesRecord)
-    .sort((a,b) => speciesRecord[+a] - speciesRecord[+b])
-    .reverse()
-    .map((s) => toSpeciesName(speciesNames,+s)),],
+    data: [...[landingTimespan.endYear.toString(), landingTimespan.startYear.toString()], ...Object.keys(speciesRecord)
+      .sort((a, b) => speciesRecord[+b] - speciesRecord[+a])
+      .map((s) => toSpeciesName(speciesNames, +s)),],
 
-    selected : {...{[landingTimespan.startYear] : true, [landingTimespan.endYear] : true}, ...Object.keys(speciesRecord)
-      .reduce((acc,curr) => ({...acc, [toSpeciesName(speciesNames,+curr)]: speciesRecord[+curr] > 10000 }),{}),
-  }
+    selected: {
+      ...{ [landingTimespan.startYear]: true, [landingTimespan.endYear]: true }, ...Object.keys(speciesRecord)
+        .reduce((acc, curr) => ({ ...acc, [toSpeciesName(speciesNames, +curr)]: speciesRecord[+curr] > 10000 }), {}),
+    }
   },
 
   toolbox: {
@@ -167,21 +167,18 @@ const SpeciesStatOption = (
 
       const linePlots = paramSorted
         .filter((p: any) => p.seriesType === "line")
-        .sort((a: any, b: any) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
-        .reverse();
+        .sort((a: any, b: any) => b.value.slice(-1)[0] - a.value.slice(-1)[0])
+
       const currYearbarPlot = paramSorted
-        .filter((p: any) => p.seriesType === "bar")
-        .sort((a: any, b: any) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
-        .filter((p: any) => p.value[0] === landingTimespan.startYear)
-        .reverse()
+        .filter((p: any) => p.seriesType === "bar" && p.value[0] === landingTimespan.startYear)
+        .sort((a: any, b: any) => b.value.slice(-1)[0] - a.value.slice(-1)[0])
         .slice(0, topSpecies);
+
       const lastYearbarPlot = paramSorted
-        .filter((p: any) => p.seriesType === "bar")
-        .sort((a: any, b: any) => a.value.slice(-1)[0] - b.value.slice(-1)[0])
-        .filter((p: any) => p.value[0] === landingTimespan.endYear)
-        .reverse()
+        .filter((p: any) => p.seriesType === "bar" && p.value[0] === landingTimespan.endYear)
+        .sort((a: any, b: any) => b.value.slice(-1)[0] - a.value.slice(-1)[0])
         .slice(0, topSpecies);
-      
+
       const month = Months[paramSorted[0].value[paramSorted[0].encode.x[0]]];
       return renderToStaticMarkup(
         <Box>
@@ -227,7 +224,7 @@ const SpeciesStatOption = (
                 variant="h4"
               >
                 Topp 5 i {month} {landingTimespan.startYear}{" "}
-              
+
               </Typography>
               {currYearbarPlot.map((p: any) => (
                 <Box key={p.seriesName}>
@@ -340,7 +337,7 @@ const createSeries = (
     const speciesYear = new Set<string | number>(yearList.map((x) => x[2]));
     for (const species of Array.from(speciesYear.values())) {
       series.push({
-        name: toSpeciesName(speciesNames,+species),
+        name: toSpeciesName(speciesNames, +species),
         type: "bar",
         stack: year,
         datasetId: `${species}-${year}`,
