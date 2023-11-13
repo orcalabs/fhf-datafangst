@@ -7,12 +7,13 @@ import {
   selectSpeciesFiskeridir,
   useAppSelector,
 } from "store";
-import { Landing, SpeciesFiskeridir } from "generated/openapi";
+import { Landing, Species, SpeciesFiskeridir } from "generated/openapi";
 import ReactEChart from "echarts-for-react";
 import { Months, kilosOrTonsFormatter } from "utils";
 import chartsTheme from "app/chartsTheme";
 import { renderToStaticMarkup } from "react-dom/server";
 import theme from "app/theme";
+import { fi } from "date-fns/locale";
 
 type BenchmarkTimeSpanObject = Record<
   number,
@@ -35,6 +36,7 @@ const filterLandingOnTimespan = (
   });
 
   const species: number[] = [];
+  const totalWeight: Record<number,number> = {};
 
   for (const landing of landings) {
     const year = new Date(landing.landingTimestamp).getFullYear();
@@ -48,6 +50,7 @@ const filterLandingOnTimespan = (
         (data[year][monthIdx][c.speciesFiskeridirId] ?? 0) + c.livingWeight;
 
       species.push(c.speciesFiskeridirId);
+      totalWeight[c.speciesFiskeridirId] = (totalWeight[c.speciesFiskeridirId] ?? 0) + c.livingWeight;
     }
   }
 
@@ -59,7 +62,7 @@ const filterLandingOnTimespan = (
       }
     }
   }
-  return { filtered: data, species: Array.from(new Set(species)) };
+  return { filtered: data, species: totalWeight };
 };
 
 export const HistoricalCatches: FC = () => {
@@ -124,10 +127,12 @@ export const HistoricalCatches: FC = () => {
   );
 };
 
+const toSpeciesName = (species: SpeciesFiskeridir[], id: number) => species.find((s) => s.id === id)?.name ?? "Ukjent";
+
 const SpeciesStatOption = (
   filtered: BenchmarkTimeSpanObject,
   landingTimespan: BenchmarkTimeSpanParams,
-  _speciesList: number[],
+  speciesRecord: Record<number, number>,
   speciesNames: SpeciesFiskeridir[],
 ) => ({
   legend: {
@@ -137,6 +142,14 @@ const SpeciesStatOption = (
     pageTextStyle: {
       color: "white",
     },
+    data : [...[landingTimespan.endYear.toString(),landingTimespan.startYear.toString()],...Object.keys(speciesRecord)
+    .sort((a,b) => speciesRecord[+a] - speciesRecord[+b])
+    .reverse()
+    .map((s) => toSpeciesName(speciesNames,+s)),],
+
+    selected : {...{[landingTimespan.startYear] : true, [landingTimespan.endYear] : true}, ...Object.keys(speciesRecord)
+      .reduce((acc,curr) => ({...acc, [toSpeciesName(speciesNames,+curr)]: speciesRecord[+curr] > 10000 }),{}),
+  }
   },
 
   toolbox: {
@@ -168,7 +181,8 @@ const SpeciesStatOption = (
         .filter((p: any) => p.value[0] === landingTimespan.endYear)
         .reverse()
         .slice(0, topSpecies);
-
+      
+      const month = Months[paramSorted[0].value[paramSorted[0].encode.x[0]]];
       return renderToStaticMarkup(
         <Box>
           <Typography variant="h4" color="text.secondary">
@@ -195,7 +209,7 @@ const SpeciesStatOption = (
                 }}
                 variant="h4"
               >
-                Topp 5 i {landingTimespan.endYear}{" "}
+                Topp 5 i {month} {landingTimespan.endYear}{" "}
               </Typography>
               {lastYearbarPlot.map((p: any) => (
                 <Box key={p.seriesName}>
@@ -212,7 +226,8 @@ const SpeciesStatOption = (
                 }}
                 variant="h4"
               >
-                Topp 5 i {landingTimespan.startYear}{" "}
+                Topp 5 i {month} {landingTimespan.startYear}{" "}
+              
               </Typography>
               {currYearbarPlot.map((p: any) => (
                 <Box key={p.seriesName}>
@@ -280,7 +295,7 @@ const SpeciesStatOption = (
   series: [
     {
       type: "line",
-      name: `${landingTimespan.startYear}`,
+      name: landingTimespan.startYear,
       datasetIndex: 2,
       yAxisIndex: 1,
       axisLabel: {
@@ -296,7 +311,7 @@ const SpeciesStatOption = (
       type: "line",
       datasetIndex: 3,
       yAxisIndex: 1,
-      name: `${landingTimespan.endYear}`,
+      name: landingTimespan.endYear,
       axisLabel: {
         formatter: (value: number) => kilosOrTonsFormatter(value),
       },
@@ -316,7 +331,7 @@ const createSeries = (
   speciesNames: SpeciesFiskeridir[],
 ) => {
   const series: object[] = [];
-  let idx = 4;
+  let idx = 4; // hardcode
 
   const flat = createSource(filtered)[0].source;
 
@@ -325,10 +340,13 @@ const createSeries = (
     const speciesYear = new Set<string | number>(yearList.map((x) => x[2]));
     for (const species of Array.from(speciesYear.values())) {
       series.push({
-        name: speciesNames.find((s) => s.id === +species)?.name ?? "Ukjent",
+        name: toSpeciesName(speciesNames,+species),
         type: "bar",
         stack: year,
         datasetId: `${species}-${year}`,
+        emphasis: {
+          focus: "series",
+        },
 
         encode: {
           x: "Months",
