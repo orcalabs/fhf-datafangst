@@ -275,14 +275,14 @@ const SpeciesStatOption = (
   yAxis: [
     {
       type: "value",
-      name: "Fiskevekt",
+      name: "Vekt (art)",
       axisLabel: {
         formatter: (value: number) => kilosOrTonsFormatter(value),
       },
     },
     {
       type: "value",
-      name: "Totalvekt",
+      name: "Akkumulert vekt (månedlig)",
 
       axisLabel: {
         formatter: (value: number) => kilosOrTonsFormatter(value),
