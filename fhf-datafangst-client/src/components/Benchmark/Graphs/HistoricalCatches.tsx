@@ -127,7 +127,7 @@ export const HistoricalCatches: FC = () => {
 const SpeciesStatOption = (
   filtered: BenchmarkTimeSpanObject,
   landingTimespan: BenchmarkTimeSpanParams,
-  speciesList: number[],
+  _speciesList: number[],
   speciesNames: SpeciesFiskeridir[],
 ) => ({
   legend: {
@@ -140,17 +140,6 @@ const SpeciesStatOption = (
   },
 
   toolbox: {
-    feature: {
-      dataZoom: {
-        yAxisIndex: "none",
-      },
-      brush: {
-        type: ["rect", "polygon", "clear"],
-      },
-      magicType: {
-        type: ["stack", "tiled"],
-      },
-    },
   },
   tooltip: {
     trigger: "axis",
