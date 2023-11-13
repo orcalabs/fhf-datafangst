@@ -53,8 +53,8 @@ export const Bar: FC<Props> = (props) => {
           {hovering
             ? kilosOrTonsFormatter(value)
             : length < 1
-            ? length.toPrecision(1) + "%"
-            : length.toFixed(1).toString() + "%"}
+              ? length.toPrecision(1) + "%"
+              : length.toFixed(1).toString() + "%"}
         </Box>
         <Box
           sx={{

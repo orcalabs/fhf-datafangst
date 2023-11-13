@@ -50,7 +50,8 @@ const filterLandingOnTimespan = (
         (data[year][monthIdx][c.speciesFiskeridirId] ?? 0) + c.livingWeight;
 
       species.push(c.speciesFiskeridirId);
-      totalWeight[c.speciesFiskeridirId] = (totalWeight[c.speciesFiskeridirId] ?? 0) + c.livingWeight;
+      totalWeight[c.speciesFiskeridirId] =
+        (totalWeight[c.speciesFiskeridirId] ?? 0) + c.livingWeight;
     }
   }
 
@@ -127,7 +128,8 @@ export const HistoricalCatches: FC = () => {
   );
 };
 
-const toSpeciesName = (species: SpeciesFiskeridir[], id: number) => species.find((s) => s.id === id)?.name ?? "Ukjent";
+const toSpeciesName = (species: SpeciesFiskeridir[], id: number) =>
+  species.find((s) => s.id === id)?.name ?? "Ukjent";
 
 const SpeciesStatOption = (
   filtered: BenchmarkTimeSpanObject,
@@ -142,18 +144,29 @@ const SpeciesStatOption = (
     pageTextStyle: {
       color: "white",
     },
-    data: [...[landingTimespan.endYear.toString(), landingTimespan.startYear.toString()], ...Object.keys(speciesRecord)
-      .sort((a, b) => speciesRecord[+b] - speciesRecord[+a])
-      .map((s) => toSpeciesName(speciesNames, +s)),],
+    data: [
+      ...[
+        landingTimespan.endYear.toString(),
+        landingTimespan.startYear.toString(),
+      ],
+      ...Object.keys(speciesRecord)
+        .sort((a, b) => speciesRecord[+b] - speciesRecord[+a])
+        .map((s) => toSpeciesName(speciesNames, +s)),
+    ],
 
     selected: {
-      ...{ [landingTimespan.startYear]: true, [landingTimespan.endYear]: true }, ...Object.keys(speciesRecord)
-        .reduce((acc, curr) => ({ ...acc, [toSpeciesName(speciesNames, +curr)]: speciesRecord[+curr] > 10000 }), {}),
-    }
+      ...{ [landingTimespan.startYear]: true, [landingTimespan.endYear]: true },
+      ...Object.keys(speciesRecord).reduce(
+        (acc, curr) => ({
+          ...acc,
+          [toSpeciesName(speciesNames, +curr)]: speciesRecord[+curr] > 10000,
+        }),
+        {},
+      ),
+    },
   },
 
-  toolbox: {
-  },
+  toolbox: {},
   tooltip: {
     trigger: "axis",
     axisPointer: {
@@ -167,15 +180,21 @@ const SpeciesStatOption = (
 
       const linePlots = paramSorted
         .filter((p: any) => p.seriesType === "line")
-        .sort((a: any, b: any) => b.value.slice(-1)[0] - a.value.slice(-1)[0])
+        .sort((a: any, b: any) => b.value.slice(-1)[0] - a.value.slice(-1)[0]);
 
       const currYearbarPlot = paramSorted
-        .filter((p: any) => p.seriesType === "bar" && p.value[0] === landingTimespan.startYear)
+        .filter(
+          (p: any) =>
+            p.seriesType === "bar" && p.value[0] === landingTimespan.startYear,
+        )
         .sort((a: any, b: any) => b.value.slice(-1)[0] - a.value.slice(-1)[0])
         .slice(0, topSpecies);
 
       const lastYearbarPlot = paramSorted
-        .filter((p: any) => p.seriesType === "bar" && p.value[0] === landingTimespan.endYear)
+        .filter(
+          (p: any) =>
+            p.seriesType === "bar" && p.value[0] === landingTimespan.endYear,
+        )
         .sort((a: any, b: any) => b.value.slice(-1)[0] - a.value.slice(-1)[0])
         .slice(0, topSpecies);
 
@@ -224,7 +243,6 @@ const SpeciesStatOption = (
                 variant="h4"
               >
                 Topp 5 i {month} {landingTimespan.startYear}{" "}
-
               </Typography>
               {currYearbarPlot.map((p: any) => (
                 <Box key={p.seriesName}>
