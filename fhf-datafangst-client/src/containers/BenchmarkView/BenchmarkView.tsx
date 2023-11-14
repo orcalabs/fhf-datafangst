@@ -5,6 +5,7 @@ import {
   SpeciesHistogram,
   LocalLoadingProgress,
   FollowList,
+  HistoricalCatches,
 } from "components";
 import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";
@@ -13,6 +14,7 @@ import {
   getBenchmarkData,
   getTrips,
   selectBenchmarkNumHistoric,
+  selectBenchmarkTimeSpan,
   selectBwUserProfile,
   selectIsLoggedIn,
   selectTrips,
@@ -23,6 +25,7 @@ import {
   setViewState,
   useAppDispatch,
   useAppSelector,
+  getLandings,
 } from "store";
 import { Ordering, TripSorting } from "generated/openapi";
 import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
@@ -72,6 +75,7 @@ export const BenchmarkView: FC = () => {
   const trips = useAppSelector(selectTrips);
   const user = useAppSelector(selectUser);
   const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
+  const benchmarkTimespan = useAppSelector(selectBenchmarkTimeSpan);
   const dispatch = useAppDispatch();
   const tripsLoading = useAppSelector(selectTripsLoading);
   const navigate = useNavigate();
@@ -87,6 +91,12 @@ export const BenchmarkView: FC = () => {
           sorting: [TripSorting.StopDate, Ordering.Desc],
           limit: benchmarkHistoric,
           offset: 0,
+        }),
+      );
+      dispatch(
+        getLandings({
+          vessels: [vessel],
+          years: [benchmarkTimespan.startYear, benchmarkTimespan.endYear],
         }),
       );
     }
@@ -170,6 +180,7 @@ export const BenchmarkView: FC = () => {
             <Box>
               <BenchmarkCards />
               <SpeciesHistogram />
+              <HistoricalCatches />
             </Box>
           )}
           {!tripsLoading && !trips?.length && (

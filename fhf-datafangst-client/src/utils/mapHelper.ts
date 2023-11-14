@@ -509,10 +509,10 @@ export const generateVesselTrackVector = (
             pos.det.missingData && selected
               ? selectedDashedLineStyle
               : pos.det.missingData
-              ? dashedLineStyle
-              : selected
-              ? selectedLineStyle
-              : mainLineStyle,
+                ? dashedLineStyle
+                : selected
+                  ? selectedLineStyle
+                  : mainLineStyle,
         };
 
         lineVectors.push(lineVector);

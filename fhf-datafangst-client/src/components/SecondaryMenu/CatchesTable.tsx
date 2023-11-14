@@ -120,8 +120,8 @@ export const CatchesTable: FC<Props> = (props) => {
       catches.reduce((sum, curr) => sum + curr.livingWeight, 0) > 0
         ? 0
         : catches.reduce((sum, curr) => sum + (curr.grossWeight ?? 0), 0) > 0
-        ? 1
-        : 2,
+          ? 1
+          : 2,
     [catches],
   );
 

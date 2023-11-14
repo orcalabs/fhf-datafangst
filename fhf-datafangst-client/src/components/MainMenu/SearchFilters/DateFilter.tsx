@@ -13,16 +13,16 @@ export class DateRange {
     return isValid(this.rawStart)
       ? startOfDay(this.rawStart!)
       : this.rawEnd
-      ? new Date(0)
-      : undefined;
+        ? new Date(0)
+        : undefined;
   }
 
   get end() {
     return isValid(this.rawEnd)
       ? endOfDay(this.rawEnd!)
       : this.rawStart
-      ? new Date()
-      : undefined;
+        ? new Date()
+        : undefined;
   }
 
   constructor(start?: Date | null, end?: Date | null) {
