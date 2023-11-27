@@ -19,6 +19,11 @@ export const getCurrentTrip = createAsyncThunk(
   Api.getCurrentTrip,
 );
 
+export const getTripTrack = createAction<{
+  trip: Trip;
+  identifier?: "tripId" | "mmsiCallSign";
+}>("trip/getTripTrack");
+
 export const getCurrentTripTrack = createAction("trip/getCurrentTripTrack");
 
 export const setSelectedTrip = createAction<Trip | undefined>(

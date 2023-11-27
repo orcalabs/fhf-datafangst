@@ -6,6 +6,7 @@ import {
   getHaulTrip,
   getLandingTrip,
   getTrips,
+  getTripTrack,
   paginateTripsSearch,
   setSelectedTrip,
   setTripsSearch,
@@ -22,23 +23,13 @@ export const tripBuilder = (
     .addCase(getHaulTrip.fulfilled, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
-      (action as any).asyncDispatch(
-        getTrack({
-          accessToken: state.authUser?.access_token,
-          tripId: trip.tripId,
-        }),
-      );
+      (action as any).asyncDispatch(getTripTrack({ trip }));
     })
     .addCase(getLandingTrip.fulfilled, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
 
-      (action as any).asyncDispatch(
-        getTrack({
-          accessToken: state.authUser?.access_token,
-          tripId: trip.tripId,
-        }),
-      );
+      (action as any).asyncDispatch(getTripTrack({ trip }));
     })
     .addCase(getTrips.pending, (state, _) => {
       state.trips = undefined;
@@ -59,14 +50,8 @@ export const tripBuilder = (
       if (!trip && state.currentTrip) {
         (action as any).asyncDispatch(getCurrentTripTrack());
       }
-
       if (trip) {
-        (action as any).asyncDispatch(
-          getTrack({
-            accessToken: state.authUser?.access_token,
-            tripId: trip.tripId,
-          }),
-        );
+        (action as any).asyncDispatch(getTripTrack({ trip }));
       }
     })
     .addCase(setTripsSearch, (state, action) => {
@@ -125,6 +110,28 @@ export const tripBuilder = (
     })
     .addCase(getCurrentTrip.rejected, (state, _) => {
       state.currentTripLoading = false;
+    })
+    .addCase(getTripTrack, (state, action) => {
+      const { trip, identifier } = action.payload;
+      if (identifier === "mmsiCallSign") {
+        const vessel = state.vesselsByFiskeridirId![trip.fiskeridirVesselId]!;
+        (action as any).asyncDispatch(
+          getTrack({
+            accessToken: state.authUser?.access_token,
+            mmsi: vessel.ais?.mmsi,
+            callSign: vessel.fiskeridir.callSign,
+            start: trip.start,
+            end: trip.end,
+          }),
+        );
+      } else {
+        (action as any).asyncDispatch(
+          getTrack({
+            accessToken: state.authUser?.access_token,
+            tripId: trip.tripId,
+          }),
+        );
+      }
     })
     .addCase(getCurrentTripTrack, (state, action) => {
       const callSign = state.bwProfile?.vesselInfo.ircs;
