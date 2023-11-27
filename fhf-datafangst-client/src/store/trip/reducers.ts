@@ -22,41 +22,23 @@ export const tripBuilder = (
     .addCase(getHaulTrip.fulfilled, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
-
-      if (trip && state.vesselsByFiskeridirId) {
-        const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
-
-        if (vessel) {
-          (action as any).asyncDispatch(
-            getTrack({
-              mmsi: vessel.ais?.mmsi,
-              callSign: vessel.fiskeridir.callSign,
-              start: trip.start,
-              end: trip.end,
-            }),
-          );
-        }
-      }
+      (action as any).asyncDispatch(
+        getTrack({
+          accessToken: state.authUser?.access_token,
+          tripId: trip.tripId,
+        }),
+      );
     })
     .addCase(getLandingTrip.fulfilled, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
 
-      if (trip && state.vesselsByFiskeridirId) {
-        const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
-
-        if (vessel) {
-          (action as any).asyncDispatch(
-            getTrack({
-              accessToken: state.authUser?.access_token,
-              mmsi: vessel.ais?.mmsi,
-              callSign: vessel.fiskeridir.callSign,
-              start: trip.start,
-              end: trip.end,
-            }),
-          );
-        }
-      }
+      (action as any).asyncDispatch(
+        getTrack({
+          accessToken: state.authUser?.access_token,
+          tripId: trip.tripId,
+        }),
+      );
     })
     .addCase(getTrips.pending, (state, _) => {
       state.trips = undefined;
@@ -78,16 +60,11 @@ export const tripBuilder = (
         (action as any).asyncDispatch(getCurrentTripTrack());
       }
 
-      if (trip && state.vesselsByFiskeridirId) {
-        const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
-
+      if (trip) {
         (action as any).asyncDispatch(
           getTrack({
             accessToken: state.authUser?.access_token,
-            mmsi: vessel.ais?.mmsi,
-            callSign: vessel.fiskeridir.callSign,
-            start: trip.start,
-            end: trip.end,
+            tripId: trip.tripId,
           }),
         );
       }
