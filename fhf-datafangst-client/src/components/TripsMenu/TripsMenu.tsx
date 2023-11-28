@@ -5,6 +5,8 @@ import {
   IconButton,
   styled,
   SvgIcon,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import { FC, useState } from "react";
@@ -20,7 +22,13 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { selectSelectedTrip, setSelectedTrip } from "store/trip";
+import {
+  getTripTrack,
+  selectSelectedTrip,
+  selectTripTrackIdentifier,
+  setSelectedTrip,
+  TripTrackIdentifier,
+} from "store/trip";
 import {
   createGearListString,
   createObjectDurationString,
@@ -62,6 +70,9 @@ export const TripsMenu: FC = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const gears = useAppSelector(selectGearsMap);
+  const identifier = useAppSelector(selectTripTrackIdentifier);
+
+  const [aisToggle, setAisToggle] = useState<TripTrackIdentifier>(identifier);
 
   if (!trip) {
     return <></>;
@@ -120,20 +131,41 @@ export const TripsMenu: FC = () => {
           </Box>
           <Box sx={{ marginLeft: "auto" }}>
             {process.env.REACT_APP_ENV === "staging" ? (
-              <IconButton
-                sx={{ color: "text.secondary", borderRadius: 0 }}
-                edge="end"
-                onClick={() => {
-                  dispatch(setTripDetailsOpen(true));
-                  dispatch(
-                    getLandings({
-                      vessels: [vessels[trip.fiskeridirVesselId]],
-                    }),
-                  );
-                }}
-              >
-                <SettingsIcon />
-              </IconButton>
+              <>
+                <ToggleButtonGroup
+                  color="secondary"
+                  size={"small"}
+                  value={aisToggle}
+                  exclusive
+                  onChange={(_, value) => {
+                    if (value) {
+                      setAisToggle(value);
+                      dispatch(getTripTrack({ trip, identifier: value }));
+                    }
+                  }}
+                >
+                  <ToggleButton value={TripTrackIdentifier.TripId}>
+                    TripId
+                  </ToggleButton>
+                  <ToggleButton value={TripTrackIdentifier.MmsiCallSign}>
+                    Mmsi/CallSign
+                  </ToggleButton>
+                </ToggleButtonGroup>
+                <IconButton
+                  sx={{ color: "text.secondary", borderRadius: 0 }}
+                  edge="end"
+                  onClick={() => {
+                    dispatch(setTripDetailsOpen(true));
+                    dispatch(
+                      getLandings({
+                        vessels: [vessels[trip.fiskeridirVesselId]],
+                      }),
+                    );
+                  }}
+                >
+                  <SettingsIcon />
+                </IconButton>
+              </>
             ) : (
               <></>
             )}

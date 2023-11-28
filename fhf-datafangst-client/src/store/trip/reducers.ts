@@ -6,9 +6,11 @@ import {
   getHaulTrip,
   getLandingTrip,
   getTrips,
+  getTripTrack,
   paginateTripsSearch,
   setSelectedTrip,
   setTripsSearch,
+  TripTrackIdentifier,
 } from ".";
 import { emptyState, getTrack } from "store";
 import { TripsArgs } from "api";
@@ -22,41 +24,13 @@ export const tripBuilder = (
     .addCase(getHaulTrip.fulfilled, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
-
-      if (trip && state.vesselsByFiskeridirId) {
-        const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
-
-        if (vessel) {
-          (action as any).asyncDispatch(
-            getTrack({
-              mmsi: vessel.ais?.mmsi,
-              callSign: vessel.fiskeridir.callSign,
-              start: trip.start,
-              end: trip.end,
-            }),
-          );
-        }
-      }
+      (action as any).asyncDispatch(getTripTrack({ trip }));
     })
     .addCase(getLandingTrip.fulfilled, (state, action) => {
       const trip = action.payload;
       state.selectedTrip = trip;
 
-      if (trip && state.vesselsByFiskeridirId) {
-        const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
-
-        if (vessel) {
-          (action as any).asyncDispatch(
-            getTrack({
-              accessToken: state.authUser?.access_token,
-              mmsi: vessel.ais?.mmsi,
-              callSign: vessel.fiskeridir.callSign,
-              start: trip.start,
-              end: trip.end,
-            }),
-          );
-        }
-      }
+      (action as any).asyncDispatch(getTripTrack({ trip }));
     })
     .addCase(getTrips.pending, (state, _) => {
       state.trips = undefined;
@@ -77,19 +51,8 @@ export const tripBuilder = (
       if (!trip && state.currentTrip) {
         (action as any).asyncDispatch(getCurrentTripTrack());
       }
-
-      if (trip && state.vesselsByFiskeridirId) {
-        const vessel = state.vesselsByFiskeridirId[trip.fiskeridirVesselId];
-
-        (action as any).asyncDispatch(
-          getTrack({
-            accessToken: state.authUser?.access_token,
-            mmsi: vessel.ais?.mmsi,
-            callSign: vessel.fiskeridir.callSign,
-            start: trip.start,
-            end: trip.end,
-          }),
-        );
+      if (trip) {
+        (action as any).asyncDispatch(getTripTrack({ trip }));
       }
     })
     .addCase(setTripsSearch, (state, action) => {
@@ -148,6 +111,33 @@ export const tripBuilder = (
     })
     .addCase(getCurrentTrip.rejected, (state, _) => {
       state.currentTripLoading = false;
+    })
+    .addCase(getTripTrack, (state, action) => {
+      const { trip, identifier } = action.payload;
+
+      if (identifier) {
+        state.tripTrackIdentifier = identifier;
+      }
+
+      if (state.tripTrackIdentifier === TripTrackIdentifier.MmsiCallSign) {
+        const vessel = state.vesselsByFiskeridirId![trip.fiskeridirVesselId]!;
+        (action as any).asyncDispatch(
+          getTrack({
+            accessToken: state.authUser?.access_token,
+            mmsi: vessel.ais?.mmsi,
+            callSign: vessel.fiskeridir.callSign,
+            start: trip.start,
+            end: trip.end,
+          }),
+        );
+      } else {
+        (action as any).asyncDispatch(
+          getTrack({
+            accessToken: state.authUser?.access_token,
+            tripId: trip.tripId,
+          }),
+        );
+      }
     })
     .addCase(getCurrentTripTrack, (state, action) => {
       const callSign = state.bwProfile?.vesselInfo.ircs;

@@ -1,6 +1,11 @@
 import { TripsArgs } from "api";
 import { CurrentTrip, Trip } from "generated/openapi";
 
+export enum TripTrackIdentifier {
+  TripId = 1,
+  MmsiCallSign = 2,
+}
+
 export interface TripState {
   trips?: Trip[];
   currentTrip?: CurrentTrip;
@@ -8,6 +13,7 @@ export interface TripState {
   currentTripLoading: boolean;
   selectedTrip?: Trip;
   tripsSearch?: TripsArgs;
+  tripTrackIdentifier: TripTrackIdentifier;
 }
 
 export const initialTripState: TripState = {
@@ -17,4 +23,5 @@ export const initialTripState: TripState = {
   currentTripLoading: false,
   selectedTrip: undefined,
   tripsSearch: undefined,
+  tripTrackIdentifier: TripTrackIdentifier.TripId,
 };

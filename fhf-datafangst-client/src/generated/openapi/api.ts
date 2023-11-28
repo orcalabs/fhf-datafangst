@@ -274,7 +274,7 @@ export interface AisVmsPositionDetails {
  * @type ApiError
  * @export
  */
-export type ApiError = ApiErrorOneOf | ApiErrorOneOf1 | ApiErrorOneOf2 | ApiErrorOneOf3 | ApiErrorOneOf4 | ApiErrorOneOf5 | ApiErrorOneOf6 | ApiErrorOneOf7 | ApiErrorOneOf8 | ApiErrorOneOf9;
+export type ApiError = ApiErrorOneOf | ApiErrorOneOf1 | ApiErrorOneOf10 | ApiErrorOneOf11 | ApiErrorOneOf2 | ApiErrorOneOf3 | ApiErrorOneOf4 | ApiErrorOneOf5 | ApiErrorOneOf6 | ApiErrorOneOf7 | ApiErrorOneOf8 | ApiErrorOneOf9;
 
 /**
  * 
@@ -300,6 +300,32 @@ export const ApiErrorOneOf1 = {
 } as const;
 
 export type ApiErrorOneOf1 = typeof ApiErrorOneOf1[keyof typeof ApiErrorOneOf1];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ApiErrorOneOf10 = {
+    InvalidAuthToken: 'InvalidAuthToken'
+} as const;
+
+export type ApiErrorOneOf10 = typeof ApiErrorOneOf10[keyof typeof ApiErrorOneOf10];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ApiErrorOneOf11 = {
+    MissingAuthToken: 'MissingAuthToken'
+} as const;
+
+export type ApiErrorOneOf11 = typeof ApiErrorOneOf11[keyof typeof ApiErrorOneOf11];
 
 
 /**
@@ -335,7 +361,7 @@ export type ApiErrorOneOf3 = typeof ApiErrorOneOf3[keyof typeof ApiErrorOneOf3];
  */
 
 export const ApiErrorOneOf4 = {
-    MissingMmsiOrCallSign: 'MissingMmsiOrCallSign'
+    MissingMmsiOrCallSignOrTripId: 'MissingMmsiOrCallSignOrTripId'
 } as const;
 
 export type ApiErrorOneOf4 = typeof ApiErrorOneOf4[keyof typeof ApiErrorOneOf4];
@@ -792,7 +818,7 @@ export interface FishingSpotPrediction {
      * @type {number}
      * @memberof FishingSpotPrediction
      */
-    'species': number;
+    'speciesGroupId': number;
     /**
      * 
      * @type {number}
@@ -1791,6 +1817,22 @@ export type LandingsSorting = typeof LandingsSorting[keyof typeof LandingsSortin
  * @enum {string}
  */
 
+export const ModelId = {
+    Spot: 'spot',
+    Weight: 'weight',
+    WeightWeather: 'weightWeather',
+    SpotWeather: 'spotWeather'
+} as const;
+
+export type ModelId = typeof ModelId[keyof typeof ModelId];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
 export const NavigationStatus = {
     UnderWayUsingEngine: 'UnderWayUsingEngine',
     AtAnchor: 'AtAnchor',
@@ -2216,7 +2258,6 @@ export interface TripHaul {
  */
 
 export const TripSorting = {
-    StartDate: 'startDate',
     StopDate: 'stopDate',
     Weight: 'weight'
 } as const;
@@ -2544,6 +2585,10 @@ export const V1aisApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", ["read:ais:under_15m"], configuration)
+
             if (start !== undefined) {
                 localVarQueryParameter['start'] = (start as any instanceof Date) ?
                     (start as any).toISOString() :
@@ -2669,12 +2714,13 @@ export const V1aisVmsApiAxiosParamCreator = function (configuration?: Configurat
          * 
          * @param {number} [mmsi] 
          * @param {string} [callSign] 
+         * @param {number} [tripId] 
          * @param {string} [start] 
          * @param {string} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        aisVmsPositions: async (mmsi?: number, callSign?: string, start?: string, end?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        aisVmsPositions: async (mmsi?: number, callSign?: string, tripId?: number, start?: string, end?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/ais_vms_positions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2687,12 +2733,20 @@ export const V1aisVmsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", ["read:ais:under_15m"], configuration)
+
             if (mmsi !== undefined) {
                 localVarQueryParameter['mmsi'] = mmsi;
             }
 
             if (callSign !== undefined) {
                 localVarQueryParameter['callSign'] = callSign;
+            }
+
+            if (tripId !== undefined) {
+                localVarQueryParameter['tripId'] = tripId;
             }
 
             if (start !== undefined) {
@@ -2732,13 +2786,14 @@ export const V1aisVmsApiFp = function(configuration?: Configuration) {
          * 
          * @param {number} [mmsi] 
          * @param {string} [callSign] 
+         * @param {number} [tripId] 
          * @param {string} [start] 
          * @param {string} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async aisVmsPositions(mmsi?: number, callSign?: string, start?: string, end?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AisVmsPosition>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.aisVmsPositions(mmsi, callSign, start, end, options);
+        async aisVmsPositions(mmsi?: number, callSign?: string, tripId?: number, start?: string, end?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AisVmsPosition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.aisVmsPositions(mmsi, callSign, tripId, start, end, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2758,7 +2813,7 @@ export const V1aisVmsApiFactory = function (configuration?: Configuration, baseP
          * @throws {RequiredError}
          */
         aisVmsPositions(requestParameters: V1aisVmsApiAisVmsPositionsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<AisVmsPosition>> {
-            return localVarFp.aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+            return localVarFp.aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.tripId, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2782,6 +2837,13 @@ export interface V1aisVmsApiAisVmsPositionsRequest {
      * @memberof V1aisVmsApiAisVmsPositions
      */
     readonly callSign?: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisVmsApiAisVmsPositions
+     */
+    readonly tripId?: number
 
     /**
      * 
@@ -2813,7 +2875,7 @@ export class V1aisVmsApi extends BaseAPI {
      * @memberof V1aisVmsApi
      */
     public aisVmsPositions(requestParameters: V1aisVmsApiAisVmsPositionsRequest = {}, options?: AxiosRequestConfig) {
-        return V1aisVmsApiFp(this.configuration).aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+        return V1aisVmsApiFp(this.configuration).aisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.tripId, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2841,6 +2903,10 @@ export const V1deliveryPointApiAxiosParamCreator = function (configuration?: Con
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -2945,6 +3011,10 @@ export const V1fishingFacilityApiAxiosParamCreator = function (configuration?: C
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
             if (mmsis !== undefined) {
                 localVarQueryParameter['mmsis'] = mmsis;
@@ -3153,11 +3223,15 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
     return {
         /**
          * 
+         * @param {ModelId} modelId what model data to retrieve
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        allFishingSpotPredictions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/fishing_spot_predictions`;
+        allFishingSpotPredictions: async (modelId: ModelId, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'modelId' is not null or undefined
+            assertParamExists('allFishingSpotPredictions', 'modelId', modelId)
+            const localVarPath = `/v1.0/fishing_spot_predictions/{model_id}`
+                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3168,6 +3242,10 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -3182,11 +3260,15 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
+         * @param {ModelId} modelId what model data to retrieve
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        allFishingWeightPredictions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/fishing_weight_predictions`;
+        allFishingWeightPredictions: async (modelId: ModelId, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'modelId' is not null or undefined
+            assertParamExists('allFishingWeightPredictions', 'modelId', modelId)
+            const localVarPath = `/v1.0/fishing_weight_predictions/{model_id}`
+                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3197,6 +3279,10 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -3211,15 +3297,19 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
+         * @param {ModelId} modelId what model data to retrieve
          * @param {number} speciesGroupId 
          * @param {number} [week] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fishingSpotPredictions: async (speciesGroupId: number, week?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fishingSpotPredictions: async (modelId: ModelId, speciesGroupId: number, week?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'modelId' is not null or undefined
+            assertParamExists('fishingSpotPredictions', 'modelId', modelId)
             // verify required parameter 'speciesGroupId' is not null or undefined
             assertParamExists('fishingSpotPredictions', 'speciesGroupId', speciesGroupId)
-            const localVarPath = `/v1.0/fishing_spot_predictions/{species_group_id}`
+            const localVarPath = `/v1.0/fishing_spot_predictions/{model_id}/{species_group_id}`
+                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)))
                 .replace(`{${"species_group_id"}}`, encodeURIComponent(String(speciesGroupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3231,6 +3321,10 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
             if (week !== undefined) {
                 localVarQueryParameter['week'] = week;
@@ -3249,16 +3343,20 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
-         * @param {number} speciesGroupId 
+         * @param {ModelId} modelId what model data to retrieve
+         * @param {number} speciesGroupId what species group to retrieve a prediction for
          * @param {number} [week] 
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fishingWeightPredictions: async (speciesGroupId: number, week?: number, limit?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fishingWeightPredictions: async (modelId: ModelId, speciesGroupId: number, week?: number, limit?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'modelId' is not null or undefined
+            assertParamExists('fishingWeightPredictions', 'modelId', modelId)
             // verify required parameter 'speciesGroupId' is not null or undefined
             assertParamExists('fishingWeightPredictions', 'speciesGroupId', speciesGroupId)
-            const localVarPath = `/v1.0/fishing_weight_predictions/{species_group_id}`
+            const localVarPath = `/v1.0/fishing_weight_predictions/{model_id}/{species_group_id}`
+                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)))
                 .replace(`{${"species_group_id"}}`, encodeURIComponent(String(speciesGroupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3270,6 +3368,10 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
             if (week !== undefined) {
                 localVarQueryParameter['week'] = week;
@@ -3302,43 +3404,47 @@ export const V1fishingPredictionApiFp = function(configuration?: Configuration) 
     return {
         /**
          * 
+         * @param {ModelId} modelId what model data to retrieve
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async allFishingSpotPredictions(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingSpotPrediction>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.allFishingSpotPredictions(options);
+        async allFishingSpotPredictions(modelId: ModelId, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingSpotPrediction>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.allFishingSpotPredictions(modelId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
+         * @param {ModelId} modelId what model data to retrieve
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async allFishingWeightPredictions(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.allFishingWeightPredictions(options);
+        async allFishingWeightPredictions(modelId: ModelId, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.allFishingWeightPredictions(modelId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
+         * @param {ModelId} modelId what model data to retrieve
          * @param {number} speciesGroupId 
          * @param {number} [week] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fishingSpotPredictions(speciesGroupId: number, week?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingSpotPrediction>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingSpotPredictions(speciesGroupId, week, options);
+        async fishingSpotPredictions(modelId: ModelId, speciesGroupId: number, week?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingSpotPrediction>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingSpotPredictions(modelId, speciesGroupId, week, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} speciesGroupId 
+         * @param {ModelId} modelId what model data to retrieve
+         * @param {number} speciesGroupId what species group to retrieve a prediction for
          * @param {number} [week] 
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fishingWeightPredictions(speciesGroupId: number, week?: number, limit?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingWeightPrediction>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingWeightPredictions(speciesGroupId, week, limit, options);
+        async fishingWeightPredictions(modelId: ModelId, speciesGroupId: number, week?: number, limit?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fishingWeightPredictions(modelId, speciesGroupId, week, limit, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -3353,19 +3459,21 @@ export const V1fishingPredictionApiFactory = function (configuration?: Configura
     return {
         /**
          * 
+         * @param {V1fishingPredictionApiAllFishingSpotPredictionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        allFishingSpotPredictions(options?: AxiosRequestConfig): AxiosPromise<Array<FishingSpotPrediction>> {
-            return localVarFp.allFishingSpotPredictions(options).then((request) => request(axios, basePath));
+        allFishingSpotPredictions(requestParameters: V1fishingPredictionApiAllFishingSpotPredictionsRequest, options?: AxiosRequestConfig): AxiosPromise<Array<FishingSpotPrediction>> {
+            return localVarFp.allFishingSpotPredictions(requestParameters.modelId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
+         * @param {V1fishingPredictionApiAllFishingWeightPredictionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        allFishingWeightPredictions(options?: AxiosRequestConfig): AxiosPromise<Array<FishingWeightPrediction>> {
-            return localVarFp.allFishingWeightPredictions(options).then((request) => request(axios, basePath));
+        allFishingWeightPredictions(requestParameters: V1fishingPredictionApiAllFishingWeightPredictionsRequest, options?: AxiosRequestConfig): AxiosPromise<Array<FishingWeightPrediction>> {
+            return localVarFp.allFishingWeightPredictions(requestParameters.modelId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3374,7 +3482,7 @@ export const V1fishingPredictionApiFactory = function (configuration?: Configura
          * @throws {RequiredError}
          */
         fishingSpotPredictions(requestParameters: V1fishingPredictionApiFishingSpotPredictionsRequest, options?: AxiosRequestConfig): AxiosPromise<FishingSpotPrediction> {
-            return localVarFp.fishingSpotPredictions(requestParameters.speciesGroupId, requestParameters.week, options).then((request) => request(axios, basePath));
+            return localVarFp.fishingSpotPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.week, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3382,11 +3490,39 @@ export const V1fishingPredictionApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fishingWeightPredictions(requestParameters: V1fishingPredictionApiFishingWeightPredictionsRequest, options?: AxiosRequestConfig): AxiosPromise<FishingWeightPrediction> {
-            return localVarFp.fishingWeightPredictions(requestParameters.speciesGroupId, requestParameters.week, requestParameters.limit, options).then((request) => request(axios, basePath));
+        fishingWeightPredictions(requestParameters: V1fishingPredictionApiFishingWeightPredictionsRequest, options?: AxiosRequestConfig): AxiosPromise<Array<FishingWeightPrediction>> {
+            return localVarFp.fishingWeightPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.week, requestParameters.limit, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for allFishingSpotPredictions operation in V1fishingPredictionApi.
+ * @export
+ * @interface V1fishingPredictionApiAllFishingSpotPredictionsRequest
+ */
+export interface V1fishingPredictionApiAllFishingSpotPredictionsRequest {
+    /**
+     * what model data to retrieve
+     * @type {ModelId}
+     * @memberof V1fishingPredictionApiAllFishingSpotPredictions
+     */
+    readonly modelId: ModelId
+}
+
+/**
+ * Request parameters for allFishingWeightPredictions operation in V1fishingPredictionApi.
+ * @export
+ * @interface V1fishingPredictionApiAllFishingWeightPredictionsRequest
+ */
+export interface V1fishingPredictionApiAllFishingWeightPredictionsRequest {
+    /**
+     * what model data to retrieve
+     * @type {ModelId}
+     * @memberof V1fishingPredictionApiAllFishingWeightPredictions
+     */
+    readonly modelId: ModelId
+}
 
 /**
  * Request parameters for fishingSpotPredictions operation in V1fishingPredictionApi.
@@ -3394,6 +3530,13 @@ export const V1fishingPredictionApiFactory = function (configuration?: Configura
  * @interface V1fishingPredictionApiFishingSpotPredictionsRequest
  */
 export interface V1fishingPredictionApiFishingSpotPredictionsRequest {
+    /**
+     * what model data to retrieve
+     * @type {ModelId}
+     * @memberof V1fishingPredictionApiFishingSpotPredictions
+     */
+    readonly modelId: ModelId
+
     /**
      * 
      * @type {number}
@@ -3416,7 +3559,14 @@ export interface V1fishingPredictionApiFishingSpotPredictionsRequest {
  */
 export interface V1fishingPredictionApiFishingWeightPredictionsRequest {
     /**
-     * 
+     * what model data to retrieve
+     * @type {ModelId}
+     * @memberof V1fishingPredictionApiFishingWeightPredictions
+     */
+    readonly modelId: ModelId
+
+    /**
+     * what species group to retrieve a prediction for
      * @type {number}
      * @memberof V1fishingPredictionApiFishingWeightPredictions
      */
@@ -3446,22 +3596,24 @@ export interface V1fishingPredictionApiFishingWeightPredictionsRequest {
 export class V1fishingPredictionApi extends BaseAPI {
     /**
      * 
+     * @param {V1fishingPredictionApiAllFishingSpotPredictionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof V1fishingPredictionApi
      */
-    public allFishingSpotPredictions(options?: AxiosRequestConfig) {
-        return V1fishingPredictionApiFp(this.configuration).allFishingSpotPredictions(options).then((request) => request(this.axios, this.basePath));
+    public allFishingSpotPredictions(requestParameters: V1fishingPredictionApiAllFishingSpotPredictionsRequest, options?: AxiosRequestConfig) {
+        return V1fishingPredictionApiFp(this.configuration).allFishingSpotPredictions(requestParameters.modelId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
+     * @param {V1fishingPredictionApiAllFishingWeightPredictionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof V1fishingPredictionApi
      */
-    public allFishingWeightPredictions(options?: AxiosRequestConfig) {
-        return V1fishingPredictionApiFp(this.configuration).allFishingWeightPredictions(options).then((request) => request(this.axios, this.basePath));
+    public allFishingWeightPredictions(requestParameters: V1fishingPredictionApiAllFishingWeightPredictionsRequest, options?: AxiosRequestConfig) {
+        return V1fishingPredictionApiFp(this.configuration).allFishingWeightPredictions(requestParameters.modelId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3472,7 +3624,7 @@ export class V1fishingPredictionApi extends BaseAPI {
      * @memberof V1fishingPredictionApi
      */
     public fishingSpotPredictions(requestParameters: V1fishingPredictionApiFishingSpotPredictionsRequest, options?: AxiosRequestConfig) {
-        return V1fishingPredictionApiFp(this.configuration).fishingSpotPredictions(requestParameters.speciesGroupId, requestParameters.week, options).then((request) => request(this.axios, this.basePath));
+        return V1fishingPredictionApiFp(this.configuration).fishingSpotPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.week, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3483,7 +3635,7 @@ export class V1fishingPredictionApi extends BaseAPI {
      * @memberof V1fishingPredictionApi
      */
     public fishingWeightPredictions(requestParameters: V1fishingPredictionApiFishingWeightPredictionsRequest, options?: AxiosRequestConfig) {
-        return V1fishingPredictionApiFp(this.configuration).fishingWeightPredictions(requestParameters.speciesGroupId, requestParameters.week, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
+        return V1fishingPredictionApiFp(this.configuration).fishingWeightPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.week, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3511,6 +3663,10 @@ export const V1gearApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -3541,6 +3697,10 @@ export const V1gearApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3569,6 +3729,10 @@ export const V1gearApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -3730,6 +3894,10 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
             if (months !== undefined) {
                 localVarQueryParameter['months'] = months;
             }
@@ -3816,6 +3984,10 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
             if (months !== undefined) {
                 localVarQueryParameter['months'] = months;
@@ -4142,6 +4314,10 @@ export const V1landingApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
             if (months !== undefined) {
                 localVarQueryParameter['months'] = months;
             }
@@ -4202,6 +4378,10 @@ export const V1landingApiAxiosParamCreator = function (configuration?: Configura
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
             if (months !== undefined) {
                 localVarQueryParameter['months'] = months;
@@ -4494,6 +4674,10 @@ export const V1speciesApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4522,6 +4706,10 @@ export const V1speciesApiAxiosParamCreator = function (configuration?: Configura
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -4552,6 +4740,10 @@ export const V1speciesApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4581,6 +4773,10 @@ export const V1speciesApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4609,6 +4805,10 @@ export const V1speciesApiAxiosParamCreator = function (configuration?: Configura
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -4816,6 +5016,10 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4849,6 +5053,10 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4881,6 +5089,47 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} landingId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        tripOfPartialLanding: async (landingId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'landingId' is not null or undefined
+            assertParamExists('tripOfPartialLanding', 'landingId', landingId)
+            const localVarPath = `/v1.0/trip_of_partial_landing/{landing_id}`
+                .replace(`{${"landing_id"}}`, encodeURIComponent(String(landingId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -4923,6 +5172,10 @@ export const V1tripApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
             if (limit !== undefined) {
                 localVarQueryParameter['limit'] = limit;
@@ -5033,6 +5286,16 @@ export const V1tripApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} landingId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async tripOfPartialLanding(landingId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tripOfPartialLanding(landingId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {number} [limit] 
          * @param {number} [offset] 
          * @param {Ordering} [ordering] 
@@ -5092,6 +5355,15 @@ export const V1tripApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {V1tripApiTripOfPartialLandingRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        tripOfPartialLanding(requestParameters: V1tripApiTripOfPartialLandingRequest, options?: AxiosRequestConfig): AxiosPromise<Trip> {
+            return localVarFp.tripOfPartialLanding(requestParameters.landingId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {V1tripApiTripsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5140,6 +5412,20 @@ export interface V1tripApiTripOfLandingRequest {
      * 
      * @type {string}
      * @memberof V1tripApiTripOfLanding
+     */
+    readonly landingId: string
+}
+
+/**
+ * Request parameters for tripOfPartialLanding operation in V1tripApi.
+ * @export
+ * @interface V1tripApiTripOfPartialLandingRequest
+ */
+export interface V1tripApiTripOfPartialLandingRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripApiTripOfPartialLanding
      */
     readonly landingId: string
 }
@@ -5284,6 +5570,17 @@ export class V1tripApi extends BaseAPI {
 
     /**
      * 
+     * @param {V1tripApiTripOfPartialLandingRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripApi
+     */
+    public tripOfPartialLanding(requestParameters: V1tripApiTripOfPartialLandingRequest, options?: AxiosRequestConfig) {
+        return V1tripApiFp(this.configuration).tripOfPartialLanding(requestParameters.landingId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {V1tripApiTripsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5319,6 +5616,10 @@ export const V1userApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5350,6 +5651,10 @@ export const V1userApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
@@ -5492,6 +5797,10 @@ export const V1vesselApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5591,6 +5900,10 @@ export const V1vmsApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
             if (start !== undefined) {
                 localVarQueryParameter['start'] = (start as any instanceof Date) ?
@@ -5734,6 +6047,10 @@ export const V1weatherApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
             if (startDate !== undefined) {
                 localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
                     (startDate as any).toISOString() :
@@ -5778,6 +6095,10 @@ export const V1weatherApiAxiosParamCreator = function (configuration?: Configura
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
 
     
