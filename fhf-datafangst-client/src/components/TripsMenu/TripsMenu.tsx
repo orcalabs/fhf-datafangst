@@ -22,7 +22,13 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { getTripTrack, selectSelectedTrip, setSelectedTrip } from "store/trip";
+import {
+  getTripTrack,
+  selectSelectedTrip,
+  selectTripTrackIdentifier,
+  setSelectedTrip,
+  TripTrackIdentifier,
+} from "store/trip";
 import {
   createGearListString,
   createObjectDurationString,
@@ -64,10 +70,9 @@ export const TripsMenu: FC = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const gears = useAppSelector(selectGearsMap);
+  const identifier = useAppSelector(selectTripTrackIdentifier);
 
-  const [aisToggle, setAisToggle] = useState<"tripId" | "mmsiCallSign">(
-    "tripId",
-  );
+  const [aisToggle, setAisToggle] = useState<TripTrackIdentifier>(identifier);
 
   if (!trip) {
     return <></>;
@@ -139,8 +144,10 @@ export const TripsMenu: FC = () => {
                     }
                   }}
                 >
-                  <ToggleButton value="tripId">TripId</ToggleButton>
-                  <ToggleButton value="mmsiCallSign">
+                  <ToggleButton value={TripTrackIdentifier.TripId}>
+                    TripId
+                  </ToggleButton>
+                  <ToggleButton value={TripTrackIdentifier.MmsiCallSign}>
                     Mmsi/CallSign
                   </ToggleButton>
                 </ToggleButtonGroup>

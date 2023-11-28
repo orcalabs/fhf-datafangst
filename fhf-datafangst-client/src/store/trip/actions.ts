@@ -1,6 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
 import { Trip } from "generated/openapi";
+import { TripTrackIdentifier } from "./state";
 
 export const getTrips = createAsyncThunk("trip/getTrips", Api.getTrips);
 
@@ -21,7 +22,7 @@ export const getCurrentTrip = createAsyncThunk(
 
 export const getTripTrack = createAction<{
   trip: Trip;
-  identifier?: "tripId" | "mmsiCallSign";
+  identifier?: TripTrackIdentifier;
 }>("trip/getTripTrack");
 
 export const getCurrentTripTrack = createAction("trip/getCurrentTripTrack");

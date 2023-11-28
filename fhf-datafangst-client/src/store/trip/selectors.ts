@@ -35,3 +35,8 @@ export const selectTripsLoading = createSelector(
   selectAppState,
   (state) => state.tripsLoading,
 );
+
+export const selectTripTrackIdentifier = createSelector(
+  selectAppState,
+  (state) => state.tripTrackIdentifier,
+);

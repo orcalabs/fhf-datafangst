@@ -10,6 +10,7 @@ import {
   paginateTripsSearch,
   setSelectedTrip,
   setTripsSearch,
+  TripTrackIdentifier,
 } from ".";
 import { emptyState, getTrack } from "store";
 import { TripsArgs } from "api";
@@ -113,7 +114,12 @@ export const tripBuilder = (
     })
     .addCase(getTripTrack, (state, action) => {
       const { trip, identifier } = action.payload;
-      if (identifier === "mmsiCallSign") {
+
+      if (identifier) {
+        state.tripTrackIdentifier = identifier;
+      }
+
+      if (state.tripTrackIdentifier === TripTrackIdentifier.MmsiCallSign) {
         const vessel = state.vesselsByFiskeridirId![trip.fiskeridirVesselId]!;
         (action as any).asyncDispatch(
           getTrack({
