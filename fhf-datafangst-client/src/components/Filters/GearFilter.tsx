@@ -1,13 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import { GearGroup } from "generated/openapi";
+import { GearGroup, GearGroupDetailed } from "generated/openapi";
 import { FC } from "react";
 import { selectGearGroupsMap, useAppSelector } from "store";
 import { Bar } from "./Bar";
 
 interface Props {
-  value?: GearGroup[];
-  onChange: (_?: GearGroup[]) => void;
-  stats: { id: any; value: number }[];
+  value?: GearGroupDetailed[];
+  onChange: (_?: GearGroupDetailed[]) => void;
+  stats: { id: GearGroup; value: number }[];
   removeIfSingleEntry?: boolean;
 }
 
@@ -24,12 +24,12 @@ export const GearFilter: FC<Props> = (props) => {
 
   const value = props.value ?? [];
 
-  const onChange = (value: GearGroup[]) =>
+  const onChange = (value: GearGroupDetailed[]) =>
     props.onChange(value.length ? value : undefined);
 
   const total = props.stats.sum((v) => v.value);
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: GearGroup) => {
     const gearGroup = gearGroups[id];
     if (gearGroup)
       onChange(

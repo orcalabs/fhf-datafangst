@@ -30,10 +30,10 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
  */
 
 export const ActiveHaulsFilter = {
-    Date: 'date',
-    GearGroup: 'gearGroup',
-    SpeciesGroup: 'speciesGroup',
-    VesselLength: 'vesselLength'
+    Date: 'Date',
+    GearGroup: 'GearGroup',
+    SpeciesGroup: 'SpeciesGroup',
+    VesselLength: 'VesselLength'
 } as const;
 
 export type ActiveHaulsFilter = typeof ActiveHaulsFilter[keyof typeof ActiveHaulsFilter];
@@ -46,10 +46,10 @@ export type ActiveHaulsFilter = typeof ActiveHaulsFilter[keyof typeof ActiveHaul
  */
 
 export const ActiveLandingFilter = {
-    Date: 'date',
-    GearGroup: 'gearGroup',
-    SpeciesGroup: 'speciesGroup',
-    VesselLength: 'vesselLength'
+    Date: 'Date',
+    GearGroup: 'GearGroup',
+    SpeciesGroup: 'SpeciesGroup',
+    VesselLength: 'VesselLength'
 } as const;
 
 export type ActiveLandingFilter = typeof ActiveLandingFilter[keyof typeof ActiveLandingFilter];
@@ -220,6 +220,12 @@ export interface AisVmsPosition {
      * @memberof AisVmsPosition
      */
     'lon': number;
+    /**
+     * 
+     * @type {TripPositionLayerId}
+     * @memberof AisVmsPosition
+     */
+    'prunedBy'?: TripPositionLayerId | null;
     /**
      * 
      * @type {number}
@@ -471,10 +477,10 @@ export interface Catch {
     'livingWeight': number;
     /**
      * 
-     * @type {number}
+     * @type {Quality}
      * @memberof Catch
      */
-    'productQualityId': number;
+    'productQualityId': Quality;
     /**
      * 
      * @type {string}
@@ -494,6 +500,8 @@ export interface Catch {
      */
     'speciesFiskeridirId': number;
 }
+
+
 /**
  * 
  * @export
@@ -619,9 +627,9 @@ export interface ErrorResponse {
  */
 
 export const FishingFacilitiesSorting = {
-    Setup: 'setup',
-    Removed: 'removed',
-    LastChanged: 'lastChanged'
+    Setup: 'Setup',
+    Removed: 'Removed',
+    LastChanged: 'LastChanged'
 } as const;
 
 export type FishingFacilitiesSorting = typeof FishingFacilitiesSorting[keyof typeof FishingFacilitiesSorting];
@@ -755,10 +763,10 @@ export interface FishingFacility {
     'toolId': string;
     /**
      * 
-     * @type {number}
+     * @type {FishingFacilityToolType}
      * @memberof FishingFacility
      */
-    'toolType': number;
+    'toolType': FishingFacilityToolType;
     /**
      * 
      * @type {string}
@@ -772,6 +780,8 @@ export interface FishingFacility {
      */
     'vesselName'?: string | null;
 }
+
+
 /**
  * 
  * @export
@@ -779,17 +789,17 @@ export interface FishingFacility {
  */
 
 export const FishingFacilityToolType = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-    NUMBER_3: 3,
-    NUMBER_4: 4,
-    NUMBER_5: 5,
-    NUMBER_6: 6,
-    NUMBER_7: 7,
-    NUMBER_8: 8,
-    NUMBER_9: 9,
-    NUMBER_10: 10,
-    NUMBER_11: 11
+    Undefined: 'Undefined',
+    Crabpot: 'Crabpot',
+    Danpurseine: 'Danpurseine',
+    Nets: 'Nets',
+    Longline: 'Longline',
+    Generic: 'Generic',
+    Sensorbuoy: 'Sensorbuoy',
+    Sensorcable: 'Sensorcable',
+    Unknown: 'Unknown',
+    Seismic: 'Seismic',
+    Mooring: 'Mooring'
 } as const;
 
 export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeof FishingFacilityToolType];
@@ -925,10 +935,10 @@ export interface FiskeridirVessel {
     'length'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {VesselLengthGroup}
      * @memberof FiskeridirVessel
      */
-    'lengthGroupId': number;
+    'lengthGroupId': VesselLengthGroup;
     /**
      * 
      * @type {string}
@@ -996,63 +1006,150 @@ export interface FiskeridirVessel {
      */
     'width'?: number | null;
 }
+
+
+/**
+ * Gear code definitions from Fiskedirektoratet.
+ * @export
+ * @enum {string}
+ */
+
+export const Gear = {
+    Unknown: 'Unknown',
+    UndefinedSeine: 'UndefinedSeine',
+    PurseSeine: 'PurseSeine',
+    BeachSeine: 'BeachSeine',
+    PurseSeineWithLight: 'PurseSeineWithLight',
+    BeachSeineWithLight: 'BeachSeineWithLight',
+    UndefinedNet: 'UndefinedNet',
+    DriftNet: 'DriftNet',
+    GillNet: 'GillNet',
+    UndefinedHookGear: 'UndefinedHookGear',
+    FloatingLine: 'FloatingLine',
+    OtherLines: 'OtherLines',
+    Jig: 'Jig',
+    DorgHarpSnik: 'DorgHarpSnik',
+    AutoLine: 'AutoLine',
+    UndefinedLobsterTrapAndFykeNets: 'UndefinedLobsterTrapAndFykeNets',
+    FykeNets: 'FykeNets',
+    LobsterTraps: 'LobsterTraps',
+    WedgeSeine: 'WedgeSeine',
+    OceanLobsterTraps: 'OceanLobsterTraps',
+    HookNet: 'HookNet',
+    UndefinedTrawling: 'UndefinedTrawling',
+    BottomTrawl: 'BottomTrawl',
+    BottomTrawlPair: 'BottomTrawlPair',
+    MidwaterTrawl: 'MidwaterTrawl',
+    MidwaterTrawlPair: 'MidwaterTrawlPair',
+    ShrimpTrawl: 'ShrimpTrawl',
+    BeamTrawl: 'BeamTrawl',
+    CrayfishTrawl: 'CrayfishTrawl',
+    DoubleTrawl: 'DoubleTrawl',
+    TripleTrawl: 'TripleTrawl',
+    DanishSeine: 'DanishSeine',
+    Harpoon: 'Harpoon',
+    BaskingSharkWhaleCannon: 'BaskingSharkWhaleCannon',
+    BigHarpoon: 'BigHarpoon',
+    Rifle: 'Rifle',
+    Other: 'Other',
+    ShellScrape: 'ShellScrape',
+    HandNet: 'HandNet',
+    KelpTrawl: 'KelpTrawl',
+    SeaweedCutter: 'SeaweedCutter',
+    HandPicking: 'HandPicking',
+    ShellSucker: 'ShellSucker',
+    FishFarming: 'FishFarming',
+    Unspecified: 'Unspecified'
+} as const;
+
+export type Gear = typeof Gear[keyof typeof Gear];
+
+
 /**
  * 
  * @export
- * @interface Gear
+ * @interface GearDetailed
  */
-export interface Gear {
+export interface GearDetailed {
     /**
      * 
-     * @type {number}
-     * @memberof Gear
+     * @type {Gear}
+     * @memberof GearDetailed
      */
-    'id': number;
+    'id': Gear;
     /**
      * 
      * @type {string}
-     * @memberof Gear
+     * @memberof GearDetailed
      */
     'name': string;
 }
+
+
+/**
+ * GearGroup code definitions from Fiskedirektoratet.
+ * @export
+ * @enum {string}
+ */
+
+export const GearGroup = {
+    Unknown: 'Unknown',
+    Seine: 'Seine',
+    Net: 'Net',
+    HookGear: 'HookGear',
+    LobsterTrapAndFykeNets: 'LobsterTrapAndFykeNets',
+    Trawl: 'Trawl',
+    DanishSeine: 'DanishSeine',
+    HarpoonCannon: 'HarpoonCannon',
+    OtherGear: 'OtherGear',
+    FishFarming: 'FishFarming'
+} as const;
+
+export type GearGroup = typeof GearGroup[keyof typeof GearGroup];
+
+
 /**
  * 
  * @export
- * @interface GearGroup
+ * @interface GearGroupDetailed
  */
-export interface GearGroup {
+export interface GearGroupDetailed {
     /**
      * 
-     * @type {number}
-     * @memberof GearGroup
+     * @type {GearGroup}
+     * @memberof GearGroupDetailed
      */
-    'id': number;
+    'id': GearGroup;
     /**
      * 
      * @type {string}
-     * @memberof GearGroup
+     * @memberof GearGroupDetailed
      */
     'name': string;
 }
+
+
 /**
  * 
  * @export
- * @interface GearMainGroup
+ * @interface GearMainGroupDetailed
  */
-export interface GearMainGroup {
+export interface GearMainGroupDetailed {
     /**
      * 
-     * @type {number}
-     * @memberof GearMainGroup
+     * @type {MainGearGroup}
+     * @memberof GearMainGroupDetailed
      */
-    'id': number;
+    'id': MainGearGroup;
     /**
      * 
      * @type {string}
-     * @memberof GearMainGroup
+     * @memberof GearMainGroupDetailed
      */
     'name': string;
 }
+
+
 /**
  * 
  * @export
@@ -1175,16 +1272,16 @@ export interface Haul {
     'fiskeridirVesselId'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {GearGroup}
      * @memberof Haul
      */
-    'gearGroupId': number;
+    'gearGroupId': GearGroup;
     /**
      * 
-     * @type {number}
+     * @type {Gear}
      * @memberof Haul
      */
-    'gearId': number;
+    'gearId': Gear;
     /**
      * 
      * @type {number}
@@ -1300,6 +1397,8 @@ export interface Haul {
      */
     'whaleCatches': Array<WhaleCatch>;
 }
+
+
 /**
  * 
  * @export
@@ -1344,16 +1443,16 @@ export interface HaulAllOf {
     'fiskeridirVesselId'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {GearGroup}
      * @memberof HaulAllOf
      */
-    'gearGroupId': number;
+    'gearGroupId': GearGroup;
     /**
      * 
-     * @type {number}
+     * @type {Gear}
      * @memberof HaulAllOf
      */
-    'gearId': number;
+    'gearId': Gear;
     /**
      * 
      * @type {number}
@@ -1469,6 +1568,8 @@ export interface HaulAllOf {
      */
     'whaleCatches': Array<WhaleCatch>;
 }
+
+
 /**
  * 
  * @export
@@ -1489,11 +1590,13 @@ export interface HaulCatch {
     'speciesFiskeridirId': number;
     /**
      * 
-     * @type {number}
+     * @type {SpeciesGroup}
      * @memberof HaulCatch
      */
-    'speciesGroupId': number;
+    'speciesGroupId': SpeciesGroup;
 }
+
+
 /**
  * 
  * @export
@@ -1624,9 +1727,9 @@ export interface HaulsMatrix {
  */
 
 export const HaulsSorting = {
-    StartDate: 'startDate',
-    StopDate: 'stopDate',
-    Weight: 'weight'
+    StartDate: 'StartDate',
+    StopDate: 'StopDate',
+    Weight: 'Weight'
 } as const;
 
 export type HaulsSorting = typeof HaulsSorting[keyof typeof HaulsSorting];
@@ -1664,16 +1767,16 @@ export interface Landing {
     'fiskeridirVesselId'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {GearGroup}
      * @memberof Landing
      */
-    'gearGroupId': number;
+    'gearGroupId': GearGroup;
     /**
      * 
-     * @type {number}
+     * @type {Gear}
      * @memberof Landing
      */
-    'gearId': number;
+    'gearId': Gear;
     /**
      * 
      * @type {string}
@@ -1718,10 +1821,10 @@ export interface Landing {
     'vesselLength'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {VesselLengthGroup}
      * @memberof Landing
      */
-    'vesselLengthGroup': number;
+    'vesselLengthGroup': VesselLengthGroup;
     /**
      * 
      * @type {string}
@@ -1729,6 +1832,8 @@ export interface Landing {
      */
     'vesselName'?: string | null;
 }
+
+
 /**
  * 
  * @export
@@ -1761,11 +1866,13 @@ export interface LandingCatch {
     'speciesFiskeridirId': number;
     /**
      * 
-     * @type {number}
+     * @type {SpeciesGroup}
      * @memberof LandingCatch
      */
-    'speciesGroupId': number;
+    'speciesGroupId': SpeciesGroup;
 }
+
+
 /**
  * 
  * @export
@@ -1804,11 +1911,28 @@ export interface LandingMatrix {
  */
 
 export const LandingsSorting = {
-    LandingTimestamp: 'landingTimestamp',
-    LivingWeight: 'livingWeight'
+    LandingTimestamp: 'LandingTimestamp',
+    LivingWeight: 'LivingWeight'
 } as const;
 
 export type LandingsSorting = typeof LandingsSorting[keyof typeof LandingsSorting];
+
+
+/**
+ * MainGearGroup code definitions from Fiskedirektoratet.
+ * @export
+ * @enum {string}
+ */
+
+export const MainGearGroup = {
+    Unknown: 'Unknown',
+    Trawl: 'Trawl',
+    Seine: 'Seine',
+    Conventional: 'Conventional',
+    Other: 'Other'
+} as const;
+
+export type MainGearGroup = typeof MainGearGroup[keyof typeof MainGearGroup];
 
 
 /**
@@ -1818,10 +1942,10 @@ export type LandingsSorting = typeof LandingsSorting[keyof typeof LandingsSortin
  */
 
 export const ModelId = {
-    Spot: 'spot',
-    Weight: 'weight',
-    WeightWeather: 'weightWeather',
-    SpotWeather: 'spotWeather'
+    Spot: 'Spot',
+    Weight: 'Weight',
+    WeightWeather: 'WeightWeather',
+    SpotWeather: 'SpotWeather'
 } as const;
 
 export type ModelId = typeof ModelId[keyof typeof ModelId];
@@ -1862,11 +1986,41 @@ export type NavigationStatus = typeof NavigationStatus[keyof typeof NavigationSt
  */
 
 export const Ordering = {
-    Asc: 'asc',
-    Desc: 'desc'
+    Asc: 'Asc',
+    Desc: 'Desc'
 } as const;
 
 export type Ordering = typeof Ordering[keyof typeof Ordering];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const Quality = {
+    Extra: 'Extra',
+    Prima: 'Prima',
+    Superior: 'Superior',
+    A: 'A',
+    Blank: 'Blank',
+    B: 'B',
+    Sekunda: 'Sekunda',
+    Africa: 'Africa',
+    FrostDamagedFish: 'FrostDamagedFish',
+    Yellow: 'Yellow',
+    ProductionRoe: 'ProductionRoe',
+    CrackedCrab: 'CrackedCrab',
+    WetCrab: 'WetCrab',
+    WrongCut: 'WrongCut',
+    Injured: 'Injured',
+    Offal: 'Offal',
+    Wrek: 'Wrek',
+    Unspecified: 'Unspecified'
+} as const;
+
+export type Quality = typeof Quality[keyof typeof Quality];
 
 
 /**
@@ -1982,41 +2136,116 @@ export interface SpeciesFiskeridir {
 /**
  * 
  * @export
- * @interface SpeciesGroup
+ * @enum {string}
  */
-export interface SpeciesGroup {
-    /**
-     * 
-     * @type {number}
-     * @memberof SpeciesGroup
-     */
-    'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof SpeciesGroup
-     */
-    'name': string;
-}
+
+export const SpeciesGroup = {
+    Unknown: 'Unknown',
+    Capelin: 'Capelin',
+    NorwegianSpringSpawningHerring: 'NorwegianSpringSpawningHerring',
+    OtherHerring: 'OtherHerring',
+    Mackerel: 'Mackerel',
+    BlueWhiting: 'BlueWhiting',
+    NorwayPout: 'NorwayPout',
+    Sandeels: 'Sandeels',
+    Argentines: 'Argentines',
+    EuropeanSpratSea: 'EuropeanSpratSea',
+    EuropeanSpratCoast: 'EuropeanSpratCoast',
+    MesopelagicFish: 'MesopelagicFish',
+    TunaAndTunaishSpecies: 'TunaAndTunaishSpecies',
+    OtherPelagicFish: 'OtherPelagicFish',
+    AtlanticCod: 'AtlanticCod',
+    Haddock: 'Haddock',
+    Saithe: 'Saithe',
+    Gadiformes: 'Gadiformes',
+    GreenlandHalibut: 'GreenlandHalibut',
+    GoldenRedfish: 'GoldenRedfish',
+    Wrasse: 'Wrasse',
+    Wolffishes: 'Wolffishes',
+    FlatFishOtherBottomFishAndDeepseaFish: 'FlatFishOtherBottomFishAndDeepseaFish',
+    SharkFish: 'SharkFish',
+    SkatesAndOtherChondrichthyes: 'SkatesAndOtherChondrichthyes',
+    QueenCrab: 'QueenCrab',
+    EdibleCrab: 'EdibleCrab',
+    RedKingCrab: 'RedKingCrab',
+    RedKingCrabOther: 'RedKingCrabOther',
+    NorthernPrawn: 'NorthernPrawn',
+    AntarcticKrill: 'AntarcticKrill',
+    CalanusFinmarchicus: 'CalanusFinmarchicus',
+    OtherShellfishMolluscaAndEchinoderm: 'OtherShellfishMolluscaAndEchinoderm',
+    BrownSeaweed: 'BrownSeaweed',
+    OtherSeaweed: 'OtherSeaweed',
+    FreshWaterFish: 'FreshWaterFish',
+    FishFarming: 'FishFarming',
+    MarineMammals: 'MarineMammals',
+    Other: 'Other'
+} as const;
+
+export type SpeciesGroup = typeof SpeciesGroup[keyof typeof SpeciesGroup];
+
+
 /**
  * 
  * @export
- * @interface SpeciesMainGroup
+ * @interface SpeciesGroupDetailed
  */
-export interface SpeciesMainGroup {
+export interface SpeciesGroupDetailed {
     /**
      * 
-     * @type {number}
-     * @memberof SpeciesMainGroup
+     * @type {SpeciesGroup}
+     * @memberof SpeciesGroupDetailed
      */
-    'id': number;
+    'id': SpeciesGroup;
     /**
      * 
      * @type {string}
-     * @memberof SpeciesMainGroup
+     * @memberof SpeciesGroupDetailed
      */
     'name': string;
 }
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const SpeciesMainGroup = {
+    Unknown: 'Unknown',
+    PelagicFish: 'PelagicFish',
+    CodAndCodishFish: 'CodAndCodishFish',
+    FlatFishOtherBottomFishAndDeepseaFish: 'FlatFishOtherBottomFishAndDeepseaFish',
+    ChondrichthyesSharkFishSkatesRaysAndRabbitFish: 'ChondrichthyesSharkFishSkatesRaysAndRabbitFish',
+    ShellfishMolluscaAndEchinoderm: 'ShellfishMolluscaAndEchinoderm',
+    Seaweed: 'Seaweed',
+    FishFarmingFreshWaterFishAndMarineMammals: 'FishFarmingFreshWaterFishAndMarineMammals'
+} as const;
+
+export type SpeciesMainGroup = typeof SpeciesMainGroup[keyof typeof SpeciesMainGroup];
+
+
+/**
+ * 
+ * @export
+ * @interface SpeciesMainGroupDetailed
+ */
+export interface SpeciesMainGroupDetailed {
+    /**
+     * 
+     * @type {SpeciesMainGroup}
+     * @memberof SpeciesMainGroupDetailed
+     */
+    'id': SpeciesMainGroup;
+    /**
+     * 
+     * @type {string}
+     * @memberof SpeciesMainGroupDetailed
+     */
+    'name': string;
+}
+
+
 /**
  * 
  * @export
@@ -2067,10 +2296,10 @@ export interface Trip {
     'fiskeridirVesselId': number;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<Gear>}
      * @memberof Trip
      */
-    'gearIds': Array<number>;
+    'gearIds': Array<Gear>;
     /**
      * 
      * @type {Array<TripHaul>}
@@ -2180,16 +2409,16 @@ export interface TripHaul {
     'fiskeridirVesselId'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {GearGroup}
      * @memberof TripHaul
      */
-    'gearGroupId': number;
+    'gearGroupId': GearGroup;
     /**
      * 
-     * @type {number}
+     * @type {Gear}
      * @memberof TripHaul
      */
-    'gearId': number;
+    'gearId': Gear;
     /**
      * 
      * @type {number}
@@ -2251,6 +2480,22 @@ export interface TripHaul {
      */
     'whaleCatches': Array<WhaleCatch>;
 }
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const TripPositionLayerId = {
+    UnrealisticSpeed: 'UnrealisticSpeed',
+    Cluster: 'Cluster'
+} as const;
+
+export type TripPositionLayerId = typeof TripPositionLayerId[keyof typeof TripPositionLayerId];
+
+
 /**
  * 
  * @export
@@ -2258,8 +2503,8 @@ export interface TripHaul {
  */
 
 export const TripSorting = {
-    StopDate: 'stopDate',
-    Weight: 'weight'
+    StopDate: 'StopDate',
+    Weight: 'Weight'
 } as const;
 
 export type TripSorting = typeof TripSorting[keyof typeof TripSorting];
@@ -2304,16 +2549,16 @@ export interface Vessel {
     'fiskeridir': FiskeridirVessel;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GearGroup>}
      * @memberof Vessel
      */
-    'gearGroups': Array<number>;
+    'gearGroups': Array<GearGroup>;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<SpeciesGroup>}
      * @memberof Vessel
      */
-    'speciesGroups': Array<number>;
+    'speciesGroups': Array<SpeciesGroup>;
 }
 /**
  * 
@@ -2335,10 +2580,10 @@ export interface VesselEvent {
     'eventName': string;
     /**
      * 
-     * @type {number}
+     * @type {VesselEventType}
      * @memberof VesselEvent
      */
-    'eventType': number;
+    'eventType': VesselEventType;
     /**
      * 
      * @type {string}
@@ -2352,6 +2597,44 @@ export interface VesselEvent {
      */
     'reportTimestamp': string;
 }
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const VesselEventType = {
+    Landing: 'Landing',
+    ErsDca: 'ErsDca',
+    ErsPor: 'ErsPor',
+    ErsDep: 'ErsDep',
+    ErsTra: 'ErsTra',
+    Haul: 'Haul'
+} as const;
+
+export type VesselEventType = typeof VesselEventType[keyof typeof VesselEventType];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const VesselLengthGroup = {
+    Unknown: 'Unknown',
+    UnderEleven: 'UnderEleven',
+    ElevenToFifteen: 'ElevenToFifteen',
+    FifteenToTwentyOne: 'FifteenToTwentyOne',
+    TwentyTwoToTwentyEight: 'TwentyTwoToTwentyEight',
+    TwentyEightAndAbove: 'TwentyEightAndAbove'
+} as const;
+
+export type VesselLengthGroup = typeof VesselLengthGroup[keyof typeof VesselLengthGroup];
+
+
 /**
  * 
  * @export
@@ -2531,10 +2814,10 @@ export interface WhaleCatch {
     'fetusLength'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {WhaleGender}
      * @memberof WhaleCatch
      */
-    'genderId'?: number | null;
+    'genderId'?: WhaleGender | null;
     /**
      * 
      * @type {string}
@@ -2554,6 +2837,20 @@ export interface WhaleCatch {
      */
     'length'?: number | null;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const WhaleGender = {
+    Male: 'Male',
+    Female: 'Female'
+} as const;
+
+export type WhaleGender = typeof WhaleGender[keyof typeof WhaleGender];
+
+
 
 /**
  * V1aisApi - axios parameter creator
@@ -3223,7 +3520,7 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
     return {
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
+         * @param {ModelId} modelId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3260,7 +3557,7 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
+         * @param {ModelId} modelId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3297,13 +3594,13 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
-         * @param {number} speciesGroupId 
+         * @param {ModelId} modelId 
+         * @param {SpeciesGroup} speciesGroupId 
          * @param {number} [week] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fishingSpotPredictions: async (modelId: ModelId, speciesGroupId: number, week?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fishingSpotPredictions: async (modelId: ModelId, speciesGroupId: SpeciesGroup, week?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'modelId' is not null or undefined
             assertParamExists('fishingSpotPredictions', 'modelId', modelId)
             // verify required parameter 'speciesGroupId' is not null or undefined
@@ -3343,14 +3640,14 @@ export const V1fishingPredictionApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
-         * @param {number} speciesGroupId what species group to retrieve a prediction for
+         * @param {ModelId} modelId 
+         * @param {SpeciesGroup} speciesGroupId 
          * @param {number} [week] 
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fishingWeightPredictions: async (modelId: ModelId, speciesGroupId: number, week?: number, limit?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fishingWeightPredictions: async (modelId: ModelId, speciesGroupId: SpeciesGroup, week?: number, limit?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'modelId' is not null or undefined
             assertParamExists('fishingWeightPredictions', 'modelId', modelId)
             // verify required parameter 'speciesGroupId' is not null or undefined
@@ -3404,7 +3701,7 @@ export const V1fishingPredictionApiFp = function(configuration?: Configuration) 
     return {
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
+         * @param {ModelId} modelId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3414,7 +3711,7 @@ export const V1fishingPredictionApiFp = function(configuration?: Configuration) 
         },
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
+         * @param {ModelId} modelId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3424,26 +3721,26 @@ export const V1fishingPredictionApiFp = function(configuration?: Configuration) 
         },
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
-         * @param {number} speciesGroupId 
+         * @param {ModelId} modelId 
+         * @param {SpeciesGroup} speciesGroupId 
          * @param {number} [week] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fishingSpotPredictions(modelId: ModelId, speciesGroupId: number, week?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingSpotPrediction>> {
+        async fishingSpotPredictions(modelId: ModelId, speciesGroupId: SpeciesGroup, week?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingSpotPrediction>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fishingSpotPredictions(modelId, speciesGroupId, week, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {ModelId} modelId what model data to retrieve
-         * @param {number} speciesGroupId what species group to retrieve a prediction for
+         * @param {ModelId} modelId 
+         * @param {SpeciesGroup} speciesGroupId 
          * @param {number} [week] 
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fishingWeightPredictions(modelId: ModelId, speciesGroupId: number, week?: number, limit?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
+        async fishingWeightPredictions(modelId: ModelId, speciesGroupId: SpeciesGroup, week?: number, limit?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fishingWeightPredictions(modelId, speciesGroupId, week, limit, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3503,7 +3800,7 @@ export const V1fishingPredictionApiFactory = function (configuration?: Configura
  */
 export interface V1fishingPredictionApiAllFishingSpotPredictionsRequest {
     /**
-     * what model data to retrieve
+     * 
      * @type {ModelId}
      * @memberof V1fishingPredictionApiAllFishingSpotPredictions
      */
@@ -3517,7 +3814,7 @@ export interface V1fishingPredictionApiAllFishingSpotPredictionsRequest {
  */
 export interface V1fishingPredictionApiAllFishingWeightPredictionsRequest {
     /**
-     * what model data to retrieve
+     * 
      * @type {ModelId}
      * @memberof V1fishingPredictionApiAllFishingWeightPredictions
      */
@@ -3531,7 +3828,7 @@ export interface V1fishingPredictionApiAllFishingWeightPredictionsRequest {
  */
 export interface V1fishingPredictionApiFishingSpotPredictionsRequest {
     /**
-     * what model data to retrieve
+     * 
      * @type {ModelId}
      * @memberof V1fishingPredictionApiFishingSpotPredictions
      */
@@ -3539,10 +3836,10 @@ export interface V1fishingPredictionApiFishingSpotPredictionsRequest {
 
     /**
      * 
-     * @type {number}
+     * @type {SpeciesGroup}
      * @memberof V1fishingPredictionApiFishingSpotPredictions
      */
-    readonly speciesGroupId: number
+    readonly speciesGroupId: SpeciesGroup
 
     /**
      * 
@@ -3559,18 +3856,18 @@ export interface V1fishingPredictionApiFishingSpotPredictionsRequest {
  */
 export interface V1fishingPredictionApiFishingWeightPredictionsRequest {
     /**
-     * what model data to retrieve
+     * 
      * @type {ModelId}
      * @memberof V1fishingPredictionApiFishingWeightPredictions
      */
     readonly modelId: ModelId
 
     /**
-     * what species group to retrieve a prediction for
-     * @type {number}
+     * 
+     * @type {SpeciesGroup}
      * @memberof V1fishingPredictionApiFishingWeightPredictions
      */
-    readonly speciesGroupId: number
+    readonly speciesGroupId: SpeciesGroup
 
     /**
      * 
@@ -3760,7 +4057,7 @@ export const V1gearApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async gear(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Gear>>> {
+        async gear(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GearDetailed>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.gear(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3769,7 +4066,7 @@ export const V1gearApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async gearGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GearGroup>>> {
+        async gearGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GearGroupDetailed>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.gearGroups(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3778,7 +4075,7 @@ export const V1gearApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async gearMainGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GearMainGroup>>> {
+        async gearMainGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GearMainGroupDetailed>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.gearMainGroups(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3797,7 +4094,7 @@ export const V1gearApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gear(options?: AxiosRequestConfig): AxiosPromise<Array<Gear>> {
+        gear(options?: AxiosRequestConfig): AxiosPromise<Array<GearDetailed>> {
             return localVarFp.gear(options).then((request) => request(axios, basePath));
         },
         /**
@@ -3805,7 +4102,7 @@ export const V1gearApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gearGroups(options?: AxiosRequestConfig): AxiosPromise<Array<GearGroup>> {
+        gearGroups(options?: AxiosRequestConfig): AxiosPromise<Array<GearGroupDetailed>> {
             return localVarFp.gearGroups(options).then((request) => request(axios, basePath));
         },
         /**
@@ -3813,7 +4110,7 @@ export const V1gearApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gearMainGroups(options?: AxiosRequestConfig): AxiosPromise<Array<GearMainGroup>> {
+        gearMainGroups(options?: AxiosRequestConfig): AxiosPromise<Array<GearMainGroupDetailed>> {
             return localVarFp.gearMainGroups(options).then((request) => request(axios, basePath));
         },
     };
@@ -3959,7 +4256,7 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @param {ActiveHaulsFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {ActiveHaulsFilter} activeFilter 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
          * @param {string} [gearGroupIds] 
@@ -4057,7 +4354,7 @@ export const V1haulApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {ActiveHaulsFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {ActiveHaulsFilter} activeFilter 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
          * @param {string} [gearGroupIds] 
@@ -4200,7 +4497,7 @@ export interface V1haulApiHaulsRequest {
  */
 export interface V1haulApiHaulsMatrixRequest {
     /**
-     * What feature to group by on the y-axis of the output matrices
+     * 
      * @type {ActiveHaulsFilter}
      * @memberof V1haulApiHaulsMatrix
      */
@@ -4288,7 +4585,7 @@ export const V1landingApiAxiosParamCreator = function (configuration?: Configura
     return {
         /**
          * 
-         * @param {ActiveLandingFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {ActiveLandingFilter} activeFilter 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
          * @param {string} [gearGroupIds] 
@@ -4438,7 +4735,7 @@ export const V1landingApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {ActiveLandingFilter} activeFilter What feature to group by on the y-axis of the output matrices
+         * @param {ActiveLandingFilter} activeFilter 
          * @param {string} [months] 
          * @param {string} [catchLocations] 
          * @param {string} [gearGroupIds] 
@@ -4507,7 +4804,7 @@ export const V1landingApiFactory = function (configuration?: Configuration, base
  */
 export interface V1landingApiLandingMatrixRequest {
     /**
-     * What feature to group by on the y-axis of the output matrices
+     * 
      * @type {ActiveLandingFilter}
      * @memberof V1landingApiLandingMatrix
      */
@@ -4863,7 +5160,7 @@ export const V1speciesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async speciesGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SpeciesGroup>>> {
+        async speciesGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SpeciesGroupDetailed>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.speciesGroups(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4872,7 +5169,7 @@ export const V1speciesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async speciesMainGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SpeciesMainGroup>>> {
+        async speciesMainGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SpeciesMainGroupDetailed>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.speciesMainGroups(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4915,7 +5212,7 @@ export const V1speciesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        speciesGroups(options?: AxiosRequestConfig): AxiosPromise<Array<SpeciesGroup>> {
+        speciesGroups(options?: AxiosRequestConfig): AxiosPromise<Array<SpeciesGroupDetailed>> {
             return localVarFp.speciesGroups(options).then((request) => request(axios, basePath));
         },
         /**
@@ -4923,7 +5220,7 @@ export const V1speciesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        speciesMainGroups(options?: AxiosRequestConfig): AxiosPromise<Array<SpeciesMainGroup>> {
+        speciesMainGroups(options?: AxiosRequestConfig): AxiosPromise<Array<SpeciesMainGroupDetailed>> {
             return localVarFp.speciesMainGroups(options).then((request) => request(axios, basePath));
         },
     };

@@ -2,17 +2,18 @@ import { createSelector } from "@reduxjs/toolkit";
 import { LandingsArgs, LandingsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import {
-  GearGroup,
+  GearGroupDetailed,
   LandingsSorting,
   Ordering,
-  SpeciesGroup,
+  SpeciesGroupDetailed,
 } from "generated/openapi";
 import { LengthGroups } from "models";
 import { selectSelectedGridsString } from "store/fishmap";
-import { selectGearGroupsSorted } from "store/gear";
+import { selectGearGroups } from "store/gear";
 import { selectAppState } from "store/selectors";
-import { selectSpeciesGroupsSorted } from "store/species";
-import { fishingLocationAreas, matrixSum, MinLandingYear } from "utils";
+import { selectSpeciesGroups } from "store/species";
+import { computeMatrixStats } from "store/utils";
+import { fishingLocationAreas, MinLandingYear } from "utils";
 
 export const selectShowLandingTimeSlider = createSelector(
   selectAppState,
@@ -150,8 +151,8 @@ const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
 
 const _selectLandingsActiveFilterSelectedIndexes = (
   search: LandingsArgs | undefined,
-  gearGroups: GearGroup[],
-  speciesGroups: SpeciesGroup[],
+  gearGroups: GearGroupDetailed[],
+  speciesGroups: SpeciesGroupDetailed[],
   currentDateSliderFrame?: Date,
 ) => {
   if (search)
@@ -203,16 +204,16 @@ const _selectLandingsActiveFilterSelectedIndexes = (
 
 export const selectLandingsMatrixActiveFilterSelectedIndexes = createSelector(
   selectLandingsMatrixSearch,
-  selectGearGroupsSorted,
-  selectSpeciesGroupsSorted,
+  selectGearGroups,
+  selectSpeciesGroups,
   selectLandingDateSliderFrame,
   _selectLandingsActiveFilterSelectedIndexes,
 );
 
 export const selectLandingsMatrix2ActiveFilterSelectedIndexes = createSelector(
   selectLandingsMatrix2Search,
-  selectGearGroupsSorted,
-  selectSpeciesGroupsSorted,
+  selectGearGroups,
+  selectSpeciesGroups,
   _selectLandingsActiveFilterSelectedIndexes,
 );
 
@@ -233,45 +234,11 @@ export const selectLandingLocationsMatrix = createSelector(
   },
 );
 
-const computeStats = (
-  matrix: number[],
-  widthArray: { id: any }[],
-  filters: number[],
-  activeFilters?: number[],
-) => {
-  const stats = [];
-  const width = widthArray.length;
-  const height = matrix.length / width;
-
-  if (activeFilters?.length)
-    for (let x = 0; x < width; x++) {
-      let value = 0;
-      for (let i = 0; i < activeFilters.length; i++) {
-        const y = activeFilters[i];
-        if (y < height) {
-          value += matrixSum(matrix, width, x, y, x, y);
-        }
-      }
-      if (value > 0 || filters.includes(x)) {
-        stats.push({ id: widthArray[x].id, value });
-      }
-    }
-  else
-    for (let x = 0; x < width; x++) {
-      const value = matrixSum(matrix, width, x, 0, x, height - 1);
-      if (value > 0 || filters.includes(x)) {
-        stats.push({ id: widthArray[x].id, value });
-      }
-    }
-
-  return stats;
-};
-
 const selectGearFilterStats = createSelector(
   selectLandingsMatrix,
   selectLandingsMatrixSearch,
   selectLandingsFilter,
-  selectGearGroupsSorted,
+  selectGearGroups,
   selectLandingsMatrixActiveFilterSelectedIndexes,
   (matrix, search, filter, gearGroups, activeSelected) => {
     if (!matrix) {
@@ -279,7 +246,7 @@ const selectGearFilterStats = createSelector(
     }
 
     const selected = getIndexes(gearGroups, search?.gearGroupIds);
-    return computeStats(
+    return computeMatrixStats(
       matrix.gearGroup,
       gearGroups,
       selected,
@@ -308,7 +275,7 @@ const selectSelectedGridLocationIndexes = createSelector(
 const selectGearFilterGridStats = createSelector(
   selectLandingsMatrix2,
   selectLandingsMatrix2Search,
-  selectGearGroupsSorted,
+  selectGearGroups,
   selectLandingsMatrix2ActiveFilterSelectedIndexes,
   selectSelectedGridLocationIndexes,
   (matrix, search, gearGroups, activeSelected, selectedLocations) => {
@@ -317,7 +284,7 @@ const selectGearFilterGridStats = createSelector(
     }
 
     const selected = getIndexes(gearGroups, search?.gearGroupIds);
-    return computeStats(
+    return computeMatrixStats(
       matrix.gearGroup,
       gearGroups,
       selected,
@@ -337,7 +304,7 @@ const selectSpeciesFilterStats = createSelector(
   selectLandingsMatrix,
   selectLandingsMatrixSearch,
   selectLandingsFilter,
-  selectSpeciesGroupsSorted,
+  selectSpeciesGroups,
   selectLandingsMatrixActiveFilterSelectedIndexes,
   (matrix, search, filter, speciesGroups, activeSelected) => {
     if (!matrix) {
@@ -345,7 +312,7 @@ const selectSpeciesFilterStats = createSelector(
     }
 
     const selected = getIndexes(speciesGroups, search?.speciesGroupIds);
-    return computeStats(
+    return computeMatrixStats(
       matrix.speciesGroup,
       speciesGroups,
       selected,
@@ -362,7 +329,7 @@ export const selectLandingSpeciesFilterStats = createSelector(
 const selectSpeciesFilterGridStats = createSelector(
   selectLandingsMatrix2,
   selectLandingsMatrix2Search,
-  selectSpeciesGroupsSorted,
+  selectSpeciesGroups,
   selectLandingsMatrix2ActiveFilterSelectedIndexes,
   selectSelectedGridLocationIndexes,
   (matrix, search, speciesGroups, activeSelected, selectedLocations) => {
@@ -371,7 +338,7 @@ const selectSpeciesFilterGridStats = createSelector(
     }
 
     const selected = getIndexes(speciesGroups, search?.speciesGroupIds);
-    return computeStats(
+    return computeMatrixStats(
       matrix.speciesGroup,
       speciesGroups,
       selected,
@@ -398,7 +365,7 @@ const selectVesselLengthFilterStats = createSelector(
     }
 
     const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
-    return computeStats(
+    return computeMatrixStats(
       matrix.lengthGroup,
       LengthGroups,
       selected,
@@ -423,7 +390,7 @@ const selectVesselLengthFilterGridStats = createSelector(
     }
 
     const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
-    return computeStats(
+    return computeMatrixStats(
       matrix.lengthGroup,
       LengthGroups,
       selected,

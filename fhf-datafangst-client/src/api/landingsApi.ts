@@ -1,10 +1,10 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 import {
   ActiveLandingFilter,
-  GearGroup,
+  GearGroupDetailed,
   LandingsSorting,
   Ordering,
-  SpeciesGroup,
+  SpeciesGroupDetailed,
   V1landingApi,
   Vessel,
 } from "generated/openapi";
@@ -28,8 +28,8 @@ export interface LandingsArgs {
   months?: number[];
   vessels?: Vessel[];
   catchLocations?: string[];
-  gearGroupIds?: GearGroup[];
-  speciesGroupIds?: SpeciesGroup[];
+  gearGroupIds?: GearGroupDetailed[];
+  speciesGroupIds?: SpeciesGroupDetailed[];
   vesselLengthRanges?: LengthGroup[];
   filter?: LandingsFilter;
   ordering?: Ordering;

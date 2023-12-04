@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Box, Button, Collapse, Typography } from "@mui/material";
 import { selectSpeciesGroupsMap, useAppSelector } from "store";
-import { SpeciesGroup } from "generated/openapi";
+import { SpeciesGroup, SpeciesGroupDetailed } from "generated/openapi";
 import { Bar } from "./Bar";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
@@ -9,8 +9,8 @@ import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 const NUM_BARS = 7;
 
 interface Props {
-  value?: SpeciesGroup[];
-  onChange: (_?: SpeciesGroup[]) => void;
+  value?: SpeciesGroupDetailed[];
+  onChange: (_?: SpeciesGroupDetailed[]) => void;
   stats: { id: any; value: number }[];
 }
 
@@ -44,12 +44,12 @@ export const SpeciesFilter: FC<Props> = (props) => {
     setExpanded((prev) => !prev);
   };
 
-  const onChange = (value: SpeciesGroup[]) =>
+  const onChange = (value: SpeciesGroupDetailed[]) =>
     props.onChange(value.length ? value : undefined);
 
   const total = props.stats.sum((v) => v.value);
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: SpeciesGroup) => {
     const speciesGroup = speciesGroups[id];
     if (speciesGroup)
       onChange(

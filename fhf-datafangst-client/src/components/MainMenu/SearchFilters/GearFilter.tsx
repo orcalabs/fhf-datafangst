@@ -9,12 +9,12 @@ import { FC } from "react";
 import { selectGearGroupsMap, selectTripsSearch, useAppSelector } from "store";
 import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
 import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
-import { GearGroup } from "generated/openapi";
+import { GearGroupDetailed } from "generated/openapi";
 import { getGearGroupsFromVessels } from "utils";
 
 interface Props {
-  value?: GearGroup[];
-  onChange: (_?: GearGroup[]) => void;
+  value?: GearGroupDetailed[];
+  onChange: (_?: GearGroupDetailed[]) => void;
 }
 
 export const GearFilter: FC<Props> = (props) => {
@@ -22,7 +22,7 @@ export const GearFilter: FC<Props> = (props) => {
   const gearGroups = Object.values(gearGroupsMap);
   const tripsSearch = useAppSelector(selectTripsSearch);
   const value = props.value ?? [];
-  const onChange = (value: GearGroup[]) =>
+  const onChange = (value: GearGroupDetailed[]) =>
     props.onChange(value.length ? value : undefined);
 
   return (

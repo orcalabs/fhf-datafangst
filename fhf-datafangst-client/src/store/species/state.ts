@@ -2,16 +2,16 @@ import {
   Species,
   SpeciesFao,
   SpeciesFiskeridir,
-  SpeciesGroup,
-  SpeciesMainGroup,
+  SpeciesGroupDetailed,
+  SpeciesMainGroupDetailed,
 } from "generated/openapi";
 
 export interface SpeciesState {
   species?: Species[];
   speciesFao?: SpeciesFao[];
   speciesFiskeridir?: SpeciesFiskeridir[];
-  speciesGroups?: SpeciesGroup[];
-  speciesMainGroups?: SpeciesMainGroup[];
+  speciesGroups?: SpeciesGroupDetailed[];
+  speciesMainGroups?: SpeciesMainGroupDetailed[];
 }
 
 export const initialSpeciesState: SpeciesState = {

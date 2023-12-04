@@ -2,12 +2,12 @@ import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { FC } from "react";
 import { selectSpeciesGroupsSortedByName, useAppSelector } from "store";
-import { SpeciesGroup } from "generated/openapi";
+import { SpeciesGroupDetailed } from "generated/openapi";
 import { StyledPopper } from "components";
 
 interface Props {
-  value?: SpeciesGroup[];
-  onChange: (_?: SpeciesGroup[]) => void;
+  value?: SpeciesGroupDetailed[];
+  onChange: (_?: SpeciesGroupDetailed[]) => void;
 }
 
 export const SpeciesFilter: FC<Props> = (props) => {
@@ -47,7 +47,7 @@ export const SpeciesFilter: FC<Props> = (props) => {
         value={value ?? []}
         onChange={(_, value) => onChange(value?.length ? value : undefined)}
         options={specieGroups}
-        getOptionLabel={(option: SpeciesGroup) => option.name}
+        getOptionLabel={(option: SpeciesGroupDetailed) => option.name}
         renderInput={(params: any) => <TextField {...params} />}
       />
     </Box>

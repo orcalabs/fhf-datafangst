@@ -7,7 +7,8 @@ import {
 import { nb } from "date-fns/locale";
 import {
   AisVmsPosition,
-  Gear,
+  GearDetailed,
+  GearGroup,
   Haul,
   RegisterVesselOwner,
   TripHaul,
@@ -179,7 +180,7 @@ export const differenceHours = (date1: Date, date2: Date) => {
   }
 };
 
-export const createGearListString = (gears: Gear[]) =>
+export const createGearListString = (gears: GearDetailed[]) =>
   gears.map((g) => g.name).join(", ");
 
 export const createOwnersListString = (owners: RegisterVesselOwner[]) =>
@@ -269,7 +270,7 @@ export const withoutKeys = (
 };
 
 export const getGearGroupsFromVessels = (vessels: Vessel[]) => {
-  let res: number[] = [];
+  let res: GearGroup[] = [];
   for (const vessel of vessels) {
     res = res.concat(vessel.gearGroups);
   }
