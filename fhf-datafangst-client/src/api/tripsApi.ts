@@ -7,8 +7,8 @@ import {
   Vessel,
   Landing,
   TripSorting,
-  SpeciesGroup,
-  GearGroup,
+  SpeciesGroupDetailed,
+  GearGroupDetailed,
 } from "generated/openapi";
 import { LengthGroup } from "models";
 
@@ -18,8 +18,8 @@ export interface TripsArgs {
   dateRange?: DateRange;
   weight?: [number, number];
   vesselLengthGroups?: LengthGroup[];
-  speciesGroups?: SpeciesGroup[];
-  gearGroups?: GearGroup[];
+  speciesGroups?: SpeciesGroupDetailed[];
+  gearGroups?: GearGroupDetailed[];
   sorting?: [TripSorting, Ordering];
   offset?: number;
   limit?: number;

@@ -1,10 +1,10 @@
 import { apiConfiguration, apiGet, axiosInstance } from ".";
 import {
   ActiveHaulsFilter,
-  GearGroup,
+  GearGroupDetailed,
   HaulsSorting,
   Ordering,
-  SpeciesGroup,
+  SpeciesGroupDetailed,
   V1haulApi,
   Vessel,
 } from "generated/openapi";
@@ -27,8 +27,8 @@ export interface HaulsArgs {
   months?: number[];
   vessels?: Vessel[];
   catchLocations?: string[];
-  gearGroupIds?: GearGroup[];
-  speciesGroupIds?: SpeciesGroup[];
+  gearGroupIds?: GearGroupDetailed[];
+  speciesGroupIds?: SpeciesGroupDetailed[];
   vesselLengthRanges?: LengthGroup[];
   filter?: HaulsFilter;
   ordering?: Ordering;

@@ -15,7 +15,7 @@ import {
 import { emptyState, getTrack } from "store";
 import { TripsArgs } from "api";
 import { getGearGroupsFromVessels } from "utils";
-import { GearGroup } from "generated/openapi";
+import { GearGroupDetailed } from "generated/openapi";
 
 export const tripBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -60,7 +60,7 @@ export const tripBuilder = (
 
       // Remove gear filters that are not included in vessel filter
       if (newSearch.vessels?.length && newSearch.gearGroups?.length) {
-        const newGearGroups: GearGroup[] = [];
+        const newGearGroups: GearGroupDetailed[] = [];
         const vesselsGearGroups = getGearGroupsFromVessels(newSearch.vessels);
         for (const gg of newSearch.gearGroups) {
           if (vesselsGearGroups.includes(gg.id)) {

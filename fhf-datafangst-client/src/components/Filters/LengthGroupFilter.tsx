@@ -2,11 +2,12 @@ import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import { LengthGroup, LengthGroupsMap } from "models";
 import { Bar } from "./Bar";
+import { VesselLengthGroup } from "generated/openapi";
 
 interface Props {
   value?: LengthGroup[];
   onChange: (_?: LengthGroup[]) => void;
-  stats: { id: any; value: number }[];
+  stats: { id: VesselLengthGroup; value: number }[];
   removeIfSingleEntry?: boolean;
 }
 
@@ -26,7 +27,7 @@ export const LengthGroupFilter: FC<Props> = (props) => {
   const onChange = (value: LengthGroup[]) =>
     props.onChange(value.length ? value : undefined);
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: VesselLengthGroup) => {
     const lengthGroup = LengthGroupsMap[id];
     if (lengthGroup)
       onChange(

@@ -21,7 +21,7 @@ import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
-import { Gear } from "generated/openapi";
+import { Gear, GearDetailed } from "generated/openapi";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",
@@ -46,7 +46,7 @@ export const CurrentTripMenu: FC = () => {
   const haulCatches = Object.values(haulCatchesMap);
 
   const tripGears = Object.values(
-    trip.hauls.reduce((tot: Record<number, Gear>, cur) => {
+    trip.hauls.reduce((tot: { [k in Gear]?: GearDetailed }, cur) => {
       tot[cur.gearId] = gears[cur.gearId];
       return tot;
     }, {}),

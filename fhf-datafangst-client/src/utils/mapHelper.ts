@@ -16,6 +16,7 @@ import Geometry from "ol/geom/Geometry";
 import {
   AisVmsPosition,
   FishingFacility,
+  FishingFacilityToolType,
   Haul,
   TripHaul,
 } from "generated/openapi";
@@ -152,7 +153,7 @@ const defaultGridBoxStyle = new Style({
 });
 
 export const fishingFacilityStyle = (
-  toolType: number,
+  toolType: FishingFacilityToolType,
   geometry?: Geometry,
   selected?: boolean,
 ) => {
@@ -161,16 +162,16 @@ export const fishingFacilityStyle = (
   }
 
   let color = "";
-  if (toolType === 2) {
+  if (toolType === FishingFacilityToolType.Crabpot) {
     // Teine
     color = "#f0ba29";
-  } else if (toolType === 3) {
+  } else if (toolType === FishingFacilityToolType.Danpurseine) {
     // Snurrevad
     color = "#8202c1";
-  } else if (toolType === 4) {
+  } else if (toolType === FishingFacilityToolType.Nets) {
     // Garn
     color = "#085382";
-  } else if (toolType === 5) {
+  } else if (toolType === FishingFacilityToolType.Longline) {
     // Line
     color = "#d72424";
   } else {

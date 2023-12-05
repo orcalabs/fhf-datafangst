@@ -25,14 +25,10 @@ export const selectSpeciesFiskeridirMap = createSelector(
   (state) => Object.fromEntries(state.map((s) => [s.id, s])),
 );
 
+// Species Groups are always returned in sorted order by the API
 export const selectSpeciesGroups = createSelector(
   selectAppState,
   (state) => state.speciesGroups ?? [],
-);
-
-export const selectSpeciesGroupsSorted = createSelector(
-  selectSpeciesGroups,
-  (state) => [...state].sort((a, b) => a.id - b.id),
 );
 
 export const selectSpeciesGroupsSortedByName = createSelector(
