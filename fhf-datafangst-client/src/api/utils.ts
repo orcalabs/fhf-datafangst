@@ -31,26 +31,7 @@ export const createTimestampsFromYearsMonths = (
 
 export const createVesselLengthQueryString = (
   vesselLengthRanges?: LengthGroup[],
-) => {
-  if (!vesselLengthRanges) {
-    return undefined;
-  }
-
-  let res = "";
-  for (const l of vesselLengthRanges) {
-    if (l.max === Infinity) {
-      res += "[" + l.min.toString() + ",)";
-    } else {
-      res += "[" + l.min.toString() + "," + l.max.toString() + ")";
-    }
-
-    res += ";";
-  }
-
-  // Remove last semicolon
-  if (res.length) {
-    res = res.slice(0, -1);
-  }
-
-  return res;
-};
+) =>
+  vesselLengthRanges?.map((l) =>
+    l.max === Infinity ? `[${l.min},)` : `[${l.min},${l.max})`,
+  );

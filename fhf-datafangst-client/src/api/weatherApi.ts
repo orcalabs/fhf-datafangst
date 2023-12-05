@@ -4,7 +4,7 @@ import { V1weatherApi } from "generated/openapi";
 export interface WeatherArgs {
   startDate?: string;
   endDate?: string;
-  weatherLocationIds: string[];
+  weatherLocationIds: number[];
 }
 
 const api = new V1weatherApi(apiConfiguration, undefined, axiosInstance);
@@ -14,6 +14,6 @@ export const getWeather = async (query: WeatherArgs) =>
     api.weather({
       startDate: query.startDate,
       endDate: query.endDate,
-      weatherLocationIds: query.weatherLocationIds?.join(","),
+      weatherLocationIds: query.weatherLocationIds,
     }),
   );

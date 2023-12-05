@@ -32,11 +32,9 @@ export const getFishingFacilities = async (query?: FishingFacilitiesArgs) =>
     api.fishingFacilities(
       {
         active: query?.active,
-        mmsis: query?.mmsis?.join(","),
-        fiskeridirVesselIds: query?.vessels
-          ?.map((v) => v.fiskeridir.id)
-          .join(","),
-        toolTypes: query?.toolTypes?.join(","),
+        mmsis: query?.mmsis,
+        fiskeridirVesselIds: query?.vessels?.map((v) => v.fiskeridir.id),
+        toolTypes: query?.toolTypes,
         setupRanges: createRangeString(query?.setupRanges),
         removedRanges: createRangeString(query?.removedRanges),
         limit: query?.limit ?? 10,
@@ -50,15 +48,8 @@ export const getFishingFacilities = async (query?: FishingFacilitiesArgs) =>
 
 export const createRangeString = (
   items?: [Date | undefined, Date | undefined][],
-) => {
-  if (!items?.length) {
-    return undefined;
-  }
-
-  return items
-    .map(
-      ([start, end]) =>
-        `[${start ? start.toISOString() : ""},${end ? end.toISOString() : ""}]`,
-    )
-    .join(";");
-};
+) =>
+  items?.map(
+    ([start, end]) =>
+      `[${start ? start.toISOString() : ""},${end ? end.toISOString() : ""}]`,
+  );
