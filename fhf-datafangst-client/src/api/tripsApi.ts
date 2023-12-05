@@ -51,19 +51,15 @@ export const getTrips = async (query: TripsArgs) =>
   apiGet(async () =>
     api.trips(
       {
-        fiskeridirVesselIds: query.vessels
-          ?.map((v) => v.fiskeridir.id)
-          .toString(),
-        deliveryPoints: query.deliveryPoints?.toString(),
+        fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
+        deliveryPoints: query.deliveryPoints,
         startDate: query.dateRange?.start?.toISOString(),
         endDate: query.dateRange?.end?.toISOString(),
-        gearGroupIds: query.gearGroups?.map((gg) => gg.id).toString(),
+        gearGroupIds: query.gearGroups?.map((gg) => gg.id),
         minWeight: query.weight ? query.weight[0] : undefined,
         maxWeight: query.weight ? query.weight[1] : undefined,
-        vesselLengthGroups: query.vesselLengthGroups
-          ?.map((lg) => lg.id)
-          .toString(),
-        speciesGroupIds: query.speciesGroups?.map((sg) => sg.id).toString(),
+        vesselLengthGroups: query.vesselLengthGroups?.map((lg) => lg.id),
+        speciesGroupIds: query.speciesGroups?.map((sg) => sg.id),
         sorting: query.sorting ? query.sorting[0] : TripSorting.StopDate,
         ordering: query.sorting ? query.sorting[1] : Ordering.Desc,
         limit: query.limit ?? 10,

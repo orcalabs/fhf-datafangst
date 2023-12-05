@@ -46,16 +46,12 @@ export const getLandings = async (query: LandingsArgs) =>
             query.years,
             query.months,
             MinLandingYear,
-          )
-            ?.map((g) => g.toISOString())
-            .toString()
+          )?.map((g) => g.toISOString())
         : undefined,
-      fiskeridirVesselIds: query.vessels
-        ?.map((v) => v.fiskeridir.id)
-        .toString(),
-      catchLocations: query.catchLocations?.join(","),
-      gearGroupIds: query.gearGroupIds?.map((g) => g.id).toString(),
-      speciesGroupIds: query.speciesGroupIds?.map((g) => g.id).toString(),
+      fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
+      catchLocations: query.catchLocations,
+      gearGroupIds: query.gearGroupIds?.map((g) => g.id),
+      speciesGroupIds: query.speciesGroupIds?.map((g) => g.id),
       vesselLengthRanges: createVesselLengthQueryString(
         query.vesselLengthRanges,
       ),
@@ -78,24 +74,20 @@ export const getLandingsMatrix = async (query: LandingsArgs) =>
               query.years,
               query.months,
               MinLandingYear,
-            )
-              ?.map((d) => d.getFullYear() * 12 + d.getMonth())
-              .join(","),
-      fiskeridirVesselIds: query.vessels
-        ?.map((v) => v.fiskeridir.id)
-        .toString(),
-      catchLocations: query.catchLocations?.join(","),
+            )?.map((d) => d.getFullYear() * 12 + d.getMonth()),
+      fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
+      catchLocations: query.catchLocations,
       gearGroupIds:
         query.filter === LandingsFilter.GearGroup
           ? undefined
-          : query.gearGroupIds?.map((g) => g.id).toString(),
+          : query.gearGroupIds?.map((g) => g.id),
       speciesGroupIds:
         query.filter === LandingsFilter.SpeciesGroup
           ? undefined
-          : query.speciesGroupIds?.map((g) => g.id).toString(),
+          : query.speciesGroupIds?.map((g) => g.id),
       vesselLengthGroups:
         query.filter === LandingsFilter.VesselLength
           ? undefined
-          : query.vesselLengthRanges?.map((l) => l.id).join(","),
+          : query.vesselLengthRanges?.map((l) => l.id),
     }),
   );
