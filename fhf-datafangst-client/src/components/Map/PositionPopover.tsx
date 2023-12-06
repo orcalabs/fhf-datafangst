@@ -9,9 +9,6 @@ interface Props {
 }
 
 export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
-  if (!hoveredPosition.det) {
-    return <> </>;
-  }
   return (
     <Box sx={{ pr: 1, pl: 0.5 }}>
       <List dense disablePadding>
@@ -22,13 +19,18 @@ export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
           <ListItemText
             primary={dateFormat(hoveredPosition.timestamp, "d MMM p")}
             secondary={
-              hoveredPosition.speed
-                ? Number(hoveredPosition.speed).toFixed(1) + " knop"
+              Number.isFinite(hoveredPosition.speed)
+                ? hoveredPosition.speed!.toFixed(1) + " knop"
                 : "Ukjent fart"
             }
             secondaryTypographyProps={{ color: "primary" }}
           />
         </ListItem>
+        {process.env.REACT_APP_ENV === "staging" && hoveredPosition.prunedBy ? (
+          `PrunedBy: ${hoveredPosition.prunedBy}`
+        ) : (
+          <></>
+        )}
       </List>
     </Box>
   );
