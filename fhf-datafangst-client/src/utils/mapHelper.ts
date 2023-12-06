@@ -367,6 +367,13 @@ const dashedLineStyle = new Style({
   }),
 });
 
+const prunedLineStyle = new Style({
+  stroke: new Stroke({
+    color: theme.palette.fifth.main,
+    width: 2,
+  }),
+});
+
 const selectedLineStyle = new Style({
   stroke: new Stroke({
     color: theme.palette.third.dark,
@@ -481,9 +488,12 @@ export const generateVesselTrackVector = (
 
   for (let i = 0; i < positions.length; i++) {
     const pos = positions[i];
+    const next = positions[i + 1];
+
+    const prunedBy = !!(pos.prunedBy && next?.prunedBy);
 
     // Only draw vessels on line if we have a detailed point from backend
-    if (pos.det) {
+    if (pos.det ?? prunedBy) {
       // If we hit a vessel with `missingData === true`, we need to
       // create a new lineVector to visualize the missing data as a grey dashed line.
       // Subsequently, at the next vessel, we need to go back to the regular line.
@@ -500,16 +510,17 @@ export const generateVesselTrackVector = (
           : trackVesselStyle(pos, zoomLevel, selected),
       );
 
-      if (pos.det.missingData || flag) {
+      if ((pos.det?.missingData ?? prunedBy) || flag) {
         line.appendCoordinate(fromLonLat(pos.lon, pos.lat));
         lineVector.vector.addFeature(lineFeature(line));
 
         lineVector = {
           vector: new VectorSource(),
-          style:
-            pos.det.missingData && selected
+          style: prunedBy
+            ? prunedLineStyle
+            : pos.det?.missingData && selected
               ? selectedDashedLineStyle
-              : pos.det.missingData
+              : pos.det?.missingData
                 ? dashedLineStyle
                 : selected
                   ? selectedLineStyle
@@ -519,7 +530,7 @@ export const generateVesselTrackVector = (
         lineVectors.push(lineVector);
         line = new LineString([]);
 
-        flag = pos.det.missingData;
+        flag = pos.det?.missingData ?? prunedBy;
       }
 
       // Dynamically limit number of vessels drawn on track, relative to zoom level
