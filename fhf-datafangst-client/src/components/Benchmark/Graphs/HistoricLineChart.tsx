@@ -18,7 +18,6 @@ const seriesEntry = {
 
 export const HistoricLineChart: FC<HistoricParams> = (props) => {
   const { vesselNames, dataset, metric } = props;
-  const theme = { ...chartsTheme, backgroundColor: "#067593" };
   const opt = {
     xAxis: {
       type: "time",
@@ -63,7 +62,7 @@ export const HistoricLineChart: FC<HistoricParams> = (props) => {
         alignItems: "center",
       }}
     >
-      <ReactEChart option={opt} theme={theme} />
+      <ReactEChart option={opt} theme={chartsTheme} />
     </Box>
   );
 };
@@ -78,15 +77,15 @@ const formatter = (data: TooltipParams[]) => {
   const tooltipContent = (
     <Box>
       <Typography
-        style={{
-          padding: 0,
-          margin: 0,
-          marginBottom: 8,
+        sx={{
+          p: 0,
+          m: 0,
+          mb: 8,
         }}
       >
         {dateFormat(date, "d/M/yy HH:mm")}
       </Typography>
-      <Typography style={{ margin: 0 }}>
+      <Typography sx={{ m: 0 }}>
         <span
           style={{
             display: "inline-block",

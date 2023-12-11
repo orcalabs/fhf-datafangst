@@ -21,7 +21,11 @@ import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PhishingRoundedIcon from "@mui/icons-material/PhishingRounded";
-import { createDurationFromHours } from "utils";
+import {
+  createDurationFromHours,
+  kilosOrTonsFormatter,
+  metersToNatuticalMilesString,
+} from "utils";
 
 const getTotalTimes = (trip: Trip) =>
   (new Date(trip.end).getTime() - new Date(trip.start).getTime()) / 3_600_000;
@@ -97,7 +101,7 @@ export const BenchmarkCards: FC = () => {
   const myTotalTimes = trips.map((trip) => getTotalTimes(trip));
   const myFishingHours = trips.map((trip) => getFishingHours(trip));
   const myFishingDistance = trips.map((trip) => getFishingDistance(trip));
-  const myFishingWeight = trips.map((trip) => getFishingWeight(trip));
+  const myFishingWeight = trips.map((trip) => trip.delivery.totalLivingWeight);
   const myTotalTimeMean =
     myTotalTimes.reduce((a, b) => a + b, 0) / myTotalTimes.length;
   const myFishingHoursMean =
@@ -114,8 +118,8 @@ export const BenchmarkCards: FC = () => {
   const followFishingDistance = followTripsList.map((trip) =>
     getFishingDistance(trip),
   );
-  const followFishingWeight = followTripsList.map((trip) =>
-    getFishingWeight(trip),
+  const followFishingWeight = followTripsList.map(
+    (trip) => trip.delivery.totalLivingWeight,
   );
   const followTotalTimeMean =
     followTotalTimes.reduce((a, b) => a + b, 0) / followTotalTimes.length;
@@ -195,35 +199,30 @@ export const BenchmarkCards: FC = () => {
   };
 
   return (
-    <Grid
-      container
-      spacing={3}
-      sx={{ padding: 3, backgroundColor: "primary.main" }}
-    >
+    <Grid container spacing={3} sx={{ p: 3 }}>
       <Grid item xs={6}>
         <Box>
           <BenchmarkCard
             title="Total tid"
-            avatar={<AccessTimeIcon sx={{ color: "text.secondary" }} />}
+            avatar={
+              <AccessTimeIcon sx={{ color: "fifth.main" }} fontSize="large" />
+            }
             value={createDurationFromHours(myTotalTimes[0])}
             description="Siste tur"
-            primaryColor={
-              myTotalTimes[0] > myTotalTimeMean ? "#6CE16A" : "#93032E"
-            }
-            secondaryValue={createDurationFromHours(myTotalTimeMean)}
-            secondaryDescription={
-              "Gjennomsnitt siste " + myTotalTimes.length.toString() + " turer"
+            secondaryStat={[
+              "Gjennomsnitt siste " + myTotalTimes.length.toString() + " turer",
+              createDurationFromHours(myTotalTimeMean),
+            ]}
+            thirdStat={
+              hasFollows
+                ? [
+                    "Gjennomsnitt fulgte fartøy",
+                    createDurationFromHours(followTotalTimeMean),
+                  ]
+                : undefined
             }
             tooltip="Regnet ut basert på dine DEP og POR meldinger"
             onClick={() => handleClick(BenchmarkType.TotalTime)}
-            thirdValue={
-              hasFollows
-                ? createDurationFromHours(followTotalTimeMean)
-                : undefined
-            }
-            thirdDescription={
-              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
-            }
           />
         </Box>
       </Grid>
@@ -231,28 +230,30 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Fisketid"
-            avatar={<PhishingRoundedIcon sx={{ color: "text.secondary" }} />}
+            avatar={
+              <PhishingRoundedIcon
+                sx={{ color: "fifth.main" }}
+                fontSize="large"
+              />
+            }
             value={createDurationFromHours(myFishingHours[0])}
             description="Siste tur"
-            primaryColor={
-              myFishingHours[0] > myFishingHoursMean ? "#6CE16A" : "#93032E"
-            }
-            secondaryValue={createDurationFromHours(myFishingHoursMean)}
-            secondaryDescription={
+            secondaryStat={[
               "Gjennomsnitt siste " +
-              myFishingHours.length.toString() +
-              " turer"
+                myFishingHours.length.toString() +
+                " turer",
+              createDurationFromHours(myFishingHoursMean),
+            ]}
+            thirdStat={
+              hasFollows
+                ? [
+                    "Gjennomsnitt fulgte fartøy",
+                    createDurationFromHours(followFishingHoursMean),
+                  ]
+                : undefined
             }
             tooltip="Regnet ut basert på dine fangstmeldinger"
             onClick={() => handleClick(BenchmarkType.FishingHours)}
-            thirdValue={
-              hasFollows
-                ? createDurationFromHours(followFishingHoursMean)
-                : undefined
-            }
-            thirdDescription={
-              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
-            }
           />
         </Box>
       </Grid>
@@ -260,40 +261,30 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Fiskedistanse"
-            avatar={<StraightenRoundedIcon sx={{ color: "text.secondary" }} />}
-            value={(myFishingDistanceMean > 1852
-              ? myFishingDistance[0] / 1852
-              : myFishingDistance[0]
-            ).toFixed(1)}
+            avatar={
+              <StraightenRoundedIcon
+                sx={{ color: "fifth.main" }}
+                fontSize="large"
+              />
+            }
+            value={metersToNatuticalMilesString(myFishingDistance[0])}
             description="Siste tur"
-            primaryColor={
-              myFishingDistance[0] > myFishingDistanceMean
-                ? "#6CE16A"
-                : "#93032E"
-            }
-            secondaryValue={(myFishingDistanceMean > 1852
-              ? myFishingDistanceMean / 1852
-              : myFishingDistanceMean
-            ).toFixed(1)}
-            secondaryDescription={
+            secondaryStat={[
               "Gjennomsnitt siste " +
-              myFishingDistance.length.toString() +
-              " turer"
-            }
-            metric={myFishingDistanceMean > 1852 ? "nautiske mil" : "meter"}
-            tooltip="Regnet ut basert på dine fangstmeldinger"
-            onClick={() => handleClick(BenchmarkType.FishingDistance)}
-            thirdValue={
+                myFishingDistance.length.toString() +
+                " turer",
+              metersToNatuticalMilesString(myFishingDistanceMean),
+            ]}
+            thirdStat={
               hasFollows
-                ? (followFishingDistanceMean > 1852
-                    ? followFishingDistanceMean / 1852
-                    : followFishingDistanceMean
-                  ).toFixed(1)
+                ? [
+                    "Gjennomsnitt fulgte fartøy",
+                    metersToNatuticalMilesString(followFishingDistanceMean),
+                  ]
                 : undefined
             }
-            thirdDescription={
-              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
-            }
+            tooltip="Regnet ut basert på dine fangstmeldinger"
+            onClick={() => handleClick(BenchmarkType.FishingDistance)}
           />
         </Box>
       </Grid>
@@ -301,38 +292,27 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkCard
             title="Total vekt"
-            avatar={<ScaleRoundedIcon sx={{ color: "text.secondary" }} />}
-            value={(myFishingWeightMean > 1000
-              ? myFishingWeight[0] / 1000
-              : myFishingWeight[0]
-            ).toFixed(1)}
+            avatar={
+              <ScaleRoundedIcon sx={{ color: "fifth.main" }} fontSize="large" />
+            }
+            value={kilosOrTonsFormatter(myFishingWeight[0])}
             description="Siste tur"
-            primaryColor={
-              myFishingWeight[0] > myFishingWeightMean ? "#6CE16A" : "#93032E"
-            }
-            secondaryValue={(myFishingWeightMean > 1000
-              ? myFishingWeightMean / 1000
-              : myFishingWeightMean
-            ).toFixed(1)}
-            secondaryDescription={
+            secondaryStat={[
               "Gjennomsnitt siste " +
-              myFishingWeight.length.toString() +
-              " turer"
-            }
-            metric={myFishingWeightMean > 1000 ? "tonn" : "kilo"}
-            tooltip="Data basert på levert vekt"
-            onClick={() => handleClick(BenchmarkType.FishingWeight)}
-            thirdValue={
+                myFishingWeight.length.toString() +
+                " turer",
+              kilosOrTonsFormatter(myFishingWeightMean),
+            ]}
+            thirdStat={
               hasFollows
-                ? (followFishingWeightMean > 1000
-                    ? followFishingWeightMean / 1000
-                    : followFishingWeightMean
-                  ).toFixed(1)
+                ? [
+                    "Gjennomsnitt fulgte fartøy",
+                    kilosOrTonsFormatter(followFishingWeightMean),
+                  ]
                 : undefined
             }
-            thirdDescription={
-              hasFollows ? "Gjennomsnitt fulgte fartøy" : undefined
-            }
+            tooltip="Data basert på levert vekt"
+            onClick={() => handleClick(BenchmarkType.FishingWeight)}
           />
         </Box>
       </Grid>

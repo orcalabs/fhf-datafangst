@@ -31,6 +31,10 @@ const theme = createTheme(
         fontWeight: fontStyle.fontWeightBold,
         fontSize: "3.25rem",
       },
+      h2: {
+        fontWeight: fontStyle.fontWeightBold,
+        fontSize: "2.3rem",
+      },
       h3: {
         fontWeight: fontStyle.fontWeightSemiBold,
         fontSize: "2.25rem",
@@ -73,7 +77,7 @@ const theme = createTheme(
         dark: "#004075",
       },
       fifth: {
-        main: "#f9a976",
+        main: "#FFB340",
         light: "#fcd4bb",
       },
       background: {
@@ -92,7 +96,7 @@ const theme = createTheme(
         400: "#CFD4E0",
         500: "#CFD4E0",
         600: "#BCC1CF",
-        700: "#9EA4B5",
+        700: "#818799",
         // Grey (menu, unselected filter)
         A100: "#80888C",
         // Water color map
