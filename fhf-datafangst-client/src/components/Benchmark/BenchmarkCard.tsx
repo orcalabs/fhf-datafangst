@@ -1,22 +1,24 @@
 import { FC } from "react";
-
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, CardHeader, Grid, Tooltip } from "@mui/material";
+import {
+  Box,
+  CardActionArea,
+  CardHeader,
+  Divider,
+  Tooltip,
+} from "@mui/material";
+import { fontStyle } from "app/theme";
 
 interface BenchmarkCardProps {
   title: string;
   value: number | string;
-  description?: string;
-  primaryColor?: string;
-  metric?: string;
-  secondaryValue?: number | string;
-  tooltip?: string;
-  secondaryDescription?: string;
-  thirdValue?: number | string;
-  thirdDescription?: string;
+  description: string;
   avatar: any;
+  secondaryStat?: [string, string];
+  thirdStat?: [string, string];
+  tooltip?: string;
   onClick?: () => void;
 }
 
@@ -24,65 +26,49 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
   return (
     <Tooltip title={props.tooltip}>
       <Card
-        variant="outlined"
-        style={{ margin: "auto", backgroundColor: "#067593" }}
+        variant="elevation"
+        sx={{ m: "auto", bgcolor: "white", borderRadius: 2 }}
       >
         <CardActionArea onClick={props.onClick}>
           <CardHeader
             avatar={props.avatar}
             title={props.title}
-            titleTypographyProps={{ variant: "h3", color: "text.secondary" }}
+            titleTypographyProps={{
+              variant: "h4",
+              color: "black",
+              fontWeight: fontStyle.fontWeightSemiBold,
+            }}
           />
           <CardContent>
-            <Grid container spacing={0}>
-              {props.description && (
-                <Grid item xs={12}>
-                  <Typography color="text.secondary">
-                    {props.description}
-                  </Typography>
-                </Grid>
-              )}
-              <Grid item xs={12} alignItems="center" justifyContent="center">
-                <Typography
-                  variant="h1"
-                  color={
-                    props.primaryColor ? props.primaryColor : "text.primary"
-                  }
-                  component="div"
-                  align="center"
+            <Typography color="grey.A100">{props.description}</Typography>
+            <Typography variant="h2" color="secondary.dark">
+              {props.value}
+            </Typography>
+            {(props.secondaryStat ?? props.thirdStat) && (
+              <>
+                <Divider sx={{ my: 2 }} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 5,
+                  }}
                 >
-                  {props.value} {props.metric ?? ""}
-                </Typography>
-              </Grid>
-              {props.secondaryDescription && (
-                <Grid item xs={3}>
-                  <Typography color="text.secondary">
-                    {props.secondaryDescription}
+                  <Typography color="grey.A100" sx={{ width: 200 }}>
+                    {props.secondaryStat?.[0]}
                   </Typography>
-                </Grid>
-              )}
-              {props.secondaryDescription && (
-                <Grid item xs={3}>
-                  <Typography variant="h4" color="white">
-                    {props.secondaryValue} {props.metric}
+                  <Typography variant="h6">
+                    {props.secondaryStat?.[1]}
                   </Typography>
-                </Grid>
-              )}
-              {props.thirdDescription && (
-                <Grid item xs={3}>
-                  <Typography color="text.secondary">
-                    {props.thirdDescription}
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 5 }}>
+                  <Typography color="grey.A100" sx={{ width: 200 }}>
+                    {props.thirdStat?.[0]}
                   </Typography>
-                </Grid>
-              )}
-              {props.thirdValue && (
-                <Grid item xs={3}>
-                  <Typography variant="h4" color="white">
-                    {props.thirdValue} {props.metric}
-                  </Typography>
-                </Grid>
-              )}
-            </Grid>
+                  <Typography variant="h6">{props.thirdStat?.[1]}</Typography>
+                </Box>
+              </>
+            )}
           </CardContent>
         </CardActionArea>
       </Card>

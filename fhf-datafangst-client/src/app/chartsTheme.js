@@ -20,14 +20,14 @@ const chartsTheme = {
     "#E71D36",
     "#EBCFB2",
   ],
-  backgroundColor: "rgba(5,87,114,1)",
+  backgroundColor: "white",
   textStyle: {},
   title: {
     textStyle: {
       color: "#ffffff",
     },
     subtextStyle: {
-      color: "#c2d7df",
+      color: "#001F3D",
     },
   },
   line: {
@@ -180,23 +180,23 @@ const chartsTheme = {
     axisLine: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisTick: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisLabel: {
       show: true,
-      color: "#c2d7df",
+      color: "#001F3D",
     },
     splitLine: {
       show: true,
       lineStyle: {
-        color: ["#c2d7df"],
+        color: ["#001F3D"],
       },
     },
     splitArea: {
@@ -210,23 +210,23 @@ const chartsTheme = {
     axisLine: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisTick: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisLabel: {
       show: true,
-      color: "#c2d7df",
+      color: "#001F3D",
     },
     splitLine: {
       show: true,
       lineStyle: {
-        color: ["#c2d7df"],
+        color: ["#001F3D"],
       },
     },
     splitArea: {
@@ -240,23 +240,23 @@ const chartsTheme = {
     axisLine: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisTick: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisLabel: {
       show: true,
-      color: "#c2d7df",
+      color: "#001F3D",
     },
     splitLine: {
       show: true,
       lineStyle: {
-        color: ["#c2d7df"],
+        color: ["#001F3D"],
       },
     },
     splitArea: {
@@ -270,23 +270,23 @@ const chartsTheme = {
     axisLine: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisTick: {
       show: true,
       lineStyle: {
-        color: "#c2d7df",
+        color: "#001F3D",
       },
     },
     axisLabel: {
       show: true,
-      color: "#c2d7df",
+      color: "#001F3D",
     },
     splitLine: {
       show: true,
       lineStyle: {
-        color: ["#c2d7df"],
+        color: ["#001F3D"],
       },
     },
     splitArea: {
@@ -308,7 +308,7 @@ const chartsTheme = {
   },
   legend: {
     textStyle: {
-      color: "#ffffff",
+      color: "#001F3D",
     },
   },
   tooltip: {

@@ -51,4 +51,7 @@ export { SpeciesHistogram } from "./Benchmark/Graphs/SpeciesHistogram";
 export { HistoricLineChart } from "./Benchmark/Graphs/HistoricLineChart";
 export { HistoricalCatches } from "./Benchmark/Graphs/HistoricalCatches";
 export { BenchmarkModal } from "./Benchmark/BenchmarkModal";
+export { DashboardMenu } from "./Benchmark/DashboardMenu";
+export { SearchVesselInfo } from "./FollowList/SearchVesselInfo";
+export { AddFollowerList } from "./FollowList/AddFollowerList";
 export { FollowList } from "./FollowList/FollowList";

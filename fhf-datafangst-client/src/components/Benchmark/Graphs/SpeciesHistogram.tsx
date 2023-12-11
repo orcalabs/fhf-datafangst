@@ -94,7 +94,14 @@ export const SpeciesHistogram: FC = () => {
       : generateLandingData(trips, followTripsList);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        px: 3,
+        "& canvas": { borderRadius: 2 },
+      }}
+    >
       <Divider sx={{ mb: 2 }} />
 
       <Box
@@ -112,21 +119,21 @@ export const SpeciesHistogram: FC = () => {
             textTransform: "none",
           },
           "& .MuiToggleButton-root": {
-            color: "white",
+            color: "black",
             px: 2,
             fontSize: "1rem",
             width: "50%",
             border: `1px solid ${theme.palette.primary.dark}`,
             "&.Mui-selected": {
-              backgroundColor: "primary.dark",
+              backgroundColor: "primary.light",
               color: "white",
-              "&:hover": { bgcolor: "primary.dark" },
+              "&:hover": { bgcolor: "primary.light" },
             },
-            "&:hover": { bgcolor: "secondary.dark" },
+            "&:hover": { bgcolor: "primary.main", color: "white" },
           },
         }}
       >
-        <Typography variant="h3" color="text.secondary">
+        <Typography variant="h3" color="black">
           Fangst
         </Typography>
         <ToggleButtonGroup
@@ -162,7 +169,7 @@ export const SpeciesHistogram: FC = () => {
           theme={chartsTheme}
         />
       )}
-    </>
+    </Box>
   );
 };
 
@@ -214,9 +221,9 @@ const formatter = (data: TooltipParams[]) => {
   const tooltipContent = (
     <Box>
       <Typography
-        style={{
-          margin: 0,
-          marginBottom: 8,
+        sx={{
+          m: 0,
+          mb: 8,
           color: `${theme.palette.secondary.dark}`,
         }}
         variant="h3"
@@ -224,7 +231,7 @@ const formatter = (data: TooltipParams[]) => {
         {values[0]}
       </Typography>
       {data.map((d, i) => (
-        <Typography style={{ margin: 0 }} key={i}>
+        <Typography sx={{ m: 0 }} key={i}>
           <span
             style={{
               display: "inline-block",

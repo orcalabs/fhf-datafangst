@@ -12,7 +12,6 @@ import ReactEChart from "echarts-for-react";
 import { Months, kilosOrTonsFormatter } from "utils";
 import chartsTheme from "app/chartsTheme";
 import { renderToStaticMarkup } from "react-dom/server";
-import theme from "app/theme";
 
 type BenchmarkTimeSpanObject = Record<
   number,
@@ -75,42 +74,17 @@ export const HistoricalCatches: FC = () => {
   );
 
   return (
-    <Box>
-      <Divider sx={{ mb: 2 }} />
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          "& .MuiToggleButtonGroup-root": {
-            width: 400,
-          },
-          "& .MuiToggleButtonGroup-grouped": {
-            borderRadius: 0,
-            width: 400,
-            textTransform: "none",
-          },
-          "& .MuiToggleButton-root": {
-            color: "white",
-            px: 2,
-            fontSize: "1rem",
-            width: "50%",
-            border: `1px solid ${theme.palette.primary.dark}`,
-            "&.Mui-selected": {
-              backgroundColor: "primary.dark",
-              color: "white",
-              "&:hover": { bgcolor: "primary.dark" },
-            },
-            "&:hover": { bgcolor: "secondary.dark" },
-          },
-        }}
-      >
-        <Typography variant="h3" color="text.secondary">
-          Hittil i år
-        </Typography>
-      </Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        p: 3,
+        "& canvas": { borderRadius: 2 },
+      }}
+    >
+      <Typography sx={{ alignSelf: "center", pb: 1 }} variant="h3">
+        Hittil i år
+      </Typography>
 
       {filtered && (
         <ReactEChart
@@ -200,7 +174,11 @@ const SpeciesStatOption = (
       const month = Months[paramSorted[0].value[paramSorted[0].encode.x[0]]];
       return renderToStaticMarkup(
         <Box>
-          <Typography variant="h4" color="text.secondary">
+          <Typography
+            style={{ marginTop: 0 }}
+            variant="h4"
+            color="text.secondary"
+          >
             Totalvekt
           </Typography>
           {linePlots.map((p: any) => (

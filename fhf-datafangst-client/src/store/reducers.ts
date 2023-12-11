@@ -25,6 +25,7 @@ import { getUser, userBuilder } from "./user";
 import { landingBuilder } from "./landing";
 import { weatherBuilder } from "./weather";
 import { benchmarkBuilder } from "./benchmark";
+import { dashboardBuilder } from "./dashboard";
 
 export const emptyState = {
   ais: undefined,
@@ -186,5 +187,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(landingBuilder)
     .extendBuilder(weatherBuilder)
     .extendBuilder(benchmarkBuilder)
+    .extendBuilder(dashboardBuilder)
     .finish(),
 );

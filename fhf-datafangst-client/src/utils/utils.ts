@@ -9,6 +9,7 @@ import {
   AisVmsPosition,
   GearDetailed,
   GearGroup,
+  GearGroupDetailed,
   Haul,
   RegisterVesselOwner,
   TripHaul,
@@ -172,6 +173,14 @@ export const kilosOrTonsFormatter = (weight: number) =>
     ? (weight / 1000).toFixed(1) + " tonn"
     : weight.toFixed(1) + "  kg";
 
+export const metersOrNauticalMilesFormatter = (distance: number) =>
+  distance >= 1852
+    ? (distance / 1852).toFixed(1) + " nautiske mil"
+    : distance.toFixed(1) + " meter";
+
+export const metersToNatuticalMilesString = (distance: number) =>
+  (distance / 1852).toFixed(1) + " nautiske mil";
+
 export const differenceHours = (date1: Date, date2: Date) => {
   if (date1 > date2) {
     return differenceInHours(date1, date2);
@@ -180,8 +189,9 @@ export const differenceHours = (date1: Date, date2: Date) => {
   }
 };
 
-export const createGearListString = (gears: GearDetailed[]) =>
-  gears.map((g) => g.name).join(", ");
+export const createGearListString = (
+  gears: GearGroupDetailed[] | GearDetailed[],
+) => gears.map((g) => g.name).join(", ");
 
 export const createOwnersListString = (owners: RegisterVesselOwner[]) =>
   owners.map((g) => toTitleCase(g.name)).join(", ");
