@@ -18,37 +18,15 @@ export enum Months {
 export interface LengthGroup {
   id: VesselLengthGroup;
   name: string;
-  min: number;
-  max: number;
 }
 
 export const LengthGroups: LengthGroup[] = [
-  { id: VesselLengthGroup.Unknown, name: "Ukjent", min: -1, max: -1 },
-  { id: VesselLengthGroup.UnderEleven, name: "Under 11m", min: 0, max: 11 },
-  {
-    id: VesselLengthGroup.ElevenToFifteen,
-    name: "11-14.9m",
-    min: 11,
-    max: 15,
-  },
-  {
-    id: VesselLengthGroup.FifteenToTwentyOne,
-    name: "15-20.9m",
-    min: 15,
-    max: 21,
-  },
-  {
-    id: VesselLengthGroup.TwentyTwoToTwentyEight,
-    name: "21-27.9m",
-    min: 21,
-    max: 28,
-  },
-  {
-    id: VesselLengthGroup.TwentyEightAndAbove,
-    name: "Over 28m",
-    min: 28,
-    max: Infinity,
-  },
+  { id: VesselLengthGroup.Unknown, name: "Ukjent" },
+  { id: VesselLengthGroup.UnderEleven, name: "Under 11m" },
+  { id: VesselLengthGroup.ElevenToFifteen, name: "11-14.9m" },
+  { id: VesselLengthGroup.FifteenToTwentyOne, name: "15-20.9m" },
+  { id: VesselLengthGroup.TwentyTwoToTwentyEight, name: "21-27.9m" },
+  { id: VesselLengthGroup.TwentyEightAndAbove, name: "Over 28m" },
 ];
 
 export const LengthGroupsMap: Record<VesselLengthGroup, LengthGroup> =

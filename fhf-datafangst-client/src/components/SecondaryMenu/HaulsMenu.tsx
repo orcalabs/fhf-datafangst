@@ -395,13 +395,13 @@ export const HaulsMenu: FC = () => {
                     onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}
                   >
                     <LengthGroupFilter
-                      value={haulsSearch?.vesselLengthRanges}
+                      value={haulsSearch?.vesselLengthGroups}
                       stats={lengthGroupStats}
                       onChange={(value) =>
                         dispatch(
                           setHaulsMatrix2Search({
                             ...haulsSearch,
-                            vesselLengthRanges: value,
+                            vesselLengthGroups: value,
                           }),
                         )
                       }

@@ -184,7 +184,7 @@ const _selectHaulsActiveFilterSelectedIndexes = (
       case HaulsFilter.SpeciesGroup:
         return getIndexes(speciesGroups, search?.speciesGroupIds);
       case HaulsFilter.VesselLength:
-        return getIndexes(LengthGroups, search?.vesselLengthRanges);
+        return getIndexes(LengthGroups, search?.vesselLengthGroups);
     }
 
   return [];
@@ -352,7 +352,7 @@ const selectVesselLengthFilterStats = createSelector(
       return [];
     }
 
-    const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
+    const selected = getIndexes(LengthGroups, search?.vesselLengthGroups);
     return computeMatrixStats(
       matrix.lengthGroup,
       LengthGroups,
@@ -377,7 +377,7 @@ const selectVesselLengthFilterGridStats = createSelector(
       return [];
     }
 
-    const selected = getIndexes(LengthGroups, search?.vesselLengthRanges);
+    const selected = getIndexes(LengthGroups, search?.vesselLengthGroups);
     return computeMatrixStats(
       matrix.lengthGroup,
       LengthGroups,

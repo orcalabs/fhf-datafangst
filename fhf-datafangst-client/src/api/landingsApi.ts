@@ -9,10 +9,7 @@ import {
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
-import {
-  createTimestampsFromYearsMonths,
-  createVesselLengthQueryString,
-} from "./utils";
+import { createTimestampsFromYearsMonths } from "./utils";
 import { MinLandingYear } from "utils";
 
 export const LandingsFilter = {
@@ -30,7 +27,7 @@ export interface LandingsArgs {
   catchLocations?: string[];
   gearGroupIds?: GearGroupDetailed[];
   speciesGroupIds?: SpeciesGroupDetailed[];
-  vesselLengthRanges?: LengthGroup[];
+  vesselLengthGroups?: LengthGroup[];
   filter?: LandingsFilter;
   ordering?: Ordering;
   sorting?: LandingsSorting;
@@ -52,9 +49,7 @@ export const getLandings = async (query: LandingsArgs) =>
       catchLocations: query.catchLocations,
       gearGroupIds: query.gearGroupIds?.map((g) => g.id),
       speciesGroupIds: query.speciesGroupIds?.map((g) => g.id),
-      vesselLengthRanges: createVesselLengthQueryString(
-        query.vesselLengthRanges,
-      ),
+      vesselLengthGroups: query.vesselLengthGroups?.map((g) => g.id),
       ordering: query?.ordering ?? Ordering.Desc,
       sorting: query.sorting ?? LandingsSorting.LandingTimestamp,
     }),
@@ -88,6 +83,6 @@ export const getLandingsMatrix = async (query: LandingsArgs) =>
       vesselLengthGroups:
         query.filter === LandingsFilter.VesselLength
           ? undefined
-          : query.vesselLengthRanges?.map((l) => l.id),
+          : query.vesselLengthGroups?.map((l) => l.id),
     }),
   );

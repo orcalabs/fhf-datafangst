@@ -112,13 +112,13 @@ export const HaulFilters: FC<Props> = (props) => {
           </Box>
           <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
             <LengthGroupFilter
-              value={haulsSearch?.vesselLengthRanges}
+              value={haulsSearch?.vesselLengthGroups}
               stats={lengthGroupStats}
               onChange={(value) =>
                 dispatch(
                   setHaulsMatrixSearch({
                     ...haulsSearch,
-                    vesselLengthRanges: value,
+                    vesselLengthGroups: value,
                   }),
                 )
               }

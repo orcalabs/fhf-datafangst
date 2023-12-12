@@ -117,13 +117,13 @@ export const LandingFilters: FC<Props> = (props) => {
           </Box>
           <Box onMouseEnter={() => onFilterHover(LandingsFilter.VesselLength)}>
             <LengthGroupFilter
-              value={landingsSearch?.vesselLengthRanges}
+              value={landingsSearch?.vesselLengthGroups}
               stats={lengthGroupStats}
               onChange={(value) =>
                 dispatch(
                   setLandingsMatrixSearch({
                     ...landingsSearch,
-                    vesselLengthRanges: value,
+                    vesselLengthGroups: value,
                   }),
                 )
               }

@@ -189,7 +189,7 @@ export const HomeView: FC = () => {
               vessels: haulsSearch?.vessels,
               gearGroupIds: haulsSearch?.gearGroupIds,
               speciesGroupIds: haulsSearch?.speciesGroupIds,
-              vesselLengthRanges: haulsSearch?.vesselLengthRanges,
+              vesselLengthGroups: haulsSearch?.vesselLengthGroups,
               catchLocations: selectedGrids,
             })
           : setLandingsMatrix2Search({
@@ -198,7 +198,7 @@ export const HomeView: FC = () => {
               vessels: landingsSearch?.vessels,
               gearGroupIds: landingsSearch?.gearGroupIds,
               speciesGroupIds: landingsSearch?.speciesGroupIds,
-              vesselLengthRanges: landingsSearch?.vesselLengthRanges,
+              vesselLengthGroups: landingsSearch?.vesselLengthGroups,
               catchLocations: selectedGrids,
             }),
       );
