@@ -1,6 +1,5 @@
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { setMonth, setYear } from "date-fns";
-import { LengthGroup } from "models";
 
 export const createTimestampsFromYearsMonths = (
   years: number[] | undefined,
@@ -28,10 +27,3 @@ export const createTimestampsFromYearsMonths = (
 
   return timestamps;
 };
-
-export const createVesselLengthQueryString = (
-  vesselLengthRanges?: LengthGroup[],
-) =>
-  vesselLengthRanges?.map((l) =>
-    l.max === Infinity ? `[${l.min},)` : `[${l.min},${l.max})`,
-  );

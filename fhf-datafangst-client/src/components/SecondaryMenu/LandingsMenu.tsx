@@ -401,13 +401,13 @@ export const LandingsMenu: FC = () => {
                     }
                   >
                     <LengthGroupFilter
-                      value={landingsSearch?.vesselLengthRanges}
+                      value={landingsSearch?.vesselLengthGroups}
                       stats={lengthGroupStats}
                       onChange={(value) =>
                         dispatch(
                           setLandingsMatrix2Search({
                             ...landingsSearch,
-                            vesselLengthRanges: value,
+                            vesselLengthGroups: value,
                           }),
                         )
                       }

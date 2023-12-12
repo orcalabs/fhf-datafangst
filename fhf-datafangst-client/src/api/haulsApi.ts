@@ -9,10 +9,7 @@ import {
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
-import {
-  createTimestampsFromYearsMonths,
-  createVesselLengthQueryString,
-} from "./utils";
+import { createTimestampsFromYearsMonths } from "./utils";
 import { MinErsYear } from "utils";
 
 export const HaulsFilter = {
@@ -29,7 +26,7 @@ export interface HaulsArgs {
   catchLocations?: string[];
   gearGroupIds?: GearGroupDetailed[];
   speciesGroupIds?: SpeciesGroupDetailed[];
-  vesselLengthRanges?: LengthGroup[];
+  vesselLengthGroups?: LengthGroup[];
   filter?: HaulsFilter;
   ordering?: Ordering;
   sorting?: HaulsSorting;
@@ -51,9 +48,7 @@ export const getHauls = async (query: HaulsArgs) =>
       catchLocations: query.catchLocations,
       gearGroupIds: query.gearGroupIds?.map((g) => g.id),
       speciesGroupIds: query.speciesGroupIds?.map((g) => g.id),
-      vesselLengthRanges: createVesselLengthQueryString(
-        query.vesselLengthRanges,
-      ),
+      vesselLengthGroups: query.vesselLengthGroups?.map((g) => g.id),
       ordering: query?.ordering ?? Ordering.Desc,
       sorting: query.sorting ?? HaulsSorting.StartDate,
     }),
@@ -87,6 +82,6 @@ export const getHaulsMatrix = async (query: HaulsArgs) =>
       vesselLengthGroups:
         query.filter === HaulsFilter.VesselLength
           ? undefined
-          : query.vesselLengthRanges?.map((l) => l.id),
+          : query.vesselLengthGroups?.map((l) => l.id),
     }),
   );
