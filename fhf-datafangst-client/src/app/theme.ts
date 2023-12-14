@@ -56,15 +56,15 @@ const theme = createTheme(
     },
     palette: {
       primary: {
-        main: "#055772",
-        light: "#067593",
-        dark: "#001F3D",
+        main: "#111C4E",
+        light: "#404971",
+        dark: "#0B1336",
         contrastText: "#fff",
       },
       secondary: {
-        main: "#4F9D95",
-        light: "#6FB7AF",
-        dark: "#3E7B74",
+        main: "#5E9BAC",
+        light: "#9BCEDE",
+        dark: "#286477",
       },
       third: {
         main: "#E81F76",

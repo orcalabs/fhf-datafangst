@@ -44,9 +44,9 @@ export const HeaderMenuButtons: FC = () => {
           border: 0,
           width: "50%",
           "&.Mui-selected": {
-            backgroundColor: "primary.main",
+            backgroundColor: "primary.light",
             color: "white",
-            "&:hover": { bgcolor: "primary.main" },
+            "&:hover": { bgcolor: "primary.light" },
           },
           "&:hover": { bgcolor: "secondary.dark" },
         },

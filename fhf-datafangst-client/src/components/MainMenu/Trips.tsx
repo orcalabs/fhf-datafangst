@@ -40,7 +40,7 @@ const listItemSx = {
     bgcolor: "primary.dark",
     "&:hover": { bgcolor: "primary.dark" },
   },
-  "&:hover": { bgcolor: "primary.light" },
+  "&:hover": { bgcolor: "primary.main" },
 };
 
 const filterParams: TripsArgs = {
@@ -100,7 +100,7 @@ export const Trips: FC = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          bgcolor: "primary.main",
+          bgcolor: "primary.light",
           pl: 2.5,
           pr: 0,
           pt: viewState === MenuViewState.MyPage ? 0 : 1,

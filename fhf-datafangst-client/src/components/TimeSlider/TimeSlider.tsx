@@ -150,7 +150,7 @@ export const TimeSlider: FC<Props> = (props: Props) => {
               opacity: "0.60",
             },
             "& .MuiSlider-markActive": {
-              bgcolor: "primary.main",
+              bgcolor: "primary.light",
               height: 15,
               opacity: "1",
             },
@@ -162,7 +162,7 @@ export const TimeSlider: FC<Props> = (props: Props) => {
               opacity: 1,
             },
             "& .MuiSlider-track": {
-              bgcolor: "primary.main",
+              bgcolor: "primary.light",
               borderRadius: 0,
               opacity: 1,
               borderColor: "white",

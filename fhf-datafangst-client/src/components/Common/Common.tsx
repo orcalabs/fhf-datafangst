@@ -18,7 +18,7 @@ export const StyledPopper = styled(Popper)(({ theme }) => ({
     borderRadius: 0,
     marginRight: "1px",
     marginLeft: "1px",
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.light,
   },
 }));
 
@@ -40,7 +40,7 @@ export const StyledDatePopper = styled(Popper)(({ theme }) => ({
     borderRadius: 0,
     marginRight: "1px",
     marginLeft: "1px",
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.light,
   },
 }));
 

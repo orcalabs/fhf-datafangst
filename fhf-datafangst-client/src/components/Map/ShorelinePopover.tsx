@@ -12,7 +12,7 @@ export const ShorelinePopover: FC<Props> = ({ name }) => {
       <List dense disablePadding>
         <ListItem disableGutters>
           <ListItemIcon sx={{ minWidth: 0, pr: 1.5, pl: 0 }}>
-            <ShowChartIcon fontSize="large" sx={{ color: "primary.main" }} />
+            <ShowChartIcon fontSize="large" sx={{ color: "primary.light" }} />
           </ListItemIcon>
           <ListItemText
             primary={"Fartsområde kystfiske"}

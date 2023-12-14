@@ -119,8 +119,8 @@ export const SearchFilters: FC<Props> = (props) => {
             border: 0,
             padding: "5px 10px",
             borderColor: "primary.dark",
-            "&:hover": { bgcolor: "primary.dark", border: 0 },
-            bgcolor: filtersAnchor ? "primary.dark" : "primary.main",
+            "&:hover": { bgcolor: "primary.main", border: 0 },
+            bgcolor: filtersAnchor ? "primary.main" : "primary.light",
             "& .MuiButton-startIcon": {
               marginRight: 0,
             },

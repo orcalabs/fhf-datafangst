@@ -39,7 +39,7 @@ export const VesselInfo: FC<Props> = (props) => {
           color: "white",
           px: 3,
           pt: 1,
-          bgcolor: "primary.main",
+          bgcolor: "primary.light",
           "& .MuiAccordionSummary-content": {
             mt: 0,
           },
@@ -77,7 +77,7 @@ export const VesselInfo: FC<Props> = (props) => {
           </Box>
         </Box>
       </AccordionSummary>
-      <AccordionDetails sx={{ bgcolor: "primary.main", pb: 0, px: 4 }}>
+      <AccordionDetails sx={{ bgcolor: "primary.light", pb: 0, px: 4 }}>
         <TableContainer>
           <Table size="small">
             <TableBody>

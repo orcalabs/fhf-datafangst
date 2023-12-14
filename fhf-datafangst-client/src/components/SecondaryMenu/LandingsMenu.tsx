@@ -65,7 +65,7 @@ const accordionSx = {
   px: 2.5,
   color: "white",
   boxShadow: "none",
-  bgcolor: "primary.main",
+  bgcolor: "primary.light",
   "&.Mui-expanded": {
     m: 0,
     bgcolor: "primary.dark",
@@ -342,7 +342,7 @@ export const LandingsMenu: FC = () => {
               flexShrink: 0,
               "& .MuiDrawer-paper": {
                 position: "relative",
-                backgroundColor: "primary.main",
+                backgroundColor: "primary.light",
                 color: "white",
               },
             }}
@@ -422,7 +422,7 @@ export const LandingsMenu: FC = () => {
                   >
                     <TablePagination
                       sx={{
-                        bgcolor: "primary.main",
+                        bgcolor: "primary.light",
                         color: "white",
                         width: "100%",
                         "& .MuiTablePagination-toolbar": { px: 3 },

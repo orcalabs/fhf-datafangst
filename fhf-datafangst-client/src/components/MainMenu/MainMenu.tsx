@@ -16,7 +16,7 @@ export const MainMenu: FC = () => {
             width: 500,
             position: "relative",
             boxSizing: "border-box",
-            bgcolor: "primary.main",
+            bgcolor: "primary.light",
             color: "white",
             flexShrink: 0,
             height: "100%",
