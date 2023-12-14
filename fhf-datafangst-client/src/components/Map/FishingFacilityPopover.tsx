@@ -33,7 +33,7 @@ export const FishingFacilityPopover: FC<Props> = ({ fishingFacilityIdx }) => {
         <ListItem disableGutters>
           <ListItemIcon sx={{ minWidth: 0, pr: 1.5 }}>
             <PhishingSharp
-              fill={theme.palette.primary.main}
+              fill={theme.palette.primary.light}
               width="36"
               height="36"
             />

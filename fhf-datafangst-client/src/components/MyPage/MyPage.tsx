@@ -41,11 +41,11 @@ const accordionSx = {
   m: 0,
   color: "white",
   boxShadow: "none",
-  bgcolor: "primary.main",
+  bgcolor: "primary.light",
   "&.Mui-expanded": {
     m: 0,
-    bgcolor: "primary.main",
-    "&:hover": { bgcolor: "primary.main" },
+    bgcolor: "primary.light",
+    "&:hover": { bgcolor: "primary.light" },
   },
   "& .MuiAccordionSummary-root": {
     py: 2,
@@ -225,7 +225,7 @@ export const MyPage: FC = () => {
           borderRadius: 0,
           color: "white",
           boxShadow: "none",
-          bgcolor: "primary.main",
+          bgcolor: "primary.light",
         }}
         onClick={() => {
           navigate("/benchmark");

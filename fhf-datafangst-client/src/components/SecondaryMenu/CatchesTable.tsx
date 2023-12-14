@@ -61,11 +61,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     border: 0,
     color: "white",
     fontSize: "0.97rem",
-    borderBottom: `1px solid ${theme.palette.primary.main}`,
+    borderBottom: `1px solid ${theme.palette.primary.light}`,
     "&:last-of-type": {
       color: "white",
       width: "33%",
-      borderLeft: `1px solid ${theme.palette.primary.main}`,
+      borderLeft: `1px solid ${theme.palette.primary.light}`,
     },
   },
   [`&.${tableCellClasses.footer}`]: {

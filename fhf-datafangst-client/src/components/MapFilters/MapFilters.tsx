@@ -13,10 +13,10 @@ interface Props {
 }
 
 const activeStyle = {
-  bgcolor: "primary.main",
+  bgcolor: "primary.light",
   "& .MuiSpeedDialAction-fab": {
     color: "white",
-    bgcolor: "primary.main",
+    bgcolor: "primary.light",
   },
   svg: { color: "white" },
   "&:hover": { bgcolor: "primary.dark" },
@@ -49,10 +49,9 @@ export const MapFilters: FC<Props> = (props) => {
         sx={{
           "& .MuiFab-primary": {
             borderRadius: 0,
-            bgcolor: "primary.main",
+            bgcolor: "primary.light",
             "&:hover": {
               bgcolor: "primary.dark",
-              svg: { bgcolor: "primary.dark" },
             },
           },
           "& .MuiFab-root": { borderRadius: 0 },
@@ -60,14 +59,22 @@ export const MapFilters: FC<Props> = (props) => {
         icon={<LayersIcon />}
       >
         <SpeedDialAction
-          sx={mapFilter.coastline ? activeStyle : {}}
+          sx={
+            mapFilter.coastline
+              ? activeStyle
+              : { "&:hover": { svg: { color: "primary.light" } } }
+          }
           onClick={() => handleChange("coastline")}
           icon={<CoastlineIcon />}
           tooltipTitle={"Vis kystlinje"}
           tooltipPlacement="left"
         />
         <SpeedDialAction
-          sx={mapFilter.seamap ? activeStyle : {}}
+          sx={
+            mapFilter.seamap
+              ? activeStyle
+              : { "&:hover": { svg: { color: "primary.light" } } }
+          }
           onClick={() => handleChange("seamap")}
           icon={<MapSharpIcon />}
           tooltipTitle={"Vis sjøkart"}

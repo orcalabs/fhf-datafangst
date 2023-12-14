@@ -66,7 +66,7 @@ export const CurrentTripMenu: FC = () => {
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             position: "relative",
-            backgroundColor: "primary.main",
+            backgroundColor: "primary.light",
           },
         }}
         open
@@ -78,7 +78,7 @@ export const CurrentTripMenu: FC = () => {
             display: "flex",
             py: 3,
             px: 2.5,
-            backgroundColor: "primary.main",
+            backgroundColor: "primary.light",
             color: "white",
           }}
         >

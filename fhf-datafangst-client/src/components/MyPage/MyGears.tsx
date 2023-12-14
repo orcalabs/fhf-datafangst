@@ -72,7 +72,7 @@ export const MyGears: FC = () => {
     <List sx={{ color: "white", pt: 0 }}>
       <ListSubheader
         sx={{
-          bgcolor: "primary.main",
+          bgcolor: "primary.light",
         }}
       >
         <FormGroup>

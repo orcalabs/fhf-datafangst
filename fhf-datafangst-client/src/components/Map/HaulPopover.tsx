@@ -28,7 +28,7 @@ export const HaulPopover: FC<Props> = ({ haulId }) => {
         <ListItem disableGutters>
           <ListItemIcon sx={{ minWidth: 0, pr: 1.5 }}>
             <FishIcon
-              fill={theme.palette.primary.main}
+              fill={theme.palette.primary.light}
               width="36"
               height="36"
             />

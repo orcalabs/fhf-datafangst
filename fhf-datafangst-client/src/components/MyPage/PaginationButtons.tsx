@@ -10,9 +10,9 @@ export const PaginationButton = (props: any) => (
     sx={{
       borderRadius: 0,
       m: 1,
-      bgcolor: props.bgcolor ?? "primary.main",
+      bgcolor: props.bgcolor ?? "primary.light",
       color: "white",
-      "&:hover": { bgcolor: "primary.dark" },
+      "&:hover": { bgcolor: "primary.main" },
     }}
     disableElevation
     {...props}

@@ -43,7 +43,7 @@ export const DashboardMenu: FC = () => {
           width: 300,
           position: "relative",
           boxSizing: "border-box",
-          bgcolor: "primary.dark",
+          bgcolor: "primary.main",
           color: "white",
           flexShrink: 0,
           height: "100vh",
@@ -66,12 +66,12 @@ export const DashboardMenu: FC = () => {
                   "& .MuiTypography-root": {
                     fontWeight: fontStyle.fontWeightBold,
                   },
-                  "&:hover": { bgcolor: "primary.main" },
+                  "&:hover": { bgcolor: "primary.light" },
                   "& .MuiListItemIcon-root": {
                     color: "#FFB340",
                   },
                 },
-                "&:hover": { bgcolor: "primary.main" },
+                "&:hover": { bgcolor: "primary.dark" },
               }}
               selected={item.id === activeMenu}
               onClick={() => dispatch(setActiveDashboardMenu(item.id))}
