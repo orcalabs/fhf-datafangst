@@ -489,8 +489,11 @@ export const generateVesselTrackVector = (
   for (let i = 0; i < positions.length; i++) {
     const pos = positions[i];
     const next = positions[i + 1];
+    const prev = positions[i - 1];
 
-    const prunedBy = !!(pos.prunedBy && next?.prunedBy);
+    const nextPruned = !!(pos.prunedBy && next?.prunedBy);
+    const prevPruned = !!(pos.prunedBy && prev?.prunedBy);
+    const prunedBy = nextPruned || prevPruned;
 
     // Only draw vessels on line if we have a detailed point from backend
     if (pos.det ?? prunedBy) {
@@ -516,7 +519,7 @@ export const generateVesselTrackVector = (
 
         lineVector = {
           vector: new VectorSource(),
-          style: prunedBy
+          style: nextPruned
             ? prunedLineStyle
             : pos.det?.missingData && selected
               ? selectedDashedLineStyle
