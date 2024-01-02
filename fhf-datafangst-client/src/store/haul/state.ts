@@ -35,7 +35,9 @@ export const initialHaulState: HaulState = {
   showTimeSlider: false,
 };
 
+const month = getMonth(new Date());
+
 export const initialHaulsMatrixSearch: HaulsArgs = {
-  months: [getMonth(new Date())],
-  years: [getYear(new Date())],
+  months: [month === 0 ? 12 : month],
+  years: [getYear(new Date()) - (month === 0 ? 1 : 0)],
 };
