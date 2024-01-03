@@ -2342,6 +2342,18 @@ export interface Trip {
     'startPortId'?: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof Trip
+     */
+    'targetSpeciesFaoId'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Trip
+     */
+    'targetSpeciesFiskeridirId'?: number | null;
+    /**
+     * 
      * @type {TripAssemblerId}
      * @memberof Trip
      */
@@ -2482,7 +2494,8 @@ export interface TripHaul {
 
 export const TripPositionLayerId = {
     UnrealisticSpeed: 'UnrealisticSpeed',
-    Cluster: 'Cluster'
+    Cluster: 'Cluster',
+    AisVmsConflict: 'AisVmsConflict'
 } as const;
 
 export type TripPositionLayerId = typeof TripPositionLayerId[keyof typeof TripPositionLayerId];
