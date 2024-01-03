@@ -19,6 +19,7 @@ import {
   FishingFacilityToolType,
   Haul,
   TripHaul,
+  TripPositionLayerId,
 } from "generated/openapi";
 import { LineString, Point } from "ol/geom";
 import ColorScale from "color-scales";
@@ -497,10 +498,10 @@ export const generateVesselTrackVector = (
     const prunedBy = nextPruned || prevPruned;
 
     // Only draw vessels on line if we have a detailed point from backend
-    if (pos.det ?? prunedBy) {
-      // If we hit a vessel with `missingData === true`, we need to
-      // create a new lineVector to visualize the missing data as a grey dashed line.
-      // Subsequently, at the next vessel, we need to go back to the regular line.
+    if (
+      pos.det ??
+      (prunedBy && pos.prunedBy !== TripPositionLayerId.AisVmsConflict)
+    ) {
       const p = new Feature({
         geometry: new Point(fromLonLat(pos.lon, pos.lat)),
         aisPosition: pos,
@@ -514,21 +515,25 @@ export const generateVesselTrackVector = (
           : trackVesselStyle(pos, zoomLevel, selected),
       );
 
+      // If we hit a vessel with missing data or pruned track, we need to
+      // create a new lineVector to visualize it differently from the normal track.
+      // Subsequently, at the next vessel, we need to go back to the regular line.
       if ((pos.det?.missingData ?? prunedBy) || flag) {
         line.appendCoordinate(fromLonLat(pos.lon, pos.lat));
         lineVector.vector.addFeature(lineFeature(line));
 
         lineVector = {
           vector: new VectorSource(),
-          style: nextPruned
-            ? prunedLineStyle
-            : pos.det?.missingData && selected
-              ? selectedDashedLineStyle
-              : pos.det?.missingData
-                ? dashedLineStyle
-                : selected
-                  ? selectedLineStyle
-                  : mainLineStyle,
+          style:
+            nextPruned && next?.prunedBy !== TripPositionLayerId.AisVmsConflict
+              ? prunedLineStyle
+              : pos.det?.missingData && selected
+                ? selectedDashedLineStyle
+                : pos.det?.missingData
+                  ? dashedLineStyle
+                  : selected
+                    ? selectedLineStyle
+                    : mainLineStyle,
         };
 
         lineVectors.push(lineVector);
