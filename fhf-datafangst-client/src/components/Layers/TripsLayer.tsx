@@ -16,6 +16,7 @@ import {
 } from "store";
 import VectorSource from "ol/source/Vector";
 import { Geometry, Point } from "ol/geom";
+import { Feature } from "ol";
 
 export const TripsLayer: FC = () => {
   const track = useAppSelector(selectTrack);
@@ -26,11 +27,12 @@ export const TripsLayer: FC = () => {
     state.map.getView().getZoom(),
   );
   const [trackVectors, setTrackVectors] = useState<TravelVector[]>();
-  const [haulsVector, setHaulsVector] = useState<VectorSource<Point>>();
+  const [haulsVector, setHaulsVector] =
+    useState<VectorSource<Feature<Point>>>();
   const [selectedHaulTrackVector, setSelectedHaulTrackVector] =
     useState<TravelVector[]>();
   const [fishingFacilityVector, setFishingFacilityVector] =
-    useState<VectorSource<Geometry>>();
+    useState<VectorSource<Feature<Geometry>>>();
 
   // Store map zoom level in state
   useEffect(() => {

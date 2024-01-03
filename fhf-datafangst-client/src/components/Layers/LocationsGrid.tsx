@@ -14,6 +14,7 @@ import {
   selectLandingLocationsMatrix,
   selectLandingsMatrixActiveFilterSelectedIndexes,
 } from "store";
+import { Feature } from "ol";
 
 export const LocationsGrid = () => {
   const matrixToggle = useAppSelector(selectMatrixToggle);
@@ -32,7 +33,9 @@ export const LocationsGrid = () => {
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
 
-  const [gridVector, _] = useState<VectorSource<Geometry>>(new VectorSource());
+  const [gridVector, _] = useState<VectorSource<Feature<Geometry>>>(
+    new VectorSource(),
+  );
 
   useEffect(() => {
     if (matrix) {
