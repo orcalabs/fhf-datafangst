@@ -8,11 +8,12 @@ import {
   useAppSelector,
 } from "store";
 import { generateFishingFacilitiesVector } from "utils";
+import { Feature } from "ol";
 
 export const FishingFacilitiesLayer = () => {
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedFishingFacility = useAppSelector(selectSelectedFishingFacility);
-  const [vector, setVector] = useState<VectorSource<Geometry>>();
+  const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
 
   useEffect(() => {
     const vector = generateFishingFacilitiesVector(

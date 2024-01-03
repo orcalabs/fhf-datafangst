@@ -23,7 +23,7 @@ export const fishmapBuilder = (
       );
       if (index < 0) {
         const style = area.getStyle() as Style;
-        const color = style.getFill().getColor()?.toString();
+        const color = style.getFill()?.getColor()?.toString();
         area.setStyle(generateGridBoxStyle(area.get("weight"), color!, true));
         area.setProperties({ color });
         selected.push(area);

@@ -62,10 +62,11 @@ const fishingLocationFeatures = new GeoJSON({
   geometryName: "fishingLocations",
 })
   .readFeatures(fishingLocationsGrid)
+  .map((item) => item as Feature<Geometry>)
   .sort((a, b) => a.get("lokref").localeCompare(b.get("lokref")));
 
 export interface TravelVector {
-  vector: VectorSource<Geometry>;
+  vector: VectorSource<Feature<Geometry>>;
   style: Style;
 }
 
@@ -217,7 +218,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
     return;
   }
 
-  const haulsVector = new VectorSource<Point>();
+  const haulsVector = new VectorSource<Feature<Point>>();
   const highestCatchSum = findHighestHaulCatchWeight(hauls);
 
   const colorScale = createColorScale(0, highestCatchSum, 1);
@@ -334,7 +335,7 @@ export const generateLocationsMatrix = (
 };
 
 export const changeIconSizes = (
-  vector: VectorSource<Geometry> | undefined,
+  vector: VectorSource<Feature<Geometry>> | undefined,
   size: number,
 ) => vector?.forEachFeature((f) => changeIconSizeFromFeature(f, size));
 
@@ -346,7 +347,7 @@ export const changeIconSizeFromFeature = (
   if (!style) return;
 
   const image = style.getImage();
-  image.setScale(size);
+  image?.setScale(size);
 
   // Re-draw change on map
   feature.changed();
@@ -603,7 +604,7 @@ export const generateTripHaulsVector = (
     return;
   }
 
-  const haulsVector = new VectorSource<Point>();
+  const haulsVector = new VectorSource<Feature<Point>>();
 
   for (let i = 0; i < hauls.length; i++) {
     const haul = hauls[i];
