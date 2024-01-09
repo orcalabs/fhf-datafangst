@@ -73,7 +73,7 @@ export const TripsLayer: FC = () => {
       true,
     );
     setSelectedHaulTrackVector(vec);
-  }, [selectedTripHaul, track]);
+  }, [selectedTripHaul, track, zoom]);
 
   return (
     <>
