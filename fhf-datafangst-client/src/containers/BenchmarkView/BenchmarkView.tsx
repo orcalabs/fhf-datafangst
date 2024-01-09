@@ -60,6 +60,7 @@ const GridMainArea = (props: any) => (
       gridColumnEnd: 3,
       gridRowStart: 2,
       gridRowEnd: 3,
+      overflowY: "auto",
     }}
   >
     {props.children}
