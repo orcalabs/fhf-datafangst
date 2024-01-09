@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import theme from "app/theme";
 import { FC, useState } from "react";
 import { kilosOrTonsFormatter } from "utils";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 interface Props {
   length: number;
@@ -16,13 +17,16 @@ export const Bar: FC<Props> = (props) => {
 
   return (
     <Box sx={{ display: "flex", mb: 1, height: 26 }}>
+      {selected && (
+        <KeyboardArrowRightIcon fontSize="small" color="secondary" />
+      )}
       <Typography
         sx={{
-          width: 220,
+          width: selected ? 190 : 220,
           fontSize: 15,
         }}
         noWrap
-        title={label?.length > 23 ? label : undefined}
+        title={label?.length > 16 ? label : undefined}
       >
         {label}
       </Typography>
