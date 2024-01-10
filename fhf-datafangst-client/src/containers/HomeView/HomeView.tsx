@@ -22,6 +22,7 @@ import {
   CurrentTripMenu,
   MapControls,
   TripDetails,
+  DeliveryPointsLayer,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
@@ -58,12 +59,14 @@ import { MinErsYear, MinLandingYear } from "utils";
 export interface MapFilter {
   coastline: boolean;
   seamap: boolean;
+  deliveryPoints: boolean;
   [key: string]: boolean;
 }
 
 const initialMapFilter: MapFilter = {
   coastline: false,
   seamap: false,
+  deliveryPoints: false,
 };
 
 const MenuArea = (props: any) => (
@@ -297,6 +300,7 @@ export const HomeView: FC = () => {
         {!selectedTrip && <TrackLayer />}
         {(selectedTrip ?? selectedCurrentTrip) && <TripsLayer />}
         <FishingFacilitiesLayer />
+        {mapFilter.deliveryPoints && <DeliveryPointsLayer />}
       </Map>
       <LoadingScreen open={trackLoading} />
       <Box

@@ -56,3 +56,5 @@ export { SearchVesselInfo } from "./FollowList/SearchVesselInfo";
 export { AddFollowerList } from "./FollowList/AddFollowerList";
 export { FollowList } from "./FollowList/FollowList";
 export { FuelPage } from "./Fuel/FuelPage";
+export { DeliveryPointsLayer } from "./Layers/DeliveryPointsLayer";
+export { DeliveryPointPopover } from "./Map/DeliveryPointPopover";

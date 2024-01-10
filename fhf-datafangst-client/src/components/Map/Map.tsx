@@ -19,8 +19,9 @@ import {
 import Feature, { FeatureLike } from "ol/Feature";
 import { Geometry } from "ol/geom";
 import RenderFeature from "ol/render/Feature";
-import { AisVmsPosition, Haul } from "generated/openapi";
+import { AisVmsPosition, DeliveryPoint, Haul } from "generated/openapi";
 import {
+  DeliveryPointPopover,
   DetailedHaulPopover,
   HaulPopover,
   PositionPopover,
@@ -51,6 +52,8 @@ export const Map: FC<Props> = (props) => {
   const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
     useState<number>();
   const [hoveredHaul, setHoveredHaul] = useState<Haul>();
+  const [hoveredDeliveryPoint, setHoveredDeliveryPoint] =
+    useState<DeliveryPoint>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
@@ -68,6 +71,7 @@ export const Map: FC<Props> = (props) => {
     setHoveredHaulId(undefined);
     setHoveredFishingFacilityIdx(undefined);
     setHoveredHaul(undefined);
+    setHoveredDeliveryPoint(undefined);
   };
 
   useEffect(() => {
@@ -256,6 +260,7 @@ export const Map: FC<Props> = (props) => {
         const haulId = feature.get("haulId");
         const fishingFacilityIdx = feature.get("fishingFacilityIdx");
         const haul = feature.get("haul");
+        const deliveryPoint = feature.get("deliveryPoint");
 
         if (aisPosition) {
           setHoveredPosition(aisPosition);
@@ -279,6 +284,10 @@ export const Map: FC<Props> = (props) => {
         } else if (haul !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaul(haul);
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+        } else if (deliveryPoint) {
+          mapState.map.getTargetElement().style.cursor = "pointer";
+          setHoveredDeliveryPoint(deliveryPoint);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         }
       }
@@ -306,6 +315,9 @@ export const Map: FC<Props> = (props) => {
           <PositionPopover hoveredPosition={hoveredPosition} />
         )}
         {hoveredShoreline && <ShorelinePopover name={hoveredShoreline} />}
+        {hoveredDeliveryPoint && (
+          <DeliveryPointPopover deliveryPoint={hoveredDeliveryPoint} />
+        )}
         {hoveredHaulId !== undefined && <HaulPopover haulId={hoveredHaulId} />}
         {hoveredFishingFacilityIdx !== undefined && (
           <FishingFacilityPopover

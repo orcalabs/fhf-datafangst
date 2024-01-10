@@ -27,6 +27,7 @@ import { weatherBuilder } from "./weather";
 import { benchmarkBuilder } from "./benchmark";
 import { dashboardBuilder } from "./dashboard";
 import { getFuelMeasurements, fuelBuilder } from "./fuel";
+import { deliveryPointBuilder } from "./deliveryPoint";
 
 export const emptyState = {
   ais: undefined,
@@ -191,5 +192,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(benchmarkBuilder)
     .extendBuilder(dashboardBuilder)
     .extendBuilder(fuelBuilder)
+    .extendBuilder(deliveryPointBuilder)
     .finish(),
 );
