@@ -26,6 +26,7 @@ import { landingBuilder } from "./landing";
 import { weatherBuilder } from "./weather";
 import { benchmarkBuilder } from "./benchmark";
 import { dashboardBuilder } from "./dashboard";
+import { getFuelMeasurements, fuelBuilder } from "./fuel";
 
 export const emptyState = {
   ais: undefined,
@@ -156,6 +157,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       if (token) {
         (action as any).asyncDispatch(getBwProfile(token));
         (action as any).asyncDispatch(getUser(token));
+        (action as any).asyncDispatch(getFuelMeasurements({ token }));
       }
     })
     .addCase(setMatrixToggle, (state, action) => {
@@ -188,5 +190,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(weatherBuilder)
     .extendBuilder(benchmarkBuilder)
     .extendBuilder(dashboardBuilder)
+    .extendBuilder(fuelBuilder)
     .finish(),
 );

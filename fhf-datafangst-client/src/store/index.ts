@@ -18,3 +18,4 @@ export * from "./user";
 export * from "./landing";
 export * from "./benchmark";
 export * from "./dashboard";
+export * from "./fuel";

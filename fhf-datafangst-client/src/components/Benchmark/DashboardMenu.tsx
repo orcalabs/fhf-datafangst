@@ -9,6 +9,7 @@ import {
 import { FC } from "react";
 import DashboardSharpIcon from "@mui/icons-material/DashboardSharp";
 import PeopleSharpIcon from "@mui/icons-material/PeopleSharp";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import {
   DashboardViewState,
   selectActiveDashboardMenu,
@@ -27,6 +28,11 @@ const menuItems = [
     id: DashboardViewState.Follow,
     name: "Følgeliste",
     icon: <PeopleSharpIcon />,
+  },
+  {
+    id: DashboardViewState.Fuel,
+    name: "Drivstoff",
+    icon: <LocalGasStationIcon />,
   },
 ];
 

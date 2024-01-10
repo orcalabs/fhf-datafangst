@@ -8,7 +8,13 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
-import { selectGearsMap, useAppSelector } from "store";
+import {
+  MenuViewState,
+  selectFuelOfTrip,
+  selectGearsMap,
+  selectViewState,
+  useAppSelector,
+} from "store";
 import { selectCurrentTrip } from "store/trip";
 import {
   createGearListString,
@@ -22,6 +28,7 @@ import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import { Gear, GearDetailed } from "generated/openapi";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",
@@ -37,6 +44,8 @@ const iconStyle = {
 export const CurrentTripMenu: FC = () => {
   const trip = useAppSelector(selectCurrentTrip);
   const gears = useAppSelector(selectGearsMap);
+  const fuel = useAppSelector(selectFuelOfTrip);
+  const viewState = useAppSelector(selectViewState);
 
   if (!trip) {
     return <></>;
@@ -132,6 +141,15 @@ export const CurrentTripMenu: FC = () => {
                   <LocationOnSharpIcon />
                 </SvgIcon>
                 <Typography>{trip.hauls.length} hal</Typography>
+              </InfoItem>
+            )}
+
+            {fuel && viewState === MenuViewState.MyPage && (
+              <InfoItem>
+                <SvgIcon sx={iconStyle}>
+                  <LocalGasStationIcon />
+                </SvgIcon>
+                <Typography>{fuel.toFixed(0)} L</Typography>
               </InfoItem>
             )}
           </Box>

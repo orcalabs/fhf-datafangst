@@ -14,10 +14,13 @@ import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
   getHaulTrack,
   getLandings,
+  MenuViewState,
   resetTrackState,
+  selectFuelOfTrip,
   selectGearsMap,
   selectSelectedHaul,
   selectVesselsByFiskeridirId,
+  selectViewState,
   setTripDetailsOpen,
   useAppDispatch,
   useAppSelector,
@@ -51,6 +54,7 @@ import WarehouseSharpIcon from "@mui/icons-material/WarehouseSharp";
 import CloseSharpIcon from "@mui/icons-material/CloseSharp";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { TripAssemblerId } from "generated/openapi";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",
@@ -71,6 +75,8 @@ export const TripsMenu: FC = () => {
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const gears = useAppSelector(selectGearsMap);
   const identifier = useAppSelector(selectTripTrackIdentifier);
+  const fuel = useAppSelector(selectFuelOfTrip);
+  const viewState = useAppSelector(selectViewState);
 
   const [aisToggle, setAisToggle] = useState<TripTrackIdentifier>(identifier);
 
@@ -242,6 +248,15 @@ export const TripsMenu: FC = () => {
                   <LocationOnSharpIcon />
                 </SvgIcon>
                 <Typography>{trip.hauls.length} hal</Typography>
+              </InfoItem>
+            )}
+
+            {fuel && viewState === MenuViewState.MyPage && (
+              <InfoItem>
+                <SvgIcon sx={iconStyle}>
+                  <LocalGasStationIcon />
+                </SvgIcon>
+                <Typography>{fuel.toFixed(0)} L</Typography>
               </InfoItem>
             )}
           </Box>

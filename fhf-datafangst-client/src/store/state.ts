@@ -18,6 +18,7 @@ import { LandingState, initialLandingState } from "./landing";
 import { WeatherState, initialWeatherState } from "./weather";
 import { BenchmarkState, initialBenchmarkState } from "./benchmark";
 import { DashboardState, initialDashboardState } from "./dashboard";
+import { FuelState, initialFuelState } from "./fuel";
 
 export enum MenuViewState {
   Overview = "overview",
@@ -69,6 +70,7 @@ export interface AppState
     WeatherState,
     SpeciesState,
     DashboardState,
+    FuelState,
     BenchmarkState {}
 
 export const initialAppState: AppState = {
@@ -88,4 +90,5 @@ export const initialAppState: AppState = {
   ...initialWeatherState,
   ...initialBenchmarkState,
   ...initialDashboardState,
+  ...initialFuelState,
 };
