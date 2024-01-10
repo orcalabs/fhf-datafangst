@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from "react";
 import { Box } from "@mui/system";
 import {
   checkLoggedIn,
+  getDeliveryPoints,
   getGear,
   getGearGroups,
   getGearMainGroups,
@@ -39,6 +40,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
     dispatch(getSpeciesFiskeridir());
     dispatch(getSpeciesGroups());
     dispatch(getSpeciesMainGroups());
+    dispatch(getDeliveryPoints());
     // dispatch(setFishingFacilitiesSearch({}));
   }, [dispatch]);
 

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
 import { MapFilter } from "containers/HomeView/HomeView";
 import LayersIcon from "@mui/icons-material/Layers";
-import { CoastlineIcon } from "assets/icons";
+import { CoastlineIcon, DeliveryPointIcon } from "assets/icons";
 import MapSharpIcon from "@mui/icons-material/MapSharp";
 
 interface Props {
@@ -58,6 +58,13 @@ export const MapFilters: FC<Props> = (props) => {
         }}
         icon={<LayersIcon />}
       >
+        <SpeedDialAction
+          sx={mapFilter.deliveryPoints ? activeStyle : {}}
+          onClick={() => handleChange("deliveryPoints")}
+          icon={<DeliveryPointIcon />}
+          tooltipTitle={"Vis fiskemottak"}
+          tooltipPlacement="left"
+        />
         <SpeedDialAction
           sx={
             mapFilter.coastline

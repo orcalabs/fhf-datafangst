@@ -16,6 +16,7 @@ import {
   getLandings,
   MenuViewState,
   resetTrackState,
+  selectDeliveryPointsMap,
   selectFuelOfTrip,
   selectGearsMap,
   selectSelectedHaul,
@@ -77,6 +78,7 @@ export const TripsMenu: FC = () => {
   const identifier = useAppSelector(selectTripTrackIdentifier);
   const fuel = useAppSelector(selectFuelOfTrip);
   const viewState = useAppSelector(selectViewState);
+  const deliveryPoints = useAppSelector(selectDeliveryPointsMap);
 
   const [aisToggle, setAisToggle] = useState<TripTrackIdentifier>(identifier);
 
@@ -91,6 +93,16 @@ export const TripsMenu: FC = () => {
   const tripCatches = Object.values(deliveryCatchesMap);
 
   const tripGears = trip.gearIds.map((val) => gears[val]);
+
+  // Return names of deliverypoints, ID if we're missing name
+  const createDeliveryPointNamesList = (deliveryPointIds: string[]) => {
+    const res: string[] = [];
+    for (const id of deliveryPointIds) {
+      const dp = deliveryPoints[id];
+      res.push(dp?.name ? toTitleCase(dp.name) : dp.id);
+    }
+    return res;
+  };
 
   return (
     <Box
@@ -206,7 +218,7 @@ export const TripsMenu: FC = () => {
               </SvgIcon>
               <Typography>
                 {trip.deliveryPointIds.length
-                  ? trip.deliveryPointIds.join(",")
+                  ? createDeliveryPointNamesList(trip.deliveryPointIds)
                   : "Ukjent"}
               </Typography>
             </InfoItem>

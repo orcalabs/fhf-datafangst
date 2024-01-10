@@ -15,6 +15,7 @@ import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
 import {
   AisVmsPosition,
+  DeliveryPoint,
   FishingFacility,
   FishingFacilityToolType,
   Haul,
@@ -35,6 +36,7 @@ import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
 import shoreline from "assets/geojson/shoreline.json";
 import CircleStyle from "ol/style/Circle";
 import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
+import deliveryPointIcon from "assets/icons/delivery-point-map.svg";
 
 export const fromLonLat = (lon: number, lat: number) => {
   if (lat > 90) {
@@ -623,4 +625,42 @@ export const generateTripHaulsVector = (
   }
 
   return haulsVector;
+};
+
+export const deliveryPointStyle = (iconSize: number) => {
+  return new Style({
+    image: new Icon({
+      opacity: 1,
+      anchor: [0.5, 0.5],
+      scale: iconSize,
+      src: deliveryPointIcon,
+    }),
+    zIndex: 500,
+  });
+};
+
+export const generateDeliveryPointsVector = (
+  deliveryPoints?: DeliveryPoint[],
+) => {
+  const deliveryPointsVector = new VectorSource();
+
+  if (deliveryPoints)
+    for (const deliveryPoint of deliveryPoints) {
+      if (!deliveryPoint?.longitude || !deliveryPoint?.latitude) {
+        continue;
+      }
+
+      const feat = new Feature({
+        geometry: new Point(
+          fromLonLat(deliveryPoint.longitude, deliveryPoint.latitude),
+        ),
+        deliveryPoint,
+      });
+
+      feat.setStyle(deliveryPointStyle(0.6));
+
+      deliveryPointsVector.addFeature(feat);
+    }
+
+  return deliveryPointsVector;
 };
