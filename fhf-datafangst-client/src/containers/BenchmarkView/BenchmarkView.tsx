@@ -7,6 +7,7 @@ import {
   HistoricalCatches,
   DashboardMenu,
   FollowList,
+  FuelPage,
 } from "components";
 import { FC, useEffect } from "react";
 import { useAuth } from "oidc-react";
@@ -209,6 +210,7 @@ export const BenchmarkView: FC = () => {
             </>
           )}
           {menuSelection === DashboardViewState.Follow && <FollowList />}
+          {menuSelection === DashboardViewState.Fuel && <FuelPage />}
         </GridMainArea>
       </GridContainer>
     </>

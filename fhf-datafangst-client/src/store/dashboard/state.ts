@@ -1,6 +1,7 @@
 export enum DashboardViewState {
   Overview = "overview",
   Follow = "follow",
+  Fuel = "fuel",
 }
 
 export interface DashboardState {

@@ -138,6 +138,25 @@ export interface AisPositionDetails {
 /**
  * 
  * @export
+ * @interface AisPositionMinimal
+ */
+export interface AisPositionMinimal {
+    /**
+     * 
+     * @type {number}
+     * @memberof AisPositionMinimal
+     */
+    'latitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisPositionMinimal
+     */
+    'longitude': number;
+}
+/**
+ * 
+ * @export
  * @interface AisVessel
  */
 export interface AisVessel {
@@ -532,6 +551,19 @@ export interface CurrentTrip {
      * @memberof CurrentTrip
      */
     'targetSpeciesFiskeridirId'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteFuelMeasurement
+ */
+export interface DeleteFuelMeasurement {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteFuelMeasurement
+     */
+    'timestamp': string;
 }
 /**
  * 
@@ -1000,6 +1032,56 @@ export interface FiskeridirVessel {
 }
 
 
+/**
+ * 
+ * @export
+ * @interface FuelMeasurement
+ */
+export interface FuelMeasurement {
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurement
+     */
+    'barentswatchUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurement
+     */
+    'callSign': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurement
+     */
+    'fuel': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurement
+     */
+    'timestamp': string;
+}
+/**
+ * 
+ * @export
+ * @interface FuelMeasurementBody
+ */
+export interface FuelMeasurementBody {
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurementBody
+     */
+    'fuel': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementBody
+     */
+    'timestamp': string;
+}
 /**
  * Gear code definitions from Fiskedirektoratet.
  * @export
@@ -2865,6 +2947,74 @@ export const V1aisApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
+         * @param {number} x1 
+         * @param {number} x2 
+         * @param {number} y1 
+         * @param {number} y2 
+         * @param {string} [dateLimit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        aisArea: async (x1: number, x2: number, y1: number, y2: number, dateLimit?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'x1' is not null or undefined
+            assertParamExists('aisArea', 'x1', x1)
+            // verify required parameter 'x2' is not null or undefined
+            assertParamExists('aisArea', 'x2', x2)
+            // verify required parameter 'y1' is not null or undefined
+            assertParamExists('aisArea', 'y1', y1)
+            // verify required parameter 'y2' is not null or undefined
+            assertParamExists('aisArea', 'y2', y2)
+            const localVarPath = `/v1.0/ais_area`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (x1 !== undefined) {
+                localVarQueryParameter['x1'] = x1;
+            }
+
+            if (x2 !== undefined) {
+                localVarQueryParameter['x2'] = x2;
+            }
+
+            if (y1 !== undefined) {
+                localVarQueryParameter['y1'] = y1;
+            }
+
+            if (y2 !== undefined) {
+                localVarQueryParameter['y2'] = y2;
+            }
+
+            if (dateLimit !== undefined) {
+                localVarQueryParameter['dateLimit'] = (dateLimit as any instanceof Date) ?
+                    (dateLimit as any).toISOString() :
+                    dateLimit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} mmsi 
          * @param {string} [start] 
          * @param {string} [end] 
@@ -2926,6 +3076,20 @@ export const V1aisApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} x1 
+         * @param {number} x2 
+         * @param {number} y1 
+         * @param {number} y2 
+         * @param {string} [dateLimit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async aisArea(x1: number, x2: number, y1: number, y2: number, dateLimit?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AisPositionMinimal>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.aisArea(x1, x2, y1, y2, dateLimit, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {number} mmsi 
          * @param {string} [start] 
          * @param {string} [end] 
@@ -2948,6 +3112,15 @@ export const V1aisApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
+         * @param {V1aisApiAisAreaRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        aisArea(requestParameters: V1aisApiAisAreaRequest, options?: AxiosRequestConfig): AxiosPromise<Array<AisPositionMinimal>> {
+            return localVarFp.aisArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {V1aisApiAisTrackRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2957,6 +3130,48 @@ export const V1aisApiFactory = function (configuration?: Configuration, basePath
         },
     };
 };
+
+/**
+ * Request parameters for aisArea operation in V1aisApi.
+ * @export
+ * @interface V1aisApiAisAreaRequest
+ */
+export interface V1aisApiAisAreaRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisApiAisArea
+     */
+    readonly x1: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisApiAisArea
+     */
+    readonly x2: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisApiAisArea
+     */
+    readonly y1: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisApiAisArea
+     */
+    readonly y2: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1aisApiAisArea
+     */
+    readonly dateLimit?: string
+}
 
 /**
  * Request parameters for aisTrack operation in V1aisApi.
@@ -2993,6 +3208,17 @@ export interface V1aisApiAisTrackRequest {
  * @extends {BaseAPI}
  */
 export class V1aisApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1aisApiAisAreaRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1aisApi
+     */
+    public aisArea(requestParameters: V1aisApiAisAreaRequest, options?: AxiosRequestConfig) {
+        return V1aisApiFp(this.configuration).aisArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {V1aisApiAisTrackRequest} requestParameters Request parameters.
@@ -3942,6 +4168,392 @@ export class V1fishingPredictionApi extends BaseAPI {
      */
     public fishingWeightPredictions(requestParameters: V1fishingPredictionApiFishingWeightPredictionsRequest, options?: AxiosRequestConfig) {
         return V1fishingPredictionApiFp(this.configuration).fishingWeightPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.date, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * V1fuelApi - axios parameter creator
+ * @export
+ */
+export const V1fuelApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {Array<FuelMeasurementBody>} fuelMeasurementBody fuel measurements
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFuelMeasurements: async (fuelMeasurementBody: Array<FuelMeasurementBody>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fuelMeasurementBody' is not null or undefined
+            assertParamExists('createFuelMeasurements', 'fuelMeasurementBody', fuelMeasurementBody)
+            const localVarPath = `/v1.0/fuel_measurements`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(fuelMeasurementBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Array<DeleteFuelMeasurement>} deleteFuelMeasurement fuel measurements to delete
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFuelMeasurements: async (deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteFuelMeasurement' is not null or undefined
+            assertParamExists('deleteFuelMeasurements', 'deleteFuelMeasurement', deleteFuelMeasurement)
+            const localVarPath = `/v1.0/fuel_measurements`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteFuelMeasurement, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFuelMeasurements: async (startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/fuel_measurements`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Array<FuelMeasurementBody>} fuelMeasurementBody updated fuel measurements
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFuelMeasurements: async (fuelMeasurementBody: Array<FuelMeasurementBody>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fuelMeasurementBody' is not null or undefined
+            assertParamExists('updateFuelMeasurements', 'fuelMeasurementBody', fuelMeasurementBody)
+            const localVarPath = `/v1.0/fuel_measurements`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(fuelMeasurementBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * V1fuelApi - functional programming interface
+ * @export
+ */
+export const V1fuelApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = V1fuelApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {Array<FuelMeasurementBody>} fuelMeasurementBody fuel measurements
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createFuelMeasurements(fuelMeasurementBody: Array<FuelMeasurementBody>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createFuelMeasurements(fuelMeasurementBody, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {Array<DeleteFuelMeasurement>} deleteFuelMeasurement fuel measurements to delete
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteFuelMeasurements(deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteFuelMeasurements(deleteFuelMeasurement, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getFuelMeasurements(startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFuelMeasurements(startDate, endDate, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {Array<FuelMeasurementBody>} fuelMeasurementBody updated fuel measurements
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateFuelMeasurements(fuelMeasurementBody: Array<FuelMeasurementBody>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFuelMeasurements(fuelMeasurementBody, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * V1fuelApi - factory interface
+ * @export
+ */
+export const V1fuelApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = V1fuelApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {V1fuelApiCreateFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFuelMeasurements(requestParameters: V1fuelApiCreateFuelMeasurementsRequest, options?: AxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.createFuelMeasurements(requestParameters.fuelMeasurementBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1fuelApiDeleteFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFuelMeasurements(requestParameters: V1fuelApiDeleteFuelMeasurementsRequest, options?: AxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteFuelMeasurements(requestParameters.deleteFuelMeasurement, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1fuelApiGetFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFuelMeasurements(requestParameters: V1fuelApiGetFuelMeasurementsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
+            return localVarFp.getFuelMeasurements(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {V1fuelApiUpdateFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFuelMeasurements(requestParameters: V1fuelApiUpdateFuelMeasurementsRequest, options?: AxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateFuelMeasurements(requestParameters.fuelMeasurementBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for createFuelMeasurements operation in V1fuelApi.
+ * @export
+ * @interface V1fuelApiCreateFuelMeasurementsRequest
+ */
+export interface V1fuelApiCreateFuelMeasurementsRequest {
+    /**
+     * fuel measurements
+     * @type {Array<FuelMeasurementBody>}
+     * @memberof V1fuelApiCreateFuelMeasurements
+     */
+    readonly fuelMeasurementBody: Array<FuelMeasurementBody>
+}
+
+/**
+ * Request parameters for deleteFuelMeasurements operation in V1fuelApi.
+ * @export
+ * @interface V1fuelApiDeleteFuelMeasurementsRequest
+ */
+export interface V1fuelApiDeleteFuelMeasurementsRequest {
+    /**
+     * fuel measurements to delete
+     * @type {Array<DeleteFuelMeasurement>}
+     * @memberof V1fuelApiDeleteFuelMeasurements
+     */
+    readonly deleteFuelMeasurement: Array<DeleteFuelMeasurement>
+}
+
+/**
+ * Request parameters for getFuelMeasurements operation in V1fuelApi.
+ * @export
+ * @interface V1fuelApiGetFuelMeasurementsRequest
+ */
+export interface V1fuelApiGetFuelMeasurementsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fuelApiGetFuelMeasurements
+     */
+    readonly startDate?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fuelApiGetFuelMeasurements
+     */
+    readonly endDate?: string
+}
+
+/**
+ * Request parameters for updateFuelMeasurements operation in V1fuelApi.
+ * @export
+ * @interface V1fuelApiUpdateFuelMeasurementsRequest
+ */
+export interface V1fuelApiUpdateFuelMeasurementsRequest {
+    /**
+     * updated fuel measurements
+     * @type {Array<FuelMeasurementBody>}
+     * @memberof V1fuelApiUpdateFuelMeasurements
+     */
+    readonly fuelMeasurementBody: Array<FuelMeasurementBody>
+}
+
+/**
+ * V1fuelApi - object-oriented interface
+ * @export
+ * @class V1fuelApi
+ * @extends {BaseAPI}
+ */
+export class V1fuelApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1fuelApiCreateFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fuelApi
+     */
+    public createFuelMeasurements(requestParameters: V1fuelApiCreateFuelMeasurementsRequest, options?: AxiosRequestConfig) {
+        return V1fuelApiFp(this.configuration).createFuelMeasurements(requestParameters.fuelMeasurementBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1fuelApiDeleteFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fuelApi
+     */
+    public deleteFuelMeasurements(requestParameters: V1fuelApiDeleteFuelMeasurementsRequest, options?: AxiosRequestConfig) {
+        return V1fuelApiFp(this.configuration).deleteFuelMeasurements(requestParameters.deleteFuelMeasurement, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1fuelApiGetFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fuelApi
+     */
+    public getFuelMeasurements(requestParameters: V1fuelApiGetFuelMeasurementsRequest = {}, options?: AxiosRequestConfig) {
+        return V1fuelApiFp(this.configuration).getFuelMeasurements(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {V1fuelApiUpdateFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fuelApi
+     */
+    public updateFuelMeasurements(requestParameters: V1fuelApiUpdateFuelMeasurementsRequest, options?: AxiosRequestConfig) {
+        return V1fuelApiFp(this.configuration).updateFuelMeasurements(requestParameters.fuelMeasurementBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

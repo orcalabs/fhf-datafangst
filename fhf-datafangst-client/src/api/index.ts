@@ -12,3 +12,4 @@ export * from "./fishingFacilityApi";
 export * from "./userApi";
 export * from "./landingsApi";
 export * from "./weatherApi";
+export * from "./fuelApi";
