@@ -23,13 +23,8 @@ export const DeliveryPointPopover: FC<Props> = ({ deliveryPoint }) => {
           </ListItemIcon>
           <ListItemText
             primary={toTitleCase(deliveryPoint.name ?? deliveryPoint.id)}
-            secondary={
-              deliveryPoint.latitude?.toFixed(4) +
-              "° N " +
-              deliveryPoint.longitude?.toFixed(4) +
-              "° Ø"
-            }
-            secondaryTypographyProps={{ color: "primary" }}
+            secondary={deliveryPoint.id}
+            secondaryTypographyProps={{ color: "secondary.dark" }}
           />
         </ListItem>
       </List>

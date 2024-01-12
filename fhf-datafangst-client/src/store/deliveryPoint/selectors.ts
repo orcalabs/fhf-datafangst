@@ -23,3 +23,10 @@ export const selectDeliveryPointsMap = createSelector(
     return res;
   },
 );
+
+export const selectMapDeliveryPoints = createSelector(
+  selectAppState,
+  selectDeliveryPointsMap,
+  (state, deliveryPoints) =>
+    state.selectedTrip?.deliveryPointIds.map((i) => deliveryPoints[i]),
+);
