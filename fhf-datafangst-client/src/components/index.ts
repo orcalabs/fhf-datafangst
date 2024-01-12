@@ -58,3 +58,4 @@ export { FollowList } from "./FollowList/FollowList";
 export { FuelPage } from "./Fuel/FuelPage";
 export { DeliveryPointsLayer } from "./Layers/DeliveryPointsLayer";
 export { DeliveryPointPopover } from "./Map/DeliveryPointPopover";
+export { CurrentDeliveryPointsLayer } from "./Layers/CurrentDeliveryPointsLayer";

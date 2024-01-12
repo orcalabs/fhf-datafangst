@@ -23,6 +23,7 @@ import {
   MapControls,
   TripDetails,
   DeliveryPointsLayer,
+  CurrentDeliveryPointsLayer,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
@@ -299,6 +300,7 @@ export const HomeView: FC = () => {
         <HaulsLayer />
         {!selectedTrip && <TrackLayer />}
         {(selectedTrip ?? selectedCurrentTrip) && <TripsLayer />}
+        {selectedTrip && <CurrentDeliveryPointsLayer />}
         <FishingFacilitiesLayer />
         {mapFilter.deliveryPoints && <DeliveryPointsLayer />}
       </Map>

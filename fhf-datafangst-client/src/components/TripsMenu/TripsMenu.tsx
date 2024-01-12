@@ -101,7 +101,7 @@ export const TripsMenu: FC = () => {
       const dp = deliveryPoints[id];
       res.push(dp?.name ? toTitleCase(dp.name) : dp.id);
     }
-    return res;
+    return res.join(", ");
   };
 
   return (
