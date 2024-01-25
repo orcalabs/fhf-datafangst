@@ -138,25 +138,6 @@ export interface AisPositionDetails {
 /**
  * 
  * @export
- * @interface AisPositionMinimal
- */
-export interface AisPositionMinimal {
-    /**
-     * 
-     * @type {number}
-     * @memberof AisPositionMinimal
-     */
-    'latitude': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisPositionMinimal
-     */
-    'longitude': number;
-}
-/**
- * 
- * @export
  * @interface AisVessel
  */
 export interface AisVessel {
@@ -208,6 +189,50 @@ export interface AisVessel {
      * @memberof AisVessel
      */
     'shipWidth'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface AisVmsArea
+ */
+export interface AisVmsArea {
+    /**
+     * 
+     * @type {Array<AisVmsAreaCount>}
+     * @memberof AisVmsArea
+     */
+    'counts': Array<AisVmsAreaCount>;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsArea
+     */
+    'numVessels': number;
+}
+/**
+ * 
+ * @export
+ * @interface AisVmsAreaCount
+ */
+export interface AisVmsAreaCount {
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsAreaCount
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsAreaCount
+     */
+    'lat': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsAreaCount
+     */
+    'lon': number;
 }
 /**
  * 
@@ -299,7 +324,7 @@ export interface AisVmsPositionDetails {
  * @type ApiError
  * @export
  */
-export type ApiError = ApiErrorOneOf | ApiErrorOneOf1 | ApiErrorOneOf10 | ApiErrorOneOf11 | ApiErrorOneOf2 | ApiErrorOneOf3 | ApiErrorOneOf4 | ApiErrorOneOf5 | ApiErrorOneOf6 | ApiErrorOneOf7 | ApiErrorOneOf8 | ApiErrorOneOf9;
+export type ApiError = ApiErrorOneOf | ApiErrorOneOf1 | ApiErrorOneOf10 | ApiErrorOneOf11 | ApiErrorOneOf12 | ApiErrorOneOf2 | ApiErrorOneOf3 | ApiErrorOneOf4 | ApiErrorOneOf5 | ApiErrorOneOf6 | ApiErrorOneOf7 | ApiErrorOneOf8 | ApiErrorOneOf9;
 
 /**
  * 
@@ -330,16 +355,16 @@ export type ApiErrorOneOf1 = typeof ApiErrorOneOf1[keyof typeof ApiErrorOneOf1];
 /**
  * 
  * @export
- * @enum {string}
+ * @interface ApiErrorOneOf10
  */
-
-export const ApiErrorOneOf10 = {
-    InvalidAuthToken: 'InvalidAuthToken'
-} as const;
-
-export type ApiErrorOneOf10 = typeof ApiErrorOneOf10[keyof typeof ApiErrorOneOf10];
-
-
+export interface ApiErrorOneOf10 {
+    /**
+     * 
+     * @type {number}
+     * @memberof ApiErrorOneOf10
+     */
+    'InvalidSpeciesGroupId': number;
+}
 /**
  * 
  * @export
@@ -347,7 +372,7 @@ export type ApiErrorOneOf10 = typeof ApiErrorOneOf10[keyof typeof ApiErrorOneOf1
  */
 
 export const ApiErrorOneOf11 = {
-    MissingAuthToken: 'MissingAuthToken'
+    InvalidAuthToken: 'InvalidAuthToken'
 } as const;
 
 export type ApiErrorOneOf11 = typeof ApiErrorOneOf11[keyof typeof ApiErrorOneOf11];
@@ -359,8 +384,21 @@ export type ApiErrorOneOf11 = typeof ApiErrorOneOf11[keyof typeof ApiErrorOneOf1
  * @enum {string}
  */
 
+export const ApiErrorOneOf12 = {
+    MissingAuthToken: 'MissingAuthToken'
+} as const;
+
+export type ApiErrorOneOf12 = typeof ApiErrorOneOf12[keyof typeof ApiErrorOneOf12];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
 export const ApiErrorOneOf2 = {
-    InvalidDateRange: 'InvalidDateRange'
+    MissingBwFiskInfoProfile: 'MissingBwFiskInfoProfile'
 } as const;
 
 export type ApiErrorOneOf2 = typeof ApiErrorOneOf2[keyof typeof ApiErrorOneOf2];
@@ -373,7 +411,7 @@ export type ApiErrorOneOf2 = typeof ApiErrorOneOf2[keyof typeof ApiErrorOneOf2];
  */
 
 export const ApiErrorOneOf3 = {
-    InternalServerError: 'InternalServerError'
+    InvalidDateRange: 'InvalidDateRange'
 } as const;
 
 export type ApiErrorOneOf3 = typeof ApiErrorOneOf3[keyof typeof ApiErrorOneOf3];
@@ -386,7 +424,7 @@ export type ApiErrorOneOf3 = typeof ApiErrorOneOf3[keyof typeof ApiErrorOneOf3];
  */
 
 export const ApiErrorOneOf4 = {
-    MissingMmsiOrCallSignOrTripId: 'MissingMmsiOrCallSignOrTripId'
+    InternalServerError: 'InternalServerError'
 } as const;
 
 export type ApiErrorOneOf4 = typeof ApiErrorOneOf4[keyof typeof ApiErrorOneOf4];
@@ -399,7 +437,7 @@ export type ApiErrorOneOf4 = typeof ApiErrorOneOf4[keyof typeof ApiErrorOneOf4];
  */
 
 export const ApiErrorOneOf5 = {
-    Forbidden: 'Forbidden'
+    MissingMmsiOrCallSignOrTripId: 'MissingMmsiOrCallSignOrTripId'
 } as const;
 
 export type ApiErrorOneOf5 = typeof ApiErrorOneOf5[keyof typeof ApiErrorOneOf5];
@@ -412,7 +450,7 @@ export type ApiErrorOneOf5 = typeof ApiErrorOneOf5[keyof typeof ApiErrorOneOf5];
  */
 
 export const ApiErrorOneOf6 = {
-    MissingBwToken: 'MissingBwToken'
+    Forbidden: 'Forbidden'
 } as const;
 
 export type ApiErrorOneOf6 = typeof ApiErrorOneOf6[keyof typeof ApiErrorOneOf6];
@@ -425,7 +463,7 @@ export type ApiErrorOneOf6 = typeof ApiErrorOneOf6[keyof typeof ApiErrorOneOf6];
  */
 
 export const ApiErrorOneOf7 = {
-    InvalidBwToken: 'InvalidBwToken'
+    MissingBwToken: 'MissingBwToken'
 } as const;
 
 export type ApiErrorOneOf7 = typeof ApiErrorOneOf7[keyof typeof ApiErrorOneOf7];
@@ -438,7 +476,7 @@ export type ApiErrorOneOf7 = typeof ApiErrorOneOf7[keyof typeof ApiErrorOneOf7];
  */
 
 export const ApiErrorOneOf8 = {
-    InvalidLandingId: 'InvalidLandingId'
+    InvalidBwToken: 'InvalidBwToken'
 } as const;
 
 export type ApiErrorOneOf8 = typeof ApiErrorOneOf8[keyof typeof ApiErrorOneOf8];
@@ -447,16 +485,16 @@ export type ApiErrorOneOf8 = typeof ApiErrorOneOf8[keyof typeof ApiErrorOneOf8];
 /**
  * 
  * @export
- * @interface ApiErrorOneOf9
+ * @enum {string}
  */
-export interface ApiErrorOneOf9 {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiErrorOneOf9
-     */
-    'InvalidSpeciesGroupId': number;
-}
+
+export const ApiErrorOneOf9 = {
+    InvalidLandingId: 'InvalidLandingId'
+} as const;
+
+export type ApiErrorOneOf9 = typeof ApiErrorOneOf9[keyof typeof ApiErrorOneOf9];
+
+
 /**
  * 
  * @export
@@ -475,6 +513,56 @@ export interface ApiErrorOneOfStartAfterEnd {
      * @memberof ApiErrorOneOfStartAfterEnd
      */
     'start': string;
+}
+/**
+ * 
+ * @export
+ * @interface Benchmark
+ */
+export interface Benchmark {
+    /**
+     * 
+     * @type {number}
+     * @memberof Benchmark
+     */
+    'average': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Benchmark
+     */
+    'averageFollowers': number;
+    /**
+     * 
+     * @type {Array<BenchmarkEntry>}
+     * @memberof Benchmark
+     */
+    'recentTrips': Array<BenchmarkEntry>;
+}
+/**
+ * 
+ * @export
+ * @interface BenchmarkEntry
+ */
+export interface BenchmarkEntry {
+    /**
+     * 
+     * @type {number}
+     * @memberof BenchmarkEntry
+     */
+    'fiskeridirVesselId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BenchmarkEntry
+     */
+    'tripStart': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BenchmarkEntry
+     */
+    'value': number;
 }
 /**
  * 
@@ -521,6 +609,37 @@ export interface Catch {
 }
 
 
+/**
+ * 
+ * @export
+ * @interface CumulativeLandings
+ */
+export interface CumulativeLandings {
+    /**
+     * 
+     * @type {number}
+     * @memberof CumulativeLandings
+     */
+    'cumulativeWeight': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CumulativeLandings
+     */
+    'month': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CumulativeLandings
+     */
+    'speciesFiskeridirId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CumulativeLandings
+     */
+    'weight': number;
+}
 /**
  * 
  * @export
@@ -2650,6 +2769,49 @@ export interface Vessel {
 /**
  * 
  * @export
+ * @interface VesselBenchmarks
+ */
+export interface VesselBenchmarks {
+    /**
+     * 
+     * @type {Array<CumulativeLandings>}
+     * @memberof VesselBenchmarks
+     */
+    'cumulativeLandings': Array<CumulativeLandings>;
+    /**
+     * 
+     * @type {Benchmark}
+     * @memberof VesselBenchmarks
+     */
+    'ersDca'?: Benchmark | null;
+    /**
+     * 
+     * @type {Benchmark}
+     * @memberof VesselBenchmarks
+     */
+    'fishingDistance'?: Benchmark | null;
+    /**
+     * 
+     * @type {Benchmark}
+     * @memberof VesselBenchmarks
+     */
+    'fishingTime'?: Benchmark | null;
+    /**
+     * 
+     * @type {Benchmark}
+     * @memberof VesselBenchmarks
+     */
+    'landings'?: Benchmark | null;
+    /**
+     * 
+     * @type {Benchmark}
+     * @memberof VesselBenchmarks
+     */
+    'tripTime'?: Benchmark | null;
+}
+/**
+ * 
+ * @export
  * @interface VesselEvent
  */
 export interface VesselEvent {
@@ -2947,24 +3109,12 @@ export const V1aisApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
-         * @param {number} x1 
-         * @param {number} x2 
-         * @param {number} y1 
-         * @param {number} y2 
-         * @param {string} [dateLimit] 
+         * @param {string} [positionTimestampLimit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        aisArea: async (x1: number, x2: number, y1: number, y2: number, dateLimit?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'x1' is not null or undefined
-            assertParamExists('aisArea', 'x1', x1)
-            // verify required parameter 'x2' is not null or undefined
-            assertParamExists('aisArea', 'x2', x2)
-            // verify required parameter 'y1' is not null or undefined
-            assertParamExists('aisArea', 'y1', y1)
-            // verify required parameter 'y2' is not null or undefined
-            assertParamExists('aisArea', 'y2', y2)
-            const localVarPath = `/v1.0/ais_area`;
+        aisCurrentPositions: async (positionTimestampLimit?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/ais_current_positions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2978,28 +3128,12 @@ export const V1aisApiAxiosParamCreator = function (configuration?: Configuration
 
             // authentication auth0 required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "auth0", ["read:ais:under_15m"], configuration)
 
-            if (x1 !== undefined) {
-                localVarQueryParameter['x1'] = x1;
-            }
-
-            if (x2 !== undefined) {
-                localVarQueryParameter['x2'] = x2;
-            }
-
-            if (y1 !== undefined) {
-                localVarQueryParameter['y1'] = y1;
-            }
-
-            if (y2 !== undefined) {
-                localVarQueryParameter['y2'] = y2;
-            }
-
-            if (dateLimit !== undefined) {
-                localVarQueryParameter['dateLimit'] = (dateLimit as any instanceof Date) ?
-                    (dateLimit as any).toISOString() :
-                    dateLimit;
+            if (positionTimestampLimit !== undefined) {
+                localVarQueryParameter['positionTimestampLimit'] = (positionTimestampLimit as any instanceof Date) ?
+                    (positionTimestampLimit as any).toISOString() :
+                    positionTimestampLimit;
             }
 
 
@@ -3076,16 +3210,12 @@ export const V1aisApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} x1 
-         * @param {number} x2 
-         * @param {number} y1 
-         * @param {number} y2 
-         * @param {string} [dateLimit] 
+         * @param {string} [positionTimestampLimit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async aisArea(x1: number, x2: number, y1: number, y2: number, dateLimit?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AisPositionMinimal>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.aisArea(x1, x2, y1, y2, dateLimit, options);
+        async aisCurrentPositions(positionTimestampLimit?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AisPosition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.aisCurrentPositions(positionTimestampLimit, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3112,12 +3242,12 @@ export const V1aisApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
-         * @param {V1aisApiAisAreaRequest} requestParameters Request parameters.
+         * @param {V1aisApiAisCurrentPositionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        aisArea(requestParameters: V1aisApiAisAreaRequest, options?: AxiosRequestConfig): AxiosPromise<Array<AisPositionMinimal>> {
-            return localVarFp.aisArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(axios, basePath));
+        aisCurrentPositions(requestParameters: V1aisApiAisCurrentPositionsRequest = {}, options?: AxiosRequestConfig): AxiosPromise<Array<AisPosition>> {
+            return localVarFp.aisCurrentPositions(requestParameters.positionTimestampLimit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3132,45 +3262,17 @@ export const V1aisApiFactory = function (configuration?: Configuration, basePath
 };
 
 /**
- * Request parameters for aisArea operation in V1aisApi.
+ * Request parameters for aisCurrentPositions operation in V1aisApi.
  * @export
- * @interface V1aisApiAisAreaRequest
+ * @interface V1aisApiAisCurrentPositionsRequest
  */
-export interface V1aisApiAisAreaRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof V1aisApiAisArea
-     */
-    readonly x1: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof V1aisApiAisArea
-     */
-    readonly x2: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof V1aisApiAisArea
-     */
-    readonly y1: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof V1aisApiAisArea
-     */
-    readonly y2: number
-
+export interface V1aisApiAisCurrentPositionsRequest {
     /**
      * 
      * @type {string}
-     * @memberof V1aisApiAisArea
+     * @memberof V1aisApiAisCurrentPositions
      */
-    readonly dateLimit?: string
+    readonly positionTimestampLimit?: string
 }
 
 /**
@@ -3210,13 +3312,13 @@ export interface V1aisApiAisTrackRequest {
 export class V1aisApi extends BaseAPI {
     /**
      * 
-     * @param {V1aisApiAisAreaRequest} requestParameters Request parameters.
+     * @param {V1aisApiAisCurrentPositionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof V1aisApi
      */
-    public aisArea(requestParameters: V1aisApiAisAreaRequest, options?: AxiosRequestConfig) {
-        return V1aisApiFp(this.configuration).aisArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(this.axios, this.basePath));
+    public aisCurrentPositions(requestParameters: V1aisApiAisCurrentPositionsRequest = {}, options?: AxiosRequestConfig) {
+        return V1aisApiFp(this.configuration).aisCurrentPositions(requestParameters.positionTimestampLimit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3238,6 +3340,74 @@ export class V1aisApi extends BaseAPI {
  */
 export const V1aisVmsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {number} x1 
+         * @param {number} x2 
+         * @param {number} y1 
+         * @param {number} y2 
+         * @param {string} [dateLimit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        aisVmsArea: async (x1: number, x2: number, y1: number, y2: number, dateLimit?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'x1' is not null or undefined
+            assertParamExists('aisVmsArea', 'x1', x1)
+            // verify required parameter 'x2' is not null or undefined
+            assertParamExists('aisVmsArea', 'x2', x2)
+            // verify required parameter 'y1' is not null or undefined
+            assertParamExists('aisVmsArea', 'y1', y1)
+            // verify required parameter 'y2' is not null or undefined
+            assertParamExists('aisVmsArea', 'y2', y2)
+            const localVarPath = `/v1.0/ais_vms_area`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (x1 !== undefined) {
+                localVarQueryParameter['x1'] = x1;
+            }
+
+            if (x2 !== undefined) {
+                localVarQueryParameter['x2'] = x2;
+            }
+
+            if (y1 !== undefined) {
+                localVarQueryParameter['y1'] = y1;
+            }
+
+            if (y2 !== undefined) {
+                localVarQueryParameter['y2'] = y2;
+            }
+
+            if (dateLimit !== undefined) {
+                localVarQueryParameter['dateLimit'] = (dateLimit as any instanceof Date) ?
+                    (dateLimit as any).toISOString().substr(0,10) :
+                    dateLimit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {number} [mmsi] 
@@ -3312,6 +3482,20 @@ export const V1aisVmsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} x1 
+         * @param {number} x2 
+         * @param {number} y1 
+         * @param {number} y2 
+         * @param {string} [dateLimit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async aisVmsArea(x1: number, x2: number, y1: number, y2: number, dateLimit?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AisVmsArea>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.aisVmsArea(x1, x2, y1, y2, dateLimit, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {number} [mmsi] 
          * @param {string} [callSign] 
          * @param {number} [tripId] 
@@ -3336,6 +3520,15 @@ export const V1aisVmsApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
+         * @param {V1aisVmsApiAisVmsAreaRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        aisVmsArea(requestParameters: V1aisVmsApiAisVmsAreaRequest, options?: AxiosRequestConfig): AxiosPromise<AisVmsArea> {
+            return localVarFp.aisVmsArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {V1aisVmsApiAisVmsPositionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3345,6 +3538,48 @@ export const V1aisVmsApiFactory = function (configuration?: Configuration, baseP
         },
     };
 };
+
+/**
+ * Request parameters for aisVmsArea operation in V1aisVmsApi.
+ * @export
+ * @interface V1aisVmsApiAisVmsAreaRequest
+ */
+export interface V1aisVmsApiAisVmsAreaRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisVmsApiAisVmsArea
+     */
+    readonly x1: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisVmsApiAisVmsArea
+     */
+    readonly x2: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisVmsApiAisVmsArea
+     */
+    readonly y1: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof V1aisVmsApiAisVmsArea
+     */
+    readonly y2: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1aisVmsApiAisVmsArea
+     */
+    readonly dateLimit?: string
+}
 
 /**
  * Request parameters for aisVmsPositions operation in V1aisVmsApi.
@@ -3395,6 +3630,17 @@ export interface V1aisVmsApiAisVmsPositionsRequest {
  * @extends {BaseAPI}
  */
 export class V1aisVmsApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1aisVmsApiAisVmsAreaRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1aisVmsApi
+     */
+    public aisVmsArea(requestParameters: V1aisVmsApiAisVmsAreaRequest, options?: AxiosRequestConfig) {
+        return V1aisVmsApiFp(this.configuration).aisVmsArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {V1aisVmsApiAisVmsPositionsRequest} requestParameters Request parameters.
@@ -6750,6 +6996,39 @@ export const V1vesselApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        vesselBenchmarks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/vessels/benchmarks`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         vessels: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/vessels`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -6793,6 +7072,15 @@ export const V1vesselApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async vesselBenchmarks(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<VesselBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.vesselBenchmarks(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async vessels(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Vessel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.vessels(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -6812,6 +7100,14 @@ export const V1vesselApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        vesselBenchmarks(options?: AxiosRequestConfig): AxiosPromise<VesselBenchmarks> {
+            return localVarFp.vesselBenchmarks(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         vessels(options?: AxiosRequestConfig): AxiosPromise<Array<Vessel>> {
             return localVarFp.vessels(options).then((request) => request(axios, basePath));
         },
@@ -6825,6 +7121,16 @@ export const V1vesselApiFactory = function (configuration?: Configuration, baseP
  * @extends {BaseAPI}
  */
 export class V1vesselApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1vesselApi
+     */
+    public vesselBenchmarks(options?: AxiosRequestConfig) {
+        return V1vesselApiFp(this.configuration).vesselBenchmarks(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.

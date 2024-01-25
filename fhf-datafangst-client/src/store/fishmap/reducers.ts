@@ -3,7 +3,14 @@ import { Style } from "ol/style";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import { generateGridBoxStyle } from "utils";
-import { initializeMap, toggleSelectedArea } from ".";
+import {
+  clearAreaDrawing,
+  getAreaTraffic,
+  initializeMap,
+  setAreaDrawActive,
+  toggleSelectedArea,
+} from ".";
+import Draw from "ol/interaction/Draw";
 
 export const fishmapBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -11,6 +18,21 @@ export const fishmapBuilder = (
   builder
     .addCase(initializeMap, (state, action) => {
       state.map = action.payload;
+    })
+    .addCase(getAreaTraffic.fulfilled, (state, action) => {
+      state.areaTraffic = action.payload;
+    })
+    .addCase(setAreaDrawActive, (state, action) => {
+      state.areaDrawActive = action.payload;
+    })
+    .addCase(clearAreaDrawing, (state, _) => {
+      state.areaDrawActive = false;
+      state.areaTraffic = undefined;
+      state.map.getInteractions().forEach((interaction) => {
+        if (interaction instanceof Draw) {
+          state.map.removeInteraction(interaction);
+        }
+      });
     })
     .addCase(toggleSelectedArea, (state, action) => {
       const selected = [...state.selectedGrids];

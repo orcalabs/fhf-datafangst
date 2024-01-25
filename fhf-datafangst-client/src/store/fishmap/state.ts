@@ -1,3 +1,4 @@
+import { AisVmsArea } from "generated/openapi";
 import { Feature, Map } from "ol";
 
 export interface FishmapState {
@@ -8,6 +9,8 @@ export interface FishmapState {
   zoomFactor: number;
   selectedGrids: Feature[];
   selectedGridsString: string[];
+  areaTraffic?: AisVmsArea;
+  areaDrawActive: boolean;
 }
 
 export const initialFishmapState: FishmapState = {
@@ -18,4 +21,6 @@ export const initialFishmapState: FishmapState = {
   zoomFactor: 3.7,
   selectedGrids: [],
   selectedGridsString: [],
+  areaTraffic: undefined,
+  areaDrawActive: false,
 };

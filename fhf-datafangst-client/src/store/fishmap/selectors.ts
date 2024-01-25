@@ -33,3 +33,13 @@ export const selectShowGrid = createSelector(
     !state.fishingFacilitiesLoading &&
     !state.tripsLoading,
 );
+
+export const selectAreaTraffic = createSelector(
+  selectAppState,
+  (state) => state.areaTraffic,
+);
+
+export const selectAreaDrawActive = createSelector(
+  selectAppState,
+  (state) => state.areaDrawActive,
+);

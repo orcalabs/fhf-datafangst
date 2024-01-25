@@ -1,5 +1,6 @@
 import { WKT } from "ol/format";
-import { fromLonLat as _fromLonLat } from "ol/proj";
+import { Map } from "ol";
+import { fromLonLat as _fromLonLat, toLonLat } from "ol/proj";
 import {
   Circle,
   Fill,
@@ -14,6 +15,7 @@ import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
 import {
+  AisVmsAreaCount,
   AisVmsPosition,
   DeliveryPoint,
   FishingFacility,
@@ -30,12 +32,14 @@ import {
   matrixSum,
   sumCatches,
 } from "utils";
+import Draw, { createBox, DrawEvent } from "ol/interaction/Draw";
 import theme from "app/theme";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
 import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
 import shoreline from "assets/geojson/shoreline.json";
 import CircleStyle from "ol/style/Circle";
 import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
+import closeIcon from "assets/icons/cancel.svg";
 import deliveryPointIcon from "assets/icons/delivery-point-map.svg";
 
 export const fromLonLat = (lon: number, lat: number) => {
@@ -663,4 +667,126 @@ export const generateDeliveryPointsVector = (
     }
 
   return deliveryPointsVector;
+};
+
+export interface BoundingBox {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+export const generateAreaTrafficHeatmap = (
+  track: AisVmsAreaCount[] | undefined,
+) => {
+  if (!track?.length) {
+    return;
+  }
+
+  const heatmapVector = new VectorSource();
+
+  for (let i = 0; i < track.length; i++) {
+    const pos = track[i];
+
+    const posFeature = new Feature({
+      geometry: new Point(fromLonLat(pos.lon, pos.lat)),
+      weight: pos.count,
+    });
+
+    heatmapVector.addFeature(posFeature);
+  }
+  return heatmapVector;
+};
+
+export const generateAreaTrafficDrawing = (
+  map: Map,
+  callback: (box: BoundingBox) => void,
+) => {
+  const source = new VectorSource({ wrapX: false });
+  const geometryFunction = createBox();
+  const draw = new Draw({
+    source,
+    geometryFunction,
+    type: "Circle",
+    freehand: true,
+  });
+  draw.on("drawend", (e: DrawEvent) => {
+    e.stopPropagation();
+    // `getCoordinates` exists on `Geometry`
+    const coords = (e.feature.getGeometry() as any).getCoordinates()[0];
+    if (coords?.length === 5) {
+      const a = toLonLat(coords[1]);
+      const b = toLonLat(coords[3]);
+      const res = {
+        x1: b[0],
+        y1: b[1],
+        x2: a[0],
+        y2: a[1],
+      };
+      callback(res);
+
+      // Add close icon button in top right corner of area
+      const feat = new Feature({
+        geometry: new Point(fromLonLat(res.x2, res.y1)),
+        closeAreaDraw: true,
+        zIndex: 2000,
+      });
+
+      feat.setStyle(
+        new Style({
+          image: new Icon({
+            opacity: 1,
+            anchor: [0.5, 0.5],
+            scale: 1,
+            src: closeIcon,
+            color: "white",
+          }),
+          zIndex: 500,
+        }),
+      );
+
+      source.addFeature(feat);
+    }
+
+    // Limit to one selected area, remove interaction when we're done.
+    map.removeInteraction(draw);
+  });
+  map.addInteraction(draw);
+
+  return source;
+};
+
+// Create the text box under drawn Area Traffic square with number of vessels the data is based on
+export const createNumVesselsText = (
+  x: number,
+  y: number,
+  numVessels: number,
+) => {
+  const source = new VectorSource({ wrapX: false });
+
+  // Text describing number of vessels of data in area
+  const textFeat = new Feature({
+    geometry: new Point(fromLonLat(x, y)),
+    zIndex: 2000,
+  });
+
+  textFeat.setStyle(
+    new Style({
+      text: new Text({
+        font: "14px Poppins,sans-serif",
+        fill: new Fill({
+          color: "#0071ce",
+        }),
+        stroke: new Stroke({
+          color: "0071ce",
+          width: 0.1,
+        }),
+        text: "Antall fartøy: " + numVessels,
+        textAlign: "left",
+        offsetY: 15,
+      }),
+    }),
+  );
+  source.addFeature(textFeat);
+  return source;
 };

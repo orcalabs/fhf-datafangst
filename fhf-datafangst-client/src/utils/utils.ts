@@ -6,6 +6,7 @@ import {
 } from "date-fns";
 import { nb } from "date-fns/locale";
 import {
+  AisVmsAreaCount,
   AisVmsPosition,
   GearDetailed,
   GearGroup,
@@ -119,6 +120,23 @@ export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
     const sum = sumCatches(haul.catches);
     if (sum > highest) {
       highest = sum;
+    }
+  }
+
+  return highest;
+};
+
+export const findHighestAisAreaCount = (
+  track: AisVmsAreaCount[] | undefined,
+) => {
+  if (!track) {
+    return 0;
+  }
+
+  let highest = 0;
+  for (const point of track) {
+    if (point.count > highest) {
+      highest = point.count;
     }
   }
 

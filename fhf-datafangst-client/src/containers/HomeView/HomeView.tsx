@@ -24,6 +24,8 @@ import {
   TripDetails,
   DeliveryPointsLayer,
   CurrentDeliveryPointsLayer,
+  AreaTrafficSelection,
+  AreaTrafficHeatmap,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
@@ -54,6 +56,7 @@ import {
   selectMatrixToggle,
   MatrixToggle,
   selectTripDetailsOpen,
+  selectAreaDrawActive,
 } from "store";
 import { MinErsYear, MinLandingYear } from "utils";
 
@@ -109,7 +112,7 @@ const FilterButtonArea = (props: { open: boolean; children: any }) => (
       gridRowStart: 2,
       gridRowEnd: 3,
       display: "flex",
-      justifyContent: "flex-end",
+      justifyContent: "space-between",
     }}
   >
     {props.children}
@@ -179,6 +182,7 @@ export const HomeView: FC = () => {
   const showLandingTimeSlider = useAppSelector(selectShowLandingTimeSlider);
   const matrixToggle = useAppSelector(selectMatrixToggle);
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
+  const areaDrawActive = useAppSelector(selectAreaDrawActive);
 
   const showHaulsMenu = Boolean(selectedGrids.length);
 
@@ -224,6 +228,7 @@ export const HomeView: FC = () => {
           <MainMenu />
         </MenuArea>
         <FilterButtonArea open={secondaryMenuOpen}>
+          <AreaTrafficSelection />
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
         </FilterButtonArea>
         <HaulMenuArea>
@@ -294,7 +299,7 @@ export const HomeView: FC = () => {
       </GridContainer>
       <Map>
         <MapBoxLayer />
-        {showGrid && <LocationsGrid />}
+        {showGrid && !areaDrawActive && <LocationsGrid />}
         {mapFilter.coastline && <ShorelineLayer />}
         {mapFilter.seamap && <SeamapLayer />}
         <HaulsLayer />
@@ -303,6 +308,7 @@ export const HomeView: FC = () => {
         {selectedTrip && <CurrentDeliveryPointsLayer />}
         <FishingFacilitiesLayer />
         {mapFilter.deliveryPoints && <DeliveryPointsLayer />}
+        {areaDrawActive && <AreaTrafficHeatmap />}
       </Map>
       <LoadingScreen open={trackLoading} />
       <Box

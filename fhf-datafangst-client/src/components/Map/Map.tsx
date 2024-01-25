@@ -4,6 +4,7 @@ import { View, Map as OLMap, MapBrowserEvent } from "ol";
 import { Box, Popover, PopoverPosition } from "@mui/material";
 import { Types } from "ol/MapBrowserEventType";
 import {
+  clearAreaDrawing,
   initializeMap,
   selectFishingFacilities,
   selectFishmapState,
@@ -196,6 +197,7 @@ export const Map: FC<Props> = (props) => {
           const haulId = feature.get("haulId");
           const haul = feature.get("haul");
           const gearIdx = feature.get("fishingFacilityIdx");
+          const closeAreaTrafficDraw = feature.get("closeAreaDraw");
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
@@ -218,6 +220,8 @@ export const Map: FC<Props> = (props) => {
               return;
             }
             dispatch(setSelectedFishingFacility(gearIdx));
+          } else if (closeAreaTrafficDraw) {
+            dispatch(clearAreaDrawing());
           }
         } else {
           // dispatch(resetState());
@@ -261,6 +265,7 @@ export const Map: FC<Props> = (props) => {
         const fishingFacilityIdx = feature.get("fishingFacilityIdx");
         const haul = feature.get("haul");
         const deliveryPoint = feature.get("deliveryPoint");
+        const closeAreaTrafficDraw = feature.get("closeAreaDraw");
 
         if (aisPosition) {
           setHoveredPosition(aisPosition);
@@ -289,6 +294,8 @@ export const Map: FC<Props> = (props) => {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredDeliveryPoint(deliveryPoint);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+        } else if (closeAreaTrafficDraw) {
+          mapState.map.getTargetElement().style.cursor = "pointer";
         }
       }
     });

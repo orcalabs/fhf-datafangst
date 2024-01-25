@@ -14,3 +14,4 @@ export * from "./landingsApi";
 export * from "./weatherApi";
 export * from "./fuelApi";
 export * from "./deliveryPointsApi";
+export * from "./aisVmsApi";
