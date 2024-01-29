@@ -35,6 +35,6 @@ export const selectFuelOfTrip = createSelector(
       return undefined;
     }
 
-    return measurements[0].fuel - measurements.last()!.fuel;
+    return measurements.last()!.fuel - measurements[0].fuel;
   },
 );
