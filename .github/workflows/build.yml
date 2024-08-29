@@ -19,14 +19,12 @@ jobs:
     uses: orcalabs/github-actions/.github/workflows/container-apps-deploy.yml@master
     secrets: inherit
     with:
-      keys: |
-        fhf-datafangst-client
       object: '{
-           "fhf-datafangst-client" : {
-              "container-app-name" : "dev-fhf-datafangst-client",
-              "dockerfile" : "dockerfiles/fhf-datafangst-client/Dockerfile",
-              "registry" : "ghcr.io/orcalabs/fhf-datafangst/fhf-datafangst-client"
-           }
+        "fhf-datafangst-client" : {
+            "container-app-name" : "dev-fhf-datafangst-client",
+            "dockerfile" : "dockerfiles/fhf-datafangst-client/Dockerfile"
+          }
         }'
-      resource-group: dev
+      registry: ghcr.io/orcalabs/fhf-datafangst/fhf-datafangst-client
+      container-app-resource-group: dev
       container-app-env-name: dev-kyogre
