@@ -256,6 +256,11 @@ export const generateFishingFacilitiesVector = (
 
   for (let i = 0; i < facilities.length; i++) {
     const facility = facilities[i];
+
+    if (!facility.geometryWkt) {
+      continue;
+    }
+
     const geometry = wkt.readGeometry(facility.geometryWkt, {
       dataProjection: "EPSG:4326",
       featureProjection: "EPSG:3857",
