@@ -1,5 +1,5 @@
-import { createTheme } from "@mui/material/styles";
 import { nbNO } from "@mui/material/locale";
+import { createTheme } from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface Palette {

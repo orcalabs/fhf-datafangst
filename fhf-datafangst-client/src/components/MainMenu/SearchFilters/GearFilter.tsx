@@ -1,3 +1,5 @@
+import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
+import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
 import {
   Checkbox,
   FormControlLabel,
@@ -5,11 +7,9 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { GearGroupDetailed } from "generated/openapi";
 import { FC } from "react";
 import { selectGearGroupsMap, selectTripsSearch, useAppSelector } from "store";
-import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
-import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
-import { GearGroupDetailed } from "generated/openapi";
 import { getGearGroupsFromVessels } from "utils";
 
 interface Props {

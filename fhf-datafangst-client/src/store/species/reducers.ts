@@ -2,9 +2,9 @@ import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
 import {
   getSpecies,
-  getSpeciesGroups,
   getSpeciesFao,
   getSpeciesFiskeridir,
+  getSpeciesGroups,
   getSpeciesMainGroups,
 } from ".";
 

@@ -1,21 +1,25 @@
-import { FC } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import {
   Avatar,
   Box,
   IconButton,
   Paper,
+  styled,
   Table,
   TableBody,
   TableCell,
+  tableCellClasses,
   TableContainer,
   TableHead,
   TableRow,
   Typography,
-  styled,
-  tableCellClasses,
 } from "@mui/material";
-import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import { fontStyle } from "app/theme";
+import { AddFollowerList } from "components";
+import { Vessel } from "generated/openapi";
+import { useAuth } from "oidc-react";
+import { FC } from "react";
 import {
   selectGearGroupsMap,
   selectUserFollowList,
@@ -24,10 +28,6 @@ import {
   useAppSelector,
 } from "store";
 import { createGearListString, createOwnersListString } from "utils";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { AddFollowerList } from "components";
-import { Vessel } from "generated/openapi";
-import { useAuth } from "oidc-react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

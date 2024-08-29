@@ -1,7 +1,7 @@
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import theme from "app/theme";
 import { HaulFilters, LandingFilters } from "components";
 import { FC, useEffect } from "react";
-import theme from "app/theme";
 import {
   initialHaulsMatrixSearch,
   initialLandingsMatrixSearch,

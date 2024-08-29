@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
-import { BenchmarkDataSource, BenchmarkModalParams } from "./state";
 import { Vessel } from "generated/openapi";
+import { BenchmarkDataSource, BenchmarkModalParams } from "./state";
 
 export interface BenchmarkHistoricParams {
   metric: string;

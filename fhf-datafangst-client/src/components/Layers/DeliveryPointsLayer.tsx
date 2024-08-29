@@ -1,14 +1,14 @@
-import { FC, useEffect, useState } from "react";
 import { VectorLayer } from "components";
-import { deliveryPointStyle, generateDeliveryPointsVector } from "utils";
-import VectorSource from "ol/source/Vector";
+import { Feature } from "ol";
 import Geometry from "ol/geom/Geometry";
+import VectorSource from "ol/source/Vector";
+import { FC, useEffect, useState } from "react";
 import {
   selectDeliveryPoints,
   selectFishmapState,
   useAppSelector,
 } from "store";
-import { Feature } from "ol";
+import { deliveryPointStyle, generateDeliveryPointsVector } from "utils";
 
 export const DeliveryPointsLayer: FC = () => {
   const deliveryPoints = useAppSelector(selectDeliveryPoints);

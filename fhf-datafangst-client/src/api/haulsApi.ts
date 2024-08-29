@@ -1,4 +1,3 @@
-import { apiConfiguration, apiGet, axiosInstance } from ".";
 import {
   ActiveHaulsFilter,
   GearGroupDetailed,
@@ -9,8 +8,9 @@ import {
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
-import { createTimestampsFromYearsMonths } from "./utils";
 import { MinErsYear } from "utils";
+import { apiConfiguration, apiGet, axiosInstance } from ".";
+import { createTimestampsFromYearsMonths } from "./utils";
 
 export const HaulsFilter = {
   ...ActiveHaulsFilter,

@@ -1,9 +1,9 @@
-import { FC, useEffect, useMemo, useState } from "react";
-import { Box, Button, Slider, Typography } from "@mui/material";
-import { Months } from "utils";
-import { getAllYearsArray } from "components/Filters/YearsFilter";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import { Box, Button, Slider, Typography } from "@mui/material";
+import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { isFuture } from "date-fns";
+import { FC, useEffect, useMemo, useState } from "react";
+import { Months } from "utils";
 
 const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
 

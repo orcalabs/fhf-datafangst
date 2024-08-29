@@ -1,3 +1,9 @@
+import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
+import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
+import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import {
   Box,
   Divider,
@@ -6,8 +12,9 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
+import { CatchesTable } from "components";
+import { Gear, GearDetailed } from "generated/openapi";
 import { FC } from "react";
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
   MenuViewState,
   selectFuelOfTrip,
@@ -22,13 +29,6 @@ import {
   dateFormat,
   reduceHaulsCatches,
 } from "utils";
-import { CatchesTable } from "components";
-import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
-import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
-import { Gear, GearDetailed } from "generated/openapi";
-import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",

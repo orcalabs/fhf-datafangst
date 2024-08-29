@@ -1,4 +1,5 @@
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import {
   Box,
   styled,
@@ -12,11 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
-import { kilosOrTonsFormatter, sumCatches } from "utils";
-import { selectSpeciesFiskeridirMap, useAppSelector } from "store";
 import { Catch, CatchWeightType } from "models";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { selectSpeciesFiskeridirMap, useAppSelector } from "store";
+import { kilosOrTonsFormatter, sumCatches } from "utils";
 
 type SortFn = (a: Catch, b: Catch) => number;
 

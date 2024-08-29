@@ -1,20 +1,28 @@
+import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
+import theme from "app/theme";
 import {
   BenchmarkCards,
-  Header,
-  SpeciesHistogram,
-  LocalLoadingProgress,
-  HistoricalCatches,
   DashboardMenu,
   FollowList,
   FuelPage,
+  Header,
+  HistoricalCatches,
+  LocalLoadingProgress,
+  SpeciesHistogram,
 } from "components";
-import { FC, useEffect } from "react";
+import { HeaderButtonCell, HeaderTrack } from "containers";
+import { Ordering, TripSorting } from "generated/openapi";
 import { useAuth } from "oidc-react";
+import { FC, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  MenuViewState,
+  DashboardViewState,
   getBenchmarkData,
+  getLandings,
   getTrips,
+  MenuViewState,
+  selectActiveDashboardMenu,
   selectBenchmarkNumHistoric,
   selectBenchmarkTimeSpan,
   selectBwUserProfile,
@@ -27,15 +35,7 @@ import {
   setViewState,
   useAppDispatch,
   useAppSelector,
-  getLandings,
-  selectActiveDashboardMenu,
-  DashboardViewState,
 } from "store";
-import { Ordering, TripSorting } from "generated/openapi";
-import { HeaderButtonCell, HeaderTrack } from "containers";
-import { ArrowBackIos } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import theme from "app/theme";
 
 const GridContainer = (props: any) => (
   <Box

@@ -1,16 +1,22 @@
+import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
+import SpeedIcon from "@mui/icons-material/Speed";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Divider,
   Typography,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
 } from "@mui/material";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
 import { MyGears, MyHauls, Trips, VesselInfo } from "components";
+import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getCurrentTrip,
   selectBwUserProfile,
@@ -23,12 +29,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
-import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import { useAuth } from "oidc-react";
-import SpeedIcon from "@mui/icons-material/Speed";
-import { useNavigate } from "react-router-dom";
 
 enum MenuTab {
   Trips = "trips",

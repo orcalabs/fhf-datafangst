@@ -1,22 +1,22 @@
+import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
+  styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
   Typography,
-  styled,
 } from "@mui/material";
-import { FC } from "react";
-import { createOwnersListString } from "utils";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import theme from "app/theme";
 import { Vessel } from "generated/openapi";
+import { FC } from "react";
+import { createOwnersListString } from "utils";
 
 const StyledTableCell = styled(TableCell)(() => ({
   borderBottom: "none",

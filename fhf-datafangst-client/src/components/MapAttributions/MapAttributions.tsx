@@ -1,6 +1,6 @@
 import { Box, Link } from "@mui/material";
-import { FC } from "react";
 import mapboxLogo from "assets/logos/mapbox-logo-white.svg";
+import { FC } from "react";
 
 export const MapAttributions: FC = () => {
   return (

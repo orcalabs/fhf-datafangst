@@ -1,9 +1,9 @@
 import { CssBaseline } from "@mui/material";
-import { Layout } from "components";
-import { HomeView, BenchmarkView } from "containers";
-import { Route, Routes } from "react-router-dom";
-import { AuthProvider } from "oidc-react";
 import { authConfig } from "app/auth";
+import { Layout } from "components";
+import { BenchmarkView, HomeView } from "containers";
+import { AuthProvider } from "oidc-react";
+import { Route, Routes } from "react-router-dom";
 
 export const App: React.FC = () => {
   return (

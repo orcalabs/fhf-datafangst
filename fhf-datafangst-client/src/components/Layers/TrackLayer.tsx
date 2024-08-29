@@ -1,12 +1,12 @@
-import { FC, useEffect, useState } from "react";
 import { VectorLayer } from "components";
-import { generateVesselTrackVector, TravelVector } from "utils";
+import { FC, useEffect, useState } from "react";
 import {
   selectFishmapState,
   selectSelectedHaul,
   selectTrack,
   useAppSelector,
 } from "store";
+import { generateVesselTrackVector, TravelVector } from "utils";
 
 export const TrackLayer: FC = () => {
   const track = useAppSelector(selectTrack);

@@ -1,8 +1,8 @@
-import { FC, useEffect, useState } from "react";
-import { Heatmap } from "ol/layer";
-import { selectFishmap, useAppSelector } from "store";
 import { Feature } from "ol";
 import { Geometry } from "ol/geom";
+import { Heatmap } from "ol/layer";
+import { FC, useEffect, useState } from "react";
+import { selectFishmap, useAppSelector } from "store";
 
 interface Props {
   source: any;

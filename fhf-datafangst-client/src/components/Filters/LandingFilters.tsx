@@ -1,26 +1,26 @@
 import { Box } from "@mui/material";
+import { LandingsFilter } from "api";
+import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
+import { Vessel } from "generated/openapi";
 import { FC } from "react";
 import {
+  selectLandingGearFilterStats,
+  selectLandingsMatrixLoading,
   selectLandingsMatrixSearch,
+  selectLandingSpeciesFilterStats,
+  selectLandingVesselLengthFilterStats,
   setHoveredLandingFilter,
   setLandingsMatrixSearch,
   useAppDispatch,
   useAppSelector,
-  selectLandingsMatrixLoading,
-  selectLandingGearFilterStats,
-  selectLandingSpeciesFilterStats,
-  selectLandingVesselLengthFilterStats,
 } from "store";
+import { MinLandingYear } from "utils";
 import { GearFilter } from "./GearFilter";
+import { LengthGroupFilter } from "./LengthGroupFilter";
 import { MonthsFilter } from "./MonthsFilter";
 import { SpeciesFilter } from "./SpeciesFilter";
-import { LengthGroupFilter } from "./LengthGroupFilter";
-import { YearsFilter } from "./YearsFilter";
 import { VesselFilter } from "./VesselFilter";
-import { LandingsFilter } from "api";
-import { Vessel } from "generated/openapi";
-import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
-import { MinLandingYear } from "utils";
+import { YearsFilter } from "./YearsFilter";
 
 interface Props {
   selectedVessel?: Vessel;

@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getUser, updateUser } from "./actions";
 import { AppState } from "store/state";
+import { getUser, updateUser } from "./actions";
 
 export const userBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

@@ -1,14 +1,14 @@
-import { FC } from "react";
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import theme from "app/theme";
+import { FishIcon } from "assets/icons";
+import { FC } from "react";
+import { selectHauls, useAppSelector } from "store";
 import {
   dateFormat,
   kilosOrTonsFormatter,
   sumCatches,
   toTitleCase,
 } from "utils";
-import theme from "app/theme";
-import { FishIcon } from "assets/icons";
-import { selectHauls, useAppSelector } from "store";
 
 interface Props {
   haulId: number;

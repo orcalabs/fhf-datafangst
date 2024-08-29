@@ -1,13 +1,13 @@
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
-import { App } from "./containers";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
 import theme from "app/theme";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "store";
 import { BrowserRouter } from "react-router-dom";
+import { store } from "store";
 import "utils/prototypes.ts";
+import { App } from "./containers";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);

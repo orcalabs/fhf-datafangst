@@ -1,3 +1,15 @@
+import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
+import CloseSharpIcon from "@mui/icons-material/CloseSharp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
+import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
+import SettingsIcon from "@mui/icons-material/Settings";
+import StickyNote2SharpIcon from "@mui/icons-material/StickyNote2Sharp";
+import TimerSharpIcon from "@mui/icons-material/TimerSharp";
+import WarehouseSharpIcon from "@mui/icons-material/WarehouseSharp";
 import {
   Box,
   Divider,
@@ -9,8 +21,9 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import { CatchesTable } from "components";
+import { TripAssemblerId } from "generated/openapi";
 import { FC, useState } from "react";
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
   getHaulTrack,
   getLandings,
@@ -43,19 +56,6 @@ import {
   sumCatches,
   toTitleCase,
 } from "utils";
-import { CatchesTable } from "components";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
-import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import StickyNote2SharpIcon from "@mui/icons-material/StickyNote2Sharp";
-import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
-import WarehouseSharpIcon from "@mui/icons-material/WarehouseSharp";
-import CloseSharpIcon from "@mui/icons-material/CloseSharp";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { TripAssemblerId } from "generated/openapi";
-import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",

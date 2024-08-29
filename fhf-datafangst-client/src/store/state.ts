@@ -1,25 +1,25 @@
-import { HaulState, initialHaulState } from "./haul";
-import { FishmapState, initialFishmapState } from "./fishmap";
-import { initialSpeciesState, SpeciesState } from "./species";
-import { VesselState, initialVesselState } from "./vessel";
-import { GearState, initialGearState } from "./gear";
-import { AisState, initialAisState } from "./ais";
-import { initialTripState, TripState } from "./trip";
-import { initialVmsState, VmsState } from "./vms";
-import { TrackState, initialTrackState } from "./track";
 import { FiskInfoProfile } from "models";
 import { User } from "oidc-react";
+import { AisState, initialAisState } from "./ais";
+import { BenchmarkState, initialBenchmarkState } from "./benchmark";
+import { DashboardState, initialDashboardState } from "./dashboard";
+import { DeliveryPointState, initialDeliveryPointState } from "./deliveryPoint";
 import {
   FishingFacilityState,
   initialFishingFacilitiesState,
 } from "./fishingFacility";
-import { initialUserState, UserState } from "./user";
-import { LandingState, initialLandingState } from "./landing";
-import { WeatherState, initialWeatherState } from "./weather";
-import { BenchmarkState, initialBenchmarkState } from "./benchmark";
-import { DashboardState, initialDashboardState } from "./dashboard";
+import { FishmapState, initialFishmapState } from "./fishmap";
 import { FuelState, initialFuelState } from "./fuel";
-import { DeliveryPointState, initialDeliveryPointState } from "./deliveryPoint";
+import { GearState, initialGearState } from "./gear";
+import { HaulState, initialHaulState } from "./haul";
+import { initialLandingState, LandingState } from "./landing";
+import { initialSpeciesState, SpeciesState } from "./species";
+import { initialTrackState, TrackState } from "./track";
+import { initialTripState, TripState } from "./trip";
+import { initialUserState, UserState } from "./user";
+import { initialVesselState, VesselState } from "./vessel";
+import { initialVmsState, VmsState } from "./vms";
+import { initialWeatherState, WeatherState } from "./weather";
 
 export enum MenuViewState {
   Overview = "overview",

@@ -1,10 +1,10 @@
 import { ActionReducerMapBuilder, Draft } from "@reduxjs/toolkit";
-import { getHaulTrack, getTrack } from "./actions";
-import { AppState } from "store/state";
-import { Map } from "ol";
 import { AisVmsPosition } from "generated/openapi";
-import { fromLonLat } from "utils";
+import { Map } from "ol";
 import { boundingExtent } from "ol/extent";
+import { AppState } from "store/state";
+import { fromLonLat } from "utils";
+import { getHaulTrack, getTrack } from "./actions";
 
 // Set the map focus and zoom to a selected area surrounding a the track of a trip.
 const setMapFocus = (map: Draft<Map>, track: AisVmsPosition[]) => {

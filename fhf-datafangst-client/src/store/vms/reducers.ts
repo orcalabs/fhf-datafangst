@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getVms } from "./actions";
 import { AppState } from "store/state";
+import { getVms } from "./actions";
 
 export const vmsBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

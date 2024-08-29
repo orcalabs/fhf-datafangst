@@ -1,3 +1,6 @@
+import DashboardSharpIcon from "@mui/icons-material/DashboardSharp";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import PeopleSharpIcon from "@mui/icons-material/PeopleSharp";
 import {
   Drawer,
   List,
@@ -6,17 +9,14 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import theme, { fontStyle } from "app/theme";
 import { FC } from "react";
-import DashboardSharpIcon from "@mui/icons-material/DashboardSharp";
-import PeopleSharpIcon from "@mui/icons-material/PeopleSharp";
-import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import { useAppDispatch, useAppSelector } from "store";
 import {
   DashboardViewState,
   selectActiveDashboardMenu,
   setActiveDashboardMenu,
 } from "store/dashboard";
-import { useAppDispatch, useAppSelector } from "store";
-import theme, { fontStyle } from "app/theme";
 
 const menuItems = [
   {

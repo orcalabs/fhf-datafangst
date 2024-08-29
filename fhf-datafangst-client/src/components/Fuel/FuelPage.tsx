@@ -1,3 +1,5 @@
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   IconButton,
   Paper,
@@ -13,8 +15,6 @@ import {
   Typography,
 } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import CheckIcon from "@mui/icons-material/Check";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { nb } from "date-fns/locale";
 import {
@@ -25,6 +25,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { TableVirtuoso } from "react-virtuoso";
 import { useAppDispatch, useAppSelector } from "store";
 import {
   createFuelMeasurement,
@@ -32,7 +33,6 @@ import {
   selectFuelMeasurements,
   updateFuelMeasurement,
 } from "store/fuel";
-import { TableVirtuoso } from "react-virtuoso";
 import { dateFormat } from "utils";
 
 export const FuelPage: FC = () => {

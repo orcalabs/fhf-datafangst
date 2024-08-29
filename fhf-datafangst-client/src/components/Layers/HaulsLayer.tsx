@@ -1,5 +1,5 @@
+import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import { FC, useCallback, useEffect } from "react";
-import { generateHaulsVector } from "utils";
 import {
   selectFishmap,
   selectHauls,
@@ -7,7 +7,7 @@ import {
   selectSelectedOrCurrentTrip,
   useAppSelector,
 } from "store";
-import WebGLPointsLayer from "ol/layer/WebGLPoints";
+import { generateHaulsVector } from "utils";
 
 export const HaulsLayer: FC = () => {
   const haulsMap = useAppSelector(selectHauls);

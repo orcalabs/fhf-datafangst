@@ -1,22 +1,22 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getTrack } from "store";
 import { HaulsFilter } from "api";
+import { Haul } from "generated/openapi";
+import { getTrack } from "store";
 import { emptyState } from "store/reducers";
 import { AppState } from "store/state";
 import {
-  getHauls,
-  setHaulsMatrixSearch,
-  setSelectedHaul,
-  getHaulsMatrix,
-  setHoveredHaulFilter,
-  getHaulsMatrix2,
-  setHaulsMatrix2Search,
-  removeHauls,
   addHauls,
-  setSelectedTripHaul,
+  getHauls,
+  getHaulsMatrix,
+  getHaulsMatrix2,
+  removeHauls,
   setHaulDateSliderFrame,
+  setHaulsMatrix2Search,
+  setHaulsMatrixSearch,
+  setHoveredHaulFilter,
+  setSelectedHaul,
+  setSelectedTripHaul,
 } from ".";
-import { Haul } from "generated/openapi";
 
 export const haulBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

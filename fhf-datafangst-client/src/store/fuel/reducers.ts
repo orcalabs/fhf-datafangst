@@ -1,11 +1,11 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import {
-  getFuelMeasurements,
-  createFuelMeasurement,
-  updateFuelMeasurement,
-  deleteFuelMeasurement,
-} from "./actions";
 import { AppState } from "store/state";
+import {
+  createFuelMeasurement,
+  deleteFuelMeasurement,
+  getFuelMeasurements,
+  updateFuelMeasurement,
+} from "./actions";
 
 export const fuelBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

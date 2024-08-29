@@ -1,12 +1,8 @@
-import { FC, useEffect, useState } from "react";
 import { VectorLayer } from "components";
-import {
-  generateFishingFacilitiesVector,
-  generateTripHaulsVector,
-  generateVesselTrackVector,
-  trackForHaul,
-  TravelVector,
-} from "utils";
+import { Feature } from "ol";
+import { Geometry, Point } from "ol/geom";
+import VectorSource from "ol/source/Vector";
+import { FC, useEffect, useState } from "react";
 import {
   selectFishmapState,
   selectSelectedOrCurrentTrip,
@@ -14,9 +10,13 @@ import {
   selectTrack,
   useAppSelector,
 } from "store";
-import VectorSource from "ol/source/Vector";
-import { Geometry, Point } from "ol/geom";
-import { Feature } from "ol";
+import {
+  generateFishingFacilitiesVector,
+  generateTripHaulsVector,
+  generateVesselTrackVector,
+  trackForHaul,
+  TravelVector,
+} from "utils";
 
 export const TripsLayer: FC = () => {
   const track = useAppSelector(selectTrack);

@@ -1,7 +1,7 @@
-import { FC, useEffect } from "react";
 import OLTileLayer from "ol/layer/Tile";
-import { selectFishmap, useAppSelector } from "store";
 import XYZ from "ol/source/XYZ.js";
+import { FC, useEffect } from "react";
+import { selectFishmap, useAppSelector } from "store";
 
 interface Props {
   zIndex?: number;

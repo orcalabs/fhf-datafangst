@@ -1,4 +1,5 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { Trip } from "generated/openapi";
 import { AppState } from "store/state";
 import {
   clearBenchmarkData,
@@ -7,7 +8,6 @@ import {
   setBenchmarkHistoric,
   setBenchmarkModal,
 } from "./actions";
-import { Trip } from "generated/openapi";
 
 export const benchmarkBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { dateFormat } from "utils";
-import { AisVmsPosition } from "generated/openapi";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { AisVmsPosition } from "generated/openapi";
+import { FC } from "react";
+import { dateFormat } from "utils";
 
 interface Props {
   hoveredPosition: AisVmsPosition;

@@ -1,16 +1,16 @@
 import { DateRange } from "components/MainMenu/SearchFilters/DateFilter";
-import { apiConfiguration, apiGet, axiosInstance } from ".";
 import {
-  Haul,
-  V1tripApi,
-  Ordering,
-  Vessel,
-  Landing,
-  TripSorting,
-  SpeciesGroupDetailed,
   GearGroupDetailed,
+  Haul,
+  Landing,
+  Ordering,
+  SpeciesGroupDetailed,
+  TripSorting,
+  V1tripApi,
+  Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
+import { apiConfiguration, apiGet, axiosInstance } from ".";
 
 export interface TripsArgs {
   vessels?: Vessel[];

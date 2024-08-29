@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { FC } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { nb } from "date-fns/locale";
 import { endOfDay, isValid, startOfDay } from "date-fns";
+import { nb } from "date-fns/locale";
+import { FC } from "react";
 
 export class DateRange {
   rawStart?: Date;

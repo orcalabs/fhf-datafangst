@@ -1,3 +1,5 @@
+import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import theme from "app/theme";
 import { ListboxComponent, StyledPopper } from "components";
@@ -10,8 +12,6 @@ import {
   useAppSelector,
 } from "store";
 import { toTitleCase } from "utils";
-import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
-import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 interface Props {
   value?: Vessel[];
@@ -95,7 +95,7 @@ const VesselFilterInner = memo(
                   : "outlined"
               }
               placeholder={
-                value ?? viewState !== MenuViewState.Overview
+                (value ?? viewState !== MenuViewState.Overview)
                   ? ""
                   : "Søk etter fartøy"
               }

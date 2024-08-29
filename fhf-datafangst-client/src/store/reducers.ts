@@ -1,5 +1,4 @@
 import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
-import { AppState, initialAppState } from "./state";
 import {
   checkLoggedIn,
   getBwProfile,
@@ -11,23 +10,24 @@ import {
   setTripFiltersOpen,
   setViewState,
 } from "./actions";
-import { fishmapBuilder } from "./fishmap";
-import { vesselBuilder } from "./vessel";
-import { speciesBuilder } from "./species";
-import { haulBuilder } from "./haul";
-import { gearBuilder } from "./gear";
-import { tripBuilder } from "./trip";
 import { aisBuilder } from "./ais";
-import { vmsBuilder } from "./vms";
-import { trackBuilder } from "./track";
-import { fishingFacilityBuilder } from "./fishingFacility";
-import { getUser, userBuilder } from "./user";
-import { landingBuilder } from "./landing";
-import { weatherBuilder } from "./weather";
 import { benchmarkBuilder } from "./benchmark";
 import { dashboardBuilder } from "./dashboard";
-import { getFuelMeasurements, fuelBuilder } from "./fuel";
 import { deliveryPointBuilder } from "./deliveryPoint";
+import { fishingFacilityBuilder } from "./fishingFacility";
+import { fishmapBuilder } from "./fishmap";
+import { fuelBuilder, getFuelMeasurements } from "./fuel";
+import { gearBuilder } from "./gear";
+import { haulBuilder } from "./haul";
+import { landingBuilder } from "./landing";
+import { speciesBuilder } from "./species";
+import { AppState, initialAppState } from "./state";
+import { trackBuilder } from "./track";
+import { tripBuilder } from "./trip";
+import { getUser, userBuilder } from "./user";
+import { vesselBuilder } from "./vessel";
+import { vmsBuilder } from "./vms";
+import { weatherBuilder } from "./weather";
 
 export const emptyState = {
   ais: undefined,

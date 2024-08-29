@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { selectVesselsByFiskeridirId } from "store/vessel";
 import { selectAppState } from "store/selectors";
+import { selectVesselsByFiskeridirId } from "store/vessel";
 
 export const selectUserLoading = createSelector(
   selectAppState,

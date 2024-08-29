@@ -1,30 +1,30 @@
+import { PersonAdd } from "@mui/icons-material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Button,
+  styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
   Typography,
-  styled,
 } from "@mui/material";
-import { FC } from "react";
-import { createOwnersListString } from "utils";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import theme from "app/theme";
 import { Vessel } from "generated/openapi";
-import { PersonAdd } from "@mui/icons-material";
+import { useAuth } from "oidc-react";
+import { FC } from "react";
 import {
   selectUserFollowList,
   updateUser,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { useAuth } from "oidc-react";
+import { createOwnersListString } from "utils";
 
 const StyledTableCell = styled(TableCell)(() => ({
   borderBottom: "none",
