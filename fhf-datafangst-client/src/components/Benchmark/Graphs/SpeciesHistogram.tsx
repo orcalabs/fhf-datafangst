@@ -12,18 +12,16 @@ import { Delivery, SpeciesFiskeridir, Trip, TripHaul } from "generated/openapi";
 import { FC } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
-  selectSpeciesFiskeridir,
-  selectTrips,
-  useAppDispatch,
-  useAppSelector,
-} from "store";
-import {
   BenchmarkDataSource,
   selectBenchmarkDataSource,
   selectBenchmarkNumHistoric,
   selectBenchmarkTrips,
+  selectSpeciesFiskeridir,
+  selectTrips,
   setBenchmarkDataSource,
-} from "store/benchmark";
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 import { kilosOrTonsFormatter } from "utils";
 
 const sumObjectValues = (hauls: (TripHaul | Delivery)[]) => {

@@ -9,7 +9,7 @@ import {
 } from "generated/openapi";
 import { LengthGroup } from "models";
 import { MinLandingYear } from "utils";
-import { apiConfiguration, apiGet, axiosInstance } from ".";
+import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 import { createTimestampsFromYearsMonths } from "./utils";
 
 export const LandingsFilter = {

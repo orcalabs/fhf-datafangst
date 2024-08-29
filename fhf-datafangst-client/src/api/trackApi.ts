@@ -1,5 +1,5 @@
 import { V1aisVmsApi } from "generated/openapi";
-import { apiConfiguration, apiGet, axiosInstance } from ".";
+import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
 export interface TrackArgs {
   accessToken?: string;

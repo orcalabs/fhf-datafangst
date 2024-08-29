@@ -1,8 +1,7 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { LandingsFilter } from "api";
 import { Landing } from "generated/openapi";
-import { emptyState } from "store/reducers";
-import { AppState } from "store/state";
+import { AppState, emptyState } from "store/state";
 import {
   addLandings,
   getLandings,
@@ -15,7 +14,7 @@ import {
   setLandingsMatrixSearch,
   setSelectedLanding,
   setSelectedTripLanding,
-} from ".";
+} from "./actions";
 
 export const landingBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

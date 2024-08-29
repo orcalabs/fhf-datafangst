@@ -26,13 +26,14 @@ import {
   useState,
 } from "react";
 import { TableVirtuoso } from "react-virtuoso";
-import { useAppDispatch, useAppSelector } from "store";
 import {
   createFuelMeasurement,
   deleteFuelMeasurement,
   selectFuelMeasurements,
   updateFuelMeasurement,
-} from "store/fuel";
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 import { dateFormat } from "utils";
 
 export const FuelPage: FC = () => {

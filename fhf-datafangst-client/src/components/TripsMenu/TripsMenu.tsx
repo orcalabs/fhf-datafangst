@@ -27,25 +27,23 @@ import { FC, useState } from "react";
 import {
   getHaulTrack,
   getLandings,
+  getTripTrack,
   MenuViewState,
   resetTrackState,
   selectDeliveryPointsMap,
   selectFuelOfTrip,
   selectGearsMap,
   selectSelectedHaul,
+  selectSelectedTrip,
+  selectTripTrackIdentifier,
   selectVesselsByFiskeridirId,
   selectViewState,
+  setSelectedTrip,
   setTripDetailsOpen,
+  TripTrackIdentifier,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import {
-  getTripTrack,
-  selectSelectedTrip,
-  selectTripTrackIdentifier,
-  setSelectedTrip,
-  TripTrackIdentifier,
-} from "store/trip";
 import {
   createGearListString,
   createObjectDurationString,

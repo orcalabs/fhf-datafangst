@@ -7,18 +7,16 @@ import Box from "@mui/material/Box";
 import { Trip } from "generated/openapi";
 import { FC } from "react";
 import {
+  BenchmarkModalParams,
+  selectBenchmarkTrips,
   selectBwUserProfile,
   selectTrips,
   selectVesselsByCallsign,
   selectVesselsByFiskeridirId,
+  setBenchmarkModal,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import {
-  BenchmarkModalParams,
-  selectBenchmarkTrips,
-  setBenchmarkModal,
-} from "store/benchmark";
 import {
   createDurationFromHours,
   kilosOrTonsFormatter,

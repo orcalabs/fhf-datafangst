@@ -15,43 +15,19 @@ import { benchmarkBuilder } from "./benchmark";
 import { dashboardBuilder } from "./dashboard";
 import { deliveryPointBuilder } from "./deliveryPoint";
 import { fishingFacilityBuilder } from "./fishingFacility";
-import { fishmapBuilder } from "./fishmap";
+import { fishmapBuilder } from "./fishmap/";
 import { fuelBuilder, getFuelMeasurements } from "./fuel";
 import { gearBuilder } from "./gear";
 import { haulBuilder } from "./haul";
 import { landingBuilder } from "./landing";
 import { speciesBuilder } from "./species";
-import { AppState, initialAppState } from "./state";
+import { AppState, emptyState, initialAppState } from "./state";
 import { trackBuilder } from "./track";
 import { tripBuilder } from "./trip";
 import { getUser, userBuilder } from "./user";
 import { vesselBuilder } from "./vessel";
 import { vmsBuilder } from "./vms";
 import { weatherBuilder } from "./weather";
-
-export const emptyState = {
-  ais: undefined,
-  currentTrip: undefined,
-  fishingFacilities: undefined,
-  hauls: undefined,
-  haulsMatrix2: undefined,
-  haulsSearch: undefined,
-  landings: undefined,
-  landingsMatrix2: undefined,
-  landingsSearch: undefined,
-  selectedHaul: undefined,
-  selectedLanding: undefined,
-  selectedFishingFacility: undefined,
-  selectedGrids: [],
-  selectedGridsString: [],
-  selectedTrip: undefined,
-  selectedTripHaul: undefined,
-  tripFiltersOpen: false,
-  track: undefined,
-  trips: undefined,
-  tripsSearch: undefined,
-  vms: undefined,
-};
 
 const emptyTrackState = {
   track: undefined,

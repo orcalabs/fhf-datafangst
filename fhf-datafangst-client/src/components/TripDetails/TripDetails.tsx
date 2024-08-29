@@ -57,7 +57,7 @@ const VirtuosoTableComponents: TableComponents<Landing> = {
       sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
     />
   ),
-  TableHead,
+  TableHead: ({ ...props }) => <TableHead />,
   TableRow: ({ ...props }) => <StyledTableRow {...props} />,
   TableBody: forwardRef<HTMLTableSectionElement>((props, ref) => (
     <TableBody {...props} ref={ref} />

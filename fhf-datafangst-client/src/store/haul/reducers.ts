@@ -2,8 +2,7 @@ import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { HaulsFilter } from "api";
 import { Haul } from "generated/openapi";
 import { getTrack } from "store";
-import { emptyState } from "store/reducers";
-import { AppState } from "store/state";
+import { AppState, emptyState } from "store/state";
 import {
   addHauls,
   getHauls,
@@ -16,7 +15,7 @@ import {
   setHoveredHaulFilter,
   setSelectedHaul,
   setSelectedTripHaul,
-} from ".";
+} from "./actions";
 
 export const haulBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

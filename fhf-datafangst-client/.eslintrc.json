@@ -21,8 +21,9 @@
     "sourceType": "module",
     "project": "tsconfig.json"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "import"],
   "rules": {
+    "import/no-cycle": [2, { "maxDepth": "∞" }],
     "react/react-in-jsx-scope": "off",
     "space-before-function-paren": "off",
     "@typescript-eslint/space-before-function-paren": "off",

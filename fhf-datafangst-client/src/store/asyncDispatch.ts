@@ -1,16 +1,17 @@
-import { AnyAction } from "@reduxjs/toolkit";
+import { Middleware, UnknownAction } from "@reduxjs/toolkit";
+import { AppState } from "./state";
 
-export const asyncDispatchMiddleware =
-  (store: any) => (next: any) => (action: AnyAction) => {
+export const asyncDispatchMiddleware: Middleware<object, AppState> =
+  (store) => (next) => (action) => {
     let syncActivityFinished = false;
-    let actionQueue: AnyAction[] = [];
+    let actionQueue: UnknownAction[] = [];
 
     function flushQueue() {
       actionQueue.forEach((a) => store.dispatch(a));
       actionQueue = [];
     }
 
-    function asyncDispatch(asyncAction: AnyAction) {
+    function asyncDispatch(asyncAction: UnknownAction) {
       actionQueue = actionQueue.concat([asyncAction]);
 
       if (syncActivityFinished) {

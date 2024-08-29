@@ -10,7 +10,7 @@ import {
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
-import { apiConfiguration, apiGet, axiosInstance } from ".";
+import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
 export interface TripsArgs {
   vessels?: Vessel[];

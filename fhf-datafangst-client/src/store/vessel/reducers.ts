@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getVessels } from ".";
+import { getVessels } from "./actions";
 
 export const vesselBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

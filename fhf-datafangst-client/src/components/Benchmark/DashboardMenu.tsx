@@ -11,12 +11,13 @@ import {
 } from "@mui/material";
 import theme, { fontStyle } from "app/theme";
 import { FC } from "react";
-import { useAppDispatch, useAppSelector } from "store";
 import {
-  DashboardViewState,
   selectActiveDashboardMenu,
   setActiveDashboardMenu,
-} from "store/dashboard";
+  useAppDispatch,
+  useAppSelector,
+} from "store";
+import { DashboardViewState } from "store/dashboard";
 
 const menuItems = [
   {

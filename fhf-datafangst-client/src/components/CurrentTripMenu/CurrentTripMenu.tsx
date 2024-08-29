@@ -17,12 +17,12 @@ import { Gear, GearDetailed } from "generated/openapi";
 import { FC } from "react";
 import {
   MenuViewState,
+  selectCurrentTrip,
   selectFuelOfTrip,
   selectGearsMap,
   selectViewState,
   useAppSelector,
 } from "store";
-import { selectCurrentTrip } from "store/trip";
 import {
   createGearListString,
   createObjectDurationString,

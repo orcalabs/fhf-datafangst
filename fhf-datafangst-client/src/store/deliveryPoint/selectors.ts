@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { DeliveryPoint } from "generated/openapi";
-import { selectAppState } from "store/selectors";
+import { selectAppState } from "store/selectAppState";
 
 export const selectDeliveryPoints = createSelector(
   selectAppState,

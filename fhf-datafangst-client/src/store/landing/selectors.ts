@@ -10,7 +10,7 @@ import {
 import { LengthGroups } from "models";
 import { selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroups } from "store/gear";
-import { selectAppState } from "store/selectors";
+import { selectAppState } from "store/selectAppState";
 import { selectSpeciesGroups } from "store/species";
 import { computeMatrixStats } from "store/utils";
 import { fishingLocationAreas, MinLandingYear } from "utils";

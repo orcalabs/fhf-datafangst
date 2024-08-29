@@ -14,7 +14,7 @@ import {
   TripHaul,
   TripPositionLayerId,
 } from "generated/openapi";
-import Feature from "ol/Feature";
+import Feature, { FeatureLike } from "ol/Feature";
 import { WKT } from "ol/format";
 import GeoJSON from "ol/format/GeoJSON";
 import { LineString, Point } from "ol/geom";
@@ -31,12 +31,12 @@ import {
   Text,
 } from "ol/style";
 import CircleStyle from "ol/style/Circle";
+import { matrixSum } from "./matrix";
 import {
   differenceHours,
   findHighestHaulCatchWeight,
-  matrixSum,
   sumCatches,
-} from "utils";
+} from "./utils";
 
 export const fromLonLat = (lon: number, lat: number) => {
   if (lat > 90) {
@@ -221,7 +221,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
     return;
   }
 
-  const haulsVector = new VectorSource<Feature<Point>>();
+  const haulsVector = new VectorSource<FeatureLike>();
   const highestCatchSum = findHighestHaulCatchWeight(hauls);
 
   const colorScale = createColorScale(0, highestCatchSum, 1);

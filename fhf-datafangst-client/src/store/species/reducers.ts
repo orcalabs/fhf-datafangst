@@ -6,7 +6,7 @@ import {
   getSpeciesFiskeridir,
   getSpeciesGroups,
   getSpeciesMainGroups,
-} from ".";
+} from "./actions";
 
 export const speciesBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
