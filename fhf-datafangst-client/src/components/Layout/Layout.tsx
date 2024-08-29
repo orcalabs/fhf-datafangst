@@ -1,5 +1,6 @@
-import React, { ReactNode, useEffect } from "react";
 import { Box } from "@mui/system";
+import { useAuth } from "oidc-react";
+import React, { ReactNode, useEffect } from "react";
 import {
   checkLoggedIn,
   getDeliveryPoints,
@@ -14,7 +15,6 @@ import {
   getVessels,
   useAppDispatch,
 } from "store";
-import { useAuth } from "oidc-react";
 
 interface Props {
   children: ReactNode;

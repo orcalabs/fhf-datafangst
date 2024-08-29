@@ -1,5 +1,5 @@
-import { FC, useEffect } from "react";
 import { Vector as OLVectorLayer } from "ol/layer";
+import { FC, useEffect } from "react";
 import { selectFishmap, useAppSelector } from "store";
 
 interface Props {

@@ -10,17 +10,20 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "standard-with-typescript"
+    "plugin:import/typescript"
   ],
   "overrides": [],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
     "project": "tsconfig.json"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "import"],
   "rules": {
+    "import/no-cycle": [2, { "maxDepth": "∞" }],
     "react/react-in-jsx-scope": "off",
     "space-before-function-paren": "off",
     "@typescript-eslint/space-before-function-paren": "off",
@@ -50,6 +53,7 @@
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/return-await": "off",
     "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "multiline-ternary": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",

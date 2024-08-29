@@ -1,3 +1,6 @@
+import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
+import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
+import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import {
   Box,
   Checkbox,
@@ -9,8 +12,10 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
+import theme from "app/theme";
 import { LocalLoadingProgress, PaginationButtons } from "components";
 import { FishingFacility } from "generated/openapi";
+import { FishingFacilityToolTypes } from "models";
 import { FC } from "react";
 import {
   paginateFishingFacilitiesSearch,
@@ -23,12 +28,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import theme from "app/theme";
 import { dateFormat } from "utils";
-import { FishingFacilityToolTypes } from "models";
-import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
-import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
 
 const listItemSx = {
   px: 2.5,

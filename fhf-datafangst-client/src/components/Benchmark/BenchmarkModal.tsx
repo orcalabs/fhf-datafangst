@@ -1,12 +1,15 @@
 import { Box, Modal, Typography } from "@mui/material";
 import { HistoricLineChart } from "components";
 import { FC } from "react";
-import { useAppDispatch, useAppSelector } from "store";
-import { selectBenchmarkModal } from "store/benchmark";
-import { setBenchmarkModal } from "store/benchmark/actions";
+import {
+  selectBenchmarkModal,
+  setBenchmarkModal,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 
 const style = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",

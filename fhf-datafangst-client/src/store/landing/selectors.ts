@@ -10,7 +10,7 @@ import {
 import { LengthGroups } from "models";
 import { selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroups } from "store/gear";
-import { selectAppState } from "store/selectors";
+import { selectAppState } from "store/selectAppState";
 import { selectSpeciesGroups } from "store/species";
 import { computeMatrixStats } from "store/utils";
 import { fishingLocationAreas, MinLandingYear } from "utils";
@@ -67,15 +67,17 @@ export const selectLandingsSorted = (
   ordering: Ordering,
 ) =>
   createSelector(selectLandings, (state) => {
-    if (!Object.keys(state).length) {
-      return state;
+    const values = Object.values(state);
+
+    if (!values.length) {
+      return values;
     }
 
     if (
       ordering === Ordering.Desc &&
       sorting === LandingsSorting.LandingTimestamp
     ) {
-      return Object.values(state).sort(
+      return values.sort(
         (a, b) =>
           new Date(b.landingTimestamp).getTime() -
           new Date(a.landingTimestamp).getTime(),
@@ -84,7 +86,7 @@ export const selectLandingsSorted = (
       ordering === Ordering.Asc &&
       sorting === LandingsSorting.LandingTimestamp
     ) {
-      return Object.values(state).sort(
+      return values.sort(
         (a, b) =>
           new Date(a.landingTimestamp).getTime() -
           new Date(b.landingTimestamp).getTime(),
@@ -93,18 +95,15 @@ export const selectLandingsSorted = (
       ordering === Ordering.Desc &&
       sorting === LandingsSorting.LivingWeight
     ) {
-      return Object.values(state).sort(
-        (a, b) => b.totalLivingWeight - a.totalLivingWeight,
-      );
+      return values.sort((a, b) => b.totalLivingWeight - a.totalLivingWeight);
     } else if (
       ordering === Ordering.Asc &&
       sorting === LandingsSorting.LivingWeight
     ) {
-      return Object.values(state).sort(
-        (a, b) => a.totalLivingWeight - b.totalLivingWeight,
-      );
+      return values.sort((a, b) => a.totalLivingWeight - b.totalLivingWeight);
     }
-    return state;
+
+    return values;
   });
 
 export const selectLandingsMatrix = createSelector(

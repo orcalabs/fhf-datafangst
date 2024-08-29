@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { selectAppState } from "store/selectors";
+import { selectAppState } from "store/selectAppState";
 
 export const selectActiveDashboardMenu = createSelector(
   selectAppState,

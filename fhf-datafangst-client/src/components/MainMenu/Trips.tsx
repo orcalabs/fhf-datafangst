@@ -142,8 +142,8 @@ export const Trips: FC = () => {
                 primary={
                   viewState === MenuViewState.MyPage
                     ? dateFormat(t.end, "PPP")
-                    : vesselsById[t.fiskeridirVesselId]?.fiskeridir.name ??
-                      "Ukjent"
+                    : (vesselsById[t.fiskeridirVesselId]?.fiskeridir.name ??
+                      "Ukjent")
                 }
                 secondary={
                   viewState === MenuViewState.MyPage

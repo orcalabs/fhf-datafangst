@@ -1,9 +1,8 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { Style } from "ol/style";
-import { emptyState } from "store/reducers";
-import { AppState } from "store/state";
+import { AppState, emptyState } from "store/state";
 import { generateGridBoxStyle } from "utils";
-import { initializeMap, toggleSelectedArea } from ".";
+import { initializeMap, toggleSelectedArea } from "./actions";
 
 export const fishmapBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

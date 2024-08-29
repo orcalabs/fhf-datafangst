@@ -1,6 +1,6 @@
-import { apiConfiguration, apiGet, axiosInstance } from ".";
-import { Track } from "models";
 import { V1aisApi } from "generated/openapi";
+import { Track } from "models";
+import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
 export interface AisArgs {
   mmsi: number;

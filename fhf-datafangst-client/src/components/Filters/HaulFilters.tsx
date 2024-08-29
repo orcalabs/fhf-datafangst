@@ -1,26 +1,26 @@
 import { Box } from "@mui/material";
+import { HaulsFilter } from "api";
+import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
+import { Vessel } from "generated/openapi";
 import { FC } from "react";
 import {
-  selectHaulsMatrixSearch,
-  setHoveredHaulFilter,
-  setHaulsMatrixSearch,
-  useAppDispatch,
-  useAppSelector,
-  selectHaulsMatrixLoading,
   selectHaulGearFilterStats,
+  selectHaulsMatrixLoading,
+  selectHaulsMatrixSearch,
   selectHaulSpeciesFilterStats,
   selectHaulVesselLengthFilterStats,
+  setHaulsMatrixSearch,
+  setHoveredHaulFilter,
+  useAppDispatch,
+  useAppSelector,
 } from "store";
+import { MinErsYear } from "utils";
 import { GearFilter } from "./GearFilter";
+import { LengthGroupFilter } from "./LengthGroupFilter";
 import { MonthsFilter } from "./MonthsFilter";
 import { SpeciesFilter } from "./SpeciesFilter";
-import { LengthGroupFilter } from "./LengthGroupFilter";
-import { YearsFilter } from "./YearsFilter";
 import { VesselFilter } from "./VesselFilter";
-import { HaulsFilter } from "api";
-import { Vessel } from "generated/openapi";
-import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
-import { MinErsYear } from "utils";
+import { YearsFilter } from "./YearsFilter";
 
 interface Props {
   selectedVessel?: Vessel;

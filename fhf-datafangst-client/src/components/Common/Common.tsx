@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
-import { styled, Popper } from "@mui/material";
+import { Popper, styled } from "@mui/material";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { style } from "@mui/system";
+import React, { ReactNode } from "react";
+import { FixedSizeList, ListChildComponentProps } from "react-window";
 
 export const StyledPopper = styled(Popper)(({ theme }) => ({
   [`& .${autocompleteClasses.listbox}`]: {

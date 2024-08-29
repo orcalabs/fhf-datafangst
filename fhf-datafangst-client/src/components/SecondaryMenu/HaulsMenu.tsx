@@ -1,27 +1,60 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
+import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
+import SortIcon from "@mui/icons-material/Sort";
+import StraightenIcon from "@mui/icons-material/Straighten";
+import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  List,
-  ListItemText,
-  Typography,
-  SvgIcon,
-  ListSubheader,
-  Drawer,
-  TablePagination,
   Button,
   Divider,
-  IconButton,
-  Menu,
-  MenuItem,
+  Drawer,
   FormControl,
   FormControlLabel,
+  IconButton,
+  List,
+  ListItemText,
+  ListSubheader,
+  Menu,
+  MenuItem,
   Radio,
   RadioGroup,
+  SvgIcon,
+  TablePagination,
+  Typography,
 } from "@mui/material";
-import StraightenIcon from "@mui/icons-material/Straighten";
+import { HaulsFilter } from "api";
+import theme from "app/theme";
+import { FishIcon } from "assets/icons";
+import { CatchesTable, LocalLoadingProgress } from "components";
+import { GearFilter } from "components/Filters/GearFilter";
+import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
+import { SpeciesFilter } from "components/Filters/SpeciesFilter";
+import { Haul, HaulsSorting, Ordering } from "generated/openapi";
+import { FC, useEffect, useMemo, useState } from "react";
+import {
+  getHaulTrip,
+  selectGearsMap,
+  selectHaulGearFilterGridStats,
+  selectHaulsLoading,
+  selectHaulsMatrix2Loading,
+  selectHaulsMatrix2Search,
+  selectHaulSpeciesFilterGridStats,
+  selectHaulsSorted,
+  selectHaulVesselLengthFilterGridStats,
+  selectSecondaryMenuOpen,
+  selectSelectedGrids,
+  selectSelectedHaul,
+  selectVesselsByHaulId,
+  setHaulsMatrix2Search,
+  setHoveredHaulFilter,
+  setSelectedHaul,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 import {
   createHaulDurationString,
   dateFormat,
@@ -29,39 +62,6 @@ import {
   kilosOrTonsFormatter,
   sumCatches,
 } from "utils";
-import { CatchesTable, LocalLoadingProgress } from "components";
-import {
-  getHaulTrip,
-  selectGearsMap,
-  selectHaulsLoading,
-  selectSecondaryMenuOpen,
-  selectSelectedGrids,
-  selectSelectedHaul,
-  selectVesselsByHaulId,
-  setSelectedHaul,
-  useAppDispatch,
-  useAppSelector,
-  setHaulsMatrix2Search,
-  selectHaulsMatrix2Search,
-  selectHaulGearFilterGridStats,
-  selectHaulVesselLengthFilterGridStats,
-  selectHaulSpeciesFilterGridStats,
-  setHoveredHaulFilter,
-  selectHaulsMatrix2Loading,
-  selectHaulsSorted,
-} from "store";
-import { Haul, HaulsSorting, Ordering } from "generated/openapi";
-import { FishIcon } from "assets/icons";
-import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
-import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
-import { GearFilter } from "components/Filters/GearFilter";
-import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
-import { SpeciesFilter } from "components/Filters/SpeciesFilter";
-import { HaulsFilter } from "api";
-import theme from "app/theme";
-import SortIcon from "@mui/icons-material/Sort";
 
 const accordionSx = {
   m: 0,

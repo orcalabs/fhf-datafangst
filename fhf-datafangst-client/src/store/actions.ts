@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { MatrixToggle, MenuViewState } from "store";
 import * as Api from "api";
 import { User } from "oidc-react";
+import { MatrixToggle, MenuViewState } from "./state";
 
 export const setError = createAction<boolean>("base/setError");
 

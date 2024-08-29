@@ -1,8 +1,9 @@
-import { AnyAction } from "@reduxjs/toolkit";
+import { Middleware } from "@reduxjs/toolkit";
+import { AppState } from "./state";
 
-export const errorLoggerMiddleware =
-  () => (next: any) => (action: AnyAction) => {
-    if (action.meta?.requestStatus === "rejected") {
+export const errorLoggerMiddleware: Middleware<object, AppState> =
+  () => (next) => (action) => {
+    if ((action as any).meta?.requestStatus === "rejected") {
       console.error(action);
     }
 

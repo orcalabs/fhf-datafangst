@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getDeliveryPoints } from ".";
+import { getDeliveryPoints } from "./actions";
 
 export const deliveryPointBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

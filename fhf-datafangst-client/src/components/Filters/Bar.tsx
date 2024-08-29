@@ -1,8 +1,8 @@
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Box, Typography } from "@mui/material";
 import theme from "app/theme";
 import { FC, useState } from "react";
 import { kilosOrTonsFormatter } from "utils";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 interface Props {
   length: number;

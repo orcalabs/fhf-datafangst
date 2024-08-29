@@ -1,19 +1,19 @@
-import { FC } from "react";
 import {
+  styled,
   Table,
-  TableCell,
   TableBody,
+  TableCell,
   TableContainer,
   TableRow,
   Typography,
-  styled,
 } from "@mui/material";
+import theme from "app/theme";
+import { FC } from "react";
 import {
   selectSelectedTrip,
   selectVesselsByFiskeridirId,
   useAppSelector,
 } from "store";
-import theme from "app/theme";
 
 const StyledTableCell = styled(TableCell)(() => ({
   borderBottom: "none",

@@ -1,3 +1,5 @@
+import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
+import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
 import {
   Checkbox,
   FormControlLabel,
@@ -5,10 +7,8 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
-import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
-import CheckBoxSharpIcon from "@mui/icons-material/CheckBoxSharp";
 import { LengthGroup, LengthGroups } from "models";
+import { FC } from "react";
 
 interface Props {
   value?: LengthGroup[];

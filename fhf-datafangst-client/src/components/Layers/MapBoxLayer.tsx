@@ -1,5 +1,5 @@
-import { FC, useEffect } from "react";
 import { MapboxVectorLayer } from "ol-mapbox-style";
+import { FC, useEffect } from "react";
 import { selectFishmap, useAppSelector } from "store";
 
 interface Props {

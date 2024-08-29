@@ -1,14 +1,13 @@
 import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
+import { FishingFacilitiesArgs } from "api";
+import { FishingFacility } from "generated/openapi";
+import { AppState, emptyState } from "store/state";
 import {
   getFishingFacilities,
   paginateFishingFacilitiesSearch,
   setFishingFacilitiesSearch,
   setSelectedFishingFacility,
 } from "./actions";
-import { AppState } from "store/state";
-import { FishingFacilitiesArgs } from "api";
-import { FishingFacility } from "generated/openapi";
-import { emptyState } from "store";
 
 export const fishingFacilityBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

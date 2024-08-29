@@ -1,16 +1,24 @@
+import ClearSharpIcon from "@mui/icons-material/ClearSharp";
 import {
   Box,
   IconButton,
   Step,
   StepLabel,
   Stepper,
+  styled,
   Table,
   TableContainer,
   Typography,
-  styled,
 } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { Landing, LandingsSorting, Ordering } from "generated/openapi";
+import { EventType } from "models";
 import { FC, forwardRef } from "react";
-import ClearSharpIcon from "@mui/icons-material/ClearSharp";
+import { TableComponents, TableVirtuoso } from "react-virtuoso";
 import {
   selectLandingsSorted,
   selectSelectedTrip,
@@ -18,15 +26,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { TableVirtuoso, TableComponents } from "react-virtuoso";
-import { Landing, LandingsSorting, Ordering } from "generated/openapi";
-import Paper from "@mui/material/Paper";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { dateFormat } from "utils";
-import { EventType } from "models";
 import { VesselDetails } from "./VesselDetails";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -57,8 +57,8 @@ const VirtuosoTableComponents: TableComponents<Landing> = {
       sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
     />
   ),
-  TableHead,
-  TableRow: ({ ...props }) => <StyledTableRow {...props} />,
+  TableHead: TableHead as any,
+  TableRow: (props) => <StyledTableRow {...props} />,
   TableBody: forwardRef<HTMLTableSectionElement>((props, ref) => (
     <TableBody {...props} ref={ref} />
   )),
@@ -67,10 +67,9 @@ const VirtuosoTableComponents: TableComponents<Landing> = {
 export const TripDetails: FC = () => {
   const dispatch = useAppDispatch();
   const trip = useAppSelector(selectSelectedTrip);
-  const landingsMap = useAppSelector(
+  const landings = useAppSelector(
     selectLandingsSorted(LandingsSorting.LandingTimestamp, Ordering.Desc),
   );
-  const landings = Object.values(landingsMap);
 
   const fixedHeaderContent = () => {
     return (

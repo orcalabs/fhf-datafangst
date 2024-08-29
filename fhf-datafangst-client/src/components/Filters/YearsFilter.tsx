@@ -1,9 +1,9 @@
-import { FC, useMemo } from "react";
-import { Autocomplete, Checkbox, TextField, Typography } from "@mui/material";
-import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
-import { StyledDatePopper } from "components";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
+import { Autocomplete, Checkbox, TextField, Typography } from "@mui/material";
+import { StyledDatePopper } from "components";
+import { FC, useMemo } from "react";
 
 export const getAllYearsArray = (minYear: number) =>
   Array.from(

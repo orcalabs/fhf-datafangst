@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getGear, getGearGroups, getGearMainGroups } from ".";
+import { getGear, getGearGroups, getGearMainGroups } from "./actions";
 
 export const gearBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

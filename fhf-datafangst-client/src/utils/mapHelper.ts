@@ -1,18 +1,10 @@
-import { WKT } from "ol/format";
-import { fromLonLat as _fromLonLat } from "ol/proj";
-import {
-  Circle,
-  Fill,
-  Icon,
-  RegularShape,
-  Stroke,
-  Style,
-  Text,
-} from "ol/style";
-import Feature from "ol/Feature";
-import VectorSource from "ol/source/Vector";
-import GeoJSON from "ol/format/GeoJSON";
-import Geometry from "ol/geom/Geometry";
+import theme from "app/theme";
+import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
+import shoreline from "assets/geojson/shoreline.json";
+import deliveryPointIcon from "assets/icons/delivery-point-map.svg";
+import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
+import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
+import ColorScale from "color-scales";
 import {
   AisVmsPosition,
   DeliveryPoint,
@@ -22,21 +14,29 @@ import {
   TripHaul,
   TripPositionLayerId,
 } from "generated/openapi";
+import Feature, { FeatureLike } from "ol/Feature";
+import { WKT } from "ol/format";
+import GeoJSON from "ol/format/GeoJSON";
 import { LineString, Point } from "ol/geom";
-import ColorScale from "color-scales";
+import Geometry from "ol/geom/Geometry";
+import { fromLonLat as _fromLonLat } from "ol/proj";
+import VectorSource from "ol/source/Vector";
+import {
+  Circle,
+  Fill,
+  Icon,
+  RegularShape,
+  Stroke,
+  Style,
+  Text,
+} from "ol/style";
+import CircleStyle from "ol/style/Circle";
+import { matrixSum } from "./matrix";
 import {
   differenceHours,
   findHighestHaulCatchWeight,
-  matrixSum,
   sumCatches,
-} from "utils";
-import theme from "app/theme";
-import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
-import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
-import shoreline from "assets/geojson/shoreline.json";
-import CircleStyle from "ol/style/Circle";
-import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
-import deliveryPointIcon from "assets/icons/delivery-point-map.svg";
+} from "./utils";
 
 export const fromLonLat = (lon: number, lat: number) => {
   if (lat > 90) {
@@ -221,7 +221,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
     return;
   }
 
-  const haulsVector = new VectorSource<Feature<Point>>();
+  const haulsVector = new VectorSource<FeatureLike>();
   const highestCatchSum = findHighestHaulCatchWeight(hauls);
 
   const colorScale = createColorScale(0, highestCatchSum, 1);
@@ -590,7 +590,7 @@ export const tripHaulStyle = (
     image: new CircleStyle({
       fill: new Fill({
         color:
-          hovered ?? selected
+          (hovered ?? selected)
             ? theme.palette.fourth.dark
             : theme.palette.fourth.main,
       }),

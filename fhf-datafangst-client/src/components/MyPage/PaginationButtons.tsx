@@ -1,7 +1,7 @@
-import { FC } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Box, Button, MenuItem, Select } from "@mui/material";
+import { FC } from "react";
 
 export const PaginationButton = (props: any) => (
   <Button

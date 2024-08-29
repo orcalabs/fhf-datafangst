@@ -1,63 +1,63 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
+import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
+import SortIcon from "@mui/icons-material/Sort";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  List,
-  ListItemText,
-  Typography,
-  SvgIcon,
-  ListSubheader,
-  Drawer,
-  TablePagination,
   Button,
   Divider,
-  IconButton,
-  Menu,
-  MenuItem,
+  Drawer,
   FormControl,
   FormControlLabel,
+  IconButton,
+  List,
+  ListItemText,
+  ListSubheader,
+  Menu,
+  MenuItem,
   Radio,
   RadioGroup,
+  SvgIcon,
+  TablePagination,
+  Typography,
 } from "@mui/material";
+import { LandingsFilter } from "api";
+import theme from "app/theme";
+import { FishIcon } from "assets/icons";
+import { CatchesTable, LocalLoadingProgress } from "components";
+import { GearFilter } from "components/Filters/GearFilter";
+import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
+import { SpeciesFilter } from "components/Filters/SpeciesFilter";
+import { Landing, LandingsSorting, Ordering } from "generated/openapi";
+import { FC, useEffect, useMemo, useState } from "react";
+import {
+  getLandingTrip,
+  selectGearsMap,
+  selectLandingGearFilterGridStats,
+  selectLandingsLoading,
+  selectLandingsMatrix2Loading,
+  selectLandingsMatrix2Search,
+  selectLandingSpeciesFilterGridStats,
+  selectLandingsSorted,
+  selectLandingVesselLengthFilterGridStats,
+  selectSecondaryMenuOpen,
+  selectSelectedGrids,
+  selectSelectedLanding,
+  selectVesselsByLandingId,
+  setHoveredLandingFilter,
+  setLandingsMatrix2Search,
+  setSelectedLanding,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 import {
   dateFormat,
   kilosOrTonsFormatter,
   reduceCatchesOnSpecies,
 } from "utils";
-import { CatchesTable, LocalLoadingProgress } from "components";
-import {
-  getLandingTrip,
-  selectGearsMap,
-  selectLandingsLoading,
-  selectSecondaryMenuOpen,
-  selectSelectedGrids,
-  selectSelectedLanding,
-  selectVesselsByLandingId,
-  setSelectedLanding,
-  useAppDispatch,
-  useAppSelector,
-  setLandingsMatrix2Search,
-  selectLandingsMatrix2Search,
-  setHoveredLandingFilter,
-  selectLandingsMatrix2Loading,
-  selectLandingsSorted,
-  selectLandingGearFilterGridStats,
-  selectLandingSpeciesFilterGridStats,
-  selectLandingVesselLengthFilterGridStats,
-} from "store";
-import { Landing, LandingsSorting, Ordering } from "generated/openapi";
-import { FishIcon } from "assets/icons";
-import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
-import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
-import { GearFilter } from "components/Filters/GearFilter";
-import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
-import { SpeciesFilter } from "components/Filters/SpeciesFilter";
-import { LandingsFilter } from "api";
-import theme from "app/theme";
-import SortIcon from "@mui/icons-material/Sort";
 
 const accordionSx = {
   m: 0,

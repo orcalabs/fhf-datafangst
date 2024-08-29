@@ -3,7 +3,7 @@ import {
   FuelMeasurementBody,
   V1fuelApi,
 } from "generated/openapi";
-import { apiConfiguration, apiGet, axiosInstance } from ".";
+import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
 export interface FuelMeasurementsArgs {
   token?: string;

@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { CurrentTrip, Trip } from "generated/openapi";
-import { selectAppState } from "store/selectors";
+import { selectAppState } from "store/selectAppState";
 import { selectSelectedOrCurrentTrip } from "store/trip";
 
 export const selectFuelMeasurementsLoading = createSelector(

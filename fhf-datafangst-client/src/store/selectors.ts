@@ -1,7 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { AppState } from "./state";
-
-export const selectAppState = (state: AppState) => state;
+import { selectAppState } from "./selectAppState";
 
 export const selectError = createSelector(
   selectAppState,

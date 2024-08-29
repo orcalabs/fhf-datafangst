@@ -1,5 +1,6 @@
+import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Box, Button, Popper } from "@mui/material";
-import { FC, useRef } from "react";
 import {
   DateFilter,
   GearFilter,
@@ -8,15 +9,14 @@ import {
   VesselLengthFilter,
   WeightFilter,
 } from "components";
+import { VesselFilter } from "components/Filters/VesselFilter";
+import { FC, useRef } from "react";
 import {
   selectTripFiltersOpen,
   setTripFiltersOpen,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
-import { VesselFilter } from "components/Filters/VesselFilter";
 
 interface Props {
   params: Record<string, any>;

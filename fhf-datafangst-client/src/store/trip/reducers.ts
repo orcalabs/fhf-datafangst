@@ -1,5 +1,9 @@
 import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
-import { AppState } from "store/state";
+import { TripsArgs } from "api";
+import { GearGroupDetailed } from "generated/openapi";
+import { AppState, emptyState } from "store/state";
+import { getTrack } from "store/track";
+import { getGearGroupsFromVessels } from "utils";
 import {
   getCurrentTrip,
   getCurrentTripTrack,
@@ -10,12 +14,8 @@ import {
   paginateTripsSearch,
   setSelectedTrip,
   setTripsSearch,
-  TripTrackIdentifier,
-} from ".";
-import { emptyState, getTrack } from "store";
-import { TripsArgs } from "api";
-import { getGearGroupsFromVessels } from "utils";
-import { GearGroupDetailed } from "generated/openapi";
+} from "./actions";
+import { TripTrackIdentifier } from "./state";
 
 export const tripBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

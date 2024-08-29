@@ -1,31 +1,29 @@
-import { FC } from "react";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import PhishingRoundedIcon from "@mui/icons-material/PhishingRounded";
+import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
+import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
+import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
-import { BenchmarkCard } from "./BenchmarkCard";
+import { Trip } from "generated/openapi";
+import { FC } from "react";
 import {
+  BenchmarkModalParams,
+  selectBenchmarkTrips,
   selectBwUserProfile,
   selectTrips,
   selectVesselsByCallsign,
   selectVesselsByFiskeridirId,
+  setBenchmarkModal,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { Grid } from "@mui/material";
-import {
-  BenchmarkModalParams,
-  selectBenchmarkTrips,
-  setBenchmarkModal,
-} from "store/benchmark";
-import { Trip } from "generated/openapi";
-import { BenchmarkModal } from "./BenchmarkModal";
-import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
-import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PhishingRoundedIcon from "@mui/icons-material/PhishingRounded";
 import {
   createDurationFromHours,
   kilosOrTonsFormatter,
   metersToNatuticalMilesString,
 } from "utils";
+import { BenchmarkCard } from "./BenchmarkCard";
+import { BenchmarkModal } from "./BenchmarkModal";
 
 const getTotalTimes = (trip: Trip) =>
   (new Date(trip.end).getTime() - new Date(trip.start).getTime()) / 3_600_000;

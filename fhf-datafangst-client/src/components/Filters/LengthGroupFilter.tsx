@@ -1,8 +1,8 @@
-import { FC } from "react";
 import { Box, Typography } from "@mui/material";
-import { LengthGroup, LengthGroupsMap } from "models";
-import { Bar } from "./Bar";
 import { VesselLengthGroup } from "generated/openapi";
+import { LengthGroup, LengthGroupsMap } from "models";
+import { FC } from "react";
+import { Bar } from "./Bar";
 
 interface Props {
   value?: LengthGroup[];

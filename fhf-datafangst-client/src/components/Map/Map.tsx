@@ -1,8 +1,23 @@
-import React, { FC, useEffect, useState } from "react";
-import { MousePosition, ScaleLine, defaults } from "ol/control";
-import { View, Map as OLMap, MapBrowserEvent } from "ol";
 import { Box, Popover, PopoverPosition } from "@mui/material";
+import {
+  DeliveryPointPopover,
+  DetailedHaulPopover,
+  HaulPopover,
+  PositionPopover,
+  ShorelinePopover,
+} from "components";
+import { AisVmsPosition, DeliveryPoint, Haul } from "generated/openapi";
+import { Map as OLMap, MapBrowserEvent, View } from "ol";
+import { defaults, MousePosition, ScaleLine } from "ol/control";
+import { Coordinate, toStringHDMS } from "ol/coordinate";
+import { pointerMove } from "ol/events/condition";
+import Feature, { FeatureLike } from "ol/Feature";
+import { Geometry } from "ol/geom";
+import { defaults as interactionDefaults } from "ol/interaction/defaults";
+import Select from "ol/interaction/Select";
 import { Types } from "ol/MapBrowserEventType";
+import RenderFeature from "ol/render/Feature";
+import React, { FC, useEffect, useState } from "react";
 import {
   initializeMap,
   selectFishingFacilities,
@@ -16,23 +31,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import Feature, { FeatureLike } from "ol/Feature";
-import { Geometry } from "ol/geom";
-import RenderFeature from "ol/render/Feature";
-import { AisVmsPosition, DeliveryPoint, Haul } from "generated/openapi";
-import {
-  DeliveryPointPopover,
-  DetailedHaulPopover,
-  HaulPopover,
-  PositionPopover,
-  ShorelinePopover,
-} from "components";
-import { FishingFacilityPopover } from "./FishingFacilityPopover";
-import { pointerMove } from "ol/events/condition";
-import Select from "ol/interaction/Select";
 import { fishingFacilityStyle, tripHaulStyle } from "utils";
-import { defaults as interactionDefaults } from "ol/interaction/defaults";
-import { Coordinate, toStringHDMS } from "ol/coordinate";
+import { FishingFacilityPopover } from "./FishingFacilityPopover";
 
 interface Props {
   children: React.ReactNode;

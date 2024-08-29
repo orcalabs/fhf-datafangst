@@ -1,20 +1,20 @@
 import { VectorLayer } from "components";
+import { Feature } from "ol";
 import { Geometry } from "ol/geom";
-import { useEffect, useState } from "react";
 import VectorSource from "ol/source/Vector";
-import { generateLocationsMatrix } from "utils";
+import { useEffect, useState } from "react";
 import {
-  selectHaulsMatrixActiveFilterSelectedIndexes,
+  MatrixToggle,
   selectHaulLocationsMatrix,
+  selectHaulsMatrixActiveFilterSelectedIndexes,
+  selectLandingLocationsMatrix,
+  selectLandingsMatrixActiveFilterSelectedIndexes,
+  selectMatrixToggle,
   selectSelectedGridsString,
   selectSelectedOrCurrentTrip,
   useAppSelector,
-  selectMatrixToggle,
-  MatrixToggle,
-  selectLandingLocationsMatrix,
-  selectLandingsMatrixActiveFilterSelectedIndexes,
 } from "store";
-import { Feature } from "ol";
+import { generateLocationsMatrix } from "utils";
 
 export const LocationsGrid = () => {
   const matrixToggle = useAppSelector(selectMatrixToggle);

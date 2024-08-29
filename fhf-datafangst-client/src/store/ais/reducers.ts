@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { getAis } from "./actions";
 import { AppState } from "store/state";
+import { getAis } from "./actions";
 
 export const aisBuilder = (
   builder: ActionReducerMapBuilder<AppState>,

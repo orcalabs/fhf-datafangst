@@ -1,7 +1,3 @@
-import { FC } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import {
   Box,
   CardActionArea,
@@ -9,7 +5,11 @@ import {
   Divider,
   Tooltip,
 } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 import { fontStyle } from "app/theme";
+import { FC } from "react";
 
 interface BenchmarkCardProps {
   title: string;

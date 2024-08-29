@@ -1,14 +1,14 @@
-import { FC, useMemo, useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 import { InputAdornment, Paper, TextField, Typography } from "@mui/material";
+import theme from "app/theme";
 import { SearchVesselInfo } from "components";
+import { FC, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import {
   selectUserFollowList,
   selectVesselsSorted,
   useAppSelector,
 } from "store";
-import theme from "app/theme";
-import SearchIcon from "@mui/icons-material/Search";
 
 export const AddFollowerList: FC = () => {
   const vessels = useAppSelector(selectVesselsSorted);
@@ -22,8 +22,8 @@ export const AddFollowerList: FC = () => {
 
   const filteredVessels = useMemo(
     () =>
-      unfollowedVessels.filter(
-        (vessel) => vessel.fiskeridir.name?.toLowerCase().includes(search),
+      unfollowedVessels.filter((vessel) =>
+        vessel.fiskeridir.name?.toLowerCase().includes(search),
       ),
     [unfollowedVessels, search],
   );

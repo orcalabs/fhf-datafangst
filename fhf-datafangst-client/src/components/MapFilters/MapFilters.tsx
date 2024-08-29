@@ -1,9 +1,9 @@
-import { FC } from "react";
-import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
-import { MapFilter } from "containers/HomeView/HomeView";
 import LayersIcon from "@mui/icons-material/Layers";
-import { CoastlineIcon, DeliveryPointIcon } from "assets/icons";
 import MapSharpIcon from "@mui/icons-material/MapSharp";
+import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
+import { CoastlineIcon, DeliveryPointIcon } from "assets/icons";
+import { MapFilter } from "containers/HomeView/HomeView";
+import { FC } from "react";
 
 interface Props {
   mapFilter: MapFilter;
