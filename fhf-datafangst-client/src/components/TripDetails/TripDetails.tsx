@@ -57,8 +57,8 @@ const VirtuosoTableComponents: TableComponents<Landing> = {
       sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
     />
   ),
-  TableHead: ({ ...props }) => <TableHead />,
-  TableRow: ({ ...props }) => <StyledTableRow {...props} />,
+  TableHead: TableHead as any,
+  TableRow: (props) => <StyledTableRow {...props} />,
   TableBody: forwardRef<HTMLTableSectionElement>((props, ref) => (
     <TableBody {...props} ref={ref} />
   )),
@@ -67,10 +67,9 @@ const VirtuosoTableComponents: TableComponents<Landing> = {
 export const TripDetails: FC = () => {
   const dispatch = useAppDispatch();
   const trip = useAppSelector(selectSelectedTrip);
-  const landingsMap = useAppSelector(
+  const landings = useAppSelector(
     selectLandingsSorted(LandingsSorting.LandingTimestamp, Ordering.Desc),
   );
-  const landings = Object.values(landingsMap);
 
   const fixedHeaderContent = () => {
     return (
