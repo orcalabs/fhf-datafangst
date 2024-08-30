@@ -34,7 +34,7 @@ import { GearFilter } from "components/Filters/GearFilter";
 import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
 import { SpeciesFilter } from "components/Filters/SpeciesFilter";
 import { Haul, HaulsSorting, Ordering } from "generated/openapi";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   getHaulTrip,
   selectGearsMap,
@@ -91,12 +91,9 @@ export const HaulsMenu: FC = () => {
     HaulsSorting.StartDate,
     Ordering.Desc,
   ]);
-  // Memoize selector so we dont perform sorting on hauls each time component re-renders.
-  const selector = useMemo(
-    () => selectHaulsSorted(sortOrder[0], sortOrder[1]),
-    [sortOrder],
+  const haulsMap = useAppSelector((state) =>
+    selectHaulsSorted(state, sortOrder[0], sortOrder[1]),
   );
-  const haulsMap = useAppSelector(selector);
   const hauls = Object.values(haulsMap);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaul = useAppSelector(selectSelectedHaul);

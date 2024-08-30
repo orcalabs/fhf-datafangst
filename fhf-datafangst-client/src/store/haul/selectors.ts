@@ -3,6 +3,7 @@ import { HaulsArgs, HaulsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import {
   GearGroupDetailed,
+  Haul,
   HaulsSorting,
   Ordering,
   SpeciesGroupDetailed,
@@ -62,14 +63,21 @@ export const selectHauls = createSelector(
   (state) => state.hauls ?? {},
 );
 
-export const selectHaulsSorted = (sorting: HaulsSorting, ordering: Ordering) =>
-  createSelector(selectHauls, (state) => {
-    if (!Object.keys(state).length) {
-      return state;
+export const selectHaulsSorted = createSelector(
+  [
+    selectHauls,
+    (_, sorting: HaulsSorting) => sorting,
+    (_, __, ordering: Ordering) => ordering,
+  ],
+  (state, sorting, ordering) => {
+    const hauls: Haul[] = Object.values(state);
+
+    if (!hauls.length) {
+      return hauls;
     }
 
     if (ordering === Ordering.Desc && sorting === HaulsSorting.StartDate) {
-      return Object.values(state).sort(
+      return hauls.sort(
         (a, b) =>
           new Date(b.startTimestamp).getTime() -
           new Date(a.startTimestamp).getTime(),
@@ -78,22 +86,23 @@ export const selectHaulsSorted = (sorting: HaulsSorting, ordering: Ordering) =>
       ordering === Ordering.Asc &&
       sorting === HaulsSorting.StartDate
     ) {
-      return Object.values(state).sort(
+      return hauls.sort(
         (a, b) =>
           new Date(a.startTimestamp).getTime() -
           new Date(b.startTimestamp).getTime(),
       );
     } else if (ordering === Ordering.Desc && sorting === HaulsSorting.Weight) {
-      return Object.values(state).sort(
+      return hauls.sort(
         (a, b) => sumCatches(b.catches) - sumCatches(a.catches),
       );
     } else if (ordering === Ordering.Asc && sorting === HaulsSorting.Weight) {
-      return Object.values(state).sort(
+      return hauls.sort(
         (a, b) => sumCatches(a.catches) - sumCatches(b.catches),
       );
     }
-    return state;
-  });
+    return hauls;
+  },
+);
 
 export const selectHaulsMatrix = createSelector(
   selectAppState,
