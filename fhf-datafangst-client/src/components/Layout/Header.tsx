@@ -1,4 +1,5 @@
-import { AppBar, Box, Link, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Link, Stack, Toolbar, Typography } from "@mui/material";
+import LogoIcon from "assets/logos/logoIcon";
 import { useAuth } from "oidc-react";
 import { FC } from "react";
 import { selectIsLoggedIn, useAppSelector } from "store";
@@ -26,9 +27,12 @@ export const Header: FC = () => {
           underline="none"
           href={window.location.origin}
         >
-          <Typography color="white" variant="h4">
-            DataFangst
-          </Typography>
+          <Stack direction="row" alignItems="center">
+            <LogoIcon height={38} />
+            <Typography color="white" variant="h4">
+              DataFangst
+            </Typography>
+          </Stack>
         </Link>
         <Box
           sx={{ cursor: "pointer", gridColumn: 3, justifySelf: "end" }}
