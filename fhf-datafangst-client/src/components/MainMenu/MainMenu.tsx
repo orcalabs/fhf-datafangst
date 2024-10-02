@@ -13,7 +13,6 @@ export const MainMenu: FC = () => {
         sx={{
           height: "100%",
           "& .MuiDrawer-paper": {
-            width: 500,
             position: "relative",
             boxSizing: "border-box",
             bgcolor: "primary.light",
