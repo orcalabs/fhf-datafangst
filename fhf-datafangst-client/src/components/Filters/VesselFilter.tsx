@@ -41,9 +41,7 @@ const VesselFilterInner = memo(
     return (
       <>
         <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-          {viewState !== MenuViewState.Benchmark
-            ? "Fartøy"
-            : "Finn fartøy å følge"}
+          Fartøy
         </Typography>
         <Autocomplete
           sx={{
@@ -55,11 +53,7 @@ const VesselFilterInner = memo(
               },
             },
             "& .MuiAutocomplete-inputRoot": {
-              color:
-                viewState === MenuViewState.Overview ||
-                viewState === MenuViewState.Benchmark
-                  ? "white"
-                  : "black",
+              color: viewState === MenuViewState.Overview ? "white" : "black",
             },
             "& .MuiInputBase-root": { pb: "6px" },
             "& .MuiChip-filled": {
@@ -74,7 +68,6 @@ const VesselFilterInner = memo(
           ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
           PopperComponent={StyledPopper}
           ListboxComponent={useVirtualization ? ListboxComponent : undefined}
-          disablePortal
           disableListWrap
           onKeyDown={(e) => e.stopPropagation()}
           value={value ?? []}
@@ -89,10 +82,7 @@ const VesselFilterInner = memo(
             <TextField
               {...params}
               variant={
-                viewState === MenuViewState.Overview ||
-                viewState === MenuViewState.Benchmark
-                  ? "standard"
-                  : "outlined"
+                viewState === MenuViewState.Overview ? "standard" : "outlined"
               }
               placeholder={
                 (value ?? viewState !== MenuViewState.Overview)

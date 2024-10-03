@@ -28,7 +28,7 @@ export enum MenuViewState {
   Overview = "overview",
   MyPage = "mypage",
   Trips = "trips",
-  Benchmark = "benchmark",
+  Benchmark = "benchmark", // Unused for now
 }
 
 export enum MatrixToggle {
