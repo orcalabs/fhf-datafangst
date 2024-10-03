@@ -26,7 +26,16 @@ export const MonthsFilter: FC<Props> = (props) => {
       </Typography>
       <Autocomplete
         sx={{
-          "& .MuiAutocomplete-inputRoot": { color: "text.secondary" },
+          "& .MuiAutocomplete-inputRoot": {
+            color: "text.secondary",
+            input: {
+              fontStyle: "italic",
+              "&::placeholder": {
+                opacity: 1,
+                pl: "2px",
+              },
+            },
+          },
           "& .MuiInputBase-root": { pb: "6px" },
           "& .MuiIconButton-root": { color: "text.secondary" },
           "& .MuiChip-filled": {
@@ -49,7 +58,11 @@ export const MonthsFilter: FC<Props> = (props) => {
         options={Array.from({ length: 12 }, (_, i) => i + 1)}
         getOptionLabel={(option: number) => Months[option]}
         renderInput={(params: any) => (
-          <TextField {...params} variant="standard" />
+          <TextField
+            {...params}
+            variant="standard"
+            placeholder={values?.length ? undefined : "Alle"}
+          />
         )}
         renderOption={(props, option, { selected }) => (
           <li
