@@ -9,14 +9,14 @@ export const PaginationButton = (props: any) => (
     size="small"
     sx={{
       borderRadius: 0,
-      m: 1,
+      my: 1,
       bgcolor: props.bgcolor ?? "primary.light",
       color: "white",
       "&:hover": { bgcolor: "primary.main" },
     }}
     disableElevation
     {...props}
-  ></Button>
+  />
 );
 
 interface Props {
@@ -37,7 +37,8 @@ export const PaginationButtons: FC<Props> = (props) => {
       sx={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr",
-        "& .MuiButtonBase-root": { width: "156px" },
+        px: 1,
+        "& .MuiButtonBase-root": { width: "100%" },
       }}
     >
       {!((!numItems && offset > 0) || numItems < limit) && (

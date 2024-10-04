@@ -9,7 +9,6 @@ import {
   Box,
   Button,
   Divider,
-  Drawer,
   FormControl,
   FormControlLabel,
   IconButton,
@@ -27,7 +26,11 @@ import {
 import { LandingsFilter } from "api";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
-import { CatchesTable, LocalLoadingProgress } from "components";
+import {
+  CatchesTable,
+  LocalLoadingProgress,
+  SecondaryMenuWrapper,
+} from "components";
 import { GearFilter } from "components/Filters/GearFilter";
 import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
 import { SpeciesFilter } from "components/Filters/SpeciesFilter";
@@ -239,10 +242,7 @@ export const LandingsMenu: FC = () => {
                 }}
                 startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
               >
-                <Typography sx={{ pl: 1, color: "white" }}>
-                  {" "}
-                  Vis tur{" "}
-                </Typography>
+                <Typography sx={{ pl: 1, color: "white" }}>Vis tur</Typography>
               </Button>
             </Box>
           )}
@@ -276,7 +276,6 @@ export const LandingsMenu: FC = () => {
         >
           <SortIcon sx={{ color: "white" }} />
         </IconButton>
-        <span style={{ paddingTop: 1 }}>Landinger per side</span>
       </span>
 
       <Menu
@@ -335,137 +334,132 @@ export const LandingsMenu: FC = () => {
   return (
     <>
       {open && (
-        <Box sx={{ height: "100%" }}>
-          <Drawer
-            sx={{
-              height: "100%",
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                position: "relative",
-                backgroundColor: "primary.light",
-                color: "white",
-              },
-            }}
-            open
-            variant="persistent"
-            anchor="right"
-          >
-            <Box sx={{ px: 2.5, pt: 2.5 }}>
-              <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
-                VALGTE OMRÅDER
-              </Typography>
-              <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 0 }} />
-            </Box>
-            {landingsLoading || matrixLoading ? (
-              <LocalLoadingProgress />
-            ) : (
-              <>
-                <Box sx={{ px: 2.5, py: 1 }}>
-                  <Box
-                    onMouseEnter={() => onFilterHover(LandingsFilter.GearGroup)}
-                  >
-                    <GearFilter
-                      value={landingsSearch?.gearGroupIds}
-                      stats={gearStats}
-                      onChange={(value) =>
-                        dispatch(
-                          setLandingsMatrix2Search({
-                            ...landingsSearch,
-                            gearGroupIds: value,
-                          }),
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box
-                    onMouseEnter={() =>
-                      onFilterHover(LandingsFilter.SpeciesGroup)
+        <SecondaryMenuWrapper>
+          <Box sx={{ px: 2.5, pt: 2.5 }}>
+            <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
+              VALGTE OMRÅDER
+            </Typography>
+            <Divider sx={{ bgcolor: "text.secondary", mt: 2, mb: 0 }} />
+          </Box>
+          {landingsLoading || matrixLoading ? (
+            <LocalLoadingProgress />
+          ) : (
+            <>
+              <Box sx={{ px: 2.5, py: 1 }}>
+                <Box
+                  onMouseEnter={() => onFilterHover(LandingsFilter.GearGroup)}
+                >
+                  <GearFilter
+                    value={landingsSearch?.gearGroupIds}
+                    stats={gearStats}
+                    onChange={(value) =>
+                      dispatch(
+                        setLandingsMatrix2Search({
+                          ...landingsSearch,
+                          gearGroupIds: value,
+                        }),
+                      )
                     }
-                  >
-                    <SpeciesFilter
-                      value={landingsSearch?.speciesGroupIds}
-                      stats={speciesStats}
-                      onChange={(value) =>
-                        dispatch(
-                          setLandingsMatrix2Search({
-                            ...landingsSearch,
-                            speciesGroupIds: value,
-                          }),
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box
-                    onMouseEnter={() =>
-                      onFilterHover(LandingsFilter.VesselLength)
-                    }
-                  >
-                    <LengthGroupFilter
-                      value={landingsSearch?.vesselLengthGroups}
-                      stats={lengthGroupStats}
-                      onChange={(value) =>
-                        dispatch(
-                          setLandingsMatrix2Search({
-                            ...landingsSearch,
-                            vesselLengthGroups: value,
-                          }),
-                        )
-                      }
-                    />
-                  </Box>
-                </Box>
-                <List sx={{ pt: 3 }}>
-                  <ListSubheader
-                    sx={{
-                      px: 0,
-                    }}
-                  >
-                    <TablePagination
-                      sx={{
-                        bgcolor: "primary.light",
-                        color: "white",
-                        width: "100%",
-                        "& .MuiTablePagination-toolbar": { px: 3 },
-                        "& .MuiTablePagination-selectLabel": { mb: "0.9em" },
-                      }}
-                      component="div"
-                      count={landings.length}
-                      page={currentPage}
-                      onPageChange={handleChangePage}
-                      rowsPerPage={landingsPerPage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                      labelRowsPerPage={sortButton}
-                      padding="normal"
-                    />
-                  </ListSubheader>
-                  <Divider
-                    sx={{ bgcolor: "secondary.light", mt: 0, mb: 1, mx: 5 }}
                   />
-                  {landingsLoading ? (
-                    <Box sx={{ pt: 2, pl: 2.5 }}>Laster...</Box>
-                  ) : !landings?.length ? (
-                    <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
-                  ) : (
-                    <Box sx={{ pt: 1 }}>
-                      {currentLandings?.map((landing, index) =>
-                        listItem(
-                          landing,
-                          index,
-                          vessels[landing.landingId]?.fiskeridir?.name ??
-                            landing.vesselName ??
-                            "Ukjent",
-                          kilosOrTonsFormatter(landing.totalLivingWeight) +
-                            " - " +
-                            dateFormat(landing.landingTimestamp, "PPP HH:mm"),
-                        ),
-                      )}
-                    </Box>
-                  )}
-                </List>
-              </>
-            )}
-          </Drawer>
-        </Box>
+                </Box>
+                <Box
+                  onMouseEnter={() =>
+                    onFilterHover(LandingsFilter.SpeciesGroup)
+                  }
+                >
+                  <SpeciesFilter
+                    value={landingsSearch?.speciesGroupIds}
+                    stats={speciesStats}
+                    onChange={(value) =>
+                      dispatch(
+                        setLandingsMatrix2Search({
+                          ...landingsSearch,
+                          speciesGroupIds: value,
+                        }),
+                      )
+                    }
+                  />
+                </Box>
+                <Box
+                  onMouseEnter={() =>
+                    onFilterHover(LandingsFilter.VesselLength)
+                  }
+                >
+                  <LengthGroupFilter
+                    value={landingsSearch?.vesselLengthGroups}
+                    stats={lengthGroupStats}
+                    onChange={(value) =>
+                      dispatch(
+                        setLandingsMatrix2Search({
+                          ...landingsSearch,
+                          vesselLengthGroups: value,
+                        }),
+                      )
+                    }
+                  />
+                </Box>
+              </Box>
+              <List sx={{ pt: 3 }}>
+                <ListSubheader
+                  sx={{
+                    px: 0,
+                  }}
+                >
+                  <TablePagination
+                    sx={{
+                      bgcolor: "primary.light",
+                      color: "white",
+                      width: "100%",
+                      "& .MuiTablePagination-toolbar": {
+                        justifyContent: "space-evenly",
+                        px: 2,
+                      },
+                      "& .MuiTablePagination-selectLabel": { m: 0 },
+                      "& .MuiTablePagination-spacer": {
+                        display: "none",
+                      },
+                      "& .MuiTablePagination-displayedRows": {
+                        flexShrink: 1,
+                        m: 0,
+                      },
+                    }}
+                    component="div"
+                    count={landings.length}
+                    page={currentPage}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={landingsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    labelRowsPerPage={sortButton}
+                    padding="normal"
+                  />
+                </ListSubheader>
+                <Divider
+                  sx={{ bgcolor: "secondary.light", mt: 0, mb: 1, mx: 4 }}
+                />
+                {landingsLoading ? (
+                  <Box sx={{ pt: 2, pl: 2.5 }}>Laster...</Box>
+                ) : !landings?.length ? (
+                  <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
+                ) : (
+                  <Box sx={{ pt: 1 }}>
+                    {currentLandings?.map((landing, index) =>
+                      listItem(
+                        landing,
+                        index,
+                        vessels[landing.landingId]?.fiskeridir?.name ??
+                          landing.vesselName ??
+                          "Ukjent",
+                        kilosOrTonsFormatter(landing.totalLivingWeight) +
+                          " - " +
+                          dateFormat(landing.landingTimestamp, "PPP HH:mm"),
+                      ),
+                    )}
+                  </Box>
+                )}
+              </List>
+            </>
+          )}
+        </SecondaryMenuWrapper>
       )}
     </>
   );

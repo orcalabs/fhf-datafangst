@@ -1,5 +1,6 @@
 import { Box, Drawer } from "@mui/material";
 import { CatchData, MyPage, Trips } from "components";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { FC } from "react";
 import { MenuViewState, selectViewState, useAppSelector } from "store";
 
@@ -23,9 +24,15 @@ export const MainMenu: FC = () => {
           "& .MuiOutlinedInput-root": { borderRadius: 0 },
         }}
       >
-        {viewState === MenuViewState.Overview && <CatchData />}
-        {viewState === MenuViewState.Trips && <Trips />}
-        {viewState === MenuViewState.MyPage && <MyPage />}
+        <OverlayScrollbarsComponent
+          className="overlayscrollbars-react"
+          options={{ scrollbars: { theme: "os-theme-light" } }}
+          defer
+        >
+          {viewState === MenuViewState.Overview && <CatchData />}
+          {viewState === MenuViewState.Trips && <Trips />}
+          {viewState === MenuViewState.MyPage && <MyPage />}
+        </OverlayScrollbarsComponent>
       </Drawer>
     </Box>
   );
