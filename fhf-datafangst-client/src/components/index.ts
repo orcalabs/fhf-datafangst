@@ -56,6 +56,7 @@ export { VesselInfo } from "./MyPage/VesselInfo";
 export { CatchesTable } from "./SecondaryMenu/CatchesTable";
 export { HaulsMenu } from "./SecondaryMenu/HaulsMenu";
 export { LandingsMenu } from "./SecondaryMenu/LandingsMenu";
+export { SecondaryMenuWrapper } from "./SecondaryMenu/SecondaryMenuWrapper";
 export { TimeSlider } from "./TimeSlider/TimeSlider";
 export { TripDetails } from "./TripDetails/TripDetails";
 export { TripsMenu } from "./TripsMenu/TripsMenu";
