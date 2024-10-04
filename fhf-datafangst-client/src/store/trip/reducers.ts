@@ -82,11 +82,18 @@ export const tripBuilder = (
       };
     })
     .addCase(paginateTripsSearch, (state, action) => {
+      let flag = false;
+      if (!state.tripsSearch) {
+        state.tripsSearch = {};
+        flag = true;
+      }
       state.tripsSearch!.offset = action.payload.offset;
       state.tripsSearch!.limit = action.payload.limit;
 
       (action as any).asyncDispatch(
-        getTrips(current(state.tripsSearch) as TripsArgs),
+        getTrips(
+          flag ? state.tripsSearch : (current(state.tripsSearch) as TripsArgs),
+        ),
       );
     })
     .addCase(getCurrentTrip.pending, (state, action) => {
