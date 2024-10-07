@@ -74,7 +74,10 @@ export const DateFilter: FC<Props> = (props) => {
         >
           <DatePicker
             label={"Fra"}
-            slotProps={{ textField: { size: "small" } }}
+            slotProps={{
+              textField: { size: "small" },
+              popper: { disablePortal: true },
+            }}
             onChange={handleStartDateChange}
             value={value?.rawStart ?? null}
             minDate={new Date("2011-01-01")}
@@ -82,7 +85,10 @@ export const DateFilter: FC<Props> = (props) => {
           />
           <DatePicker
             label={"Til"}
-            slotProps={{ textField: { size: "small" } }}
+            slotProps={{
+              textField: { size: "small" },
+              popper: { disablePortal: true },
+            }}
             value={value?.rawEnd ?? null}
             maxDate={new Date()}
             minDate={value ? value.rawStart : new Date("2011-01-01")}
