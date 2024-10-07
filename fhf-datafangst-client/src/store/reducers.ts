@@ -91,10 +91,10 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselPhone: "",
           vesselName: "",
         };
-        // Assign Gadus Njord to Ståle
+        // Assign Gadus Njord to Per Gunnar
       } else if (
         state.bwProfile.contactPersonDetail.email ===
-        "stale.walderhaug@sintef.no"
+        "per.gunnar.auran@sintef.no"
       ) {
         state.bwProfile.vesselInfo = {
           ircs: "LDDF",
