@@ -1,4 +1,3 @@
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import CloseSharpIcon from "@mui/icons-material/CloseSharp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -8,18 +7,18 @@ import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import SettingsIcon from "@mui/icons-material/Settings";
 import StickyNote2SharpIcon from "@mui/icons-material/StickyNote2Sharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import WarehouseSharpIcon from "@mui/icons-material/WarehouseSharp";
 import {
   Box,
   Divider,
   IconButton,
+  Stack,
   styled,
   SvgIcon,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { FishIcon } from "assets/icons";
+import { DeliveryPointIcon, FishIcon, FishLocationIcon } from "assets/icons";
 import { CatchesTable, SecondaryMenuWrapper } from "components";
 import { TripAssemblerId } from "generated/openapi";
 import { FC, useState } from "react";
@@ -103,82 +102,87 @@ export const TripsMenu: FC = () => {
 
   return (
     <SecondaryMenuWrapper>
-      <Box
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-start"
         sx={{
-          display: "flex",
           py: 3,
           px: 2.5,
           bgcolor: "primary.light",
           color: "white",
         }}
       >
-        <AllInclusiveSharpIcon
-          width="42"
-          height="42"
-          sx={{ alignSelf: "center" }}
-        />
-        <Box sx={{ marginLeft: 2 }}>
-          <Typography variant="h5">LEVERANSE</Typography>
-          <Typography color="secondary.light" variant="h6">
-            {toTitleCase(
-              vessels[trip.fiskeridirVesselId].fiskeridir.name ?? "Ukjent",
-            )}
-          </Typography>
-        </Box>
-        <Box sx={{ marginLeft: "auto" }}>
-          {process.env.REACT_APP_ENV === "staging" ? (
-            <>
-              <ToggleButtonGroup
-                color="secondary"
-                size={"small"}
-                value={aisToggle}
-                exclusive
-                onChange={(_, value) => {
-                  if (value) {
-                    setAisToggle(value);
-                    dispatch(getTripTrack({ trip, identifier: value }));
-                  }
-                }}
+        <Stack direction="row" spacing={1.5} alignItems="flex-start">
+          <FishIcon width="32" height="26" />
+          <Stack>
+            <Typography variant="h5">LEVERANSE</Typography>
+            <Typography color="secondary.light" variant="h6">
+              {toTitleCase(
+                vessels[trip.fiskeridirVesselId].fiskeridir.name ?? "Ukjent",
+              )}
+            </Typography>
+          </Stack>
+        </Stack>
+        {process.env.REACT_APP_ENV === "staging" ? (
+          <>
+            <ToggleButtonGroup
+              color="secondary"
+              orientation="vertical"
+              size="small"
+              value={aisToggle}
+              exclusive
+              onChange={(_, value) => {
+                if (value) {
+                  setAisToggle(value);
+                  dispatch(getTripTrack({ trip, identifier: value }));
+                }
+              }}
+            >
+              <ToggleButton
+                sx={{ height: 25 }}
+                value={TripTrackIdentifier.TripId}
               >
-                <ToggleButton value={TripTrackIdentifier.TripId}>
-                  TripId
-                </ToggleButton>
-                <ToggleButton value={TripTrackIdentifier.MmsiCallSign}>
-                  Mmsi/CallSign
-                </ToggleButton>
-              </ToggleButtonGroup>
-              <IconButton
-                sx={{ color: "text.secondary", borderRadius: 0 }}
-                edge="end"
-                onClick={() => {
-                  dispatch(setTripDetailsOpen(true));
-                  dispatch(
-                    getLandings({
-                      vessels: [vessels[trip.fiskeridirVesselId]],
-                    }),
-                  );
-                }}
+                TripId
+              </ToggleButton>
+              <ToggleButton
+                sx={{ height: 25 }}
+                value={TripTrackIdentifier.MmsiCallSign}
               >
-                <SettingsIcon />
-              </IconButton>
-            </>
-          ) : (
-            <></>
-          )}
-          <IconButton
-            onClick={() => {
-              dispatch(setSelectedTrip(undefined));
-              dispatch(resetTrackState());
+                Mmsi/CallSign
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <IconButton
+              sx={{ color: "text.secondary", borderRadius: 0 }}
+              edge="end"
+              onClick={() => {
+                dispatch(setTripDetailsOpen(true));
+                dispatch(
+                  getLandings({
+                    vessels: [vessels[trip.fiskeridirVesselId]],
+                  }),
+                );
+              }}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </>
+        ) : (
+          <></>
+        )}
+        <IconButton
+          onClick={() => {
+            dispatch(setSelectedTrip(undefined));
+            dispatch(resetTrackState());
 
-              if (selectedHaul) {
-                dispatch(getHaulTrack(selectedHaul));
-              }
-            }}
-          >
-            <CloseSharpIcon sx={{ color: "white" }} />
-          </IconButton>
-        </Box>
-      </Box>
+            if (selectedHaul) {
+              dispatch(getHaulTrack(selectedHaul));
+            }
+          }}
+        >
+          <CloseSharpIcon sx={{ color: "white" }} />
+        </IconButton>
+      </Stack>
       <Divider sx={{ bgcolor: "text.secondary", mb: 2, mx: 4 }} />
       <Box
         sx={{
@@ -192,7 +196,7 @@ export const TripsMenu: FC = () => {
         <Box sx={{ mb: 1 }}>
           <InfoItem>
             <SvgIcon sx={iconStyle}>
-              <WarehouseSharpIcon />
+              <DeliveryPointIcon width="20" height="20" x="2px" y="2px" />
             </SvgIcon>
             <Typography>
               {trip.deliveryPointIds.length
@@ -234,7 +238,7 @@ export const TripsMenu: FC = () => {
           {trip.hauls && (
             <InfoItem id={"haulPopperAnchor_"}>
               <SvgIcon sx={iconStyle}>
-                <FishIcon width="24" height="24" />
+                <FishLocationIcon width="24" height="22" />
               </SvgIcon>
               <Typography>{trip.hauls.length} hal</Typography>
             </InfoItem>

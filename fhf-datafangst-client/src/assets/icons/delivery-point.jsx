@@ -2,14 +2,16 @@ function DeliveryPointIcon(props) {
   const fill = props.fill || "currentColor";
   const width = props.width || 24;
   const height = props.height || 24;
+  const x = props.x || "0px";
+  const y = props.y || "0px";
 
   return (
     <svg
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
-      x="0px"
-      y="0px"
+      x={x}
+      y={y}
       width={width}
       height={height}
       viewBox="0 0 379.2 320.1"
