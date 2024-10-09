@@ -4,7 +4,6 @@ import CloseSharpIcon from "@mui/icons-material/CloseSharp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
-import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import SettingsIcon from "@mui/icons-material/Settings";
 import StickyNote2SharpIcon from "@mui/icons-material/StickyNote2Sharp";
@@ -20,6 +19,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import { FishIcon } from "assets/icons";
 import { CatchesTable, SecondaryMenuWrapper } from "components";
 import { TripAssemblerId } from "generated/openapi";
 import { FC, useState } from "react";
@@ -231,16 +231,14 @@ export const TripsMenu: FC = () => {
               {trip.numDeliveries === 1 ? "sluttseddel" : "sluttsedler"}
             </Typography>
           </InfoItem>
-
           {trip.hauls && (
             <InfoItem id={"haulPopperAnchor_"}>
               <SvgIcon sx={iconStyle}>
-                <LocationOnSharpIcon />
+                <FishIcon width="24" height="24" />
               </SvgIcon>
               <Typography>{trip.hauls.length} hal</Typography>
             </InfoItem>
           )}
-
           {fuel && viewState === MenuViewState.MyPage && (
             <InfoItem>
               <SvgIcon sx={iconStyle}>
