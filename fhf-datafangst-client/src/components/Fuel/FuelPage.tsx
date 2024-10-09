@@ -89,6 +89,7 @@ export const FuelPage: FC = () => {
               </StyledTableCell>
               <StyledTableCell component="th" scope="row">
                 <IconButton
+                  color="success"
                   disabled={newFuel === "" || newDate === undefined}
                   onClick={() => {
                     dispatch(
