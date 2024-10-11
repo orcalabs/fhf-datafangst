@@ -73,3 +73,8 @@ export const selectVesselsByLandingId = createSelector(
     return vesselsMap;
   },
 );
+
+export const selectVesselBenchmarks = createSelector(
+  selectAppState,
+  (state) => state.vesselBenchmarks,
+);
