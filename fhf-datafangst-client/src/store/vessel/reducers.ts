@@ -9,11 +9,11 @@ export const vesselBuilder = (
     .addCase(getVessels.fulfilled, (state, action) => {
       const vessels = action.payload;
       state.vessels = vessels;
-      state.vesselsByCallsign = {};
+      state.vesselsByCallSign = {};
       state.vesselsByFiskeridirId = {};
       for (const vessel of vessels) {
         if (vessel.fiskeridir?.callSign) {
-          state.vesselsByCallsign[vessel.fiskeridir.callSign] = vessel;
+          state.vesselsByCallSign[vessel.fiskeridir.callSign] = vessel;
         }
 
         if (vessel.fiskeridir?.id) {

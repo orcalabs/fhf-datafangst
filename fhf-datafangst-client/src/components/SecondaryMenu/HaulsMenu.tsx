@@ -217,7 +217,7 @@ export const HaulsMenu: FC = () => {
               )}
               {item(TimerSharpIcon, createHaulDurationString(haul))}
               {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
-              {item(PhishingSharpIcon, gears[haul.gearId].name)}
+              {item(PhishingSharpIcon, gears[haul.gear].name)}
             </Box>
             <Typography
               sx={{
@@ -439,7 +439,7 @@ export const HaulsMenu: FC = () => {
                         haul,
                         index,
                         vessels[haul.haulId]?.fiskeridir?.name ??
-                          haul.vesselNameErs?.toUpperCase() ??
+                          haul.vesselName?.toUpperCase() ??
                           "Ukjent",
                         kilosOrTonsFormatter(sumCatches(haul.catches)) +
                           " - " +

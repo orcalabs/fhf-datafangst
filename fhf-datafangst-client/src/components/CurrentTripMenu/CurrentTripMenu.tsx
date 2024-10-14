@@ -49,7 +49,7 @@ export const CurrentTripMenu: FC = () => {
 
   const tripGears = Object.values(
     trip.hauls.reduce((tot: { [k in Gear]?: GearDetailed }, cur) => {
-      tot[cur.gearId] = gears[cur.gearId];
+      tot[cur.gear] = gears[cur.gear];
       return tot;
     }, {}),
   );

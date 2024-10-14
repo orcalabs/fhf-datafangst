@@ -8,13 +8,6 @@ export const getLandings = createAsyncThunk(
   Api.getLandings,
 );
 
-export const addLandings = createAsyncThunk(
-  "landing/addLandings",
-  Api.getLandings,
-);
-
-export const removeLandings = createAction<string[]>("landing/removeLandings");
-
 export const getLandingsMatrix = createAsyncThunk(
   "landing/getLandingsMatrix",
   Api.getLandingsMatrix,
@@ -23,6 +16,10 @@ export const getLandingsMatrix = createAsyncThunk(
 export const getLandingsMatrix2 = createAsyncThunk(
   "landing/getLandingsMatrix2",
   Api.getLandingsMatrix,
+);
+
+export const setLandingsSearch = createAction<LandingsArgs>(
+  "landing/setLandingsSearch",
 );
 
 export const setLandingsMatrixSearch = createAction<LandingsArgs>(

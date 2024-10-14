@@ -65,7 +65,7 @@ export const DetailedHaulPopover: FC<Props> = ({ haul }) => {
             )}
             {item(TimerSharpIcon, createHaulDurationString(haul))}
             {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
-            {item(PhishingSharpIcon, gears[haul.gearId].name)}
+            {item(PhishingSharpIcon, gears[haul.gear].name)}
           </Box>
 
           <Typography

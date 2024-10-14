@@ -1,17 +1,16 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { LandingsFilter } from "api";
-import { Landing } from "generated/openapi";
+import { Landing, LandingsSorting, Ordering } from "generated/openapi";
 import { AppState, emptyState } from "store/state";
 import {
-  addLandings,
   getLandings,
   getLandingsMatrix,
   getLandingsMatrix2,
-  removeLandings,
   setHoveredLandingFilter,
   setLandingDateSliderFrame,
   setLandingsMatrix2Search,
   setLandingsMatrixSearch,
+  setLandingsSearch,
   setSelectedLanding,
   setSelectedTripLanding,
 } from "./actions";
@@ -23,43 +22,14 @@ export const landingBuilder = (
     .addCase(getLandings.pending, (state, _) => {
       state.landingsLoading = true;
       state.landings = undefined;
+      state.selectedLanding = undefined;
     })
     .addCase(getLandings.fulfilled, (state, action) => {
-      state.landings = {};
-      for (const landing of action.payload) {
-        state.landings[landing.landingId] = landing;
-      }
+      state.landings = action.payload;
       state.landingsLoading = false;
     })
     .addCase(getLandings.rejected, (state, _) => {
       state.landingsLoading = false;
-    })
-    .addCase(addLandings.pending, (state, _) => {
-      state.landingsLoading = true;
-    })
-    .addCase(addLandings.fulfilled, (state, action) => {
-      const landings = { ...state.landings };
-      for (const landing of action.payload) {
-        landings[landing.landingId] = landing;
-      }
-      state.landings = landings;
-      state.landingsLoading = false;
-    })
-    .addCase(addLandings.rejected, (state, _) => {
-      state.landingsLoading = false;
-    })
-    .addCase(removeLandings, (state, action) => {
-      for (const key in state.landings) {
-        const landing = state.landings[key];
-
-        if (
-          landing.catchLocation &&
-          action.payload.includes(landing.catchLocation)
-        ) {
-          // eslint-disable-next-line
-          delete state.landings[landing.landingId];
-        }
-      }
     })
     .addCase(getLandingsMatrix.pending, (state, _) => {
       state.landingsMatrix = undefined;
@@ -100,6 +70,15 @@ export const landingBuilder = (
     .addCase(setHoveredLandingFilter, (state, action) => {
       state.hoveredLandingFilter = action.payload;
     })
+    .addCase(setLandingsSearch, (state, action) => {
+      (action as any).asyncDispatch(
+        getLandings({
+          ...state.landingsMatrix2Search,
+          ...action.payload,
+        }),
+      );
+      state.landingsSearch = action.payload;
+    })
     .addCase(setLandingsMatrixSearch, (state, action) => {
       if (
         action.payload.filter === undefined ||
@@ -133,22 +112,18 @@ export const landingBuilder = (
         (action as any).asyncDispatch(getLandingsMatrix2(action.payload));
       }
 
-      const cur = action.payload.catchLocations ?? [];
-      const prev = state.landingsMatrix2Search?.catchLocations ?? [];
-
-      if (cur.length < prev.length) {
-        const x = prev.filter((c) => !cur.includes(c));
-        (action as any).asyncDispatch(removeLandings(x));
-      } else if (cur.length > prev.length) {
-        const x = cur.filter((c) => !prev.includes(c));
-        (action as any).asyncDispatch(
-          addLandings({ ...action.payload, catchLocations: x }),
-        );
-      } else {
-        (action as any).asyncDispatch(getLandings(action.payload));
-      }
-
+      state.landingsSearch = {
+        sorting: LandingsSorting.LandingTimestamp,
+        ordering: Ordering.Desc,
+        limit: 10,
+        ...state.landingsSearch,
+        page: 0,
+      };
       state.landingsMatrix2Search = action.payload;
+
+      (action as any).asyncDispatch(
+        getLandings({ ...action.payload, ...state.landingsSearch }),
+      );
     })
     .addCase(setLandingDateSliderFrame, (state, action) => {
       state.landingDateSliderFrame = action.payload;

@@ -2,7 +2,7 @@ import { Vessel, VesselBenchmarks } from "generated/openapi";
 
 export interface VesselState {
   vessels?: Vessel[];
-  vesselsByCallsign?: Record<string, Vessel>;
+  vesselsByCallSign?: Record<string, Vessel>;
   vesselsByFiskeridirId?: Record<number, Vessel>;
   vesselBenchmarks?: VesselBenchmarks;
 }
@@ -10,6 +10,6 @@ export interface VesselState {
 export const initialVesselState: VesselState = {
   vessels: undefined,
   vesselsByFiskeridirId: undefined,
-  vesselsByCallsign: undefined,
+  vesselsByCallSign: undefined,
   vesselBenchmarks: undefined,
 };

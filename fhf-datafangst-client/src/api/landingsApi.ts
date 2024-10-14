@@ -31,6 +31,8 @@ export interface LandingsArgs {
   filter?: LandingsFilter;
   ordering?: Ordering;
   sorting?: LandingsSorting;
+  limit?: number;
+  page?: number;
 }
 
 const api = new V1landingApi(apiConfiguration, undefined, axiosInstance);
@@ -52,6 +54,11 @@ export const getLandings = async (query: LandingsArgs) =>
       vesselLengthGroups: query.vesselLengthGroups?.map((g) => g.id),
       ordering: query?.ordering ?? Ordering.Desc,
       sorting: query.sorting ?? LandingsSorting.LandingTimestamp,
+      limit: query.limit,
+      offset:
+        query.limit != undefined && query.page !== undefined
+          ? query.limit * query.page
+          : undefined,
     }),
   );
 

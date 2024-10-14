@@ -34,7 +34,7 @@ export const HaulPopover: FC<Props> = ({ haulId }) => {
             />
           </ListItemIcon>
           <ListItemText
-            primary={toTitleCase(haul.vesselName ?? haul.vesselNameErs)}
+            primary={toTitleCase(haul.vesselName)}
             secondary={
               <span>
                 {dateFormat(haul.startTimestamp, "d MMM p")} <br />
