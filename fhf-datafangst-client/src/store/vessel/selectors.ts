@@ -27,7 +27,7 @@ export const selectVesselsSorted = createSelector(selectVessels, (state) =>
 
 export const selectVesselsByCallsign = createSelector(
   selectAppState,
-  (state) => state.vesselsByCallsign ?? {},
+  (state) => state.vesselsByCallSign ?? {},
 );
 
 export const selectVesselsByFiskeridirId = createSelector(
@@ -46,7 +46,7 @@ export const selectVesselsByHaulId = createSelector(
         vesselsMap[haul.haulId] =
           vesselsByFiskeridirId[haul.fiskeridirVesselId];
       } else {
-        vesselsMap[haul.haulId] = vesselsByCallSign[haul.vesselCallSignErs];
+        vesselsMap[haul.haulId] = vesselsByCallSign[haul.callSign];
       }
     }
 

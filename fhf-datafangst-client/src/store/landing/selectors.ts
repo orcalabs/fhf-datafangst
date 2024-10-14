@@ -1,12 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { LandingsArgs, LandingsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
-import {
-  GearGroupDetailed,
-  LandingsSorting,
-  Ordering,
-  SpeciesGroupDetailed,
-} from "generated/openapi";
+import { GearGroupDetailed, SpeciesGroupDetailed } from "generated/openapi";
 import { LengthGroups } from "models";
 import { selectSelectedGridsString } from "store/fishmap";
 import { selectGearGroups } from "store/gear";
@@ -42,11 +37,6 @@ export const selectLandingsMatrix2Loading = createSelector(
   (state) => state.landingsMatrix2Loading,
 );
 
-export const selectLandingsSearch = createSelector(
-  selectAppState,
-  (state) => state.landingsSearch,
-);
-
 export const selectLandingsMatrixSearch = createSelector(
   selectAppState,
   (state) => state.landingsMatrixSearch,
@@ -57,54 +47,16 @@ export const selectLandingsMatrix2Search = createSelector(
   (state) => state.landingsMatrix2Search,
 );
 
-export const selectLandings = createSelector(
+export const selectLandingsSearch = createSelector(
   selectAppState,
-  (state) => state.landings ?? {},
+  selectLandingsMatrix2Search,
+  (state, matrixSearch) => ({ ...matrixSearch, ...state.landingsSearch }),
 );
 
-export const selectLandingsSorted = (
-  sorting: LandingsSorting,
-  ordering: Ordering,
-) =>
-  createSelector(selectLandings, (state) => {
-    const values = Object.values(state);
-
-    if (!values.length) {
-      return values;
-    }
-
-    if (
-      ordering === Ordering.Desc &&
-      sorting === LandingsSorting.LandingTimestamp
-    ) {
-      return values.sort(
-        (a, b) =>
-          new Date(b.landingTimestamp).getTime() -
-          new Date(a.landingTimestamp).getTime(),
-      );
-    } else if (
-      ordering === Ordering.Asc &&
-      sorting === LandingsSorting.LandingTimestamp
-    ) {
-      return values.sort(
-        (a, b) =>
-          new Date(a.landingTimestamp).getTime() -
-          new Date(b.landingTimestamp).getTime(),
-      );
-    } else if (
-      ordering === Ordering.Desc &&
-      sorting === LandingsSorting.LivingWeight
-    ) {
-      return values.sort((a, b) => b.totalLivingWeight - a.totalLivingWeight);
-    } else if (
-      ordering === Ordering.Asc &&
-      sorting === LandingsSorting.LivingWeight
-    ) {
-      return values.sort((a, b) => a.totalLivingWeight - b.totalLivingWeight);
-    }
-
-    return values;
-  });
+export const selectLandings = createSelector(
+  selectAppState,
+  (state) => state.landings ?? [],
+);
 
 export const selectLandingsMatrix = createSelector(
   selectAppState,

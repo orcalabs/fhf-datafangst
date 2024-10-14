@@ -3,7 +3,7 @@ import { getMonth, getYear } from "date-fns";
 import { Landing, LandingMatrix } from "generated/openapi";
 
 export interface LandingState {
-  landings?: Record<string, Landing>;
+  landings?: Landing[];
   landingsMatrix?: LandingMatrix;
   landingsMatrix2?: LandingMatrix;
   landingsLoading: boolean;

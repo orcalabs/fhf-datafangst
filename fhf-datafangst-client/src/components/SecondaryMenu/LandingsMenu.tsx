@@ -23,7 +23,7 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { LandingsFilter } from "api";
+import { LandingsArgs, LandingsFilter } from "api";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
 import {
@@ -35,23 +35,23 @@ import { GearFilter } from "components/Filters/GearFilter";
 import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
 import { SpeciesFilter } from "components/Filters/SpeciesFilter";
 import { Landing, LandingsSorting, Ordering } from "generated/openapi";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import {
   getLandingTrip,
   selectGearsMap,
   selectLandingGearFilterGridStats,
+  selectLandings,
   selectLandingsLoading,
   selectLandingsMatrix2Loading,
-  selectLandingsMatrix2Search,
   selectLandingSpeciesFilterGridStats,
-  selectLandingsSorted,
+  selectLandingsSearch,
   selectLandingVesselLengthFilterGridStats,
   selectSecondaryMenuOpen,
-  selectSelectedGrids,
   selectSelectedLanding,
   selectVesselsByLandingId,
   setHoveredLandingFilter,
   setLandingsMatrix2Search,
+  setLandingsSearch,
   setSelectedLanding,
   useAppDispatch,
   useAppSelector,
@@ -83,24 +83,14 @@ const accordionSx = {
 
 export const LandingsMenu: FC = () => {
   const dispatch = useAppDispatch();
+
   const open = useAppSelector(selectSecondaryMenuOpen);
   const vessels = useAppSelector(selectVesselsByLandingId);
   const gears = useAppSelector(selectGearsMap);
-  const [sortOrder, setSortOrder] = useState<[LandingsSorting, Ordering]>([
-    LandingsSorting.LandingTimestamp,
-    Ordering.Desc,
-  ]);
-  // Memoize selector so we dont perform sorting on landings each time component re-renders.
-  const selector = useMemo(
-    () => selectLandingsSorted(sortOrder[0], sortOrder[1]),
-    [sortOrder],
-  );
-  const landingsMap = useAppSelector(selector);
-  const landings = Object.values(landingsMap);
+  const landings = useAppSelector(selectLandings);
   const landingsLoading = useAppSelector(selectLandingsLoading);
   const selectedLanding = useAppSelector(selectSelectedLanding);
-  const selectedGrids = useAppSelector(selectSelectedGrids);
-  const landingsSearch = useAppSelector(selectLandingsMatrix2Search);
+  const landingsSearch = useAppSelector(selectLandingsSearch);
   const matrixLoading = useAppSelector(selectLandingsMatrix2Loading);
   const gearStats = useAppSelector(selectLandingGearFilterGridStats);
   const speciesStats = useAppSelector(selectLandingSpeciesFilterGridStats);
@@ -112,34 +102,26 @@ export const LandingsMenu: FC = () => {
   const [sortButtonAnchorEl, setSortButtonAnchorEl] =
     useState<null | HTMLElement>(null);
 
-  // Pagination state
-  const [landingsPerPage, setLandingsPerPage] = useState<number>(10);
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const currentLandings = landings.slice(
-    currentPage * landingsPerPage,
-    currentPage * landingsPerPage + landingsPerPage,
-  );
-
-  const handleSortChange = (sortOrdering: [LandingsSorting, Ordering]) => {
-    setSortOrder(sortOrdering);
-    dispatch(setSelectedLanding(undefined));
-    setCurrentPage(0);
+  const updateSearch = (update: Partial<LandingsArgs>) => {
+    dispatch(
+      setLandingsSearch({
+        ...landingsSearch,
+        ...update,
+      }),
+    );
   };
+
+  const handleSortChange = (sortOrdering: [LandingsSorting, Ordering]) =>
+    updateSearch({ sorting: sortOrdering[0], ordering: sortOrdering[1] });
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    dispatch(setSelectedLanding(undefined));
-    setCurrentPage(newPage);
-  };
+    page: number,
+  ) => updateSearch({ page });
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setLandingsPerPage(parseInt(event.target.value, 10));
-    setCurrentPage(0);
-  };
+  ) => updateSearch({ limit: +event.target.value, page: 0 });
 
   const handleLandingChange = (landing: Landing) => {
     const newLanding =
@@ -149,24 +131,6 @@ export const LandingsMenu: FC = () => {
 
   const onFilterHover = (filter: LandingsFilter) =>
     dispatch(setHoveredLandingFilter(filter));
-
-  // Change current page when Landing is selected from map click
-  useEffect(() => {
-    if (selectedLanding) {
-      const selectedIndex = landings.findIndex(
-        (val) => val.landingId === selectedLanding?.landingId,
-      );
-
-      if (selectedIndex !== -1) {
-        setCurrentPage(Math.floor(selectedIndex / landingsPerPage));
-      }
-    }
-  }, [selectedLanding]);
-
-  // Reset pagination on new grid selection
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [selectedGrids]);
 
   const listItem = (
     landing: Landing,
@@ -261,7 +225,11 @@ export const LandingsMenu: FC = () => {
   );
 
   const radioControl = (label: string, value: [LandingsSorting, Ordering]) => (
-    <FormControlLabel label={label} value={value} control={<Radio />} />
+    <FormControlLabel
+      label={label}
+      value={`${value[0]},${value[1]}`}
+      control={<Radio />}
+    />
   );
 
   const sortButton = (
@@ -298,7 +266,11 @@ export const LandingsMenu: FC = () => {
             <RadioGroup
               defaultValue="female"
               name="radio-sorting"
-              value={sortOrder.join(" ")}
+              value={
+                landingsSearch.sorting && landingsSearch.ordering
+                  ? `${landingsSearch.sorting},${landingsSearch.ordering}`
+                  : undefined
+              }
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 handleSortChange(
                   (event.target as HTMLInputElement).value.split(",") as [
@@ -424,10 +396,11 @@ export const LandingsMenu: FC = () => {
                       },
                     }}
                     component="div"
+                    // TODO: wait for backend to provide total length
                     count={landings.length}
-                    page={currentPage}
+                    page={landingsSearch.page ?? 0}
                     onPageChange={handleChangePage}
-                    rowsPerPage={landingsPerPage}
+                    rowsPerPage={landingsSearch.limit ?? 10}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     labelRowsPerPage={sortButton}
                     padding="normal"
@@ -442,7 +415,7 @@ export const LandingsMenu: FC = () => {
                   <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
                 ) : (
                   <Box sx={{ pt: 1 }}>
-                    {currentLandings?.map((landing, index) =>
+                    {landings?.map((landing, index) =>
                       listItem(
                         landing,
                         index,

@@ -49,8 +49,8 @@ export const trackBuilder = (
     .addCase(getHaulTrack, (state, action) => {
       const haul = action.payload;
 
-      if (haul && state.vesselsByCallsign) {
-        const vessel = state.vesselsByCallsign[haul.vesselCallSignErs];
+      if (haul && state.vesselsByCallSign) {
+        const vessel = state.vesselsByCallSign[haul.callSign];
 
         if (vessel) {
           (action as any).asyncDispatch(

@@ -15,12 +15,12 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Landing, LandingsSorting, Ordering } from "generated/openapi";
+import { Landing } from "generated/openapi";
 import { EventType } from "models";
 import { FC, forwardRef } from "react";
 import { TableComponents, TableVirtuoso } from "react-virtuoso";
 import {
-  selectLandingsSorted,
+  selectLandings,
   selectSelectedTrip,
   setTripDetailsOpen,
   useAppDispatch,
@@ -67,9 +67,7 @@ const VirtuosoTableComponents: TableComponents<Landing> = {
 export const TripDetails: FC = () => {
   const dispatch = useAppDispatch();
   const trip = useAppSelector(selectSelectedTrip);
-  const landings = useAppSelector(
-    selectLandingsSorted(LandingsSorting.LandingTimestamp, Ordering.Desc),
-  );
+  const landings = useAppSelector(selectLandings);
 
   const fixedHeaderContent = () => {
     return (

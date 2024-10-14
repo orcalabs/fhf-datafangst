@@ -8,7 +8,7 @@ import {
 import chartsTheme from "app/chartsTheme";
 import theme from "app/theme";
 import ReactEChart from "echarts-for-react";
-import { Delivery, SpeciesFiskeridir, Trip, TripHaul } from "generated/openapi";
+import { Delivery, Haul, SpeciesFiskeridir, Trip } from "generated/openapi";
 import { FC } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
@@ -24,10 +24,10 @@ import {
 } from "store";
 import { kilosOrTonsFormatter } from "utils";
 
-const sumObjectValues = (hauls: (TripHaul | Delivery)[]) => {
+const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};
   for (const h of hauls) {
-    for (const c of (h as TripHaul).catches ?? (h as Delivery).delivered) {
+    for (const c of (h as Haul).catches ?? (h as Delivery).delivered) {
       res[c.speciesFiskeridirId] =
         (res[c.speciesFiskeridirId] ?? 0) + c.livingWeight;
     }

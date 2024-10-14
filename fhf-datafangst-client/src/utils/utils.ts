@@ -12,7 +12,6 @@ import {
   GearGroupDetailed,
   Haul,
   RegisterVesselOwner,
-  TripHaul,
   Vessel,
 } from "generated/openapi";
 import { Catch, CatchWeightType } from "models";
@@ -197,7 +196,7 @@ export const createOwnersListString = (owners: RegisterVesselOwner[]) =>
   owners.map((g) => toTitleCase(g.name)).join(", ");
 
 export const reduceHaulsCatches = (
-  hauls: (Haul | TripHaul)[] | undefined,
+  hauls: Haul[] | undefined,
 ): Record<number, Catch> =>
   hauls?.reduce((tot: Record<number, Catch>, cur) => {
     for (const c of cur.catches) {

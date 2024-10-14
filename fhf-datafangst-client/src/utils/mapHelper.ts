@@ -11,7 +11,6 @@ import {
   FishingFacility,
   FishingFacilityToolType,
   Haul,
-  TripHaul,
   TripPositionLayerId,
 } from "generated/openapi";
 import Feature, { FeatureLike } from "ol/Feature";
@@ -608,7 +607,7 @@ export const tripHaulStyle = (
 
 /* Generates map markers for Hauls in a Trip */
 export const generateTripHaulsVector = (
-  hauls: (Haul | TripHaul)[],
+  hauls: Haul[],
   zoomLevel: number | undefined,
   selectedTripHaul?: Haul,
 ) => {
