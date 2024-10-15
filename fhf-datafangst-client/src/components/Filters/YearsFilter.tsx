@@ -33,16 +33,21 @@ export const YearsFilter: FC<Props> = (props) => {
       <Autocomplete
         sx={{
           "& .MuiAutocomplete-inputRoot": {
+            "& .MuiAutocomplete-input": {
+              minWidth: 0,
+              p: "2px 0px 3px 0px !important",
+            },
             color: "text.secondary",
             input: {
               fontStyle: "italic",
+              cursor: "pointer",
               "&::placeholder": {
                 opacity: 1,
                 pl: "2px",
               },
             },
           },
-          "& .MuiInputBase-root": { pb: "6px" },
+          "& .MuiInputBase-root": { pb: "6px", cursor: "default" },
           "& .MuiIconButton-root": { color: "text.secondary" },
           "& .MuiChip-filled": {
             color: "black",
@@ -68,6 +73,7 @@ export const YearsFilter: FC<Props> = (props) => {
             {...params}
             variant="standard"
             placeholder={values?.length ? undefined : "Alle"}
+            inputProps={{ ...params.inputProps, readOnly: true }}
           />
         )}
         renderOption={(props, option, { selected }) => (
