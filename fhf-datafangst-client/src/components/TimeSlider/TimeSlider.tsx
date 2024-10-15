@@ -1,5 +1,6 @@
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { Box, Button, Slider, Typography } from "@mui/material";
+import { HaulsFilter, LandingsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { isFuture } from "date-fns";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -7,21 +8,33 @@ import { Months } from "utils";
 
 const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
 
+interface Options {
+  years?: number[];
+  months?: number[];
+  filter?: HaulsFilter | LandingsFilter;
+}
+
 interface Props {
-  options?: { years?: number[]; months?: number[]; filter?: string };
+  disabled: boolean;
+  options?: Options;
   minYear: number;
   onValueChange: (date: Date) => void;
   onOpenChange: (open: boolean) => void;
 }
 
-export const TimeSlider: FC<Props> = (props: Props) => {
-  const options = props.options;
+export const TimeSlider: FC<Props> = ({
+  disabled,
+  options,
+  minYear,
+  onValueChange,
+  onOpenChange,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const selectedDates = useMemo(() => {
     const years = options?.years?.length
       ? options?.years
-      : getAllYearsArray(props.minYear);
+      : getAllYearsArray(minYear);
 
     const months = options?.months?.length ? options?.months : allMonths;
 
@@ -42,18 +55,18 @@ export const TimeSlider: FC<Props> = (props: Props) => {
   }, [options?.years, options?.months]);
 
   useEffect(() => {
-    if (options?.filter !== "date") {
+    if (options?.filter !== HaulsFilter.Date) {
       setOpen(false);
     }
   }, [options?.filter]);
 
   const handleSliderChange = (idx: number) => {
-    props.onValueChange(selectedDates[idx]);
+    onValueChange(selectedDates[idx]);
   };
 
   const handleOpenSlider = () => {
     setOpen(!open);
-    props.onOpenChange(!open);
+    onOpenChange(!open);
 
     if (!open) {
       handleSliderChange(0);
@@ -92,6 +105,10 @@ export const TimeSlider: FC<Props> = (props: Props) => {
     const month = selectedDates[idx].getMonth() + 1;
     return Months[month];
   };
+
+  if (disabled) {
+    return <></>;
+  }
 
   return (
     <>

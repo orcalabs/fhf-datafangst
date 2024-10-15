@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { LandingsFilter } from "api";
+import { LandingsArgs, LandingsFilter } from "api";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 import { Vessel } from "generated/openapi";
 import { FC } from "react";
@@ -40,6 +40,10 @@ export const LandingFilters: FC<Props> = (props) => {
   const onFilterHover = (filter: LandingsFilter) =>
     dispatch(setHoveredLandingFilter(filter));
 
+  const setSearch = (update: Partial<LandingsArgs>) => {
+    dispatch(setLandingsMatrixSearch({ ...landingsSearch, ...update }));
+  };
+
   return (
     <>
       <Box
@@ -61,21 +65,13 @@ export const LandingFilters: FC<Props> = (props) => {
             <YearsFilter
               value={landingsSearch?.years}
               minYear={MinLandingYear}
-              onChange={(value) =>
-                dispatch(
-                  setLandingsMatrixSearch({ ...landingsSearch, years: value }),
-                )
-              }
+              onChange={(value) => setSearch({ years: value })}
             />
           </Box>
           <Box sx={{ width: "100%" }}>
             <MonthsFilter
               value={landingsSearch?.months}
-              onChange={(value) =>
-                dispatch(
-                  setLandingsMatrixSearch({ ...landingsSearch, months: value }),
-                )
-              }
+              onChange={(value) => setSearch({ months: value })}
             />
           </Box>
         </Box>
@@ -90,14 +86,7 @@ export const LandingFilters: FC<Props> = (props) => {
             <GearFilter
               value={landingsSearch?.gearGroupIds}
               stats={gearStats}
-              onChange={(value) =>
-                dispatch(
-                  setLandingsMatrixSearch({
-                    ...landingsSearch,
-                    gearGroupIds: value,
-                  }),
-                )
-              }
+              onChange={(value) => setSearch({ gearGroupIds: value })}
               removeIfSingleEntry={removeSingleEntryFilters}
             />
           </Box>
@@ -105,28 +94,14 @@ export const LandingFilters: FC<Props> = (props) => {
             <SpeciesFilter
               value={landingsSearch?.speciesGroupIds}
               stats={speciesStats}
-              onChange={(value) =>
-                dispatch(
-                  setLandingsMatrixSearch({
-                    ...landingsSearch,
-                    speciesGroupIds: value,
-                  }),
-                )
-              }
+              onChange={(value) => setSearch({ speciesGroupIds: value })}
             />
           </Box>
           <Box onMouseEnter={() => onFilterHover(LandingsFilter.VesselLength)}>
             <LengthGroupFilter
               value={landingsSearch?.vesselLengthGroups}
               stats={lengthGroupStats}
-              onChange={(value) =>
-                dispatch(
-                  setLandingsMatrixSearch({
-                    ...landingsSearch,
-                    vesselLengthGroups: value,
-                  }),
-                )
-              }
+              onChange={(value) => setSearch({ vesselLengthGroups: value })}
               removeIfSingleEntry={removeSingleEntryFilters}
             />
           </Box>
@@ -137,14 +112,7 @@ export const LandingFilters: FC<Props> = (props) => {
             >
               <VesselFilter
                 value={landingsSearch?.vessels}
-                onChange={(value) =>
-                  dispatch(
-                    setLandingsMatrixSearch({
-                      ...landingsSearch,
-                      vessels: value,
-                    }),
-                  )
-                }
+                onChange={(value) => setSearch({ vessels: value })}
                 useVirtualization
               />
             </Box>
