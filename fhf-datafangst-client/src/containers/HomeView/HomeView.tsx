@@ -245,42 +245,40 @@ export const HomeView: FC = () => {
           </Box>
         </HaulMenuArea>
         <TimeSliderArea open={secondaryMenuOpen}>
-          {showHaulTimeSlider && (
-            <TimeSlider
-              options={haulsSearch}
-              minYear={MinErsYear}
-              onValueChange={(date: Date) =>
-                dispatch(setHaulDateSliderFrame(date))
+          <TimeSlider
+            disabled={!showHaulTimeSlider}
+            options={haulsSearch}
+            minYear={MinErsYear}
+            onValueChange={(date: Date) =>
+              dispatch(setHaulDateSliderFrame(date))
+            }
+            onOpenChange={(open: boolean) => {
+              if (open) {
+                dispatch(setHoveredHaulFilter(HaulsFilter.Date));
+                dispatch(setHaulsMatrixSearch({ ...haulsSearch }));
+              } else {
+                dispatch(setHaulDateSliderFrame(undefined));
               }
-              onOpenChange={(open: boolean) => {
-                if (open) {
-                  dispatch(setHoveredHaulFilter(HaulsFilter.Date));
-                  dispatch(setHaulsMatrixSearch({ ...haulsSearch }));
-                } else {
-                  dispatch(setHaulDateSliderFrame(undefined));
-                }
-              }}
-            />
-          )}
+            }}
+          />
         </TimeSliderArea>
         <TimeSliderArea open={secondaryMenuOpen}>
-          {showLandingTimeSlider && (
-            <TimeSlider
-              options={landingsSearch}
-              minYear={MinLandingYear}
-              onValueChange={(date: Date) =>
-                dispatch(setLandingDateSliderFrame(date))
+          <TimeSlider
+            disabled={!showLandingTimeSlider}
+            options={landingsSearch}
+            minYear={MinLandingYear}
+            onValueChange={(date: Date) =>
+              dispatch(setLandingDateSliderFrame(date))
+            }
+            onOpenChange={(open: boolean) => {
+              if (open) {
+                dispatch(setHoveredLandingFilter(LandingsFilter.Date));
+                dispatch(setLandingsMatrixSearch({ ...landingsSearch }));
+              } else {
+                dispatch(setLandingDateSliderFrame(undefined));
               }
-              onOpenChange={(open: boolean) => {
-                if (open) {
-                  dispatch(setHoveredLandingFilter(LandingsFilter.Date));
-                  dispatch(setLandingsMatrixSearch({ ...landingsSearch }));
-                } else {
-                  dispatch(setLandingDateSliderFrame(undefined));
-                }
-              }}
-            />
-          )}
+            }}
+          />
         </TimeSliderArea>
         <MapAttributionsArea open={secondaryMenuOpen}>
           <MapControls />

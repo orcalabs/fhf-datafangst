@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { HaulsFilter } from "api";
+import { HaulsArgs, HaulsFilter } from "api";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 import { Vessel } from "generated/openapi";
 import { FC } from "react";
@@ -40,6 +40,10 @@ export const HaulFilters: FC<Props> = (props) => {
   const onFilterHover = (filter: HaulsFilter) =>
     dispatch(setHoveredHaulFilter(filter));
 
+  const setSearch = (update: Partial<HaulsArgs>) => {
+    dispatch(setHaulsMatrixSearch({ ...haulsSearch, ...update }));
+  };
+
   return (
     <>
       <Box
@@ -61,19 +65,13 @@ export const HaulFilters: FC<Props> = (props) => {
             <YearsFilter
               value={haulsSearch?.years}
               minYear={MinErsYear}
-              onChange={(value) =>
-                dispatch(setHaulsMatrixSearch({ ...haulsSearch, years: value }))
-              }
+              onChange={(value) => setSearch({ years: value })}
             />
           </Box>
           <Box sx={{ width: "100%" }}>
             <MonthsFilter
               value={haulsSearch?.months}
-              onChange={(value) =>
-                dispatch(
-                  setHaulsMatrixSearch({ ...haulsSearch, months: value }),
-                )
-              }
+              onChange={(value) => setSearch({ months: value })}
             />
           </Box>
         </Box>
@@ -88,11 +86,7 @@ export const HaulFilters: FC<Props> = (props) => {
             <GearFilter
               value={haulsSearch?.gearGroupIds}
               stats={gearStats}
-              onChange={(value) =>
-                dispatch(
-                  setHaulsMatrixSearch({ ...haulsSearch, gearGroupIds: value }),
-                )
-              }
+              onChange={(value) => setSearch({ gearGroupIds: value })}
               removeIfSingleEntry={removeSingleEntryFilters}
             />
           </Box>
@@ -100,28 +94,14 @@ export const HaulFilters: FC<Props> = (props) => {
             <SpeciesFilter
               value={haulsSearch?.speciesGroupIds}
               stats={speciesStats}
-              onChange={(value) =>
-                dispatch(
-                  setHaulsMatrixSearch({
-                    ...haulsSearch,
-                    speciesGroupIds: value,
-                  }),
-                )
-              }
+              onChange={(value) => setSearch({ speciesGroupIds: value })}
             />
           </Box>
           <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
             <LengthGroupFilter
               value={haulsSearch?.vesselLengthGroups}
               stats={lengthGroupStats}
-              onChange={(value) =>
-                dispatch(
-                  setHaulsMatrixSearch({
-                    ...haulsSearch,
-                    vesselLengthGroups: value,
-                  }),
-                )
-              }
+              onChange={(value) => setSearch({ vesselLengthGroups: value })}
               removeIfSingleEntry={removeSingleEntryFilters}
             />
           </Box>
@@ -132,11 +112,7 @@ export const HaulFilters: FC<Props> = (props) => {
             >
               <VesselFilter
                 value={haulsSearch?.vessels}
-                onChange={(value) =>
-                  dispatch(
-                    setHaulsMatrixSearch({ ...haulsSearch, vessels: value }),
-                  )
-                }
+                onChange={(value) => setSearch({ vessels: value })}
                 useVirtualization
               />
             </Box>
