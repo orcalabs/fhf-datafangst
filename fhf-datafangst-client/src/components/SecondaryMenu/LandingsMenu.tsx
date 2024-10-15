@@ -396,13 +396,23 @@ export const LandingsMenu: FC = () => {
                       },
                     }}
                     component="div"
-                    // TODO: wait for backend to provide total length
-                    count={landings.length}
+                    count={-1}
                     page={landingsSearch.page ?? 0}
                     onPageChange={handleChangePage}
                     rowsPerPage={landingsSearch.limit ?? 10}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     labelRowsPerPage={sortButton}
+                    labelDisplayedRows={({ from, to }) =>
+                      `${from}–${from + Math.min(to - from, landings.length)}`
+                    }
+                    slotProps={{
+                      actions: {
+                        nextButton: {
+                          disabled:
+                            landings.length !== landingsSearch.limit ?? 10,
+                        },
+                      },
+                    }}
                     padding="normal"
                   />
                 </ListSubheader>
