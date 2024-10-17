@@ -548,31 +548,31 @@ export const generateVesselTrackVector = (
         flag = pos.det?.missingData ?? prunedBy;
       }
 
-      // Dynamically limit number of vessels drawn on track, relative to zoom level
-      // The math behind it is sort of hacky, but gives a nice output
       detailNumber++;
 
-      // Make sure we draw a vessel on each end of a line and always start and stop symbols.
+      // Dynamically limit number of vessel icons drawn on track, relative to zoom level.
+      // The math behind it is sort of hacky, but gives a nice output
+      // We make sure we draw a vessel on each end of a line and always start and stop symbols.
       if (
         zoomLevel &&
         lineVector.vector.getFeatures().length > 2 &&
         !(i === 0 || i === positions.length - 1)
       ) {
-        if (Math.round(zoomLevel) === 1 && detailNumber % 5) {
-          continue;
-        } else if (Math.round(zoomLevel) === 2 && detailNumber % 4) {
-          continue;
-        } else if (Math.round(zoomLevel) === 3 && detailNumber % 3) {
-          continue;
-        } else if (Math.round(zoomLevel) === 4 && detailNumber % 2) {
-          continue;
-        } else if (Math.round(zoomLevel) === 5 && detailNumber % 1) {
+        if (
+          (Math.round(zoomLevel) === 1 && detailNumber % 5) ||
+          (Math.round(zoomLevel) === 2 && detailNumber % 4) ||
+          (Math.round(zoomLevel) === 3 && detailNumber % 3) ||
+          (Math.round(zoomLevel) === 4 && detailNumber % 2) ||
+          (Math.round(zoomLevel) === 5 && detailNumber % 1)
+        ) {
+          line.appendCoordinate(fromLonLat(pos.lon, pos.lat));
           continue;
         }
       }
 
       lineVector.vector.addFeature(p);
     }
+    // Always append point to line, regardless of zoom level
     line.appendCoordinate(fromLonLat(pos.lon, pos.lat));
   }
   lineVector.vector.addFeature(lineFeature(line));
