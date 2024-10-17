@@ -134,5 +134,6 @@ const VesselFilterInner = memo(
   (prev, next) =>
     prev.props.value === next.props.value &&
     prev.viewState === next.viewState &&
-    prev.vessels === next.vessels,
+    prev.vessels === next.vessels &&
+    prev.props.onChange === next.props.onChange,
 );
