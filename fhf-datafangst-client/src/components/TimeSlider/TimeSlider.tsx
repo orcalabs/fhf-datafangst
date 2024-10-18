@@ -1,5 +1,7 @@
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-import { Box, Button, Slider, Typography } from "@mui/material";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Box, Button, IconButton, Slider, Typography } from "@mui/material";
 import { HaulsFilter, LandingsFilter } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { isFuture } from "date-fns";
@@ -30,6 +32,7 @@ export const TimeSlider: FC<Props> = ({
   onOpenChange,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [sliderValue, setSliderValue] = useState<number>(0);
 
   const selectedDates = useMemo(() => {
     const years = options?.years?.length
@@ -61,6 +64,15 @@ export const TimeSlider: FC<Props> = ({
   }, [options?.filter]);
 
   const handleSliderChange = (idx: number) => {
+    onValueChange(selectedDates[idx]);
+    setSliderValue(idx);
+  };
+
+  const handleSliderButtonClick = (idx: number) => {
+    if (idx < 0 || idx > selectedDates.length - 1) {
+      return;
+    }
+    setSliderValue(idx);
     onValueChange(selectedDates[idx]);
   };
 
@@ -119,15 +131,20 @@ export const TimeSlider: FC<Props> = ({
             zIndex: 2000,
             left: "50%",
             height: 40,
+            px: 1,
             bgcolor: "primary.light",
             color: "white",
-            width: 160,
+            width: 145,
             borderRadius: 0,
             border: 0,
-            justifyContent: "left",
+            justifyContent: "space-evenly",
             ":hover": {
               bgcolor: "primary.dark",
               borderRadius: 0,
+            },
+            "& .MuiButton-startIcon": {
+              mr: 0,
+              ml: -1,
             },
           },
           open && {
@@ -137,14 +154,15 @@ export const TimeSlider: FC<Props> = ({
           },
         ]}
         onClick={() => handleOpenSlider()}
+        startIcon={
+          <KeyboardDoubleArrowUpIcon
+            stroke="white"
+            width={10}
+            height={10}
+            fontSize="small"
+          />
+        }
       >
-        <KeyboardDoubleArrowUpIcon
-          stroke="white"
-          width={10}
-          height={10}
-          fontSize="small"
-          sx={{ mr: 2 }}
-        />
         <Typography>{open ? "Skjul tidslinje" : "Vis tidslinje"} </Typography>
       </Button>
       {open && (
@@ -154,7 +172,7 @@ export const TimeSlider: FC<Props> = ({
             position: "relative",
             display: "flex",
             zIndex: 99999,
-            px: 4,
+
             height: 60,
             bgcolor: "rgba(238, 238, 238, 0.6)",
             alignItems: "center",
@@ -186,7 +204,22 @@ export const TimeSlider: FC<Props> = ({
             },
           }}
         >
+          <IconButton
+            sx={{
+              borderRadius: 0,
+              mr: 2,
+              width: 60,
+              height: 60,
+              ":hover": {
+                bgcolor: "rgba(194, 199, 221, 0.8)",
+              },
+            }}
+            onClick={() => handleSliderButtonClick(sliderValue - 1)}
+          >
+            <NavigateBeforeIcon sx={{ color: "primary.light" }} />
+          </IconButton>
           <Slider
+            value={sliderValue}
             min={0}
             marks={createMarks()}
             max={selectedDates.length - 1}
@@ -195,6 +228,20 @@ export const TimeSlider: FC<Props> = ({
             valueLabelFormat={valueLabelFormat}
             onChange={(event: any) => handleSliderChange(event.target.value)}
           />
+          <IconButton
+            onClick={() => handleSliderButtonClick(sliderValue + 1)}
+            sx={{
+              borderRadius: 0,
+              ml: 2,
+              width: 60,
+              height: 60,
+              ":hover": {
+                bgcolor: "rgba(194, 199, 221, 0.8)",
+              },
+            }}
+          >
+            <NavigateNextIcon />
+          </IconButton>
         </Box>
       )}
     </>
