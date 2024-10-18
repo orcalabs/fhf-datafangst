@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { HaulsArgs, HaulsFilter } from "api";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 import { Vessel } from "generated/openapi";
@@ -46,9 +46,11 @@ export const HaulFilters: FC<Props> = (props) => {
 
   return (
     <>
-      <Box
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        onMouseEnter={() => onFilterHover(HaulsFilter.Date)}
         sx={{
-          width: "100%",
           "& .MuiButtonBase-root": {
             borderRadius: 0,
             "&:hover": {
@@ -57,27 +59,22 @@ export const HaulFilters: FC<Props> = (props) => {
           },
         }}
       >
-        <Box
-          sx={{ display: "flex", justifyContent: "space-between" }}
-          onMouseEnter={() => onFilterHover(HaulsFilter.Date)}
-        >
-          <Box sx={{ width: "100%" }}>
-            <YearsFilter
-              value={haulsSearch?.years}
-              minYear={MinErsYear}
-              onChange={(value) => setSearch({ years: value })}
-            />
-          </Box>
-          <Box sx={{ width: "100%" }}>
-            <MonthsFilter
-              value={haulsSearch?.months}
-              onChange={(value) => setSearch({ months: value })}
-            />
-          </Box>
+        <Box sx={{ width: "48%" }}>
+          <YearsFilter
+            value={haulsSearch?.years}
+            minYear={MinErsYear}
+            onChange={(value) => setSearch({ years: value })}
+          />
         </Box>
-      </Box>
+        <Box sx={{ width: "48%" }}>
+          <MonthsFilter
+            value={haulsSearch?.months}
+            onChange={(value) => setSearch({ months: value })}
+          />
+        </Box>
+      </Stack>
       {matrixLoading ? (
-        <Box sx={{ height: "50%", py: 5, pl: 2.5 }}>
+        <Box sx={{ py: 7, pl: 2.5 }}>
           <LocalLoadingProgress />
         </Box>
       ) : (
