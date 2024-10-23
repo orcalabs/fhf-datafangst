@@ -1908,6 +1908,12 @@ export interface Trip {
     'fiskeridirVesselId': number;
     /**
      * 
+     * @type {number}
+     * @memberof Trip
+     */
+    'fuelConsumption'?: number | null;
+    /**
+     * 
      * @type {Array<Gear>}
      * @memberof Trip
      */
