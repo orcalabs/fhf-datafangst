@@ -19,6 +19,7 @@ import { initialLandingState, LandingState } from "./landing/state";
 import { initialSpeciesState, SpeciesState } from "./species/state";
 import { initialTrackState, TrackState } from "./track/state";
 import { initialTripState, TripState } from "./trip/state";
+import { initialTripBenchmarkState, TripBenchmarkState } from "./tripBenchmark";
 import { initialUserState, UserState } from "./user/state";
 import { initialVesselState, VesselState } from "./vessel/state";
 import { initialVmsState, VmsState } from "./vms/state";
@@ -66,6 +67,7 @@ export interface AppState
     GearState,
     AisState,
     TripState,
+    TripBenchmarkState,
     VmsState,
     TrackState,
     FishingFacilityState,
@@ -110,6 +112,7 @@ export const initialAppState: AppState = {
   ...initialGearState,
   ...initialAisState,
   ...initialTripState,
+  ...initialTripBenchmarkState,
   ...initialVmsState,
   ...initialTrackState,
   ...initialFishingFacilitiesState,

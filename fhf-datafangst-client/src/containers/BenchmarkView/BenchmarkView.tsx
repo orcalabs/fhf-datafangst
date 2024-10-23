@@ -10,6 +10,7 @@ import {
   HistoricalCatches,
   LocalLoadingProgress,
   SpeciesHistogram,
+  TripBenchmarkPage,
 } from "components";
 import { HeaderButtonCell, HeaderTrack } from "containers";
 import { Ordering, TripSorting } from "generated/openapi";
@@ -208,6 +209,9 @@ export const BenchmarkView: FC = () => {
                 </Box>
               )}
             </>
+          )}
+          {menuSelection === DashboardViewState.Benchmark && (
+            <TripBenchmarkPage />
           )}
           {menuSelection === DashboardViewState.Follow && <FollowList />}
           {menuSelection === DashboardViewState.Fuel && <FuelPage />}

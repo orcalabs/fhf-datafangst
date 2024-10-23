@@ -2018,6 +2018,12 @@ export interface TripBenchmark {
      * @type {number}
      * @memberof TripBenchmark
      */
+    'fuelConsumption'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmark
+     */
     'id': number;
     /**
      * 
@@ -2030,7 +2036,19 @@ export interface TripBenchmark {
      * @type {number}
      * @memberof TripBenchmark
      */
-    'weightPerHour': number;
+    'weightPerDistance'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmark
+     */
+    'weightPerFuel'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmark
+     */
+    'weightPerHour'?: number | null;
 }
 /**
  * 
@@ -2040,10 +2058,34 @@ export interface TripBenchmark {
 export interface TripBenchmarks {
     /**
      * 
+     * @type {number}
+     * @memberof TripBenchmarks
+     */
+    'fuelConsumption'?: number | null;
+    /**
+     * 
      * @type {Array<TripBenchmark>}
      * @memberof TripBenchmarks
      */
     'trips': Array<TripBenchmark>;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmarks
+     */
+    'weightPerDistance'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmarks
+     */
+    'weightPerFuel'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmarks
+     */
+    'weightPerHour'?: number | null;
 }
 /**
  * 

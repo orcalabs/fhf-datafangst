@@ -58,5 +58,6 @@ export { HaulsMenu } from "./SecondaryMenu/HaulsMenu";
 export { LandingsMenu } from "./SecondaryMenu/LandingsMenu";
 export { SecondaryMenuWrapper } from "./SecondaryMenu/SecondaryMenuWrapper";
 export { TimeSlider } from "./TimeSlider/TimeSlider";
+export { TripBenchmarkPage } from "./TripBenchmark/TripBenchmarkPage";
 export { TripDetails } from "./TripDetails/TripDetails";
 export { TripsMenu } from "./TripsMenu/TripsMenu";

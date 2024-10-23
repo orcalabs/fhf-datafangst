@@ -24,6 +24,7 @@ import { speciesBuilder } from "./species";
 import { AppState, emptyState, initialAppState } from "./state";
 import { trackBuilder } from "./track";
 import { tripBuilder } from "./trip";
+import { tripBenchmarkBuilder } from "./tripBenchmark";
 import { getUser, userBuilder } from "./user";
 import { vesselBuilder } from "./vessel";
 import { vmsBuilder } from "./vms";
@@ -159,6 +160,7 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(gearBuilder)
     .extendBuilder(aisBuilder)
     .extendBuilder(tripBuilder)
+    .extendBuilder(tripBenchmarkBuilder)
     .extendBuilder(vmsBuilder)
     .extendBuilder(trackBuilder)
     .extendBuilder(fishingFacilityBuilder)

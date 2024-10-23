@@ -17,6 +17,7 @@ export * from "./state";
 export * from "./store";
 export * from "./track";
 export * from "./trip";
+export * from "./tripBenchmark";
 export * from "./user";
 export * from "./vessel";
 export * from "./vms";

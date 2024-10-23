@@ -6,6 +6,11 @@ export const selectError = createSelector(
   (state) => state.error,
 );
 
+export const selectAccessToken = createSelector(
+  selectAppState,
+  (state) => state.authUser?.access_token,
+);
+
 export const selectViewState = createSelector(
   selectAppState,
   (state) => state.viewState,
