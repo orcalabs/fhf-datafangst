@@ -39,7 +39,7 @@ const setCharAt = (str: string, index: number, chr: string) => {
   return str.substring(0, index) + chr + str.substring(index + 1);
 };
 
-type IntoDate = Date | number | string;
+export type IntoDate = Date | number | string;
 
 export const dateFormat = (d: IntoDate | undefined | null, f: string) =>
   d ? format(new Date(d), f, { locale: nb }) : "";

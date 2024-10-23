@@ -1,6 +1,7 @@
 import DashboardSharpIcon from "@mui/icons-material/DashboardSharp";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import PeopleSharpIcon from "@mui/icons-material/PeopleSharp";
+import ScaleIcon from "@mui/icons-material/Scale";
 import {
   Drawer,
   List,
@@ -24,6 +25,11 @@ const menuItems = [
     id: DashboardViewState.Overview,
     name: "Oversikt",
     icon: <DashboardSharpIcon />,
+  },
+  {
+    id: DashboardViewState.Benchmark,
+    name: "Benchmark",
+    icon: <ScaleIcon />,
   },
   {
     id: DashboardViewState.Follow,

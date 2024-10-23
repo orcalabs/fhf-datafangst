@@ -1,5 +1,6 @@
 export enum DashboardViewState {
   Overview = "overview",
+  Benchmark = "benchmark",
   Follow = "follow",
   Fuel = "fuel",
 }

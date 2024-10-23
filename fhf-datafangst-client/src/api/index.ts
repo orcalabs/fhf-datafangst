@@ -9,6 +9,7 @@ export * from "./haulsApi";
 export * from "./landingsApi";
 export * from "./speciesApi";
 export * from "./trackApi";
+export * from "./tripBenchmarkApi";
 export * from "./tripsApi";
 export * from "./userApi";
 export * from "./vesselsApi";

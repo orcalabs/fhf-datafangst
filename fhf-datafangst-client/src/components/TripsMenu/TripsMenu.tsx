@@ -243,6 +243,16 @@ export const TripsMenu: FC = () => {
               <Typography>{trip.hauls.length} hal</Typography>
             </InfoItem>
           )}
+          {trip.fuelConsumption && (
+            <InfoItem>
+              <SvgIcon sx={iconStyle}>
+                <LocalGasStationIcon />
+              </SvgIcon>
+              <Typography>
+                {kilosOrTonsFormatter(trip.fuelConsumption * 1_000)}
+              </Typography>
+            </InfoItem>
+          )}
           {fuel && viewState === MenuViewState.MyPage && (
             <InfoItem>
               <SvgIcon sx={iconStyle}>
