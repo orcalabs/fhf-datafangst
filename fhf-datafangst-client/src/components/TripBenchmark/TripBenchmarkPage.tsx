@@ -64,19 +64,23 @@ export const TripBenchmarkPage: FC = () => {
 
   return (
     <Stack sx={{ padding: 2, marginInline: "auto" }}>
-      <Card
-        variant="elevation"
-        sx={{ p: 2, bgcolor: "white", borderRadius: 2 }}
-      >
-        <DateFilter value={dateRange} onChange={setDateRange} />
-      </Card>
+      <Stack>
+        <Card
+          variant="elevation"
+          sx={{ p: 2, bgcolor: "white", borderRadius: 2 }}
+        >
+          <CardContent>
+            <DateFilter value={dateRange} onChange={setDateRange} />
+          </CardContent>
+        </Card>
+      </Stack>
 
       <Divider sx={{ my: 4 }} />
 
       {loading ? (
         <>Loading...</>
       ) : bench ? (
-        <>
+        <Stack>
           <Card variant="elevation" sx={{ bgcolor: "white", borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h3" sx={{ marginBottom: 2 }}>
@@ -90,22 +94,22 @@ export const TripBenchmarkPage: FC = () => {
               {bench.weightPerHour &&
                 benchmarkItem(
                   "Weigth per Hour",
-                  kilosOrTonsFormatter(bench.weightPerHour * 1000),
+                  kilosOrTonsFormatter(bench.weightPerHour),
                 )}
               {bench.weightPerDistance &&
                 benchmarkItem(
                   "Weigth per Distance",
-                  kilosOrTonsFormatter(bench.weightPerDistance * 1000),
+                  kilosOrTonsFormatter(bench.weightPerDistance),
+                )}
+              {bench.weightPerFuel &&
+                benchmarkItem(
+                  "Weight per Fuel",
+                  kilosOrTonsFormatter(bench.weightPerFuel),
                 )}
               {bench.fuelConsumption &&
                 benchmarkItem(
                   "Fuel Consumption",
                   kilosOrTonsFormatter(bench.fuelConsumption * 1000),
-                )}
-              {bench.weightPerFuel &&
-                benchmarkItem(
-                  "Weight per Fuel",
-                  kilosOrTonsFormatter(bench.weightPerFuel * 1000),
                 )}
             </CardContent>
           </Card>
@@ -115,7 +119,7 @@ export const TripBenchmarkPage: FC = () => {
           <Stack gap={2}>
             {bench?.trips.map((t) => <TripBenchmarkCard key={t.id} trip={t} />)}
           </Stack>
-        </>
+        </Stack>
       ) : (
         <>Error</>
       )}
@@ -141,22 +145,22 @@ const TripBenchmarkCard: FC<CardProps> = ({ trip }) => {
         {trip.weightPerHour &&
           benchmarkItem(
             "Weigth per Hour",
-            kilosOrTonsFormatter(trip.weightPerHour * 1000),
+            kilosOrTonsFormatter(trip.weightPerHour),
           )}
         {trip.weightPerDistance &&
           benchmarkItem(
             "Weigth per Distance",
-            kilosOrTonsFormatter(trip.weightPerDistance * 1000),
+            kilosOrTonsFormatter(trip.weightPerDistance),
+          )}
+        {trip.weightPerFuel &&
+          benchmarkItem(
+            "Weight per Fuel",
+            kilosOrTonsFormatter(trip.weightPerFuel),
           )}
         {trip.fuelConsumption &&
           benchmarkItem(
             "Fuel Consumption",
             kilosOrTonsFormatter(trip.fuelConsumption * 1000),
-          )}
-        {trip.weightPerFuel &&
-          benchmarkItem(
-            "Weight per Fuel",
-            kilosOrTonsFormatter(trip.weightPerFuel * 1000),
           )}
       </CardContent>
     </Card>
