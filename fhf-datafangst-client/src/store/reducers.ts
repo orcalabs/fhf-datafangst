@@ -70,6 +70,8 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         ...emptyState,
         viewState,
         haulsMatrix: undefined,
+        haulsMatrixSearch: undefined,
+        haulsMatrix2Search: undefined,
       };
     })
     .addCase(getBwProfile.fulfilled, (state, action) => {
