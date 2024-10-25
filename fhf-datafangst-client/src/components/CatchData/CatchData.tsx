@@ -6,6 +6,8 @@ import {
   initialHaulsMatrixSearch,
   initialLandingsMatrixSearch,
   MatrixToggle,
+  selectHaulsMatrixSearch,
+  selectLandingsMatrixSearch,
   selectMatrixToggle,
   setHaulsMatrixSearch,
   setLandingsMatrixSearch,
@@ -17,6 +19,8 @@ import {
 export const CatchData: FC = () => {
   const dispatch = useAppDispatch();
   const toggle = useAppSelector(selectMatrixToggle);
+  const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
+  const landingsSearch = useAppSelector(selectLandingsMatrixSearch);
 
   const onToggleChange = (_: any, value: MatrixToggle) => {
     if (value !== null) {
@@ -29,10 +33,14 @@ export const CatchData: FC = () => {
       toggle === MatrixToggle.Haul
         ? setHaulsMatrixSearch({
             ...initialHaulsMatrixSearch,
+            ...landingsSearch,
+            sorting: undefined,
             filter: undefined,
           })
         : setLandingsMatrixSearch({
             ...initialLandingsMatrixSearch,
+            ...haulsSearch,
+            sorting: undefined,
             filter: undefined,
           }),
     );
