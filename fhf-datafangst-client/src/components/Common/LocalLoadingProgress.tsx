@@ -1,7 +1,11 @@
 import { Box, CircularProgress } from "@mui/material";
 import { FC } from "react";
 
-export const LocalLoadingProgress: FC = () => {
+interface Props {
+  color?: string;
+}
+
+export const LocalLoadingProgress: FC<Props> = ({ color }) => {
   return (
     <Box
       sx={{
@@ -9,7 +13,7 @@ export const LocalLoadingProgress: FC = () => {
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
-        color: "white",
+        color: color ?? "white",
       }}
     >
       <CircularProgress color="inherit" disableShrink />
