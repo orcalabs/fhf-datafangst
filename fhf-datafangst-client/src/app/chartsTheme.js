@@ -196,7 +196,7 @@ const chartsTheme = {
     splitLine: {
       show: true,
       lineStyle: {
-        color: ["#001F3D"],
+        color: ["#e0e6f1"],
       },
     },
     splitArea: {
@@ -226,7 +226,7 @@ const chartsTheme = {
     splitLine: {
       show: true,
       lineStyle: {
-        color: ["#001F3D"],
+        color: ["#e0e6f1"],
       },
     },
     splitArea: {
@@ -286,7 +286,7 @@ const chartsTheme = {
     splitLine: {
       show: true,
       lineStyle: {
-        color: ["#001F3D"],
+        color: ["#e0e6f1"],
       },
     },
     splitArea: {
@@ -361,10 +361,10 @@ const chartsTheme = {
   visualMap: {
     color: ["#bf444c", "#d88273", "#f6efa6"],
   },
-  dataZoom: {
-    handleSize: "undefined%",
-    textStyle: {},
-  },
+  // dataZoom: {
+  //   handleSize: "undefined%",
+  //   textStyle: {},
+  // },
   markPoint: {
     label: {
       color: "#ffffff",
