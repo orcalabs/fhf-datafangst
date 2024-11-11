@@ -329,6 +329,37 @@ export interface AisVmsPositionDetails {
 /**
  * 
  * @export
+ * @interface AverageTripBenchmarks
+ */
+export interface AverageTripBenchmarks {
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageTripBenchmarks
+     */
+    'fuel_consumption'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageTripBenchmarks
+     */
+    'weight_per_distance'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageTripBenchmarks
+     */
+    'weight_per_fuel'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageTripBenchmarks
+     */
+    'weight_per_hour'?: number | null;
+}
+/**
+ * 
+ * @export
  * @interface Benchmark
  */
 export interface Benchmark {
@@ -582,6 +613,7 @@ export const ErrorDiscriminants = {
     InvalidJwt: 'InvalidJWT',
     ParseJwt: 'ParseJWT',
     JwtDecode: 'JWTDecode',
+    QueryPayload: 'QueryPayload',
     Unexpected: 'Unexpected'
 } as const;
 
@@ -3112,7 +3144,7 @@ export const V1fishingFacilityApiAxiosParamCreator = function (configuration?: C
          * 
          * @param {Array<number> | null} [mmsis] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
-         * @param {Array<string> | null} [toolTypes] 
+         * @param {Array<FishingFacilityToolType> | null} [toolTypes] 
          * @param {boolean | null} [active] 
          * @param {Array<string> | null} [setupRanges] 
          * @param {Array<string> | null} [removedRanges] 
@@ -3123,7 +3155,7 @@ export const V1fishingFacilityApiAxiosParamCreator = function (configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fishingFacilities: async (mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<string> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering | null, sorting?: FishingFacilitiesSorting | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fishingFacilities: async (mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<FishingFacilityToolType> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering | null, sorting?: FishingFacilitiesSorting | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/fishing_facilities`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3205,7 +3237,7 @@ export const V1fishingFacilityApiFp = function(configuration?: Configuration) {
          * 
          * @param {Array<number> | null} [mmsis] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
-         * @param {Array<string> | null} [toolTypes] 
+         * @param {Array<FishingFacilityToolType> | null} [toolTypes] 
          * @param {boolean | null} [active] 
          * @param {Array<string> | null} [setupRanges] 
          * @param {Array<string> | null} [removedRanges] 
@@ -3216,7 +3248,7 @@ export const V1fishingFacilityApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fishingFacilities(mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<string> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering | null, sorting?: FishingFacilitiesSorting | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingFacility>>> {
+        async fishingFacilities(mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<FishingFacilityToolType> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering | null, sorting?: FishingFacilitiesSorting | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingFacility>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fishingFacilities(mmsis, fiskeridirVesselIds, toolTypes, active, setupRanges, removedRanges, limit, offset, ordering, sorting, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['V1fishingFacilityApi.fishingFacilities']?.[localVarOperationServerIndex]?.url;
@@ -3266,10 +3298,10 @@ export interface V1fishingFacilityApiFishingFacilitiesRequest {
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<FishingFacilityToolType>}
      * @memberof V1fishingFacilityApiFishingFacilities
      */
-    readonly toolTypes?: Array<string> | null
+    readonly toolTypes?: Array<FishingFacilityToolType> | null
 
     /**
      * 
@@ -4408,18 +4440,18 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {Array<string> | null} [months] 
+         * @param {Array<string>} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {HaulsSorting | null} [sorting] 
          * @param {Ordering | null} [ordering] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        hauls: async (months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: HaulsSorting | null, ordering?: Ordering | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        hauls: async (months?: Array<string>, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: HaulsSorting | null, ordering?: Ordering | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/hauls`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4482,18 +4514,18 @@ export const V1haulApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {ActiveHaulsFilter} activeFilter 
-         * @param {Array<number> | null} [months] 
+         * @param {Array<number>} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {number | null} [bycatchPercentage] 
          * @param {boolean | null} [majoritySpeciesGroup] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        haulsMatrix: async (activeFilter: ActiveHaulsFilter, months?: Array<number> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, bycatchPercentage?: number | null, majoritySpeciesGroup?: boolean | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        haulsMatrix: async (activeFilter: ActiveHaulsFilter, months?: Array<number>, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, bycatchPercentage?: number | null, majoritySpeciesGroup?: boolean | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'activeFilter' is not null or undefined
             assertParamExists('haulsMatrix', 'activeFilter', activeFilter)
             const localVarPath = `/v1.0/hauls_matrix/{active_filter}`
@@ -4568,18 +4600,18 @@ export const V1haulApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {Array<string> | null} [months] 
+         * @param {Array<string>} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {HaulsSorting | null} [sorting] 
          * @param {Ordering | null} [ordering] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async hauls(months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: HaulsSorting | null, ordering?: Ordering | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
+        async hauls(months?: Array<string>, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: HaulsSorting | null, ordering?: Ordering | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.hauls(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, sorting, ordering, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['V1haulApi.hauls']?.[localVarOperationServerIndex]?.url;
@@ -4588,18 +4620,18 @@ export const V1haulApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {ActiveHaulsFilter} activeFilter 
-         * @param {Array<number> | null} [months] 
+         * @param {Array<number>} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {number | null} [bycatchPercentage] 
          * @param {boolean | null} [majoritySpeciesGroup] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async haulsMatrix(activeFilter: ActiveHaulsFilter, months?: Array<number> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, bycatchPercentage?: number | null, majoritySpeciesGroup?: boolean | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HaulsMatrix>> {
+        async haulsMatrix(activeFilter: ActiveHaulsFilter, months?: Array<number>, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, bycatchPercentage?: number | null, majoritySpeciesGroup?: boolean | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HaulsMatrix>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.haulsMatrix(activeFilter, months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, bycatchPercentage, majoritySpeciesGroup, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['V1haulApi.haulsMatrix']?.[localVarOperationServerIndex]?.url;
@@ -4647,7 +4679,7 @@ export interface V1haulApiHaulsRequest {
      * @type {Array<string>}
      * @memberof V1haulApiHauls
      */
-    readonly months?: Array<string> | null
+    readonly months?: Array<string>
 
     /**
      * 
@@ -4658,24 +4690,24 @@ export interface V1haulApiHaulsRequest {
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<GearGroup>}
      * @memberof V1haulApiHauls
      */
-    readonly gearGroupIds?: Array<string> | null
+    readonly gearGroupIds?: Array<GearGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<SpeciesGroup>}
      * @memberof V1haulApiHauls
      */
-    readonly speciesGroupIds?: Array<string> | null
+    readonly speciesGroupIds?: Array<SpeciesGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<VesselLengthGroup>}
      * @memberof V1haulApiHauls
      */
-    readonly vesselLengthGroups?: Array<string> | null
+    readonly vesselLengthGroups?: Array<VesselLengthGroup> | null
 
     /**
      * 
@@ -4717,7 +4749,7 @@ export interface V1haulApiHaulsMatrixRequest {
      * @type {Array<number>}
      * @memberof V1haulApiHaulsMatrix
      */
-    readonly months?: Array<number> | null
+    readonly months?: Array<number>
 
     /**
      * 
@@ -4728,24 +4760,24 @@ export interface V1haulApiHaulsMatrixRequest {
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<GearGroup>}
      * @memberof V1haulApiHaulsMatrix
      */
-    readonly gearGroupIds?: Array<string> | null
+    readonly gearGroupIds?: Array<GearGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<SpeciesGroup>}
      * @memberof V1haulApiHaulsMatrix
      */
-    readonly speciesGroupIds?: Array<string> | null
+    readonly speciesGroupIds?: Array<SpeciesGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<VesselLengthGroup>}
      * @memberof V1haulApiHaulsMatrix
      */
-    readonly vesselLengthGroups?: Array<string> | null
+    readonly vesselLengthGroups?: Array<VesselLengthGroup> | null
 
     /**
      * 
@@ -4810,16 +4842,16 @@ export const V1landingApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @param {ActiveLandingFilter} activeFilter 
-         * @param {Array<number> | null} [months] 
+         * @param {Array<number>} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        landingMatrix: async (activeFilter: ActiveLandingFilter, months?: Array<number> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        landingMatrix: async (activeFilter: ActiveLandingFilter, months?: Array<number>, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'activeFilter' is not null or undefined
             assertParamExists('landingMatrix', 'activeFilter', activeFilter)
             const localVarPath = `/v1.0/landing_matrix/{active_filter}`
@@ -4878,9 +4910,9 @@ export const V1landingApiAxiosParamCreator = function (configuration?: Configura
          * 
          * @param {Array<string> | null} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {LandingsSorting | null} [sorting] 
          * @param {Ordering | null} [ordering] 
@@ -4889,7 +4921,7 @@ export const V1landingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        landings: async (months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: LandingsSorting | null, ordering?: Ordering | null, limit?: number | null, offset?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        landings: async (months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: LandingsSorting | null, ordering?: Ordering | null, limit?: number | null, offset?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/landings`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4970,16 +5002,16 @@ export const V1landingApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {ActiveLandingFilter} activeFilter 
-         * @param {Array<number> | null} [months] 
+         * @param {Array<number>} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async landingMatrix(activeFilter: ActiveLandingFilter, months?: Array<number> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LandingMatrix>> {
+        async landingMatrix(activeFilter: ActiveLandingFilter, months?: Array<number>, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LandingMatrix>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.landingMatrix(activeFilter, months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['V1landingApi.landingMatrix']?.[localVarOperationServerIndex]?.url;
@@ -4989,9 +5021,9 @@ export const V1landingApiFp = function(configuration?: Configuration) {
          * 
          * @param {Array<string> | null} [months] 
          * @param {Array<string> | null} [catchLocations] 
-         * @param {Array<string> | null} [gearGroupIds] 
-         * @param {Array<string> | null} [speciesGroupIds] 
-         * @param {Array<string> | null} [vesselLengthGroups] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
+         * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {LandingsSorting | null} [sorting] 
          * @param {Ordering | null} [ordering] 
@@ -5000,7 +5032,7 @@ export const V1landingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async landings(months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<string> | null, speciesGroupIds?: Array<string> | null, vesselLengthGroups?: Array<string> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: LandingsSorting | null, ordering?: Ordering | null, limit?: number | null, offset?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Landing>>> {
+        async landings(months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: LandingsSorting | null, ordering?: Ordering | null, limit?: number | null, offset?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Landing>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.landings(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, sorting, ordering, limit, offset, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['V1landingApi.landings']?.[localVarOperationServerIndex]?.url;
@@ -5055,7 +5087,7 @@ export interface V1landingApiLandingMatrixRequest {
      * @type {Array<number>}
      * @memberof V1landingApiLandingMatrix
      */
-    readonly months?: Array<number> | null
+    readonly months?: Array<number>
 
     /**
      * 
@@ -5066,24 +5098,24 @@ export interface V1landingApiLandingMatrixRequest {
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<GearGroup>}
      * @memberof V1landingApiLandingMatrix
      */
-    readonly gearGroupIds?: Array<string> | null
+    readonly gearGroupIds?: Array<GearGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<SpeciesGroup>}
      * @memberof V1landingApiLandingMatrix
      */
-    readonly speciesGroupIds?: Array<string> | null
+    readonly speciesGroupIds?: Array<SpeciesGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<VesselLengthGroup>}
      * @memberof V1landingApiLandingMatrix
      */
-    readonly vesselLengthGroups?: Array<string> | null
+    readonly vesselLengthGroups?: Array<VesselLengthGroup> | null
 
     /**
      * 
@@ -5115,24 +5147,24 @@ export interface V1landingApiLandingsRequest {
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<GearGroup>}
      * @memberof V1landingApiLandings
      */
-    readonly gearGroupIds?: Array<string> | null
+    readonly gearGroupIds?: Array<GearGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<SpeciesGroup>}
      * @memberof V1landingApiLandings
      */
-    readonly speciesGroupIds?: Array<string> | null
+    readonly speciesGroupIds?: Array<SpeciesGroup> | null
 
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<VesselLengthGroup>}
      * @memberof V1landingApiLandings
      */
-    readonly vesselLengthGroups?: Array<string> | null
+    readonly vesselLengthGroups?: Array<VesselLengthGroup> | null
 
     /**
      * 
@@ -6113,6 +6145,67 @@ export const V1tripBenchmarkApiAxiosParamCreator = function (configuration?: Con
     return {
         /**
          * 
+         * @param {string} startDate 
+         * @param {string} endDate 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        average: async (startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'startDate' is not null or undefined
+            assertParamExists('average', 'startDate', startDate)
+            // verify required parameter 'endDate' is not null or undefined
+            assertParamExists('average', 'endDate', endDate)
+            const localVarPath = `/v1.0/trip_benchmarks/average`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+            if (gearGroups) {
+                localVarQueryParameter['gearGroups[]'] = gearGroups;
+            }
+
+            if (lengthGroup !== undefined) {
+                localVarQueryParameter['lengthGroup'] = lengthGroup;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string | null} [startDate] 
          * @param {string | null} [endDate] 
          * @param {Ordering | null} [ordering] 
@@ -6175,6 +6268,21 @@ export const V1tripBenchmarkApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {string} startDate 
+         * @param {string} endDate 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async average(startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageTripBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.average(startDate, endDate, gearGroups, lengthGroup, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['V1tripBenchmarkApi.average']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string | null} [startDate] 
          * @param {string | null} [endDate] 
          * @param {Ordering | null} [ordering] 
@@ -6199,6 +6307,15 @@ export const V1tripBenchmarkApiFactory = function (configuration?: Configuration
     return {
         /**
          * 
+         * @param {V1tripBenchmarkApiAverageRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        average(requestParameters: V1tripBenchmarkApiAverageRequest, options?: RawAxiosRequestConfig): AxiosPromise<AverageTripBenchmarks> {
+            return localVarFp.average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {V1tripBenchmarkApiTripBenchmarksRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6208,6 +6325,41 @@ export const V1tripBenchmarkApiFactory = function (configuration?: Configuration
         },
     };
 };
+
+/**
+ * Request parameters for average operation in V1tripBenchmarkApi.
+ * @export
+ * @interface V1tripBenchmarkApiAverageRequest
+ */
+export interface V1tripBenchmarkApiAverageRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripBenchmarkApiAverage
+     */
+    readonly startDate: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripBenchmarkApiAverage
+     */
+    readonly endDate: string
+
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof V1tripBenchmarkApiAverage
+     */
+    readonly gearGroups?: Array<GearGroup> | null
+
+    /**
+     * 
+     * @type {VesselLengthGroup}
+     * @memberof V1tripBenchmarkApiAverage
+     */
+    readonly lengthGroup?: VesselLengthGroup | null
+}
 
 /**
  * Request parameters for tripBenchmarks operation in V1tripBenchmarkApi.
@@ -6244,6 +6396,17 @@ export interface V1tripBenchmarkApiTripBenchmarksRequest {
  * @extends {BaseAPI}
  */
 export class V1tripBenchmarkApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1tripBenchmarkApiAverageRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripBenchmarkApi
+     */
+    public average(requestParameters: V1tripBenchmarkApiAverageRequest, options?: RawAxiosRequestConfig) {
+        return V1tripBenchmarkApiFp(this.configuration).average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {V1tripBenchmarkApiTripBenchmarksRequest} requestParameters Request parameters.
