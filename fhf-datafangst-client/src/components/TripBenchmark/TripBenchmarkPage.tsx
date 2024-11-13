@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import chartsTheme from "app/chartsTheme";
-import { fontStyle } from "app/theme";
+import theme, { fontStyle } from "app/theme";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 import {
   DateFilter,
@@ -25,9 +25,13 @@ import { endOfYear, startOfYear } from "date-fns";
 import ReactEChart from "echarts-for-react";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import {
+  getAverageTripBenchmarks,
   getTripBenchmarks,
+  selectAverageTripBenchmarks,
+  selectBwUserProfile,
   selectTripBenchmarks,
   selectTripBenchmarksLoading,
+  selectVesselsByCallsign,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -41,6 +45,11 @@ export const TripBenchmarkPage: FC = () => {
   const dispatch = useAppDispatch();
   const bench = useAppSelector(selectTripBenchmarks);
   const loading = useAppSelector(selectTripBenchmarksLoading);
+  const globalAvgFuelconsumption = useAppSelector(selectAverageTripBenchmarks);
+  const profile = useAppSelector(selectBwUserProfile);
+  const vesselInfo = profile?.vesselInfo;
+  const vessels = useAppSelector(selectVesselsByCallsign);
+  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
@@ -54,8 +63,20 @@ export const TripBenchmarkPage: FC = () => {
       getTripBenchmarks({
         start: dateRange?.start,
         end: dateRange?.end,
+        callSignOverride: vesselInfo?.ircs,
       }),
     );
+
+    if (dateRange?.start && dateRange?.end) {
+      dispatch(
+        getAverageTripBenchmarks({
+          startDate: dateRange.start,
+          endDate: dateRange.end,
+          gearGroups: vessel?.gearGroups,
+          lengthGroup: vessel?.fiskeridir.lengthGroupId,
+        }),
+      );
+    }
   }, [dateRange]);
 
   const totalDuration = useMemo(
@@ -113,25 +134,68 @@ export const TripBenchmarkPage: FC = () => {
       }, 0) / bench.trips.length
     : 0;
 
-  const generalChartOptions = {
-    grid: {
-      bottom: 80,
-    },
-    xAxis: {
-      type: "time",
-      name: "Dato",
-    },
-    // Removes name of series from tooltip
-    series: [{ type: "line", encode: { tooltip: [1] } }],
-    dataZoom: [
-      {
-        type: "inside",
+  const generalChartOptions = (
+    average: number | null | undefined,
+    markLineLabel?: string,
+  ) => {
+    return {
+      grid: {
+        bottom: 80,
       },
-      {
-        type: "slider",
-        labelFormatter: (value: Date, _: string) => dateFormat(value, "d/M/Y"),
+      xAxis: {
+        type: "time",
+        name: "Dato",
       },
-    ],
+      // Removes name of series from tooltip and add mark line for average
+      series: [
+        {
+          type: "line",
+          encode: { tooltip: [1] },
+          markLine: {
+            emphasis: {
+              disabled: true,
+            },
+            lineStyle: {
+              color: theme.palette.fourth.main,
+              type: "dashed",
+              width: 1.5,
+            },
+            label: {
+              formatter: (_: any) => markLineLabel,
+            },
+            data: average ? [{ yAxis: average }] : [],
+            symbol: "none",
+          },
+        },
+      ],
+      dataZoom: [
+        {
+          type: "inside",
+        },
+        {
+          type: "slider",
+          labelFormatter: (value: Date, _: string) =>
+            dateFormat(value, "d/M/Y"),
+        },
+      ],
+    };
+  };
+
+  const markLineLabelFormatter = (
+    value: number | null | undefined,
+    conversion?: "tonsToKilos" | "kilosToTons",
+  ) => {
+    if (!value) {
+      return "";
+    }
+
+    if (conversion === "tonsToKilos") {
+      return (value * 1000).toFixed(2);
+    } else if (conversion === "kilosToTons") {
+      return (value / 1000).toFixed(2);
+    } else {
+      return value.toFixed(2);
+    }
   };
 
   return (
@@ -193,7 +257,13 @@ export const TripBenchmarkPage: FC = () => {
               <ChartCard title="Drivstofforbruk">
                 <ReactEChart
                   option={{
-                    ...generalChartOptions,
+                    ...generalChartOptions(
+                      globalAvgFuelconsumption?.fuel_consumption,
+                      markLineLabelFormatter(
+                        globalAvgFuelconsumption?.fuel_consumption,
+                        avgFuelconsumption > 1 ? undefined : "tonsToKilos",
+                      ),
+                    ),
                     yAxis: {
                       type: "value",
                       name:
@@ -204,6 +274,11 @@ export const TripBenchmarkPage: FC = () => {
                         formatter: (fuel: number) =>
                           avgFuelconsumption > 1 ? fuel : fuel * 1000,
                       },
+                      max: (val: any) =>
+                        globalAvgFuelconsumption?.fuel_consumption &&
+                        globalAvgFuelconsumption.fuel_consumption > val.max
+                          ? Math.ceil(globalAvgFuelconsumption.fuel_consumption)
+                          : undefined,
                     },
                     dataset: {
                       dimensions: ["end", "fuelConsumption"],
@@ -226,7 +301,13 @@ export const TripBenchmarkPage: FC = () => {
               <ChartCard title="Fangstvekt per tonn drivstoff">
                 <ReactEChart
                   option={{
-                    ...generalChartOptions,
+                    ...generalChartOptions(
+                      globalAvgFuelconsumption?.weight_per_fuel,
+                      markLineLabelFormatter(
+                        globalAvgFuelconsumption?.weight_per_fuel,
+                        avgWeightPerFuel > 1000 ? "kilosToTons" : undefined,
+                      ),
+                    ),
                     yAxis: {
                       type: "value",
                       name:
@@ -237,6 +318,11 @@ export const TripBenchmarkPage: FC = () => {
                         formatter: (weight: number) =>
                           avgWeightPerFuel > 1000 ? weight / 1000 : weight,
                       },
+                      max: (val: any) =>
+                        globalAvgFuelconsumption?.weight_per_fuel &&
+                        globalAvgFuelconsumption.weight_per_fuel > val.max
+                          ? Math.ceil(globalAvgFuelconsumption.weight_per_fuel)
+                          : undefined,
                     },
                     dataset: {
                       dimensions: ["end", "weightPerFuel"],
@@ -260,7 +346,13 @@ export const TripBenchmarkPage: FC = () => {
               <ChartCard title="Fangstvekt per time">
                 <ReactEChart
                   option={{
-                    ...generalChartOptions,
+                    ...generalChartOptions(
+                      globalAvgFuelconsumption?.weight_per_hour,
+                      markLineLabelFormatter(
+                        globalAvgFuelconsumption?.weight_per_hour,
+                        avgWeightPerHour > 1000 ? "kilosToTons" : undefined,
+                      ),
+                    ),
                     yAxis: {
                       type: "value",
                       name:
@@ -271,6 +363,11 @@ export const TripBenchmarkPage: FC = () => {
                         formatter: (weight: number) =>
                           avgWeightPerHour > 1000 ? weight / 1000 : weight,
                       },
+                      max: (val: any) =>
+                        globalAvgFuelconsumption?.weight_per_hour &&
+                        globalAvgFuelconsumption.weight_per_hour > val.max
+                          ? Math.ceil(globalAvgFuelconsumption.weight_per_hour)
+                          : undefined,
                     },
                     dataset: {
                       dimensions: ["end", "weightPerHour"],
@@ -294,7 +391,13 @@ export const TripBenchmarkPage: FC = () => {
               <ChartCard title="Fangstvekt per distanse">
                 <ReactEChart
                   option={{
-                    ...generalChartOptions,
+                    ...generalChartOptions(
+                      globalAvgFuelconsumption?.weight_per_distance,
+                      markLineLabelFormatter(
+                        globalAvgFuelconsumption?.weight_per_distance,
+                        avgWeightPerDistance > 1000 ? "kilosToTons" : undefined,
+                      ),
+                    ),
 
                     yAxis: {
                       type: "value",
@@ -306,6 +409,13 @@ export const TripBenchmarkPage: FC = () => {
                         formatter: (weight: number) =>
                           avgWeightPerDistance > 1000 ? weight / 1000 : weight,
                       },
+                      max: (val: any) =>
+                        globalAvgFuelconsumption?.weight_per_distance &&
+                        globalAvgFuelconsumption.weight_per_distance > val.max
+                          ? Math.ceil(
+                              globalAvgFuelconsumption.weight_per_distance,
+                            )
+                          : undefined,
                     },
                     dataset: {
                       dimensions: ["end", "weightPerDistance"],
@@ -385,7 +495,7 @@ export const TripBenchmarkPage: FC = () => {
           )}
         </Stack>
       ) : (
-        <Typography variant="h4" fontStyle="italic">
+        <Typography variant="h6" fontStyle="italic">
           Finner ingen data for valgt tidsperiode
         </Typography>
       )}

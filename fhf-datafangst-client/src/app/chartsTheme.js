@@ -1,7 +1,7 @@
 const chartsTheme = {
   color: [
-    "#f9a976",
     "#e81f76",
+    "#f9a976",
     "#a6b1e1",
     "#fac858",
     "#73c0de",
