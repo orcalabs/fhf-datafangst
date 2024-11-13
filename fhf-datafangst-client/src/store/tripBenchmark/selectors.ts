@@ -10,3 +10,8 @@ export const selectTripBenchmarksLoading = createSelector(
   selectAppState,
   (state) => state.tripBenchmarksLoading,
 );
+
+export const selectAverageTripBenchmarks = createSelector(
+  selectAppState,
+  (state) => state.averageTripBenchmarks,
+);

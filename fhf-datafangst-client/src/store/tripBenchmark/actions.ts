@@ -5,3 +5,8 @@ export const getTripBenchmarks = createAsyncThunk(
   "tripBenchmark/getTripBenchmarks",
   Api.getTripBenchmarks,
 );
+
+export const getAverageTripBenchmarks = createAsyncThunk(
+  "tripBenchmarks/getAverageTripBenchmarks",
+  Api.getAverageTripBenchmarks,
+);

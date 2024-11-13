@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getTripBenchmarks } from "./actions";
+import { getAverageTripBenchmarks, getTripBenchmarks } from "./actions";
 
 export const tripBenchmarkBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -17,4 +17,7 @@ export const tripBenchmarkBuilder = (
     })
     .addCase(getTripBenchmarks.rejected, (state, _action) => {
       state.tripBenchmarksLoading = false;
+    })
+    .addCase(getAverageTripBenchmarks.fulfilled, (state, action) => {
+      state.averageTripBenchmarks = action.payload;
     });
