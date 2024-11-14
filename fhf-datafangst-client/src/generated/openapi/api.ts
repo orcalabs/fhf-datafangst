@@ -284,6 +284,12 @@ export interface AisVmsPosition {
      * @memberof AisVmsPosition
      */
     'timestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPosition
+     */
+    'tripCumulativeFuelConsumption'?: number | null;
 }
 
 
@@ -820,7 +826,8 @@ export const FishingFacilityToolType = {
     Sensorcable: 'Sensorcable',
     Unknown: 'Unknown',
     Seismic: 'Seismic',
-    Mooring: 'Mooring'
+    Mooring: 'Mooring',
+    PlannedCableLaying: 'PlannedCableLaying'
 } as const;
 
 export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeof FishingFacilityToolType];
