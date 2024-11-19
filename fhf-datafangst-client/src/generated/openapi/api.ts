@@ -289,6 +289,12 @@ export interface AisVmsPosition {
      * @type {number}
      * @memberof AisVmsPosition
      */
+    'tripCumulativeCargoWeight'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AisVmsPosition
+     */
     'tripCumulativeFuelConsumption'?: number | null;
 }
 
@@ -6213,6 +6219,116 @@ export const V1tripBenchmarkApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
+         * @summary Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} startDate 
+         * @param {string} endDate 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        averageEeoi: async (startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'startDate' is not null or undefined
+            assertParamExists('averageEeoi', 'startDate', startDate)
+            // verify required parameter 'endDate' is not null or undefined
+            assertParamExists('averageEeoi', 'endDate', endDate)
+            const localVarPath = `/v1.0/trip_benchmarks/average_eeoi`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+            if (gearGroups) {
+                localVarQueryParameter['gearGroups[]'] = gearGroups;
+            }
+
+            if (lengthGroup !== undefined) {
+                localVarQueryParameter['lengthGroup'] = lengthGroup;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        eeoi: async (startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip_benchmarks/eeoi`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string | null} [startDate] 
          * @param {string | null} [endDate] 
          * @param {Ordering | null} [ordering] 
@@ -6290,6 +6406,36 @@ export const V1tripBenchmarkApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} startDate 
+         * @param {string} endDate 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async averageEeoi(startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.averageEeoi(startDate, endDate, gearGroups, lengthGroup, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['V1tripBenchmarkApi.averageEeoi']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async eeoi(startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.eeoi(startDate, endDate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['V1tripBenchmarkApi.eeoi']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string | null} [startDate] 
          * @param {string | null} [endDate] 
          * @param {Ordering | null} [ordering] 
@@ -6320,6 +6466,26 @@ export const V1tripBenchmarkApiFactory = function (configuration?: Configuration
          */
         average(requestParameters: V1tripBenchmarkApiAverageRequest, options?: RawAxiosRequestConfig): AxiosPromise<AverageTripBenchmarks> {
             return localVarFp.average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {V1tripBenchmarkApiAverageEeoiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        averageEeoi(requestParameters: V1tripBenchmarkApiAverageEeoiRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.averageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {V1tripBenchmarkApiEeoiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        eeoi(requestParameters: V1tripBenchmarkApiEeoiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.eeoi(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6369,6 +6535,62 @@ export interface V1tripBenchmarkApiAverageRequest {
 }
 
 /**
+ * Request parameters for averageEeoi operation in V1tripBenchmarkApi.
+ * @export
+ * @interface V1tripBenchmarkApiAverageEeoiRequest
+ */
+export interface V1tripBenchmarkApiAverageEeoiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripBenchmarkApiAverageEeoi
+     */
+    readonly startDate: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripBenchmarkApiAverageEeoi
+     */
+    readonly endDate: string
+
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof V1tripBenchmarkApiAverageEeoi
+     */
+    readonly gearGroups?: Array<GearGroup> | null
+
+    /**
+     * 
+     * @type {VesselLengthGroup}
+     * @memberof V1tripBenchmarkApiAverageEeoi
+     */
+    readonly lengthGroup?: VesselLengthGroup | null
+}
+
+/**
+ * Request parameters for eeoi operation in V1tripBenchmarkApi.
+ * @export
+ * @interface V1tripBenchmarkApiEeoiRequest
+ */
+export interface V1tripBenchmarkApiEeoiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripBenchmarkApiEeoi
+     */
+    readonly startDate?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1tripBenchmarkApiEeoi
+     */
+    readonly endDate?: string | null
+}
+
+/**
  * Request parameters for tripBenchmarks operation in V1tripBenchmarkApi.
  * @export
  * @interface V1tripBenchmarkApiTripBenchmarksRequest
@@ -6412,6 +6634,30 @@ export class V1tripBenchmarkApi extends BaseAPI {
      */
     public average(requestParameters: V1tripBenchmarkApiAverageRequest, options?: RawAxiosRequestConfig) {
         return V1tripBenchmarkApiFp(this.configuration).average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+     * @param {V1tripBenchmarkApiAverageEeoiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripBenchmarkApi
+     */
+    public averageEeoi(requestParameters: V1tripBenchmarkApiAverageEeoiRequest, options?: RawAxiosRequestConfig) {
+        return V1tripBenchmarkApiFp(this.configuration).averageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+     * @param {V1tripBenchmarkApiEeoiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1tripBenchmarkApi
+     */
+    public eeoi(requestParameters: V1tripBenchmarkApiEeoiRequest = {}, options?: RawAxiosRequestConfig) {
+        return V1tripBenchmarkApiFp(this.configuration).eeoi(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

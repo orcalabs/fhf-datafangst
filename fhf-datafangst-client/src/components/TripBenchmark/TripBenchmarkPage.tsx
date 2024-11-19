@@ -25,10 +25,14 @@ import { endOfYear, startOfYear } from "date-fns";
 import ReactEChart from "echarts-for-react";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import {
+  getAverageEeoi,
   getAverageTripBenchmarks,
+  getEeoi,
   getTripBenchmarks,
+  selectAverageEeoi,
   selectAverageTripBenchmarks,
   selectBwUserProfile,
+  selectEeoi,
   selectTripBenchmarks,
   selectTripBenchmarksLoading,
   selectVesselsByCallsign,
@@ -50,6 +54,8 @@ export const TripBenchmarkPage: FC = () => {
   const vesselInfo = profile?.vesselInfo;
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const eeoi = useAppSelector(selectEeoi);
+  const averageEeoi = useAppSelector(selectAverageEeoi);
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
@@ -66,10 +72,25 @@ export const TripBenchmarkPage: FC = () => {
         callSignOverride: vesselInfo?.ircs,
       }),
     );
+    dispatch(
+      getEeoi({
+        start: dateRange?.start,
+        end: dateRange?.end,
+        callSignOverride: vesselInfo?.ircs,
+      }),
+    );
 
     if (dateRange?.start && dateRange?.end) {
       dispatch(
         getAverageTripBenchmarks({
+          startDate: dateRange.start,
+          endDate: dateRange.end,
+          gearGroups: vessel?.gearGroups,
+          lengthGroup: vessel?.fiskeridir.lengthGroupId,
+        }),
+      );
+      dispatch(
+        getAverageEeoi({
           startDate: dateRange.start,
           endDate: dateRange.end,
           gearGroups: vessel?.gearGroups,
@@ -226,6 +247,22 @@ export const TripBenchmarkPage: FC = () => {
               {duration(totalDuration!)}
 
               <Divider sx={{ my: 2 }} />
+
+              {eeoi && averageEeoi && (
+                <Stack gap={1} direction="row">
+                  <Typography>EEOI: </Typography>
+                  <Typography>
+                    <span
+                      style={{
+                        color: eeoi > averageEeoi ? "red" : "green",
+                      }}
+                    >
+                      {eeoi.toPrecision(3)}
+                    </span>{" "}
+                    (avg: {averageEeoi.toPrecision(3)})
+                  </Typography>
+                </Stack>
+              )}
 
               {bench.weightPerHour &&
                 benchmarkItem(
