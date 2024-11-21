@@ -21,7 +21,7 @@ import { gearBuilder } from "./gear";
 import { haulBuilder } from "./haul";
 import { landingBuilder } from "./landing";
 import { speciesBuilder } from "./species";
-import { AppState, emptyState, initialAppState } from "./state";
+import { AppState, emptyState, initialAppState, MatrixToggle } from "./state";
 import { trackBuilder } from "./track";
 import { tripBuilder } from "./trip";
 import { tripBenchmarkBuilder } from "./tripBenchmark";
@@ -72,6 +72,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         haulsMatrix: undefined,
         haulsMatrixSearch: undefined,
         haulsMatrix2Search: undefined,
+        matrixToggle: MatrixToggle.Haul,
       };
     })
     .addCase(getBwProfile.fulfilled, (state, action) => {
