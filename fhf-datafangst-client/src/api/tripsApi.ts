@@ -43,7 +43,7 @@ export const getTripFromHaul = async (haul: Haul) =>
 export const getTripFromLanding = async (landing: Landing) =>
   apiGet(async () =>
     api.tripOfLanding({
-      landingId: landing.landingId,
+      landingId: landing.id,
     }),
   );
 

@@ -295,9 +295,9 @@ export const TripBenchmarkPage: FC = () => {
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.fuel_consumption,
+                      globalAvgFuelconsumption?.fuelConsumption,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.fuel_consumption,
+                        globalAvgFuelconsumption?.fuelConsumption,
                         avgFuelconsumption > 1 ? undefined : "tonsToKilos",
                       ),
                     ),
@@ -312,9 +312,9 @@ export const TripBenchmarkPage: FC = () => {
                           avgFuelconsumption > 1 ? fuel : fuel * 1000,
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.fuel_consumption &&
-                        globalAvgFuelconsumption.fuel_consumption > val.max
-                          ? Math.ceil(globalAvgFuelconsumption.fuel_consumption)
+                        globalAvgFuelconsumption?.fuelConsumption &&
+                        globalAvgFuelconsumption.fuelConsumption > val.max
+                          ? Math.ceil(globalAvgFuelconsumption.fuelConsumption)
                           : undefined,
                     },
                     dataset: {
@@ -339,9 +339,9 @@ export const TripBenchmarkPage: FC = () => {
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.weight_per_fuel,
+                      globalAvgFuelconsumption?.weightPerFuel,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.weight_per_fuel,
+                        globalAvgFuelconsumption?.weightPerFuel,
                         avgWeightPerFuel > 1000 ? "kilosToTons" : undefined,
                       ),
                     ),
@@ -356,9 +356,9 @@ export const TripBenchmarkPage: FC = () => {
                           avgWeightPerFuel > 1000 ? weight / 1000 : weight,
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.weight_per_fuel &&
-                        globalAvgFuelconsumption.weight_per_fuel > val.max
-                          ? Math.ceil(globalAvgFuelconsumption.weight_per_fuel)
+                        globalAvgFuelconsumption?.weightPerFuel &&
+                        globalAvgFuelconsumption.weightPerFuel > val.max
+                          ? Math.ceil(globalAvgFuelconsumption.weightPerFuel)
                           : undefined,
                     },
                     dataset: {
@@ -384,9 +384,9 @@ export const TripBenchmarkPage: FC = () => {
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.weight_per_hour,
+                      globalAvgFuelconsumption?.weightPerHour,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.weight_per_hour,
+                        globalAvgFuelconsumption?.weightPerHour,
                         avgWeightPerHour > 1000 ? "kilosToTons" : undefined,
                       ),
                     ),
@@ -401,9 +401,9 @@ export const TripBenchmarkPage: FC = () => {
                           avgWeightPerHour > 1000 ? weight / 1000 : weight,
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.weight_per_hour &&
-                        globalAvgFuelconsumption.weight_per_hour > val.max
-                          ? Math.ceil(globalAvgFuelconsumption.weight_per_hour)
+                        globalAvgFuelconsumption?.weightPerHour &&
+                        globalAvgFuelconsumption.weightPerHour > val.max
+                          ? Math.ceil(globalAvgFuelconsumption.weightPerHour)
                           : undefined,
                     },
                     dataset: {
@@ -429,9 +429,9 @@ export const TripBenchmarkPage: FC = () => {
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.weight_per_distance,
+                      globalAvgFuelconsumption?.weightPerDistance,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.weight_per_distance,
+                        globalAvgFuelconsumption?.weightPerDistance,
                         avgWeightPerDistance > 1000 ? "kilosToTons" : undefined,
                       ),
                     ),
@@ -447,10 +447,10 @@ export const TripBenchmarkPage: FC = () => {
                           avgWeightPerDistance > 1000 ? weight / 1000 : weight,
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.weight_per_distance &&
-                        globalAvgFuelconsumption.weight_per_distance > val.max
+                        globalAvgFuelconsumption?.weightPerDistance &&
+                        globalAvgFuelconsumption.weightPerDistance > val.max
                           ? Math.ceil(
-                              globalAvgFuelconsumption.weight_per_distance,
+                              globalAvgFuelconsumption.weightPerDistance,
                             )
                           : undefined,
                     },

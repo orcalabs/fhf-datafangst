@@ -107,7 +107,7 @@ export const TripDetails: FC = () => {
         <StyledTableCell>{l.fiskeridirVesselId}</StyledTableCell>
         <StyledTableCell>{l.gearGroupId}</StyledTableCell>
         <StyledTableCell>{l.gearId}</StyledTableCell>
-        <StyledTableCell sx={{ width: 130 }}>{l.landingId}</StyledTableCell>
+        <StyledTableCell sx={{ width: 130 }}>{l.id}</StyledTableCell>
         <StyledTableCell>{l.totalGrossWeight.toFixed(2)}</StyledTableCell>
         <StyledTableCell>{l.totalLivingWeight.toFixed(2)}</StyledTableCell>
         <StyledTableCell>{l.totalProductWeight.toFixed(2)}</StyledTableCell>
