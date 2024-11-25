@@ -11,6 +11,7 @@ import {
   useAppSelector,
 } from "store";
 import {
+  generateCatchTransferVector,
   generateFishingFacilitiesVector,
   generateTripHaulsVector,
   generateVesselTrackVector,
@@ -32,6 +33,8 @@ export const TripsLayer: FC = () => {
   const [selectedHaulTrackVector, setSelectedHaulTrackVector] =
     useState<TravelVector[]>();
   const [fishingFacilityVector, setFishingFacilityVector] =
+    useState<VectorSource<Feature<Geometry>>>();
+  const [catchTransferVector, setCatchTransferVector] =
     useState<VectorSource<Feature<Geometry>>>();
 
   // Store map zoom level in state
@@ -55,6 +58,16 @@ export const TripsLayer: FC = () => {
       const fishingFacilityVec = generateFishingFacilitiesVector(
         trip.fishingFacilities,
       );
+
+      if ("tra" in trip) {
+        const catchTransferVec = generateCatchTransferVector(
+          trip.tra,
+          track,
+          zoom,
+        );
+
+        setCatchTransferVector(catchTransferVec);
+      }
 
       setTrackVectors(vec);
       setHaulsVector(haulsVec);
@@ -89,6 +102,7 @@ export const TripsLayer: FC = () => {
         zIndex={5}
         name="gearsLayer"
       />
+      <VectorLayer source={catchTransferVector} zIndex={8} />
     </>
   );
 };

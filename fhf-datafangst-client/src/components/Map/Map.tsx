@@ -5,8 +5,9 @@ import {
   HaulPopover,
   PositionPopover,
   ShorelinePopover,
+  TransferPopover,
 } from "components";
-import { AisVmsPosition, DeliveryPoint, Haul } from "generated/openapi";
+import { AisVmsPosition, DeliveryPoint, Haul, Tra } from "generated/openapi";
 import { Map as OLMap, MapBrowserEvent, View } from "ol";
 import { defaults, MousePosition, ScaleLine } from "ol/control";
 import { Coordinate, toStringHDMS } from "ol/coordinate";
@@ -54,6 +55,7 @@ export const Map: FC<Props> = (props) => {
   const [hoveredHaul, setHoveredHaul] = useState<Haul>();
   const [hoveredDeliveryPoint, setHoveredDeliveryPoint] =
     useState<DeliveryPoint>();
+  const [hoveredTransfer, setHoveredTransfer] = useState<Tra>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
@@ -72,6 +74,7 @@ export const Map: FC<Props> = (props) => {
     setHoveredFishingFacilityIdx(undefined);
     setHoveredHaul(undefined);
     setHoveredDeliveryPoint(undefined);
+    setHoveredTransfer(undefined);
   };
 
   useEffect(() => {
@@ -261,6 +264,7 @@ export const Map: FC<Props> = (props) => {
         const fishingFacilityIdx = feature.get("fishingFacilityIdx");
         const haul = feature.get("haul");
         const deliveryPoint = feature.get("deliveryPoint");
+        const transfer = feature.get("tra");
 
         if (aisPosition) {
           setHoveredPosition(aisPosition);
@@ -289,6 +293,10 @@ export const Map: FC<Props> = (props) => {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredDeliveryPoint(deliveryPoint);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+        } else if (transfer) {
+          mapState.map.getTargetElement().style.cursor = "pointer";
+          setHoveredTransfer(transfer);
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         }
       }
     });
@@ -300,7 +308,6 @@ export const Map: FC<Props> = (props) => {
     <>
       <Popover
         sx={{ pointerEvents: "none" }}
-        PaperProps={{ square: true }}
         open={open}
         elevation={5}
         disableRestoreFocus
@@ -325,6 +332,7 @@ export const Map: FC<Props> = (props) => {
           />
         )}
         {hoveredHaul && <DetailedHaulPopover haul={hoveredHaul} />}
+        {hoveredTransfer && <TransferPopover transfer={hoveredTransfer} />}
       </Popover>
       <Box id={"map"} sx={{ height: "100vh", width: "100%" }}>
         {children}
