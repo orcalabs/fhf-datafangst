@@ -62,11 +62,10 @@ export const selectVesselsByLandingId = createSelector(
     const vesselsMap: Record<string, Vessel> = {};
     for (const landing of Object.values(landings)) {
       if (landing.fiskeridirVesselId) {
-        vesselsMap[landing.landingId] =
+        vesselsMap[landing.id] =
           vesselsByFiskeridirId[landing.fiskeridirVesselId];
       } else if (landing.vesselCallSign) {
-        vesselsMap[landing.landingId] =
-          vesselsByCallSign[landing.vesselCallSign];
+        vesselsMap[landing.id] = vesselsByCallSign[landing.vesselCallSign];
       }
     }
 

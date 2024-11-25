@@ -349,25 +349,31 @@ export interface AverageTripBenchmarks {
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'fuel_consumption'?: number | null;
+    'catchValuePerFuel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'weight_per_distance'?: number | null;
+    'fuelConsumption'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'weight_per_fuel'?: number | null;
+    'weightPerDistance'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'weight_per_hour'?: number | null;
+    'weightPerFuel'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageTripBenchmarks
+     */
+    'weightPerHour'?: number | null;
 }
 /**
  * 
@@ -437,6 +443,12 @@ export interface Catch {
      * @memberof Catch
      */
     'livingWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Catch
+     */
+    'priceForFisher'?: number | null;
     /**
      * 
      * @type {Quality}
@@ -568,6 +580,12 @@ export interface Delivery {
      * @type {number}
      * @memberof Delivery
      */
+    'totalPriceForFisher'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Delivery
+     */
     'totalProductWeight': number;
 }
 /**
@@ -626,6 +644,7 @@ export const ErrorDiscriminants = {
     ParseJwt: 'ParseJWT',
     JwtDecode: 'JWTDecode',
     QueryPayload: 'QueryPayload',
+    UpdateVesselNotFound: 'UpdateVesselNotFound',
     Unexpected: 'Unexpected'
 } as const;
 
@@ -651,6 +670,20 @@ export interface ErrorResponse {
      */
     'error': ErrorDiscriminants;
 }
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ErsQuantumType = {
+    Kg: 'KG',
+    Ob: 'OB'
+} as const;
+
+export type ErsQuantumType = typeof ErsQuantumType[keyof typeof ErsQuantumType];
 
 
 /**
@@ -1445,7 +1478,7 @@ export interface Landing {
      * @type {string}
      * @memberof Landing
      */
-    'landingId': string;
+    'id': string;
     /**
      * 
      * @type {string}
@@ -1912,6 +1945,100 @@ export interface SpeciesMainGroupDetailed {
 /**
  * 
  * @export
+ * @interface Tra
+ */
+export interface Tra {
+    /**
+     * 
+     * @type {Array<TraCatch>}
+     * @memberof Tra
+     */
+    'catches': Array<TraCatch>;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tra
+     */
+    'fiskeridirVesselId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tra
+     */
+    'latitude'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tra
+     */
+    'longitude'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tra
+     */
+    'messageTimestamp': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tra
+     */
+    'reloadFromCallSign'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tra
+     */
+    'reloadFromFiskeridirVesselId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tra
+     */
+    'reloadToCallSign'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tra
+     */
+    'reloadToFiskeridirVesselId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tra
+     */
+    'reloadingTimestamp'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface TraCatch
+ */
+export interface TraCatch {
+    /**
+     * 
+     * @type {ErsQuantumType}
+     * @memberof TraCatch
+     */
+    'catchQuantum': ErsQuantumType;
+    /**
+     * 
+     * @type {number}
+     * @memberof TraCatch
+     */
+    'livingWeight': number;
+    /**
+     * 
+     * @type {SpeciesGroup}
+     * @memberof TraCatch
+     */
+    'speciesGroupId': SpeciesGroup;
+}
+
+
+/**
+ * 
+ * @export
  * @interface Trip
  */
 export interface Trip {
@@ -1927,6 +2054,12 @@ export interface Trip {
      * @memberof Trip
      */
     'deliveryPointIds': Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof Trip
+     */
+    'distance'?: number | null;
     /**
      * 
      * @type {string}
@@ -2031,6 +2164,12 @@ export interface Trip {
     'targetSpeciesFiskeridirId'?: number | null;
     /**
      * 
+     * @type {Array<Tra>}
+     * @memberof Trip
+     */
+    'tra': Array<Tra>;
+    /**
+     * 
      * @type {number}
      * @memberof Trip
      */
@@ -2070,6 +2209,12 @@ export type TripAssemblerId = typeof TripAssemblerId[keyof typeof TripAssemblerI
  * @interface TripBenchmark
  */
 export interface TripBenchmark {
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmark
+     */
+    'catchValuePerFuel'?: number | null;
     /**
      * 
      * @type {string}
@@ -2119,6 +2264,12 @@ export interface TripBenchmark {
  * @interface TripBenchmarks
  */
 export interface TripBenchmarks {
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmarks
+     */
+    'catchValuePerFuel'?: number | null;
     /**
      * 
      * @type {number}
@@ -2179,6 +2330,25 @@ export const TripSorting = {
 export type TripSorting = typeof TripSorting[keyof typeof TripSorting];
 
 
+/**
+ * 
+ * @export
+ * @interface UpdateVessel
+ */
+export interface UpdateVessel {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'engineBuildingYear'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'enginePower'?: number | null;
+}
 /**
  * 
  * @export
@@ -2450,6 +2620,12 @@ export interface Weather {
      * @memberof Weather
      */
     'timestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Weather
+     */
+    'weatherLocationId': number;
     /**
      * 
      * @type {number}
@@ -6162,10 +6338,11 @@ export const V1tripBenchmarkApiAxiosParamCreator = function (configuration?: Con
          * @param {string} endDate 
          * @param {Array<GearGroup> | null} [gearGroups] 
          * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        average: async (startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        average: async (startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'startDate' is not null or undefined
             assertParamExists('average', 'startDate', startDate)
             // verify required parameter 'endDate' is not null or undefined
@@ -6206,6 +6383,10 @@ export const V1tripBenchmarkApiAxiosParamCreator = function (configuration?: Con
                 localVarQueryParameter['lengthGroup'] = lengthGroup;
             }
 
+            if (vesselIds) {
+                localVarQueryParameter['vesselIds[]'] = vesselIds;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6224,10 +6405,11 @@ export const V1tripBenchmarkApiAxiosParamCreator = function (configuration?: Con
          * @param {string} endDate 
          * @param {Array<GearGroup> | null} [gearGroups] 
          * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        averageEeoi: async (startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        averageEeoi: async (startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'startDate' is not null or undefined
             assertParamExists('averageEeoi', 'startDate', startDate)
             // verify required parameter 'endDate' is not null or undefined
@@ -6266,6 +6448,10 @@ export const V1tripBenchmarkApiAxiosParamCreator = function (configuration?: Con
 
             if (lengthGroup !== undefined) {
                 localVarQueryParameter['lengthGroup'] = lengthGroup;
+            }
+
+            if (vesselIds) {
+                localVarQueryParameter['vesselIds[]'] = vesselIds;
             }
 
 
@@ -6395,11 +6581,12 @@ export const V1tripBenchmarkApiFp = function(configuration?: Configuration) {
          * @param {string} endDate 
          * @param {Array<GearGroup> | null} [gearGroups] 
          * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async average(startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageTripBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.average(startDate, endDate, gearGroups, lengthGroup, options);
+        async average(startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageTripBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.average(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['V1tripBenchmarkApi.average']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -6411,11 +6598,12 @@ export const V1tripBenchmarkApiFp = function(configuration?: Configuration) {
          * @param {string} endDate 
          * @param {Array<GearGroup> | null} [gearGroups] 
          * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async averageEeoi(startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.averageEeoi(startDate, endDate, gearGroups, lengthGroup, options);
+        async averageEeoi(startDate: string, endDate: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.averageEeoi(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['V1tripBenchmarkApi.averageEeoi']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -6465,7 +6653,7 @@ export const V1tripBenchmarkApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         average(requestParameters: V1tripBenchmarkApiAverageRequest, options?: RawAxiosRequestConfig): AxiosPromise<AverageTripBenchmarks> {
-            return localVarFp.average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(axios, basePath));
+            return localVarFp.average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6475,7 +6663,7 @@ export const V1tripBenchmarkApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         averageEeoi(requestParameters: V1tripBenchmarkApiAverageEeoiRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.averageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(axios, basePath));
+            return localVarFp.averageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6532,6 +6720,13 @@ export interface V1tripBenchmarkApiAverageRequest {
      * @memberof V1tripBenchmarkApiAverage
      */
     readonly lengthGroup?: VesselLengthGroup | null
+
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof V1tripBenchmarkApiAverage
+     */
+    readonly vesselIds?: Array<number> | null
 }
 
 /**
@@ -6567,6 +6762,13 @@ export interface V1tripBenchmarkApiAverageEeoiRequest {
      * @memberof V1tripBenchmarkApiAverageEeoi
      */
     readonly lengthGroup?: VesselLengthGroup | null
+
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof V1tripBenchmarkApiAverageEeoi
+     */
+    readonly vesselIds?: Array<number> | null
 }
 
 /**
@@ -6633,7 +6835,7 @@ export class V1tripBenchmarkApi extends BaseAPI {
      * @memberof V1tripBenchmarkApi
      */
     public average(requestParameters: V1tripBenchmarkApiAverageRequest, options?: RawAxiosRequestConfig) {
-        return V1tripBenchmarkApiFp(this.configuration).average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(this.axios, this.basePath));
+        return V1tripBenchmarkApiFp(this.configuration).average(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6645,7 +6847,7 @@ export class V1tripBenchmarkApi extends BaseAPI {
      * @memberof V1tripBenchmarkApi
      */
     public averageEeoi(requestParameters: V1tripBenchmarkApiAverageEeoiRequest, options?: RawAxiosRequestConfig) {
-        return V1tripBenchmarkApiFp(this.configuration).averageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, options).then((request) => request(this.axios, this.basePath));
+        return V1tripBenchmarkApiFp(this.configuration).averageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6868,6 +7070,45 @@ export const V1vesselApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
+         * @param {UpdateVessel} updateVessel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateVessel: async (updateVessel: UpdateVessel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateVessel' is not null or undefined
+            assertParamExists('updateVessel', 'updateVessel', updateVessel)
+            const localVarPath = `/v1.0/vessels`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateVessel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6944,6 +7185,18 @@ export const V1vesselApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {UpdateVessel} updateVessel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateVessel(updateVessel: UpdateVessel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Vessel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateVessel(updateVessel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['V1vesselApi.updateVessel']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6976,6 +7229,15 @@ export const V1vesselApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
+         * @param {V1vesselApiUpdateVesselRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateVessel(requestParameters: V1vesselApiUpdateVesselRequest, options?: RawAxiosRequestConfig): AxiosPromise<Vessel> {
+            return localVarFp.updateVessel(requestParameters.updateVessel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6994,12 +7256,37 @@ export const V1vesselApiFactory = function (configuration?: Configuration, baseP
 };
 
 /**
+ * Request parameters for updateVessel operation in V1vesselApi.
+ * @export
+ * @interface V1vesselApiUpdateVesselRequest
+ */
+export interface V1vesselApiUpdateVesselRequest {
+    /**
+     * 
+     * @type {UpdateVessel}
+     * @memberof V1vesselApiUpdateVessel
+     */
+    readonly updateVessel: UpdateVessel
+}
+
+/**
  * V1vesselApi - object-oriented interface
  * @export
  * @class V1vesselApi
  * @extends {BaseAPI}
  */
 export class V1vesselApi extends BaseAPI {
+    /**
+     * 
+     * @param {V1vesselApiUpdateVesselRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1vesselApi
+     */
+    public updateVessel(requestParameters: V1vesselApiUpdateVesselRequest, options?: RawAxiosRequestConfig) {
+        return V1vesselApiFp(this.configuration).updateVessel(requestParameters.updateVessel, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.

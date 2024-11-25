@@ -98,7 +98,7 @@ export const LandingsMenu: FC = () => {
     selectLandingVesselLengthFilterGridStats,
   );
 
-  const selectedLandingId = selectedLanding?.landingId;
+  const selectedLandingId = selectedLanding?.id;
   const [sortButtonAnchorEl, setSortButtonAnchorEl] =
     useState<null | HTMLElement>(null);
 
@@ -124,8 +124,7 @@ export const LandingsMenu: FC = () => {
   ) => updateSearch({ limit: +event.target.value, page: 0 });
 
   const handleLandingChange = (landing: Landing) => {
-    const newLanding =
-      landing.landingId === selectedLandingId ? undefined : landing;
+    const newLanding = landing.id === selectedLandingId ? undefined : landing;
     dispatch(setSelectedLanding(newLanding));
   };
 
@@ -146,7 +145,7 @@ export const LandingsMenu: FC = () => {
         disableGutters
         key={key}
         sx={accordionSx}
-        expanded={landing.landingId === selectedLandingId}
+        expanded={landing.id === selectedLandingId}
         onChange={() => handleLandingChange(landing)}
       >
         <AccordionSummary>
@@ -166,7 +165,7 @@ export const LandingsMenu: FC = () => {
           <ListItemText primary={primary} secondary={secondary} />
         </AccordionSummary>
         <AccordionDetails sx={{ pb: 0 }}>
-          {landing.landingId === selectedLandingId && (
+          {landing.id === selectedLandingId && (
             <Box sx={{ py: 1 }}>
               <Box
                 sx={{
@@ -429,7 +428,7 @@ export const LandingsMenu: FC = () => {
                       listItem(
                         landing,
                         index,
-                        vessels[landing.landingId]?.fiskeridir?.name ??
+                        vessels[landing.id]?.fiskeridir?.name ??
                           landing.vesselName ??
                           "Ukjent",
                         kilosOrTonsFormatter(landing.totalLivingWeight) +
