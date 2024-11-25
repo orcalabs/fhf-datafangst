@@ -2,6 +2,7 @@ import theme from "app/theme";
 import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
 import shoreline from "assets/geojson/shoreline.json";
 import deliveryPointIcon from "assets/icons/delivery-point-map.svg";
+import transferIcon from "assets/icons/swap-24.svg";
 import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
 import ColorScale from "color-scales";
@@ -11,6 +12,7 @@ import {
   FishingFacility,
   FishingFacilityToolType,
   Haul,
+  Tra,
   TripPositionLayerId,
 } from "generated/openapi";
 import Feature, { FeatureLike } from "ol/Feature";
@@ -282,6 +284,58 @@ export const generateFishingFacilitiesVector = (
     vector.addFeature(feature);
   }
 
+  return vector;
+};
+
+export const findCoordFromTime = (
+  track: AisVmsPosition[],
+  timestamp: string,
+) => {
+  let prev = track[0];
+
+  for (const pos of track) {
+    const prevTs = new Date(prev.timestamp);
+    const trackTs = new Date(pos.timestamp);
+    const findTs = new Date(timestamp);
+    if (
+      trackTs.getTime() > findTs.getTime() &&
+      prevTs.getTime() <= findTs.getTime()
+    ) {
+      return prev;
+    }
+    prev = pos;
+  }
+  return undefined;
+};
+
+export const generateCatchTransferVector = (
+  traEvents?: Tra[],
+  track?: AisVmsPosition[],
+  zoom?: number,
+) => {
+  const vector = new VectorSource();
+
+  if (!traEvents?.length || !track?.length) {
+    return vector;
+  }
+
+  for (const event of traEvents) {
+    const pos = findCoordFromTime(
+      track,
+      event.reloadingTimestamp ?? event.messageTimestamp,
+    );
+
+    if (pos) {
+      const feat = new Feature({
+        geometry: new Point(fromLonLat(pos.lon, pos.lat)),
+        tra: event,
+      });
+
+      feat.setStyle(transferPointStyle(zoom));
+
+      vector.addFeature(feat);
+    }
+  }
   return vector;
 };
 
@@ -638,6 +692,23 @@ export const deliveryPointStyle = (iconSize: number) => {
       anchor: [0.5, 0.5],
       scale: iconSize,
       src: deliveryPointIcon,
+    }),
+    zIndex: 500,
+  });
+};
+
+const transferPointStyle = (zoom?: number) => {
+  let iconSize = zoom ? zoom * 0.08 : 0.7;
+  if (iconSize > 0.7) {
+    iconSize = 0.7;
+  }
+
+  return new Style({
+    image: new Icon({
+      opacity: 1,
+      anchor: [0.5, 0.5],
+      scale: iconSize,
+      src: transferIcon,
     }),
     zIndex: 500,
   });

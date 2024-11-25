@@ -45,6 +45,7 @@ export { HaulPopover } from "./Map/HaulPopover";
 export { Map } from "./Map/Map";
 export { PositionPopover } from "./Map/PositionPopover";
 export { ShorelinePopover } from "./Map/ShorelinePopover";
+export { TransferPopover } from "./Map/TransferPopover";
 export { MapAttributions } from "./MapAttributions/MapAttributions";
 export { MapControls } from "./MapAttributions/MapControls";
 export { MapFilters } from "./MapFilters/MapFilters";
