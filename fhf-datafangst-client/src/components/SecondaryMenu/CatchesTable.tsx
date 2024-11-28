@@ -65,7 +65,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.text.secondary,
     borderColor: theme.palette.secondary.light,
     fontWeight: "bold",
-    minWidth: 115,
+    "&:last-of-type": {
+      minWidth: 120,
+    },
   },
   [`&.${tableCellClasses.body}`]: {
     border: 0,
