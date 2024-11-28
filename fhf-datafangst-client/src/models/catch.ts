@@ -7,4 +7,5 @@ export interface Catch {
   grossWeight?: number;
   productQualityId?: Quality;
   productQualityName?: string;
+  priceForFisher?: number | null;
 }

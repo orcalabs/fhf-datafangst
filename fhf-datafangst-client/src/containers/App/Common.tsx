@@ -8,8 +8,8 @@ export const GridContainer = (props: any) => {
       sx={{
         display: "grid",
         gridTemplateColumns: !breakPoint
-          ? "minmax(390px, 18vw) 1fr minmax(390px, 18vw)"
-          : "minmax(390px, 16vw) 1fr minmax(390px, 16vw)",
+          ? "minmax(400px, 18vw) 1fr minmax(400px, 18vw)"
+          : "minmax(400px, 15vw) 1fr minmax(400px, 15vw)",
         gridTemplateRows: "48px 56px 1fr 100px",
         position: "absolute",
         width: "100%",
