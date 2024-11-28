@@ -59,7 +59,8 @@ const weightTypes = [
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.root}`]: {
     width: "100%",
-    padding: "6px 10px",
+    padding: "6px 6px",
+    fontSize: "0.87rem",
   },
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.text.secondary,
@@ -72,7 +73,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     border: 0,
     color: "white",
-    fontSize: "0.97rem",
     borderBottom: `1px solid ${theme.palette.primary.light}`,
     "&:last-of-type": {
       color: "white",
@@ -88,7 +88,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.footer}`]: {
     borderBottom: 0,
-    fontSize: "0.97rem",
     fontWeight: "bold",
     color: "white",
     "&:last-of-type": { width: "33%" },
