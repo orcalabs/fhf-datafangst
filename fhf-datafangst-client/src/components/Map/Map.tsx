@@ -288,7 +288,7 @@ export const Map: FC<Props> = (props) => {
         } else if (haul !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaul(haul);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0] + 10, top: evt.pixel[1] + 10 });
         } else if (deliveryPoint) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredDeliveryPoint(deliveryPoint);
@@ -314,8 +314,14 @@ export const Map: FC<Props> = (props) => {
         onClose={handleClosePopover}
         anchorReference="anchorPosition"
         anchorPosition={anchorPos}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        transformOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{
+          vertical: hoveredHaul ? "center" : "top",
+          horizontal: hoveredHaul ? "right" : "center",
+        }}
+        transformOrigin={{
+          vertical: hoveredHaul ? "top" : "bottom",
+          horizontal: hoveredHaul ? "left" : "center",
+        }}
         transitionDuration={0}
       >
         {hoveredPosition && (
