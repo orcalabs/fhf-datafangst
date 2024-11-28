@@ -112,6 +112,9 @@ export const sumCatches = (
   return catches.reduce((sum, curr) => sum + (curr[weightType] ?? 0), 0);
 };
 
+export const sumPriceFromCatches = (catches: Catch[]) =>
+  catches.reduce((sum, curr) => sum + (curr.priceForFisher ?? 0), 0);
+
 export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
   let highest = 0;
   for (const haul of hauls) {
@@ -223,6 +226,12 @@ export const reduceCatchesOnSpecies = (
       const x = tot[cur.speciesFiskeridirId];
       if (x) {
         x.livingWeight += cur.livingWeight;
+        if (
+          Number.isFinite(x.priceForFisher) &&
+          Number.isFinite(cur.priceForFisher)
+        ) {
+          x.priceForFisher! += cur.priceForFisher!;
+        }
         if (x.grossWeight !== undefined && cur.grossWeight !== undefined) {
           x.grossWeight += cur.grossWeight;
         }
@@ -235,6 +244,7 @@ export const reduceCatchesOnSpecies = (
           livingWeight: cur.livingWeight,
           grossWeight: cur.grossWeight,
           productWeight: cur.productWeight,
+          priceForFisher: cur.priceForFisher,
         };
       }
     }

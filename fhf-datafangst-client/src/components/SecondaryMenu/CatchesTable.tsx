@@ -16,7 +16,7 @@ import { tableCellClasses } from "@mui/material/TableCell";
 import { Catch, CatchWeightType } from "models";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { selectSpeciesFiskeridirMap, useAppSelector } from "store";
-import { kilosOrTonsFormatter, sumCatches } from "utils";
+import { kilosOrTonsFormatter, sumCatches, sumPriceFromCatches } from "utils";
 
 type SortFn = (a: Catch, b: Catch) => number;
 
@@ -29,6 +29,11 @@ const weightDesc =
   (weight: CatchWeightType) =>
   (a: Catch, b: Catch): number =>
     (b[weight] ?? 0) - (a[weight] ?? 0);
+
+const priceAsc = (a: Catch, b: Catch): number =>
+  (a.priceForFisher ?? 0) - (b.priceForFisher ?? 0);
+const priceDesc = (a: Catch, b: Catch): number =>
+  (b.priceForFisher ?? 0) - (a.priceForFisher ?? 0);
 
 const weightTypes = [
   {
@@ -44,7 +49,7 @@ const weightTypes = [
     weightType: "grossWeight" as CatchWeightType,
   },
   {
-    label: "Produktvekt",
+    label: "Prod.vekt",
     asc: weightAsc("productWeight"),
     desc: weightDesc("productWeight"),
     weightType: "productWeight" as CatchWeightType,
@@ -52,10 +57,15 @@ const weightTypes = [
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.root}`]: {
+    width: "100%",
+    padding: "6px 10px",
+  },
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.text.secondary,
     borderColor: theme.palette.secondary.light,
     fontWeight: "bold",
+    minWidth: 115,
   },
   [`&.${tableCellClasses.body}`]: {
     border: 0,
@@ -66,6 +76,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       color: "white",
       width: "33%",
       borderLeft: `1px solid ${theme.palette.primary.light}`,
+    },
+    "&:first-of-type": {
+      maxWidth: 130,
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
     },
   },
   [`&.${tableCellClasses.footer}`]: {
@@ -84,6 +100,11 @@ interface Props {
 export const CatchesTable: FC<Props> = (props) => {
   const catches = useMemo(() => [...props.catches], [props.catches]);
   const fiskeridirSpecies = useAppSelector(selectSpeciesFiskeridirMap);
+  const nok = new Intl.NumberFormat("no-NB", {
+    style: "currency",
+    currency: "NOK",
+    maximumFractionDigits: 0,
+  });
 
   const speciesAsc = useMemo(
     () =>
@@ -153,6 +174,11 @@ export const CatchesTable: FC<Props> = (props) => {
       <StyledTableCell>
         {fiskeridirSpecies[c.speciesFiskeridirId].name}
       </StyledTableCell>
+      {hasPrice && Number.isFinite(c.priceForFisher) && (
+        <StyledTableCell align="right">
+          {nok.format(c.priceForFisher!)}
+        </StyledTableCell>
+      )}
       <StyledTableCell align="right">
         {kilosOrTonsFormatter(c[weightType] ?? 0)}
       </StyledTableCell>
@@ -197,10 +223,13 @@ export const CatchesTable: FC<Props> = (props) => {
 
   const showWeightTypes = catches[0]?.grossWeight !== undefined;
   const currentWeightType = weightTypes[weightTypeIdx];
+  const hasPrice = catches.some(
+    (c) => c.priceForFisher !== null && c.priceForFisher !== undefined,
+  );
 
   return (
     <TableContainer
-      sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+      sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
     >
       <Table size="small">
         <TableHead>
@@ -208,9 +237,20 @@ export const CatchesTable: FC<Props> = (props) => {
             <StyledTableCell>
               {headerCell("Art", speciesAsc, speciesDesc)}
             </StyledTableCell>
+            {hasPrice && (
+              <StyledTableCell
+                align="right"
+                sx={{ "& .MuiBox-root": { justifyContent: "right" } }}
+              >
+                {headerCell("Pris", priceAsc, priceDesc)}
+              </StyledTableCell>
+            )}
             <StyledTableCell
               align="right"
-              sx={{ "& .MuiBox-root": { justifyContent: "right" } }}
+              sx={{
+                "& .MuiBox-root": { justifyContent: "right" },
+                cursor: showWeightTypes ? "pointer" : "cursor",
+              }}
             >
               {headerCell(
                 currentWeightType.label,
@@ -233,6 +273,11 @@ export const CatchesTable: FC<Props> = (props) => {
           <TableFooter>
             <TableRow>
               <StyledTableCell> Totalt: </StyledTableCell>
+              {hasPrice && (
+                <StyledTableCell align="right">
+                  {nok.format(sumPriceFromCatches(catches))}
+                </StyledTableCell>
+              )}
               <StyledTableCell align="right">
                 {kilosOrTonsFormatter(
                   sumCatches(catches, currentWeightType.weightType),
