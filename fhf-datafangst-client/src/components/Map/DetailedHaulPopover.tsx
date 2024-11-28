@@ -71,6 +71,7 @@ export const DetailedHaulPopover: FC<Props> = ({ haul }) => {
           <Typography
             sx={{
               color: "white",
+              fontWeight: 600,
               mt: 3,
             }}
           >
