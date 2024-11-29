@@ -2104,6 +2104,12 @@ export interface Trip {
     'gearIds': Array<Gear>;
     /**
      * 
+     * @type {boolean}
+     * @memberof Trip
+     */
+    'hasTrack': boolean;
+    /**
+     * 
      * @type {Array<Haul>}
      * @memberof Trip
      */

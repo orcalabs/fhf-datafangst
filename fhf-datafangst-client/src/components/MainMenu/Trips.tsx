@@ -1,3 +1,4 @@
+import RouteIcon from "@mui/icons-material/Route";
 import {
   Box,
   List,
@@ -153,6 +154,11 @@ export const Trips: FC = () => {
                       )} - ${dateFormat(t.end, "PPP")}`
                 }
               />
+              {t.hasTrack && (
+                <ListItemAvatar sx={{ pr: 2 }}>
+                  <RouteIcon fill={theme.palette.third.main} />
+                </ListItemAvatar>
+              )}
             </ListItemButton>
           ))}
 
