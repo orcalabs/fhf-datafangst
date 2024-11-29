@@ -1,4 +1,5 @@
-import RouteIcon from "@mui/icons-material/Route";
+import GpsFixedIcon from "@mui/icons-material/GpsFixed";
+import LocationDisabledIcon from "@mui/icons-material/LocationDisabled";
 import {
   Box,
   List,
@@ -154,9 +155,16 @@ export const Trips: FC = () => {
                       )} - ${dateFormat(t.end, "PPP")}`
                 }
               />
-              {t.hasTrack && (
-                <ListItemAvatar sx={{ pr: 2 }}>
-                  <RouteIcon fill={theme.palette.third.main} />
+              {t.hasTrack ? (
+                <ListItemAvatar sx={{ pl: 3 }}>
+                  <GpsFixedIcon sx={{ color: "#7FA380" }} fontSize="small" />
+                </ListItemAvatar>
+              ) : (
+                <ListItemAvatar sx={{ pl: 3 }}>
+                  <LocationDisabledIcon
+                    sx={{ color: "grey.A100" }}
+                    fontSize="small"
+                  />
                 </ListItemAvatar>
               )}
             </ListItemButton>
