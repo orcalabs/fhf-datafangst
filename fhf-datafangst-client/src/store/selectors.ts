@@ -34,11 +34,6 @@ export const selectTrackMissing = createSelector(
     !state.trackLoading,
 );
 
-export const selectBwUserProfile = createSelector(
-  selectAppState,
-  (state) => state.bwProfile,
-);
-
 export const selectMatrixToggle = createSelector(
   selectAppState,
   (state) => state.matrixToggle,
@@ -52,4 +47,9 @@ export const selectTripFiltersOpen = createSelector(
 export const selectTripDetailsOpen = createSelector(
   selectAppState,
   (state) => state.tripDetailsOpen,
+);
+
+export const selectBwUserProfile = createSelector(
+  selectAppState,
+  (state) => state.bwUser,
 );

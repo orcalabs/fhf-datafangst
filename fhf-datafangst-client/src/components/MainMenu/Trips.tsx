@@ -64,7 +64,7 @@ export const Trips: FC = () => {
   const profile = useAppSelector(selectBwUserProfile);
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vesselsById = useAppSelector(selectVesselsByFiskeridirId);
-  const vesselInfo = profile?.vesselInfo;
+  const vesselInfo = profile?.fiskInfoProfile;
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const viewState = useAppSelector(selectViewState);
 

@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
 import {
   checkLoggedIn,
-  getBwProfile,
+  getBwUser,
   resetState,
   resetTrackState,
   setError,
@@ -75,16 +75,15 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         matrixToggle: MatrixToggle.Haul,
       };
     })
-    .addCase(getBwProfile.fulfilled, (state, action) => {
-      state.bwProfile = action.payload;
+    .addCase(getBwUser.fulfilled, (state, action) => {
+      state.bwUser = action.payload;
 
       // Hijack Skomværfisk as a vessel for testing purposes.
       if (
-        state.bwProfile.contactPersonDetail.email === "post@orcalabs.no" ||
-        state.bwProfile.contactPersonDetail.email ===
-          "vetle.hofsoy-woie@sintef.no"
+        state.bwUser.user.email === "post@orcalabs.no" ||
+        state.bwUser.user.email === "vetle.hofsoy-woie@sintef.no"
       ) {
-        state.bwProfile.vesselInfo = {
+        state.bwUser.fiskInfoProfile = {
           ircs: "JXMK",
           mmsi: 257842500,
           imo: -1,
@@ -96,11 +95,8 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselName: "",
         };
         // Assign Gadus Njord to Per Gunnar
-      } else if (
-        state.bwProfile.contactPersonDetail.email ===
-        "per.gunnar.auran@sintef.no"
-      ) {
-        state.bwProfile.vesselInfo = {
+      } else if (state.bwUser.user.email === "per.gunnar.auran@sintef.no") {
+        state.bwUser.fiskInfoProfile = {
           ircs: "LDDF",
           mmsi: 257656000,
           imo: -1,
@@ -112,10 +108,8 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselName: "",
         };
         // Assign Hermes to Per
-      } else if (
-        state.bwProfile.contactPersonDetail.email === "pefin@fiskeridir.no"
-      ) {
-        state.bwProfile.vesselInfo = {
+      } else if (state.bwUser.user.email === "pefin@fiskeridir.no") {
+        state.bwUser.fiskInfoProfile = {
           ircs: "LFNX",
           mmsi: 257640000,
           imo: -1,
@@ -136,7 +130,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       state.authUser = user;
 
       if (token) {
-        (action as any).asyncDispatch(getBwProfile(token));
+        (action as any).asyncDispatch(getBwUser(token));
         (action as any).asyncDispatch(getUser(token));
         (action as any).asyncDispatch(getFuelMeasurements({ token }));
       }

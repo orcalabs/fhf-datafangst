@@ -1,15 +1,10 @@
-export interface FiskInfoProfile {
-  haveProfile: boolean;
-  haveDownloadRights: boolean;
-  contactPersonDetail: ContactDetails;
-  vesselInfo: VesselInfo;
-}
-
 interface ContactDetails {
   id: string | null;
   firstName: string | null;
+  lastName: string | null;
   phoneNumber: string | null;
   email: string | null;
+  userName: string | null;
 }
 
 interface VesselInfo {
@@ -23,3 +18,31 @@ interface VesselInfo {
   vesselPhone: string | null;
   vesselEmail: string | null;
 }
+
+// Incomplete compared to output, we only use the fields we require.
+export interface BwUser {
+  fiskInfoProfile: VesselInfo;
+  user: ContactDetails;
+  policies: string[] | null;
+  roles: string[] | null;
+}
+
+export const Policies = {
+  BwAisFiskinfo: "BwAisFiskinfo",
+  BwReadExtendedFishingFacility: "BwReadExtendedFishingFacility",
+  BwReadExtendedVesselInfo: "BwReadExtendedVesselInfo",
+  BwReportFishingFacility: "BwReportFishingFacility",
+  BwReportLost: "BwReportLost",
+  BwUpdateVesselContactInfo: "BwUpdateVesselContactInfo",
+  BwVesselSearch: "BwVesselSearch",
+};
+
+export const Roles = {
+  BwDownloadFishingfacility: "BwDownloadFishingfacility",
+  BwEksternFiskInfoUtvikler: "BwEksternFiskInfoUtvikler",
+  BwFiskerikyndig: "BwFiskerikyndig",
+  BwFiskinfoAdmin: "BwFiskinfoAdmin",
+  BwUtdanningsBruker: "BwUtdanningsBruker",
+  BwViewAis: "BwViewAis",
+  BwYrkesfisker: "BwYrkesfisker",
+};
