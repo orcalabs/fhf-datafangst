@@ -147,7 +147,7 @@ export const tripBuilder = (
       }
     })
     .addCase(getCurrentTripTrack, (state, action) => {
-      const callSign = state.bwProfile?.vesselInfo.ircs;
+      const callSign = state.bwUser?.fiskInfoProfile.ircs;
       const vessel = callSign ? state.vesselsByCallSign?.[callSign] : undefined;
 
       if (state.currentTrip && vessel) {

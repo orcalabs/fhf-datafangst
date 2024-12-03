@@ -1,9 +1,9 @@
-import { FiskInfoProfile } from "models";
-import { apiGet, axiosBwInstance } from "./baseApi";
+import { BwUser } from "models";
+import { apiGet, axiosBwInternalInstance } from "./baseApi";
 
-export const getBwProfile = async (token: string) =>
+export const getBwUser = async (token: string) =>
   apiGet(async () =>
-    axiosBwInstance.get<FiskInfoProfile>("geodata/fishingfacilityprofile", {
+    axiosBwInternalInstance.get<BwUser>("user/profiles", {
       headers: {
         Authorization: "Bearer " + token,
       },

@@ -63,7 +63,7 @@ export const MyPage: FC = () => {
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Hauls);
   const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.vesselInfo;
+  const vesselInfo = profile?.fiskInfoProfile;
   const vessels = useAppSelector(selectVesselsByCallsign);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);

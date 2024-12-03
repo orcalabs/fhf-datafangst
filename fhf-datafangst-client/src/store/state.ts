@@ -1,4 +1,4 @@
-import { FiskInfoProfile } from "models";
+import { BwUser } from "models";
 import { User } from "oidc-react";
 import { AisState, initialAisState } from "./ais/state";
 import { BenchmarkState, initialBenchmarkState } from "./benchmark/state";
@@ -41,7 +41,7 @@ export interface BaseState {
   error: boolean;
   isLoggedIn: boolean;
   viewState: MenuViewState;
-  bwProfile?: FiskInfoProfile;
+  bwUser?: BwUser;
   authUser?: User;
   matrixToggle: MatrixToggle;
   tripFiltersOpen: boolean;
@@ -51,7 +51,6 @@ export interface BaseState {
 const initialBaseState: BaseState = {
   error: false,
   isLoggedIn: false,
-  bwProfile: undefined,
   viewState: MenuViewState.Overview,
   authUser: undefined,
   matrixToggle: MatrixToggle.Haul,

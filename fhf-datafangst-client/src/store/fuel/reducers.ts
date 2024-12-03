@@ -26,12 +26,12 @@ export const fuelBuilder = (
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(createFuelMeasurement.fulfilled, (state, action) => {
-      const profile = state.bwProfile!;
+      const profile = state.bwUser!;
 
       const created = {
         ...action.meta.arg,
-        barentswatchUserId: profile.contactPersonDetail.id!,
-        callSign: profile.vesselInfo.ircs!,
+        barentswatchUserId: profile.user.id!,
+        callSign: profile.fiskInfoProfile.ircs!,
       };
 
       if (state.fuelMeasurements) {

@@ -12,6 +12,10 @@ export const axiosBwInstance = defaultAxios.create({
   baseURL: process.env.REACT_APP_BW_API_URL,
 });
 
+export const axiosBwInternalInstance = defaultAxios.create({
+  baseURL: process.env.REACT_APP_BW_INTERNAL_API_URL,
+});
+
 export const apiGet = async <T>(
   fn: () => Promise<AxiosResponse<T, any>>,
 ): Promise<T> =>

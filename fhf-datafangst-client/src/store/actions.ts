@@ -5,10 +5,7 @@ import { MatrixToggle, MenuViewState } from "./state";
 
 export const setError = createAction<boolean>("base/setError");
 
-export const getBwProfile = createAsyncThunk(
-  "base/getBwProfile",
-  Api.getBwProfile,
-);
+export const getBwUser = createAsyncThunk("base/getBwUser", Api.getBwUser);
 
 export const resetState = createAction("base/resetState");
 

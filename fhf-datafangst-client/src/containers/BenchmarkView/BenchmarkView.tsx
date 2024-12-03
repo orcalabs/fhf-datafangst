@@ -89,7 +89,7 @@ export const BenchmarkView: FC = () => {
   const { signIn, isLoading, userData } = useAuth();
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.vesselInfo;
+  const vesselInfo = profile?.fiskInfoProfile;
   const vessels = useAppSelector(selectVesselsByCallsign);
   const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
