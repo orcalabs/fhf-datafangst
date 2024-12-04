@@ -1874,6 +1874,7 @@ export const SpeciesGroup = {
     FreshWaterFish: 'FreshWaterFish',
     FishFarming: 'FishFarming',
     MarineMammals: 'MarineMammals',
+    Seabird: 'Seabird',
     Other: 'Other'
 } as const;
 
@@ -2221,6 +2222,12 @@ export interface TripBenchmark {
      * @memberof TripBenchmark
      */
     'catchValuePerFuel'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmark
+     */
+    'eeoi'?: number | null;
     /**
      * 
      * @type {string}
@@ -4093,6 +4100,54 @@ export const V1fuelApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @summary Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFuel: async (startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/fuel`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString().substring(0,10) :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString().substring(0,10) :
+                    endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string | null} [startDate] 
          * @param {string | null} [endDate] 
          * @param {*} [options] Override http request option.
@@ -4213,6 +4268,20 @@ export const V1fuelApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getFuel(startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFuel(startDate, endDate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['V1fuelApi.getFuel']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string | null} [startDate] 
          * @param {string | null} [endDate] 
          * @param {*} [options] Override http request option.
@@ -4266,6 +4335,16 @@ export const V1fuelApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @summary Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
+         * @param {V1fuelApiGetFuelRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFuel(requestParameters: V1fuelApiGetFuelRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.getFuel(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {V1fuelApiGetFuelMeasurementsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4311,6 +4390,27 @@ export interface V1fuelApiDeleteFuelMeasurementsRequest {
      * @memberof V1fuelApiDeleteFuelMeasurements
      */
     readonly deleteFuelMeasurement: Array<DeleteFuelMeasurement>
+}
+
+/**
+ * Request parameters for getFuel operation in V1fuelApi.
+ * @export
+ * @interface V1fuelApiGetFuelRequest
+ */
+export interface V1fuelApiGetFuelRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fuelApiGetFuel
+     */
+    readonly startDate?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof V1fuelApiGetFuel
+     */
+    readonly endDate?: string | null
 }
 
 /**
@@ -4375,6 +4475,18 @@ export class V1fuelApi extends BaseAPI {
      */
     public deleteFuelMeasurements(requestParameters: V1fuelApiDeleteFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
         return V1fuelApiFp(this.configuration).deleteFuelMeasurements(requestParameters.deleteFuelMeasurement, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
+     * @param {V1fuelApiGetFuelRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof V1fuelApi
+     */
+    public getFuel(requestParameters: V1fuelApiGetFuelRequest = {}, options?: RawAxiosRequestConfig) {
+        return V1fuelApiFp(this.configuration).getFuel(requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
