@@ -45,6 +45,12 @@ export const tripBuilder = (
     })
     .addCase(setSelectedTrip, (state, action) => {
       const trip = action.payload;
+
+      // Reset track if deselecting trip
+      if (!trip) {
+        state.track = undefined;
+      }
+
       state.selectedTrip = trip;
       state.selectedTripHaul = undefined;
 
