@@ -250,16 +250,16 @@ export const TripBenchmarkPage: FC = () => {
 
               {eeoi && averageEeoi && (
                 <Stack gap={1} direction="row">
-                  <Typography>EEOI: </Typography>
+                  <Typography>EEOI (gCO2/t.nm): </Typography>
                   <Typography>
                     <span
                       style={{
                         color: eeoi > averageEeoi ? "red" : "green",
                       }}
                     >
-                      {eeoi.toPrecision(3)}
+                      {(eeoi * 1_000_000).toFixed(1)}
                     </span>{" "}
-                    (avg: {averageEeoi.toPrecision(3)})
+                    (avg: {(averageEeoi * 1_000_000).toFixed(1)})
                   </Typography>
                 </Stack>
               )}
@@ -465,6 +465,58 @@ export const TripBenchmarkPage: FC = () => {
                         avgWeightPerDistance > 1000 && weight
                           ? (weight / 1000).toFixed(2)
                           : weight && weight.toFixed(2),
+                    },
+                  }}
+                  theme={chartsTheme}
+                />
+              </ChartCard>
+            </Grid>
+            {/* EEOI */}
+            <Grid item xs={6}>
+              <ChartCard title="EEOI per tur">
+                <ReactEChart
+                  option={{
+                    grid: {
+                      bottom: 80,
+                    },
+                    xAxis: {
+                      type: "time",
+                      name: "Dato",
+                    },
+                    // Removes name of series from tooltip and add mark line for average
+                    series: [
+                      {
+                        type: "line",
+                        encode: { tooltip: [1] },
+                      },
+                    ],
+                    dataZoom: [
+                      {
+                        type: "inside",
+                      },
+                      {
+                        type: "slider",
+                        labelFormatter: (value: Date, _: string) =>
+                          dateFormat(value, "d/M/Y"),
+                      },
+                    ],
+
+                    yAxis: {
+                      type: "value",
+                      name: "EEOI (gCO2/t.nm)",
+                      axisLabel: {
+                        formatter: (eeoi: number) => eeoi * 1_000_000,
+                      },
+                    },
+                    dataset: {
+                      dimensions: ["end", "eeoi"],
+                      source: bench?.trips,
+                    },
+
+                    tooltip: {
+                      trigger: "axis",
+                      valueFormatter: (eeoi: number) =>
+                        (eeoi * 1_000_000).toFixed(3),
                     },
                   }}
                   theme={chartsTheme}
