@@ -213,9 +213,7 @@ export const TripsMenu: FC = () => {
             <SvgIcon sx={iconStyle}>
               <CalendarMonthSharpIcon />
             </SvgIcon>
-            <Typography>
-              {dateFormat(trip.mostRecentDeliveryDate ?? trip.end, "PPP")}
-            </Typography>
+            <Typography>{dateFormat(trip.end, "PPP")}</Typography>
           </InfoItem>
           <InfoItem>
             <SvgIcon sx={iconStyle}>
