@@ -88,7 +88,10 @@ export const TripsMenu: FC = () => {
   const deliveryCatchesMap = reduceCatchesOnSpecies(trip.delivery.delivered);
   const tripCatches = Object.values(deliveryCatchesMap);
 
-  const tripGears = trip.gearIds.map((val) => gears[val]);
+  // Use gear from landing notes as priority. If not landing, use gears described in hauls.
+  const tripGears = trip.gearIds.length
+    ? trip.gearIds.map((val) => gears[val])
+    : Array.from(new Set(trip.hauls.map((h) => gears[h.gear])));
 
   // Return names of deliverypoints, ID if we're missing name
   const createDeliveryPointNamesList = (deliveryPointIds: string[]) => {
@@ -194,16 +197,16 @@ export const TripsMenu: FC = () => {
         }}
       >
         <Box sx={{ mb: 1 }}>
-          <InfoItem>
-            <SvgIcon sx={iconStyle}>
-              <DeliveryPointIcon width="20" height="20" x="2px" y="2px" />
-            </SvgIcon>
-            <Typography>
-              {trip.deliveryPointIds.length
-                ? createDeliveryPointNamesList(trip.deliveryPointIds)
-                : "Ukjent"}
-            </Typography>
-          </InfoItem>
+          {trip.deliveryPointIds.length !== 0 && (
+            <InfoItem>
+              <SvgIcon sx={iconStyle}>
+                <DeliveryPointIcon width="20" height="20" x="2px" y="2px" />
+              </SvgIcon>
+              <Typography>
+                {createDeliveryPointNamesList(trip.deliveryPointIds)}
+              </Typography>
+            </InfoItem>
+          )}
           <InfoItem>
             <SvgIcon sx={iconStyle}>
               <CalendarMonthSharpIcon />
@@ -231,8 +234,8 @@ export const TripsMenu: FC = () => {
               <StickyNote2SharpIcon />
             </SvgIcon>
             <Typography>
-              {trip.numDeliveries}{" "}
-              {trip.numDeliveries === 1 ? "sluttseddel" : "sluttsedler"}
+              {trip.numDeliveries}
+              {trip.numDeliveries === 1 ? " sluttseddel" : " sluttsedler"}
             </Typography>
           </InfoItem>
           {trip.hauls && (
