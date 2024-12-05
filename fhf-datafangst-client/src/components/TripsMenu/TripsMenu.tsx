@@ -6,6 +6,7 @@ import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import SettingsIcon from "@mui/icons-material/Settings";
 import StickyNote2SharpIcon from "@mui/icons-material/StickyNote2Sharp";
+import StraightenSharpIcon from "@mui/icons-material/StraightenSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import {
   Box,
@@ -47,6 +48,7 @@ import {
   createObjectDurationString,
   dateFormat,
   kilosOrTonsFormatter,
+  metersToNatuticalMilesString,
   reduceCatchesOnSpecies,
   reduceHaulsCatches,
   sumCatches,
@@ -221,6 +223,16 @@ export const TripsMenu: FC = () => {
             </SvgIcon>
             <Typography>{createObjectDurationString(trip)}</Typography>
           </InfoItem>
+          {trip.distance && (
+            <InfoItem>
+              <SvgIcon sx={iconStyle}>
+                <StraightenSharpIcon />
+              </SvgIcon>
+              <Typography>
+                {metersToNatuticalMilesString(trip.distance)}
+              </Typography>
+            </InfoItem>
+          )}
           <InfoItem>
             <SvgIcon sx={iconStyle}>
               <PhishingSharpIcon />
