@@ -16,6 +16,7 @@ import {
 import theme from "app/theme";
 import { Vessel } from "generated/openapi";
 import { FC } from "react";
+import { selectGearGroupsMap, useAppSelector } from "store";
 import { createOwnersListString } from "utils";
 
 const StyledTableCell = styled(TableCell)(() => ({
@@ -31,6 +32,7 @@ interface Props {
 
 export const VesselInfo: FC<Props> = (props) => {
   const { vessel } = props;
+  const gearGroups = useAppSelector(selectGearGroupsMap);
 
   return (
     <Accordion disableGutters square elevation={0}>
@@ -137,12 +139,16 @@ export const VesselInfo: FC<Props> = (props) => {
                   </Typography>
                 </StyledTableCell>
               </TableRow>
-              <TableRow>
+              <TableRow sx={{ verticalAlign: "top" }}>
                 <StyledTableCell sx={{ color: "text.secondary" }}>
                   Redskap:
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Typography>Ukjent</Typography>
+                <StyledTableCell align="right" sx={{ width: 200 }}>
+                  <Typography>
+                    {vessel.gearGroups
+                      .map((gg) => gearGroups[gg].name)
+                      .join(", ")}
+                  </Typography>
                 </StyledTableCell>
               </TableRow>
             </TableBody>
