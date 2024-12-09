@@ -509,14 +509,14 @@ export const TripBenchmarkPage: FC = () => {
                       },
                     },
                     dataset: {
+                      source: bench?.trips.filter((t) => t.eeoi !== null),
                       dimensions: ["end", "eeoi"],
-                      source: bench?.trips,
                     },
 
                     tooltip: {
                       trigger: "axis",
                       valueFormatter: (eeoi: number) =>
-                        (eeoi * 1_000_000).toFixed(3),
+                        (eeoi * 1_000_000).toFixed(4),
                     },
                   }}
                   theme={chartsTheme}
@@ -548,6 +548,7 @@ export const TripBenchmarkPage: FC = () => {
                         <TableCell align="right">Weight Per Hour</TableCell>
                         <TableCell align="right">Weight Per Distance</TableCell>
                         <TableCell align="right">Weight Per Fuel</TableCell>
+                        <TableCell align="right">EEOI</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -571,6 +572,9 @@ export const TripBenchmarkPage: FC = () => {
                           <TableCell align="right">
                             {t.weightPerFuel &&
                               kilosOrTonsFormatter(t.weightPerFuel)}
+                          </TableCell>
+                          <TableCell align="right">
+                            {t.eeoi && (t.eeoi * 1_000_000).toFixed(5)}
                           </TableCell>
                         </TableRow>
                       ))}
