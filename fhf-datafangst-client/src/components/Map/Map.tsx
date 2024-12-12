@@ -258,6 +258,7 @@ export const Map: FC<Props> = (props) => {
       );
 
       if (feature) {
+        const weightedArea = feature.get("weight");
         const aisPosition = feature.get("aisPosition");
         const shoreLine = feature.getProperties();
         const haulId = feature.get("haulId");
@@ -275,6 +276,8 @@ export const Map: FC<Props> = (props) => {
         ) {
           setHoveredShoreline(shoreLine.navn);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+        } else if (weightedArea && weightedArea !== 0) {
+          mapState.map.getTargetElement().style.cursor = "pointer";
         } else if (haulId !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaulId(haulId);
@@ -290,11 +293,9 @@ export const Map: FC<Props> = (props) => {
           setHoveredHaul(haul);
           setAnchorPos({ left: evt.pixel[0] + 10, top: evt.pixel[1] + 10 });
         } else if (deliveryPoint) {
-          mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredDeliveryPoint(deliveryPoint);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         } else if (transfer) {
-          mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredTransfer(transfer);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
         }
