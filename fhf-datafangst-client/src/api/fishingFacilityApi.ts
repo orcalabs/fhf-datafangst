@@ -1,8 +1,8 @@
 import {
   FishingFacilitiesSorting,
+  FishingFacilityApi,
   FishingFacilityToolType,
   Ordering,
-  V1fishingFacilityApi,
   Vessel,
 } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
@@ -21,29 +21,23 @@ export interface FishingFacilitiesArgs {
   sorting?: FishingFacilitiesSorting;
 }
 
-const api = new V1fishingFacilityApi(
-  apiConfiguration,
-  undefined,
-  axiosInstance,
-);
+const api = new FishingFacilityApi(apiConfiguration, undefined, axiosInstance);
 
-export const getFishingFacilities = async (query?: FishingFacilitiesArgs) =>
+export const getFishingFacilities = async (query: FishingFacilitiesArgs) =>
   apiGet(async () =>
-    api.fishingFacilities(
-      {
-        active: query?.active,
-        mmsis: query?.mmsis,
-        fiskeridirVesselIds: query?.vessels?.map((v) => v.fiskeridir.id),
-        toolTypes: query?.toolTypes,
-        setupRanges: createRangeString(query?.setupRanges),
-        removedRanges: createRangeString(query?.removedRanges),
-        limit: query?.limit ?? 10,
-        offset: query?.offset ?? 0,
-        ordering: query?.ordering ?? Ordering.Desc,
-        sorting: query?.sorting ?? FishingFacilitiesSorting.Setup,
-      },
-      { headers: { "bw-token": query?.accessToken } },
-    ),
+    api.routesV1FishingFacilityFishingFacilities({
+      active: query.active,
+      mmsis: query.mmsis,
+      fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
+      toolTypes: query.toolTypes,
+      setupRanges: createRangeString(query.setupRanges),
+      removedRanges: createRangeString(query.removedRanges),
+      limit: query.limit ?? 10,
+      offset: query.offset ?? 0,
+      ordering: query.ordering ?? Ordering.Desc,
+      sorting: query.sorting ?? FishingFacilitiesSorting.Setup,
+      bwToken: query.accessToken!,
+    }),
   );
 
 export const createRangeString = (

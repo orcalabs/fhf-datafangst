@@ -1,4 +1,4 @@
-import { V1aisApi } from "generated/openapi";
+import { AisApi } from "generated/openapi";
 import { Track } from "models";
 import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
@@ -8,11 +8,11 @@ export interface AisArgs {
   end?: string;
 }
 
-const api = new V1aisApi(apiConfiguration, undefined, axiosInstance);
+const api = new AisApi(apiConfiguration, undefined, axiosInstance);
 
 export const getAis = async (query: AisArgs) =>
   apiGet(async () =>
-    api.aisTrack({
+    api.routesV1AisAisTrack({
       mmsi: query.mmsi,
       start: query.start,
       end: query.end,

@@ -1,4 +1,4 @@
-import { V1vmsApi } from "generated/openapi";
+import { VmsApi } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
 export interface VmsArgs {
@@ -7,11 +7,11 @@ export interface VmsArgs {
   end?: string;
 }
 
-const api = new V1vmsApi(apiConfiguration, undefined, axiosInstance);
+const api = new VmsApi(apiConfiguration, undefined, axiosInstance);
 
 export const getVms = async (query: VmsArgs) =>
   apiGet(async () =>
-    api.vmsPositions({
+    api.routesV1VmsVmsPositions({
       callSign: query.callSign,
       start: query.start,
       end: query.end,

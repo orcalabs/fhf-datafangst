@@ -1,10 +1,10 @@
 import {
   ActiveLandingFilter,
   GearGroupDetailed,
+  LandingApi,
   LandingsSorting,
   Ordering,
   SpeciesGroupDetailed,
-  V1landingApi,
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
@@ -35,11 +35,11 @@ export interface LandingsArgs {
   page?: number;
 }
 
-const api = new V1landingApi(apiConfiguration, undefined, axiosInstance);
+const api = new LandingApi(apiConfiguration, undefined, axiosInstance);
 
 export const getLandings = async (query: LandingsArgs) =>
   apiGet(async () =>
-    api.landings({
+    api.routesV1LandingLandings({
       months: query.years
         ? createTimestampsFromYearsMonths(
             query.years,
@@ -64,7 +64,7 @@ export const getLandings = async (query: LandingsArgs) =>
 
 export const getLandingsMatrix = async (query: LandingsArgs) =>
   apiGet(async () =>
-    api.landingMatrix({
+    api.routesV1LandingLandingMatrix({
       activeFilter:
         query.filter === LandingsFilter.Vessel
           ? ActiveLandingFilter.VesselLength

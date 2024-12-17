@@ -1,4 +1,4 @@
-import { V1aisVmsApi } from "generated/openapi";
+import { AisVmsApi } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
 export interface TrackArgs {
@@ -10,18 +10,16 @@ export interface TrackArgs {
   end?: string;
 }
 
-const api = new V1aisVmsApi(apiConfiguration, undefined, axiosInstance);
+const api = new AisVmsApi(apiConfiguration, undefined, axiosInstance);
 
 export const getTrack = async (query: TrackArgs) =>
   apiGet(async () =>
-    api.aisVmsPositions(
-      {
-        mmsi: query.mmsi,
-        callSign: query.callSign ?? undefined,
-        tripId: query.tripId,
-        start: query.start,
-        end: query.end,
-      },
-      { headers: { "bw-token": query?.accessToken } },
-    ),
+    api.routesV1AisVmsAisVmsPositions({
+      mmsi: query.mmsi,
+      callSign: query.callSign ?? undefined,
+      tripId: query.tripId,
+      start: query.start,
+      end: query.end,
+      bwToken: query.accessToken,
+    }),
   );

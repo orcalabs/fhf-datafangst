@@ -1,4 +1,4 @@
-import { V1weatherApi } from "generated/openapi";
+import { WeatherApi } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
 
 export interface WeatherArgs {
@@ -7,11 +7,11 @@ export interface WeatherArgs {
   weatherLocationIds: number[];
 }
 
-const api = new V1weatherApi(apiConfiguration, undefined, axiosInstance);
+const api = new WeatherApi(apiConfiguration, undefined, axiosInstance);
 
 export const getWeather = async (query: WeatherArgs) =>
   apiGet(async () =>
-    api.weather({
+    api.routesV1WeatherWeather({
       startDate: query.startDate,
       endDate: query.endDate,
       weatherLocationIds: query.weatherLocationIds,
