@@ -1,10 +1,10 @@
 import {
   ActiveHaulsFilter,
   GearGroupDetailed,
+  HaulApi,
   HaulsSorting,
   Ordering,
   SpeciesGroupDetailed,
-  V1haulApi,
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
@@ -32,11 +32,11 @@ export interface HaulsArgs {
   sorting?: HaulsSorting;
 }
 
-const api = new V1haulApi(apiConfiguration, undefined, axiosInstance);
+const api = new HaulApi(apiConfiguration, undefined, axiosInstance);
 
 export const getHauls = async (query: HaulsArgs) =>
   apiGet(async () =>
-    api.hauls({
+    api.routesV1HaulHauls({
       months: query.years
         ? createTimestampsFromYearsMonths(
             query.years,
@@ -56,7 +56,7 @@ export const getHauls = async (query: HaulsArgs) =>
 
 export const getHaulsMatrix = async (query: HaulsArgs) =>
   apiGet(async () =>
-    api.haulsMatrix({
+    api.routesV1HaulHaulsMatrix({
       activeFilter:
         query.filter === HaulsFilter.Vessel
           ? ActiveHaulsFilter.VesselLength
