@@ -266,22 +266,22 @@ export const TripBenchmarkPage: FC = () => {
 
               {bench.weightPerHour &&
                 benchmarkItem(
-                  "Weigth per Hour",
+                  "Rundvekt per time",
                   kilosOrTonsFormatter(bench.weightPerHour),
                 )}
               {bench.weightPerDistance &&
                 benchmarkItem(
-                  "Weigth per Distance",
+                  "Rundvekt per distanse",
                   kilosOrTonsFormatter(bench.weightPerDistance),
                 )}
               {bench.weightPerFuel &&
                 benchmarkItem(
-                  "Weight per Fuel",
+                  "Rundvekt per tonn drivstoff",
                   kilosOrTonsFormatter(bench.weightPerFuel),
                 )}
               {bench.fuelConsumption &&
                 benchmarkItem(
-                  "Fuel Consumption",
+                  "Drivstofforbruk",
                   kilosOrTonsFormatter(bench.fuelConsumption * 1000),
                 )}
             </CardContent>
