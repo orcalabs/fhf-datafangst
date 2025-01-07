@@ -79,10 +79,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       state.bwUser = action.payload;
 
       // Hijack Skomværfisk as a vessel for testing purposes.
-      if (
-        state.bwUser.user.email === "post@orcalabs.no" ||
-        state.bwUser.user.email === "vetle.hofsoy-woie@sintef.no"
-      ) {
+      if (state.bwUser.user.email === "post@orcalabs.no") {
         state.bwUser.fiskInfoProfile = {
           ircs: "JXMK",
           mmsi: 257842500,
@@ -94,8 +91,12 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselPhone: "",
           vesselName: "",
         };
-        // Assign Gadus Njord to Per Gunnar
-      } else if (state.bwUser.user.email === "per.gunnar.auran@sintef.no") {
+        // Assign Gadus Njord to Per Gunnar, Eivind and Bård
+      } else if (
+        state.bwUser.user.email === "per.gunnar.auran@sintef.no" ||
+        state.bwUser.user.email === "eivind@rinde.no" ||
+        state.bwUser.user.email === "bard.hanssen@sintef.no"
+      ) {
         state.bwUser.fiskInfoProfile = {
           ircs: "LDDF",
           mmsi: 257656000,
@@ -111,6 +112,19 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       } else if (state.bwUser.user.email === "pefin@fiskeridir.no") {
         state.bwUser.fiskInfoProfile = {
           ircs: "LFNX",
+          mmsi: 257640000,
+          imo: -1,
+          regNum: "",
+          sbrRegNum: "",
+          vesselId: "",
+          vesselEmail: "",
+          vesselPhone: "",
+          vesselName: "",
+        };
+        // Assign Loran to Erlend
+      } else if (state.bwUser.user.email === "erlend.stav@sintef.no") {
+        state.bwUser.fiskInfoProfile = {
+          ircs: "LJWR",
           mmsi: 257640000,
           imo: -1,
           regNum: "",
