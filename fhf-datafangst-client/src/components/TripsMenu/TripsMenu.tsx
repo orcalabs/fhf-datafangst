@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { DeliveryPointIcon, FishIcon, FishLocationIcon } from "assets/icons";
 import { CatchesTable, SecondaryMenuWrapper } from "components";
+import { addMonths, getMonth, getYear, subMonths } from "date-fns";
 import { TripAssemblerId } from "generated/openapi";
 import { FC, useState } from "react";
 import {
@@ -165,6 +166,18 @@ export const TripsMenu: FC = () => {
                 dispatch(
                   getLandings({
                     vessels: [vessels[trip.fiskeridirVesselId]],
+                    years: [
+                      getYear(subMonths(new Date(trip.start), 1)),
+                      getYear(addMonths(new Date(trip.end), 1)),
+                    ],
+                    months: [
+                      getMonth(subMonths(new Date(trip.start), 1)),
+                      getMonth(new Date(trip.start)),
+                      getMonth(new Date(trip.end)),
+                      getMonth(subMonths(new Date(trip.end), 1)),
+                      getMonth(addMonths(new Date(trip.end), 1)),
+                    ],
+                    limit: 100,
                   }),
                 );
               }}
