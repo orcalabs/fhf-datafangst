@@ -27,6 +27,7 @@ import { initialWeatherState, WeatherState } from "./weather/state";
 
 export enum MenuViewState {
   Overview = "overview",
+  Live = "live",
   MyPage = "mypage",
   Trips = "trips",
   Benchmark = "benchmark", // Unused for now

@@ -26,10 +26,12 @@ import {
   TripsMenu,
 } from "components";
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
+import { LiveVesselsLayer } from "components/Layers/LiveVesselsLayer";
 import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
 import { FC, useEffect, useState } from "react";
 import {
   MatrixToggle,
+  MenuViewState,
   resetState,
   selectCurrentTrip,
   selectHaulsMatrixSearch,
@@ -44,6 +46,7 @@ import {
   selectTrackLoading,
   selectTrackMissing,
   selectTripDetailsOpen,
+  selectViewState,
   setHaulDateSliderFrame,
   setHaulsMatrix2Search,
   setHaulsMatrixSearch,
@@ -166,6 +169,7 @@ const CenterArea = (props: { open: boolean; children: any }) => (
 export const HomeView: FC = () => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
+  const viewState = useAppSelector(selectViewState);
   const trackMissing = useAppSelector(selectTrackMissing);
   const secondaryMenuOpen = useAppSelector(selectSecondaryMenuOpen);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
@@ -301,6 +305,9 @@ export const HomeView: FC = () => {
         {selectedTrip && <CurrentDeliveryPointsLayer />}
         <FishingFacilitiesLayer />
         {mapFilter.deliveryPoints && <DeliveryPointsLayer />}
+        {viewState === MenuViewState.Live && !selectedTrip && (
+          <LiveVesselsLayer />
+        )}
       </Map>
       <LoadingScreen open={trackLoading} />
       <Box

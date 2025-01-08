@@ -11,34 +11,40 @@ import theme from "app/theme";
 import { FC } from "react";
 import {
   selectSelectedTrip,
-  selectVesselsByFiskeridirId,
+  selectVesselByFiskeridirId,
   useAppSelector,
 } from "store";
 
-const StyledTableCell = styled(TableCell)(() => ({
-  borderBottom: "none",
-  color: "black",
-  paddingLeft: 0,
-  paddingRight: 0,
-}));
+export interface Props {
+  vesselId?: number;
+  color?: string;
+}
 
-export const VesselDetails: FC = () => {
+export const VesselDetails: FC<Props> = ({ vesselId, color }) => {
   const selectedTrip = useAppSelector(selectSelectedTrip);
-  const vessels = useAppSelector(selectVesselsByFiskeridirId);
-  const vessel = selectedTrip
-    ? vessels[selectedTrip.fiskeridirVesselId]
-    : undefined;
+  const vessel = useAppSelector((state) =>
+    selectVesselByFiskeridirId(state, vesselId),
+  );
+
+  const StyledTableCell = styled(TableCell)(() => ({
+    borderBottom: "none",
+    color: color ?? "black",
+    paddingLeft: 0,
+    paddingRight: 0,
+  }));
 
   return (
     <TableContainer sx={{ bgcolor: theme.palette.action.hover, p: 1 }}>
       <Table size="small">
         <TableBody>
-          <TableRow>
-            <StyledTableCell>Trip ID.:</StyledTableCell>
-            <StyledTableCell align="right">
-              <Typography>{selectedTrip?.tripId}</Typography>
-            </StyledTableCell>
-          </TableRow>
+          {selectedTrip && (
+            <TableRow>
+              <StyledTableCell>Trip ID.:</StyledTableCell>
+              <StyledTableCell align="right">
+                <Typography>{selectedTrip.tripId}</Typography>
+              </StyledTableCell>
+            </TableRow>
+          )}
           <TableRow>
             <StyledTableCell>ID.:</StyledTableCell>
             <StyledTableCell align="right">

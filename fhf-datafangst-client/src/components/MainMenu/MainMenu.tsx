@@ -1,11 +1,21 @@
 import { Box, Drawer } from "@mui/material";
-import { CatchData, MyPage, Trips } from "components";
+import { CatchData, LiveAisMenu, MyPage, Trips } from "components";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { FC } from "react";
-import { MenuViewState, selectViewState, useAppSelector } from "store";
+import {
+  MenuViewState,
+  selectSelectedLivePosition,
+  selectViewState,
+  useAppSelector,
+} from "store";
 
 export const MainMenu: FC = () => {
   const viewState = useAppSelector(selectViewState);
+  const livePosition = useAppSelector(selectSelectedLivePosition);
+
+  if (viewState === MenuViewState.Live && !livePosition) {
+    return <></>;
+  }
 
   return (
     <Box sx={{ height: "100%" }}>
@@ -30,6 +40,7 @@ export const MainMenu: FC = () => {
           defer
         >
           {viewState === MenuViewState.Overview && <CatchData />}
+          {viewState === MenuViewState.Live && <LiveAisMenu />}
           {viewState === MenuViewState.Trips && <Trips />}
           {viewState === MenuViewState.MyPage && <MyPage />}
         </OverlayScrollbarsComponent>
