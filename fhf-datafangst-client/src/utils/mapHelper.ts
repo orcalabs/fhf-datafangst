@@ -4,10 +4,14 @@ import shoreline from "assets/geojson/shoreline.json";
 import deliveryPointIcon from "assets/icons/delivery-point-map.svg";
 import transferIcon from "assets/icons/swap-24.svg";
 import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
+import greyVessel from "assets/icons/vessel-map-grey.svg";
 import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
+import blueVessel from "assets/icons/vessel-map.svg";
 import ColorScale from "color-scales";
+import { differenceInHours } from "date-fns";
 import {
   AisVmsPosition,
+  CurrentAisPosition,
   DeliveryPoint,
   FishingFacility,
   FishingFacilityToolType,
@@ -738,4 +742,43 @@ export const generateDeliveryPointsVector = (
     }
 
   return deliveryPointsVector;
+};
+
+export const generateLiveVesselsVector = (
+  positions?: CurrentAisPosition[],
+  iconSize?: number,
+  selected?: CurrentAisPosition,
+) => {
+  const vector = new VectorSource();
+
+  if (!positions) {
+    return vector;
+  }
+
+  for (const pos of positions) {
+    const feature = new Feature({
+      geometry: new Point(fromLonLat(pos.lon, pos.lat)),
+      livePosition: pos,
+    });
+
+    feature.setStyle(
+      new Style({
+        image: new Icon({
+          opacity: 1,
+          anchor: [0.5, 0.5],
+          scale: (iconSize ?? 0.05) * (pos.mmsi === selected?.mmsi ? 2 : 1),
+          rotation: ((pos.cog ?? 0) * Math.PI) / 180,
+          src:
+            differenceInHours(new Date(), new Date(pos.timestamp)) >
+            Number(process.env.REACT_APP_VESSEL_MAP_THRESHOLD_HOURS)
+              ? greyVessel
+              : blueVessel,
+        }),
+      }),
+    );
+
+    vector.addFeature(feature);
+  }
+
+  return vector;
 };

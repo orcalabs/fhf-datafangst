@@ -29,6 +29,7 @@ export { VectorLayer } from "./Layers/VectorLayer";
 export { Header } from "./Layout/Header";
 export { HeaderMenuButtons } from "./Layout/HeaderMenuButtons";
 export { Layout } from "./Layout/Layout";
+export { LiveAisMenu } from "./LiveAisMenu/LiveAisMenu";
 export { LoadingScreen } from "./LoadingScreen/LoadingScreen";
 export { MainMenu } from "./MainMenu/MainMenu";
 export { DateFilter } from "./MainMenu/SearchFilters/DateFilter";

@@ -61,6 +61,7 @@ export const HeaderMenuButtons: FC = () => {
         }
       >
         <ToggleButton value={MenuViewState.Overview}>Områder</ToggleButton>
+        <ToggleButton value={MenuViewState.Live}>Live</ToggleButton>
         <ToggleButton value={MenuViewState.Trips}>Turer</ToggleButton>
         <ToggleButton value={MenuViewState.MyPage}>Mitt fartøy</ToggleButton>
       </ToggleButtonGroup>

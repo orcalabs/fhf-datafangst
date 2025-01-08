@@ -129,7 +129,7 @@ export const TripDetails: FC = () => {
     >
       <Box display="flex" justifyContent={"space-between"} sx={{ p: 2 }}>
         <Box sx={{ width: 350 }}>
-          <VesselDetails />
+          <VesselDetails vesselId={trip?.fiskeridirVesselId} />
         </Box>
         <IconButton
           sx={{ width: 40, height: 40 }}

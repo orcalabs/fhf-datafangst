@@ -1,49 +1,26 @@
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import LocationDisabledIcon from "@mui/icons-material/LocationDisabled";
-import {
-  Box,
-  List,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
-  ListSubheader,
-} from "@mui/material";
+import { Box, List, ListSubheader } from "@mui/material";
 import { TripsArgs } from "api";
-import theme from "app/theme";
-import { FishIcon } from "assets/icons";
 import {
   LocalLoadingProgress,
   PaginationButtons,
   SearchFilters,
 } from "components";
-import { Trip } from "generated/openapi";
 import { FC, useEffect } from "react";
 import {
   MenuViewState,
   paginateTripsSearch,
   selectBwUserProfile,
-  selectSelectedTrip,
   selectTrips,
   selectTripsLoading,
   selectTripsSearch,
   selectVesselsByCallsign,
-  selectVesselsByFiskeridirId,
   selectViewState,
-  setSelectedTrip,
   setTripsSearch,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { dateFormat, kilosOrTonsFormatter, withoutKeys } from "utils";
-
-const listItemSx = {
-  px: 2.5,
-  "&.Mui-selected": {
-    bgcolor: "primary.dark",
-    "&:hover": { bgcolor: "primary.dark" },
-  },
-  "&:hover": { bgcolor: "primary.main" },
-};
+import { withoutKeys } from "utils";
+import { TripItem } from "./TripItem";
 
 const filterParams: TripsArgs = {
   dateRange: undefined,
@@ -59,11 +36,9 @@ export const Trips: FC = () => {
   const dispatch = useAppDispatch();
   const tripsLoading = useAppSelector(selectTripsLoading);
   const trips = useAppSelector(selectTrips);
-  const selectedTripId = useAppSelector(selectSelectedTrip)?.tripId;
   const tripsSearch = useAppSelector(selectTripsSearch);
   const profile = useAppSelector(selectBwUserProfile);
   const vessels = useAppSelector(selectVesselsByCallsign);
-  const vesselsById = useAppSelector(selectVesselsByFiskeridirId);
   const vesselInfo = profile?.fiskInfoProfile;
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const viewState = useAppSelector(selectViewState);
@@ -81,11 +56,6 @@ export const Trips: FC = () => {
 
   const handleTripsPagination = (offset: number, limit: number) => {
     dispatch(paginateTripsSearch({ offset, limit }));
-  };
-
-  const handleTripChange = (trip: Trip) => {
-    const newTrip = trip.tripId === selectedTripId ? undefined : trip;
-    dispatch(setSelectedTrip(newTrip));
   };
 
   useEffect(() => {
@@ -125,50 +95,7 @@ export const Trips: FC = () => {
         <Box sx={{ py: 1, pl: 2.5 }}>Ingen resultater</Box>
       ) : (
         <>
-          {trips?.map((t) => (
-            <ListItemButton
-              dense
-              key={t.tripId}
-              sx={listItemSx}
-              selected={selectedTripId === t.tripId}
-              onClick={() => handleTripChange(t)}
-            >
-              <ListItemAvatar sx={{ pr: 2 }}>
-                <FishIcon
-                  width="32"
-                  height="32"
-                  fill={theme.palette.secondary.main}
-                />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  viewState === MenuViewState.MyPage
-                    ? dateFormat(t.end, "PPP")
-                    : (vesselsById[t.fiskeridirVesselId]?.fiskeridir.name ??
-                      "Ukjent")
-                }
-                secondary={
-                  viewState === MenuViewState.MyPage
-                    ? kilosOrTonsFormatter(t.delivery.totalLivingWeight)
-                    : `${kilosOrTonsFormatter(
-                        t.delivery.totalLivingWeight,
-                      )} - ${dateFormat(t.end, "PPP")}`
-                }
-              />
-              {t.hasTrack ? (
-                <ListItemAvatar sx={{ pl: 3 }}>
-                  <GpsFixedIcon sx={{ color: "#7FA380" }} fontSize="small" />
-                </ListItemAvatar>
-              ) : (
-                <ListItemAvatar sx={{ pl: 3 }}>
-                  <LocationDisabledIcon
-                    sx={{ color: "grey.A100" }}
-                    fontSize="small"
-                  />
-                </ListItemAvatar>
-              )}
-            </ListItemButton>
-          ))}
+          {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
 
           <Box sx={{ mt: 1, mr: viewState === MenuViewState.MyPage ? 2 : 0 }}>
             <PaginationButtons

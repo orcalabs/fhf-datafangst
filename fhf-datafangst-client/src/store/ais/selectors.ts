@@ -7,3 +7,18 @@ export const selectAisLoading = createSelector(
 );
 
 export const selectAis = createSelector(selectAppState, (state) => state.ais);
+
+export const selectCurrentPositions = createSelector(
+  selectAppState,
+  (state) => state.currentPositions,
+);
+
+export const selectCurrentPositionsLoading = createSelector(
+  selectAppState,
+  (state) => state.currentPositionsLoading,
+);
+
+export const selectSelectedLivePosition = createSelector(
+  selectAppState,
+  (state) => state.selectedLivePosition,
+);

@@ -7,7 +7,13 @@ import {
   ShorelinePopover,
   TransferPopover,
 } from "components";
-import { AisVmsPosition, DeliveryPoint, Haul, Tra } from "generated/openapi";
+import {
+  AisVmsPosition,
+  CurrentAisPosition,
+  DeliveryPoint,
+  Haul,
+  Tra,
+} from "generated/openapi";
 import { Map as OLMap, MapBrowserEvent, View } from "ol";
 import { defaults, MousePosition, ScaleLine } from "ol/control";
 import { Coordinate, toStringHDMS } from "ol/coordinate";
@@ -26,6 +32,7 @@ import {
   selectSelectedOrCurrentTrip,
   setSelectedFishingFacility,
   setSelectedHaul,
+  setSelectedLivePosition,
   setSelectedTripHaul,
   store,
   toggleSelectedArea,
@@ -34,6 +41,7 @@ import {
 } from "store";
 import { fishingFacilityStyle, tripHaulStyle } from "utils";
 import { FishingFacilityPopover } from "./FishingFacilityPopover";
+import { LivePositionPopover } from "./LivePositionPopover";
 
 interface Props {
   children: React.ReactNode;
@@ -48,6 +56,8 @@ export const Map: FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const mapState = useAppSelector(selectFishmapState);
   const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
+  const [hoveredLivePosition, setHoveredLivePosition] =
+    useState<CurrentAisPosition>();
   const [hoveredShoreline, setHoveredShoreline] = useState<string>();
   const [hoveredHaulId, setHoveredHaulId] = useState<number>();
   const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
@@ -69,6 +79,7 @@ export const Map: FC<Props> = (props) => {
 
   const resetHover = () => {
     setHoveredPosition(undefined);
+    setHoveredLivePosition(undefined);
     setHoveredShoreline(undefined);
     setHoveredHaulId(undefined);
     setHoveredFishingFacilityIdx(undefined);
@@ -199,6 +210,7 @@ export const Map: FC<Props> = (props) => {
           const haulId = feature.get("haulId");
           const haul = feature.get("haul");
           const gearIdx = feature.get("fishingFacilityIdx");
+          const livePosition = feature.get("livePosition");
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
@@ -221,6 +233,8 @@ export const Map: FC<Props> = (props) => {
               return;
             }
             dispatch(setSelectedFishingFacility(gearIdx));
+          } else if (livePosition) {
+            dispatch(setSelectedLivePosition(livePosition));
           }
         } else {
           // dispatch(resetState());
@@ -260,6 +274,7 @@ export const Map: FC<Props> = (props) => {
       if (feature) {
         const weightedArea = feature.get("weight");
         const aisPosition = feature.get("aisPosition");
+        const livePosition = feature.get("livePosition");
         const shoreLine = feature.getProperties();
         const haulId = feature.get("haulId");
         const fishingFacilityIdx = feature.get("fishingFacilityIdx");
@@ -270,6 +285,10 @@ export const Map: FC<Props> = (props) => {
         if (aisPosition) {
           setHoveredPosition(aisPosition);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+        } else if (livePosition) {
+          setHoveredLivePosition(livePosition);
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          mapState.map.getTargetElement().style.cursor = "pointer";
         } else if (
           shoreLine.navn === "12 nautiske mil" ||
           shoreLine.navn === "4 nautiske mil"
@@ -327,6 +346,9 @@ export const Map: FC<Props> = (props) => {
       >
         {hoveredPosition && (
           <PositionPopover hoveredPosition={hoveredPosition} />
+        )}
+        {hoveredLivePosition && (
+          <LivePositionPopover position={hoveredLivePosition} />
         )}
         {hoveredShoreline && <ShorelinePopover name={hoveredShoreline} />}
         {hoveredDeliveryPoint && (
