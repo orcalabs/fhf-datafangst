@@ -109,7 +109,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselName: "",
         };
         // Assign Hermes to Per
-      } else if (state.bwUser.user.email === "pefin@fiskeridir.no") {
+      } else if (state.bwUser.user.email === "per.finne@fiskeridir.no") {
         state.bwUser.fiskInfoProfile = {
           ircs: "LFNX",
           mmsi: 257640000,
@@ -125,7 +125,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       } else if (state.bwUser.user.email === "erlend.stav@sintef.no") {
         state.bwUser.fiskInfoProfile = {
           ircs: "LJWR",
-          mmsi: 257640000,
+          mmsi: 259616000,
           imo: -1,
           regNum: "",
           sbrRegNum: "",
