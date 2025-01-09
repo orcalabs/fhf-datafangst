@@ -902,6 +902,12 @@ export interface Delivery {
      * @memberof Delivery
      */
     'totalPriceForFisher': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Delivery
+     */
+    'priceForFisherIsEstimated': boolean;
 }
 /**
  * 
@@ -5582,10 +5588,10 @@ export class FishingPredictionApi extends BaseAPI {
 
 
 /**
- * FuelApi - axios parameter creator
+ * FuelMeasurementApi - axios parameter creator
  * @export
  */
-export const FuelApiAxiosParamCreator = function (configuration?: Configuration) {
+export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -5594,11 +5600,11 @@ export const FuelApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelCreateFuelMeasurements: async (bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1FuelMeasurementCreateFuelMeasurements: async (bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1FuelCreateFuelMeasurements', 'bwToken', bwToken)
+            assertParamExists('routesV1FuelMeasurementCreateFuelMeasurements', 'bwToken', bwToken)
             // verify required parameter 'fuelMeasurementBody' is not null or undefined
-            assertParamExists('routesV1FuelCreateFuelMeasurements', 'fuelMeasurementBody', fuelMeasurementBody)
+            assertParamExists('routesV1FuelMeasurementCreateFuelMeasurements', 'fuelMeasurementBody', fuelMeasurementBody)
             const localVarPath = `/v1.0/fuel_measurements`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5640,11 +5646,11 @@ export const FuelApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelDeleteFuelMeasurements: async (bwToken: string, deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1FuelMeasurementDeleteFuelMeasurements: async (bwToken: string, deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1FuelDeleteFuelMeasurements', 'bwToken', bwToken)
+            assertParamExists('routesV1FuelMeasurementDeleteFuelMeasurements', 'bwToken', bwToken)
             // verify required parameter 'deleteFuelMeasurement' is not null or undefined
-            assertParamExists('routesV1FuelDeleteFuelMeasurements', 'deleteFuelMeasurement', deleteFuelMeasurement)
+            assertParamExists('routesV1FuelMeasurementDeleteFuelMeasurements', 'deleteFuelMeasurement', deleteFuelMeasurement)
             const localVarPath = `/v1.0/fuel_measurements`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5680,60 +5686,6 @@ export const FuelApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
-         * @param {string} bwToken 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FuelGetFuel: async (bwToken: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1FuelGetFuel', 'bwToken', bwToken)
-            const localVarPath = `/v1.0/fuel`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString().substring(0,10) :
-                    startDate;
-            }
-
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString().substring(0,10) :
-                    endDate;
-            }
-
-            if (bwToken != null) {
-                localVarHeaderParameter['bw-token'] = String(bwToken);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * 
          * @param {string} bwToken 
          * @param {string | null} [startDate] 
@@ -5741,9 +5693,9 @@ export const FuelApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelGetFuelMeasurements: async (bwToken: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1FuelMeasurementGetFuelMeasurements: async (bwToken: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1FuelGetFuelMeasurements', 'bwToken', bwToken)
+            assertParamExists('routesV1FuelMeasurementGetFuelMeasurements', 'bwToken', bwToken)
             const localVarPath = `/v1.0/fuel_measurements`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5794,11 +5746,11 @@ export const FuelApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelUpdateFuelMeasurements: async (bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1FuelMeasurementUpdateFuelMeasurements: async (bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1FuelUpdateFuelMeasurements', 'bwToken', bwToken)
+            assertParamExists('routesV1FuelMeasurementUpdateFuelMeasurements', 'bwToken', bwToken)
             // verify required parameter 'fuelMeasurementBody' is not null or undefined
-            assertParamExists('routesV1FuelUpdateFuelMeasurements', 'fuelMeasurementBody', fuelMeasurementBody)
+            assertParamExists('routesV1FuelMeasurementUpdateFuelMeasurements', 'fuelMeasurementBody', fuelMeasurementBody)
             const localVarPath = `/v1.0/fuel_measurements`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5837,11 +5789,11 @@ export const FuelApiAxiosParamCreator = function (configuration?: Configuration)
 };
 
 /**
- * FuelApi - functional programming interface
+ * FuelMeasurementApi - functional programming interface
  * @export
  */
-export const FuelApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = FuelApiAxiosParamCreator(configuration)
+export const FuelMeasurementApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FuelMeasurementApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -5850,10 +5802,10 @@ export const FuelApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelCreateFuelMeasurements(bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelCreateFuelMeasurements(bwToken, fuelMeasurementBody, options);
+        async routesV1FuelMeasurementCreateFuelMeasurements(bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementCreateFuelMeasurements(bwToken, fuelMeasurementBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FuelApi.routesV1FuelCreateFuelMeasurements']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementCreateFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -5863,24 +5815,10 @@ export const FuelApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelDeleteFuelMeasurements(bwToken: string, deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelDeleteFuelMeasurements(bwToken, deleteFuelMeasurement, options);
+        async routesV1FuelMeasurementDeleteFuelMeasurements(bwToken: string, deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementDeleteFuelMeasurements(bwToken, deleteFuelMeasurement, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FuelApi.routesV1FuelDeleteFuelMeasurements']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
-         * @param {string} bwToken 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1FuelGetFuel(bwToken: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelGetFuel(bwToken, startDate, endDate, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FuelApi.routesV1FuelGetFuel']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementDeleteFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -5891,10 +5829,10 @@ export const FuelApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelGetFuelMeasurements(bwToken: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelGetFuelMeasurements(bwToken, startDate, endDate, options);
+        async routesV1FuelMeasurementGetFuelMeasurements(bwToken: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementGetFuelMeasurements(bwToken, startDate, endDate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FuelApi.routesV1FuelGetFuelMeasurements']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementGetFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -5904,249 +5842,201 @@ export const FuelApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelUpdateFuelMeasurements(bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelUpdateFuelMeasurements(bwToken, fuelMeasurementBody, options);
+        async routesV1FuelMeasurementUpdateFuelMeasurements(bwToken: string, fuelMeasurementBody: Array<FuelMeasurementBody>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementUpdateFuelMeasurements(bwToken, fuelMeasurementBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FuelApi.routesV1FuelUpdateFuelMeasurements']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementUpdateFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * FuelApi - factory interface
+ * FuelMeasurementApi - factory interface
  * @export
  */
-export const FuelApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = FuelApiFp(configuration)
+export const FuelMeasurementApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FuelMeasurementApiFp(configuration)
     return {
         /**
          * 
-         * @param {FuelApiRoutesV1FuelCreateFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelCreateFuelMeasurements(requestParameters: FuelApiRoutesV1FuelCreateFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1FuelCreateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(axios, basePath));
+        routesV1FuelMeasurementCreateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.routesV1FuelMeasurementCreateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FuelApiRoutesV1FuelDeleteFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelDeleteFuelMeasurements(requestParameters: FuelApiRoutesV1FuelDeleteFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1FuelDeleteFuelMeasurements(requestParameters.bwToken, requestParameters.deleteFuelMeasurement, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
-         * @param {FuelApiRoutesV1FuelGetFuelRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FuelGetFuel(requestParameters: FuelApiRoutesV1FuelGetFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1FuelGetFuel(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters.bwToken, requestParameters.deleteFuelMeasurement, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FuelApiRoutesV1FuelGetFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelGetFuelMeasurements(requestParameters: FuelApiRoutesV1FuelGetFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
-            return localVarFp.routesV1FuelGetFuelMeasurements(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
+            return localVarFp.routesV1FuelMeasurementGetFuelMeasurements(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FuelApiRoutesV1FuelUpdateFuelMeasurementsRequest} requestParameters Request parameters.
+         * @param {FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelUpdateFuelMeasurements(requestParameters: FuelApiRoutesV1FuelUpdateFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1FuelUpdateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(axios, basePath));
+        routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for routesV1FuelCreateFuelMeasurements operation in FuelApi.
+ * Request parameters for routesV1FuelMeasurementCreateFuelMeasurements operation in FuelMeasurementApi.
  * @export
- * @interface FuelApiRoutesV1FuelCreateFuelMeasurementsRequest
+ * @interface FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest
  */
-export interface FuelApiRoutesV1FuelCreateFuelMeasurementsRequest {
+export interface FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest {
     /**
      * 
      * @type {string}
-     * @memberof FuelApiRoutesV1FuelCreateFuelMeasurements
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurements
      */
     readonly bwToken: string
 
     /**
      * 
      * @type {Array<FuelMeasurementBody>}
-     * @memberof FuelApiRoutesV1FuelCreateFuelMeasurements
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurements
      */
     readonly fuelMeasurementBody: Array<FuelMeasurementBody>
 }
 
 /**
- * Request parameters for routesV1FuelDeleteFuelMeasurements operation in FuelApi.
+ * Request parameters for routesV1FuelMeasurementDeleteFuelMeasurements operation in FuelMeasurementApi.
  * @export
- * @interface FuelApiRoutesV1FuelDeleteFuelMeasurementsRequest
+ * @interface FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest
  */
-export interface FuelApiRoutesV1FuelDeleteFuelMeasurementsRequest {
+export interface FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest {
     /**
      * 
      * @type {string}
-     * @memberof FuelApiRoutesV1FuelDeleteFuelMeasurements
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurements
      */
     readonly bwToken: string
 
     /**
      * 
      * @type {Array<DeleteFuelMeasurement>}
-     * @memberof FuelApiRoutesV1FuelDeleteFuelMeasurements
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurements
      */
     readonly deleteFuelMeasurement: Array<DeleteFuelMeasurement>
 }
 
 /**
- * Request parameters for routesV1FuelGetFuel operation in FuelApi.
+ * Request parameters for routesV1FuelMeasurementGetFuelMeasurements operation in FuelMeasurementApi.
  * @export
- * @interface FuelApiRoutesV1FuelGetFuelRequest
+ * @interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest
  */
-export interface FuelApiRoutesV1FuelGetFuelRequest {
+export interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest {
     /**
      * 
      * @type {string}
-     * @memberof FuelApiRoutesV1FuelGetFuel
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
      */
     readonly bwToken: string
 
     /**
      * 
      * @type {string}
-     * @memberof FuelApiRoutesV1FuelGetFuel
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
      */
     readonly startDate?: string | null
 
     /**
      * 
      * @type {string}
-     * @memberof FuelApiRoutesV1FuelGetFuel
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
      */
     readonly endDate?: string | null
 }
 
 /**
- * Request parameters for routesV1FuelGetFuelMeasurements operation in FuelApi.
+ * Request parameters for routesV1FuelMeasurementUpdateFuelMeasurements operation in FuelMeasurementApi.
  * @export
- * @interface FuelApiRoutesV1FuelGetFuelMeasurementsRequest
+ * @interface FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest
  */
-export interface FuelApiRoutesV1FuelGetFuelMeasurementsRequest {
+export interface FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest {
     /**
      * 
      * @type {string}
-     * @memberof FuelApiRoutesV1FuelGetFuelMeasurements
-     */
-    readonly bwToken: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof FuelApiRoutesV1FuelGetFuelMeasurements
-     */
-    readonly startDate?: string | null
-
-    /**
-     * 
-     * @type {string}
-     * @memberof FuelApiRoutesV1FuelGetFuelMeasurements
-     */
-    readonly endDate?: string | null
-}
-
-/**
- * Request parameters for routesV1FuelUpdateFuelMeasurements operation in FuelApi.
- * @export
- * @interface FuelApiRoutesV1FuelUpdateFuelMeasurementsRequest
- */
-export interface FuelApiRoutesV1FuelUpdateFuelMeasurementsRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof FuelApiRoutesV1FuelUpdateFuelMeasurements
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurements
      */
     readonly bwToken: string
 
     /**
      * 
      * @type {Array<FuelMeasurementBody>}
-     * @memberof FuelApiRoutesV1FuelUpdateFuelMeasurements
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurements
      */
     readonly fuelMeasurementBody: Array<FuelMeasurementBody>
 }
 
 /**
- * FuelApi - object-oriented interface
+ * FuelMeasurementApi - object-oriented interface
  * @export
- * @class FuelApi
+ * @class FuelMeasurementApi
  * @extends {BaseAPI}
  */
-export class FuelApi extends BaseAPI {
+export class FuelMeasurementApi extends BaseAPI {
     /**
      * 
-     * @param {FuelApiRoutesV1FuelCreateFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FuelApi
+     * @memberof FuelMeasurementApi
      */
-    public routesV1FuelCreateFuelMeasurements(requestParameters: FuelApiRoutesV1FuelCreateFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelApiFp(this.configuration).routesV1FuelCreateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(this.axios, this.basePath));
+    public routesV1FuelMeasurementCreateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementCreateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FuelApiRoutesV1FuelDeleteFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FuelApi
+     * @memberof FuelMeasurementApi
      */
-    public routesV1FuelDeleteFuelMeasurements(requestParameters: FuelApiRoutesV1FuelDeleteFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelApiFp(this.configuration).routesV1FuelDeleteFuelMeasurements(requestParameters.bwToken, requestParameters.deleteFuelMeasurement, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned.
-     * @param {FuelApiRoutesV1FuelGetFuelRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FuelApi
-     */
-    public routesV1FuelGetFuel(requestParameters: FuelApiRoutesV1FuelGetFuelRequest, options?: RawAxiosRequestConfig) {
-        return FuelApiFp(this.configuration).routesV1FuelGetFuel(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    public routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters.bwToken, requestParameters.deleteFuelMeasurement, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FuelApiRoutesV1FuelGetFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FuelApi
+     * @memberof FuelMeasurementApi
      */
-    public routesV1FuelGetFuelMeasurements(requestParameters: FuelApiRoutesV1FuelGetFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelApiFp(this.configuration).routesV1FuelGetFuelMeasurements(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    public routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementGetFuelMeasurements(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FuelApiRoutesV1FuelUpdateFuelMeasurementsRequest} requestParameters Request parameters.
+     * @param {FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FuelApi
+     * @memberof FuelMeasurementApi
      */
-    public routesV1FuelUpdateFuelMeasurements(requestParameters: FuelApiRoutesV1FuelUpdateFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelApiFp(this.configuration).routesV1FuelUpdateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(this.axios, this.basePath));
+    public routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters.bwToken, requestParameters.fuelMeasurementBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -7180,6 +7070,173 @@ export class LandingApi extends BaseAPI {
 
 
 /**
+ * OrgApi - axios parameter creator
+ * @export
+ */
+export const OrgApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
+         * @param {string} bwToken 
+         * @param {number} orgId 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1OrgBenchmarks: async (bwToken: string, orgId: number, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bwToken' is not null or undefined
+            assertParamExists('routesV1OrgBenchmarks', 'bwToken', bwToken)
+            // verify required parameter 'orgId' is not null or undefined
+            assertParamExists('routesV1OrgBenchmarks', 'orgId', orgId)
+            const localVarPath = `/v1.0/org/{org_id}/benchmarks`
+                .replace(`{${"org_id"}}`, encodeURIComponent(String(orgId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OrgApi - functional programming interface
+ * @export
+ */
+export const OrgApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OrgApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
+         * @param {string} bwToken 
+         * @param {number} orgId 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1OrgBenchmarks(bwToken: string, orgId: number, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrgBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgBenchmarks(bwToken, orgId, start, end, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OrgApi.routesV1OrgBenchmarks']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * OrgApi - factory interface
+ * @export
+ */
+export const OrgApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OrgApiFp(configuration)
+    return {
+        /**
+         * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
+         * @param {OrgApiRoutesV1OrgBenchmarksRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1OrgBenchmarks(requestParameters: OrgApiRoutesV1OrgBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<OrgBenchmarks> {
+            return localVarFp.routesV1OrgBenchmarks(requestParameters.bwToken, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for routesV1OrgBenchmarks operation in OrgApi.
+ * @export
+ * @interface OrgApiRoutesV1OrgBenchmarksRequest
+ */
+export interface OrgApiRoutesV1OrgBenchmarksRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgBenchmarks
+     */
+    readonly bwToken: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgApiRoutesV1OrgBenchmarks
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgBenchmarks
+     */
+    readonly start?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgBenchmarks
+     */
+    readonly end?: string | null
+}
+
+/**
+ * OrgApi - object-oriented interface
+ * @export
+ * @class OrgApi
+ * @extends {BaseAPI}
+ */
+export class OrgApi extends BaseAPI {
+    /**
+     * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
+     * @param {OrgApiRoutesV1OrgBenchmarksRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrgApi
+     */
+    public routesV1OrgBenchmarks(requestParameters: OrgApiRoutesV1OrgBenchmarksRequest, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).routesV1OrgBenchmarks(requestParameters.bwToken, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * SpeciesApi - axios parameter creator
  * @export
  */
@@ -7557,6 +7614,243 @@ export class SpeciesApi extends BaseAPI {
 export const TripApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverage: async (startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip/benchmarks/average`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+            if (gearGroups) {
+                localVarQueryParameter['gearGroups[]'] = gearGroups;
+            }
+
+            if (lengthGroup !== undefined) {
+                localVarQueryParameter['lengthGroup'] = lengthGroup;
+            }
+
+            if (vesselIds) {
+                localVarQueryParameter['vesselIds[]'] = vesselIds;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverageEeoi: async (startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip/benchmarks/average_eeoi`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+            if (gearGroups) {
+                localVarQueryParameter['gearGroups[]'] = gearGroups;
+            }
+
+            if (lengthGroup !== undefined) {
+                localVarQueryParameter['lengthGroup'] = lengthGroup;
+            }
+
+            if (vesselIds) {
+                localVarQueryParameter['vesselIds[]'] = vesselIds;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns trip benchmarks for the vessel associated with the authenticated user.
+         * @param {string} bwToken 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {Ordering | null} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksBenchmarks: async (bwToken: string, startDate?: string | null, endDate?: string | null, ordering?: Ordering | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bwToken' is not null or undefined
+            assertParamExists('routesV1TripBenchmarksBenchmarks', 'bwToken', bwToken)
+            const localVarPath = `/v1.0/trip/benchmarks`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+            if (ordering !== undefined) {
+                localVarQueryParameter['ordering'] = ordering;
+            }
+
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} bwToken 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksEeoi: async (bwToken: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bwToken' is not null or undefined
+            assertParamExists('routesV1TripBenchmarksEeoi', 'bwToken', bwToken)
+            const localVarPath = `/v1.0/trip/benchmarks/eeoi`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
          * @param {number} fiskeridirVesselId 
          * @param {string} [bwToken] 
@@ -7605,9 +7899,9 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripTripOfHaul: async (haulId: number, bwToken?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripTripOfHaulTripOfHaul: async (haulId: number, bwToken?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'haulId' is not null or undefined
-            assertParamExists('routesV1TripTripOfHaul', 'haulId', haulId)
+            assertParamExists('routesV1TripTripOfHaulTripOfHaul', 'haulId', haulId)
             const localVarPath = `/v1.0/trip_of_haul/{haul_id}`
                 .replace(`{${"haul_id"}}`, encodeURIComponent(String(haulId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7800,6 +8094,67 @@ export const TripApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = TripApiAxiosParamCreator(configuration)
     return {
         /**
+         * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripBenchmarksAverage(startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageTripBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverage(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripBenchmarksAverageEeoi(startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageEeoi(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverageEeoi']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Returns trip benchmarks for the vessel associated with the authenticated user.
+         * @param {string} bwToken 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {Ordering | null} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripBenchmarksBenchmarks(bwToken: string, startDate?: string | null, endDate?: string | null, ordering?: Ordering | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TripBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksBenchmarks(bwToken, startDate, endDate, ordering, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksBenchmarks']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} bwToken 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripBenchmarksEeoi(bwToken: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksEeoi(bwToken, startDate, endDate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksEeoi']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
          * @param {number} fiskeridirVesselId 
          * @param {string} [bwToken] 
@@ -7819,10 +8174,10 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripTripOfHaul(haulId: number, bwToken?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTripOfHaul(haulId, bwToken, options);
+        async routesV1TripTripOfHaulTripOfHaul(haulId: number, bwToken?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTripOfHaulTripOfHaul(haulId, bwToken, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripTripOfHaul']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripTripOfHaulTripOfHaul']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -7874,6 +8229,42 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = TripApiFp(configuration)
     return {
         /**
+         * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
+         * @param {TripApiRoutesV1TripBenchmarksAverageRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverage(requestParameters: TripApiRoutesV1TripBenchmarksAverageRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AverageTripBenchmarks> {
+            return localVarFp.routesV1TripBenchmarksAverage(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {TripApiRoutesV1TripBenchmarksAverageEeoiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverageEeoi(requestParameters: TripApiRoutesV1TripBenchmarksAverageEeoiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1TripBenchmarksAverageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns trip benchmarks for the vessel associated with the authenticated user.
+         * @param {TripApiRoutesV1TripBenchmarksBenchmarksRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksBenchmarks(requestParameters: TripApiRoutesV1TripBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<TripBenchmarks> {
+            return localVarFp.routesV1TripBenchmarksBenchmarks(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, requestParameters.ordering, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {TripApiRoutesV1TripBenchmarksEeoiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1TripBenchmarksEeoi(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
          * @param {TripApiRoutesV1TripCurrentTripRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -7884,12 +8275,12 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * Returns the trip associated with the given haul.
-         * @param {TripApiRoutesV1TripTripOfHaulRequest} requestParameters Request parameters.
+         * @param {TripApiRoutesV1TripTripOfHaulTripOfHaulRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripTripOfHaul(requestParameters: TripApiRoutesV1TripTripOfHaulRequest, options?: RawAxiosRequestConfig): AxiosPromise<Trip> {
-            return localVarFp.routesV1TripTripOfHaul(requestParameters.haulId, requestParameters.bwToken, options).then((request) => request(axios, basePath));
+        routesV1TripTripOfHaulTripOfHaul(requestParameters: TripApiRoutesV1TripTripOfHaulTripOfHaulRequest, options?: RawAxiosRequestConfig): AxiosPromise<Trip> {
+            return localVarFp.routesV1TripTripOfHaulTripOfHaul(requestParameters.haulId, requestParameters.bwToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the trip associated with the given landing.
@@ -7913,6 +8304,153 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
 };
 
 /**
+ * Request parameters for routesV1TripBenchmarksAverage operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksAverageRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksAverageRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverage
+     */
+    readonly startDate?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverage
+     */
+    readonly endDate?: string
+
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverage
+     */
+    readonly gearGroups?: Array<GearGroup> | null
+
+    /**
+     * 
+     * @type {VesselLengthGroup}
+     * @memberof TripApiRoutesV1TripBenchmarksAverage
+     */
+    readonly lengthGroup?: VesselLengthGroup | null
+
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverage
+     */
+    readonly vesselIds?: Array<number> | null
+}
+
+/**
+ * Request parameters for routesV1TripBenchmarksAverageEeoi operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
+     */
+    readonly startDate?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
+     */
+    readonly endDate?: string
+
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
+     */
+    readonly gearGroups?: Array<GearGroup> | null
+
+    /**
+     * 
+     * @type {VesselLengthGroup}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
+     */
+    readonly lengthGroup?: VesselLengthGroup | null
+
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
+     */
+    readonly vesselIds?: Array<number> | null
+}
+
+/**
+ * Request parameters for routesV1TripBenchmarksBenchmarks operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksBenchmarksRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksBenchmarksRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
+     */
+    readonly bwToken: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
+     */
+    readonly startDate?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
+     */
+    readonly endDate?: string | null
+
+    /**
+     * 
+     * @type {Ordering}
+     * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
+     */
+    readonly ordering?: Ordering | null
+}
+
+/**
+ * Request parameters for routesV1TripBenchmarksEeoi operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksEeoiRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksEeoiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksEeoi
+     */
+    readonly bwToken: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksEeoi
+     */
+    readonly startDate?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksEeoi
+     */
+    readonly endDate?: string | null
+}
+
+/**
  * Request parameters for routesV1TripCurrentTrip operation in TripApi.
  * @export
  * @interface TripApiRoutesV1TripCurrentTripRequest
@@ -7934,22 +8472,22 @@ export interface TripApiRoutesV1TripCurrentTripRequest {
 }
 
 /**
- * Request parameters for routesV1TripTripOfHaul operation in TripApi.
+ * Request parameters for routesV1TripTripOfHaulTripOfHaul operation in TripApi.
  * @export
- * @interface TripApiRoutesV1TripTripOfHaulRequest
+ * @interface TripApiRoutesV1TripTripOfHaulTripOfHaulRequest
  */
-export interface TripApiRoutesV1TripTripOfHaulRequest {
+export interface TripApiRoutesV1TripTripOfHaulTripOfHaulRequest {
     /**
      * 
      * @type {number}
-     * @memberof TripApiRoutesV1TripTripOfHaul
+     * @memberof TripApiRoutesV1TripTripOfHaulTripOfHaul
      */
     readonly haulId: number
 
     /**
      * 
      * @type {string}
-     * @memberof TripApiRoutesV1TripTripOfHaul
+     * @memberof TripApiRoutesV1TripTripOfHaulTripOfHaul
      */
     readonly bwToken?: string
 }
@@ -8088,6 +8626,50 @@ export interface TripApiRoutesV1TripTripsRequest {
  */
 export class TripApi extends BaseAPI {
     /**
+     * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
+     * @param {TripApiRoutesV1TripBenchmarksAverageRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksAverage(requestParameters: TripApiRoutesV1TripBenchmarksAverageRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksAverage(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+     * @param {TripApiRoutesV1TripBenchmarksAverageEeoiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksAverageEeoi(requestParameters: TripApiRoutesV1TripBenchmarksAverageEeoiRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns trip benchmarks for the vessel associated with the authenticated user.
+     * @param {TripApiRoutesV1TripBenchmarksBenchmarksRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksBenchmarks(requestParameters: TripApiRoutesV1TripBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksBenchmarks(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+     * @param {TripApiRoutesV1TripBenchmarksEeoiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksEeoi(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
      * @param {TripApiRoutesV1TripCurrentTripRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -8100,13 +8682,13 @@ export class TripApi extends BaseAPI {
 
     /**
      * Returns the trip associated with the given haul.
-     * @param {TripApiRoutesV1TripTripOfHaulRequest} requestParameters Request parameters.
+     * @param {TripApiRoutesV1TripTripOfHaulTripOfHaulRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TripApi
      */
-    public routesV1TripTripOfHaul(requestParameters: TripApiRoutesV1TripTripOfHaulRequest, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripTripOfHaul(requestParameters.haulId, requestParameters.bwToken, options).then((request) => request(this.axios, this.basePath));
+    public routesV1TripTripOfHaulTripOfHaul(requestParameters: TripApiRoutesV1TripTripOfHaulTripOfHaulRequest, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripTripOfHaulTripOfHaul(requestParameters.haulId, requestParameters.bwToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8129,570 +8711,6 @@ export class TripApi extends BaseAPI {
      */
     public routesV1TripTrips(requestParameters: TripApiRoutesV1TripTripsRequest = {}, options?: RawAxiosRequestConfig) {
         return TripApiFp(this.configuration).routesV1TripTrips(requestParameters.bwToken, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * TripBenchmarkApi - axios parameter creator
- * @export
- */
-export const TripBenchmarkApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
-         * @param {Array<number> | null} [vesselIds] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkAverage: async (startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/trip_benchmarks/average`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
-            }
-
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
-            }
-
-            if (gearGroups) {
-                localVarQueryParameter['gearGroups[]'] = gearGroups;
-            }
-
-            if (lengthGroup !== undefined) {
-                localVarQueryParameter['lengthGroup'] = lengthGroup;
-            }
-
-            if (vesselIds) {
-                localVarQueryParameter['vesselIds[]'] = vesselIds;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
-         * @param {Array<number> | null} [vesselIds] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkAverageEeoi: async (startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/trip_benchmarks/average_eeoi`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
-            }
-
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
-            }
-
-            if (gearGroups) {
-                localVarQueryParameter['gearGroups[]'] = gearGroups;
-            }
-
-            if (lengthGroup !== undefined) {
-                localVarQueryParameter['lengthGroup'] = lengthGroup;
-            }
-
-            if (vesselIds) {
-                localVarQueryParameter['vesselIds[]'] = vesselIds;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} bwToken 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkEeoi: async (bwToken: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1TripBenchmarkEeoi', 'bwToken', bwToken)
-            const localVarPath = `/v1.0/trip_benchmarks/eeoi`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
-            }
-
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
-            }
-
-            if (bwToken != null) {
-                localVarHeaderParameter['bw-token'] = String(bwToken);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Returns trip benchmarks for the vessel associated with the authenticated user.
-         * @param {string} bwToken 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {Ordering | null} [ordering] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkTripBenchmarks: async (bwToken: string, startDate?: string | null, endDate?: string | null, ordering?: Ordering | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1TripBenchmarkTripBenchmarks', 'bwToken', bwToken)
-            const localVarPath = `/v1.0/trip_benchmarks`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
-            }
-
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
-            }
-
-            if (ordering !== undefined) {
-                localVarQueryParameter['ordering'] = ordering;
-            }
-
-            if (bwToken != null) {
-                localVarHeaderParameter['bw-token'] = String(bwToken);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * TripBenchmarkApi - functional programming interface
- * @export
- */
-export const TripBenchmarkApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = TripBenchmarkApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
-         * @param {Array<number> | null} [vesselIds] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1TripBenchmarkAverage(startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageTripBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarkAverage(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripBenchmarkApi.routesV1TripBenchmarkAverage']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
-         * @param {Array<number> | null} [vesselIds] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1TripBenchmarkAverageEeoi(startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarkAverageEeoi(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripBenchmarkApi.routesV1TripBenchmarkAverageEeoi']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} bwToken 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1TripBenchmarkEeoi(bwToken: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarkEeoi(bwToken, startDate, endDate, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripBenchmarkApi.routesV1TripBenchmarkEeoi']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Returns trip benchmarks for the vessel associated with the authenticated user.
-         * @param {string} bwToken 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {Ordering | null} [ordering] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1TripBenchmarkTripBenchmarks(bwToken: string, startDate?: string | null, endDate?: string | null, ordering?: Ordering | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TripBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarkTripBenchmarks(bwToken, startDate, endDate, ordering, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripBenchmarkApi.routesV1TripBenchmarkTripBenchmarks']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * TripBenchmarkApi - factory interface
- * @export
- */
-export const TripBenchmarkApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = TripBenchmarkApiFp(configuration)
-    return {
-        /**
-         * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
-         * @param {TripBenchmarkApiRoutesV1TripBenchmarkAverageRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkAverage(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkAverageRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AverageTripBenchmarks> {
-            return localVarFp.routesV1TripBenchmarkAverage(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoiRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkAverageEeoi(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1TripBenchmarkAverageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {TripBenchmarkApiRoutesV1TripBenchmarkEeoiRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkEeoi(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkEeoiRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1TripBenchmarkEeoi(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns trip benchmarks for the vessel associated with the authenticated user.
-         * @param {TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarksRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarkTripBenchmarks(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<TripBenchmarks> {
-            return localVarFp.routesV1TripBenchmarkTripBenchmarks(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, requestParameters.ordering, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * Request parameters for routesV1TripBenchmarkAverage operation in TripBenchmarkApi.
- * @export
- * @interface TripBenchmarkApiRoutesV1TripBenchmarkAverageRequest
- */
-export interface TripBenchmarkApiRoutesV1TripBenchmarkAverageRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverage
-     */
-    readonly startDate?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverage
-     */
-    readonly endDate?: string
-
-    /**
-     * 
-     * @type {Array<GearGroup>}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverage
-     */
-    readonly gearGroups?: Array<GearGroup> | null
-
-    /**
-     * 
-     * @type {VesselLengthGroup}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverage
-     */
-    readonly lengthGroup?: VesselLengthGroup | null
-
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverage
-     */
-    readonly vesselIds?: Array<number> | null
-}
-
-/**
- * Request parameters for routesV1TripBenchmarkAverageEeoi operation in TripBenchmarkApi.
- * @export
- * @interface TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoiRequest
- */
-export interface TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoiRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoi
-     */
-    readonly startDate?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoi
-     */
-    readonly endDate?: string
-
-    /**
-     * 
-     * @type {Array<GearGroup>}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoi
-     */
-    readonly gearGroups?: Array<GearGroup> | null
-
-    /**
-     * 
-     * @type {VesselLengthGroup}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoi
-     */
-    readonly lengthGroup?: VesselLengthGroup | null
-
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoi
-     */
-    readonly vesselIds?: Array<number> | null
-}
-
-/**
- * Request parameters for routesV1TripBenchmarkEeoi operation in TripBenchmarkApi.
- * @export
- * @interface TripBenchmarkApiRoutesV1TripBenchmarkEeoiRequest
- */
-export interface TripBenchmarkApiRoutesV1TripBenchmarkEeoiRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkEeoi
-     */
-    readonly bwToken: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkEeoi
-     */
-    readonly startDate?: string | null
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkEeoi
-     */
-    readonly endDate?: string | null
-}
-
-/**
- * Request parameters for routesV1TripBenchmarkTripBenchmarks operation in TripBenchmarkApi.
- * @export
- * @interface TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarksRequest
- */
-export interface TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarksRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarks
-     */
-    readonly bwToken: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarks
-     */
-    readonly startDate?: string | null
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarks
-     */
-    readonly endDate?: string | null
-
-    /**
-     * 
-     * @type {Ordering}
-     * @memberof TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarks
-     */
-    readonly ordering?: Ordering | null
-}
-
-/**
- * TripBenchmarkApi - object-oriented interface
- * @export
- * @class TripBenchmarkApi
- * @extends {BaseAPI}
- */
-export class TripBenchmarkApi extends BaseAPI {
-    /**
-     * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
-     * @param {TripBenchmarkApiRoutesV1TripBenchmarkAverageRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripBenchmarkApi
-     */
-    public routesV1TripBenchmarkAverage(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkAverageRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripBenchmarkApiFp(this.configuration).routesV1TripBenchmarkAverage(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-     * @param {TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoiRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripBenchmarkApi
-     */
-    public routesV1TripBenchmarkAverageEeoi(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkAverageEeoiRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripBenchmarkApiFp(this.configuration).routesV1TripBenchmarkAverageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-     * @param {TripBenchmarkApiRoutesV1TripBenchmarkEeoiRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripBenchmarkApi
-     */
-    public routesV1TripBenchmarkEeoi(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkEeoiRequest, options?: RawAxiosRequestConfig) {
-        return TripBenchmarkApiFp(this.configuration).routesV1TripBenchmarkEeoi(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns trip benchmarks for the vessel associated with the authenticated user.
-     * @param {TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripBenchmarkApi
-     */
-    public routesV1TripBenchmarkTripBenchmarks(requestParameters: TripBenchmarkApiRoutesV1TripBenchmarkTripBenchmarksRequest, options?: RawAxiosRequestConfig) {
-        return TripBenchmarkApiFp(this.configuration).routesV1TripBenchmarkTripBenchmarks(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -8930,21 +8948,15 @@ export class UserApi extends BaseAPI {
 export const VesselApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
+         * Returns benchmark data for the vessel associated with the authenticated user.
          * @param {string} bwToken 
-         * @param {number} orgId 
-         * @param {string | null} [start] 
-         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselOrgBenchmarks: async (bwToken: string, orgId: number, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1VesselBenchmarksBenchmarks: async (bwToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1VesselOrgBenchmarks', 'bwToken', bwToken)
-            // verify required parameter 'orgId' is not null or undefined
-            assertParamExists('routesV1VesselOrgBenchmarks', 'orgId', orgId)
-            const localVarPath = `/v1.0/vessels/org_benchmarks/{org_id}`
-                .replace(`{${"org_id"}}`, encodeURIComponent(String(orgId)));
+            assertParamExists('routesV1VesselBenchmarksBenchmarks', 'bwToken', bwToken)
+            const localVarPath = `/v1.0/vessels/benchmarks`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -8960,16 +8972,58 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (start !== undefined) {
-                localVarQueryParameter['start'] = (start as any instanceof Date) ?
-                    (start as any).toISOString() :
-                    start;
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
             }
 
-            if (end !== undefined) {
-                localVarQueryParameter['end'] = (end as any instanceof Date) ?
-                    (end as any).toISOString() :
-                    end;
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
+         * @param {string} bwToken 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1VesselFuel: async (bwToken: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bwToken' is not null or undefined
+            assertParamExists('routesV1VesselFuel', 'bwToken', bwToken)
+            const localVarPath = `/v1.0/vessel/fuel`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString().substring(0,10) :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString().substring(0,10) :
+                    endDate;
             }
 
             if (bwToken != null) {
@@ -9034,46 +9088,6 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * Returns benchmark data for the vessel associated with the authenticated user.
-         * @param {string} bwToken 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1VesselVesselBenchmarks: async (bwToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'bwToken' is not null or undefined
-            assertParamExists('routesV1VesselVesselBenchmarks', 'bwToken', bwToken)
-            const localVarPath = `/v1.0/vessels/benchmarks`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (bwToken != null) {
-                localVarHeaderParameter['bw-token'] = String(bwToken);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Returns all known vessels.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -9117,18 +9131,29 @@ export const VesselApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = VesselApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
+         * Returns benchmark data for the vessel associated with the authenticated user.
          * @param {string} bwToken 
-         * @param {number} orgId 
-         * @param {string | null} [start] 
-         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1VesselOrgBenchmarks(bwToken: string, orgId: number, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrgBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselOrgBenchmarks(bwToken, orgId, start, end, options);
+        async routesV1VesselBenchmarksBenchmarks(bwToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<VesselBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselBenchmarksBenchmarks(bwToken, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselOrgBenchmarks']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselBenchmarksBenchmarks']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
+         * @param {string} bwToken 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1VesselFuel(bwToken: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselFuel(bwToken, startDate, endDate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselFuel']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -9142,18 +9167,6 @@ export const VesselApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselUpdateVessel(bwToken, updateVessel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselUpdateVessel']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Returns benchmark data for the vessel associated with the authenticated user.
-         * @param {string} bwToken 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1VesselVesselBenchmarks(bwToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<VesselBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselVesselBenchmarks(bwToken, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselVesselBenchmarks']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -9178,13 +9191,22 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
     const localVarFp = VesselApiFp(configuration)
     return {
         /**
-         * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
-         * @param {VesselApiRoutesV1VesselOrgBenchmarksRequest} requestParameters Request parameters.
+         * Returns benchmark data for the vessel associated with the authenticated user.
+         * @param {VesselApiRoutesV1VesselBenchmarksBenchmarksRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselOrgBenchmarks(requestParameters: VesselApiRoutesV1VesselOrgBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<OrgBenchmarks> {
-            return localVarFp.routesV1VesselOrgBenchmarks(requestParameters.bwToken, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        routesV1VesselBenchmarksBenchmarks(requestParameters: VesselApiRoutesV1VesselBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<VesselBenchmarks> {
+            return localVarFp.routesV1VesselBenchmarksBenchmarks(requestParameters.bwToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
+         * @param {VesselApiRoutesV1VesselFuelRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1VesselFuel(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates the vessel with the provided information. Note that all trip benchmarks that rely on some of the provided information will not be updated immediatley upon updating a vessel, trip benchmark updates can be expected within 24 hours.
@@ -9194,15 +9216,6 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
          */
         routesV1VesselUpdateVessel(requestParameters: VesselApiRoutesV1VesselUpdateVesselRequest, options?: RawAxiosRequestConfig): AxiosPromise<Vessel> {
             return localVarFp.routesV1VesselUpdateVessel(requestParameters.bwToken, requestParameters.updateVessel, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns benchmark data for the vessel associated with the authenticated user.
-         * @param {VesselApiRoutesV1VesselVesselBenchmarksRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1VesselVesselBenchmarks(requestParameters: VesselApiRoutesV1VesselVesselBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<VesselBenchmarks> {
-            return localVarFp.routesV1VesselVesselBenchmarks(requestParameters.bwToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns all known vessels.
@@ -9216,38 +9229,45 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
 };
 
 /**
- * Request parameters for routesV1VesselOrgBenchmarks operation in VesselApi.
+ * Request parameters for routesV1VesselBenchmarksBenchmarks operation in VesselApi.
  * @export
- * @interface VesselApiRoutesV1VesselOrgBenchmarksRequest
+ * @interface VesselApiRoutesV1VesselBenchmarksBenchmarksRequest
  */
-export interface VesselApiRoutesV1VesselOrgBenchmarksRequest {
+export interface VesselApiRoutesV1VesselBenchmarksBenchmarksRequest {
     /**
      * 
      * @type {string}
-     * @memberof VesselApiRoutesV1VesselOrgBenchmarks
+     * @memberof VesselApiRoutesV1VesselBenchmarksBenchmarks
+     */
+    readonly bwToken: string
+}
+
+/**
+ * Request parameters for routesV1VesselFuel operation in VesselApi.
+ * @export
+ * @interface VesselApiRoutesV1VesselFuelRequest
+ */
+export interface VesselApiRoutesV1VesselFuelRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselApiRoutesV1VesselFuel
      */
     readonly bwToken: string
 
     /**
      * 
-     * @type {number}
-     * @memberof VesselApiRoutesV1VesselOrgBenchmarks
+     * @type {string}
+     * @memberof VesselApiRoutesV1VesselFuel
      */
-    readonly orgId: number
+    readonly startDate?: string | null
 
     /**
      * 
      * @type {string}
-     * @memberof VesselApiRoutesV1VesselOrgBenchmarks
+     * @memberof VesselApiRoutesV1VesselFuel
      */
-    readonly start?: string | null
-
-    /**
-     * 
-     * @type {string}
-     * @memberof VesselApiRoutesV1VesselOrgBenchmarks
-     */
-    readonly end?: string | null
+    readonly endDate?: string | null
 }
 
 /**
@@ -9272,20 +9292,6 @@ export interface VesselApiRoutesV1VesselUpdateVesselRequest {
 }
 
 /**
- * Request parameters for routesV1VesselVesselBenchmarks operation in VesselApi.
- * @export
- * @interface VesselApiRoutesV1VesselVesselBenchmarksRequest
- */
-export interface VesselApiRoutesV1VesselVesselBenchmarksRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof VesselApiRoutesV1VesselVesselBenchmarks
-     */
-    readonly bwToken: string
-}
-
-/**
  * VesselApi - object-oriented interface
  * @export
  * @class VesselApi
@@ -9293,14 +9299,25 @@ export interface VesselApiRoutesV1VesselVesselBenchmarksRequest {
  */
 export class VesselApi extends BaseAPI {
     /**
-     * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
-     * @param {VesselApiRoutesV1VesselOrgBenchmarksRequest} requestParameters Request parameters.
+     * Returns benchmark data for the vessel associated with the authenticated user.
+     * @param {VesselApiRoutesV1VesselBenchmarksBenchmarksRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof VesselApi
      */
-    public routesV1VesselOrgBenchmarks(requestParameters: VesselApiRoutesV1VesselOrgBenchmarksRequest, options?: RawAxiosRequestConfig) {
-        return VesselApiFp(this.configuration).routesV1VesselOrgBenchmarks(requestParameters.bwToken, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    public routesV1VesselBenchmarksBenchmarks(requestParameters: VesselApiRoutesV1VesselBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig) {
+        return VesselApiFp(this.configuration).routesV1VesselBenchmarksBenchmarks(requestParameters.bwToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
+     * @param {VesselApiRoutesV1VesselFuelRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof VesselApi
+     */
+    public routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig) {
+        return VesselApiFp(this.configuration).routesV1VesselFuel(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9312,17 +9329,6 @@ export class VesselApi extends BaseAPI {
      */
     public routesV1VesselUpdateVessel(requestParameters: VesselApiRoutesV1VesselUpdateVesselRequest, options?: RawAxiosRequestConfig) {
         return VesselApiFp(this.configuration).routesV1VesselUpdateVessel(requestParameters.bwToken, requestParameters.updateVessel, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns benchmark data for the vessel associated with the authenticated user.
-     * @param {VesselApiRoutesV1VesselVesselBenchmarksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VesselApi
-     */
-    public routesV1VesselVesselBenchmarks(requestParameters: VesselApiRoutesV1VesselVesselBenchmarksRequest, options?: RawAxiosRequestConfig) {
-        return VesselApiFp(this.configuration).routesV1VesselVesselBenchmarks(requestParameters.bwToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
