@@ -1,6 +1,6 @@
 import {
   DeleteFuelMeasurement,
-  FuelApi,
+  FuelMeasurementApi,
   FuelMeasurementBody,
 } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
@@ -19,11 +19,11 @@ export interface DeleteFuelMeasurementsArgs extends DeleteFuelMeasurement {
   token?: string;
 }
 
-const api = new FuelApi(apiConfiguration, undefined, axiosInstance);
+const api = new FuelMeasurementApi(apiConfiguration, undefined, axiosInstance);
 
 export const getFuelMeasurements = async (args: FuelMeasurementsArgs) =>
   apiGet(async () =>
-    api.routesV1FuelGetFuelMeasurements({
+    api.routesV1FuelMeasurementGetFuelMeasurements({
       startDate: args.startDate?.toISOString(),
       endDate: args.endDate?.toISOString(),
       bwToken: args.token!,
@@ -34,7 +34,7 @@ export const createFuelMeasurement = async (
   args: CreateUpdateFuelMeasurementsArgs,
 ) =>
   apiGet(async () =>
-    api.routesV1FuelCreateFuelMeasurements({
+    api.routesV1FuelMeasurementCreateFuelMeasurements({
       fuelMeasurementBody: [{ timestamp: args.timestamp, fuel: args.fuel }],
       bwToken: args.token!,
     }),
@@ -44,7 +44,7 @@ export const updateFuelMeasurement = async (
   args: CreateUpdateFuelMeasurementsArgs,
 ) =>
   apiGet(async () =>
-    api.routesV1FuelUpdateFuelMeasurements({
+    api.routesV1FuelMeasurementUpdateFuelMeasurements({
       fuelMeasurementBody: [{ timestamp: args.timestamp, fuel: args.fuel }],
       bwToken: args.token!,
     }),
@@ -52,7 +52,7 @@ export const updateFuelMeasurement = async (
 
 export const deleteFuelMeasurement = async (args: DeleteFuelMeasurementsArgs) =>
   apiGet(async () =>
-    api.routesV1FuelDeleteFuelMeasurements({
+    api.routesV1FuelMeasurementDeleteFuelMeasurements({
       deleteFuelMeasurement: [{ timestamp: args.timestamp }],
       bwToken: args.token!,
     }),

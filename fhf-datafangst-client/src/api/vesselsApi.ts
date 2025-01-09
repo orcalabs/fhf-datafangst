@@ -7,4 +7,4 @@ export const getVessels = async () =>
   apiGet(async () => api.routesV1VesselVessels());
 
 export const getVesselBenchmarks = async (bwToken: string) =>
-  apiGet(async () => api.routesV1VesselVesselBenchmarks({ bwToken }));
+  apiGet(async () => api.routesV1VesselBenchmarksBenchmarks({ bwToken }));

@@ -1,7 +1,7 @@
 import {
   GearGroup,
   Ordering,
-  TripBenchmarkApi,
+  TripApi,
   VesselLengthGroup,
 } from "generated/openapi";
 import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
@@ -35,11 +35,11 @@ export interface AverageEeoiArgs {
   lengthGroup?: VesselLengthGroup;
 }
 
-const api = new TripBenchmarkApi(apiConfiguration, undefined, axiosInstance);
+const api = new TripApi(apiConfiguration, undefined, axiosInstance);
 
 export const getTripBenchmarks = async (query: TripBenchmarksArgs) =>
   apiGet(async () =>
-    api.routesV1TripBenchmarkTripBenchmarks(
+    api.routesV1TripBenchmarksBenchmarks(
       {
         startDate: query.start?.toISOString(),
         endDate: query.end?.toISOString(),
@@ -57,7 +57,7 @@ export const getAverageTripBenchmarks = async (
   query: AverageTripBenchmarkArgs,
 ) =>
   apiGet(async () =>
-    api.routesV1TripBenchmarkAverage({
+    api.routesV1TripBenchmarksAverage({
       startDate: query.startDate.toISOString(),
       endDate: query.endDate.toISOString(),
       gearGroups: query.gearGroups,
@@ -67,7 +67,7 @@ export const getAverageTripBenchmarks = async (
 
 export const getEeoi = async (query: EeoiArgs) =>
   apiGet(async () =>
-    api.routesV1TripBenchmarkEeoi(
+    api.routesV1TripBenchmarksEeoi(
       {
         startDate: query.start?.toISOString(),
         endDate: query.end?.toISOString(),
@@ -82,7 +82,7 @@ export const getEeoi = async (query: EeoiArgs) =>
 
 export const getAverageEeoi = async (query: AverageEeoiArgs) =>
   apiGet(async () =>
-    api.routesV1TripBenchmarkAverageEeoi({
+    api.routesV1TripBenchmarksAverageEeoi({
       startDate: query.startDate.toISOString(),
       endDate: query.endDate.toISOString(),
       gearGroups: query.gearGroups,

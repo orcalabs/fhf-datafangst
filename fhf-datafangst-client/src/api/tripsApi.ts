@@ -35,7 +35,7 @@ const api = new TripApi(apiConfiguration, undefined, axiosInstance);
 
 export const getTripFromHaul = async (haul: Haul) =>
   apiGet(async () =>
-    api.routesV1TripTripOfHaul({
+    api.routesV1TripTripOfHaulTripOfHaul({
       haulId: haul.haulId,
     }),
   );
