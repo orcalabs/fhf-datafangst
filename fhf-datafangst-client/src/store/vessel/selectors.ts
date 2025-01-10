@@ -99,3 +99,8 @@ export const selectVesselBenchmarks = createSelector(
   selectAppState,
   (state) => state.vesselBenchmarks,
 );
+
+export const selectEstimatedFuelConsumption = createSelector(
+  selectAppState,
+  (state) => state.estimatedFuelConsumption,
+);
