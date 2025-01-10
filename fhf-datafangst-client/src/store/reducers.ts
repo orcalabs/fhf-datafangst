@@ -20,6 +20,7 @@ import { fuelBuilder, getFuelMeasurements } from "./fuel";
 import { gearBuilder } from "./gear";
 import { haulBuilder } from "./haul";
 import { landingBuilder } from "./landing";
+import { orgBuilder } from "./org";
 import { speciesBuilder } from "./species";
 import { AppState, emptyState, initialAppState, MatrixToggle } from "./state";
 import { trackBuilder } from "./track";
@@ -182,5 +183,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(dashboardBuilder)
     .extendBuilder(fuelBuilder)
     .extendBuilder(deliveryPointBuilder)
+    .extendBuilder(orgBuilder)
     .finish(),
 );

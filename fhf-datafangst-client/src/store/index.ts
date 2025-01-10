@@ -10,6 +10,7 @@ export * from "./gear";
 export * from "./haul";
 export * from "./hooks";
 export * from "./landing";
+export * from "./org";
 export * from "./reducers";
 export * from "./selectors";
 export * from "./species";
