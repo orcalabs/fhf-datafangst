@@ -5,6 +5,7 @@ export interface VesselState {
   vesselsByCallSign?: Record<string, Vessel>;
   vesselsByFiskeridirId?: Record<number, Vessel>;
   vesselBenchmarks?: VesselBenchmarks;
+  estimatedFuelConsumption?: number;
 }
 
 export const initialVesselState: VesselState = {
@@ -12,4 +13,5 @@ export const initialVesselState: VesselState = {
   vesselsByFiskeridirId: undefined,
   vesselsByCallSign: undefined,
   vesselBenchmarks: undefined,
+  estimatedFuelConsumption: undefined,
 };

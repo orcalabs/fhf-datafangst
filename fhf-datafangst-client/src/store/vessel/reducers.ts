@@ -1,6 +1,10 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getVesselBenchmarks, getVessels } from "./actions";
+import {
+  getEstimatedFuelConsumption,
+  getVesselBenchmarks,
+  getVessels,
+} from "./actions";
 
 export const vesselBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -23,4 +27,7 @@ export const vesselBuilder = (
     })
     .addCase(getVesselBenchmarks.fulfilled, (state, action) => {
       state.vesselBenchmarks = action.payload;
+    })
+    .addCase(getEstimatedFuelConsumption.fulfilled, (state, action) => {
+      state.estimatedFuelConsumption = action.payload;
     });

@@ -2,21 +2,21 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
 
 export const getFuelMeasurements = createAsyncThunk(
-  "user/getFuelMeasurements",
+  "fuel/getFuelMeasurements",
   Api.getFuelMeasurements,
 );
 
 export const createFuelMeasurement = createAsyncThunk(
-  "user/createFuelMeasurement",
+  "fuel/createFuelMeasurement",
   Api.createFuelMeasurement,
 );
 
 export const updateFuelMeasurement = createAsyncThunk(
-  "user/updateFuelMeasurement",
+  "fuel/updateFuelMeasurement",
   Api.updateFuelMeasurement,
 );
 
 export const deleteFuelMeasurement = createAsyncThunk(
-  "user/deleteFuelMeasurement",
+  "fuel/deleteFuelMeasurement",
   Api.deleteFuelMeasurement,
 );
