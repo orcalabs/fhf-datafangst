@@ -16,6 +16,7 @@ import { FuelState, initialFuelState } from "./fuel/state";
 import { GearState, initialGearState } from "./gear/state";
 import { HaulState, initialHaulState } from "./haul/state";
 import { initialLandingState, LandingState } from "./landing/state";
+import { initialOrgState, OrgState } from "./org/state";
 import { initialSpeciesState, SpeciesState } from "./species/state";
 import { initialTrackState, TrackState } from "./track/state";
 import { initialTripState, TripState } from "./trip/state";
@@ -78,7 +79,8 @@ export interface AppState
     DashboardState,
     FuelState,
     DeliveryPointState,
-    BenchmarkState {}
+    BenchmarkState,
+    OrgState {}
 
 export const emptyState: Partial<AppState> = {
   ais: undefined,
@@ -124,4 +126,5 @@ export const initialAppState: AppState = {
   ...initialDashboardState,
   ...initialFuelState,
   ...initialDeliveryPointState,
+  ...initialOrgState,
 };
