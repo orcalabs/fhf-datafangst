@@ -7,6 +7,7 @@ export * from "./fuelApi";
 export * from "./gearApi";
 export * from "./haulsApi";
 export * from "./landingsApi";
+export * from "./orgApi";
 export * from "./speciesApi";
 export * from "./trackApi";
 export * from "./tripBenchmarkApi";
