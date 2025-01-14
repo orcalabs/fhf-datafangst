@@ -18,6 +18,9 @@ export const orgBuilder = (
     .addCase(getOrgBenchmarks.rejected, (state, _) => {
       state.orgBenchmarksLoading = false;
     })
+    .addCase(getOrgFuelConsumption.pending, (state, action) => {
+      action.meta.arg.token = state.authUser?.access_token;
+    })
     .addCase(getOrgFuelConsumption.fulfilled, (state, action) => {
       state.orgFuelConsumption = action.payload;
     });
