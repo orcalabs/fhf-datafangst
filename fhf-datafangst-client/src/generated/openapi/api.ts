@@ -1567,6 +1567,25 @@ export interface FiskeridirVessel {
 /**
  * 
  * @export
+ * @interface FuelEntry
+ */
+export interface FuelEntry {
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelEntry
+     */
+    'fiskeridirVesselId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelEntry
+     */
+    'estimatedFuel': number;
+}
+/**
+ * 
+ * @export
  * @interface FuelMeasurement
  */
 export interface FuelMeasurement {
@@ -2523,6 +2542,57 @@ export type LandingsSorting = typeof LandingsSorting[keyof typeof LandingsSortin
 /**
  * 
  * @export
+ * @interface LiveFuel
+ */
+export interface LiveFuel {
+    /**
+     * 
+     * @type {number}
+     * @memberof LiveFuel
+     */
+    'total_fuel': number;
+    /**
+     * 
+     * @type {Array<LiveFuelEntry>}
+     * @memberof LiveFuel
+     */
+    'entries': Array<LiveFuelEntry>;
+}
+/**
+ * 
+ * @export
+ * @interface LiveFuelEntry
+ */
+export interface LiveFuelEntry {
+    /**
+     * 
+     * @type {string}
+     * @memberof LiveFuelEntry
+     */
+    'timestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof LiveFuelEntry
+     */
+    'fuel': number;
+}
+/**
+ * 
+ * @export
+ * @interface LiveFuelParams
+ */
+export interface LiveFuelParams {
+    /**
+     * 
+     * @type {string}
+     * @memberof LiveFuelParams
+     */
+    'threshold': string | null;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -2705,13 +2775,13 @@ export interface OrgBenchmarkSpecies {
      * @type {SpeciesGroup}
      * @memberof OrgBenchmarkSpecies
      */
-    'species_group_id': SpeciesGroup;
+    'speciesGroupId': SpeciesGroup;
     /**
      * 
      * @type {number}
      * @memberof OrgBenchmarkSpecies
      */
-    'landing_total_living_weight': number;
+    'landingTotalLivingWeight': number;
 }
 
 
@@ -2751,6 +2821,19 @@ export interface OrgBenchmarks {
      * @memberof OrgBenchmarks
      */
     'vessels': Array<OrgBenchmarkEntry>;
+}
+/**
+ * 
+ * @export
+ * @interface OrgFuelPath
+ */
+export interface OrgFuelPath {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgFuelPath
+     */
+    'org_id': number;
 }
 /**
  * 
@@ -7133,6 +7216,64 @@ export const OrgApiAxiosParamCreator = function (configuration?: Configuration) 
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
+         * @param {string} bwToken 
+         * @param {number} orgId 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1OrgFuel: async (bwToken: string, orgId: number, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bwToken' is not null or undefined
+            assertParamExists('routesV1OrgFuel', 'bwToken', bwToken)
+            // verify required parameter 'orgId' is not null or undefined
+            assertParamExists('routesV1OrgFuel', 'orgId', orgId)
+            const localVarPath = `/v1.0/org/{org_id}/fuel`
+                .replace(`{${"org_id"}}`, encodeURIComponent(String(orgId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString().substring(0,10) :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString().substring(0,10) :
+                    endDate;
+            }
+
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -7158,6 +7299,21 @@ export const OrgApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['OrgApi.routesV1OrgBenchmarks']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
+         * @param {string} bwToken 
+         * @param {number} orgId 
+         * @param {string | null} [startDate] 
+         * @param {string | null} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1OrgFuel(bwToken: string, orgId: number, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelEntry>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgFuel(bwToken, orgId, startDate, endDate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OrgApi.routesV1OrgFuel']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -7176,6 +7332,15 @@ export const OrgApiFactory = function (configuration?: Configuration, basePath?:
          */
         routesV1OrgBenchmarks(requestParameters: OrgApiRoutesV1OrgBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<OrgBenchmarks> {
             return localVarFp.routesV1OrgBenchmarks(requestParameters.bwToken, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
+         * @param {OrgApiRoutesV1OrgFuelRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1OrgFuel(requestParameters: OrgApiRoutesV1OrgFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelEntry>> {
+            return localVarFp.routesV1OrgFuel(requestParameters.bwToken, requestParameters.orgId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -7216,6 +7381,41 @@ export interface OrgApiRoutesV1OrgBenchmarksRequest {
 }
 
 /**
+ * Request parameters for routesV1OrgFuel operation in OrgApi.
+ * @export
+ * @interface OrgApiRoutesV1OrgFuelRequest
+ */
+export interface OrgApiRoutesV1OrgFuelRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgFuel
+     */
+    readonly bwToken: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgApiRoutesV1OrgFuel
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgFuel
+     */
+    readonly startDate?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgFuel
+     */
+    readonly endDate?: string | null
+}
+
+/**
  * OrgApi - object-oriented interface
  * @export
  * @class OrgApi
@@ -7231,6 +7431,17 @@ export class OrgApi extends BaseAPI {
      */
     public routesV1OrgBenchmarks(requestParameters: OrgApiRoutesV1OrgBenchmarksRequest, options?: RawAxiosRequestConfig) {
         return OrgApiFp(this.configuration).routesV1OrgBenchmarks(requestParameters.bwToken, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
+     * @param {OrgApiRoutesV1OrgFuelRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrgApi
+     */
+    public routesV1OrgFuel(requestParameters: OrgApiRoutesV1OrgFuelRequest, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).routesV1OrgFuel(requestParameters.bwToken, requestParameters.orgId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -9042,6 +9253,53 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * 
+         * @param {string} bwToken 
+         * @param {string | null} [threshold] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1VesselLiveFuel: async (bwToken: string, threshold?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bwToken' is not null or undefined
+            assertParamExists('routesV1VesselLiveFuel', 'bwToken', bwToken)
+            const localVarPath = `/v1.0/vessel/live_fuel`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (threshold !== undefined) {
+                localVarQueryParameter['threshold'] = (threshold as any instanceof Date) ?
+                    (threshold as any).toISOString() :
+                    threshold;
+            }
+
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Updates the vessel with the provided information. Note that all trip benchmarks that rely on some of the provided information will not be updated immediatley upon updating a vessel, trip benchmark updates can be expected within 24 hours.
          * @param {string} bwToken 
          * @param {UpdateVessel} updateVessel 
@@ -9157,6 +9415,19 @@ export const VesselApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 
+         * @param {string} bwToken 
+         * @param {string | null} [threshold] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1VesselLiveFuel(bwToken: string, threshold?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LiveFuel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselLiveFuel(bwToken, threshold, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselLiveFuel']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Updates the vessel with the provided information. Note that all trip benchmarks that rely on some of the provided information will not be updated immediatley upon updating a vessel, trip benchmark updates can be expected within 24 hours.
          * @param {string} bwToken 
          * @param {UpdateVessel} updateVessel 
@@ -9207,6 +9478,15 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
          */
         routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
             return localVarFp.routesV1VesselFuel(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {VesselApiRoutesV1VesselLiveFuelRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1VesselLiveFuel(requestParameters: VesselApiRoutesV1VesselLiveFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<LiveFuel> {
+            return localVarFp.routesV1VesselLiveFuel(requestParameters.bwToken, requestParameters.threshold, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates the vessel with the provided information. Note that all trip benchmarks that rely on some of the provided information will not be updated immediatley upon updating a vessel, trip benchmark updates can be expected within 24 hours.
@@ -9271,6 +9551,27 @@ export interface VesselApiRoutesV1VesselFuelRequest {
 }
 
 /**
+ * Request parameters for routesV1VesselLiveFuel operation in VesselApi.
+ * @export
+ * @interface VesselApiRoutesV1VesselLiveFuelRequest
+ */
+export interface VesselApiRoutesV1VesselLiveFuelRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselApiRoutesV1VesselLiveFuel
+     */
+    readonly bwToken: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselApiRoutesV1VesselLiveFuel
+     */
+    readonly threshold?: string | null
+}
+
+/**
  * Request parameters for routesV1VesselUpdateVessel operation in VesselApi.
  * @export
  * @interface VesselApiRoutesV1VesselUpdateVesselRequest
@@ -9318,6 +9619,17 @@ export class VesselApi extends BaseAPI {
      */
     public routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig) {
         return VesselApiFp(this.configuration).routesV1VesselFuel(requestParameters.bwToken, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {VesselApiRoutesV1VesselLiveFuelRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof VesselApi
+     */
+    public routesV1VesselLiveFuel(requestParameters: VesselApiRoutesV1VesselLiveFuelRequest, options?: RawAxiosRequestConfig) {
+        return VesselApiFp(this.configuration).routesV1VesselLiveFuel(requestParameters.bwToken, requestParameters.threshold, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
