@@ -1,4 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
+import { Policies, Roles } from "models";
 import { selectAppState } from "./selectAppState";
 
 export const selectError = createSelector(
@@ -52,4 +53,21 @@ export const selectTripDetailsOpen = createSelector(
 export const selectBwUserProfile = createSelector(
   selectAppState,
   (state) => state.bwUser,
+);
+
+const AIS_ROLES = [
+  Roles.BwDownloadFishingfacility,
+  Roles.BwEksternFiskInfoUtvikler,
+  Roles.BwFiskerikyndig,
+  Roles.BwFiskinfoAdmin,
+  Roles.BwUtdanningsBruker,
+  Roles.BwViewAis,
+  Roles.BwYrkesfisker,
+];
+
+export const selectCanReadAisUnder15 = createSelector(
+  selectBwUserProfile,
+  (state) =>
+    state?.policies?.includes(Policies.BwAisFiskinfo) &&
+    state.roles?.some((v) => AIS_ROLES.includes(v)),
 );

@@ -1816,6 +1816,21 @@ export interface GearMainGroupDetailed {
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const HasTrack = {
+    NoTrack: 'NoTrack',
+    TrackUnder15: 'TrackUnder15',
+    TrackOver15: 'TrackOver15'
+} as const;
+
+export type HasTrack = typeof HasTrack[keyof typeof HasTrack];
+
+
+/**
+ * 
+ * @export
  * @interface Haul
  */
 export interface Haul {
@@ -3395,10 +3410,10 @@ export interface Trip {
     'distance': number | null;
     /**
      * 
-     * @type {boolean}
+     * @type {HasTrack}
      * @memberof Trip
      */
-    'hasTrack': boolean;
+    'hasTrack': HasTrack;
 }
 
 
