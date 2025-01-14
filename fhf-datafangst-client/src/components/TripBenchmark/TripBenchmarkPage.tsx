@@ -28,11 +28,13 @@ import {
   getAverageEeoi,
   getAverageTripBenchmarks,
   getEeoi,
+  getEstimatedFuelConsumption,
   getTripBenchmarks,
   selectAverageEeoi,
   selectAverageTripBenchmarks,
   selectBwUserProfile,
   selectEeoi,
+  selectEstimatedFuelConsumption,
   selectTripBenchmarks,
   selectTripBenchmarksLoading,
   selectVesselsByCallsign,
@@ -56,6 +58,7 @@ export const TripBenchmarkPage: FC = () => {
   const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const eeoi = useAppSelector(selectEeoi);
   const averageEeoi = useAppSelector(selectAverageEeoi);
+  const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
@@ -72,10 +75,19 @@ export const TripBenchmarkPage: FC = () => {
         callSignOverride: vesselInfo?.ircs,
       }),
     );
+
     dispatch(
       getEeoi({
         start: dateRange?.start,
         end: dateRange?.end,
+        callSignOverride: vesselInfo?.ircs,
+      }),
+    );
+
+    dispatch(
+      getEstimatedFuelConsumption({
+        startDate: dateRange?.start,
+        endDate: dateRange?.end,
         callSignOverride: vesselInfo?.ircs,
       }),
     );
@@ -89,6 +101,7 @@ export const TripBenchmarkPage: FC = () => {
           lengthGroup: vessel?.fiskeridir.lengthGroupId,
         }),
       );
+
       dispatch(
         getAverageEeoi({
           startDate: dateRange.start,
@@ -281,8 +294,13 @@ export const TripBenchmarkPage: FC = () => {
                 )}
               {bench.fuelConsumption &&
                 benchmarkItem(
-                  "Drivstofforbruk",
+                  "Drivstofforbruk (tokt)",
                   kilosOrTonsFormatter(bench.fuelConsumption * 1000),
+                )}
+              {totalFuelConsumption &&
+                benchmarkItem(
+                  "Drivstofforbruk (total)",
+                  kilosOrTonsFormatter(totalFuelConsumption),
                 )}
             </CardContent>
           </Card>
@@ -621,6 +639,7 @@ const ChartCard: FC<ChartCardProps> = ({ children, title }) => {
   return (
     <Card variant="elevation" sx={{ bgcolor: "white", borderRadius: 2 }}>
       <CardHeader
+        sx={{ pb: 1 }}
         title={title}
         titleTypographyProps={{
           variant: "h4",
