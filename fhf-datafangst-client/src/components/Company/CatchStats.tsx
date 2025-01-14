@@ -48,19 +48,6 @@ export const CatchStats: FC<Props> = ({ vesselEntries }) => {
       }
     });
   });
-  const test = Object.entries(catchDataset).map((e) => {
-    return {
-      name: e[0],
-      type: "bar",
-      barGap: 0,
-      emphasis: {
-        focus: "series",
-      },
-      data: e[1],
-    };
-  });
-  console.log(catchDataset);
-  console.log(test);
 
   return (
     <Grid container spacing={3} sx={{ p: 1 }}>

@@ -42,7 +42,7 @@ export const GeneralStats: FC<Props> = ({ vesselEntries }) => {
         }
       }, 0) / orgFuelConsumption.length
     : 0;
-  console.log(avgFuelconsumption);
+
   return (
     <Grid container spacing={3} sx={{ p: 1 }}>
       <Grid item xs={6}>
