@@ -3,6 +3,7 @@ export enum DashboardViewState {
   Benchmark = "benchmark",
   Follow = "follow",
   Fuel = "fuel",
+  Company = "company",
 }
 
 export interface DashboardState {

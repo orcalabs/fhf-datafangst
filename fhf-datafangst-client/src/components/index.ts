@@ -8,6 +8,7 @@ export { SpeciesHistogram } from "./Benchmark/Graphs/SpeciesHistogram";
 export { CatchData } from "./CatchData/CatchData";
 export * from "./Common/Common";
 export { LocalLoadingProgress } from "./Common/LocalLoadingProgress";
+export { Company } from "./Company/Company";
 export { CurrentTripMenu } from "./CurrentTripMenu/CurrentTripMenu";
 export { HaulFilters } from "./Filters/HaulFilters";
 export { LandingFilters } from "./Filters/LandingFilters";

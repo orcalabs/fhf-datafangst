@@ -11,6 +11,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import theme, { fontStyle } from "app/theme";
+import { VesselIcon } from "assets/icons";
 import { FC } from "react";
 import {
   selectActiveDashboardMenu,
@@ -35,6 +36,11 @@ const menuItems = [
     id: DashboardViewState.Follow,
     name: "Følgeliste",
     icon: <PeopleSharpIcon />,
+  },
+  {
+    id: DashboardViewState.Company,
+    name: "Rederi",
+    icon: <VesselIcon />,
   },
   {
     id: DashboardViewState.Fuel,

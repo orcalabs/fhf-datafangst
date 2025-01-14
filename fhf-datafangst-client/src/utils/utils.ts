@@ -153,6 +153,14 @@ export const createDurationFromHours = (hours: number) =>
     }),
   );
 
+export const createDurationFromSeconds = (seconds: number) =>
+  createDurationString(
+    intervalToDuration({
+      start: new Date(0),
+      end: new Date(seconds * 1000),
+    }),
+  );
+
 export const createObjectDurationString = (obj: {
   start: IntoDate;
   end: IntoDate;

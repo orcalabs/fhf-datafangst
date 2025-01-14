@@ -3,6 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import theme from "app/theme";
 import {
   BenchmarkCards,
+  Company,
   DashboardMenu,
   FollowList,
   FuelPage,
@@ -214,6 +215,7 @@ export const BenchmarkView: FC = () => {
             <TripBenchmarkPage />
           )}
           {menuSelection === DashboardViewState.Follow && <FollowList />}
+          {menuSelection === DashboardViewState.Company && <Company />}
           {menuSelection === DashboardViewState.Fuel && <FuelPage />}
         </GridMainArea>
       </GridContainer>
