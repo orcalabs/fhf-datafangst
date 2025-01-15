@@ -92,11 +92,12 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselPhone: "",
           vesselName: "",
         };
-        // Assign Gadus Njord to Per Gunnar, Eivind and Bård
+        // Assign Gadus Njord to Per Gunnar, Eivind, Bård and Tore
       } else if (
         state.bwUser.user.email === "per.gunnar.auran@sintef.no" ||
         state.bwUser.user.email === "eivind@rinde.no" ||
-        state.bwUser.user.email === "bard.hanssen@sintef.no"
+        state.bwUser.user.email === "bard.hanssen@sintef.no" ||
+        state.bwUser.user.email === "fiskinfo.nord@gmail.com"
       ) {
         state.bwUser.fiskInfoProfile = {
           ircs: "LDDF",
