@@ -1,21 +1,23 @@
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   MenuViewState,
   selectViewState,
   setHoveredHaulFilter,
-  setViewState,
   useAppDispatch,
   useAppSelector,
 } from "store";
 
 export const HeaderMenuButtons: FC = () => {
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   const viewState = useAppSelector(selectViewState);
 
   const handleChange = (newValue: MenuViewState) => {
     if (newValue !== null) {
-      dispatch(setViewState(newValue));
+      navigate(`/${newValue}`);
       dispatch(setHoveredHaulFilter(undefined));
     }
   };

@@ -227,9 +227,7 @@ export const MyPage: FC = () => {
           boxShadow: "none",
           bgcolor: "primary.light",
         }}
-        onClick={() => {
-          navigate("/benchmark");
-        }}
+        onClick={() => navigate("/dashboard")}
       >
         <Box
           sx={{

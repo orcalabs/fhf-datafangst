@@ -31,7 +31,6 @@ export enum MenuViewState {
   Live = "live",
   MyPage = "mypage",
   Trips = "trips",
-  Benchmark = "benchmark", // Unused for now
 }
 
 export enum MatrixToggle {
@@ -42,7 +41,7 @@ export enum MatrixToggle {
 export interface BaseState {
   error: boolean;
   isLoggedIn: boolean;
-  viewState: MenuViewState;
+  viewState?: MenuViewState;
   bwUser?: BwUser;
   authUser?: User;
   matrixToggle: MatrixToggle;
@@ -53,7 +52,7 @@ export interface BaseState {
 const initialBaseState: BaseState = {
   error: false,
   isLoggedIn: false,
-  viewState: MenuViewState.Overview,
+  viewState: undefined,
   authUser: undefined,
   matrixToggle: MatrixToggle.Haul,
   tripFiltersOpen: false,

@@ -55,6 +55,7 @@ import {
   setLandingDateSliderFrame,
   setLandingsMatrix2Search,
   setLandingsMatrixSearch,
+  setViewState,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -166,7 +167,11 @@ const CenterArea = (props: { open: boolean; children: any }) => (
   </Box>
 );
 
-export const HomeView: FC = () => {
+export interface Props {
+  view: MenuViewState;
+}
+
+export const HomeView: FC<Props> = ({ view }) => {
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
   const dispatch = useAppDispatch();
   const viewState = useAppSelector(selectViewState);
@@ -185,6 +190,19 @@ export const HomeView: FC = () => {
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
 
   const showHaulsMenu = Boolean(selectedGrids.length);
+
+  useEffect(() => {
+    if (view !== viewState) {
+      dispatch(setViewState(view));
+    }
+  }, [dispatch, view, viewState]);
+
+  useEffect(
+    () => () => {
+      dispatch(setViewState(undefined));
+    },
+    [],
+  );
 
   // Fetch hauls for selected grid
   useEffect(() => {
