@@ -13,12 +13,8 @@ import {
 import theme, { fontStyle } from "app/theme";
 import { VesselIcon } from "assets/icons";
 import { FC } from "react";
-import {
-  selectActiveDashboardMenu,
-  setActiveDashboardMenu,
-  useAppDispatch,
-  useAppSelector,
-} from "store";
+import { useNavigate } from "react-router-dom";
+import { selectActiveDashboardMenu, useAppSelector } from "store";
 import { DashboardViewState } from "store/dashboard";
 
 const menuItems = [
@@ -50,8 +46,9 @@ const menuItems = [
 ];
 
 export const DashboardMenu: FC = () => {
+  const navigate = useNavigate();
+
   const activeMenu = useAppSelector(selectActiveDashboardMenu);
-  const dispatch = useAppDispatch();
 
   return (
     <Drawer
@@ -93,7 +90,7 @@ export const DashboardMenu: FC = () => {
                 "&:hover": { bgcolor: "primary.dark" },
               }}
               selected={item.id === activeMenu}
-              onClick={() => dispatch(setActiveDashboardMenu(item.id))}
+              onClick={() => navigate(`/dashboard/${item.id}`)}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.name} />

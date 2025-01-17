@@ -14,7 +14,8 @@ import {
 import LogoIcon from "assets/logos/logoIcon";
 import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
-import { selectIsLoggedIn, useAppSelector } from "store";
+import { Link as RouterLink } from "react-router-dom";
+import { MenuViewState, selectIsLoggedIn, useAppSelector } from "store";
 
 export const Header: FC = () => {
   const loggedIn = useAppSelector(selectIsLoggedIn);
@@ -35,10 +36,9 @@ export const Header: FC = () => {
         variant="dense"
         sx={{ display: "grid", gridTemplateColumns: "1fr auto 1fr" }}
       >
-        <Link
-          sx={{ maxHeight: 50, gridColumn: 2 }}
-          underline="none"
-          href={window.location.origin}
+        <RouterLink
+          style={{ maxHeight: 50, gridColumn: 2, textDecoration: "none" }}
+          to={`/${MenuViewState.Overview}`}
         >
           <Stack direction="row" alignItems="center">
             <LogoIcon height={38} />
@@ -46,7 +46,7 @@ export const Header: FC = () => {
               DataFangst
             </Typography>
           </Stack>
-        </Link>
+        </RouterLink>
 
         <Stack
           direction="row"

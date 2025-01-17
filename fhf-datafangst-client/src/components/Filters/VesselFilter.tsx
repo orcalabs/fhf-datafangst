@@ -24,7 +24,7 @@ export const VesselFilter: FC<Props> = (props) => {
   const vessels = useAppSelector(selectVesselsSorted);
 
   return (
-    <VesselFilterInner props={props} viewState={viewState} vessels={vessels} />
+    <VesselFilterInner props={props} viewState={viewState!} vessels={vessels} />
   );
 };
 

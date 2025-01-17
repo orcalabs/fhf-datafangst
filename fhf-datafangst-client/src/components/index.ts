@@ -5,6 +5,7 @@ export { DashboardMenu } from "./Benchmark/DashboardMenu";
 export { HistoricalCatches } from "./Benchmark/Graphs/HistoricalCatches";
 export { HistoricLineChart } from "./Benchmark/Graphs/HistoricLineChart";
 export { SpeciesHistogram } from "./Benchmark/Graphs/SpeciesHistogram";
+export { BenchmarkOverview } from "./Benchmark/Overview";
 export { CatchData } from "./CatchData/CatchData";
 export * from "./Common/Common";
 export { LocalLoadingProgress } from "./Common/LocalLoadingProgress";

@@ -2,39 +2,24 @@ import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import theme from "app/theme";
 import {
-  BenchmarkCards,
+  BenchmarkOverview,
   Company,
   DashboardMenu,
   FollowList,
   FuelPage,
   Header,
-  HistoricalCatches,
-  LocalLoadingProgress,
-  SpeciesHistogram,
   TripBenchmarkPage,
 } from "components";
 import { HeaderButtonCell, HeaderTrack } from "containers";
-import { Ordering, TripSorting } from "generated/openapi";
 import { useAuth } from "oidc-react";
 import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   DashboardViewState,
-  getBenchmarkData,
-  getLandings,
-  getTrips,
   MenuViewState,
   selectActiveDashboardMenu,
-  selectBenchmarkNumHistoric,
-  selectBenchmarkTimeSpan,
-  selectBwUserProfile,
   selectIsLoggedIn,
-  selectTrips,
-  selectTripsLoading,
-  selectUser,
-  selectVesselsByCallsign,
-  selectVesselsByFiskeridirId,
-  setViewState,
+  setActiveDashboardMenu,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -86,60 +71,24 @@ const MenuArea = (props: any) => (
   </Box>
 );
 
-export const BenchmarkView: FC = () => {
-  const { signIn, isLoading, userData } = useAuth();
-  const loggedIn = useAppSelector(selectIsLoggedIn);
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
-  const trips = useAppSelector(selectTrips);
-  const user = useAppSelector(selectUser);
-  const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
-  const benchmarkTimespan = useAppSelector(selectBenchmarkTimeSpan);
-  const dispatch = useAppDispatch();
-  const tripsLoading = useAppSelector(selectTripsLoading);
-  const navigate = useNavigate();
-  const menuSelection = useAppSelector(selectActiveDashboardMenu);
+export interface Props {
+  view?: DashboardViewState;
+}
 
-  const followVessels = user?.following.map((id) => fiskeridirVessels[id]);
+export const BenchmarkView: FC<Props> = ({ view }) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const { signIn, isLoading, userData } = useAuth();
+
+  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const viewState = useAppSelector(selectActiveDashboardMenu);
 
   useEffect(() => {
-    dispatch(setViewState(MenuViewState.Benchmark));
-    if (vessel) {
-      dispatch(
-        getTrips({
-          vessels: [vessel],
-          sorting: [TripSorting.StopDate, Ordering.Desc],
-          limit: benchmarkHistoric,
-          offset: 0,
-        }),
-      );
-      dispatch(
-        getLandings({
-          vessels: [vessel],
-          years: [benchmarkTimespan.startYear, benchmarkTimespan.endYear],
-        }),
-      );
+    if (!view || view !== viewState) {
+      dispatch(setActiveDashboardMenu(view ?? DashboardViewState.Overview));
     }
-    if (followVessels) {
-      followVessels.forEach((vessel) => {
-        dispatch(
-          getBenchmarkData({
-            vessels: [vessel],
-            sorting: [TripSorting.StopDate, Ordering.Desc],
-            limit: benchmarkHistoric,
-            offset: 0,
-          }),
-        );
-      });
-    }
-  }, [vessel]);
-
-  if (!vessel) {
-    return <></>;
-  }
+  }, [view, viewState]);
 
   if (!loggedIn && !isLoading && !userData) {
     signIn();
@@ -165,10 +114,7 @@ export const BenchmarkView: FC = () => {
               },
               zIndex: 10000,
             }}
-            onClick={() => {
-              dispatch(setViewState(MenuViewState.Overview));
-              navigate("/");
-            }}
+            onClick={() => navigate(`/${MenuViewState.Overview}`)}
             startIcon={<ArrowBackIos />}
           >
             <Typography variant="h6">Tilbake til kart</Typography>
@@ -178,45 +124,11 @@ export const BenchmarkView: FC = () => {
           <DashboardMenu />
         </MenuArea>
         <GridMainArea>
-          {menuSelection === DashboardViewState.Overview && (
-            <>
-              {tripsLoading && <LocalLoadingProgress />}
-              {trips?.length && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "100%",
-                  }}
-                >
-                  <BenchmarkCards />
-                  <SpeciesHistogram />
-                  <HistoricalCatches />
-                </Box>
-              )}
-              {!tripsLoading && !trips?.length && (
-                <Box sx={{ display: "grid", placeItems: "center" }}>
-                  <Typography color="text.secondary" variant="h2">
-                    Fant ingen turer for ditt fartøy
-                  </Typography>
-                  <Typography
-                    sx={{ pt: 3 }}
-                    color="text.secondary"
-                    variant="h5"
-                  >
-                    For å kunne gi deg statistikk for dine turer må du ha levert
-                    landingssedler eller ERS-meldinger.
-                  </Typography>
-                </Box>
-              )}
-            </>
-          )}
-          {menuSelection === DashboardViewState.Benchmark && (
-            <TripBenchmarkPage />
-          )}
-          {menuSelection === DashboardViewState.Follow && <FollowList />}
-          {menuSelection === DashboardViewState.Company && <Company />}
-          {menuSelection === DashboardViewState.Fuel && <FuelPage />}
+          {viewState === DashboardViewState.Overview && <BenchmarkOverview />}
+          {viewState === DashboardViewState.Benchmark && <TripBenchmarkPage />}
+          {viewState === DashboardViewState.Follow && <FollowList />}
+          {viewState === DashboardViewState.Company && <Company />}
+          {viewState === DashboardViewState.Fuel && <FuelPage />}
         </GridMainArea>
       </GridContainer>
     </>

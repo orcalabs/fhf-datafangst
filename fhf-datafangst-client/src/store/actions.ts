@@ -13,7 +13,9 @@ export const resetTrackState = createAction("base/resetTrackState");
 
 export const checkLoggedIn = createAction<User>("base/checkLoggedIn");
 
-export const setViewState = createAction<MenuViewState>("base/viewState");
+export const setViewState = createAction<MenuViewState | undefined>(
+  "base/viewState",
+);
 
 export const setMatrixToggle = createAction<MatrixToggle>(
   "base/setMatrixToggle",
