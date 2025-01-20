@@ -62,8 +62,8 @@ export const TripBenchmarkPage: FC = () => {
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
-      startOfYear(new Date(2023, 1, 1)),
-      endOfYear(new Date(2023, 1, 1)),
+      startOfYear(new Date(2024, 1, 1)),
+      endOfYear(new Date(2024, 1, 1)),
     ),
   );
 
@@ -312,6 +312,7 @@ export const TripBenchmarkPage: FC = () => {
               <ChartCard title="Drivstofforbruk">
                 <ReactEChart
                   option={{
+                    legend: {},
                     ...generalChartOptions(
                       globalAvgFuelconsumption?.fuelConsumption,
                       markLineLabelFormatter(
@@ -527,7 +528,7 @@ export const TripBenchmarkPage: FC = () => {
                       },
                     },
                     dataset: {
-                      source: bench?.trips.filter((t) => t.eeoi !== null),
+                      source: bench?.trips,
                       dimensions: ["end", "eeoi"],
                     },
 
