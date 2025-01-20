@@ -1,4 +1,3 @@
-import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -14,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import theme from "app/theme";
+import { VesselIcon } from "assets/icons";
 import { Vessel } from "generated/openapi";
 import { FC } from "react";
 import { selectGearGroupsMap, useAppSelector } from "store";
@@ -51,7 +51,7 @@ export const VesselInfo: FC<Props> = (props) => {
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ display: "flex", pt: 3, color: "white" }}>
             <Box>
-              <DirectionsBoatSharpIcon
+              <VesselIcon
                 fill={theme.palette.secondary.main}
                 width="36"
                 height="36"

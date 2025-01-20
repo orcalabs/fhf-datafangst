@@ -27,12 +27,14 @@ import RenderFeature from "ol/render/Feature";
 import React, { FC, useEffect, useState } from "react";
 import {
   initializeMap,
+  MenuViewState,
+  resetState,
   selectFishingFacilities,
   selectFishmapState,
   selectSelectedOrCurrentTrip,
   setSelectedFishingFacility,
   setSelectedHaul,
-  setSelectedLivePosition,
+  setSelectedLiveVessel,
   setSelectedTripHaul,
   store,
   toggleSelectedArea,
@@ -69,6 +71,7 @@ export const Map: FC<Props> = (props) => {
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
+
   let disableHitDetection = false;
 
   const handleClosePopover = () => {
@@ -234,10 +237,12 @@ export const Map: FC<Props> = (props) => {
             }
             dispatch(setSelectedFishingFacility(gearIdx));
           } else if (livePosition) {
-            dispatch(setSelectedLivePosition(livePosition));
+            dispatch(setSelectedLiveVessel(livePosition));
           }
         } else {
-          // dispatch(resetState());
+          if (store.getState().viewState === MenuViewState.Live) {
+            dispatch(resetState());
+          }
         }
       });
     };

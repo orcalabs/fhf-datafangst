@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { AppState } from "store/state";
-import { getAis, getCurrentAis, setSelectedLivePosition } from "./actions";
+import { getAis, getCurrentAis } from "./actions";
 
 export const aisBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
@@ -29,7 +29,4 @@ export const aisBuilder = (
     })
     .addCase(getCurrentAis.rejected, (state, _action) => {
       state.currentPositionsLoading = false;
-    })
-    .addCase(setSelectedLivePosition, (state, action) => {
-      state.selectedLivePosition = action.payload;
     });

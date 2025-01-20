@@ -5,10 +5,15 @@ import VectorSource from "ol/source/Vector";
 import { FC, useEffect, useState } from "react";
 import {
   getCurrentAis,
+  getTrack,
+  getTrackWithoutLoading,
   selectCurrentPositions,
   selectCurrentPositionsLoading,
+  selectCurrentTrip,
+  selectCurrentTripLoading,
   selectFishmapState,
-  selectSelectedLivePosition,
+  selectSelectedLiveVessel,
+  selectVesselsByMmsi,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -22,18 +27,52 @@ export const LiveVesselsLayer: FC = () => {
   const state = useAppSelector(selectFishmapState);
   const positions = useAppSelector(selectCurrentPositions);
   const loading = useAppSelector(selectCurrentPositionsLoading);
-  const selectedPosition = useAppSelector(selectSelectedLivePosition);
+  const selectedPosition = useAppSelector(selectSelectedLiveVessel);
+  const currentTrip = useAppSelector(selectCurrentTrip);
+  const vessels = useAppSelector(selectVesselsByMmsi);
+  const currentTripLoading = useAppSelector(selectCurrentTripLoading);
 
   const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
   const [iconSize, setIconSize] = useState<number | undefined>(
     (state.map.getView().getZoom() ?? 1) * ZOOM_FACTOR,
   );
 
+  // Get all vessel positions on page load
   useEffect(() => {
     dispatch(getCurrentAis({}));
-    const id = setInterval(() => dispatch(getCurrentAis({})), 60_000);
-    return () => clearInterval(id);
   }, []);
+
+  // Interval for fetching updated positions on all vessels + track of potentially selected vessel in Live map.
+  useEffect(() => {
+    const id = setInterval(() => {
+      dispatch(getCurrentAis({}));
+      if (selectedPosition) {
+        const vessel = vessels?.[selectedPosition.mmsi];
+        dispatch(
+          getTrackWithoutLoading({
+            mmsi: selectedPosition.mmsi,
+            callSign: vessel?.fiskeridir.callSign,
+            start: currentTrip ? currentTrip.departure : undefined,
+            end: currentTrip ? new Date().toISOString() : undefined,
+          }),
+        );
+      }
+    }, 60_000);
+    return () => clearInterval(id);
+  }, [selectedPosition, currentTrip]);
+
+  // Get track of vessels with no reported CurrentTrip.
+  useEffect(() => {
+    if (!currentTrip && !currentTripLoading && selectedPosition) {
+      const vessel = vessels?.[selectedPosition.mmsi];
+      dispatch(
+        getTrack({
+          mmsi: selectedPosition.mmsi,
+          callSign: vessel?.fiskeridir.callSign,
+        }),
+      );
+    }
+  }, [currentTrip, selectedPosition, currentTripLoading]);
 
   // Store map zoom level in state
   useEffect(() => {
@@ -68,6 +107,6 @@ export const LiveVesselsLayer: FC = () => {
   return loading ? (
     <LoadingScreen open={true} />
   ) : (
-    <VectorLayer source={vector} zIndex={4} />
+    <VectorLayer source={vector} zIndex={7} />
   );
 };

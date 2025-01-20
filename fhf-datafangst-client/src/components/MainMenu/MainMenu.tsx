@@ -4,14 +4,14 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { FC } from "react";
 import {
   MenuViewState,
-  selectSelectedLivePosition,
+  selectSelectedLiveVessel,
   selectViewState,
   useAppSelector,
 } from "store";
 
 export const MainMenu: FC = () => {
   const viewState = useAppSelector(selectViewState);
-  const livePosition = useAppSelector(selectSelectedLivePosition);
+  const livePosition = useAppSelector(selectSelectedLiveVessel);
 
   if (viewState === MenuViewState.Live && !livePosition) {
     return <></>;
