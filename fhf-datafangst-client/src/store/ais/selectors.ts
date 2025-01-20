@@ -17,8 +17,3 @@ export const selectCurrentPositionsLoading = createSelector(
   selectAppState,
   (state) => state.currentPositionsLoading,
 );
-
-export const selectSelectedLivePosition = createSelector(
-  selectAppState,
-  (state) => state.selectedLivePosition,
-);

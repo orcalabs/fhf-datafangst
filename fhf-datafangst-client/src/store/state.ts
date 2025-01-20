@@ -98,6 +98,7 @@ export const emptyState: Partial<AppState> = {
   selectedGridsString: [],
   selectedTrip: undefined,
   selectedTripHaul: undefined,
+  selectedLiveVessel: undefined,
   tripFiltersOpen: false,
   track: undefined,
   trips: undefined,

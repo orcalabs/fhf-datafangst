@@ -1,52 +1,39 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, List, ListSubheader } from "@mui/material";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  List,
-  ListSubheader,
-} from "@mui/material";
-import { VesselIcon } from "assets/icons";
-import { LocalLoadingProgress, PaginationButtons } from "components";
+  LocalLoadingProgress,
+  PaginationButtons,
+  VesselInfo,
+} from "components";
 import { TripItem } from "components/MainMenu/TripItem";
-import { VesselDetails } from "components/TripDetails/VesselDetails";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC } from "react";
 import {
-  getTrips,
-  selectSelectedLivePosition,
+  paginateTripsSearch,
+  selectSelectedLiveVessel,
   selectTrips,
   selectTripsLoading,
+  selectTripsSearch,
   selectVesselByMmsi,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { toTitleCase } from "utils";
-import { Header } from "./Header";
 
 export const LiveAisMenu: FC = () => {
   const dispatch = useAppDispatch();
 
-  const position = useAppSelector(selectSelectedLivePosition)!;
+  const position = useAppSelector(selectSelectedLiveVessel)!;
   const vessel = useAppSelector((state) =>
     selectVesselByMmsi(state, position.mmsi),
   )!;
   const trips = useAppSelector(selectTrips);
   const tripsLoading = useAppSelector(selectTripsLoading);
+  const tripsSearch = useAppSelector(selectTripsSearch);
 
-  const [params, setParams] = useState({ limit: 10, offset: 0 });
+  const offset = tripsSearch?.offset ?? 0;
+  const limit = tripsSearch?.limit ?? 10;
 
-  useEffect(() => {
-    dispatch(getTrips({ vessels: [vessel], ...params }));
-  }, [vessel, params]);
-
-  const owner = useMemo(
-    () =>
-      vessel.fiskeridir.owners.length > 0
-        ? vessel.fiskeridir.owners.map((v) => toTitleCase(v.name)).join(",")
-        : "Ukjent eier",
-    [vessel],
-  );
+  const handleTripsPagination = (offset: number, limit: number) => {
+    dispatch(paginateTripsSearch({ offset, limit }));
+  };
 
   if (!position) {
     return <></>;
@@ -54,29 +41,7 @@ export const LiveAisMenu: FC = () => {
 
   return (
     <>
-      <Accordion disableGutters square elevation={0}>
-        <AccordionSummary
-          sx={{
-            color: "white",
-            bgcolor: "primary.light",
-            pl: 2.5,
-            pr: 2,
-          }}
-          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-        >
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Header
-              title={vessel.fiskeridir.name ?? vessel.ais?.name ?? "Ukjent"}
-              subtitle={owner}
-              Icon={VesselIcon}
-            />
-          </Box>
-        </AccordionSummary>
-        <AccordionDetails sx={{ bgcolor: "primary.light", pb: 0, px: 4 }}>
-          <VesselDetails vesselId={vessel.fiskeridir.id} color="white" />
-        </AccordionDetails>
-      </Accordion>
-
+      <VesselInfo vessel={vessel} />
       <List sx={{ color: "white", pt: 0 }}>
         <ListSubheader
           sx={{
@@ -91,7 +56,7 @@ export const LiveAisMenu: FC = () => {
           <Box sx={{ pt: 2, pl: 2.5 }}>
             <LocalLoadingProgress />
           </Box>
-        ) : !trips?.length && params.offset === 0 ? (
+        ) : !trips?.length && offset === 0 ? (
           <Box sx={{ py: 1, pl: 2.5 }}>Ingen leveranser</Box>
         ) : (
           <>
@@ -100,11 +65,9 @@ export const LiveAisMenu: FC = () => {
             <Box sx={{ mt: 1 }}>
               <PaginationButtons
                 numItems={trips?.length ?? 0}
-                offset={params.offset}
-                limit={params.limit}
-                onPaginationChange={(offset, limit) =>
-                  setParams({ limit, offset })
-                }
+                offset={offset}
+                limit={limit}
+                onPaginationChange={handleTripsPagination}
               />
             </Box>
           </>

@@ -23,7 +23,11 @@ interface Props {
   position: CurrentAisPosition;
 }
 
-const StyledTableCell = styled(TableCell)(() => ({ border: 0 }));
+const StyledTableCell = styled(TableCell)(() => ({
+  border: 0,
+  paddingTop: 3,
+  paddingBottom: 3,
+}));
 
 export const LivePositionPopover: FC<Props> = ({ position }) => {
   const dispatch = useAppDispatch();
@@ -48,8 +52,9 @@ export const LivePositionPopover: FC<Props> = ({ position }) => {
         direction="row"
         justifyContent="space-between"
         sx={{
-          p: 2,
-          bgcolor: "fourth.main",
+          px: 2,
+          py: 1,
+          bgcolor: "fourth.dark",
           color: "white",
         }}
       >

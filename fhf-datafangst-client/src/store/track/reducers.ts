@@ -4,7 +4,7 @@ import { Map } from "ol";
 import { boundingExtent } from "ol/extent";
 import { AppState } from "store/state";
 import { fromLonLat } from "utils";
-import { getHaulTrack, getTrack } from "./actions";
+import { getHaulTrack, getTrack, getTrackWithoutLoading } from "./actions";
 
 // Set the map focus and zoom to a selected area surrounding a the track of a trip.
 const setMapFocus = (map: Draft<Map>, track: AisVmsPosition[]) => {
@@ -29,7 +29,8 @@ export const trackBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
 ): ActionReducerMapBuilder<AppState> =>
   builder
-    .addCase(getTrack.pending, (state, _) => {
+    .addCase(getTrack.pending, (state, action) => {
+      action.meta.arg.accessToken = state.authUser?.access_token;
       state.trackLoading = true;
       state.track = undefined;
     })
@@ -63,4 +64,23 @@ export const trackBuilder = (
           );
         }
       }
+    })
+    .addCase(getTrackWithoutLoading.fulfilled, (state, action) => {
+      const track = action.payload;
+
+      if (!track) return;
+
+      const mmsi = action.meta.arg.mmsi;
+
+      // Handlers for potential race conditions between user clicks and track fetch on intervals in LiveVesselsLayer.
+      // Track without loader only applies to Live map, so if a trip has been selected, this track is not longer valid.
+      if (state.selectedTrip) {
+        return;
+      }
+      // If a different vessel is selected on live map during interval, discard track.
+      if (state.selectedLiveVessel && state.selectedLiveVessel.mmsi !== mmsi) {
+        return;
+      }
+
+      state.track = track;
     });
