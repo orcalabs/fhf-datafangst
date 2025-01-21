@@ -43,6 +43,9 @@ export const vesselBuilder = (
     .addCase(getEstimatedFuelConsumption.fulfilled, (state, action) => {
       state.estimatedFuelConsumption = action.payload;
     })
+    .addCase(getEstimatedLiveFuelConsumption.pending, (state, action) => {
+      action.meta.arg.token = state.authUser?.access_token;
+    })
     .addCase(getEstimatedLiveFuelConsumption.fulfilled, (state, action) => {
       state.estimatedLiveFuelConsumption = action.payload;
     })
