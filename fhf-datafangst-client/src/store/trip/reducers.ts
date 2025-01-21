@@ -1,8 +1,10 @@
 import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
 import { TripsArgs } from "api";
+import { subHours } from "date-fns";
 import { GearGroupDetailed } from "generated/openapi";
 import { AppState, emptyState } from "store/state";
 import { getTrack } from "store/track";
+import { getEstimatedLiveFuelConsumption } from "store/vessel";
 import { getGearGroupsFromVessels } from "utils";
 import {
   getCurrentTrip,
@@ -116,6 +118,12 @@ export const tripBuilder = (
             callSign: action.meta.arg.vessel.fiskeridir.callSign,
             start: action.payload.departure,
             end: new Date().toISOString(),
+          }),
+        );
+        (action as any).asyncDispatch(
+          getEstimatedLiveFuelConsumption({
+            threshold: subHours(new Date(), 24).toISOString(),
+            callSignOverride: action.meta.arg.vessel.fiskeridir.callSign,
           }),
         );
       }

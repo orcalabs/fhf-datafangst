@@ -59,6 +59,11 @@ export const TripBenchmarkPage: FC = () => {
   const eeoi = useAppSelector(selectEeoi);
   const averageEeoi = useAppSelector(selectAverageEeoi);
   const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
+  const nok = new Intl.NumberFormat("no-NB", {
+    style: "currency",
+    currency: "NOK",
+    maximumFractionDigits: 0,
+  });
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
@@ -292,6 +297,11 @@ export const TripBenchmarkPage: FC = () => {
                   "Rundvekt per tonn drivstoff",
                   kilosOrTonsFormatter(bench.weightPerFuel),
                 )}
+              {bench.catchValuePerFuel &&
+                benchmarkItem(
+                  "Fangstverdi per tonn drivstoff",
+                  nok.format(bench.catchValuePerFuel),
+                )}
               {bench.fuelConsumption &&
                 benchmarkItem(
                   "Drivstofforbruk (tokt)",
@@ -484,6 +494,39 @@ export const TripBenchmarkPage: FC = () => {
                         avgWeightPerDistance > 1000 && weight
                           ? (weight / 1000).toFixed(2)
                           : weight && weight.toFixed(2),
+                    },
+                  }}
+                  theme={chartsTheme}
+                />
+              </ChartCard>
+            </Grid>
+            {/* Price per fuel */}
+            <Grid item xs={6}>
+              <ChartCard title="Fangstverdi per tonn drivstoff">
+                <ReactEChart
+                  option={{
+                    ...generalChartOptions(
+                      globalAvgFuelconsumption?.catchValuePerFuel,
+                      globalAvgFuelconsumption?.catchValuePerFuel
+                        ? nok.format(
+                            globalAvgFuelconsumption?.catchValuePerFuel,
+                          )
+                        : "",
+                    ),
+
+                    yAxis: {
+                      type: "value",
+                      name: "Verdi (NOK)",
+                    },
+                    dataset: {
+                      dimensions: ["end", "catchValuePerFuel"],
+                      source: bench?.trips,
+                    },
+
+                    tooltip: {
+                      trigger: "axis",
+                      valueFormatter: (value: number | null) =>
+                        value !== null && nok.format(value),
                     },
                   }}
                   theme={chartsTheme}

@@ -9,6 +9,12 @@ export interface FuelArgs {
   callSignOverride?: string | null;
 }
 
+export interface LiveFuelArgs {
+  token?: string;
+  threshold?: string;
+  callSignOverride?: string | null;
+}
+
 const api = new VesselApi(apiConfiguration, undefined, axiosInstance);
 
 export const getVessels = async () =>
@@ -27,6 +33,17 @@ export const getEstimatedFuelConsumption = async (args: FuelArgs) =>
         endDate: args.endDate
           ? formatISO(args.endDate, { representation: "date" })
           : undefined,
+        bwToken: args.token!,
+      },
+      { params: { call_sign_override: args.callSignOverride } },
+    ),
+  );
+
+export const getEstimastedLiveFuelConsumption = async (args: LiveFuelArgs) =>
+  apiGet(async () =>
+    api.routesV1VesselLiveFuel(
+      {
+        threshold: args.threshold,
         bwToken: args.token!,
       },
       { params: { call_sign_override: args.callSignOverride } },

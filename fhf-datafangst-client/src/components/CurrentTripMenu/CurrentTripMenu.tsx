@@ -5,12 +5,16 @@ import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import { Box, Divider, styled, SvgIcon, Typography } from "@mui/material";
+import chartsTheme from "app/chartsTheme";
+import theme from "app/theme";
 import { CatchesTable, SecondaryMenuWrapper } from "components";
+import ReactEChart from "echarts-for-react";
 import { Gear, GearDetailed } from "generated/openapi";
 import { FC } from "react";
 import {
   MenuViewState,
   selectCurrentTrip,
+  selectEstimatedLiveFuelConsumption,
   selectFuelOfTrip,
   selectGearsMap,
   selectViewState,
@@ -20,6 +24,7 @@ import {
   createGearListString,
   createObjectDurationString,
   dateFormat,
+  fuelTonsToLiters,
   reduceHaulsCatches,
 } from "utils";
 
@@ -39,6 +44,12 @@ export const CurrentTripMenu: FC = () => {
   const gears = useAppSelector(selectGearsMap);
   const fuel = useAppSelector(selectFuelOfTrip);
   const viewState = useAppSelector(selectViewState);
+  const estimatedLiveFuel = useAppSelector(selectEstimatedLiveFuelConsumption);
+  const liveFuelLiters = estimatedLiveFuel?.entries.map((e) => {
+    const val = { ...e };
+    val.fuel = fuelTonsToLiters(e.fuel);
+    return val;
+  });
 
   if (!trip) {
     return <></>;
@@ -127,20 +138,79 @@ export const CurrentTripMenu: FC = () => {
             </InfoItem>
           )}
         </Box>
-        <Box
-          sx={{
-            my: 1,
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <Box sx={{ my: 1, width: "100%" }}>
           <Typography sx={{ fontSize: "1rem" }} variant="h5">
             Estimert fangst
           </Typography>
+          <CatchesTable catches={haulCatches} />
         </Box>
-        <CatchesTable catches={haulCatches} />
+        {estimatedLiveFuel && (
+          <Box sx={{ width: "100%", my: 1 }}>
+            <Typography sx={{ fontSize: "1rem" }} variant="h5">
+              Estimert drivstofforbruk
+            </Typography>
+            <Typography>
+              Siden start:{" "}
+              {fuelTonsToLiters(estimatedLiveFuel?.total_fuel).toFixed(0)} liter
+            </Typography>
+            <ReactEChart
+              option={{
+                backgroundColor: theme.palette.primary.light,
+                color: theme.palette.fifth.main,
+                textStyle: {
+                  color: "white",
+                },
+                xAxis: {
+                  type: "time",
+                  splitLine: {
+                    lineStyle: {
+                      color: theme.palette.grey.A100,
+                    },
+                  },
+                  axisLine: {
+                    lineStyle: {
+                      color: "white",
+                    },
+                  },
+                  axisLabel: {
+                    color: "white",
+                  },
+                },
+                yAxis: {
+                  type: "value",
+                  name: "Liter",
+                  axisLine: {
+                    lineStyle: {
+                      color: "white",
+                    },
+                  },
+                  splitLine: {
+                    lineStyle: {
+                      color: theme.palette.grey.A100,
+                    },
+                  },
+                  axisLabel: {
+                    color: "white",
+                  },
+                },
+                dataset: {
+                  dimensions: ["timestamp", "fuel"],
+                  source: liveFuelLiters,
+                },
+
+                tooltip: {
+                  trigger: "axis",
+                },
+                series: [
+                  {
+                    type: "line",
+                  },
+                ],
+              }}
+              theme={chartsTheme}
+            />
+          </Box>
+        )}
       </Box>
     </SecondaryMenuWrapper>
   );
