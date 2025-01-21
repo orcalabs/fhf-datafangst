@@ -17,3 +17,8 @@ export const getEstimatedFuelConsumption = createAsyncThunk(
 export const setSelectedLiveVessel = createAction<
   CurrentAisPosition | undefined
 >("vessel/setSelectedLiveVessel");
+
+export const getEstimatedLiveFuelConsumption = createAsyncThunk(
+  "vessel/getEstimastedLiveFuelConsumption",
+  Api.getEstimastedLiveFuelConsumption,
+);

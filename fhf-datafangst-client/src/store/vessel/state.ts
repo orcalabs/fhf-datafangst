@@ -1,5 +1,6 @@
 import {
   CurrentAisPosition,
+  LiveFuel,
   Vessel,
   VesselBenchmarks,
 } from "generated/openapi";
@@ -13,6 +14,7 @@ export interface VesselState {
   estimatedFuelConsumption?: number;
   selectedVessel?: Vessel;
   selectedLiveVessel?: CurrentAisPosition;
+  estimatedLiveFuelConsumption?: LiveFuel;
 }
 
 export const initialVesselState: VesselState = {
@@ -24,4 +26,5 @@ export const initialVesselState: VesselState = {
   estimatedFuelConsumption: undefined,
   selectedVessel: undefined,
   selectedLiveVessel: undefined,
+  estimatedLiveFuelConsumption: undefined,
 };

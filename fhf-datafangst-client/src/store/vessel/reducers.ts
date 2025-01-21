@@ -4,6 +4,7 @@ import { AppState } from "store/state";
 import { getCurrentTrip, getTrips } from "store/trip";
 import {
   getEstimatedFuelConsumption,
+  getEstimatedLiveFuelConsumption,
   getVesselBenchmarks,
   getVessels,
   setSelectedLiveVessel,
@@ -38,6 +39,9 @@ export const vesselBuilder = (
     })
     .addCase(getEstimatedFuelConsumption.fulfilled, (state, action) => {
       state.estimatedFuelConsumption = action.payload;
+    })
+    .addCase(getEstimatedLiveFuelConsumption.fulfilled, (state, action) => {
+      state.estimatedLiveFuelConsumption = action.payload;
     })
     .addCase(setSelectedLiveVessel, (state, action) => {
       let vessel: Vessel | undefined;
