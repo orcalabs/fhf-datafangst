@@ -1,7 +1,7 @@
 import { subHours } from "date-fns";
 import { AisApi } from "generated/openapi";
 import { Track } from "models";
-import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
+import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface AisArgs {
   mmsi: number;
@@ -15,19 +15,26 @@ export interface CurrentAisArgs {
 
 const api = new AisApi(apiConfiguration, undefined, axiosInstance);
 
-export const getAis = async (query: AisArgs) =>
-  apiGet(async () =>
-    api.routesV1AisAisTrack({
+const _getAis = apiFn((query: AisArgs, signal) =>
+  api.routesV1AisAisTrack(
+    {
       mmsi: query.mmsi,
       start: query.start,
       end: query.end,
-    }),
-  ).then((positions): Track => ({ mmsi: query.mmsi, positions }));
+    },
+    { signal },
+  ),
+);
 
-export const getCurrentAis = async (query: CurrentAisArgs) =>
-  apiGet(async () =>
-    api.routesV1AisAisCurrentPositions({
+export const getAis = async (query: AisArgs) =>
+  _getAis(query).then((positions): Track => ({ mmsi: query.mmsi, positions }));
+
+export const getCurrentAis = apiFn((query: CurrentAisArgs, signal) =>
+  api.routesV1AisAisCurrentPositions(
+    {
       positionTimestampLimit: subHours(new Date(), 24).toISOString(),
       bwToken: query.token,
-    }),
-  );
+    },
+    { signal },
+  ),
+);

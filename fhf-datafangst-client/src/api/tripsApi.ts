@@ -10,7 +10,7 @@ import {
   Vessel,
 } from "generated/openapi";
 import { LengthGroup } from "models";
-import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
+import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface TripsArgs {
   vessels?: Vessel[];
@@ -24,6 +24,7 @@ export interface TripsArgs {
   offset?: number;
   limit?: number;
   accessToken?: string;
+  cancel?: boolean;
 }
 
 export interface CurrentTripArgs {
@@ -33,23 +34,17 @@ export interface CurrentTripArgs {
 
 const api = new TripApi(apiConfiguration, undefined, axiosInstance);
 
-export const getTripFromHaul = async (haul: Haul) =>
-  apiGet(async () =>
-    api.routesV1TripTripOfHaulTripOfHaul({
-      haulId: haul.haulId,
-    }),
-  );
+export const getTripFromHaul = apiFn(({ haulId }: Haul, signal) =>
+  api.routesV1TripTripOfHaulTripOfHaul({ haulId }, { signal }),
+);
 
-export const getTripFromLanding = async (landing: Landing) =>
-  apiGet(async () =>
-    api.routesV1TripTripOfLanding({
-      landingId: landing.id,
-    }),
-  );
+export const getTripFromLanding = apiFn((landing: Landing, signal) =>
+  api.routesV1TripTripOfLanding({ landingId: landing.id }, { signal }),
+);
 
-export const getTrips = async (query: TripsArgs) =>
-  apiGet(async () =>
-    api.routesV1TripTrips({
+export const getTrips = apiFn((query: TripsArgs, signal) =>
+  api.routesV1TripTrips(
+    {
       fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
       deliveryPoints: query.deliveryPoints,
       startDate: query.dateRange?.start?.toISOString(),
@@ -64,13 +59,17 @@ export const getTrips = async (query: TripsArgs) =>
       limit: query.limit ?? 10,
       offset: query.offset ?? 0,
       bwToken: query.accessToken,
-    }),
-  );
+    },
+    { signal: query.cancel === false ? undefined : signal },
+  ),
+);
 
-export const getCurrentTrip = async (query: CurrentTripArgs) =>
-  apiGet(async () =>
-    api.routesV1TripCurrentTrip({
+export const getCurrentTrip = apiFn((query: CurrentTripArgs, signal) =>
+  api.routesV1TripCurrentTrip(
+    {
       fiskeridirVesselId: query.vessel.fiskeridir.id,
       bwToken: query.accessToken,
-    }),
-  );
+    },
+    { signal },
+  ),
+);

@@ -1,11 +1,11 @@
 import { BwUser } from "models";
-import { apiGet, axiosBwInternalInstance } from "./baseApi";
+import { apiFn, axiosBwInternalInstance } from "./baseApi";
 
-export const getBwUser = async (token: string) =>
-  apiGet(async () =>
-    axiosBwInternalInstance.get<BwUser>("user/profiles", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }),
-  );
+export const getBwUser = apiFn((token: string, signal) =>
+  axiosBwInternalInstance.get<BwUser>("user/profiles", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    signal,
+  }),
+);

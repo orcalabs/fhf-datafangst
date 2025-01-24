@@ -47,6 +47,7 @@ export const BenchmarkOverview: FC = () => {
           sorting: [TripSorting.StopDate, Ordering.Desc],
           limit: benchmarkHistoric,
           offset: 0,
+          cancel: false,
         }),
       );
       dispatch(
@@ -64,6 +65,7 @@ export const BenchmarkOverview: FC = () => {
             sorting: [TripSorting.StopDate, Ordering.Desc],
             limit: benchmarkHistoric,
             offset: 0,
+            cancel: false,
           }),
         );
       });

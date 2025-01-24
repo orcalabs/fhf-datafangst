@@ -1,12 +1,16 @@
 import { GearApi } from "generated/openapi";
-import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
+import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 const api = new GearApi(apiConfiguration, undefined, axiosInstance);
 
-export const getGear = async () => apiGet(async () => api.routesV1GearGear());
+export const getGear = apiFn((_: undefined, signal) =>
+  api.routesV1GearGear({ signal }),
+);
 
-export const getGearGroups = async () =>
-  apiGet(async () => api.routesV1GearGearGroups());
+export const getGearGroups = apiFn((_: undefined, signal) =>
+  api.routesV1GearGearGroups({ signal }),
+);
 
-export const getGearMainGroups = async () =>
-  apiGet(async () => api.routesV1GearGearMainGroups());
+export const getGearMainGroups = apiFn((_: undefined, signal) =>
+  api.routesV1GearGearMainGroups({ signal }),
+);

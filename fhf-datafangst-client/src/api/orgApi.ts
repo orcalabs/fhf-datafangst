@@ -1,6 +1,6 @@
 import { formatISO } from "date-fns";
 import { OrgApi } from "generated/openapi";
-import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
+import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface OrgBenchmarksArgs {
   orgId: number;
@@ -20,23 +20,23 @@ export interface OrgFuelConsumptionArgs {
 
 const api = new OrgApi(apiConfiguration, undefined, axiosInstance);
 
-export const getOrgBenchmarks = async (query: OrgBenchmarksArgs) =>
-  apiGet(async () =>
-    api.routesV1OrgBenchmarks(
-      {
-        orgId: query.orgId,
-        start: query.start?.toISOString(),
-        end: query.end?.toISOString(),
-        bwToken: query.token!,
-      },
-      {
-        params: { call_sign_override: query.callSignOverride },
-      },
-    ),
-  );
+export const getOrgBenchmarks = apiFn((query: OrgBenchmarksArgs, signal) =>
+  api.routesV1OrgBenchmarks(
+    {
+      orgId: query.orgId,
+      start: query.start?.toISOString(),
+      end: query.end?.toISOString(),
+      bwToken: query.token!,
+    },
+    {
+      params: { call_sign_override: query.callSignOverride },
+      signal,
+    },
+  ),
+);
 
-export const getOrgFuelConsumption = async (query: OrgFuelConsumptionArgs) =>
-  apiGet(async () =>
+export const getOrgFuelConsumption = apiFn(
+  (query: OrgFuelConsumptionArgs, signal) =>
     api.routesV1OrgFuel(
       {
         orgId: query.orgId,
@@ -50,6 +50,7 @@ export const getOrgFuelConsumption = async (query: OrgFuelConsumptionArgs) =>
       },
       {
         params: { call_sign_override: query.callSignOverride },
+        signal,
       },
     ),
-  );
+);
