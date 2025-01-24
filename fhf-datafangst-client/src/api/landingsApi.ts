@@ -9,7 +9,7 @@ import {
 } from "generated/openapi";
 import { LengthGroup } from "models";
 import { MinLandingYear } from "utils";
-import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
+import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 import { createTimestampsFromYearsMonths } from "./utils";
 
 export const LandingsFilter = {
@@ -37,9 +37,9 @@ export interface LandingsArgs {
 
 const api = new LandingApi(apiConfiguration, undefined, axiosInstance);
 
-export const getLandings = async (query: LandingsArgs) =>
-  apiGet(async () =>
-    api.routesV1LandingLandings({
+export const getLandings = apiFn((query: LandingsArgs, signal) =>
+  api.routesV1LandingLandings(
+    {
       months: query.years
         ? createTimestampsFromYearsMonths(
             query.years,
@@ -59,12 +59,14 @@ export const getLandings = async (query: LandingsArgs) =>
         query.limit != undefined && query.page !== undefined
           ? query.limit * query.page
           : undefined,
-    }),
-  );
+    },
+    { signal },
+  ),
+);
 
-export const getLandingsMatrix = async (query: LandingsArgs) =>
-  apiGet(async () =>
-    api.routesV1LandingLandingMatrix({
+export const getLandingsMatrix = apiFn((query: LandingsArgs, signal) =>
+  api.routesV1LandingLandingMatrix(
+    {
       activeFilter:
         query.filter === LandingsFilter.Vessel
           ? ActiveLandingFilter.VesselLength
@@ -91,5 +93,7 @@ export const getLandingsMatrix = async (query: LandingsArgs) =>
         query.filter === LandingsFilter.VesselLength
           ? undefined
           : query.vesselLengthGroups?.map((l) => l.id),
-    }),
-  );
+    },
+    { signal },
+  ),
+);

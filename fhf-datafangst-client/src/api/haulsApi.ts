@@ -9,7 +9,7 @@ import {
 } from "generated/openapi";
 import { LengthGroup } from "models";
 import { MinErsYear } from "utils";
-import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
+import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 import { createTimestampsFromYearsMonths } from "./utils";
 
 export const HaulsFilter = {
@@ -34,29 +34,28 @@ export interface HaulsArgs {
 
 const api = new HaulApi(apiConfiguration, undefined, axiosInstance);
 
-export const getHauls = async (query: HaulsArgs) =>
-  apiGet(async () =>
-    api.routesV1HaulHauls({
-      months: query.years
-        ? createTimestampsFromYearsMonths(
-            query.years,
-            query.months,
-            MinErsYear,
-          )?.map((g) => g.toISOString())
-        : undefined,
-      fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
-      catchLocations: query.catchLocations,
-      gearGroupIds: query.gearGroupIds?.map((g) => g.id),
-      speciesGroupIds: query.speciesGroupIds?.map((g) => g.id),
-      vesselLengthGroups: query.vesselLengthGroups?.map((g) => g.id),
-      ordering: query?.ordering ?? Ordering.Desc,
-      sorting: query.sorting ?? HaulsSorting.StartDate,
-    }),
-  );
+export const getHauls = apiFn((query: HaulsArgs) =>
+  api.routesV1HaulHauls({
+    months: query.years
+      ? createTimestampsFromYearsMonths(
+          query.years,
+          query.months,
+          MinErsYear,
+        )?.map((g) => g.toISOString())
+      : undefined,
+    fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
+    catchLocations: query.catchLocations,
+    gearGroupIds: query.gearGroupIds?.map((g) => g.id),
+    speciesGroupIds: query.speciesGroupIds?.map((g) => g.id),
+    vesselLengthGroups: query.vesselLengthGroups?.map((g) => g.id),
+    ordering: query?.ordering ?? Ordering.Desc,
+    sorting: query.sorting ?? HaulsSorting.StartDate,
+  }),
+);
 
-export const getHaulsMatrix = async (query: HaulsArgs) =>
-  apiGet(async () =>
-    api.routesV1HaulHaulsMatrix({
+export const getHaulsMatrix = apiFn((query: HaulsArgs, signal) =>
+  api.routesV1HaulHaulsMatrix(
+    {
       activeFilter:
         query.filter === HaulsFilter.Vessel
           ? ActiveHaulsFilter.VesselLength
@@ -83,5 +82,7 @@ export const getHaulsMatrix = async (query: HaulsArgs) =>
         query.filter === HaulsFilter.VesselLength
           ? undefined
           : query.vesselLengthGroups?.map((l) => l.id),
-    }),
-  );
+    },
+    { signal },
+  ),
+);

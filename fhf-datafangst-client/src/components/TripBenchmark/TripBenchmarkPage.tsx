@@ -116,7 +116,7 @@ export const TripBenchmarkPage: FC = () => {
         }),
       );
     }
-  }, [dateRange]);
+  }, [dateRange, vesselInfo?.ircs]);
 
   const totalDuration = useMemo(
     () =>

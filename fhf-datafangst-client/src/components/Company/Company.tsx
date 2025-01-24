@@ -59,7 +59,7 @@ export const Company: FC = () => {
         }),
       );
     }
-  }, [dateRange]);
+  }, [dateRange, orgId, vesselInfo?.ircs]);
 
   if (orgBenchmarksLoading) {
     return <LocalLoadingProgress />;

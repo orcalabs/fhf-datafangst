@@ -1,7 +1,8 @@
 import { DeliveryPointApi } from "generated/openapi";
-import { apiConfiguration, apiGet, axiosInstance } from "./baseApi";
+import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 const api = new DeliveryPointApi(apiConfiguration, undefined, axiosInstance);
 
-export const getDeliveryPoints = async () =>
-  apiGet(async () => api.routesV1DeliveryPointDeliveryPoints());
+export const getDeliveryPoints = apiFn((_: undefined, signal) =>
+  api.routesV1DeliveryPointDeliveryPoints({ signal }),
+);
