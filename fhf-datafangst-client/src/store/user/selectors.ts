@@ -13,5 +13,7 @@ export const selectUserFollowList = createSelector(
   selectVesselsByFiskeridirId,
   selectUser,
   (vesselsByFiskeridirId, user) =>
-    user?.following.map((vesselId) => vesselsByFiskeridirId[vesselId]),
+    user?.following
+      .map((vesselId) => vesselsByFiskeridirId[vesselId])
+      .filter((v) => v !== undefined),
 );
