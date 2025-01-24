@@ -408,7 +408,7 @@ export const LandingsMenu: FC = () => {
                       actions: {
                         nextButton: {
                           disabled:
-                            landings.length !== landingsSearch.limit ?? 10,
+                            landings.length !== (landingsSearch.limit ?? 10),
                         },
                       },
                     }}

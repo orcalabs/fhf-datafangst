@@ -16,7 +16,6 @@ export const HaulsFilter = {
   ...ActiveHaulsFilter,
   Vessel: "vessel",
 } as const;
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type HaulsFilter = (typeof HaulsFilter)[keyof typeof HaulsFilter];
 
 export interface HaulsArgs {

@@ -59,7 +59,6 @@ export const haulBuilder = (
               state.selectedGridsString.includes(c),
             )
           ) {
-            // eslint-disable-next-line
             delete state.hauls[haul.haulId];
           }
         }

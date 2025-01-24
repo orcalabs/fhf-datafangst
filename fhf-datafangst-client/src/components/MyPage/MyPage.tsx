@@ -16,7 +16,7 @@ import { FishIcon } from "assets/icons";
 import { MyGears, MyHauls, Trips, VesselInfo } from "components";
 import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import {
   getCurrentTrip,
   selectBwUserProfile,

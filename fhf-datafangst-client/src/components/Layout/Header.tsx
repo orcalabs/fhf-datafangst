@@ -14,7 +14,7 @@ import {
 import LogoIcon from "assets/logos/logoIcon";
 import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 import { MenuViewState, selectIsLoggedIn, useAppSelector } from "store";
 
 export const Header: FC = () => {

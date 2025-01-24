@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { endOfDay, isValid, startOfDay } from "date-fns";
 import { nb } from "date-fns/locale";
 import { FC } from "react";
