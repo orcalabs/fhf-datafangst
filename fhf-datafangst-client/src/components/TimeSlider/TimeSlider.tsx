@@ -128,7 +128,7 @@ export const TimeSlider: FC<Props> = ({
         sx={[
           {
             textTransform: "none",
-            zIndex: 2000,
+            zIndex: 1000,
             left: "50%",
             height: 40,
             px: 1,

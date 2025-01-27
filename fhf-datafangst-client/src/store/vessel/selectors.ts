@@ -114,3 +114,10 @@ export const selectEstimatedLiveFuelConsumption = createSelector(
   selectAppState,
   (state) => state.estimatedLiveFuelConsumption,
 );
+
+export const selectLoggedInVessel = createSelector(selectAppState, (state) => {
+  const callSign = state.bwUser?.fiskInfoProfile.ircs;
+  return callSign && state.vesselsByCallSign
+    ? state.vesselsByCallSign[callSign]
+    : undefined;
+});

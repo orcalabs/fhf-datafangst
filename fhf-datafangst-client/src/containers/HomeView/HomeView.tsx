@@ -18,6 +18,7 @@ import {
   MapControls,
   MapFilters,
   SeamapLayer,
+  SettingsMenu,
   ShorelineLayer,
   TimeSlider,
   TrackLayer,
@@ -46,6 +47,7 @@ import {
   selectTrackLoading,
   selectTrackMissing,
   selectTripDetailsOpen,
+  selectVesselSettingsOpen,
   selectViewState,
   setHaulDateSliderFrame,
   setHaulsMatrix2Search,
@@ -188,6 +190,7 @@ export const HomeView: FC<Props> = ({ view }) => {
   const showLandingTimeSlider = useAppSelector(selectShowLandingTimeSlider);
   const matrixToggle = useAppSelector(selectMatrixToggle);
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
+  const vesselSettingsOpen = useAppSelector(selectVesselSettingsOpen);
 
   const showHaulsMenu = Boolean(selectedGrids.length);
 
@@ -309,6 +312,11 @@ export const HomeView: FC<Props> = ({ view }) => {
         {tripDetailsOpen && (
           <CenterArea open={secondaryMenuOpen}>
             <TripDetails />
+          </CenterArea>
+        )}
+        {vesselSettingsOpen && (
+          <CenterArea open={false}>
+            <SettingsMenu />
           </CenterArea>
         )}
       </GridContainer>

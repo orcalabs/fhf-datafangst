@@ -26,6 +26,7 @@ import {
   selectVesselsByCallsign,
   setFishingFacilitiesSearch,
   setHaulsMatrixSearch,
+  setVesselSettingsOpen,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -238,6 +239,31 @@ export const MyPage: FC = () => {
           <SpeedIcon sx={{ color: "secondary.light", fontSize: 32 }} />
         </Box>
         <Typography variant="h6"> Min statistikk </Typography>
+      </Button>
+      <Button
+        variant="contained"
+        sx={{
+          m: 0,
+          width: "100%",
+          py: 2,
+          px: 2.5,
+          justifyContent: "start",
+          borderRadius: 0,
+          color: "white",
+          boxShadow: "none",
+          bgcolor: "primary.light",
+        }}
+        onClick={() => dispatch(setVesselSettingsOpen(true))}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            "& svg": { mr: 2 },
+          }}
+        >
+          <SpeedIcon sx={{ color: "secondary.light", fontSize: 32 }} />
+        </Box>
+        <Typography variant="h6"> Innstillinger </Typography>
       </Button>
     </Box>
   );

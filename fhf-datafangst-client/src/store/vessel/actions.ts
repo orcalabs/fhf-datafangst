@@ -22,3 +22,8 @@ export const getEstimatedLiveFuelConsumption = createAsyncThunk(
   "vessel/getEstimastedLiveFuelConsumption",
   Api.getEstimastedLiveFuelConsumption,
 );
+
+export const updateVessel = createAsyncThunk(
+  "vessel/updateVessel",
+  Api.updateVessel,
+);
