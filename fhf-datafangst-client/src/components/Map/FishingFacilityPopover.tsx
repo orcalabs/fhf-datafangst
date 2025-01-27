@@ -45,9 +45,9 @@ export const FishingFacilityPopover: FC<Props> = ({ fishingFacilityIdx }) => {
             }
             secondary={
               <span>
-                {dateFormat(facility.setupTimestamp, "d MMM YYY") +
+                {dateFormat(facility.setupTimestamp, "d MMM yyy") +
                   (facility.removedTimestamp
-                    ? ` - ${dateFormat(facility.removedTimestamp, "d MMM YYY")}`
+                    ? ` - ${dateFormat(facility.removedTimestamp, "d MMM yyy")}`
                     : "")}
                 <br />
                 {facility.comment}
