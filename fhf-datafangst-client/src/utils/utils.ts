@@ -1,5 +1,6 @@
 import {
   differenceInHours,
+  Duration,
   format,
   formatDuration,
   intervalToDuration,
@@ -289,7 +290,6 @@ export const withoutKeys = (
   const res = { ...obj };
 
   for (const key of keys) {
-    // eslint-disable-next-line
     delete res[key];
   }
 

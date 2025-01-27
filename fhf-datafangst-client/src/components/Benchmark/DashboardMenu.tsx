@@ -13,7 +13,7 @@ import {
 import theme, { fontStyle } from "app/theme";
 import { VesselIcon } from "assets/icons";
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { selectActiveDashboardMenu, useAppSelector } from "store";
 import { DashboardViewState } from "store/dashboard";
 

@@ -3,7 +3,7 @@ import theme from "app/theme";
 import "overlayscrollbars/overlayscrollbars.css";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import { store } from "store";
 import "utils/prototypes.ts";
 import { App } from "./containers";

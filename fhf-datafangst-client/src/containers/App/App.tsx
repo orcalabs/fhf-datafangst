@@ -3,7 +3,7 @@ import { authConfig } from "app/auth";
 import { Layout } from "components";
 import { BenchmarkView, HomeView } from "containers";
 import { AuthProvider } from "oidc-react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router";
 import { DashboardViewState, MenuViewState } from "store";
 
 export const App: React.FC = () => {
