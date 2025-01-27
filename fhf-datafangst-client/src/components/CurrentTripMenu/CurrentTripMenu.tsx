@@ -145,12 +145,12 @@ export const CurrentTripMenu: FC = () => {
           <CatchesTable catches={haulCatches} />
         </Box>
         {estimatedLiveFuel && (
-          <Box sx={{ width: "100%", my: 1 }}>
+          <Box sx={{ width: "100%", my: 3 }}>
             <Typography sx={{ fontSize: "1rem" }} variant="h5">
               Estimert drivstofforbruk
             </Typography>
-            <Typography>
-              Siden start:{" "}
+            <Typography sx={{ color: "text.secondary", px: 3 }}>
+              Siste 24 timer:{" "}
               {fuelTonsToLiters(estimatedLiveFuel?.total_fuel).toFixed(0)} liter
             </Typography>
             <ReactEChart
@@ -163,9 +163,10 @@ export const CurrentTripMenu: FC = () => {
                 xAxis: {
                   type: "time",
                   splitLine: {
-                    lineStyle: {
-                      color: theme.palette.grey.A100,
-                    },
+                    show: false,
+                  },
+                  axisTick: {
+                    interval: 2,
                   },
                   axisLine: {
                     lineStyle: {
@@ -174,7 +175,9 @@ export const CurrentTripMenu: FC = () => {
                   },
                   axisLabel: {
                     color: "white",
+                    formatter: "{HH}:{mm}",
                   },
+                  minInterval: 1,
                 },
                 yAxis: {
                   type: "value",
@@ -200,10 +203,13 @@ export const CurrentTripMenu: FC = () => {
 
                 tooltip: {
                   trigger: "axis",
+                  valueFormatter: (fuel: number | null) =>
+                    fuel !== null && fuel.toFixed(2),
                 },
                 series: [
                   {
                     type: "line",
+                    encode: { tooltip: [1] },
                   },
                 ],
               }}
