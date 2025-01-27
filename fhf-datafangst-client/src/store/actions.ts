@@ -28,3 +28,7 @@ export const setTripFiltersOpen = createAction<boolean>(
 export const setTripDetailsOpen = createAction<boolean>(
   "base/setTripDetailsOpen",
 );
+
+export const setVesselSettingsOpen = createAction<boolean>(
+  "base/setVesselSettingsOpen",
+);

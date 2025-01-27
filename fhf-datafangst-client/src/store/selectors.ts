@@ -71,3 +71,8 @@ export const selectCanReadAisUnder15 = createSelector(
     state?.policies?.includes(Policies.BwAisFiskinfo) &&
     state.roles?.some((v) => AIS_ROLES.includes(v)),
 );
+
+export const selectVesselSettingsOpen = createSelector(
+  selectAppState,
+  (state) => state.vesselSettingsOpen,
+);

@@ -75,6 +75,7 @@ export const FollowList: FC = () => {
         columnGap: 8,
         p: 3,
         width: "100%",
+        height: "100%",
       }}
     >
       <Box
@@ -170,6 +171,7 @@ export const FollowList: FC = () => {
           gridColumnEnd: 3,
           gridRowStart: 1,
           gridRowEnd: 2,
+          height: "100%",
         }}
       >
         <AddFollowerList />
