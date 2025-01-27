@@ -196,12 +196,6 @@ export interface AisVessel {
     'mmsi': number;
     /**
      * 
-     * @type {number}
-     * @memberof AisVessel
-     */
-    'imoNumber': number | null;
-    /**
-     * 
      * @type {string}
      * @memberof AisVessel
      */
@@ -212,30 +206,6 @@ export interface AisVessel {
      * @memberof AisVessel
      */
     'name': string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVessel
-     */
-    'shipLength': number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVessel
-     */
-    'shipWidth': number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AisVessel
-     */
-    'eta': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AisVessel
-     */
-    'destination': string | null;
 }
 /**
  * 
@@ -1449,52 +1419,10 @@ export interface FiskeridirVessel {
     'id': number;
     /**
      * 
-     * @type {number}
-     * @memberof FiskeridirVessel
-     */
-    'vesselTypeId': number | null;
-    /**
-     * 
      * @type {VesselLengthGroup}
      * @memberof FiskeridirVessel
      */
     'lengthGroupId': VesselLengthGroup;
-    /**
-     * 
-     * @type {string}
-     * @memberof FiskeridirVessel
-     */
-    'nationGroupId': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof FiskeridirVessel
-     */
-    'nationId': string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof FiskeridirVessel
-     */
-    'norwegianMunicipalityId': number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof FiskeridirVessel
-     */
-    'norwegianCountyId': number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof FiskeridirVessel
-     */
-    'grossTonnage1969': number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof FiskeridirVessel
-     */
-    'grossTonnageOther': number | null;
     /**
      * 
      * @type {string}
@@ -1527,12 +1455,6 @@ export interface FiskeridirVessel {
     'width': number | null;
     /**
      * 
-     * @type {string}
-     * @memberof FiskeridirVessel
-     */
-    'owner': string | null;
-    /**
-     * 
      * @type {Array<RegisterVesselOwner>}
      * @memberof FiskeridirVessel
      */
@@ -1560,7 +1482,37 @@ export interface FiskeridirVessel {
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'rebuildingYear': number | null;
+    'auxiliaryEnginePower': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FiskeridirVessel
+     */
+    'auxiliaryEngineBuildingYear': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FiskeridirVessel
+     */
+    'boilerEnginePower': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FiskeridirVessel
+     */
+    'boilerEngineBuildingYear': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FiskeridirVessel
+     */
+    'degreeOfElectrification': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FiskeridirVessel
+     */
+    'serviceSpeed': number | null;
 }
 
 
@@ -2742,6 +2694,12 @@ export interface OrgBenchmarkEntry {
     'landingTotalLivingWeight': number;
     /**
      * 
+     * @type {number}
+     * @memberof OrgBenchmarkEntry
+     */
+    'priceForFisher': number;
+    /**
+     * 
      * @type {Array<OrgBenchmarkSpecies>}
      * @memberof OrgBenchmarkEntry
      */
@@ -2797,6 +2755,12 @@ export interface OrgBenchmarkSpecies {
      * @memberof OrgBenchmarkSpecies
      */
     'landingTotalLivingWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgBenchmarkSpecies
+     */
+    'priceForFisher': number;
 }
 
 
@@ -2830,6 +2794,12 @@ export interface OrgBenchmarks {
      * @memberof OrgBenchmarks
      */
     'landingTotalLivingWeight': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgBenchmarks
+     */
+    'priceForFisher': number;
     /**
      * 
      * @type {Array<OrgBenchmarkEntry>}
@@ -3514,21 +3484,6 @@ export type TripBenchmarkId = typeof TripBenchmarkId[keyof typeof TripBenchmarkI
 /**
  * 
  * @export
- * @enum {string}
- */
-
-export const TripBenchmarkStatus = {
-    MustRecompute: 'MustRecompute',
-    MustRefresh: 'MustRefresh',
-    Refreshed: 'Refreshed'
-} as const;
-
-export type TripBenchmarkStatus = typeof TripBenchmarkStatus[keyof typeof TripBenchmarkStatus];
-
-
-/**
- * 
- * @export
  * @interface TripBenchmarks
  */
 export interface TripBenchmarks {
@@ -3771,6 +3726,42 @@ export interface UpdateVessel {
      * @memberof UpdateVessel
      */
     'engineBuildingYear': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'auxiliaryEnginePower': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'auxiliaryEngineBuildingYear': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'boilerEnginePower': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'boilerEngineBuildingYear': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'degreeOfElectrification': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'serviceSpeed': number | null;
 }
 /**
  * 
@@ -3815,6 +3806,12 @@ export interface Vessel {
      * @memberof Vessel
      */
     'speciesGroups': Array<SpeciesGroup>;
+    /**
+     * 
+     * @type {VesselCurrentTrip}
+     * @memberof Vessel
+     */
+    'currentTrip': VesselCurrentTrip | null;
 }
 /**
  * 
@@ -3858,6 +3855,25 @@ export interface VesselBenchmarks {
      * @memberof VesselBenchmarks
      */
     'cumulativeLandings': Array<CumulativeLandings>;
+}
+/**
+ * 
+ * @export
+ * @interface VesselCurrentTrip
+ */
+export interface VesselCurrentTrip {
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselCurrentTrip
+     */
+    'departure': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselCurrentTrip
+     */
+    'targetSpeciesFiskeridirId': number | null;
 }
 /**
  * 
