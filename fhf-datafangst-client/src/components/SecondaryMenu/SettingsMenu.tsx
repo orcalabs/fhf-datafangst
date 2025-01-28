@@ -18,13 +18,26 @@ export const SettingsMenu: FC = () => {
       <Stack sx={{ p: 3, height: "100%" }} spacing={2}>
         <Typography variant="h2">Innstillinger</Typography>
         <Tabs
-          sx={{ borderBottom: `1px solid ${theme.palette.text.secondary}` }}
+          sx={{
+            borderBottom: `1px solid ${theme.palette.text.secondary}`,
+          }}
           indicatorColor="secondary"
+          textColor="secondary"
           value={tabValue}
           onChange={(_, newVal: string) => setTabValue(newVal)}
         >
-          <Tab value="vessel" label="Fartøy" />
-          <Tab value="following" label="Følgeliste" />
+          <Tab
+            sx={{
+              color: theme.palette.grey[500],
+            }}
+            value="vessel"
+            label="Fartøy"
+          />
+          <Tab
+            sx={{ color: theme.palette.grey[500] }}
+            value="following"
+            label="Følgeliste"
+          />
         </Tabs>
         <Box sx={{ height: "100%" }}>
           {tabValue === "vessel" && <VesselSettings />}

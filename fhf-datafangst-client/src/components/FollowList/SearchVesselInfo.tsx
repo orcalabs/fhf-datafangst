@@ -5,7 +5,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
+  Stack,
   styled,
   Table,
   TableBody,
@@ -56,8 +56,9 @@ export const SearchVesselInfo: FC<Props> = (props) => {
     <Accordion
       disableGutters
       square
-      elevation={0}
-      sx={{ "&:hover": { bgcolor: theme.palette.grey[100] } }}
+      sx={{
+        "&:hover": { bgcolor: theme.palette.grey[400] },
+      }}
     >
       <AccordionSummary
         sx={{
@@ -67,6 +68,10 @@ export const SearchVesselInfo: FC<Props> = (props) => {
             mt: 0,
           },
           flexDirection: "row-reverse",
+          alignItems: "flex-start",
+          "& .MuiAccordionSummary-expandIconWrapper": {
+            mt: 1,
+          },
         }}
         expandIcon={<ExpandMoreIcon />}
       >
@@ -79,7 +84,7 @@ export const SearchVesselInfo: FC<Props> = (props) => {
             alignItems: "center",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", ml: 2, pt: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", ml: 2, pt: 1 }}>
             <Typography variant="h5" color="primary.light">
               {vessel?.fiskeridir.name ?? "Ukjent"}
             </Typography>
@@ -93,25 +98,38 @@ export const SearchVesselInfo: FC<Props> = (props) => {
                 overflow: "hidden",
               }}
             >
-              {vessel?.fiskeridir.owners
+              {vessel?.fiskeridir.owners.length
                 ? createOwnersListString(vessel.fiskeridir.owners)
                 : "Ukjent eier"}
             </Typography>
           </Box>
-          <Button
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
             sx={{
-              borderColor: "green",
-              "&:hover": { bgcolor: "#ACD9B8" },
+              border: "1px solid green",
+              width: 85,
+              height: 36,
+              borderRadius: "4px",
+              "&:hover": { bgcolor: "#ACD9B8", cursor: "pointer" },
             }}
-            variant="outlined"
-            endIcon={<PersonAdd sx={{ color: "green", fontSize: "1.8rem" }} />}
-            onClick={(event) => {
-              event.stopPropagation();
+            onClick={(e) => {
+              e.stopPropagation();
               handleAddUser();
             }}
           >
-            Følg
-          </Button>
+            <Typography
+              sx={{
+                fontSize: "0.875rem",
+                lineHeight: "1.75",
+                color: "primary.main",
+              }}
+            >
+              Følg
+            </Typography>
+            <PersonAdd sx={{ color: "green", fontSize: "1.2rem", ml: 1 }} />
+          </Stack>
         </Box>
       </AccordionSummary>
       <AccordionDetails sx={{ pl: 8 }}>

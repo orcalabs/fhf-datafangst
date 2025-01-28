@@ -1,6 +1,6 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { InputAdornment, Paper, TextField, Typography } from "@mui/material";
-import theme from "app/theme";
+import theme, { fontStyle } from "app/theme";
 import { SearchVesselInfo } from "components";
 import { FC, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
@@ -30,6 +30,7 @@ export const AddFollowerList: FC = () => {
 
   return (
     <Paper
+      elevation={3}
       sx={{
         borderRadius: 2,
         width: "100%",
@@ -37,8 +38,10 @@ export const AddFollowerList: FC = () => {
         overflowY: "hidden",
       }}
     >
-      <Typography variant="h3" sx={{ p: 3 }}>
-        Legg til fartøy
+      <Typography
+        sx={{ p: 3, fontSize: "1.6rem", fontWeight: fontStyle.fontWeightBold }}
+      >
+        Finn fartøy
       </Typography>
       <TextField
         sx={{
@@ -55,12 +58,14 @@ export const AddFollowerList: FC = () => {
         placeholder="Søk"
         variant="outlined"
         onChange={(event) => setSearch(event.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          },
         }}
       />
       {filteredVessels.length ? (
