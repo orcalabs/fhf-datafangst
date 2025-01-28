@@ -58,19 +58,6 @@ export type ActiveLandingFilter = typeof ActiveLandingFilter[keyof typeof Active
 /**
  * 
  * @export
- * @interface AisCurrentPositionParameters
- */
-export interface AisCurrentPositionParameters {
-    /**
-     * 
-     * @type {string}
-     * @memberof AisCurrentPositionParameters
-     */
-    'positionTimestampLimit': string | null;
-}
-/**
- * 
- * @export
  * @interface AisPosition
  */
 export interface AisPosition {
@@ -206,87 +193,6 @@ export interface AisVessel {
      * @memberof AisVessel
      */
     'name': string | null;
-}
-/**
- * 
- * @export
- * @interface AisVmsArea
- */
-export interface AisVmsArea {
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsArea
-     */
-    'numVessels': number;
-    /**
-     * 
-     * @type {Array<AisVmsAreaCount>}
-     * @memberof AisVmsArea
-     */
-    'counts': Array<AisVmsAreaCount>;
-}
-/**
- * 
- * @export
- * @interface AisVmsAreaCount
- */
-export interface AisVmsAreaCount {
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsAreaCount
-     */
-    'lat': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsAreaCount
-     */
-    'lon': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsAreaCount
-     */
-    'count': number;
-}
-/**
- * 
- * @export
- * @interface AisVmsAreaParameters
- */
-export interface AisVmsAreaParameters {
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsAreaParameters
-     */
-    'x1': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsAreaParameters
-     */
-    'x2': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsAreaParameters
-     */
-    'y1': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsAreaParameters
-     */
-    'y2': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AisVmsAreaParameters
-     */
-    'dateLimit': string | null;
 }
 /**
  * 
@@ -713,72 +619,85 @@ export interface CumulativeLandings {
 /**
  * 
  * @export
- * @interface CurrentAisPosition
+ * @interface CurrentPosition
  */
-export interface CurrentAisPosition {
+export interface CurrentPosition {
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
-    'mmsi': number;
+    'vesselId': number;
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'lat': number;
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'lon': number;
     /**
      * 
      * @type {string}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'timestamp': string;
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'cog': number | null;
     /**
      * 
      * @type {NavigationStatus}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'navigationalStatus': NavigationStatus | null;
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'rateOfTurn': number | null;
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
-    'speedOverGround': number | null;
+    'speed': number | null;
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'trueHeading': number | null;
     /**
      * 
      * @type {number}
-     * @memberof CurrentAisPosition
+     * @memberof CurrentPosition
      */
     'distanceToShore': number;
 }
 
 
+/**
+ * 
+ * @export
+ * @interface CurrentPositionParameters
+ */
+export interface CurrentPositionParameters {
+    /**
+     * 
+     * @type {string}
+     * @memberof CurrentPositionParameters
+     */
+    'positionTimestampLimit': string | null;
+}
 /**
  * 
  * @export
@@ -820,6 +739,19 @@ export interface CurrentTripPath {
      * 
      * @type {number}
      * @memberof CurrentTripPath
+     */
+    'fiskeridir_vessel_id': number;
+}
+/**
+ * 
+ * @export
+ * @interface CurrentTripPositionsPath
+ */
+export interface CurrentTripPositionsPath {
+    /**
+     * 
+     * @type {number}
+     * @memberof CurrentTripPositionsPath
      */
     'fiskeridir_vessel_id': number;
 }
@@ -4281,56 +4213,6 @@ export type WhaleGender = typeof WhaleGender[keyof typeof WhaleGender];
 export const AisApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns all current AIS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-         * @param {string | null} [positionTimestampLimit] 
-         * @param {string} [bwToken] 
-         * @param {string} [authorization] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1AisAisCurrentPositions: async (positionTimestampLimit?: string | null, bwToken?: string, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/ais_current_positions`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (positionTimestampLimit !== undefined) {
-                localVarQueryParameter['positionTimestampLimit'] = (positionTimestampLimit as any instanceof Date) ?
-                    (positionTimestampLimit as any).toISOString() :
-                    positionTimestampLimit;
-            }
-
-            if (bwToken != null) {
-                localVarHeaderParameter['bw-token'] = String(bwToken);
-            }
-
-            if (authorization != null) {
-                localVarHeaderParameter['authorization'] = String(authorization);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Returns the AIS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
          * @param {number} mmsi 
          * @param {string | null} [start] 
@@ -4402,20 +4284,6 @@ export const AisApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AisApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns all current AIS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-         * @param {string | null} [positionTimestampLimit] 
-         * @param {string} [bwToken] 
-         * @param {string} [authorization] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1AisAisCurrentPositions(positionTimestampLimit?: string | null, bwToken?: string, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CurrentAisPosition>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1AisAisCurrentPositions(positionTimestampLimit, bwToken, authorization, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AisApi.routesV1AisAisCurrentPositions']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * Returns the AIS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
          * @param {number} mmsi 
          * @param {string | null} [start] 
@@ -4442,15 +4310,6 @@ export const AisApiFactory = function (configuration?: Configuration, basePath?:
     const localVarFp = AisApiFp(configuration)
     return {
         /**
-         * Returns all current AIS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-         * @param {AisApiRoutesV1AisAisCurrentPositionsRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1AisAisCurrentPositions(requestParameters: AisApiRoutesV1AisAisCurrentPositionsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<CurrentAisPosition>> {
-            return localVarFp.routesV1AisAisCurrentPositions(requestParameters.positionTimestampLimit, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(axios, basePath));
-        },
-        /**
          * Returns the AIS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
          * @param {AisApiRoutesV1AisAisTrackRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -4461,34 +4320,6 @@ export const AisApiFactory = function (configuration?: Configuration, basePath?:
         },
     };
 };
-
-/**
- * Request parameters for routesV1AisAisCurrentPositions operation in AisApi.
- * @export
- * @interface AisApiRoutesV1AisAisCurrentPositionsRequest
- */
-export interface AisApiRoutesV1AisAisCurrentPositionsRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof AisApiRoutesV1AisAisCurrentPositions
-     */
-    readonly positionTimestampLimit?: string | null
-
-    /**
-     * 
-     * @type {string}
-     * @memberof AisApiRoutesV1AisAisCurrentPositions
-     */
-    readonly bwToken?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof AisApiRoutesV1AisAisCurrentPositions
-     */
-    readonly authorization?: string
-}
 
 /**
  * Request parameters for routesV1AisAisTrack operation in AisApi.
@@ -4540,17 +4371,6 @@ export interface AisApiRoutesV1AisAisTrackRequest {
  */
 export class AisApi extends BaseAPI {
     /**
-     * Returns all current AIS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-     * @param {AisApiRoutesV1AisAisCurrentPositionsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AisApi
-     */
-    public routesV1AisAisCurrentPositions(requestParameters: AisApiRoutesV1AisAisCurrentPositionsRequest = {}, options?: RawAxiosRequestConfig) {
-        return AisApiFp(this.configuration).routesV1AisAisCurrentPositions(requestParameters.positionTimestampLimit, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * Returns the AIS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
      * @param {AisApiRoutesV1AisAisTrackRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -4570,66 +4390,6 @@ export class AisApi extends BaseAPI {
  */
 export const AisVmsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
-        /**
-         * Returns the combined AIS/VMS positions data for the given area. If no time filter is provided positions within the given area for the last 10 days are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-         * @param {number} [x1] 
-         * @param {number} [x2] 
-         * @param {number} [y1] 
-         * @param {number} [y2] 
-         * @param {string | null} [dateLimit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1AisVmsAisVmsArea: async (x1?: number, x2?: number, y1?: number, y2?: number, dateLimit?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/ais_vms_area`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (x1 !== undefined) {
-                localVarQueryParameter['x1'] = x1;
-            }
-
-            if (x2 !== undefined) {
-                localVarQueryParameter['x2'] = x2;
-            }
-
-            if (y1 !== undefined) {
-                localVarQueryParameter['y1'] = y1;
-            }
-
-            if (y2 !== undefined) {
-                localVarQueryParameter['y2'] = y2;
-            }
-
-            if (dateLimit !== undefined) {
-                localVarQueryParameter['dateLimit'] = (dateLimit as any instanceof Date) ?
-                    (dateLimit as any).toISOString().substring(0,10) :
-                    dateLimit;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
         /**
          * Returns the combined AIS/VMS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
          * @param {number | null} [mmsi] 
@@ -4702,6 +4462,56 @@ export const AisVmsApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Returns all current AIS/VMS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
+         * @param {string | null} [positionTimestampLimit] 
+         * @param {string} [bwToken] 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1AisVmsCurrentPositions: async (positionTimestampLimit?: string | null, bwToken?: string, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/current_positions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (positionTimestampLimit !== undefined) {
+                localVarQueryParameter['positionTimestampLimit'] = (positionTimestampLimit as any instanceof Date) ?
+                    (positionTimestampLimit as any).toISOString() :
+                    positionTimestampLimit;
+            }
+
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -4712,22 +4522,6 @@ export const AisVmsApiAxiosParamCreator = function (configuration?: Configuratio
 export const AisVmsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AisVmsApiAxiosParamCreator(configuration)
     return {
-        /**
-         * Returns the combined AIS/VMS positions data for the given area. If no time filter is provided positions within the given area for the last 10 days are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-         * @param {number} [x1] 
-         * @param {number} [x2] 
-         * @param {number} [y1] 
-         * @param {number} [y2] 
-         * @param {string | null} [dateLimit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1AisVmsAisVmsArea(x1?: number, x2?: number, y1?: number, y2?: number, dateLimit?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AisVmsArea>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1AisVmsAisVmsArea(x1, x2, y1, y2, dateLimit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AisVmsApi.routesV1AisVmsAisVmsArea']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
         /**
          * Returns the combined AIS/VMS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
          * @param {number | null} [mmsi] 
@@ -4746,6 +4540,20 @@ export const AisVmsApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['AisVmsApi.routesV1AisVmsAisVmsPositions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Returns all current AIS/VMS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
+         * @param {string | null} [positionTimestampLimit] 
+         * @param {string} [bwToken] 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1AisVmsCurrentPositions(positionTimestampLimit?: string | null, bwToken?: string, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CurrentPosition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1AisVmsCurrentPositions(positionTimestampLimit, bwToken, authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AisVmsApi.routesV1AisVmsCurrentPositions']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -4757,15 +4565,6 @@ export const AisVmsApiFactory = function (configuration?: Configuration, basePat
     const localVarFp = AisVmsApiFp(configuration)
     return {
         /**
-         * Returns the combined AIS/VMS positions data for the given area. If no time filter is provided positions within the given area for the last 10 days are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-         * @param {AisVmsApiRoutesV1AisVmsAisVmsAreaRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1AisVmsAisVmsArea(requestParameters: AisVmsApiRoutesV1AisVmsAisVmsAreaRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AisVmsArea> {
-            return localVarFp.routesV1AisVmsAisVmsArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(axios, basePath));
-        },
-        /**
          * Returns the combined AIS/VMS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
          * @param {AisVmsApiRoutesV1AisVmsAisVmsPositionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -4774,50 +4573,17 @@ export const AisVmsApiFactory = function (configuration?: Configuration, basePat
         routesV1AisVmsAisVmsPositions(requestParameters: AisVmsApiRoutesV1AisVmsAisVmsPositionsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<AisVmsPosition>> {
             return localVarFp.routesV1AisVmsAisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.tripId, requestParameters.start, requestParameters.end, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
+        /**
+         * Returns all current AIS/VMS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
+         * @param {AisVmsApiRoutesV1AisVmsCurrentPositionsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1AisVmsCurrentPositions(requestParameters: AisVmsApiRoutesV1AisVmsCurrentPositionsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<CurrentPosition>> {
+            return localVarFp.routesV1AisVmsCurrentPositions(requestParameters.positionTimestampLimit, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(axios, basePath));
+        },
     };
 };
-
-/**
- * Request parameters for routesV1AisVmsAisVmsArea operation in AisVmsApi.
- * @export
- * @interface AisVmsApiRoutesV1AisVmsAisVmsAreaRequest
- */
-export interface AisVmsApiRoutesV1AisVmsAisVmsAreaRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsApiRoutesV1AisVmsAisVmsArea
-     */
-    readonly x1?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsApiRoutesV1AisVmsAisVmsArea
-     */
-    readonly x2?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsApiRoutesV1AisVmsAisVmsArea
-     */
-    readonly y1?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof AisVmsApiRoutesV1AisVmsAisVmsArea
-     */
-    readonly y2?: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof AisVmsApiRoutesV1AisVmsAisVmsArea
-     */
-    readonly dateLimit?: string | null
-}
 
 /**
  * Request parameters for routesV1AisVmsAisVmsPositions operation in AisVmsApi.
@@ -4876,23 +4642,40 @@ export interface AisVmsApiRoutesV1AisVmsAisVmsPositionsRequest {
 }
 
 /**
+ * Request parameters for routesV1AisVmsCurrentPositions operation in AisVmsApi.
+ * @export
+ * @interface AisVmsApiRoutesV1AisVmsCurrentPositionsRequest
+ */
+export interface AisVmsApiRoutesV1AisVmsCurrentPositionsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AisVmsApiRoutesV1AisVmsCurrentPositions
+     */
+    readonly positionTimestampLimit?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AisVmsApiRoutesV1AisVmsCurrentPositions
+     */
+    readonly bwToken?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AisVmsApiRoutesV1AisVmsCurrentPositions
+     */
+    readonly authorization?: string
+}
+
+/**
  * AisVmsApi - object-oriented interface
  * @export
  * @class AisVmsApi
  * @extends {BaseAPI}
  */
 export class AisVmsApi extends BaseAPI {
-    /**
-     * Returns the combined AIS/VMS positions data for the given area. If no time filter is provided positions within the given area for the last 10 days are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
-     * @param {AisVmsApiRoutesV1AisVmsAisVmsAreaRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AisVmsApi
-     */
-    public routesV1AisVmsAisVmsArea(requestParameters: AisVmsApiRoutesV1AisVmsAisVmsAreaRequest = {}, options?: RawAxiosRequestConfig) {
-        return AisVmsApiFp(this.configuration).routesV1AisVmsAisVmsArea(requestParameters.x1, requestParameters.x2, requestParameters.y1, requestParameters.y2, requestParameters.dateLimit, options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * Returns the combined AIS/VMS track for the given vessel matching the given filter if any. If no time filter is provided the track of the last 24 hours are returned. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
      * @param {AisVmsApiRoutesV1AisVmsAisVmsPositionsRequest} requestParameters Request parameters.
@@ -4902,6 +4685,17 @@ export class AisVmsApi extends BaseAPI {
      */
     public routesV1AisVmsAisVmsPositions(requestParameters: AisVmsApiRoutesV1AisVmsAisVmsPositionsRequest = {}, options?: RawAxiosRequestConfig) {
         return AisVmsApiFp(this.configuration).routesV1AisVmsAisVmsPositions(requestParameters.mmsi, requestParameters.callSign, requestParameters.tripId, requestParameters.start, requestParameters.end, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns all current AIS/VMS positions of vessels. AIS data for vessels under 15m are restricted to authenticated users with sufficient permissions.
+     * @param {AisVmsApiRoutesV1AisVmsCurrentPositionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AisVmsApi
+     */
+    public routesV1AisVmsCurrentPositions(requestParameters: AisVmsApiRoutesV1AisVmsCurrentPositionsRequest = {}, options?: RawAxiosRequestConfig) {
+        return AisVmsApiFp(this.configuration).routesV1AisVmsCurrentPositions(requestParameters.positionTimestampLimit, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -8135,6 +7929,53 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
+         * @param {number} fiskeridirVesselId 
+         * @param {string} [bwToken] 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripCurrentTripPositions: async (fiskeridirVesselId: number, bwToken?: string, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fiskeridirVesselId' is not null or undefined
+            assertParamExists('routesV1TripCurrentTripPositions', 'fiskeridirVesselId', fiskeridirVesselId)
+            const localVarPath = `/v1.0/trips/current/{fiskeridir_vessel_id}/positions`
+                .replace(`{${"fiskeridir_vessel_id"}}`, encodeURIComponent(String(fiskeridirVesselId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            if (bwToken != null) {
+                localVarHeaderParameter['bw-token'] = String(bwToken);
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Returns the trip associated with the given haul.
          * @param {number} haulId 
          * @param {string} [bwToken] 
@@ -8410,6 +8251,20 @@ export const TripApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
+         * @param {number} fiskeridirVesselId 
+         * @param {string} [bwToken] 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripCurrentTripPositions(fiskeridirVesselId: number, bwToken?: string, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AisVmsPosition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripCurrentTripPositions(fiskeridirVesselId, bwToken, authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripCurrentTripPositions']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Returns the trip associated with the given haul.
          * @param {number} haulId 
          * @param {string} [bwToken] 
@@ -8514,6 +8369,15 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          */
         routesV1TripCurrentTrip(requestParameters: TripApiRoutesV1TripCurrentTripRequest, options?: RawAxiosRequestConfig): AxiosPromise<CurrentTrip> {
             return localVarFp.routesV1TripCurrentTrip(requestParameters.fiskeridirVesselId, requestParameters.bwToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
+         * @param {TripApiRoutesV1TripCurrentTripPositionsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripCurrentTripPositions(requestParameters: TripApiRoutesV1TripCurrentTripPositionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<AisVmsPosition>> {
+            return localVarFp.routesV1TripCurrentTripPositions(requestParameters.fiskeridirVesselId, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the trip associated with the given haul.
@@ -8711,6 +8575,34 @@ export interface TripApiRoutesV1TripCurrentTripRequest {
      * @memberof TripApiRoutesV1TripCurrentTrip
      */
     readonly bwToken?: string
+}
+
+/**
+ * Request parameters for routesV1TripCurrentTripPositions operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripCurrentTripPositionsRequest
+ */
+export interface TripApiRoutesV1TripCurrentTripPositionsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof TripApiRoutesV1TripCurrentTripPositions
+     */
+    readonly fiskeridirVesselId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripCurrentTripPositions
+     */
+    readonly bwToken?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripCurrentTripPositions
+     */
+    readonly authorization?: string
 }
 
 /**
@@ -8920,6 +8812,17 @@ export class TripApi extends BaseAPI {
      */
     public routesV1TripCurrentTrip(requestParameters: TripApiRoutesV1TripCurrentTripRequest, options?: RawAxiosRequestConfig) {
         return TripApiFp(this.configuration).routesV1TripCurrentTrip(requestParameters.fiskeridirVesselId, requestParameters.bwToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
+     * @param {TripApiRoutesV1TripCurrentTripPositionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripCurrentTripPositions(requestParameters: TripApiRoutesV1TripCurrentTripPositionsRequest, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripCurrentTripPositions(requestParameters.fiskeridirVesselId, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

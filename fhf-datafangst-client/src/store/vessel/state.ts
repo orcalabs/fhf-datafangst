@@ -1,5 +1,5 @@
 import {
-  CurrentAisPosition,
+  CurrentPosition,
   LiveFuel,
   Vessel,
   VesselBenchmarks,
@@ -13,7 +13,7 @@ export interface VesselState {
   vesselBenchmarks?: VesselBenchmarks;
   estimatedFuelConsumption?: number;
   selectedVessel?: Vessel;
-  selectedLiveVessel?: CurrentAisPosition;
+  selectedLiveVessel?: CurrentPosition;
   estimatedLiveFuelConsumption?: LiveFuel;
 }
 

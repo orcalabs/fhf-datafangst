@@ -9,18 +9,18 @@ import {
   Typography,
 } from "@mui/material";
 import { VesselIcon } from "assets/icons";
-import { CurrentAisPosition } from "generated/openapi";
+import { CurrentPosition } from "generated/openapi";
 import { FC, useEffect } from "react";
 import {
   getVessels,
-  selectVesselByMmsi,
+  selectVesselByFiskeridirId,
   useAppDispatch,
   useAppSelector,
 } from "store";
 import { dateFormat } from "utils";
 
 interface Props {
-  position: CurrentAisPosition;
+  position: CurrentPosition;
 }
 
 const StyledTableCell = styled(TableCell)(() => ({
@@ -33,7 +33,7 @@ export const LivePositionPopover: FC<Props> = ({ position }) => {
   const dispatch = useAppDispatch();
 
   const vessel = useAppSelector((state) =>
-    selectVesselByMmsi(state, position.mmsi),
+    selectVesselByFiskeridirId(state, position.vesselId),
   );
 
   useEffect(() => {
@@ -73,8 +73,8 @@ export const LivePositionPopover: FC<Props> = ({ position }) => {
           <TableBody>
             {row(
               "Fart:",
-              Number.isFinite(position.speedOverGround)
-                ? position.speedOverGround!.toFixed(1) + " knop"
+              Number.isFinite(position.speed)
+                ? position.speed!.toFixed(1) + " knop"
                 : "Ukjent",
             )}
             {row(

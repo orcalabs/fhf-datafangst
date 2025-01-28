@@ -10,3 +10,13 @@ export const selectTrack = createSelector(
   selectAppState,
   (state) => state.track,
 );
+
+export const selectCurrentPositions = createSelector(
+  selectAppState,
+  (state) => state.currentPositions,
+);
+
+export const selectCurrentPositionsLoading = createSelector(
+  selectAppState,
+  (state) => state.currentPositionsLoading,
+);

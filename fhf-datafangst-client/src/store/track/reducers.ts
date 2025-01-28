@@ -4,7 +4,12 @@ import { Map } from "ol";
 import { boundingExtent } from "ol/extent";
 import { AppState } from "store/state";
 import { fromLonLat } from "utils";
-import { getHaulTrack, getTrack, getTrackWithoutLoading } from "./actions";
+import {
+  getCurrentPositions,
+  getCurrentTripTrack,
+  getHaulTrack,
+  getTrack,
+} from "./actions";
 
 // Set the map focus and zoom to a selected area surrounding a the track of a trip.
 const setMapFocus = (map: Draft<Map>, track: AisVmsPosition[]) => {
@@ -65,22 +70,29 @@ export const trackBuilder = (
         }
       }
     })
-    .addCase(getTrackWithoutLoading.fulfilled, (state, action) => {
-      const track = action.payload;
-
-      if (!track) return;
-
-      const mmsi = action.meta.arg.mmsi;
-
-      // Handlers for potential race conditions between user clicks and track fetch on intervals in LiveVesselsLayer.
-      // Track without loader only applies to Live map, so if a trip has been selected, this track is not longer valid.
-      if (state.selectedTrip) {
-        return;
+    .addCase(getCurrentPositions.pending, (state, action) => {
+      action.meta.arg.token = state.authUser?.access_token;
+      if (!state.currentPositions) {
+        state.currentPositionsLoading = true;
       }
-      // If a different vessel is selected on live map during interval, discard track.
-      if (state.selectedLiveVessel && state.selectedLiveVessel.mmsi !== mmsi) {
-        return;
+    })
+    .addCase(getCurrentPositions.fulfilled, (state, action) => {
+      state.currentPositions = action.payload;
+      state.currentPositionsLoading = false;
+    })
+    .addCase(getCurrentPositions.rejected, (state, _action) => {
+      state.currentPositionsLoading = false;
+    })
+    .addCase(getCurrentTripTrack.pending, (state, action) => {
+      action.meta.arg.accessToken = state.authUser?.access_token;
+      if (action.meta.arg.loading) {
+        state.trackLoading = true;
       }
-
-      state.track = track;
+    })
+    .addCase(getCurrentTripTrack.fulfilled, (state, action) => {
+      state.track = action.payload;
+      state.trackLoading = false;
+    })
+    .addCase(getCurrentTripTrack.rejected, (state, _action) => {
+      state.trackLoading = false;
     });

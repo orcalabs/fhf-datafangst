@@ -3,12 +3,11 @@ import { TripsArgs } from "api";
 import { subHours } from "date-fns";
 import { GearGroupDetailed } from "generated/openapi";
 import { AppState, emptyState } from "store/state";
-import { getTrack } from "store/track";
+import { getCurrentTripTrack, getTrack } from "store/track";
 import { getEstimatedLiveFuelConsumption } from "store/vessel";
 import { getGearGroupsFromVessels } from "utils";
 import {
   getCurrentTrip,
-  getCurrentTripTrack,
   getHaulTrip,
   getLandingTrip,
   getTrips,
@@ -57,7 +56,19 @@ export const tripBuilder = (
       state.selectedTripHaul = undefined;
 
       if (!trip && state.currentTrip) {
-        (action as any).asyncDispatch(getCurrentTripTrack());
+        const callSign = state.bwUser?.fiskInfoProfile.ircs;
+        const vessel = callSign
+          ? state.vesselsByCallSign?.[callSign]
+          : undefined;
+
+        if (vessel) {
+          (action as any).asyncDispatch(
+            getCurrentTripTrack({
+              vesselId: vessel.fiskeridir.id,
+              loading: true,
+            }),
+          );
+        }
       }
       if (trip) {
         (action as any).asyncDispatch(getTripTrack({ trip }));
@@ -113,11 +124,9 @@ export const tripBuilder = (
       if (action.payload) {
         state.currentTrip = action.payload;
         (action as any).asyncDispatch(
-          getTrack({
-            mmsi: action.meta.arg.vessel.ais?.mmsi,
-            callSign: action.meta.arg.vessel.fiskeridir.callSign,
-            start: action.payload.departure,
-            end: new Date().toISOString(),
+          getCurrentTripTrack({
+            vesselId: action.meta.arg.vessel.fiskeridir.id,
+            loading: true,
           }),
         );
         (action as any).asyncDispatch(
@@ -153,21 +162,6 @@ export const tripBuilder = (
         (action as any).asyncDispatch(
           getTrack({
             tripId: trip.tripId,
-          }),
-        );
-      }
-    })
-    .addCase(getCurrentTripTrack, (state, action) => {
-      const callSign = state.bwUser?.fiskInfoProfile.ircs;
-      const vessel = callSign ? state.vesselsByCallSign?.[callSign] : undefined;
-
-      if (state.currentTrip && vessel) {
-        (action as any).asyncDispatch(
-          getTrack({
-            mmsi: vessel.ais?.mmsi,
-            callSign: vessel.fiskeridir.callSign,
-            start: state.currentTrip.departure,
-            end: new Date().toISOString(),
           }),
         );
       }

@@ -4,16 +4,14 @@ import Geometry from "ol/geom/Geometry";
 import VectorSource from "ol/source/Vector";
 import { FC, useEffect, useState } from "react";
 import {
-  getCurrentAis,
-  getTrack,
-  getTrackWithoutLoading,
+  getCurrentPositions,
+  getCurrentTripTrack,
   selectCurrentPositions,
   selectCurrentPositionsLoading,
   selectCurrentTrip,
   selectCurrentTripLoading,
   selectFishmapState,
   selectSelectedLiveVessel,
-  selectVesselsByMmsi,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -29,7 +27,6 @@ export const LiveVesselsLayer: FC = () => {
   const loading = useAppSelector(selectCurrentPositionsLoading);
   const selectedPosition = useAppSelector(selectSelectedLiveVessel);
   const currentTrip = useAppSelector(selectCurrentTrip);
-  const vessels = useAppSelector(selectVesselsByMmsi);
   const currentTripLoading = useAppSelector(selectCurrentTripLoading);
 
   const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
@@ -39,21 +36,18 @@ export const LiveVesselsLayer: FC = () => {
 
   // Get all vessel positions on page load
   useEffect(() => {
-    dispatch(getCurrentAis({}));
+    dispatch(getCurrentPositions({}));
   }, []);
 
   // Interval for fetching updated positions on all vessels + track of potentially selected vessel in Live map.
   useEffect(() => {
     const id = setInterval(() => {
-      dispatch(getCurrentAis({}));
+      dispatch(getCurrentPositions({}));
       if (selectedPosition) {
-        const vessel = vessels?.[selectedPosition.mmsi];
         dispatch(
-          getTrackWithoutLoading({
-            mmsi: selectedPosition.mmsi,
-            callSign: vessel?.fiskeridir.callSign,
-            start: currentTrip ? currentTrip.departure : undefined,
-            end: currentTrip ? new Date().toISOString() : undefined,
+          getCurrentTripTrack({
+            vesselId: selectedPosition.vesselId,
+            loading: false,
           }),
         );
       }
@@ -64,11 +58,10 @@ export const LiveVesselsLayer: FC = () => {
   // Get track of vessels with no reported CurrentTrip.
   useEffect(() => {
     if (!currentTrip && !currentTripLoading && selectedPosition) {
-      const vessel = vessels?.[selectedPosition.mmsi];
       dispatch(
-        getTrack({
-          mmsi: selectedPosition.mmsi,
-          callSign: vessel?.fiskeridir.callSign,
+        getCurrentTripTrack({
+          vesselId: selectedPosition.vesselId,
+          loading: true,
         }),
       );
     }
@@ -92,7 +85,7 @@ export const LiveVesselsLayer: FC = () => {
       vector?.forEachFeature((f) =>
         changeIconSizeFromFeature(
           f,
-          f.get("livePosition")?.mmsi === selectedPosition?.mmsi
+          f.get("livePosition")?.vesselId === selectedPosition?.vesselId
             ? iconSize * 2
             : iconSize,
         ),

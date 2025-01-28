@@ -12,7 +12,7 @@ import {
   selectTrips,
   selectTripsLoading,
   selectTripsSearch,
-  selectVesselByMmsi,
+  selectVesselByFiskeridirId,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -22,7 +22,7 @@ export const LiveAisMenu: FC = () => {
 
   const position = useAppSelector(selectSelectedLiveVessel)!;
   const vessel = useAppSelector((state) =>
-    selectVesselByMmsi(state, position.mmsi),
+    selectVesselByFiskeridirId(state, position.vesselId),
   )!;
   const trips = useAppSelector(selectTrips);
   const tripsLoading = useAppSelector(selectTripsLoading);

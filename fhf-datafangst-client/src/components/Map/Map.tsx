@@ -9,7 +9,7 @@ import {
 } from "components";
 import {
   AisVmsPosition,
-  CurrentAisPosition,
+  CurrentPosition,
   DeliveryPoint,
   Haul,
   Tra,
@@ -59,7 +59,7 @@ export const Map: FC<Props> = (props) => {
   const mapState = useAppSelector(selectFishmapState);
   const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
   const [hoveredLivePosition, setHoveredLivePosition] =
-    useState<CurrentAisPosition>();
+    useState<CurrentPosition>();
   const [hoveredShoreline, setHoveredShoreline] = useState<string>();
   const [hoveredHaulId, setHoveredHaulId] = useState<number>();
   const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
