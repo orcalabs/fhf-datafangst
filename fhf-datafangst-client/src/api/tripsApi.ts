@@ -32,6 +32,12 @@ export interface CurrentTripArgs {
   accessToken?: string;
 }
 
+export interface CurrentTripTrackArgs {
+  vesselId: number;
+  loading: boolean;
+  accessToken?: string;
+}
+
 const api = new TripApi(apiConfiguration, undefined, axiosInstance);
 
 export const getTripFromHaul = apiFn(({ haulId }: Haul, signal) =>
@@ -72,4 +78,15 @@ export const getCurrentTrip = apiFn((query: CurrentTripArgs, signal) =>
     },
     { signal },
   ),
+);
+
+export const getCurrentTripTrack = apiFn(
+  (query: CurrentTripTrackArgs, signal) =>
+    api.routesV1TripCurrentTripPositions(
+      {
+        fiskeridirVesselId: query.vesselId,
+        bwToken: query.accessToken,
+      },
+      { signal },
+    ),
 );

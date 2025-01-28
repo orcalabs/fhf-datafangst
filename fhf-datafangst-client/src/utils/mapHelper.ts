@@ -11,7 +11,7 @@ import ColorScale from "color-scales";
 import { differenceInHours } from "date-fns";
 import {
   AisVmsPosition,
-  CurrentAisPosition,
+  CurrentPosition,
   DeliveryPoint,
   FishingFacility,
   FishingFacilityToolType,
@@ -745,9 +745,9 @@ export const generateDeliveryPointsVector = (
 };
 
 export const generateLiveVesselsVector = (
-  positions?: CurrentAisPosition[],
+  positions?: CurrentPosition[],
   iconSize?: number,
-  selected?: CurrentAisPosition,
+  selected?: CurrentPosition,
 ) => {
   const vector = new VectorSource();
 
@@ -766,7 +766,8 @@ export const generateLiveVesselsVector = (
         image: new Icon({
           opacity: 1,
           anchor: [0.5, 0.5],
-          scale: (iconSize ?? 0.05) * (pos.mmsi === selected?.mmsi ? 2 : 1),
+          scale:
+            (iconSize ?? 0.05) * (pos.vesselId === selected?.vesselId ? 2 : 1),
           rotation: ((pos.cog ?? 0) * Math.PI) / 180,
           src:
             differenceInHours(new Date(), new Date(pos.timestamp)) >

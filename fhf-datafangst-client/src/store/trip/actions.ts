@@ -25,8 +25,6 @@ export const getTripTrack = createAction<{
   identifier?: TripTrackIdentifier;
 }>("trip/getTripTrack");
 
-export const getCurrentTripTrack = createAction("trip/getCurrentTripTrack");
-
 export const setSelectedTrip = createAction<Trip | undefined>(
   "trip/setSelectedTrip",
 );

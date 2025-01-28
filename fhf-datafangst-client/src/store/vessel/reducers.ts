@@ -76,9 +76,9 @@ export const vesselBuilder = (
     .addCase(setSelectedLiveVessel, (state, action) => {
       let vessel: Vessel | undefined;
       if (action.payload) {
-        vessel = current(state.vesselsByMmsi?.[action.payload.mmsi]) as
-          | Vessel
-          | undefined;
+        vessel = current(
+          state.vesselsByFiskeridirId?.[action.payload.vesselId],
+        ) as Vessel | undefined;
 
         if (vessel) {
           (action as any).asyncDispatch(getTrips({ vessels: [vessel] }));

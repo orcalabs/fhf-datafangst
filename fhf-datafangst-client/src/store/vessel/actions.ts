@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
-import { CurrentAisPosition } from "generated/openapi";
+import { CurrentPosition } from "generated/openapi";
 
 export const getVessels = createAsyncThunk("vessel/getVessels", Api.getVessels);
 
@@ -14,9 +14,9 @@ export const getEstimatedFuelConsumption = createAsyncThunk(
   Api.getEstimatedFuelConsumption,
 );
 
-export const setSelectedLiveVessel = createAction<
-  CurrentAisPosition | undefined
->("vessel/setSelectedLiveVessel");
+export const setSelectedLiveVessel = createAction<CurrentPosition | undefined>(
+  "vessel/setSelectedLiveVessel",
+);
 
 export const getEstimatedLiveFuelConsumption = createAsyncThunk(
   "vessel/getEstimastedLiveFuelConsumption",
