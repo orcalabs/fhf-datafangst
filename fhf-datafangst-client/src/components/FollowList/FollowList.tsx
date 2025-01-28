@@ -1,10 +1,8 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import DirectionsBoatSharpIcon from "@mui/icons-material/DirectionsBoatSharp";
 import {
   Avatar,
   Box,
   IconButton,
-  Paper,
   styled,
   Table,
   TableBody,
@@ -16,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { fontStyle } from "app/theme";
+import { VesselIcon } from "assets/icons";
 import { AddFollowerList } from "components";
 import { Vessel } from "generated/openapi";
 import { useAuth } from "oidc-react";
@@ -29,9 +28,9 @@ import {
 } from "store";
 import { createGearListString, createOwnersListString } from "utils";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.text.secondary,
+    backgroundColor: "#DBE8EC",
     color: "black",
     fontWeight: fontStyle.fontWeightSemiBold,
     fontSize: 15,
@@ -73,7 +72,6 @@ export const FollowList: FC = () => {
         gridTemplateColumns: "1fr 550px",
         gridTemplateRows: "1fr",
         columnGap: 8,
-        p: 3,
         width: "100%",
         height: "100%",
       }}
@@ -86,84 +84,113 @@ export const FollowList: FC = () => {
           gridRowEnd: 2,
         }}
       >
-        <Paper sx={{ borderRadius: 2, width: "100%", pb: 1 }}>
-          <Typography variant="h3" sx={{ p: 3 }}>
-            Følgeliste
+        {!followList?.length ? (
+          <Typography sx={{ px: 3, pb: 3 }}>
+            Du følger ingen fartøy for øyeblikket
           </Typography>
-          {!followList?.length ? (
-            <Typography sx={{ px: 3, pb: 3 }}>
-              Du følger ingen fartøy for øyeblikket
-            </Typography>
-          ) : (
-            <TableContainer>
-              <Table sx={{ minWidth: 0 }}>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell />
-                    <StyledTableCell>Navn</StyledTableCell>
-                    <StyledTableCell>Eier(e)</StyledTableCell>
-                    <StyledTableCell align="right">Redskap</StyledTableCell>
-                    <StyledTableCell align="right">Lengde</StyledTableCell>
-                    <StyledTableCell align="right">Kallesignal</StyledTableCell>
-                    <StyledTableCell align="right">Reg.nr.</StyledTableCell>
-                    <StyledTableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {followList.map((f) => (
-                    <StyledTableRow key={f.fiskeridir.id}>
-                      <StyledTableCell component="th" scope="row" width="35">
-                        <Avatar
-                          sx={{
-                            bgcolor: "secondary.main",
-                            width: 35,
-                            height: 35,
-                          }}
+        ) : (
+          <TableContainer>
+            <Table sx={{ minWidth: 0 }}>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell size="small" />
+                  <StyledTableCell size="small">Navn</StyledTableCell>
+                  <StyledTableCell size="small">Eier(e)</StyledTableCell>
+                  <StyledTableCell size="small" align="right">
+                    Redskap
+                  </StyledTableCell>
+                  <StyledTableCell size="small" align="right">
+                    Lengde
+                  </StyledTableCell>
+                  <StyledTableCell size="small" align="right">
+                    Kallesignal
+                  </StyledTableCell>
+                  <StyledTableCell size="small" align="right">
+                    Reg.nr.
+                  </StyledTableCell>
+                  <StyledTableCell size="small" />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {followList.map((f) => (
+                  <StyledTableRow key={f.fiskeridir.id}>
+                    <StyledTableCell component="th" scope="row" width="35">
+                      <Avatar
+                        sx={{
+                          bgcolor: "secondary.main",
+                          width: 35,
+                          height: 35,
+                        }}
+                      >
+                        <VesselIcon />
+                      </Avatar>
+                    </StyledTableCell>
+                    <StyledTableCell component="th" scope="row">
+                      {f.fiskeridir.name}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {f.fiskeridir.owners.length ? (
+                        createOwnersListString(f.fiskeridir.owners)
+                      ) : (
+                        <Typography
+                          sx={{ fontStyle: "italic", fontSize: "15px" }}
                         >
-                          <DirectionsBoatSharpIcon fontSize="small" />
-                        </Avatar>
-                      </StyledTableCell>
-                      <StyledTableCell component="th" scope="row">
-                        {f.fiskeridir.name}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {f.fiskeridir.owners
-                          ? createOwnersListString(f.fiskeridir.owners)
-                          : "Ukjent eier"}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {f.fiskeridir.owners
-                          ? createGearListString(
-                              f.gearGroups.map((gg) => gearGroupsMap[gg]),
-                            )
-                          : "Ukjent redskap"}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {f.fiskeridir.length?.toFixed(1)}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {f.fiskeridir.callSign}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {f.fiskeridir.registrationId}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        <IconButton
-                          sx={{ float: "right" }}
-                          onClick={() => {
-                            handleDeleteFollow(f);
-                          }}
+                          Ukjent
+                        </Typography>
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {f.fiskeridir.owners ? (
+                        createGearListString(
+                          f.gearGroups.map((gg) => gearGroupsMap[gg]),
+                        )
+                      ) : (
+                        <Typography
+                          sx={{ fontStyle: "italic", fontSize: "15px" }}
                         >
-                          <DeleteIcon sx={{ color: "red" }} />
-                        </IconButton>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </Paper>
+                          Ukjent
+                        </Typography>
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {f.fiskeridir.length ? (
+                        f.fiskeridir.length.toFixed(1)
+                      ) : (
+                        <Typography
+                          sx={{ fontStyle: "italic", fontSize: "15px" }}
+                        >
+                          Ukjent
+                        </Typography>
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {f.fiskeridir.callSign ?? (
+                        <Typography
+                          sx={{ fontStyle: "italic", fontSize: "15px" }}
+                        >
+                          Ukjent
+                        </Typography>
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {f.fiskeridir.registrationId}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <IconButton
+                        sx={{ float: "right" }}
+                        onClick={() => {
+                          handleDeleteFollow(f);
+                        }}
+                      >
+                        <DeleteIcon sx={{ color: "red" }} />
+                      </IconButton>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Box>
       <Box
         sx={{

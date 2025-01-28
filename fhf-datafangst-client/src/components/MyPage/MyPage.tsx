@@ -1,6 +1,7 @@
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
+import SettingsIcon from "@mui/icons-material/Settings";
 import SpeedIcon from "@mui/icons-material/Speed";
 import {
   Accordion,
@@ -24,6 +25,7 @@ import {
   selectHaulsMatrixSearch,
   selectIsLoggedIn,
   selectVesselsByCallsign,
+  selectVesselSettingsOpen,
   setFishingFacilitiesSearch,
   setHaulsMatrixSearch,
   setVesselSettingsOpen,
@@ -70,6 +72,7 @@ export const MyPage: FC = () => {
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
   const navigate = useNavigate();
+  const vesselSettingsOpen = useAppSelector(selectVesselSettingsOpen);
 
   const handleTabChange = (expandedTab: MenuTab) => {
     setExpanded(expandedTab);
@@ -227,6 +230,9 @@ export const MyPage: FC = () => {
           color: "white",
           boxShadow: "none",
           bgcolor: "primary.light",
+          ":hover": {
+            bgcolor: "primary.dark",
+          },
         }}
         onClick={() => navigate("/dashboard")}
       >
@@ -251,9 +257,15 @@ export const MyPage: FC = () => {
           borderRadius: 0,
           color: "white",
           boxShadow: "none",
-          bgcolor: "primary.light",
+          bgcolor: vesselSettingsOpen ? "primary.dark" : "primary.light",
+          ":hover": {
+            bgcolor: "primary.dark",
+          },
         }}
-        onClick={() => dispatch(setVesselSettingsOpen(true))}
+        onClick={() => {
+          dispatch(setVesselSettingsOpen(true));
+          setExpanded(false);
+        }}
       >
         <Box
           sx={{
@@ -261,7 +273,7 @@ export const MyPage: FC = () => {
             "& svg": { mr: 2 },
           }}
         >
-          <SpeedIcon sx={{ color: "secondary.light", fontSize: 32 }} />
+          <SettingsIcon sx={{ color: "secondary.light", fontSize: 32 }} />
         </Box>
         <Typography variant="h6"> Innstillinger </Typography>
       </Button>

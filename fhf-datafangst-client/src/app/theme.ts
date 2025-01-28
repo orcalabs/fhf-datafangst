@@ -94,7 +94,7 @@ const theme = createTheme(
         200: "#E7EAF1",
         300: "#E0E3EB",
         400: "#CFD4E0",
-        500: "#CFD4E0",
+        500: "rgba(0, 0, 0, 0.6)",
         600: "#BCC1CF",
         700: "#818799",
         // Grey (menu, unselected filter)

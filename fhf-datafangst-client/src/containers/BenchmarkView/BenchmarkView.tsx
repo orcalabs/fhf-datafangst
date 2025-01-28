@@ -5,7 +5,6 @@ import {
   BenchmarkOverview,
   Company,
   DashboardMenu,
-  FollowList,
   FuelPage,
   Header,
   TripBenchmarkPage,
@@ -126,7 +125,6 @@ export const BenchmarkView: FC<Props> = ({ view }) => {
         <GridMainArea>
           {viewState === DashboardViewState.Overview && <BenchmarkOverview />}
           {viewState === DashboardViewState.Benchmark && <TripBenchmarkPage />}
-          {viewState === DashboardViewState.Follow && <FollowList />}
           {viewState === DashboardViewState.Company && <Company />}
           {viewState === DashboardViewState.Fuel && <FuelPage />}
         </GridMainArea>

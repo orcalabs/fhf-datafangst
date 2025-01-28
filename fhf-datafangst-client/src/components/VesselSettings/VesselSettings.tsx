@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import theme from "app/theme";
 import { UpdateVessel } from "generated/openapi";
 import { FC, ReactNode, useState } from "react";
 import {
@@ -68,136 +69,145 @@ export const VesselSettings: FC = () => {
   };
 
   return (
-    <Stack
-      sx={{ p: 1, width: 400, "& .MuiTextField-root": { width: 120 } }}
-      spacing={2}
-    >
-      <SettingsEntry name={"Hovedmotor, kraft (hk)"}>
-        <TextField
-          size="small"
-          hiddenLabel
-          variant="outlined"
-          value={form.enginePower ?? ""}
-          onKeyDown={numberInputLimiter}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            handleFormChange(event.target.value, "enginePower");
-          }}
-        />
-      </SettingsEntry>
-      <SettingsEntry name={"Hovedmotor, byggeår"}>
-        <YearSelect
-          value={form.engineBuildingYear}
-          onChange={(e) => {
-            handleFormChange(e.target.value, "engineBuildingYear");
-          }}
-        />
-      </SettingsEntry>
-      <SettingsEntry name={"Hjelpemotor, kraft (hk)"}>
-        <TextField
-          size="small"
-          hiddenLabel
-          variant="outlined"
-          value={form.auxiliaryEnginePower ?? ""}
-          onKeyDown={numberInputLimiter}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            handleFormChange(e.target.value, "auxiliaryEnginePower");
-          }}
-        />
-      </SettingsEntry>
-      <SettingsEntry name={"Hjelpemotor, byggeår"}>
-        <YearSelect
-          value={form.auxiliaryEngineBuildingYear}
-          onChange={(e) => {
-            handleFormChange(e.target.value, "auxiliaryEngineBuildingYear");
-          }}
-        />
-      </SettingsEntry>
-      <SettingsEntry name={"Boiler engine, kraft (hk)"}>
-        <TextField
-          size="small"
-          hiddenLabel
-          variant="outlined"
-          value={form.boilerEnginePower ?? ""}
-          onKeyDown={numberInputLimiter}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            handleFormChange(e.target.value, "boilerEnginePower");
-          }}
-        />
-      </SettingsEntry>
-      <SettingsEntry name={"Boiler engine, byggeår"}>
-        <YearSelect
-          value={form.boilerEngineBuildingYear}
-          onChange={(e) => {
-            handleFormChange(e.target.value, "boilerEngineBuildingYear");
-          }}
-        />
-      </SettingsEntry>
-      <SettingsEntry name={"Service-fart (knop)"}>
-        <TextField
-          size="small"
-          hiddenLabel
-          variant="outlined"
-          value={form.serviceSpeed ?? ""}
-          onKeyDown={numberInputLimiter}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            handleFormChange(e.target.value, "serviceSpeed");
-          }}
-        />
-      </SettingsEntry>
-      <SettingsEntry name={"Elektrifiseringsgrad (%)"}>
-        <Slider
-          sx={{
-            width: 120,
-            borderRadius: 0,
-            "& .MuiSlider-track": {
-              borderRadius: 0,
-            },
-            "& .MuiSlider-thumb": {
-              width: 15,
-              height: 15,
-            },
-            "& .MuiSlider-valueLabel": {},
-          }}
-          min={0}
-          max={100}
-          step={10}
-          valueLabelDisplay="auto"
-          valueLabelFormat={(v, _) => `${v}%`}
-          value={form.degreeOfElectrification ?? 0}
-          onChange={(_, v) =>
-            handleFormChange(v as number, "degreeOfElectrification")
-          }
-        />
-      </SettingsEntry>
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{ pt: 3 }}
-        justifyContent="space-between"
-      >
-        <Button
-          color="success"
-          variant="contained"
-          sx={{ width: 150 }}
-          disabled={!isDirty}
-          onClick={() => {
-            dispatch(updateVessel(form));
-            setIsDirty(false);
-          }}
-        >
-          Lagre
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            setForm(initialForm);
-            setIsDirty(false);
-          }}
-        >
-          Reset
-        </Button>
+    <>
+      <Stack sx={{ p: 1, pb: 2 }}>
+        <Typography variant="h5">Tekniske spesifikasjoner</Typography>
+        <Typography sx={{ color: theme.palette.grey[500] }}>
+          Verdiene som oppgis brukes til å estimere drivstofforbruket til
+          fartøyet.
+        </Typography>
       </Stack>
-    </Stack>
+      <Stack
+        sx={{ p: 1, width: 400, "& .MuiTextField-root": { width: 120 } }}
+        spacing={2}
+      >
+        <SettingsEntry name={"Hovedmotor, kraft (hk)"}>
+          <TextField
+            size="small"
+            hiddenLabel
+            variant="outlined"
+            value={form.enginePower ?? ""}
+            onKeyDown={numberInputLimiter}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              handleFormChange(event.target.value, "enginePower");
+            }}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Hovedmotor, byggeår"}>
+          <YearSelect
+            value={form.engineBuildingYear}
+            onChange={(e) => {
+              handleFormChange(e.target.value, "engineBuildingYear");
+            }}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Hjelpemotor, kraft (hk)"}>
+          <TextField
+            size="small"
+            hiddenLabel
+            variant="outlined"
+            value={form.auxiliaryEnginePower ?? ""}
+            onKeyDown={numberInputLimiter}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              handleFormChange(e.target.value, "auxiliaryEnginePower");
+            }}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Hjelpemotor, byggeår"}>
+          <YearSelect
+            value={form.auxiliaryEngineBuildingYear}
+            onChange={(e) => {
+              handleFormChange(e.target.value, "auxiliaryEngineBuildingYear");
+            }}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Boiler engine, kraft (hk)"}>
+          <TextField
+            size="small"
+            hiddenLabel
+            variant="outlined"
+            value={form.boilerEnginePower ?? ""}
+            onKeyDown={numberInputLimiter}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              handleFormChange(e.target.value, "boilerEnginePower");
+            }}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Boiler engine, byggeår"}>
+          <YearSelect
+            value={form.boilerEngineBuildingYear}
+            onChange={(e) => {
+              handleFormChange(e.target.value, "boilerEngineBuildingYear");
+            }}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Service-fart (knop)"}>
+          <TextField
+            size="small"
+            hiddenLabel
+            variant="outlined"
+            value={form.serviceSpeed ?? ""}
+            onKeyDown={numberInputLimiter}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              handleFormChange(e.target.value, "serviceSpeed");
+            }}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Elektrifiseringsgrad (%)"}>
+          <Slider
+            sx={{
+              width: 120,
+              borderRadius: 0,
+              "& .MuiSlider-track": {
+                borderRadius: 0,
+              },
+              "& .MuiSlider-thumb": {
+                width: 15,
+                height: 15,
+              },
+              "& .MuiSlider-valueLabel": {},
+            }}
+            min={0}
+            max={100}
+            step={10}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(v, _) => `${v}%`}
+            value={form.degreeOfElectrification ?? 0}
+            onChange={(_, v) =>
+              handleFormChange(v as number, "degreeOfElectrification")
+            }
+          />
+        </SettingsEntry>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ pt: 3 }}
+          justifyContent="space-between"
+        >
+          <Button
+            color="success"
+            variant="contained"
+            sx={{ width: 150 }}
+            disabled={!isDirty}
+            onClick={() => {
+              dispatch(updateVessel(form));
+              setIsDirty(false);
+            }}
+          >
+            Lagre
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setForm(initialForm);
+              setIsDirty(false);
+            }}
+          >
+            Reset
+          </Button>
+        </Stack>
+      </Stack>
+    </>
   );
 };
 

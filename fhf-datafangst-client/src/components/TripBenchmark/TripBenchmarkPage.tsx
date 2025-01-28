@@ -214,7 +214,7 @@ export const TripBenchmarkPage: FC = () => {
         {
           type: "slider",
           labelFormatter: (value: Date, _: string) =>
-            dateFormat(value, "d/M/Y"),
+            dateFormat(value, "d/M/y"),
         },
       ],
     };
@@ -559,7 +559,7 @@ export const TripBenchmarkPage: FC = () => {
                       {
                         type: "slider",
                         labelFormatter: (value: Date, _: string) =>
-                          dateFormat(value, "d/M/Y"),
+                          dateFormat(value, "d/M/y"),
                       },
                     ],
 
