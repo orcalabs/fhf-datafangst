@@ -76,3 +76,8 @@ export const selectVesselSettingsOpen = createSelector(
   selectAppState,
   (state) => state.vesselSettingsOpen,
 );
+
+export const selectBwUserLoading = createSelector(
+  selectAppState,
+  (state) => state.bwUserLoading,
+);

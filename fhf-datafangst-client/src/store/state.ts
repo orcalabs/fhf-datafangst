@@ -43,6 +43,7 @@ export interface BaseState {
   isLoggedIn: boolean;
   viewState?: MenuViewState;
   bwUser?: BwUser;
+  bwUserLoading: boolean;
   authUser?: User;
   matrixToggle: MatrixToggle;
   tripFiltersOpen: boolean;
@@ -59,6 +60,7 @@ const initialBaseState: BaseState = {
   tripFiltersOpen: false,
   tripDetailsOpen: false,
   vesselSettingsOpen: false,
+  bwUserLoading: false,
 };
 
 export interface AppState

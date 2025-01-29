@@ -14,18 +14,25 @@ import {
 } from "@mui/material";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
-import { MyGears, MyHauls, Trips, VesselInfo } from "components";
+import {
+  LocalLoadingProgress,
+  MyGears,
+  MyHauls,
+  Trips,
+  VesselInfo,
+} from "components";
 import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   getCurrentTrip,
-  selectBwUserProfile,
+  selectBwUserLoading,
   selectFishingFacilitySearch,
   selectHaulsMatrixSearch,
   selectIsLoggedIn,
-  selectVesselsByCallsign,
+  selectLoggedInVessel,
   selectVesselSettingsOpen,
+  selectVesselsLoading,
   setFishingFacilitiesSearch,
   setHaulsMatrixSearch,
   setVesselSettingsOpen,
@@ -65,14 +72,13 @@ export const MyPage: FC = () => {
   const { signIn } = useAuth();
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Hauls);
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
   const navigate = useNavigate();
   const vesselSettingsOpen = useAppSelector(selectVesselSettingsOpen);
+  const userLoading = useAppSelector(selectBwUserLoading);
+  const vessel = useAppSelector(selectLoggedInVessel);
+  const vesselsLoading = useAppSelector(selectVesselsLoading);
 
   const handleTabChange = (expandedTab: MenuTab) => {
     setExpanded(expandedTab);
@@ -121,6 +127,14 @@ export const MyPage: FC = () => {
         >
           Logg inn
         </Button>
+      </Box>
+    );
+  }
+
+  if (userLoading || vesselsLoading) {
+    return (
+      <Box sx={{ pt: 4 }}>
+        <LocalLoadingProgress />
       </Box>
     );
   }
