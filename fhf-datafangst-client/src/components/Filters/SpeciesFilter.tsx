@@ -89,7 +89,7 @@ export const SpeciesFilter: FC<Props> = (props) => {
             </Box>
           ))}
         </Collapse>
-        {props.stats.length >= NUM_BARS && (
+        {props.stats.length > NUM_BARS && (
           <Box sx={{ width: "100%", pb: 2 }}>
             <Button
               disableRipple
