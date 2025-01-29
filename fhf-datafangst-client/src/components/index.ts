@@ -1,3 +1,4 @@
+export { AboutUs } from "./AboutUs/AboutUs";
 export { BenchmarkCard } from "./Benchmark/BenchmarkCard";
 export { BenchmarkCards } from "./Benchmark/BenchmarkCards";
 export { BenchmarkModal } from "./Benchmark/BenchmarkModal";
