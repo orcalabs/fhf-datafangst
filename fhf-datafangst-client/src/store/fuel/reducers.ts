@@ -26,21 +26,13 @@ export const fuelBuilder = (
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(createFuelMeasurement.fulfilled, (state, action) => {
-      const profile = state.bwUser!;
-
-      const created = {
-        ...action.meta.arg,
-        barentswatchUserId: profile.user.id!,
-        callSign: profile.fiskInfoProfile.ircs!,
-      };
-
       if (state.fuelMeasurements) {
-        state.fuelMeasurements.push(created);
+        state.fuelMeasurements = state.fuelMeasurements.concat(action.payload);
         state.fuelMeasurements.sort((a, b) =>
           b.timestamp.localeCompare(a.timestamp),
         );
       } else {
-        state.fuelMeasurements = [created];
+        state.fuelMeasurements = action.payload;
       }
     })
     .addCase(updateFuelMeasurement.pending, (state, action) => {
@@ -48,7 +40,7 @@ export const fuelBuilder = (
     })
     .addCase(updateFuelMeasurement.fulfilled, (state, action) => {
       const idx = state.fuelMeasurements?.findIndex(
-        (f) => f.timestamp === action.meta.arg.timestamp,
+        (f) => f.id === action.meta.arg.id,
       );
       if (idx !== undefined && idx >= 0) {
         state.fuelMeasurements![idx] = {
@@ -62,7 +54,7 @@ export const fuelBuilder = (
     })
     .addCase(deleteFuelMeasurement.fulfilled, (state, action) => {
       const idx = state.fuelMeasurements?.findIndex(
-        (f) => f.timestamp === action.meta.arg.timestamp,
+        (f) => f.id === action.meta.arg.id,
       );
       if (idx !== undefined && idx >= 0) {
         state.fuelMeasurements!.splice(idx, 1);
