@@ -77,7 +77,12 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         matrixToggle: MatrixToggle.Haul,
       };
     })
+    .addCase(getBwUser.pending, (state, _) => {
+      state.bwUserLoading = true;
+      state.bwUser = undefined;
+    })
     .addCase(getBwUser.fulfilled, (state, action) => {
+      state.bwUserLoading = false;
       state.bwUser = action.payload;
 
       // Hijack Skomværfisk as a vessel for testing purposes.
@@ -138,6 +143,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselName: "",
         };
       }
+    })
+    .addCase(getBwUser.rejected, (state, _) => {
+      state.bwUserLoading = false;
     })
     .addCase(checkLoggedIn, (state, action) => {
       const user = action.payload;
