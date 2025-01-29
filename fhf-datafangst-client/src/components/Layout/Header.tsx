@@ -144,6 +144,14 @@ export const Header: FC = () => {
                 </Link>
                 <Typography>Godkjenningskoder for fiskemottak</Typography>
               </Stack>
+              <Stack direction="row" justifyContent="space-between">
+                <Link target="_blank" href="https://www.rafisklaget.no/">
+                  Råfisklaget
+                </Link>
+                <Typography>
+                  Aggregert prisdata fra landings- og sluttsedler
+                </Typography>
+              </Stack>
             </Stack>
           </Box>
           <Box>

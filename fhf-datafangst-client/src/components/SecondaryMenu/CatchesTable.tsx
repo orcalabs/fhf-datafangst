@@ -2,6 +2,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import {
   Box,
+  Stack,
   styled,
   Table,
   TableBody,
@@ -96,6 +97,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 interface Props {
   catches: Catch[];
+  isEstimatedValue?: boolean;
 }
 
 export const CatchesTable: FC<Props> = (props) => {
@@ -176,8 +178,12 @@ export const CatchesTable: FC<Props> = (props) => {
         {fiskeridirSpecies[c.speciesFiskeridirId].name}
       </StyledTableCell>
       {hasPrice && Number.isFinite(c.priceForFisher) && (
-        <StyledTableCell align="right">
+        <StyledTableCell
+          align="right"
+          title={`${c[weightType] && c.priceForFisher ? (c.priceForFisher! / c[weightType]!).toFixed(1) : 0} kr/kg ${props.isEstimatedValue ? "*" : ""}`}
+        >
           {nok.format(c.priceForFisher!)}
+          {props.isEstimatedValue && <StarText />}
         </StyledTableCell>
       )}
       <StyledTableCell align="right">
@@ -229,65 +235,91 @@ export const CatchesTable: FC<Props> = (props) => {
   );
 
   return (
-    <TableContainer
-      sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
-    >
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>
-              {headerCell("Art", speciesAsc, speciesDesc)}
-            </StyledTableCell>
-            {hasPrice && (
-              <StyledTableCell
-                align="right"
-                sx={{ "& .MuiBox-root": { justifyContent: "right" } }}
-              >
-                {headerCell("Pris", priceAsc, priceDesc)}
-              </StyledTableCell>
-            )}
-            <StyledTableCell
-              align="right"
-              sx={{
-                "& .MuiBox-root": { justifyContent: "right" },
-                cursor: showWeightTypes ? "pointer" : "cursor",
-              }}
-            >
-              {headerCell(
-                currentWeightType.label,
-                currentWeightType.asc,
-                currentWeightType.desc,
-                showWeightTypes
-                  ? () =>
-                      setWeightTypeIdx((weightTypeIdx + 1) % weightTypes.length)
-                  : undefined,
-              )}
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {catches.map((c, key) =>
-            catchRow(c, key, currentWeightType.weightType),
-          )}
-        </TableBody>
-        {catches.length > 1 && (
-          <TableFooter>
+    <Stack sx={{ width: "100%" }} spacing={1.5}>
+      <TableContainer
+        sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+      >
+        <Table size="small">
+          <TableHead>
             <TableRow>
-              <StyledTableCell> Totalt: </StyledTableCell>
+              <StyledTableCell>
+                {headerCell("Art", speciesAsc, speciesDesc)}
+              </StyledTableCell>
               {hasPrice && (
-                <StyledTableCell align="right">
-                  {nok.format(sumPriceFromCatches(catches))}
+                <StyledTableCell
+                  align="right"
+                  sx={{ "& .MuiBox-root": { justifyContent: "right" } }}
+                >
+                  {headerCell("Verdi", priceAsc, priceDesc)}
                 </StyledTableCell>
               )}
-              <StyledTableCell align="right">
-                {kilosOrTonsFormatter(
-                  sumCatches(catches, currentWeightType.weightType),
+              <StyledTableCell
+                align="right"
+                sx={{
+                  "& .MuiBox-root": { justifyContent: "right" },
+                  cursor: showWeightTypes ? "pointer" : "cursor",
+                }}
+              >
+                {headerCell(
+                  currentWeightType.label,
+                  currentWeightType.asc,
+                  currentWeightType.desc,
+                  showWeightTypes
+                    ? () =>
+                        setWeightTypeIdx(
+                          (weightTypeIdx + 1) % weightTypes.length,
+                        )
+                    : undefined,
                 )}
               </StyledTableCell>
             </TableRow>
-          </TableFooter>
-        )}
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {catches.map((c, key) =>
+              catchRow(c, key, currentWeightType.weightType),
+            )}
+          </TableBody>
+          {catches.length > 1 && (
+            <TableFooter>
+              <TableRow>
+                <StyledTableCell> Totalt: </StyledTableCell>
+                {hasPrice && (
+                  <StyledTableCell align="right">
+                    {nok.format(sumPriceFromCatches(catches))}
+                    {props.isEstimatedValue && <StarText />}
+                  </StyledTableCell>
+                )}
+                <StyledTableCell align="right">
+                  {kilosOrTonsFormatter(
+                    sumCatches(catches, currentWeightType.weightType),
+                  )}
+                </StyledTableCell>
+              </TableRow>
+            </TableFooter>
+          )}
+        </Table>
+      </TableContainer>
+      {props.isEstimatedValue && (
+        <Typography sx={{ color: "text.secondary" }} variant="subtitle2">
+          <Box
+            component="span"
+            sx={{ color: "fifth.main", fontWeight: "bold" }}
+          >
+            *{" "}
+          </Box>
+          Verdi estimert fra ukentlig salgsdata (Råfisklaget)
+        </Typography>
+      )}
+    </Stack>
+  );
+};
+const StarText: FC = () => {
+  return (
+    <Box
+      component="span"
+      sx={{ pl: "3px", color: "fifth.main", fontWeight: "bold" }}
+    >
+      *
+    </Box>
   );
 };
