@@ -301,7 +301,10 @@ export const TripsMenu: FC = () => {
             Levert fangst
           </Typography>
         </Box>
-        <CatchesTable catches={tripCatches} />
+        <CatchesTable
+          catches={tripCatches}
+          isEstimatedValue={trip.delivery.priceForFisherIsEstimated}
+        />
 
         {trip.tripAssemblerId === TripAssemblerId.Ers &&
           Boolean(trip.hauls.length) && (
@@ -320,7 +323,7 @@ export const TripsMenu: FC = () => {
                 <Typography
                   style={{ display: "flex", alignItems: "center" }}
                   variant="h5"
-                  sx={{ fontSize: "1rem" }}
+                  sx={{ fontSize: "1rem", lineHeight: 1.6 }}
                 >
                   Estimert fangst
                   {expanded ? (
