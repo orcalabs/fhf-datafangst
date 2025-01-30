@@ -44,7 +44,7 @@ export const FuelPage: FC = () => {
   const [newFuel, setNewFuel] = useState<string>("");
 
   const fuel = useMemo(
-    () => [{ timestamp: "", fuel: 0 }, ...(_fuel ?? [])],
+    () => [{ id: -1, timestamp: "", fuel: 0 }, ...(_fuel ?? [])],
     [_fuel],
   );
 
@@ -121,7 +121,7 @@ export const FuelPage: FC = () => {
                   onBlur={(event: FocusEvent<HTMLInputElement>) => {
                     dispatch(
                       updateFuelMeasurement({
-                        timestamp: f.timestamp,
+                        ...f,
                         fuel: +event.target.value,
                       }),
                     );
@@ -131,7 +131,7 @@ export const FuelPage: FC = () => {
               <StyledTableCell component="th" scope="row">
                 <IconButton
                   onClick={() => {
-                    dispatch(deleteFuelMeasurement({ timestamp: f.timestamp }));
+                    dispatch(deleteFuelMeasurement({ id: f.id }));
                   }}
                 >
                   <DeleteIcon />

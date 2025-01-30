@@ -1,7 +1,8 @@
 import {
+  CreateFuelMeasurement,
   DeleteFuelMeasurement,
   FuelMeasurementApi,
-  FuelMeasurementBody,
+  UpdateFuelMeasurement,
 } from "generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
@@ -11,7 +12,11 @@ export interface FuelMeasurementsArgs {
   endDate?: Date;
 }
 
-export interface CreateUpdateFuelMeasurementsArgs extends FuelMeasurementBody {
+export interface CreateFuelMeasurementsArgs extends CreateFuelMeasurement {
+  token?: string;
+}
+
+export interface UpdateFuelMeasurementsArgs extends UpdateFuelMeasurement {
   token?: string;
 }
 
@@ -33,24 +38,25 @@ export const getFuelMeasurements = apiFn((args: FuelMeasurementsArgs, signal) =>
 );
 
 export const createFuelMeasurement = apiFn(
-  (args: CreateUpdateFuelMeasurementsArgs) =>
+  ({ token, ...body }: CreateFuelMeasurementsArgs) =>
     api.routesV1FuelMeasurementCreateFuelMeasurements({
-      fuelMeasurementBody: [{ timestamp: args.timestamp, fuel: args.fuel }],
-      bwToken: args.token!,
+      createFuelMeasurement: [body],
+      bwToken: token!,
     }),
 );
 
 export const updateFuelMeasurement = apiFn(
-  (args: CreateUpdateFuelMeasurementsArgs) =>
+  ({ token, ...body }: UpdateFuelMeasurementsArgs) =>
     api.routesV1FuelMeasurementUpdateFuelMeasurements({
-      fuelMeasurementBody: [{ timestamp: args.timestamp, fuel: args.fuel }],
-      bwToken: args.token!,
+      updateFuelMeasurement: [body],
+      bwToken: token!,
     }),
 );
 
-export const deleteFuelMeasurement = apiFn((args: DeleteFuelMeasurementsArgs) =>
-  api.routesV1FuelMeasurementDeleteFuelMeasurements({
-    deleteFuelMeasurement: [{ timestamp: args.timestamp }],
-    bwToken: args.token!,
-  }),
+export const deleteFuelMeasurement = apiFn(
+  ({ token, ...body }: DeleteFuelMeasurementsArgs) =>
+    api.routesV1FuelMeasurementDeleteFuelMeasurements({
+      deleteFuelMeasurement: [body],
+      bwToken: token!,
+    }),
 );
