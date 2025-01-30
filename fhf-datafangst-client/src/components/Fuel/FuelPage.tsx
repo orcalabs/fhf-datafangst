@@ -18,6 +18,8 @@ import {
   TableHead,
   TableRow,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -33,7 +35,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { dateFormat } from "utils";
+import { dateFormat, numberInputLimiter } from "utils";
 
 const isValidDate = (d: Date) => {
   return d instanceof Date && !isNaN(d.valueOf());
@@ -61,9 +63,10 @@ interface EditFuel {
 export const FuelPage: FC = () => {
   const dispatch = useAppDispatch();
   const fuel = useAppSelector(selectFuelMeasurements);
-
+  const [inputType, setInputType] = useState<string>("measurement");
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
+  const [newFuelAfterBunker, setNewFuelAfterBunker] = useState<string>("");
   const [editEntry, setEditEntry] = useState<EditFuel | undefined>({
     id: -1,
     fuel: 0,
@@ -74,10 +77,17 @@ export const FuelPage: FC = () => {
     setEditEntry(undefined);
   };
 
+  const handleInputTypeChange = (
+    _: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setInputType(newAlignment);
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
       <Stack sx={{ p: 3, width: "100%" }} spacing={3}>
-        <Typography variant="h3">Drivstofforbruk</Typography>
+        <Typography variant="h3">Rapporter drivstoff</Typography>
         <Stack spacing={1}>
           <Typography>
             Registrer mengde drivstoff i tanken på gitte tidspunkt. Regelmessige
@@ -94,78 +104,134 @@ export const FuelPage: FC = () => {
             fiskeoperasjoner (hal) vil det gi mer korrekte resultater.
           </Typography>
         </Stack>
-        <Stack direction="row" sx={{ width: "50%" }} spacing={2}>
-          <Stack spacing={0.5}>
-            <Typography
-              variant="subtitle2"
-              sx={{ color: theme.palette.grey[500] }}
-            >
-              Tankmåling (liter)
-            </Typography>
-            <TextField
-              sx={{ width: 120 }}
-              size="small"
-              type="number"
-              variant="outlined"
-              value={newFuel}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setNewFuel(event.target.value)
-              }
-            />
-          </Stack>
-          <Stack spacing={0.5}>
-            <Typography
-              variant="subtitle2"
-              sx={{ color: theme.palette.grey[500] }}
-            >
-              Tidspunkt
-            </Typography>
-            <DateTimePicker
-              sx={{ width: 250 }}
-              disableFuture
-              slotProps={{
-                field: {
-                  clearable: true,
-                },
-                textField: {
-                  placeholder: "Nå",
-                  size: "small",
-                },
-              }}
-              value={inputDate}
-              onChange={(value) => setInputDate(value)}
-            />
-          </Stack>
-          <Box sx={{ alignSelf: "flex-end" }}>
-            <Button
-              variant="contained"
-              sx={{ minWidth: 150, height: 40, alignItems: "center" }}
-              color="success"
-              disabled={newFuel === ""}
-              startIcon={<PostAddIcon />}
-              onClick={() => {
-                dispatch(
-                  createFuelMeasurement({
-                    timestamp: inputDate
-                      ? inputDate.toISOString()
-                      : new Date().toISOString(),
-                    fuel: +newFuel,
-                  }),
-                );
-                setNewFuel("");
-                setInputDate(null);
-              }}
-            >
-              Registrer
-            </Button>
-          </Box>
-        </Stack>
         <Divider />
+
+        <Stack
+          spacing={1}
+          sx={{
+            p: 3,
+            bgcolor: "#E6E8EF",
+            borderRadius: 2,
+            width: 860,
+          }}
+        >
+          <ToggleButtonGroup
+            sx={{ width: 250 }}
+            color="info"
+            size="small"
+            value={inputType}
+            exclusive
+            onChange={handleInputTypeChange}
+          >
+            <ToggleButton value="measurement">Peiling</ToggleButton>
+            <ToggleButton value="bunker">Bunkring</ToggleButton>
+          </ToggleButtonGroup>
+          <Stack direction="row" sx={{ width: "50%" }} spacing={2}>
+            <Stack spacing={0.5}>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: theme.palette.grey[500] }}
+              >
+                {inputType === "measurement"
+                  ? "Drivstoff (liter)"
+                  : "Drivstoff før bunkring (liter)"}
+              </Typography>
+              <TextField
+                sx={{ width: inputType === "measurement" ? 125 : 180 }}
+                size="small"
+                variant="outlined"
+                value={newFuel}
+                onKeyDown={numberInputLimiter}
+                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                  setNewFuel(event.target.value)
+                }
+              />
+            </Stack>
+            {inputType === "bunker" && (
+              <Stack spacing={0.5}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ color: theme.palette.grey[500] }}
+                >
+                  Drivstoff etter bunkring (liter)
+                </Typography>
+                <TextField
+                  sx={{ width: 180 }}
+                  size="small"
+                  variant="outlined"
+                  value={newFuelAfterBunker}
+                  onKeyDown={numberInputLimiter}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                    setNewFuelAfterBunker(event.target.value)
+                  }
+                />
+              </Stack>
+            )}
+            <Stack spacing={0.5}>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: theme.palette.grey[500] }}
+              >
+                Tidspunkt
+              </Typography>
+              <DateTimePicker
+                sx={{ width: 250 }}
+                disableFuture
+                slotProps={{
+                  field: {
+                    clearable: true,
+                  },
+                  textField: {
+                    placeholder: "Nå",
+                    size: "small",
+                  },
+                }}
+                value={inputDate}
+                onChange={(value) => setInputDate(value)}
+              />
+            </Stack>
+            <Box sx={{ alignSelf: "flex-end" }}>
+              <Button
+                variant="contained"
+                sx={{ minWidth: 150, height: 40, alignItems: "center" }}
+                color="success"
+                disabled={newFuel === ""}
+                startIcon={<PostAddIcon />}
+                onClick={() => {
+                  dispatch(
+                    createFuelMeasurement({
+                      timestamp: inputDate
+                        ? inputDate.toISOString()
+                        : new Date().toISOString(),
+                      fuel: +newFuel,
+                    }),
+                  );
+
+                  if (inputType === "bunker" && newFuelAfterBunker) {
+                    const date = inputDate ?? new Date();
+                    date.setMinutes(date.getMinutes() + 1);
+                    dispatch(
+                      createFuelMeasurement({
+                        timestamp: date.toISOString(),
+                        fuel: +newFuelAfterBunker,
+                      }),
+                    );
+                  }
+                  setNewFuel("");
+                  setInputDate(null);
+                  setNewFuelAfterBunker("");
+                }}
+              >
+                Registrer
+              </Button>
+            </Box>
+          </Stack>
+        </Stack>
         <Stack spacing={2}>
           <Typography variant="h5">Logg</Typography>
           {fuel && fuel.length ? (
             <TableContainer>
-              <Table size="small" sx={{ tableLayout: "fixed", width: 800 }}>
+              <Table size="small" sx={{ tableLayout: "fixed", width: 860 }}>
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Måling (liter)</StyledTableCell>
