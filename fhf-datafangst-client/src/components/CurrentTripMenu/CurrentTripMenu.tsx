@@ -117,7 +117,9 @@ export const CurrentTripMenu: FC = () => {
             <SvgIcon sx={iconStyle}>
               <PhishingSharpIcon />
             </SvgIcon>
-            <Typography> {createGearListString(tripGears)} </Typography>
+            <Typography>
+              {tripGears.length ? createGearListString(tripGears) : "Ukjent"}
+            </Typography>
           </InfoItem>
 
           {trip.hauls && (
@@ -165,9 +167,6 @@ export const CurrentTripMenu: FC = () => {
                   splitLine: {
                     show: false,
                   },
-                  axisTick: {
-                    interval: 2,
-                  },
                   axisLine: {
                     lineStyle: {
                       color: "white",
@@ -177,7 +176,7 @@ export const CurrentTripMenu: FC = () => {
                     color: "white",
                     formatter: "{HH}:{mm}",
                   },
-                  minInterval: 1,
+                  minInterval: 3600 * 4 * 1000,
                 },
                 yAxis: {
                   type: "value",
