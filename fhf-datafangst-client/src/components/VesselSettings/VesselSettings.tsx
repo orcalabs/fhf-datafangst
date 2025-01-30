@@ -17,6 +17,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
+import { numberInputLimiter } from "utils";
 
 const inYearsRange = (year: number | null | undefined) => {
   if (year && year >= 1940 && year <= new Date().getFullYear()) {
@@ -54,18 +55,6 @@ export const VesselSettings: FC = () => {
   const handleFormChange = (value: string | number, key: string) => {
     setForm((form) => ({ ...form, [key]: value ? Number(value) : null }));
     setIsDirty(true);
-  };
-
-  // Prevents all input except numbers 0-9, Backspace and Delete in input field
-  const numberInputLimiter = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (
-      !(e.key >= "0" && e.key <= "9") &&
-      e.key !== "Delete" &&
-      e.key !== "Backspace"
-    ) {
-      e.preventDefault();
-      return;
-    }
   };
 
   return (
