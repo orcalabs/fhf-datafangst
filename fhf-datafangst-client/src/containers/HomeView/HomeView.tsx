@@ -265,7 +265,7 @@ export const HomeView: FC<Props> = ({ view }) => {
             )}
             <Box sx={{ gridRow: 1, gridColumn: 1, overflowY: "auto" }}>
               {selectedTrip && <TripsMenu />}
-              {selectedCurrentTrip && <CurrentTripMenu />}
+              {selectedCurrentTrip && !selectedTrip && <CurrentTripMenu />}
             </Box>
           </Box>
         </HaulMenuArea>
