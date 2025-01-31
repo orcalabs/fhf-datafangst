@@ -35,7 +35,7 @@ export const getCurrentPositions = apiFn(
   (query: CurrentPositionsArgs, signal) =>
     api.routesV1AisVmsCurrentPositions(
       {
-        positionTimestampLimit: subHours(new Date(), 24).toISOString(),
+        positionTimestampLimit: subHours(new Date(), 48).toISOString(),
         bwToken: query.token,
       },
       { signal },
