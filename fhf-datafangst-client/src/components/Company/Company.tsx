@@ -33,8 +33,9 @@ export const Company: FC = () => {
   );
 
   const orgId =
-    vessel?.fiskeridir.owners[0].entityType === RegisterVesselEntityType.Company
-      ? vessel?.fiskeridir.owners[0].id
+    vessel?.fiskeridir.owners[0]?.entityType ===
+    RegisterVesselEntityType.Company
+      ? vessel.fiskeridir.owners[0].id
       : undefined;
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const Company: FC = () => {
     <Stack spacing={2} sx={{ p: 2, width: "100%" }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h3">
-          {vessel?.fiskeridir.owners[0].name}
+          {vessel?.fiskeridir.owners[0]?.name}
         </Typography>
 
         <Box sx={{ width: 400 }}>
