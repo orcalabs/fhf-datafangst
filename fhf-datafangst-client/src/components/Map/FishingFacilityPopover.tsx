@@ -53,7 +53,9 @@ export const FishingFacilityPopover: FC<Props> = ({ fishingFacilityIdx }) => {
                 {facility.comment}
               </span>
             }
-            secondaryTypographyProps={{ color: "primary" }}
+            slotProps={{
+              secondary: { color: "primary" },
+            }}
           />
         </ListItem>
       </List>

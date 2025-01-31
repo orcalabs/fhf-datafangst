@@ -17,7 +17,9 @@ export const ShorelinePopover: FC<Props> = ({ name }) => {
           <ListItemText
             primary={"Fartsområde kystfiske"}
             secondary={name}
-            secondaryTypographyProps={{ color: "primary" }}
+            slotProps={{
+              secondary: { color: "primary" },
+            }}
           />
         </ListItem>
       </List>

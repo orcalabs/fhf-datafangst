@@ -182,10 +182,12 @@ export const MyPage: FC = () => {
       <Accordion
         square
         disableGutters
-        TransitionProps={{ unmountOnExit: true }}
         sx={accordionSx}
         expanded={expanded === MenuTab.Trips}
         onChange={() => handleTabChange(MenuTab.Trips)}
+        slotProps={{
+          transition: { unmountOnExit: true },
+        }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}

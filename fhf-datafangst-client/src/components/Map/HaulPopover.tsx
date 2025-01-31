@@ -41,7 +41,9 @@ export const HaulPopover: FC<Props> = ({ haulId }) => {
                 <span>{kilosOrTonsFormatter(sumCatches(haul.catches))}</span>
               </span>
             }
-            secondaryTypographyProps={{ color: "primary" }}
+            slotProps={{
+              secondary: { color: "primary" },
+            }}
           />
         </ListItem>
       </List>

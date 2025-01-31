@@ -57,10 +57,7 @@ export const YearsFilter: FC<Props> = (props) => {
         }}
         multiple
         disableCloseOnSelect
-        componentsProps={{ popper: { placement: "right-start" } }}
-        ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
-        PopperComponent={StyledDatePopper}
         limitTags={3}
         disableListWrap
         onKeyDown={(e) => e.stopPropagation()}
@@ -73,7 +70,9 @@ export const YearsFilter: FC<Props> = (props) => {
             {...params}
             variant="standard"
             placeholder={values?.length ? undefined : "Alle"}
-            inputProps={{ ...params.inputProps, readOnly: true }}
+            slotProps={{
+              htmlInput: { ...params.inputProps, readOnly: true },
+            }}
           />
         )}
         renderOption={(props, option, { selected }) => (
@@ -92,6 +91,13 @@ export const YearsFilter: FC<Props> = (props) => {
             {option}
           </li>
         )}
+        slots={{
+          popper: StyledDatePopper,
+        }}
+        slotProps={{
+          chip: { deleteIcon: <DisabledByDefaultIcon /> },
+          popper: { placement: "right-start" },
+        }}
       />
     </>
   );

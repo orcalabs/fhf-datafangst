@@ -36,10 +36,8 @@ export const SpeciesFilter: FC<Props> = (props) => {
       </Typography>
       <Autocomplete
         multiple
-        ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
         size="small"
         blurOnSelect
-        PopperComponent={StyledPopper}
         limitTags={3}
         disablePortal
         disableListWrap
@@ -49,6 +47,12 @@ export const SpeciesFilter: FC<Props> = (props) => {
         options={specieGroups}
         getOptionLabel={(option: SpeciesGroupDetailed) => option.name}
         renderInput={(params: any) => <TextField {...params} />}
+        slots={{
+          popper: StyledPopper,
+        }}
+        slotProps={{
+          chip: { deleteIcon: <DisabledByDefaultIcon /> },
+        }}
       />
     </Box>
   );

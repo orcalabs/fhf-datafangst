@@ -245,10 +245,12 @@ const ChartCard: FC<ChartCardProps> = ({ children, title }) => {
       <CardHeader
         sx={{ pb: 1 }}
         title={title}
-        titleTypographyProps={{
-          variant: "h5",
-          color: "black",
-          fontWeight: fontStyle.fontWeightSemiBold,
+        slotProps={{
+          title: {
+            variant: "h5",
+            color: "black",
+            fontWeight: fontStyle.fontWeightSemiBold,
+          },
         }}
       />
       <CardContent sx={{ px: 0, pb: "4px !important" }}>{children}</CardContent>

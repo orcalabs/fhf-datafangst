@@ -138,7 +138,6 @@ export const TripDetails: FC = () => {
           <ClearSharpIcon sx={{ color: "black" }} />
         </IconButton>
       </Box>
-
       <Box sx={{ height: "40%", width: "100%" }}>
         <TableVirtuoso
           data={landings}
@@ -147,7 +146,6 @@ export const TripDetails: FC = () => {
           itemContent={rowContent}
         />
       </Box>
-
       <Box
         sx={{
           border: "1px solid #3E7B74",
@@ -168,12 +166,14 @@ export const TripDetails: FC = () => {
             <Step key={event.eventId}>
               <StepLabel
                 icon={EventType[event.eventType]}
-                StepIconProps={{
-                  active: true,
-                  sx: {
-                    width: 35,
-                    height: 35,
-                    "& .MuiStepIcon-text": { fontSize: "0.6rem" },
+                slotProps={{
+                  stepIcon: {
+                    active: true,
+                    sx: {
+                      width: 35,
+                      height: 35,
+                      "& .MuiStepIcon-text": { fontSize: "0.6rem" },
+                    },
                   },
                 }}
               >
