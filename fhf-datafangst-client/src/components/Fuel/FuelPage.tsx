@@ -112,7 +112,7 @@ export const FuelPage: FC = () => {
             p: 3,
             bgcolor: "#E6E8EF",
             borderRadius: 2,
-            width: 860,
+            width: "fit-content",
           }}
         >
           <ToggleButtonGroup
@@ -137,7 +137,7 @@ export const FuelPage: FC = () => {
                   : "Drivstoff før bunkring (liter)"}
               </Typography>
               <TextField
-                sx={{ width: inputType === "measurement" ? 125 : 180 }}
+                sx={{ width: inputType === "measurement" ? 125 : 205 }}
                 size="small"
                 variant="outlined"
                 value={newFuel}
@@ -156,7 +156,7 @@ export const FuelPage: FC = () => {
                   Drivstoff etter bunkring (liter)
                 </Typography>
                 <TextField
-                  sx={{ width: 180 }}
+                  sx={{ width: 205 }}
                   size="small"
                   variant="outlined"
                   value={newFuelAfterBunker}
@@ -167,7 +167,7 @@ export const FuelPage: FC = () => {
                 />
               </Stack>
             )}
-            <Stack spacing={0.5}>
+            <Stack spacing={0.5} sx={{ alignSelf: "flex-end" }}>
               <Typography
                 variant="subtitle2"
                 sx={{ color: theme.palette.grey[500] }}
@@ -231,7 +231,7 @@ export const FuelPage: FC = () => {
           <Typography variant="h5">Logg</Typography>
           {fuel && fuel.length ? (
             <TableContainer>
-              <Table size="small" sx={{ tableLayout: "fixed", width: 860 }}>
+              <Table size="small" sx={{ tableLayout: "fixed", width: 850 }}>
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Måling (liter)</StyledTableCell>
