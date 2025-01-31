@@ -4,7 +4,6 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  Grid,
   Stack,
   SvgIcon,
   Table,
@@ -14,6 +13,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import chartsTheme from "app/chartsTheme";
 import theme, { fontStyle } from "app/theme";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
@@ -318,7 +318,7 @@ export const TripBenchmarkPage: FC = () => {
           <Divider sx={{ my: 4 }} />
           <Grid container spacing={3}>
             {/* Fuel Consumption */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Drivstofforbruk">
                 <ReactEChart
                   option={{
@@ -363,7 +363,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Weight per ton fuel */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstvekt per tonn drivstoff">
                 <ReactEChart
                   option={{
@@ -408,7 +408,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Weight per hour */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstvekt per time">
                 <ReactEChart
                   option={{
@@ -453,7 +453,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Weight per distance */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstvekt per distanse">
                 <ReactEChart
                   option={{
@@ -501,7 +501,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Price per fuel */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstverdi per tonn drivstoff">
                 <ReactEChart
                   option={{
@@ -534,7 +534,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* EEOI */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="EEOI per tur">
                 <ReactEChart
                   option={{

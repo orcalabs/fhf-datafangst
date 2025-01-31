@@ -1,4 +1,5 @@
-import { Card, CardContent, CardHeader, Grid } from "@mui/material";
+import { Card, CardContent, CardHeader } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import chartsTheme from "app/chartsTheme";
 import { fontStyle } from "app/theme";
 import ReactEChart from "echarts-for-react";
@@ -51,7 +52,7 @@ export const CatchStats: FC<Props> = ({ vesselEntries }) => {
 
   return (
     <Grid container spacing={3} sx={{ p: 1 }}>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <ChartCard title="Fangst">
           <ReactEChart
             option={{
@@ -96,7 +97,7 @@ export const CatchStats: FC<Props> = ({ vesselEntries }) => {
           />
         </ChartCard>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <ChartCard title="Fangst, artsvis">
           <ReactEChart
             option={{
@@ -146,7 +147,7 @@ export const CatchStats: FC<Props> = ({ vesselEntries }) => {
           />
         </ChartCard>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <ChartCard title="Verdi">
           <ReactEChart option={{}} theme={chartsTheme} />
         </ChartCard>

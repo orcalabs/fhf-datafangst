@@ -4,9 +4,9 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { LengthGroup, LengthGroups } from "models";
 import { FC } from "react";
 
@@ -30,7 +30,7 @@ export const VesselLengthFilter: FC<Props> = (props) => {
         <Grid container rowSpacing={0.1} columnSpacing={1} width={330}>
           {LengthGroups.map((val, i) => {
             return (
-              <Grid key={i} item xs={6}>
+              <Grid key={i} size={6}>
                 <FormControlLabel
                   key={i}
                   sx={{ "& .MuiCheckbox-root": { borderRadius: 0 } }}

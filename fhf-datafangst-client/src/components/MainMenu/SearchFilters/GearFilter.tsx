@@ -4,9 +4,9 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
-  Grid,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { GearGroupDetailed } from "generated/openapi";
 import { FC } from "react";
 import { selectGearGroupsMap, selectTripsSearch, useAppSelector } from "store";
@@ -40,7 +40,7 @@ export const GearFilter: FC<Props> = (props) => {
               return undefined;
             }
             return (
-              <Grid key={i} item xs={6}>
+              <Grid key={i} size={6}>
                 <FormControlLabel
                   sx={{ "& .MuiCheckbox-root": { borderRadius: 0 } }}
                   label={val.name}
