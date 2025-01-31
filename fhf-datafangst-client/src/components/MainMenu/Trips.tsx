@@ -9,11 +9,10 @@ import { FC, useEffect } from "react";
 import {
   MenuViewState,
   paginateTripsSearch,
-  selectBwUserProfile,
+  selectLoggedInVessel,
   selectTrips,
   selectTripsLoading,
   selectTripsSearch,
-  selectVesselsByCallsign,
   selectViewState,
   setTripsSearch,
   useAppDispatch,
@@ -34,13 +33,11 @@ const filterParams: TripsArgs = {
 
 export const Trips: FC = () => {
   const dispatch = useAppDispatch();
+
   const tripsLoading = useAppSelector(selectTripsLoading);
   const trips = useAppSelector(selectTrips);
   const tripsSearch = useAppSelector(selectTripsSearch);
-  const profile = useAppSelector(selectBwUserProfile);
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const vessel = useAppSelector(selectLoggedInVessel);
   const viewState = useAppSelector(selectViewState);
 
   const offset = tripsSearch?.offset ?? 0;

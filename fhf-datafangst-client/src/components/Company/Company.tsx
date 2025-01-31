@@ -8,10 +8,9 @@ import { FC, useEffect, useState } from "react";
 import {
   getOrgBenchmarks,
   getOrgFuelConsumption,
-  selectBwUserProfile,
+  selectLoggedInVessel,
   selectOrgBenchmarks,
   selectOrgBenchmarksLoading,
-  selectVesselsByCallsign,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -19,25 +18,24 @@ import { CatchStats } from "./CatchStats";
 import { GeneralStats } from "./GeneralStats";
 
 export const Company: FC = () => {
-  const [tabValue, setTabValue] = useState("general");
   const dispatch = useAppDispatch();
+
   const orgBenchmarks = useAppSelector(selectOrgBenchmarks);
   const orgBenchmarksLoading = useAppSelector(selectOrgBenchmarksLoading);
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
-  const orgId =
-    vessel?.fiskeridir.owners[0].entityType === RegisterVesselEntityType.Company
-      ? vessel?.fiskeridir.owners[0].id
-      : undefined;
+  const vessel = useAppSelector(selectLoggedInVessel);
 
+  const [tabValue, setTabValue] = useState("general");
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
       startOfYear(new Date(2024, 1, 1)),
       endOfYear(new Date(2024, 1, 1)),
     ),
   );
+
+  const orgId =
+    vessel?.fiskeridir.owners[0].entityType === RegisterVesselEntityType.Company
+      ? vessel?.fiskeridir.owners[0].id
+      : undefined;
 
   useEffect(() => {
     if (orgId) {
@@ -46,7 +44,7 @@ export const Company: FC = () => {
           orgId,
           start: dateRange?.start,
           end: dateRange?.end,
-          callSignOverride: vesselInfo?.ircs,
+          callSignOverride: vessel?.fiskeridir.callSign,
         }),
       );
 
@@ -55,11 +53,11 @@ export const Company: FC = () => {
           orgId,
           startDate: dateRange?.start,
           endDate: dateRange?.end,
-          callSignOverride: vesselInfo?.ircs,
+          callSignOverride: vessel?.fiskeridir.callSign,
         }),
       );
     }
-  }, [dateRange, orgId, vesselInfo?.ircs]);
+  }, [dateRange, orgId, vessel?.fiskeridir.callSign]);
 
   if (orgBenchmarksLoading) {
     return <LocalLoadingProgress />;

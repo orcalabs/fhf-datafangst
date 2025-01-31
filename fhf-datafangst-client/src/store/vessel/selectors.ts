@@ -3,6 +3,7 @@ import { Vessel } from "generated/openapi";
 import { selectHauls } from "store/haul";
 import { selectLandings } from "store/landing";
 import { selectAppState } from "store/selectAppState";
+import { selectBwUserCallSign } from "store/selectors";
 
 export const selectVesselsLoading = createSelector(
   selectAppState,
@@ -115,9 +116,8 @@ export const selectEstimatedLiveFuelConsumption = createSelector(
   (state) => state.estimatedLiveFuelConsumption,
 );
 
-export const selectLoggedInVessel = createSelector(selectAppState, (state) => {
-  const callSign = state.bwUser?.fiskInfoProfile.ircs;
-  return callSign && state.vesselsByCallSign
-    ? state.vesselsByCallSign[callSign]
-    : undefined;
-});
+export const selectLoggedInVessel = createSelector(
+  selectVesselsByCallsign,
+  selectBwUserCallSign,
+  (vessels, callSign) => (callSign && vessels ? vessels[callSign] : undefined),
+);

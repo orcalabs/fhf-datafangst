@@ -55,6 +55,11 @@ export const selectBwUserProfile = createSelector(
   (state) => state.bwUser,
 );
 
+export const selectBwUserCallSign = createSelector(
+  selectBwUserProfile,
+  (state) => state?.fiskInfoProfile.ircs,
+);
+
 const AIS_ROLES = [
   Roles.BwDownloadFishingfacility,
   Roles.BwEksternFiskInfoUtvikler,

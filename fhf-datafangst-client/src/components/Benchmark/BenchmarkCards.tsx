@@ -9,9 +9,8 @@ import { FC } from "react";
 import {
   BenchmarkModalParams,
   selectBenchmarkTrips,
-  selectBwUserProfile,
+  selectLoggedInVessel,
   selectTrips,
-  selectVesselsByCallsign,
   selectVesselsByFiskeridirId,
   setBenchmarkModal,
   useAppDispatch,
@@ -56,11 +55,8 @@ const createDataset = (
   dataExtractor: (t: Trip) => number,
   reducer: (d: number) => number,
 ) => {
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessels = useAppSelector(selectVesselsByCallsign);
   const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const vessel = useAppSelector(selectLoggedInVessel);
 
   const vesselNames = [vessel?.fiskeridir.name ?? ""];
   const dataset = [

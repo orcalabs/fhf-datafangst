@@ -32,12 +32,11 @@ import {
   getTripBenchmarks,
   selectAverageEeoi,
   selectAverageTripBenchmarks,
-  selectBwUserProfile,
   selectEeoi,
   selectEstimatedFuelConsumption,
+  selectLoggedInVessel,
   selectTripBenchmarks,
   selectTripBenchmarksLoading,
-  selectVesselsByCallsign,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -49,16 +48,15 @@ import {
 
 export const TripBenchmarkPage: FC = () => {
   const dispatch = useAppDispatch();
+
   const bench = useAppSelector(selectTripBenchmarks);
   const loading = useAppSelector(selectTripBenchmarksLoading);
   const globalAvgFuelconsumption = useAppSelector(selectAverageTripBenchmarks);
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const vessel = useAppSelector(selectLoggedInVessel);
   const eeoi = useAppSelector(selectEeoi);
   const averageEeoi = useAppSelector(selectAverageEeoi);
   const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
+
   const nok = new Intl.NumberFormat("no-NB", {
     style: "currency",
     currency: "NOK",
@@ -77,7 +75,7 @@ export const TripBenchmarkPage: FC = () => {
       getTripBenchmarks({
         start: dateRange?.start,
         end: dateRange?.end,
-        callSignOverride: vesselInfo?.ircs,
+        callSignOverride: vessel?.fiskeridir.callSign,
       }),
     );
 
@@ -85,7 +83,7 @@ export const TripBenchmarkPage: FC = () => {
       getEeoi({
         start: dateRange?.start,
         end: dateRange?.end,
-        callSignOverride: vesselInfo?.ircs,
+        callSignOverride: vessel?.fiskeridir.callSign,
       }),
     );
 
@@ -93,7 +91,7 @@ export const TripBenchmarkPage: FC = () => {
       getEstimatedFuelConsumption({
         startDate: dateRange?.start,
         endDate: dateRange?.end,
-        callSignOverride: vesselInfo?.ircs,
+        callSignOverride: vessel?.fiskeridir.callSign,
       }),
     );
 
@@ -116,7 +114,7 @@ export const TripBenchmarkPage: FC = () => {
         }),
       );
     }
-  }, [dateRange, vesselInfo?.ircs]);
+  }, [dateRange, vessel]);
 
   const totalDuration = useMemo(
     () =>

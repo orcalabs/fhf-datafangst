@@ -13,12 +13,10 @@ import {
   getTrips,
   selectBenchmarkNumHistoric,
   selectBenchmarkTimeSpan,
-  selectBwUserProfile,
+  selectLoggedInVessel,
   selectTrips,
   selectTripsLoading,
-  selectUser,
-  selectVesselsByCallsign,
-  selectVesselsByFiskeridirId,
+  selectUserFollowList,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -26,18 +24,12 @@ import {
 export const BenchmarkOverview: FC = () => {
   const dispatch = useAppDispatch();
 
-  const profile = useAppSelector(selectBwUserProfile);
   const trips = useAppSelector(selectTrips);
   const tripsLoading = useAppSelector(selectTripsLoading);
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
-  const user = useAppSelector(selectUser);
   const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
   const benchmarkTimespan = useAppSelector(selectBenchmarkTimeSpan);
-
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
-  const followVessels = user?.following.map((id) => fiskeridirVessels[id]);
+  const vessel = useAppSelector(selectLoggedInVessel);
+  const followVessels = useAppSelector(selectUserFollowList);
 
   useEffect(() => {
     if (vessel) {
