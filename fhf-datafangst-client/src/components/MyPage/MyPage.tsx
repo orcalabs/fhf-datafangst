@@ -22,10 +22,11 @@ import {
   VesselInfo,
 } from "components";
 import { useAuth } from "oidc-react";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   getCurrentTrip,
+  initialHaulsMatrixSearch,
   selectBwUserLoading,
   selectFishingFacilitySearch,
   selectHaulsMatrixSearch,
@@ -71,7 +72,7 @@ export const MyPage: FC = () => {
   const dispatch = useAppDispatch();
   const { signIn } = useAuth();
   const loggedIn = useAppSelector(selectIsLoggedIn);
-  const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Hauls);
+  const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Trips);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
   const navigate = useNavigate();
@@ -79,6 +80,12 @@ export const MyPage: FC = () => {
   const userLoading = useAppSelector(selectBwUserLoading);
   const vessel = useAppSelector(selectLoggedInVessel);
   const vesselsLoading = useAppSelector(selectVesselsLoading);
+
+  useEffect(() => {
+    if (expanded === MenuTab.Trips && vessel) {
+      dispatch(getCurrentTrip({ vessel }));
+    }
+  }, [expanded]);
 
   const handleTabChange = (expandedTab: MenuTab) => {
     setExpanded(expandedTab);
@@ -88,6 +95,7 @@ export const MyPage: FC = () => {
     } else if (expandedTab === MenuTab.Hauls && vessel) {
       dispatch(
         setHaulsMatrixSearch({
+          ...initialHaulsMatrixSearch,
           ...haulsSearch,
           filter: undefined,
           vessels: [vessel],
@@ -151,34 +159,7 @@ export const MyPage: FC = () => {
     <Box>
       <VesselInfo vessel={vessel} />
       <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 1, mx: 4 }} />
-      <Accordion
-        square
-        disableGutters
-        sx={accordionSx}
-        expanded={expanded === MenuTab.Hauls}
-        onChange={() => handleTabChange(MenuTab.Hauls)}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              "& svg": { mr: 2 },
-            }}
-          >
-            <FishIcon
-              width="32"
-              height="32"
-              fill={`${theme.palette.secondary.light}`}
-            />
-          </Box>
-          <Typography variant="h6"> Mine hal </Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ px: 2.5, pb: 2, pt: 0 }}>
-          <MyHauls selectedVessel={vessel} />
-        </AccordionDetails>
-      </Accordion>
+
       <Accordion
         square
         disableGutters
@@ -206,6 +187,34 @@ export const MyPage: FC = () => {
         </AccordionSummary>
         <AccordionDetails sx={{ pb: 0, pr: 0 }}>
           <Trips />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        square
+        disableGutters
+        sx={accordionSx}
+        expanded={expanded === MenuTab.Hauls}
+        onChange={() => handleTabChange(MenuTab.Hauls)}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              "& svg": { mr: 2 },
+            }}
+          >
+            <FishIcon
+              width="32"
+              height="32"
+              fill={`${theme.palette.secondary.light}`}
+            />
+          </Box>
+          <Typography variant="h6"> Mine områder </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ px: 2.5, pb: 2, pt: 0 }}>
+          <MyHauls selectedVessel={vessel} />
         </AccordionDetails>
       </Accordion>
       <Accordion
