@@ -4,7 +4,6 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  Grid,
   Stack,
   SvgIcon,
   Table,
@@ -14,6 +13,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import chartsTheme from "app/chartsTheme";
 import theme, { fontStyle } from "app/theme";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
@@ -32,12 +32,11 @@ import {
   getTripBenchmarks,
   selectAverageEeoi,
   selectAverageTripBenchmarks,
-  selectBwUserProfile,
   selectEeoi,
   selectEstimatedFuelConsumption,
+  selectLoggedInVessel,
   selectTripBenchmarks,
   selectTripBenchmarksLoading,
-  selectVesselsByCallsign,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -49,16 +48,15 @@ import {
 
 export const TripBenchmarkPage: FC = () => {
   const dispatch = useAppDispatch();
+
   const bench = useAppSelector(selectTripBenchmarks);
   const loading = useAppSelector(selectTripBenchmarksLoading);
   const globalAvgFuelconsumption = useAppSelector(selectAverageTripBenchmarks);
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessels = useAppSelector(selectVesselsByCallsign);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const vessel = useAppSelector(selectLoggedInVessel);
   const eeoi = useAppSelector(selectEeoi);
   const averageEeoi = useAppSelector(selectAverageEeoi);
   const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
+
   const nok = new Intl.NumberFormat("no-NB", {
     style: "currency",
     currency: "NOK",
@@ -77,7 +75,7 @@ export const TripBenchmarkPage: FC = () => {
       getTripBenchmarks({
         start: dateRange?.start,
         end: dateRange?.end,
-        callSignOverride: vesselInfo?.ircs,
+        callSignOverride: vessel?.fiskeridir.callSign,
       }),
     );
 
@@ -85,7 +83,7 @@ export const TripBenchmarkPage: FC = () => {
       getEeoi({
         start: dateRange?.start,
         end: dateRange?.end,
-        callSignOverride: vesselInfo?.ircs,
+        callSignOverride: vessel?.fiskeridir.callSign,
       }),
     );
 
@@ -93,7 +91,7 @@ export const TripBenchmarkPage: FC = () => {
       getEstimatedFuelConsumption({
         startDate: dateRange?.start,
         endDate: dateRange?.end,
-        callSignOverride: vesselInfo?.ircs,
+        callSignOverride: vessel?.fiskeridir.callSign,
       }),
     );
 
@@ -116,7 +114,7 @@ export const TripBenchmarkPage: FC = () => {
         }),
       );
     }
-  }, [dateRange, vesselInfo?.ircs]);
+  }, [dateRange, vessel]);
 
   const totalDuration = useMemo(
     () =>
@@ -318,7 +316,7 @@ export const TripBenchmarkPage: FC = () => {
           <Divider sx={{ my: 4 }} />
           <Grid container spacing={3}>
             {/* Fuel Consumption */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Drivstofforbruk">
                 <ReactEChart
                   option={{
@@ -363,7 +361,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Weight per ton fuel */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstvekt per tonn drivstoff">
                 <ReactEChart
                   option={{
@@ -408,7 +406,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Weight per hour */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstvekt per time">
                 <ReactEChart
                   option={{
@@ -453,7 +451,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Weight per distance */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstvekt per distanse">
                 <ReactEChart
                   option={{
@@ -501,7 +499,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* Price per fuel */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="Fangstverdi per tonn drivstoff">
                 <ReactEChart
                   option={{
@@ -534,7 +532,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
             {/* EEOI */}
-            <Grid item xs={6}>
+            <Grid size={6}>
               <ChartCard title="EEOI per tur">
                 <ReactEChart
                   option={{
@@ -685,10 +683,12 @@ const ChartCard: FC<ChartCardProps> = ({ children, title }) => {
       <CardHeader
         sx={{ pb: 1 }}
         title={title}
-        titleTypographyProps={{
-          variant: "h4",
-          color: "black",
-          fontWeight: fontStyle.fontWeightSemiBold,
+        slotProps={{
+          title: {
+            variant: "h4",
+            color: "black",
+            fontWeight: fontStyle.fontWeightSemiBold,
+          },
         }}
       />
       <CardContent sx={{ px: 0 }}>{children}</CardContent>

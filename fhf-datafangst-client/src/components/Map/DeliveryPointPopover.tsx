@@ -24,7 +24,9 @@ export const DeliveryPointPopover: FC<Props> = ({ deliveryPoint }) => {
           <ListItemText
             primary={toTitleCase(deliveryPoint.name ?? deliveryPoint.id)}
             secondary={deliveryPoint.id}
-            secondaryTypographyProps={{ color: "secondary.dark" }}
+            slotProps={{
+              secondary: { color: "secondary.dark" },
+            }}
           />
         </ListItem>
       </List>

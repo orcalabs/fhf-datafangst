@@ -35,6 +35,7 @@ export default [
       "react/react-in-jsx-scope": "off",
       "react/display-name": "off",
 
+      "@typescript-eslint/no-deprecated": "warn",
       "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/space-before-function-paren": "off",
       "@typescript-eslint/explicit-function-return-type": "off",

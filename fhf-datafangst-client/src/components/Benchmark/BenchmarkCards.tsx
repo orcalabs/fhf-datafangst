@@ -2,16 +2,15 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PhishingRoundedIcon from "@mui/icons-material/PhishingRounded";
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
-import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid2";
 import { Trip } from "generated/openapi";
 import { FC } from "react";
 import {
   BenchmarkModalParams,
   selectBenchmarkTrips,
-  selectBwUserProfile,
+  selectLoggedInVessel,
   selectTrips,
-  selectVesselsByCallsign,
   selectVesselsByFiskeridirId,
   setBenchmarkModal,
   useAppDispatch,
@@ -56,11 +55,8 @@ const createDataset = (
   dataExtractor: (t: Trip) => number,
   reducer: (d: number) => number,
 ) => {
-  const profile = useAppSelector(selectBwUserProfile);
-  const vesselInfo = profile?.fiskInfoProfile;
-  const vessels = useAppSelector(selectVesselsByCallsign);
   const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
-  const vessel = vesselInfo?.ircs ? vessels[vesselInfo.ircs] : undefined;
+  const vessel = useAppSelector(selectLoggedInVessel);
 
   const vesselNames = [vessel?.fiskeridir.name ?? ""];
   const dataset = [
@@ -198,7 +194,7 @@ export const BenchmarkCards: FC = () => {
 
   return (
     <Grid container spacing={3} sx={{ p: 3 }}>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Box>
           <BenchmarkCard
             title="Total tid"
@@ -224,7 +220,7 @@ export const BenchmarkCards: FC = () => {
           />
         </Box>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Box>
           <BenchmarkCard
             title="Fisketid"
@@ -255,7 +251,7 @@ export const BenchmarkCards: FC = () => {
           />
         </Box>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Box>
           <BenchmarkCard
             title="Fiskedistanse"
@@ -286,7 +282,7 @@ export const BenchmarkCards: FC = () => {
           />
         </Box>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Box>
           <BenchmarkCard
             title="Total vekt"

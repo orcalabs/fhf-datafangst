@@ -33,10 +33,12 @@ export const BenchmarkCard: FC<BenchmarkCardProps> = (props) => {
           <CardHeader
             avatar={props.avatar}
             title={props.title}
-            titleTypographyProps={{
-              variant: "h4",
-              color: "black",
-              fontWeight: fontStyle.fontWeightSemiBold,
+            slotProps={{
+              title: {
+                variant: "h4",
+                color: "black",
+                fontWeight: fontStyle.fontWeightSemiBold,
+              },
             }}
           />
           <CardContent>

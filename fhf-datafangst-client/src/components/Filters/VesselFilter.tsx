@@ -65,9 +65,6 @@ const VesselFilterInner = memo(
           size="small"
           multiple
           limitTags={3}
-          ChipProps={{ deleteIcon: <DisabledByDefaultIcon /> }}
-          PopperComponent={StyledPopper}
-          ListboxComponent={useVirtualization ? ListboxComponent : undefined}
           disableListWrap
           onKeyDown={(e) => e.stopPropagation()}
           value={value ?? []}
@@ -127,6 +124,16 @@ const VesselFilterInner = memo(
               </Box>
             </li>
           )}
+          slots={{
+            popper: StyledPopper,
+          }}
+          slotProps={{
+            chip: { deleteIcon: <DisabledByDefaultIcon /> },
+
+            listbox: {
+              component: useVirtualization ? ListboxComponent : undefined,
+            },
+          }}
         />
       </>
     );

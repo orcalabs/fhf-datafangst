@@ -1,4 +1,5 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import chartsTheme from "app/chartsTheme";
 import ReactEChart from "echarts-for-react";
 import { Landing, SpeciesFiskeridir } from "generated/openapi";
@@ -195,7 +196,7 @@ const SpeciesStatOption = (
             }}
           />
           <Grid container>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <Typography
                 sx={{
                   textAlign: "right",
@@ -212,7 +213,7 @@ const SpeciesStatOption = (
                 </Box>
               ))}
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <Typography
                 sx={{
                   textAlign: "right",
