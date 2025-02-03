@@ -36,7 +36,7 @@ const listItemSx = {
     bgcolor: "primary.dark",
     "&:hover": { bgcolor: "primary.dark" },
   },
-  "&:hover": { bgcolor: "primary.light" },
+  "&:hover": { bgcolor: "primary.main" },
 };
 
 export const MyGears: FC = () => {
