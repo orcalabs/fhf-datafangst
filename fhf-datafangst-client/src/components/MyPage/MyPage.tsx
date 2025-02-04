@@ -21,9 +21,9 @@ import {
   Trips,
   VesselInfo,
 } from "components";
+import { MyPageSubmenu, useMyPageSubmenu } from "hooks";
 import { useAuth } from "oidc-react";
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import {
   getCurrentTrip,
   initialHaulsMatrixSearch,
@@ -32,11 +32,9 @@ import {
   selectHaulsMatrixSearch,
   selectIsLoggedIn,
   selectLoggedInVessel,
-  selectVesselSettingsOpen,
   selectVesselsLoading,
   setFishingFacilitiesSearch,
   setHaulsMatrixSearch,
-  setVesselSettingsOpen,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -75,11 +73,10 @@ export const MyPage: FC = () => {
   const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Trips);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
-  const navigate = useNavigate();
-  const vesselSettingsOpen = useAppSelector(selectVesselSettingsOpen);
   const userLoading = useAppSelector(selectBwUserLoading);
   const vessel = useAppSelector(selectLoggedInVessel);
   const vesselsLoading = useAppSelector(selectVesselsLoading);
+  const [subMenu, setSubmenu] = useMyPageSubmenu();
 
   useEffect(() => {
     if (expanded === MenuTab.Trips && vessel) {
@@ -91,8 +88,10 @@ export const MyPage: FC = () => {
     setExpanded(expandedTab);
 
     if (expandedTab === MenuTab.Trips && vessel) {
+      setSubmenu(MyPageSubmenu.Trips);
       dispatch(getCurrentTrip({ vessel }));
     } else if (expandedTab === MenuTab.Hauls && vessel) {
+      setSubmenu(MyPageSubmenu.Area);
       dispatch(
         setHaulsMatrixSearch({
           ...initialHaulsMatrixSearch,
@@ -102,6 +101,7 @@ export const MyPage: FC = () => {
         }),
       );
     } else if (expandedTab === MenuTab.Gears && vessel) {
+      setSubmenu(MyPageSubmenu.Facility);
       dispatch(
         setFishingFacilitiesSearch({
           active: true,
@@ -254,12 +254,16 @@ export const MyPage: FC = () => {
           borderRadius: 0,
           color: "white",
           boxShadow: "none",
-          bgcolor: "primary.light",
+          bgcolor:
+            subMenu === MyPageSubmenu.Stats ? "primary.dark" : "primary.light",
           ":hover": {
             bgcolor: "primary.dark",
           },
         }}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => {
+          setSubmenu(MyPageSubmenu.Stats);
+          setExpanded(false);
+        }}
       >
         <Box
           sx={{
@@ -282,13 +286,16 @@ export const MyPage: FC = () => {
           borderRadius: 0,
           color: "white",
           boxShadow: "none",
-          bgcolor: vesselSettingsOpen ? "primary.dark" : "primary.light",
+          bgcolor:
+            subMenu === MyPageSubmenu.Administrate
+              ? "primary.dark"
+              : "primary.light",
           ":hover": {
             bgcolor: "primary.dark",
           },
         }}
         onClick={() => {
-          dispatch(setVesselSettingsOpen(true));
+          setSubmenu(MyPageSubmenu.Administrate);
           setExpanded(false);
         }}
       >
@@ -300,7 +307,7 @@ export const MyPage: FC = () => {
         >
           <SettingsIcon sx={{ color: "secondary.light", fontSize: 32 }} />
         </Box>
-        <Typography variant="h6"> Innstillinger </Typography>
+        <Typography variant="h6"> Administrer </Typography>
       </Button>
     </Box>
   );

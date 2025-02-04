@@ -1,11 +1,11 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import theme from "app/theme";
-import { VesselSettings } from "components";
+import { FuelPage, VesselSettings } from "components";
 import { FollowList } from "components/FollowList/FollowList";
 import { FC, useState } from "react";
 
-export const SettingsMenu: FC = () => {
-  const [tabValue, setTabValue] = useState("vessel");
+export const MySettings: FC = () => {
+  const [tabValue, setTabValue] = useState("fuel");
   return (
     <Box
       sx={{
@@ -16,9 +16,12 @@ export const SettingsMenu: FC = () => {
       }}
     >
       <Stack sx={{ p: 3, height: "100%" }} spacing={2}>
-        <Typography variant="h2">Innstillinger</Typography>
+        <Typography variant="h2">Administrer</Typography>
         <Tabs
           sx={{
+            "& .MuiButtonBase-root.Mui-selected": {
+              fontWeight: "bold",
+            },
             borderBottom: `1px solid ${theme.palette.text.secondary}`,
           }}
           indicatorColor="secondary"
@@ -26,6 +29,11 @@ export const SettingsMenu: FC = () => {
           value={tabValue}
           onChange={(_, newVal: string) => setTabValue(newVal)}
         >
+          <Tab
+            sx={{ color: theme.palette.grey[500] }}
+            value="fuel"
+            label="Drivstoff"
+          />
           <Tab
             sx={{
               color: theme.palette.grey[500],
@@ -42,6 +50,7 @@ export const SettingsMenu: FC = () => {
         <Box sx={{ height: "100%" }}>
           {tabValue === "vessel" && <VesselSettings />}
           {tabValue === "following" && <FollowList />}
+          {tabValue === "fuel" && <FuelPage />}
         </Box>
       </Stack>
     </Box>

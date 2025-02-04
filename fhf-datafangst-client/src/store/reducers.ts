@@ -8,7 +8,6 @@ import {
   setMatrixToggle,
   setTripDetailsOpen,
   setTripFiltersOpen,
-  setVesselSettingsOpen,
   setViewState,
 } from "./actions";
 import { aisBuilder } from "./ais";
@@ -170,9 +169,6 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     })
     .addCase(setTripDetailsOpen, (state, action) => {
       state.tripDetailsOpen = action.payload;
-    })
-    .addCase(setVesselSettingsOpen, (state, action) => {
-      state.vesselSettingsOpen = action.payload;
     })
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 

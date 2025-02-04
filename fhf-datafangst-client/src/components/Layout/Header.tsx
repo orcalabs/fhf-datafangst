@@ -33,14 +33,18 @@ export const Header: FC = () => {
     >
       <Toolbar
         variant="dense"
-        sx={{ display: "grid", gridTemplateColumns: "1fr auto 1fr" }}
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
+          height: 52,
+        }}
       >
         <RouterLink
-          style={{ maxHeight: 50, gridColumn: 2, textDecoration: "none" }}
-          to={`/${MenuViewState.Overview}`}
+          style={{ maxHeight: 52, gridColumn: 2, textDecoration: "none" }}
+          to={`/${MenuViewState.Live}`}
         >
           <Stack direction="row" alignItems="center">
-            <LogoIcon height={38} />
+            <LogoIcon height={40} />
             <Typography color="white" variant="h4">
               DataFangst
             </Typography>

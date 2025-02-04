@@ -1,4 +1,4 @@
-import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { FC } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -25,48 +25,40 @@ export const HeaderMenuButtons: FC = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        width: "100%",
+        pl: 1,
+        width: 500,
         position: "relative",
         zIndex: 10000,
-        "& .MuiToggleButtonGroup-root": {
-          width: "100%",
-          borderRadius: 0,
-          fontSize: "0.9rem",
-        },
-        "& .MuiToggleButtonGroup-grouped": {
-          width: "100%",
-          borderRadius: 0,
-          fontSize: "0.9rem",
-        },
-        "& .MuiToggleButton-root": {
+        "& .MuiButtonBase-root.Mui-selected": {
           color: "white",
-          px: 2,
-          height: 49,
-          border: 0,
-          width: "50%",
-          "&.Mui-selected": {
-            backgroundColor: "primary.light",
-            color: "white",
-            "&:hover": { bgcolor: "primary.light" },
-          },
-          "&:hover": { bgcolor: "secondary.dark" },
+          fontWeight: "bold",
         },
       }}
     >
-      <ToggleButtonGroup
-        size="small"
-        value={viewState}
-        exclusive
-        onChange={(_: React.MouseEvent<HTMLElement>, newValue: MenuViewState) =>
-          handleChange(newValue)
-        }
+      <Tabs
+        sx={{
+          height: 45,
+          minHeight: 45,
+          "& .MuiButtonBase-root": {
+            height: 52,
+            minWidth: 100,
+            ":hover": {
+              color: "white",
+            },
+          },
+        }}
+        value={viewState ?? MenuViewState.Live}
+        onChange={(_, newVal: MenuViewState) => handleChange(newVal)}
+        textColor="secondary"
+        TabIndicatorProps={{
+          sx: { bgcolor: "white" },
+        }}
       >
-        <ToggleButton value={MenuViewState.Overview}>Områder</ToggleButton>
-        <ToggleButton value={MenuViewState.Live}>Live</ToggleButton>
-        <ToggleButton value={MenuViewState.Trips}>Turer</ToggleButton>
-        <ToggleButton value={MenuViewState.MyPage}>Mitt fartøy</ToggleButton>
-      </ToggleButtonGroup>
+        <Tab label="Live" value={MenuViewState.Live}></Tab>
+        <Tab label="Områder" value={MenuViewState.Overview}></Tab>
+        <Tab label="Turer" value={MenuViewState.Trips}></Tab>
+        <Tab label="Mitt fartøy" value={MenuViewState.MyPage}></Tab>
+      </Tabs>
     </Box>
   );
 };
