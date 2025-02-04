@@ -1,7 +1,12 @@
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, GetThunkAPI } from "@reduxjs/toolkit";
 import * as Api from "api";
 import { User } from "oidc-react";
-import { MatrixToggle, MenuViewState } from "./state";
+import { AppState, MatrixToggle, MenuViewState } from "./state";
+
+export const bwTokenRequired = <T>(
+  _: T,
+  { getState }: Pick<GetThunkAPI<{ state: AppState }>, "getState" | "extra">,
+): boolean => !!getState().authUser?.access_token;
 
 export const setError = createAction<boolean>("base/setError");
 
