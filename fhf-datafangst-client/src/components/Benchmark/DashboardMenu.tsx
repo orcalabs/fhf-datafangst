@@ -1,5 +1,4 @@
 import DashboardSharpIcon from "@mui/icons-material/DashboardSharp";
-import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import ScaleIcon from "@mui/icons-material/Scale";
 import {
   Drawer,
@@ -31,11 +30,6 @@ const menuItems = [
     id: DashboardViewState.Company,
     name: "Rederi",
     icon: <VesselIcon />,
-  },
-  {
-    id: DashboardViewState.Fuel,
-    name: "Drivstoff",
-    icon: <LocalGasStationIcon />,
   },
 ];
 

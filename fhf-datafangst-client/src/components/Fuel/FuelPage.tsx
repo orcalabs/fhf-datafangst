@@ -86,9 +86,11 @@ export const FuelPage: FC = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
-      <Stack sx={{ p: 3, width: "100%" }} spacing={3}>
-        <Typography variant="h3">Rapporter drivstoff</Typography>
-        <Stack spacing={1}>
+      <Stack sx={{ p: 1, width: "100%" }} spacing={3}>
+        <Stack spacing={1} sx={{ color: theme.palette.grey[800] }}>
+          <Typography variant="h5" sx={{ color: "black" }}>
+            Rapporter drivstoff
+          </Typography>
           <Typography>
             Registrer mengde drivstoff i tanken på gitte tidspunkt. Regelmessige
             målinger gir mer detaljert analyse av fisket. For korrekt

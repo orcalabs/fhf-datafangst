@@ -61,7 +61,7 @@ export const VesselSettings: FC = () => {
     <>
       <Stack sx={{ p: 1, pb: 2 }}>
         <Typography variant="h5">Tekniske spesifikasjoner</Typography>
-        <Typography sx={{ color: theme.palette.grey[500] }}>
+        <Typography sx={{ color: theme.palette.grey[800] }}>
           Verdiene som oppgis brukes til å estimere drivstofforbruket til
           fartøyet.
         </Typography>

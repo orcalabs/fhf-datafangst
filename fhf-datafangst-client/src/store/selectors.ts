@@ -77,11 +77,6 @@ export const selectCanReadAisUnder15 = createSelector(
     state.roles?.some((v) => AIS_ROLES.includes(v)),
 );
 
-export const selectVesselSettingsOpen = createSelector(
-  selectAppState,
-  (state) => state.vesselSettingsOpen,
-);
-
 export const selectBwUserLoading = createSelector(
   selectAppState,
   (state) => state.bwUserLoading,

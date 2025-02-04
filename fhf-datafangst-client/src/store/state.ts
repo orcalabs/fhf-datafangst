@@ -48,7 +48,6 @@ export interface BaseState {
   matrixToggle: MatrixToggle;
   tripFiltersOpen: boolean;
   tripDetailsOpen: boolean;
-  vesselSettingsOpen: boolean;
 }
 
 const initialBaseState: BaseState = {
@@ -59,7 +58,6 @@ const initialBaseState: BaseState = {
   matrixToggle: MatrixToggle.Haul,
   tripFiltersOpen: false,
   tripDetailsOpen: false,
-  vesselSettingsOpen: false,
   bwUserLoading: false,
 };
 
@@ -107,7 +105,6 @@ export const emptyState: Partial<AppState> = {
   track: undefined,
   trips: undefined,
   tripsSearch: undefined,
-  vesselSettingsOpen: false,
   vms: undefined,
 };
 

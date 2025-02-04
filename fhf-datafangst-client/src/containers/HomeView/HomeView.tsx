@@ -17,8 +17,9 @@ import {
   MapBoxLayer,
   MapControls,
   MapFilters,
+  MySettings,
+  MyStats,
   SeamapLayer,
-  SettingsMenu,
   ShorelineLayer,
   TimeSlider,
   TrackLayer,
@@ -29,6 +30,7 @@ import {
 import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
 import { LiveVesselsLayer } from "components/Layers/LiveVesselsLayer";
 import { GridContainer, HeaderButtonCell, HeaderTrack } from "containers";
+import { MyPageSubmenu, useMyPageSubmenu } from "hooks";
 import { FC, useEffect, useState } from "react";
 import {
   MatrixToggle,
@@ -40,6 +42,7 @@ import {
   selectMatrixToggle,
   selectSecondaryMenuOpen,
   selectSelectedGridsString,
+  selectSelectedLiveVessel,
   selectSelectedTrip,
   selectShowGrid,
   selectShowHaulTimeSlider,
@@ -47,7 +50,6 @@ import {
   selectTrackLoading,
   selectTrackMissing,
   selectTripDetailsOpen,
-  selectVesselSettingsOpen,
   selectViewState,
   setHaulDateSliderFrame,
   setHaulsMatrix2Search,
@@ -122,11 +124,15 @@ const FilterButtonArea = (props: { open: boolean; children: any }) => (
   </Box>
 );
 
-const MapAttributionsArea = (props: { open: boolean; children: any }) => (
+const MapAttributionsArea = (props: {
+  mainMenuOpen: boolean;
+  secondaryMenuOpen: boolean;
+  children: any;
+}) => (
   <Box
     sx={{
-      gridColumnStart: 2,
-      gridColumnEnd: props.open ? 3 : 4,
+      gridColumnStart: props.mainMenuOpen ? 2 : 1,
+      gridColumnEnd: props.secondaryMenuOpen ? 3 : 4,
       gridRowStart: 4,
       gridRowEnd: 5,
       display: "flex",
@@ -190,9 +196,9 @@ export const HomeView: FC<Props> = ({ view }) => {
   const showLandingTimeSlider = useAppSelector(selectShowLandingTimeSlider);
   const matrixToggle = useAppSelector(selectMatrixToggle);
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
-  const vesselSettingsOpen = useAppSelector(selectVesselSettingsOpen);
-
+  const selectedLiveVessel = useAppSelector(selectSelectedLiveVessel);
   const showHaulsMenu = Boolean(selectedGrids.length);
+  const [subMenu, _] = useMyPageSubmenu();
 
   useEffect(() => {
     if (view !== viewState) {
@@ -305,7 +311,12 @@ export const HomeView: FC<Props> = ({ view }) => {
             }}
           />
         </TimeSliderArea>
-        <MapAttributionsArea open={secondaryMenuOpen}>
+        <MapAttributionsArea
+          mainMenuOpen={
+            viewState !== MenuViewState.Live || !!selectedLiveVessel
+          }
+          secondaryMenuOpen={secondaryMenuOpen}
+        >
           <MapControls />
           <MapAttributions />
         </MapAttributionsArea>
@@ -314,9 +325,14 @@ export const HomeView: FC<Props> = ({ view }) => {
             <TripDetails />
           </CenterArea>
         )}
-        {vesselSettingsOpen && (
+        {subMenu === MyPageSubmenu.Administrate && (
           <CenterArea open={false}>
-            <SettingsMenu />
+            <MySettings />
+          </CenterArea>
+        )}
+        {subMenu === MyPageSubmenu.Stats && (
+          <CenterArea open={false}>
+            <MyStats />
           </CenterArea>
         )}
       </GridContainer>

@@ -1,10 +1,10 @@
 import { CssBaseline } from "@mui/material";
 import { authConfig } from "app/auth";
 import { Layout } from "components";
-import { BenchmarkView, HomeView } from "containers";
+import { HomeView } from "containers";
 import { AuthProvider } from "oidc-react";
 import { Navigate, Route, Routes } from "react-router";
-import { DashboardViewState, MenuViewState } from "store";
+import { MenuViewState } from "store";
 
 export const App: React.FC = () => {
   return (
@@ -21,20 +21,8 @@ export const App: React.FC = () => {
               />
             ))}
 
-            <Route path="dashboard" element={<BenchmarkView />} />
-            {Object.values(DashboardViewState).map((view) => (
-              <Route
-                key={view}
-                path={`dashboard/${view}`}
-                element={<BenchmarkView view={view} />}
-              />
-            ))}
-
             {/* NB! Fallback redirect, must be last! */}
-            <Route
-              path="*"
-              element={<Navigate to={MenuViewState.Overview} />}
-            />
+            <Route path="*" element={<Navigate to={MenuViewState.Live} />} />
           </Routes>
         </Layout>
       </AuthProvider>
