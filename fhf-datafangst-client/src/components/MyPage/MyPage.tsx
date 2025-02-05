@@ -23,7 +23,7 @@ import {
 } from "components";
 import { MyPageSubmenu, useMyPageSubmenu } from "hooks";
 import { useAuth } from "oidc-react";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import {
   getCurrentTrip,
   initialHaulsMatrixSearch,
@@ -38,13 +38,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-
-enum MenuTab {
-  Trips = "trips",
-  Hauls = "hauls",
-  Gears = "gears",
-  Following = "following",
-}
 
 const accordionSx = {
   m: 0,
@@ -67,31 +60,25 @@ const accordionSx = {
 };
 
 export const MyPage: FC = () => {
-  const dispatch = useAppDispatch();
   const { signIn } = useAuth();
+
+  const dispatch = useAppDispatch();
+
   const loggedIn = useAppSelector(selectIsLoggedIn);
-  const [expanded, setExpanded] = useState<MenuTab | false>(MenuTab.Trips);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
   const userLoading = useAppSelector(selectBwUserLoading);
   const vessel = useAppSelector(selectLoggedInVessel);
   const vesselsLoading = useAppSelector(selectVesselsLoading);
+
   const [subMenu, setSubmenu] = useMyPageSubmenu();
 
   useEffect(() => {
-    if (expanded === MenuTab.Trips && vessel) {
-      dispatch(getCurrentTrip({ vessel }));
-    }
-  }, [expanded]);
+    if (!vessel) return;
 
-  const handleTabChange = (expandedTab: MenuTab) => {
-    setExpanded(expandedTab);
-
-    if (expandedTab === MenuTab.Trips && vessel) {
-      setSubmenu(MyPageSubmenu.Trips);
+    if (subMenu === MyPageSubmenu.Trips) {
       dispatch(getCurrentTrip({ vessel }));
-    } else if (expandedTab === MenuTab.Hauls && vessel) {
-      setSubmenu(MyPageSubmenu.Area);
+    } else if (subMenu === MyPageSubmenu.Area) {
       dispatch(
         setHaulsMatrixSearch({
           ...initialHaulsMatrixSearch,
@@ -100,8 +87,7 @@ export const MyPage: FC = () => {
           vessels: [vessel],
         }),
       );
-    } else if (expandedTab === MenuTab.Gears && vessel) {
-      setSubmenu(MyPageSubmenu.Facility);
+    } else if (subMenu === MyPageSubmenu.Facility) {
       dispatch(
         setFishingFacilitiesSearch({
           active: true,
@@ -110,7 +96,7 @@ export const MyPage: FC = () => {
         }),
       );
     }
-  };
+  }, [subMenu, vessel]);
 
   if (!loggedIn) {
     return (
@@ -164,8 +150,8 @@ export const MyPage: FC = () => {
         square
         disableGutters
         sx={accordionSx}
-        expanded={expanded === MenuTab.Trips}
-        onChange={() => handleTabChange(MenuTab.Trips)}
+        expanded={subMenu === MyPageSubmenu.Trips}
+        onChange={() => setSubmenu(MyPageSubmenu.Trips)}
         slotProps={{
           transition: { unmountOnExit: true },
         }}
@@ -193,8 +179,8 @@ export const MyPage: FC = () => {
         square
         disableGutters
         sx={accordionSx}
-        expanded={expanded === MenuTab.Hauls}
-        onChange={() => handleTabChange(MenuTab.Hauls)}
+        expanded={subMenu === MyPageSubmenu.Area}
+        onChange={() => setSubmenu(MyPageSubmenu.Area)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
@@ -221,8 +207,8 @@ export const MyPage: FC = () => {
         square
         disableGutters
         sx={accordionSx}
-        expanded={expanded === MenuTab.Gears}
-        onChange={() => handleTabChange(MenuTab.Gears)}
+        expanded={subMenu === MyPageSubmenu.Facility}
+        onChange={() => setSubmenu(MyPageSubmenu.Facility)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
@@ -260,10 +246,7 @@ export const MyPage: FC = () => {
             bgcolor: "primary.dark",
           },
         }}
-        onClick={() => {
-          setSubmenu(MyPageSubmenu.Stats);
-          setExpanded(false);
-        }}
+        onClick={() => setSubmenu(MyPageSubmenu.Stats)}
       >
         <Box
           sx={{
@@ -294,10 +277,7 @@ export const MyPage: FC = () => {
             bgcolor: "primary.dark",
           },
         }}
-        onClick={() => {
-          setSubmenu(MyPageSubmenu.Administrate);
-          setExpanded(false);
-        }}
+        onClick={() => setSubmenu(MyPageSubmenu.Administrate)}
       >
         <Box
           sx={{

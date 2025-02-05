@@ -252,7 +252,7 @@ export const HomeView: FC<Props> = ({ view }) => {
           <HeaderMenuButtons />
         </HeaderButtonCell>
         <MenuArea>
-          <MainMenu />
+          <MainMenu view={view} />
         </MenuArea>
         <FilterButtonArea open={secondaryMenuOpen}>
           <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />

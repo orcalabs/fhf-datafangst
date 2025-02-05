@@ -2,18 +2,20 @@ import { Box, Drawer } from "@mui/material";
 import { CatchData, LiveAisMenu, MyPage, Trips } from "components";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { FC } from "react";
-import {
-  MenuViewState,
-  selectSelectedLiveVessel,
-  selectViewState,
-  useAppSelector,
-} from "store";
+import { MenuViewState, selectSelectedLiveVessel, useAppSelector } from "store";
 
-export const MainMenu: FC = () => {
-  const viewState = useAppSelector(selectViewState);
+export interface Props {
+  view: MenuViewState;
+}
+
+// `MainMenu` needs to take `MenuViewState` as a direct prop instead of
+// getting it from the state because the state lags slightly behind
+// the url (due to how `useEffect`s work) and it needs the most
+// up-to-date value (i.e. from the url) to render the correct component.
+export const MainMenu: FC<Props> = ({ view }) => {
   const livePosition = useAppSelector(selectSelectedLiveVessel);
 
-  if (viewState === MenuViewState.Live && !livePosition) {
+  if (view === MenuViewState.Live && !livePosition) {
     return <></>;
   }
 
@@ -39,10 +41,10 @@ export const MainMenu: FC = () => {
           options={{ scrollbars: { theme: "os-theme-light" } }}
           defer
         >
-          {viewState === MenuViewState.Overview && <CatchData />}
-          {viewState === MenuViewState.Live && <LiveAisMenu />}
-          {viewState === MenuViewState.Trips && <Trips />}
-          {viewState === MenuViewState.MyPage && <MyPage />}
+          {view === MenuViewState.Overview && <CatchData />}
+          {view === MenuViewState.Live && <LiveAisMenu />}
+          {view === MenuViewState.Trips && <Trips />}
+          {view === MenuViewState.MyPage && <MyPage />}
         </OverlayScrollbarsComponent>
       </Drawer>
     </Box>
