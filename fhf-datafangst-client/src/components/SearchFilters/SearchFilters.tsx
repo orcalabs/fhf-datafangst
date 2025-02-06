@@ -72,7 +72,7 @@ export const SearchFilters: FC<Props> = (props) => {
         color: "black",
         p: 2,
         minWidth: 330,
-        maxWidth: 370,
+        maxWidth: 375,
         maxHeight: "100%",
         "& .MuiSlider-thumb": {
           borderRadius: 0,
