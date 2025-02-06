@@ -10,7 +10,6 @@ import {
   selectHaulSpeciesFilterStats,
   selectHaulVesselLengthFilterStats,
   setHaulsMatrixSearch,
-  setHoveredHaulFilter,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -37,11 +36,8 @@ export const HaulFilters: FC<Props> = (props) => {
   const speciesStats = useAppSelector(selectHaulSpeciesFilterStats);
   const lengthGroupStats = useAppSelector(selectHaulVesselLengthFilterStats);
 
-  const onFilterHover = (filter: HaulsFilter) =>
-    dispatch(setHoveredHaulFilter(filter));
-
-  const setSearch = (update: Partial<HaulsArgs>) => {
-    dispatch(setHaulsMatrixSearch({ ...haulsSearch, ...update }));
+  const setSearch = (update: Partial<HaulsArgs>, filter: HaulsFilter) => {
+    dispatch(setHaulsMatrixSearch({ ...haulsSearch, ...update, filter }));
   };
 
   return (
@@ -49,7 +45,6 @@ export const HaulFilters: FC<Props> = (props) => {
       <Stack
         direction="row"
         justifyContent="space-between"
-        onMouseEnter={() => onFilterHover(HaulsFilter.Date)}
         sx={{
           "& .MuiButtonBase-root": {
             borderRadius: 0,
@@ -63,13 +58,13 @@ export const HaulFilters: FC<Props> = (props) => {
           <YearsFilter
             value={haulsSearch?.years}
             minYear={MinErsYear}
-            onChange={(value) => setSearch({ years: value })}
+            onChange={(value) => setSearch({ years: value }, HaulsFilter.Date)}
           />
         </Box>
         <Box sx={{ width: "48%" }}>
           <MonthsFilter
             value={haulsSearch?.months}
-            onChange={(value) => setSearch({ months: value })}
+            onChange={(value) => setSearch({ months: value }, HaulsFilter.Date)}
           />
         </Box>
       </Stack>
@@ -79,37 +74,39 @@ export const HaulFilters: FC<Props> = (props) => {
         </Box>
       ) : (
         <>
-          <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
-            <GearFilter
-              value={haulsSearch?.gearGroupIds}
-              stats={gearStats}
-              onChange={(value) => setSearch({ gearGroupIds: value })}
-              removeIfSingleEntry={removeSingleEntryFilters}
-            />
-          </Box>
-          <Box onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}>
-            <SpeciesFilter
-              value={haulsSearch?.speciesGroupIds}
-              stats={speciesStats}
-              onChange={(value) => setSearch({ speciesGroupIds: value })}
-            />
-          </Box>
-          <Box onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}>
-            <LengthGroupFilter
-              value={haulsSearch?.vesselLengthGroups}
-              stats={lengthGroupStats}
-              onChange={(value) => setSearch({ vesselLengthGroups: value })}
-              removeIfSingleEntry={removeSingleEntryFilters}
-            />
-          </Box>
+          <GearFilter
+            value={haulsSearch?.gearGroupIds}
+            stats={gearStats}
+            onChange={(value) =>
+              setSearch({ gearGroupIds: value }, HaulsFilter.GearGroup)
+            }
+            removeIfSingleEntry={removeSingleEntryFilters}
+          />
+          <SpeciesFilter
+            value={haulsSearch?.speciesGroupIds}
+            stats={speciesStats}
+            onChange={(value) =>
+              setSearch({ speciesGroupIds: value }, HaulsFilter.SpeciesGroup)
+            }
+          />
+          <LengthGroupFilter
+            value={haulsSearch?.vesselLengthGroups}
+            stats={lengthGroupStats}
+            onChange={(value) =>
+              setSearch({ vesselLengthGroups: value }, HaulsFilter.VesselLength)
+            }
+            removeIfSingleEntry={removeSingleEntryFilters}
+          />
           {!selectedVessel && (
-            <Box
-              onMouseEnter={() => onFilterHover(HaulsFilter.Vessel)}
-              sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}
-            >
+            <Box sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}>
               <VesselFilter
                 value={haulsSearch?.vessels}
-                onChange={(value) => setSearch({ vessels: value })}
+                onChange={(value) =>
+                  setSearch(
+                    { vessels: value },
+                    haulsSearch?.filter ?? HaulsFilter.VesselLength,
+                  )
+                }
                 useVirtualization
               />
             </Box>

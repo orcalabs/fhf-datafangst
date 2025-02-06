@@ -17,10 +17,7 @@ import Grid from "@mui/material/Grid2";
 import chartsTheme from "app/chartsTheme";
 import theme, { fontStyle } from "app/theme";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
-import {
-  DateFilter,
-  DateRange,
-} from "components/MainMenu/SearchFilters/DateFilter";
+import { DateFilter, DateRange } from "components/SearchFilters/DateFilter";
 import { endOfYear, startOfYear } from "date-fns";
 import ReactEChart from "echarts-for-react";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";

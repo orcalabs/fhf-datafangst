@@ -20,7 +20,8 @@ import {
   Typography,
 } from "@mui/material";
 import { DeliveryPointIcon, FishIcon, FishLocationIcon } from "assets/icons";
-import { CatchesTable, SecondaryMenuWrapper } from "components";
+import { CatchesTable } from "components";
+import { AppPage } from "containers/App/App";
 import { addMonths, getMonth, getYear, subMonths } from "date-fns";
 import { TripAssemblerId } from "generated/openapi";
 import { FC, useState } from "react";
@@ -28,8 +29,8 @@ import {
   getHaulTrack,
   getLandings,
   getTripTrack,
-  MenuViewState,
   resetTrackState,
+  selectAppPage,
   selectDeliveryPointsMap,
   selectFuelOfTrip,
   selectGearsMap,
@@ -37,7 +38,6 @@ import {
   selectSelectedTrip,
   selectTripTrackIdentifier,
   selectVesselsByFiskeridirId,
-  selectViewState,
   setSelectedTrip,
   setTripDetailsOpen,
   TripTrackIdentifier,
@@ -50,8 +50,6 @@ import {
   dateFormat,
   kilosOrTonsFormatter,
   metersToNatuticalMilesString,
-  reduceCatchesOnSpecies,
-  reduceHaulsCatches,
   sumCatches,
   toTitleCase,
 } from "utils";
@@ -67,7 +65,7 @@ const iconStyle = {
   color: "white",
 } as const;
 
-export const TripsMenu: FC = () => {
+export const SelectedTripMenu: FC = () => {
   const trip = useAppSelector(selectSelectedTrip);
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const dispatch = useAppDispatch();
@@ -76,7 +74,7 @@ export const TripsMenu: FC = () => {
   const gears = useAppSelector(selectGearsMap);
   const identifier = useAppSelector(selectTripTrackIdentifier);
   const fuel = useAppSelector(selectFuelOfTrip);
-  const viewState = useAppSelector(selectViewState);
+  const appPage = useAppSelector(selectAppPage);
   const deliveryPoints = useAppSelector(selectDeliveryPointsMap);
 
   const [aisToggle, setAisToggle] = useState<TripTrackIdentifier>(identifier);
@@ -84,12 +82,9 @@ export const TripsMenu: FC = () => {
   if (!trip) {
     return <></>;
   }
-  const haulCatchesMap = reduceHaulsCatches(trip.hauls);
-  const haulCatches = Object.values(haulCatchesMap);
-  const catchTotal = sumCatches(haulCatches);
 
-  const deliveryCatchesMap = reduceCatchesOnSpecies(trip.delivery.delivered);
-  const tripCatches = Object.values(deliveryCatchesMap);
+  const haulCatches = trip.hauls.flatMap((h) => h.catches);
+  const catchTotal = sumCatches(haulCatches);
 
   // Use gear from landing notes as priority. If not landing, use gears described in hauls.
   const tripGears = trip.gearIds.length
@@ -107,7 +102,7 @@ export const TripsMenu: FC = () => {
   };
 
   return (
-    <SecondaryMenuWrapper>
+    <>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -192,6 +187,7 @@ export const TripsMenu: FC = () => {
           onClick={() => {
             dispatch(setSelectedTrip(undefined));
             dispatch(resetTrackState());
+            dispatch(setTripDetailsOpen(false));
 
             if (selectedHaul) {
               dispatch(getHaulTrack(selectedHaul));
@@ -279,7 +275,7 @@ export const TripsMenu: FC = () => {
               </Typography>
             </InfoItem>
           )}
-          {fuel && viewState === MenuViewState.MyPage && (
+          {fuel && appPage === AppPage.MyPage && (
             <InfoItem>
               <SvgIcon sx={iconStyle}>
                 <LocalGasStationIcon />
@@ -302,7 +298,7 @@ export const TripsMenu: FC = () => {
           </Typography>
         </Box>
         <CatchesTable
-          catches={tripCatches}
+          catches={trip.delivery.delivered}
           isEstimatedValue={trip.delivery.priceForFisherIsEstimated}
         />
 
@@ -346,6 +342,6 @@ export const TripsMenu: FC = () => {
             </>
           )}
       </Box>
-    </SecondaryMenuWrapper>
+    </>
   );
 };

@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { LandingsArgs, LandingsFilter } from "api";
+import { LandingsFilter, LandingsMatrixArgs } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { GearGroupDetailed, SpeciesGroupDetailed } from "generated/openapi";
 import { LengthGroups } from "models";
@@ -9,18 +9,6 @@ import { selectAppState } from "store/selectAppState";
 import { selectSpeciesGroups } from "store/species";
 import { computeMatrixStats } from "store/utils";
 import { fishingLocationAreas, MinLandingYear } from "utils";
-
-export const selectShowLandingTimeSlider = createSelector(
-  selectAppState,
-  (state) =>
-    (!!state.landingsMatrix || state.landingsMatrixLoading) &&
-    !state.selectedTrip &&
-    state.trips === undefined &&
-    !state.selectedGrids.length &&
-    state.fishingFacilities === undefined &&
-    !state.fishingFacilitiesLoading &&
-    !state.tripsLoading,
-);
 
 export const selectLandingsLoading = createSelector(
   selectAppState,
@@ -80,10 +68,7 @@ export const selectSelectedTripLanding = createSelector(
 
 export const selectLandingsFilter = createSelector(
   selectLandingsMatrixSearch,
-  (state) =>
-    state?.filter === LandingsFilter.Vessel
-      ? LandingsFilter.VesselLength
-      : state?.filter,
+  (state) => state?.filter,
 );
 
 export const selectLandingDateSliderFrame = createSelector(
@@ -101,7 +86,7 @@ const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
   }, []) ?? [];
 
 const _selectLandingsActiveFilterSelectedIndexes = (
-  search: LandingsArgs | undefined,
+  search: LandingsMatrixArgs | undefined,
   gearGroups: GearGroupDetailed[],
   speciesGroups: SpeciesGroupDetailed[],
   currentDateSliderFrame?: Date,

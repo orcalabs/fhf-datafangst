@@ -1,4 +1,4 @@
-import { DateRange } from "components/MainMenu/SearchFilters/DateFilter";
+import { DateRange } from "components/SearchFilters/DateFilter";
 import {
   GearGroupDetailed,
   Haul,

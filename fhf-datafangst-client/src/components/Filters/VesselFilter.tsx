@@ -3,14 +3,10 @@ import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import theme from "app/theme";
 import { ListboxComponent, StyledPopper } from "components";
+import { AppPage } from "containers/App/App";
 import { Vessel } from "generated/openapi";
 import { FC, memo } from "react";
-import {
-  MenuViewState,
-  selectVesselsSorted,
-  selectViewState,
-  useAppSelector,
-} from "store";
+import { selectAppPage, selectVesselsSorted, useAppSelector } from "store";
 import { toTitleCase } from "utils";
 
 interface Props {
@@ -20,22 +16,22 @@ interface Props {
 }
 
 export const VesselFilter: FC<Props> = (props) => {
-  const viewState = useAppSelector(selectViewState);
+  const viewState = useAppSelector(selectAppPage);
   const vessels = useAppSelector(selectVesselsSorted);
 
   return (
-    <VesselFilterInner props={props} viewState={viewState!} vessels={vessels} />
+    <VesselFilterInner props={props} appPage={viewState!} vessels={vessels} />
   );
 };
 
 interface PropsInner {
   props: Props;
-  viewState: MenuViewState;
+  appPage: AppPage;
   vessels: Vessel[];
 }
 
 const VesselFilterInner = memo(
-  function VesselFilterInner({ props, viewState, vessels }: PropsInner) {
+  function VesselFilterInner({ props, appPage, vessels }: PropsInner) {
     const { value, onChange, useVirtualization } = props;
 
     return (
@@ -53,7 +49,7 @@ const VesselFilterInner = memo(
               },
             },
             "& .MuiAutocomplete-inputRoot": {
-              color: viewState === MenuViewState.Overview ? "white" : "black",
+              color: appPage === AppPage.Area ? "white" : "black",
             },
             "& .MuiInputBase-root": { pb: "6px" },
             "& .MuiChip-filled": {
@@ -78,13 +74,9 @@ const VesselFilterInner = memo(
           renderInput={(params: any) => (
             <TextField
               {...params}
-              variant={
-                viewState === MenuViewState.Overview ? "standard" : "outlined"
-              }
+              variant={appPage === AppPage.Area ? "standard" : "outlined"}
               placeholder={
-                (value ?? viewState !== MenuViewState.Overview)
-                  ? ""
-                  : "Søk etter fartøy"
+                (value ?? appPage !== AppPage.Area) ? "" : "Søk etter fartøy"
               }
             />
           )}
@@ -140,7 +132,7 @@ const VesselFilterInner = memo(
   },
   (prev, next) =>
     prev.props.value === next.props.value &&
-    prev.viewState === next.viewState &&
+    prev.appPage === next.appPage &&
     prev.vessels === next.vessels &&
     prev.props.onChange === next.props.onChange,
 );

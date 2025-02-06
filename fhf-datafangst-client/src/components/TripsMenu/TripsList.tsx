@@ -5,15 +5,15 @@ import {
   PaginationButtons,
   SearchFilters,
 } from "components";
-import { FC, useEffect } from "react";
+import { AppPage } from "containers/App/App";
+import { FC, useEffect, useMemo } from "react";
 import {
-  MenuViewState,
   paginateTripsSearch,
+  selectAppPage,
   selectLoggedInVessel,
   selectTrips,
   selectTripsLoading,
   selectTripsSearch,
-  selectViewState,
   setTripsSearch,
   useAppDispatch,
   useAppSelector,
@@ -31,32 +31,34 @@ const filterParams: TripsArgs = {
   sorting: undefined,
 };
 
-export const Trips: FC = () => {
+export const TripsList: FC = () => {
   const dispatch = useAppDispatch();
 
   const tripsLoading = useAppSelector(selectTripsLoading);
   const trips = useAppSelector(selectTrips);
   const tripsSearch = useAppSelector(selectTripsSearch);
   const vessel = useAppSelector(selectLoggedInVessel);
-  const viewState = useAppSelector(selectViewState);
+  const appPage = useAppSelector(selectAppPage);
 
   const offset = tripsSearch?.offset ?? 0;
   const limit = tripsSearch?.limit ?? 10;
 
-  const activeFilterParams =
-    viewState === MenuViewState.MyPage
-      ? {
-          ...withoutKeys(filterParams, "vessels", "vesselLengthGroups"),
-          ...withoutKeys(tripsSearch, "vessels"),
-        }
-      : { ...filterParams, ...tripsSearch };
-
+  const activeFilterParams = useMemo(
+    () =>
+      appPage === AppPage.MyPage
+        ? {
+            ...withoutKeys(filterParams, "vessels", "vesselLengthGroups"),
+            ...withoutKeys(tripsSearch, "vessels"),
+          }
+        : { ...filterParams, ...tripsSearch },
+    [tripsSearch, filterParams, appPage],
+  );
   const handleTripsPagination = (offset: number, limit: number) => {
     dispatch(paginateTripsSearch({ offset, limit }));
   };
 
   useEffect(() => {
-    if (vessel && viewState === MenuViewState.MyPage) {
+    if (vessel && appPage === AppPage.MyPage) {
       dispatch(setTripsSearch({ ...tripsSearch, vessels: [vessel] }));
     } else {
       dispatch(setTripsSearch({ ...tripsSearch }));
@@ -72,8 +74,8 @@ export const Trips: FC = () => {
           bgcolor: "primary.light",
           pl: 2.5,
           pr: 0,
-          pt: viewState === MenuViewState.MyPage ? 0 : 1,
-          lineHeight: viewState === MenuViewState.MyPage ? "40px" : "48px",
+          pt: appPage === AppPage.MyPage ? 0 : 1,
+          lineHeight: appPage === AppPage.MyPage ? "40px" : "48px",
         }}
       >
         Leveranser
@@ -94,7 +96,7 @@ export const Trips: FC = () => {
         <>
           {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
 
-          <Box sx={{ mt: 1, mr: viewState === MenuViewState.MyPage ? 2 : 0 }}>
+          <Box sx={{ mt: 1, mr: appPage === AppPage.MyPage ? 2 : 0 }}>
             <PaginationButtons
               numItems={trips?.length ?? 0}
               offset={offset}

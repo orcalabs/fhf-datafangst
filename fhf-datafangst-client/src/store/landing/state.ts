@@ -1,4 +1,8 @@
-import { LandingsArgs, LandingsFilter } from "api/landingsApi";
+import {
+  LandingsArgs,
+  LandingsFilter,
+  LandingsMatrixArgs,
+} from "api/landingsApi";
 import { getMonth, getYear } from "date-fns";
 import { Landing, LandingMatrix } from "generated/openapi";
 
@@ -10,9 +14,8 @@ export interface LandingState {
   landingsMatrixLoading: boolean;
   landingsMatrix2Loading: boolean;
   landingsSearch?: LandingsArgs;
-  landingsMatrixSearch?: LandingsArgs;
-  landingsMatrix2Search?: LandingsArgs;
-  hoveredLandingFilter?: LandingsFilter;
+  landingsMatrixSearch?: LandingsMatrixArgs;
+  landingsMatrix2Search?: LandingsMatrixArgs;
   selectedLanding?: Landing;
   selectedTripLanding?: Landing;
   showTimeSlider: boolean;
@@ -29,7 +32,6 @@ export const initialLandingState: LandingState = {
   landingsSearch: undefined,
   landingsMatrixSearch: undefined,
   landingsMatrix2Search: undefined,
-  hoveredLandingFilter: undefined,
   selectedLanding: undefined,
   selectedTripLanding: undefined,
   showTimeSlider: false,
@@ -37,7 +39,8 @@ export const initialLandingState: LandingState = {
 
 const month = getMonth(new Date());
 
-export const initialLandingsMatrixSearch: LandingsArgs = {
+export const initialLandingsMatrixSearch: LandingsMatrixArgs = {
+  filter: LandingsFilter.VesselLength,
   months: [month === 0 ? 12 : month],
   years: [getYear(new Date()) - (month === 0 ? 1 : 0)],
 };

@@ -3,14 +3,14 @@ import LocationDisabledIcon from "@mui/icons-material/LocationDisabled";
 import { ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
+import { AppPage } from "containers/App/App";
 import { HasTrack, Trip } from "generated/openapi";
 import { FC } from "react";
 import {
-  MenuViewState,
+  selectAppPage,
   selectCanReadAisUnder15,
   selectSelectedTrip,
   selectVesselsByFiskeridirId,
-  selectViewState,
   setSelectedTrip,
   useAppDispatch,
   useAppSelector,
@@ -35,7 +35,7 @@ export const TripItem: FC<Props> = ({ trip }) => {
 
   const selectedTripId = useAppSelector(selectSelectedTrip)?.tripId;
   const vesselsById = useAppSelector(selectVesselsByFiskeridirId);
-  const viewState = useAppSelector(selectViewState);
+  const appPage = useAppSelector(selectAppPage);
   const canReadAisUnder15 = useAppSelector(selectCanReadAisUnder15);
 
   const handleTripChange = () => {
@@ -43,8 +43,7 @@ export const TripItem: FC<Props> = ({ trip }) => {
     dispatch(setSelectedTrip(newTrip));
   };
 
-  const showVesselInfo =
-    viewState !== MenuViewState.MyPage && viewState !== MenuViewState.Live;
+  const showVesselInfo = appPage !== AppPage.MyPage && appPage !== AppPage.Live;
 
   const hasTrack =
     trip.hasTrack === HasTrack.TrackOver15 ||

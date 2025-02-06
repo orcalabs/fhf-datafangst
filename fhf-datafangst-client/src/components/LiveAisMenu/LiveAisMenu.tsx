@@ -4,7 +4,7 @@ import {
   PaginationButtons,
   VesselInfo,
 } from "components";
-import { TripItem } from "components/MainMenu/TripItem";
+import { TripItem } from "components/TripsMenu/TripItem";
 import { FC } from "react";
 import {
   paginateTripsSearch,
@@ -17,7 +17,7 @@ import {
   useAppSelector,
 } from "store";
 
-export const LiveAisMenu: FC = () => {
+export const SelectedLiveVesselMenu: FC = () => {
   const dispatch = useAppDispatch();
 
   const position = useAppSelector(selectSelectedLiveVessel)!;

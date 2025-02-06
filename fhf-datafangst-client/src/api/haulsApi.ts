@@ -12,11 +12,19 @@ import { MinErsYear } from "utils";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 import { createTimestampsFromYearsMonths } from "./utils";
 
-export const HaulsFilter = {
-  ...ActiveHaulsFilter,
-  Vessel: "vessel",
-} as const;
-export type HaulsFilter = (typeof HaulsFilter)[keyof typeof HaulsFilter];
+export type HaulsFilter = ActiveHaulsFilter;
+export const HaulsFilter = ActiveHaulsFilter;
+
+export interface HaulsMatrixArgs {
+  filter: HaulsFilter;
+  years?: number[];
+  months?: number[];
+  vessels?: Vessel[];
+  catchLocations?: string[];
+  gearGroupIds?: GearGroupDetailed[];
+  speciesGroupIds?: SpeciesGroupDetailed[];
+  vesselLengthGroups?: LengthGroup[];
+}
 
 export interface HaulsArgs {
   years?: number[];
@@ -26,7 +34,6 @@ export interface HaulsArgs {
   gearGroupIds?: GearGroupDetailed[];
   speciesGroupIds?: SpeciesGroupDetailed[];
   vesselLengthGroups?: LengthGroup[];
-  filter?: HaulsFilter;
   ordering?: Ordering;
   sorting?: HaulsSorting;
 }
@@ -52,13 +59,10 @@ export const getHauls = apiFn((query: HaulsArgs) =>
   }),
 );
 
-export const getHaulsMatrix = apiFn((query: HaulsArgs, signal) =>
+export const getHaulsMatrix = apiFn((query: HaulsMatrixArgs, signal) =>
   api.routesV1HaulHaulsMatrix(
     {
-      activeFilter:
-        query.filter === HaulsFilter.Vessel
-          ? ActiveHaulsFilter.VesselLength
-          : (query.filter as ActiveHaulsFilter),
+      activeFilter: query.filter,
       months:
         query.filter === HaulsFilter.Date
           ? undefined

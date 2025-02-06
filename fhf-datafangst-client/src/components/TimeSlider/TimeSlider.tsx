@@ -17,7 +17,7 @@ interface Options {
 }
 
 interface Props {
-  disabled: boolean;
+  disabled?: boolean;
   options?: Options;
   minYear: number;
   onValueChange: (date: Date) => void;
@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const TimeSlider: FC<Props> = ({
-  disabled,
+  disabled = false,
   options,
   minYear,
   onValueChange,
@@ -98,21 +98,6 @@ export const TimeSlider: FC<Props> = ({
     return marks.length > 1 ? marks : undefined;
   };
 
-  useEffect(() => {
-    const scale = document.getElementById("map-controls") as HTMLElement;
-
-    // Move scale line up
-    if (open) {
-      scale.style.bottom = "70px";
-    } else {
-      scale.style.bottom = "10px";
-    }
-
-    return () => {
-      scale.style.bottom = "10px";
-    };
-  }, [open]);
-
   const valueLabelFormat = (idx: number) => {
     const month = selectedDates[idx].getMonth() + 1;
     return Months[month];
@@ -124,47 +109,52 @@ export const TimeSlider: FC<Props> = ({
 
   return (
     <>
-      <Button
-        sx={[
-          {
-            textTransform: "none",
-            zIndex: 1000,
-            left: "50%",
-            height: 40,
-            px: 1,
-            bgcolor: "primary.light",
-            color: "white",
-            width: 145,
-            borderRadius: 0,
-            border: 0,
-            justifyContent: "space-evenly",
-            ":hover": {
-              bgcolor: "primary.dark",
+      <Box position="relative">
+        <Button
+          sx={[
+            {
+              position: "absolute",
+              textTransform: "none",
+              zIndex: 1000,
+              top: -40,
+              height: 40,
+              left: "50%",
+              px: 1,
+              bgcolor: "primary.light",
+              color: "white",
+              width: 145,
               borderRadius: 0,
+              border: 0,
+              justifyContent: "space-evenly",
+              ":hover": {
+                bgcolor: "primary.dark",
+                borderRadius: 0,
+              },
+              "& .MuiButton-startIcon": {
+                mr: 0,
+                ml: -1,
+              },
             },
-            "& .MuiButton-startIcon": {
-              mr: 0,
-              ml: -1,
+            open && {
+              svg: {
+                transform: "scaleY(-1)",
+              },
             },
-          },
-          open && {
-            svg: {
-              transform: "scaleY(-1)",
-            },
-          },
-        ]}
-        onClick={() => handleOpenSlider()}
-        startIcon={
-          <KeyboardDoubleArrowUpIcon
-            stroke="white"
-            width={10}
-            height={10}
-            fontSize="small"
-          />
-        }
-      >
-        <Typography>{open ? "Skjul tidslinje" : "Vis tidslinje"} </Typography>
-      </Button>
+          ]}
+          onClick={() => handleOpenSlider()}
+          startIcon={
+            <KeyboardDoubleArrowUpIcon
+              stroke="white"
+              width={10}
+              height={10}
+              fontSize="small"
+            />
+          }
+        >
+          <Typography>{open ? "Skjul tidslinje" : "Vis tidslinje"} </Typography>
+        </Button>
+      </Box>
+
       {open && (
         <Box
           id="slider-container"

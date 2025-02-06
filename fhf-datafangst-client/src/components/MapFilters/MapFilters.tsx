@@ -39,7 +39,7 @@ export const MapFilters: FC<Props> = (props) => {
         pt: 2,
         pointerEvents: "none",
         height: 56,
-        zIndex: 1000,
+        zIndex: 1,
       }}
     >
       <SpeedDial

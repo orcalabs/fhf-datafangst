@@ -1,38 +1,17 @@
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import SortIcon from "@mui/icons-material/Sort";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
-  Button,
   Divider,
-  FormControl,
-  FormControlLabel,
-  IconButton,
   List,
-  ListItemText,
   ListSubheader,
-  Menu,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  SvgIcon,
   TablePagination,
   Typography,
 } from "@mui/material";
-import { HaulsFilter } from "api";
-import theme from "app/theme";
-import { FishIcon } from "assets/icons";
-import {
-  CatchesTable,
-  LocalLoadingProgress,
-  SecondaryMenuWrapper,
-} from "components";
+import { HaulsArgs, HaulsFilter } from "api";
+import { LocalLoadingProgress, SortMenu, SortOption } from "components";
 import { GearFilter } from "components/Filters/GearFilter";
 import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
 import { SpeciesFilter } from "components/Filters/SpeciesFilter";
@@ -45,15 +24,14 @@ import {
   selectHaulsLoading,
   selectHaulsMatrix2Loading,
   selectHaulsMatrix2Search,
+  selectHaulsMatrixSearch,
   selectHaulSpeciesFilterGridStats,
   selectHaulsSorted,
   selectHaulVesselLengthFilterGridStats,
-  selectSecondaryMenuOpen,
-  selectSelectedGrids,
+  selectSelectedGridsString,
   selectSelectedHaul,
   selectVesselsByHaulId,
   setHaulsMatrix2Search,
-  setHoveredHaulFilter,
   setSelectedHaul,
   useAppDispatch,
   useAppSelector,
@@ -63,45 +41,28 @@ import {
   dateFormat,
   distanceFormatter,
   kilosOrTonsFormatter,
+  reduceCatchesOnSpecies,
   sumCatches,
 } from "utils";
-
-const accordionSx = {
-  m: 0,
-  py: 1,
-  px: 2.5,
-  color: "white",
-  boxShadow: "none",
-  bgcolor: "primary.light",
-  "&.Mui-expanded": {
-    m: 0,
-    bgcolor: "primary.dark",
-    "&:hover": { bgcolor: "primary.dark" },
-  },
-  "& .MuiAccordionSummary-root": { p: 0 },
-  "& .MuiAccordionSummary-content": { m: 0 },
-
-  "&:hover": { bgcolor: "primary.dark" },
-  "&:before": { display: "none" },
-};
+import { ListItem } from "./ListItem";
 
 export const HaulsMenu: FC = () => {
   const dispatch = useAppDispatch();
-  const open = useAppSelector(selectSecondaryMenuOpen);
+
   const vessels = useAppSelector(selectVesselsByHaulId);
   const gears = useAppSelector(selectGearsMap);
   const [sortOrder, setSortOrder] = useState<[HaulsSorting, Ordering]>([
     HaulsSorting.StartDate,
     Ordering.Desc,
   ]);
-  const haulsMap = useAppSelector((state) =>
+  const hauls = useAppSelector((state) =>
     selectHaulsSorted(state, sortOrder[0], sortOrder[1]),
   );
-  const hauls = Object.values(haulsMap);
   const haulsLoading = useAppSelector(selectHaulsLoading);
   const selectedHaul = useAppSelector(selectSelectedHaul);
-  const selectedGrids = useAppSelector(selectSelectedGrids);
-  const haulsSearch = useAppSelector(selectHaulsMatrix2Search);
+  const selectedGrids = useAppSelector(selectSelectedGridsString);
+  const matrixSearch = useAppSelector(selectHaulsMatrixSearch);
+  const matrix2Search = useAppSelector(selectHaulsMatrix2Search);
   const matrixLoading = useAppSelector(selectHaulsMatrix2Loading);
   const gearStats = useAppSelector(selectHaulGearFilterGridStats);
   const speciesStats = useAppSelector(selectHaulSpeciesFilterGridStats);
@@ -110,8 +71,6 @@ export const HaulsMenu: FC = () => {
   );
 
   const selectedHaulId = selectedHaul?.haulId;
-  const [sortButtonAnchorEl, setSortButtonAnchorEl] =
-    useState<null | HTMLElement>(null);
 
   // Pagination state
   const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
@@ -147,8 +106,18 @@ export const HaulsMenu: FC = () => {
     dispatch(setSelectedHaul(newHaul));
   };
 
-  const onFilterHover = (filter: HaulsFilter) =>
-    dispatch(setHoveredHaulFilter(filter));
+  const onSearchChange = (update: Partial<HaulsArgs>, filter: HaulsFilter) => {
+    dispatch(setHaulsMatrix2Search({ ...matrix2Search, ...update, filter }));
+  };
+
+  useEffect(() => {
+    if (matrixSearch || matrix2Search) {
+      onSearchChange(
+        { ...matrixSearch, ...matrix2Search, catchLocations: selectedGrids },
+        (matrixSearch ?? matrix2Search)?.filter ?? HaulsFilter.VesselLength,
+      );
+    }
+  }, [selectedGrids]);
 
   // Change current page when Haul is selected from map click
   useEffect(() => {
@@ -168,291 +137,163 @@ export const HaulsMenu: FC = () => {
     setCurrentPage(0);
   }, [selectedGrids]);
 
-  const listItem = (
-    haul: Haul,
-    key: number,
-    primary: string,
-    secondary: string,
-  ) => (
-    <Accordion
-      square
-      disableGutters
-      key={key}
-      sx={accordionSx}
-      expanded={haul.haulId === selectedHaulId}
-      onChange={() => handleHaulChange(haul)}
-    >
-      <AccordionSummary>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            "& svg": { mr: 2 },
-          }}
-        >
-          <FishIcon
-            width="48"
-            height="48"
-            fill={`${theme.palette.secondary.light}`}
-          />
-        </Box>
-        <ListItemText primary={primary} secondary={secondary} />
-      </AccordionSummary>
-      <AccordionDetails sx={{ pb: 0 }}>
-        {haul.haulId === selectedHaulId && (
-          <Box sx={{ py: 1 }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                "& svg": { mr: 2 },
-              }}
-            >
-              {item(
-                CalendarMonthSharpIcon,
-                dateFormat(haul.startTimestamp, "d. MMM HH:mm") +
-                  " - " +
-                  dateFormat(haul.stopTimestamp, "d. MMM HH:mm yyyy"),
-              )}
-              {item(TimerSharpIcon, createHaulDurationString(haul))}
-              {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
-              {item(PhishingSharpIcon, gears[haul.gear].name)}
-            </Box>
-            <Typography
-              sx={{
-                color: "white",
-                fontWeight: "bold",
-                mt: 3,
-              }}
-            >
-              Estimert fangst
-            </Typography>
-            <CatchesTable catches={haul.catches} />
-            <Button
-              size="small"
-              sx={{
-                width: "100%",
-                bgcolor: "secondary.main",
-                px: 2,
-                borderRadius: 0,
-                mt: 1,
-              }}
-              onClick={() => {
-                dispatch(getHaulTrip(haul));
-              }}
-              startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
-            >
-              <Typography sx={{ pl: 1, color: "white" }}> Vis tur </Typography>
-            </Button>
-          </Box>
-        )}
-      </AccordionDetails>
-    </Accordion>
-  );
-
-  const item = (Icon: any, text: string) => (
-    <Box sx={{ display: "flex", gap: 2 }}>
-      <SvgIcon sx={{ position: "relative", color: "white" }}>
-        <Icon width={20} height={20} />
-      </SvgIcon>
-      <Typography sx={{ color: "white" }}>{text}</Typography>
-    </Box>
-  );
-
-  const radioControl = (label: string, value: [HaulsSorting, Ordering]) => (
-    <MenuItem>
-      <FormControlLabel
-        label={label}
-        value={value.join(",")}
-        control={<Radio />}
-      />
-    </MenuItem>
-  );
-
-  const sortButton = (
-    <>
-      <span>
-        <IconButton
-          sx={{ mr: 3, py: 0 }}
-          size="small"
-          onClick={(event) => {
-            setSortButtonAnchorEl(event.currentTarget);
-          }}
-        >
-          <SortIcon sx={{ color: "white" }} />
-        </IconButton>
-      </span>
-
-      <Menu
-        anchorEl={sortButtonAnchorEl}
-        open={Boolean(sortButtonAnchorEl)}
-        onClose={() => {
-          setSortButtonAnchorEl(null);
-        }}
-        onClick={() => setSortButtonAnchorEl(null)}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <FormControl
-          sx={{
-            "& .MuiRadio-root": {
-              "&:hover": { borderRadius: 0, bgcolor: "transparent" },
-            },
-          }}
-        >
-          <RadioGroup
-            defaultValue="female"
-            name="radio-sorting"
-            value={sortOrder.join(",")}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleSortChange(
-                (event.target as HTMLInputElement).value.split(",") as [
-                  HaulsSorting,
-                  Ordering,
-                ],
-              )
-            }
-          >
-            {radioControl("Dato nyest-eldst", [
-              HaulsSorting.StartDate,
-              Ordering.Desc,
-            ])}
-            {radioControl("Dato eldst-nyest", [
-              HaulsSorting.StartDate,
-              Ordering.Asc,
-            ])}
-            {radioControl("Vekt høy-lav", [HaulsSorting.Weight, Ordering.Desc])}
-            {radioControl("Vekt lav-høy", [HaulsSorting.Weight, Ordering.Asc])}
-          </RadioGroup>
-        </FormControl>
-      </Menu>
-    </>
-  );
-
   return (
     <>
-      {open && (
-        <SecondaryMenuWrapper>
-          <Box sx={{ px: 2.5, pt: 2.5 }}>
-            <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
-              VALGTE OMRÅDER
-            </Typography>
-            <Divider sx={{ bgcolor: "text.secondary", mt: 2, mb: 0 }} />
+      <Box sx={{ px: 2.5, pt: 2.5 }}>
+        <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
+          VALGTE OMRÅDER
+        </Typography>
+        <Divider sx={{ bgcolor: "text.secondary", mt: 2, mb: 0 }} />
+      </Box>
+      {matrixLoading ? (
+        <Box sx={{ pt: 2, pl: 2.5 }}>
+          <LocalLoadingProgress />
+        </Box>
+      ) : (
+        <>
+          <Box sx={{ px: 2.5, py: 1 }}>
+            <GearFilter
+              value={matrix2Search?.gearGroupIds}
+              stats={gearStats}
+              onChange={(value) =>
+                onSearchChange({ gearGroupIds: value }, HaulsFilter.GearGroup)
+              }
+            />
+            <SpeciesFilter
+              value={matrix2Search?.speciesGroupIds}
+              stats={speciesStats}
+              onChange={(value) =>
+                onSearchChange(
+                  { speciesGroupIds: value },
+                  HaulsFilter.SpeciesGroup,
+                )
+              }
+            />
+            <LengthGroupFilter
+              value={matrix2Search?.vesselLengthGroups}
+              stats={lengthGroupStats}
+              onChange={(value) =>
+                onSearchChange(
+                  { vesselLengthGroups: value },
+                  HaulsFilter.VesselLength,
+                )
+              }
+            />
           </Box>
-          {haulsLoading || matrixLoading ? (
-            <LocalLoadingProgress />
-          ) : (
-            <>
-              <Box sx={{ px: 2.5, py: 1 }}>
-                <Box onMouseEnter={() => onFilterHover(HaulsFilter.GearGroup)}>
-                  <GearFilter
-                    value={haulsSearch?.gearGroupIds}
-                    stats={gearStats}
-                    onChange={(value) =>
-                      dispatch(
-                        setHaulsMatrix2Search({
-                          ...haulsSearch,
-                          gearGroupIds: value,
-                        }),
-                      )
+          <List sx={{ pt: 3 }}>
+            <ListSubheader
+              sx={{
+                px: 0,
+              }}
+            >
+              <TablePagination
+                sx={{
+                  bgcolor: "primary.light",
+                  color: "white",
+                  width: "100%",
+                  "& .MuiTablePagination-toolbar": {
+                    justifyContent: "space-evenly",
+                    px: 2,
+                  },
+                  "& .MuiTablePagination-selectLabel": { m: 0 },
+                  "& .MuiTablePagination-spacer": {
+                    display: "none",
+                  },
+                  "& .MuiTablePagination-displayedRows": {
+                    flexShrink: 1,
+                    m: 0,
+                  },
+                }}
+                component="div"
+                count={hauls.length}
+                page={currentPage}
+                onPageChange={handleChangePage}
+                rowsPerPage={haulsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage={
+                  <SortMenu
+                    value={sortOrder}
+                    options={SORT_OPTIONS}
+                    onChange={(sorting, ordering) =>
+                      handleSortChange([sorting, ordering])
                     }
                   />
-                </Box>
-                <Box
-                  onMouseEnter={() => onFilterHover(HaulsFilter.SpeciesGroup)}
-                >
-                  <SpeciesFilter
-                    value={haulsSearch?.speciesGroupIds}
-                    stats={speciesStats}
-                    onChange={(value) =>
-                      dispatch(
-                        setHaulsMatrix2Search({
-                          ...haulsSearch,
-                          speciesGroupIds: value,
-                        }),
-                      )
-                    }
-                  />
-                </Box>
-                <Box
-                  onMouseEnter={() => onFilterHover(HaulsFilter.VesselLength)}
-                >
-                  <LengthGroupFilter
-                    value={haulsSearch?.vesselLengthGroups}
-                    stats={lengthGroupStats}
-                    onChange={(value) =>
-                      dispatch(
-                        setHaulsMatrix2Search({
-                          ...haulsSearch,
-                          vesselLengthGroups: value,
-                        }),
-                      )
-                    }
-                  />
-                </Box>
+                }
+                padding="normal"
+              />
+            </ListSubheader>
+            <Divider sx={{ bgcolor: "secondary.light", mt: 0, mb: 1, mx: 4 }} />
+            {haulsLoading ? (
+              <Box sx={{ pt: 2, pl: 2.5 }}>
+                <LocalLoadingProgress />
               </Box>
-              <List sx={{ pt: 3 }}>
-                <ListSubheader
-                  sx={{
-                    px: 0,
-                  }}
-                >
-                  <TablePagination
-                    sx={{
-                      bgcolor: "primary.light",
-                      color: "white",
-                      width: "100%",
-                      "& .MuiTablePagination-toolbar": {
-                        justifyContent: "space-evenly",
-                        px: 2,
-                      },
-                      "& .MuiTablePagination-selectLabel": { m: 0 },
-                      "& .MuiTablePagination-spacer": {
-                        display: "none",
-                      },
-                      "& .MuiTablePagination-displayedRows": {
-                        flexShrink: 1,
-                        m: 0,
-                      },
-                    }}
-                    component="div"
-                    count={hauls.length}
-                    page={currentPage}
-                    onPageChange={handleChangePage}
-                    rowsPerPage={haulsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage={sortButton}
-                    padding="normal"
-                  />
-                </ListSubheader>
-                <Divider
-                  sx={{ bgcolor: "secondary.light", mt: 0, mb: 1, mx: 4 }}
-                />
-                {haulsLoading ? (
-                  <Box sx={{ pt: 2, pl: 2.5 }}>Laster...</Box>
-                ) : !hauls?.length ? (
-                  <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
-                ) : (
-                  <Box sx={{ pt: 1 }}>
-                    {currentHauls?.map((haul, index) =>
-                      listItem(
-                        haul,
-                        index,
-                        vessels[haul.haulId]?.fiskeridir?.name ??
-                          haul.vesselName?.toUpperCase() ??
-                          "Ukjent",
-                        kilosOrTonsFormatter(sumCatches(haul.catches)) +
+            ) : !hauls?.length ? (
+              <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater</Box>
+            ) : (
+              <Box sx={{ pt: 1 }}>
+                {currentHauls?.map((h) => (
+                  <ListItem
+                    key={h.haulId}
+                    selected={h.haulId === selectedHaul?.haulId}
+                    title={
+                      vessels[h.haulId]?.fiskeridir?.name ??
+                      h.vesselName?.toUpperCase() ??
+                      "Ukjent"
+                    }
+                    subtitle={
+                      kilosOrTonsFormatter(sumCatches(h.catches)) +
+                      " - " +
+                      dateFormat(h.startTimestamp, "PPP HH:mm")
+                    }
+                    expandedDetails={[
+                      {
+                        Icon: CalendarMonthSharpIcon,
+                        text:
+                          dateFormat(h.startTimestamp, "d. MMM HH:mm") +
                           " - " +
-                          dateFormat(haul.startTimestamp, "PPP HH:mm"),
-                      ),
-                    )}
-                  </Box>
-                )}
-              </List>
-            </>
-          )}
-        </SecondaryMenuWrapper>
+                          dateFormat(h.stopTimestamp, "d. MMM HH:mm yyyy"),
+                      },
+                      {
+                        Icon: TimerSharpIcon,
+                        text: createHaulDurationString(h),
+                      },
+                      {
+                        Icon: StraightenIcon,
+                        text: distanceFormatter(h.haulDistance ?? 0),
+                      },
+                      { Icon: PhishingSharpIcon, text: gears[h.gear].name },
+                    ]}
+                    catches={Object.values(reduceCatchesOnSpecies(h.catches))}
+                    onSelect={() => handleHaulChange(h)}
+                    onTripClick={() => {
+                      dispatch(getHaulTrip(h));
+                    }}
+                  />
+                ))}
+              </Box>
+            )}
+          </List>
+        </>
       )}
     </>
   );
 };
+
+const SORT_OPTIONS: SortOption<HaulsSorting, Ordering>[] = [
+  {
+    label: "Dato nyest-eldst",
+    value: [HaulsSorting.StartDate, Ordering.Desc],
+  },
+  {
+    label: "Dato eldst-nyest",
+    value: [HaulsSorting.StartDate, Ordering.Asc],
+  },
+  {
+    label: "Vekt høy-lav",
+    value: [HaulsSorting.Weight, Ordering.Desc],
+  },
+  {
+    label: "Vekt lav-høy",
+    value: [HaulsSorting.Weight, Ordering.Asc],
+  },
+];

@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
-import { HaulsArgs, HaulsFilter } from "api";
+import { HaulsMatrixArgs } from "api";
 import { Haul } from "generated/openapi";
 
 export const getHauls = createAsyncThunk("haul/getHauls", Api.getHauls);
@@ -19,11 +19,11 @@ export const getHaulsMatrix2 = createAsyncThunk(
   Api.getHaulsMatrix,
 );
 
-export const setHaulsMatrixSearch = createAction<HaulsArgs>(
+export const setHaulsMatrixSearch = createAction<HaulsMatrixArgs>(
   "haul/setHaulsMatrixSearch",
 );
 
-export const setHaulsMatrix2Search = createAction<HaulsArgs>(
+export const setHaulsMatrix2Search = createAction<HaulsMatrixArgs>(
   "haul/setHaulsMatrix2Search",
 );
 
@@ -33,10 +33,6 @@ export const setHaulDateSliderFrame = createAction<Date | undefined>(
 
 export const setSelectedHaul = createAction<Haul | number | undefined>(
   "haul/setSelectedHaul",
-);
-
-export const setHoveredHaulFilter = createAction<HaulsFilter | undefined>(
-  "haul/setHoveredHaulFilter",
 );
 
 export const setSelectedTripHaul = createAction<Haul | undefined>(

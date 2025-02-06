@@ -43,8 +43,15 @@ export const fishmapBuilder = (
       return {
         ...state,
         ...emptyState,
-        hauls: selected.length ? state.hauls : undefined,
-        landings: selected.length ? state.landings : undefined,
+        ...(selected.length
+          ? {
+              hauls: state.hauls,
+              landings: state.landings,
+            }
+          : {
+              haulsMatrix2Search: undefined,
+              landingsMatrix2Search: undefined,
+            }),
         selectedGrids: selected,
         selectedGridsString: selectedStrings,
       };

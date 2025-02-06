@@ -11,7 +11,6 @@ export const MyStats: FC = () => {
         width: "100%",
         height: "100%",
         bgcolor: "#EDF0F3",
-        zIndex: 1500,
       }}
     >
       <Stack sx={{ p: 3, height: "100%" }} spacing={2}>

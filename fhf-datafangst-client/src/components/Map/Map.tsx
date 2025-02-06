@@ -3,6 +3,7 @@ import {
   DeliveryPointPopover,
   DetailedHaulPopover,
   HaulPopover,
+  MapBoxLayer,
   PositionPopover,
   ShorelinePopover,
   TransferPopover,
@@ -27,7 +28,6 @@ import RenderFeature from "ol/render/Feature";
 import React, { FC, useEffect, useState } from "react";
 import {
   initializeMap,
-  MenuViewState,
   resetState,
   selectFishingFacilities,
   selectFishmapState,
@@ -46,17 +46,20 @@ import { FishingFacilityPopover } from "./FishingFacilityPopover";
 import { LivePositionPopover } from "./LivePositionPopover";
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 // Background map from Mapbox returns as RenderFeature.
 const pixelFeature = (feature: FeatureLike): Feature<Geometry> | undefined =>
   feature instanceof RenderFeature ? undefined : feature;
 
-export const Map: FC<Props> = (props) => {
-  const { children } = props;
+export const Map: FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
+
   const mapState = useAppSelector(selectFishmapState);
+  const fishingFacilities = useAppSelector(selectFishingFacilities);
+  const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
+
   const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
   const [hoveredLivePosition, setHoveredLivePosition] =
     useState<CurrentPosition>();
@@ -69,8 +72,6 @@ export const Map: FC<Props> = (props) => {
     useState<DeliveryPoint>();
   const [hoveredTransfer, setHoveredTransfer] = useState<Tra>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
-  const fishingFacilities = useAppSelector(selectFishingFacilities);
-  const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
 
   let disableHitDetection = false;
 
@@ -240,7 +241,7 @@ export const Map: FC<Props> = (props) => {
             dispatch(setSelectedLiveVessel(livePosition));
           }
         } else {
-          if (store.getState().viewState === MenuViewState.Live) {
+          if (store.getState().selectedLiveVessel !== undefined) {
             dispatch(resetState());
           }
         }
@@ -289,39 +290,39 @@ export const Map: FC<Props> = (props) => {
 
         if (aisPosition) {
           setHoveredPosition(aisPosition);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (livePosition) {
           setHoveredLivePosition(livePosition);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
           mapState.map.getTargetElement().style.cursor = "pointer";
         } else if (
           shoreLine.navn === "12 nautiske mil" ||
           shoreLine.navn === "4 nautiske mil"
         ) {
           setHoveredShoreline(shoreLine.navn);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (weightedArea && weightedArea !== 0) {
           mapState.map.getTargetElement().style.cursor = "pointer";
         } else if (haulId !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaulId(haulId);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (fishingFacilityIdx !== undefined) {
           if (!selectedTrip) {
             mapState.map.getTargetElement().style.cursor = "pointer";
           }
           setHoveredFishingFacilityIdx(fishingFacilityIdx);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (haul !== undefined) {
           mapState.map.getTargetElement().style.cursor = "pointer";
           setHoveredHaul(haul);
-          setAnchorPos({ left: evt.pixel[0] + 10, top: evt.pixel[1] + 10 });
+          setAnchorPos({ left: evt.pixel[0] + 10, top: evt.pixel[1] + 52 });
         } else if (deliveryPoint) {
           setHoveredDeliveryPoint(deliveryPoint);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (transfer) {
           setHoveredTransfer(transfer);
-          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] - 20 });
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         }
       }
     });
@@ -368,7 +369,8 @@ export const Map: FC<Props> = (props) => {
         {hoveredHaul && <DetailedHaulPopover haul={hoveredHaul} />}
         {hoveredTransfer && <TransferPopover transfer={hoveredTransfer} />}
       </Popover>
-      <Box id={"map"} sx={{ height: "100vh", width: "100%" }}>
+      <Box id={"map"} sx={{ height: "100%", width: "100%" }}>
+        <MapBoxLayer />
         {children}
       </Box>
     </>

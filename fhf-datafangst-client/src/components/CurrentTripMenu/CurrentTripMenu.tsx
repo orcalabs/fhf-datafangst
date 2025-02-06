@@ -7,17 +7,17 @@ import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import { Box, Divider, styled, SvgIcon, Typography } from "@mui/material";
 import chartsTheme from "app/chartsTheme";
 import theme from "app/theme";
-import { CatchesTable, SecondaryMenuWrapper } from "components";
+import { CatchesTable } from "components";
+import { AppPage } from "containers/App/App";
 import ReactEChart from "echarts-for-react";
 import { Gear, GearDetailed } from "generated/openapi";
 import { FC } from "react";
 import {
-  MenuViewState,
+  selectAppPage,
   selectCurrentTrip,
   selectEstimatedLiveFuelConsumption,
   selectFuelOfTrip,
   selectGearsMap,
-  selectViewState,
   useAppSelector,
 } from "store";
 import {
@@ -25,7 +25,6 @@ import {
   createObjectDurationString,
   dateFormat,
   fuelTonsToLiters,
-  reduceHaulsCatches,
 } from "utils";
 
 const InfoItem = styled("div")(({ theme }) => ({
@@ -43,20 +42,17 @@ export const CurrentTripMenu: FC = () => {
   const trip = useAppSelector(selectCurrentTrip);
   const gears = useAppSelector(selectGearsMap);
   const fuel = useAppSelector(selectFuelOfTrip);
-  const viewState = useAppSelector(selectViewState);
   const estimatedLiveFuel = useAppSelector(selectEstimatedLiveFuelConsumption);
-  const liveFuelLiters = estimatedLiveFuel?.entries.map((e) => {
-    const val = { ...e };
-    val.fuel = fuelTonsToLiters(e.fuel);
-    return val;
-  });
+  const appPage = useAppSelector(selectAppPage);
 
   if (!trip) {
     return <></>;
   }
 
-  const haulCatchesMap = reduceHaulsCatches(trip.hauls);
-  const haulCatches = Object.values(haulCatchesMap);
+  const liveFuelLiters = estimatedLiveFuel?.entries.map((e) => ({
+    ...e,
+    fuel: fuelTonsToLiters(e.fuel),
+  }));
 
   const tripGears = Object.values(
     trip.hauls.reduce((tot: { [k in Gear]?: GearDetailed }, cur) => {
@@ -66,7 +62,7 @@ export const CurrentTripMenu: FC = () => {
   );
 
   return (
-    <SecondaryMenuWrapper>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -131,7 +127,7 @@ export const CurrentTripMenu: FC = () => {
             </InfoItem>
           )}
 
-          {fuel && viewState === MenuViewState.MyPage && (
+          {fuel && appPage === AppPage.MyPage && (
             <InfoItem>
               <SvgIcon sx={iconStyle}>
                 <LocalGasStationIcon />
@@ -144,7 +140,7 @@ export const CurrentTripMenu: FC = () => {
           <Typography sx={{ fontSize: "1rem" }} variant="h5">
             Estimert fangst
           </Typography>
-          <CatchesTable catches={haulCatches} />
+          <CatchesTable catches={trip.hauls.flatMap((h) => h.catches)} />
         </Box>
         {estimatedLiveFuel && (
           <Box sx={{ width: "100%", my: 3 }}>
@@ -217,6 +213,6 @@ export const CurrentTripMenu: FC = () => {
           </Box>
         )}
       </Box>
-    </SecondaryMenuWrapper>
+    </>
   );
 };

@@ -1,4 +1,3 @@
-import { Box } from "@mui/system";
 import { useAuth } from "oidc-react";
 import React, { ReactNode, useEffect } from "react";
 import {
@@ -48,9 +47,5 @@ export const Layout: React.FC<Props> = ({ children }) => {
     return <></>;
   }
 
-  return (
-    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <main>{children}</main>
-    </Box>
-  );
+  return <main style={{ height: "100vh" }}>{children}</main>;
 };
