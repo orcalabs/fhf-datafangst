@@ -9,7 +9,7 @@ export const PaginationButton = (props: any) => (
     size="small"
     sx={{
       borderRadius: 0,
-      my: 1,
+      // my: 1,
       bgcolor: props.bgcolor ?? "primary.light",
       color: "white",
       "&:hover": { bgcolor: "primary.main" },
@@ -54,7 +54,7 @@ export const PaginationButtons: FC<Props> = (props) => {
           sx={{
             height: "1.5rem",
             width: "5rem",
-            margin: "auto",
+            // margin: "auto",
             gridColumn: 2,
             borderRadius: 0,
             border: 0,

@@ -41,9 +41,9 @@ export const MainMenu: FC = () => {
         >
           {viewState === MenuViewState.Overview && <CatchData />}
           {viewState === MenuViewState.Live && <LiveAisMenu />}
-          {viewState === MenuViewState.Trips && <Trips />}
-          {viewState === MenuViewState.MyPage && <MyPage />}
         </OverlayScrollbarsComponent>
+        {viewState === MenuViewState.Trips && <Trips />}
+        {viewState === MenuViewState.MyPage && <MyPage />}
       </Drawer>
     </Box>
   );

@@ -5,6 +5,7 @@ import {
   PaginationButtons,
   SearchFilters,
 } from "components";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { FC, useEffect } from "react";
 import {
   MenuViewState,
@@ -64,46 +65,59 @@ export const Trips: FC = () => {
   }, []);
 
   return (
-    <List sx={{ color: "white", pt: 0 }}>
-      <ListSubheader
+    <>
+      <OverlayScrollbarsComponent
+        className="overlayscrollbars-react"
+        options={{ scrollbars: { theme: "os-theme-light" } }}
+        defer
+        style={{ height: "100%" }}
+      >
+        <List sx={{ color: "white", pt: 0 }}>
+          <ListSubheader
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              bgcolor: "primary.light",
+              pl: 2.5,
+              pr: 0,
+              pt: viewState === MenuViewState.MyPage ? 0 : 1,
+              lineHeight: viewState === MenuViewState.MyPage ? "40px" : "48px",
+            }}
+          >
+            Leveranser
+            <SearchFilters
+              params={activeFilterParams}
+              onChange={(value) =>
+                dispatch(
+                  setTripsSearch({ ...tripsSearch, ...value, offset: 0 }),
+                )
+              }
+            />
+          </ListSubheader>
+          {tripsLoading ? (
+            <Box sx={{ pt: 2, pl: 2.5 }}>
+              <LocalLoadingProgress />
+            </Box>
+          ) : !trips?.length && offset === 0 ? (
+            <Box sx={{ py: 1, pl: 2.5 }}>Ingen resultater</Box>
+          ) : (
+            <>{trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}</>
+          )}
+        </List>
+      </OverlayScrollbarsComponent>
+      <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          bgcolor: "primary.light",
-          pl: 2.5,
-          pr: 0,
-          pt: viewState === MenuViewState.MyPage ? 0 : 1,
-          lineHeight: viewState === MenuViewState.MyPage ? "40px" : "48px",
+          py: 1.5,
+          mr: viewState === MenuViewState.MyPage ? 2 : 0,
         }}
       >
-        Leveranser
-        <SearchFilters
-          params={activeFilterParams}
-          onChange={(value) =>
-            dispatch(setTripsSearch({ ...tripsSearch, ...value, offset: 0 }))
-          }
+        <PaginationButtons
+          numItems={trips?.length ?? 0}
+          offset={offset}
+          limit={limit}
+          onPaginationChange={handleTripsPagination}
         />
-      </ListSubheader>
-      {tripsLoading ? (
-        <Box sx={{ pt: 2, pl: 2.5 }}>
-          <LocalLoadingProgress />
-        </Box>
-      ) : !trips?.length && offset === 0 ? (
-        <Box sx={{ py: 1, pl: 2.5 }}>Ingen resultater</Box>
-      ) : (
-        <>
-          {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
-
-          <Box sx={{ mt: 1, mr: viewState === MenuViewState.MyPage ? 2 : 0 }}>
-            <PaginationButtons
-              numItems={trips?.length ?? 0}
-              offset={offset}
-              limit={limit}
-              onPaginationChange={handleTripsPagination}
-            />
-          </Box>
-        </>
-      )}
-    </List>
+      </Box>
+    </>
   );
 };
