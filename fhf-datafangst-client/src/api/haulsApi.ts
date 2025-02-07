@@ -54,8 +54,8 @@ export const getHauls = apiFn((query: HaulsArgs) =>
     gearGroupIds: query.gearGroupIds?.map((g) => g.id),
     speciesGroupIds: query.speciesGroupIds?.map((g) => g.id),
     vesselLengthGroups: query.vesselLengthGroups?.map((g) => g.id),
-    ordering: query?.ordering ?? Ordering.Desc,
-    sorting: query.sorting ?? HaulsSorting.StartDate,
+    ordering: query.ordering,
+    sorting: query.sorting,
   }),
 );
 

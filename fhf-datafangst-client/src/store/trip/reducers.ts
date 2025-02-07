@@ -56,10 +56,15 @@ export const tripBuilder = (
       state.selectedTripHaul = undefined;
 
       if (!trip && state.currentTrip) {
-        const callSign = state.bwUser?.fiskInfoProfile.ircs;
-        const vessel = callSign
-          ? state.vesselsByCallSign?.[callSign]
-          : undefined;
+        let vessel;
+
+        if (state.selectedLiveVessel) {
+          vessel =
+            state.vesselsByFiskeridirId?.[state.selectedLiveVessel.vesselId];
+        } else {
+          const callSign = state.bwUser?.fiskInfoProfile.ircs;
+          vessel = callSign ? state.vesselsByCallSign?.[callSign] : undefined;
+        }
 
         if (vessel) {
           (action as any).asyncDispatch(
