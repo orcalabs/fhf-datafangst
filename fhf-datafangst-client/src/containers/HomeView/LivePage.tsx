@@ -3,10 +3,11 @@ import {
   LoadingScreen,
   SelectedLiveVesselMenu,
   SelectedTripMenu,
+  TripDetails,
   TripsLayer,
 } from "components";
 import { LiveVesselsLayer } from "components/Layers/LiveVesselsLayer";
-import { PageLayoutLeft, PageLayoutRight } from "containers";
+import { PageLayoutCenter, PageLayoutLeft, PageLayoutRight } from "containers";
 import { FC, useEffect } from "react";
 import {
   getCurrentPositions,
@@ -16,6 +17,7 @@ import {
   selectCurrentTripLoading,
   selectSelectedLiveVessel,
   selectSelectedTrip,
+  selectTripDetailsOpen,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -25,6 +27,7 @@ export const LivePage: FC = () => {
 
   const currentTrip = useAppSelector(selectCurrentTrip);
   const selectedTrip = useAppSelector(selectSelectedTrip);
+  const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
   const currentTripLoading = useAppSelector(selectCurrentTripLoading);
   const selectedPosition = useAppSelector(selectSelectedLiveVessel);
   const loading = useAppSelector(selectCurrentPositionsLoading);
@@ -67,6 +70,9 @@ export const LivePage: FC = () => {
       <PageLayoutLeft open={!!selectedPosition}>
         <SelectedLiveVesselMenu />
       </PageLayoutLeft>
+      <PageLayoutCenter open={tripDetailsOpen} sx={{ zIndex: 1000 }}>
+        <TripDetails />
+      </PageLayoutCenter>
       <PageLayoutRight open={!!currentTrip || !!selectedTrip}>
         {selectedTrip ? <SelectedTripMenu /> : <CurrentTripMenu />}
         <TripsLayer />
