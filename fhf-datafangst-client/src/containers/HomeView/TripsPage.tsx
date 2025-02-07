@@ -27,7 +27,7 @@ export const TripsPage: FC = () => {
       <PageLayoutRight open={!!selectedTrip}>
         <SelectedTripMenu />
       </PageLayoutRight>
-      <TripsLayer />
+      {selectedTrip && <TripsLayer />}
     </>
   );
 };
