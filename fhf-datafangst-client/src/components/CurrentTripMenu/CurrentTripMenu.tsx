@@ -11,7 +11,7 @@ import { CatchesTable } from "components";
 import { AppPage } from "containers/App/App";
 import ReactEChart from "echarts-for-react";
 import { Gear, GearDetailed } from "generated/openapi";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import {
   selectAppPage,
   selectCurrentTrip,
@@ -45,21 +45,31 @@ export const CurrentTripMenu: FC = () => {
   const estimatedLiveFuel = useAppSelector(selectEstimatedLiveFuelConsumption);
   const appPage = useAppSelector(selectAppPage);
 
+  const liveFuelLiters = useMemo(
+    () =>
+      estimatedLiveFuel?.entries.map((e) => ({
+        ...e,
+        fuel: fuelTonsToLiters(e.fuel),
+      })),
+    [estimatedLiveFuel],
+  );
+
+  const tripGears = useMemo(
+    () =>
+      trip?.hauls
+        ? Object.values(
+            trip.hauls.reduce((tot: { [k in Gear]?: GearDetailed }, cur) => {
+              tot[cur.gear] = gears[cur.gear];
+              return tot;
+            }, {}),
+          )
+        : [],
+    [trip?.hauls],
+  );
+
   if (!trip) {
     return <></>;
   }
-
-  const liveFuelLiters = estimatedLiveFuel?.entries.map((e) => ({
-    ...e,
-    fuel: fuelTonsToLiters(e.fuel),
-  }));
-
-  const tripGears = Object.values(
-    trip.hauls.reduce((tot: { [k in Gear]?: GearDetailed }, cur) => {
-      tot[cur.gear] = gears[cur.gear];
-      return tot;
-    }, {}),
-  );
 
   return (
     <>

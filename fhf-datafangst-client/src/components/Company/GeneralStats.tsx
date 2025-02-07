@@ -4,7 +4,7 @@ import chartsTheme from "app/chartsTheme";
 import { fontStyle } from "app/theme";
 import ReactEChart from "echarts-for-react";
 import { OrgBenchmarkEntry } from "generated/openapi";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useMemo } from "react";
 import {
   selectOrgFuelConsumption,
   selectVesselsByFiskeridirId,
@@ -24,25 +24,22 @@ export const GeneralStats: FC<Props> = ({ vesselEntries }) => {
   const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const orgFuelConsumption = useAppSelector(selectOrgFuelConsumption);
 
-  const avgDistance = vesselEntries
-    ? vesselEntries.reduce((a, b) => {
-        if (b.tripDistance) {
-          return a + b.tripDistance;
-        } else {
-          return 0;
-        }
-      }, 0) / vesselEntries.length
-    : 0;
+  const avgDistance = useMemo(
+    () =>
+      vesselEntries.length
+        ? vesselEntries.sum((v) => v.tripDistance) / vesselEntries.length
+        : 0,
+    [vesselEntries],
+  );
 
-  const avgFuelconsumption = orgFuelConsumption
-    ? orgFuelConsumption.reduce((a, b) => {
-        if (b.estimatedFuel) {
-          return a + b.estimatedFuel;
-        } else {
-          return 0;
-        }
-      }, 0) / orgFuelConsumption.length
-    : 0;
+  const avgFuelconsumption = useMemo(
+    () =>
+      orgFuelConsumption?.length
+        ? orgFuelConsumption.sum((v) => v.estimatedFuel) /
+          orgFuelConsumption.length
+        : 0,
+    [orgFuelConsumption],
+  );
 
   return (
     <Grid container spacing={3} sx={{ p: 1 }}>

@@ -16,7 +16,7 @@ import { GearFilter } from "components/Filters/GearFilter";
 import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
 import { SpeciesFilter } from "components/Filters/SpeciesFilter";
 import { Haul, HaulsSorting, Ordering } from "generated/openapi";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import {
   getHaulTrip,
   selectGearsMap,
@@ -75,9 +75,14 @@ export const HaulsMenu: FC = () => {
   // Pagination state
   const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const currentHauls = hauls.slice(
-    currentPage * haulsPerPage,
-    currentPage * haulsPerPage + haulsPerPage,
+
+  const currentHauls = useMemo(
+    () =>
+      hauls.slice(
+        currentPage * haulsPerPage,
+        currentPage * haulsPerPage + haulsPerPage,
+      ),
+    [hauls, currentPage, haulsPerPage],
   );
 
   const handleSortChange = (sortOrdering: [HaulsSorting, Ordering]) => {

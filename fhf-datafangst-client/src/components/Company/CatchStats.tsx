@@ -4,7 +4,7 @@ import chartsTheme from "app/chartsTheme";
 import { fontStyle } from "app/theme";
 import ReactEChart from "echarts-for-react";
 import { OrgBenchmarkEntry } from "generated/openapi";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useMemo } from "react";
 import {
   selectSpeciesGroupsMap,
   selectVesselsByFiskeridirId,
@@ -20,35 +20,36 @@ export const CatchStats: FC<Props> = ({ vesselEntries }) => {
   const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const speciesGroupsMap = useAppSelector(selectSpeciesGroupsMap);
 
-  const avgWeight = vesselEntries
-    ? vesselEntries.reduce((a, b) => {
-        if (b.landingTotalLivingWeight) {
-          return a + b.landingTotalLivingWeight;
+  const { avgWeight, speciesGroupIds, catchDataset } = useMemo(() => {
+    const avgWeight = vesselEntries.length
+      ? vesselEntries.sum((v) => v.landingTotalLivingWeight) /
+        vesselEntries.length
+      : 0;
+
+    const speciesGroupIds = Array.from(
+      new Set(
+        vesselEntries.flatMap((e) => e.species).map((s) => s.speciesGroupId),
+      ),
+    ).sort();
+    const catchDataset: Record<string, number[]> = Object.fromEntries(
+      speciesGroupIds.map((sg) => [sg, []]),
+    );
+
+    speciesGroupIds.forEach((sg) => {
+      vesselEntries.forEach((ve) => {
+        const found = ve.species.find((v) => v.speciesGroupId === sg);
+        if (found) {
+          catchDataset[found.speciesGroupId].push(
+            found.landingTotalLivingWeight,
+          );
         } else {
-          return 0;
+          catchDataset[sg].push(0);
         }
-      }, 0) / vesselEntries.length
-    : 0;
-
-  const speciesGroupIds = Array.from(
-    new Set(
-      vesselEntries.flatMap((e) => e.species).map((s) => s.speciesGroupId),
-    ),
-  ).sort();
-  const catchDataset: Record<string, number[]> = Object.fromEntries(
-    speciesGroupIds.map((sg) => [sg, []]),
-  );
-
-  speciesGroupIds.forEach((sg) => {
-    vesselEntries.forEach((ve) => {
-      const found = ve.species.find((v) => v.speciesGroupId === sg);
-      if (found) {
-        catchDataset[found.speciesGroupId].push(found.landingTotalLivingWeight);
-      } else {
-        catchDataset[sg].push(0);
-      }
+      });
     });
-  });
+
+    return { avgWeight, speciesGroupIds, catchDataset };
+  }, [vesselEntries]);
 
   return (
     <Grid container spacing={3} sx={{ p: 1 }}>

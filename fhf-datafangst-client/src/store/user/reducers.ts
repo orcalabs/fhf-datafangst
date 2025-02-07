@@ -17,6 +17,9 @@ export const userBuilder = (
     .addCase(getUser.rejected, (state, _) => {
       state.userLoading = false;
     })
+    .addCase(updateUser.pending, (state, action) => {
+      action.meta.arg.accessToken = state.authUser?.access_token;
+    })
     .addCase(updateUser.fulfilled, (state, action) => {
       state.user = action.payload;
     });

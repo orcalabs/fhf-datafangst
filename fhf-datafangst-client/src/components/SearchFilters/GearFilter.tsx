@@ -9,7 +9,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import { GearGroupDetailed } from "generated/openapi";
 import { FC } from "react";
-import { selectGearGroupsMap, selectTripsSearch, useAppSelector } from "store";
+import { selectGearGroups, selectTripsSearch, useAppSelector } from "store";
 import { getGearGroupsFromVessels } from "utils";
 
 interface Props {
@@ -18,10 +18,11 @@ interface Props {
 }
 
 export const GearFilter: FC<Props> = (props) => {
-  const gearGroupsMap = useAppSelector(selectGearGroupsMap);
-  const gearGroups = Object.values(gearGroupsMap);
+  const gearGroups = useAppSelector(selectGearGroups);
   const tripsSearch = useAppSelector(selectTripsSearch);
+
   const value = props.value ?? [];
+
   const onChange = (value: GearGroupDetailed[]) =>
     props.onChange(value.length ? value : undefined);
 

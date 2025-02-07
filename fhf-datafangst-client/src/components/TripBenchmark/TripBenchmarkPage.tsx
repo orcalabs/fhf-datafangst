@@ -43,6 +43,12 @@ import {
   kilosOrTonsFormatter,
 } from "utils";
 
+const nok = new Intl.NumberFormat("no-NB", {
+  style: "currency",
+  currency: "NOK",
+  maximumFractionDigits: 0,
+});
+
 export const TripBenchmarkPage: FC = () => {
   const dispatch = useAppDispatch();
 
@@ -53,12 +59,6 @@ export const TripBenchmarkPage: FC = () => {
   const eeoi = useAppSelector(selectEeoi);
   const averageEeoi = useAppSelector(selectAverageEeoi);
   const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
-
-  const nok = new Intl.NumberFormat("no-NB", {
-    style: "currency",
-    currency: "NOK",
-    maximumFractionDigits: 0,
-  });
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
@@ -118,55 +118,42 @@ export const TripBenchmarkPage: FC = () => {
       bench
         ? createObjectDurationString({
             start: 0,
-            end: bench.trips
-              .map(
-                (t) => new Date(t.end).getTime() - new Date(t.start).getTime(),
-              )
-              .sum(),
+            end: bench.trips.sum(
+              (t) => new Date(t.end).getTime() - new Date(t.start).getTime(),
+            ),
           })
         : undefined,
     [bench?.trips],
   );
 
-  const avgFuelconsumption = bench
-    ? bench.trips.reduce((a, b) => {
-        if (b.fuelConsumption) {
-          return a + b.fuelConsumption;
-        } else {
-          return 0;
-        }
-      }, 0) / bench.trips.length
-    : 0;
-
-  const avgWeightPerHour = bench
-    ? bench.trips.reduce((a, b) => {
-        if (b.weightPerHour) {
-          return a + b.weightPerHour;
-        } else {
-          return 0;
-        }
-      }, 0) / bench.trips.length
-    : 0;
-
-  const avgWeightPerDistance = bench
-    ? bench.trips.reduce((a, b) => {
-        if (b.weightPerDistance) {
-          return a + b.weightPerDistance;
-        } else {
-          return 0;
-        }
-      }, 0) / bench.trips.length
-    : 0;
-
-  const avgWeightPerFuel = bench
-    ? bench.trips.reduce((a, b) => {
-        if (b.weightPerFuel) {
-          return a + b.weightPerFuel;
-        } else {
-          return 0;
-        }
-      }, 0) / bench.trips.length
-    : 0;
+  const {
+    avgFuelconsumption,
+    avgWeightPerHour,
+    avgWeightPerDistance,
+    avgWeightPerFuel,
+  } = useMemo(
+    () =>
+      bench?.trips.length
+        ? {
+            avgFuelconsumption:
+              bench.trips.sum((v) => v.fuelConsumption ?? 0) /
+              bench.trips.length,
+            avgWeightPerHour:
+              bench.trips.sum((v) => v.weightPerHour ?? 0) / bench.trips.length,
+            avgWeightPerDistance:
+              bench.trips.sum((v) => v.weightPerDistance ?? 0) /
+              bench.trips.length,
+            avgWeightPerFuel:
+              bench.trips.sum((v) => v.weightPerFuel ?? 0) / bench.trips.length,
+          }
+        : {
+            avgFuelconsumption: 0,
+            avgWeightPerHour: 0,
+            avgWeightPerDistance: 0,
+            avgWeightPerFuel: 0,
+          },
+    [bench?.trips],
+  );
 
   const generalChartOptions = (
     average: number | null | undefined,

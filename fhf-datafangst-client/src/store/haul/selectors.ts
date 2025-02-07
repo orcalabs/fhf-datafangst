@@ -46,14 +46,23 @@ export const selectHaulsMatrix2Search = createSelector(
   (state) => state.haulsMatrix2Search,
 );
 
-export const selectHauls = createSelector(
+export const selectHaulsMap = createSelector(
   selectAppState,
   (state) => state.hauls ?? {},
 );
 
+export const selectHauls = createSelector(selectHaulsMap, (state) =>
+  Object.values(state),
+);
+
+export const selectHaul = createSelector(
+  [selectHaulsMap, (_, id: number) => id],
+  (hauls, id) => hauls[id] as Haul | undefined,
+);
+
 export const selectHaulsSorted = createSelector(
   [
-    selectHauls,
+    selectHaulsMap,
     (_, sorting: HaulsSorting) => sorting,
     (_, __, ordering: Ordering) => ordering,
   ],

@@ -37,11 +37,10 @@ export const haulBuilder = (
       state.haulsLoading = true;
     })
     .addCase(addHauls.fulfilled, (state, action) => {
-      const hauls = { ...state.hauls };
+      state.hauls ??= {};
       for (const haul of action.payload) {
-        hauls[haul.haulId] = haul;
+        state.hauls[haul.haulId] = haul;
       }
-      state.hauls = hauls;
       state.haulsLoading = false;
     })
     .addCase(addHauls.rejected, (state, _) => {
