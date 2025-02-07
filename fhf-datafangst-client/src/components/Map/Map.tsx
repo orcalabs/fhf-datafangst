@@ -134,7 +134,7 @@ export const Map: FC<Props> = ({ children }) => {
         // Ignore hover effect on selected hauls
         const feat = pixelFeature(feature);
         const haul = feat?.get("haul");
-        if (haul && haul.haulId !== store.getState().selectedTripHaul?.haulId) {
+        if (haul && haul.id !== store.getState().selectedTripHaul?.id) {
           return true;
         }
 
@@ -222,7 +222,7 @@ export const Map: FC<Props> = ({ children }) => {
           } else if (haulId !== undefined) {
             dispatch(setSelectedHaul(haulId));
           } else if (haul) {
-            if (haul.haulId === store.getState().selectedTripHaul?.haulId) {
+            if (haul.id === store.getState().selectedTripHaul?.id) {
               dispatch(setSelectedTripHaul(undefined));
               return;
             }

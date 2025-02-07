@@ -48,7 +48,7 @@ export interface Props {
   expandedDetails: ListItemDetail[];
   catches: Catch[];
   onSelect: () => void;
-  onTripClick: () => void;
+  onTripClick?: () => void;
 }
 
 export const ListItem: FC<Props> = ({
@@ -114,20 +114,25 @@ export const ListItem: FC<Props> = ({
               Estimert fangst
             </Typography>
             <CatchesTable catches={catches} />
-            <Button
-              size="small"
-              sx={{
-                width: "100%",
-                bgcolor: "secondary.main",
-                px: 2,
-                borderRadius: 0,
-                mt: 1,
-              }}
-              onClick={onTripClick}
-              startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
-            >
-              <Typography sx={{ pl: 1, color: "white" }}> Vis tur </Typography>
-            </Button>
+            {onTripClick && (
+              <Button
+                size="small"
+                sx={{
+                  width: "100%",
+                  bgcolor: "secondary.main",
+                  px: 2,
+                  borderRadius: 0,
+                  mt: 1,
+                }}
+                onClick={onTripClick}
+                startIcon={<AllInclusiveSharpIcon sx={{ color: "white" }} />}
+              >
+                <Typography sx={{ pl: 1, color: "white" }}>
+                  {" "}
+                  Vis tur{" "}
+                </Typography>
+              </Button>
+            )}
           </Box>
         )}
       </AccordionDetails>

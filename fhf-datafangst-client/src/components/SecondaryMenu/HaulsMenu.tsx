@@ -18,7 +18,7 @@ import { SpeciesFilter } from "components/Filters/SpeciesFilter";
 import { Haul, HaulsSorting, Ordering } from "generated/openapi";
 import { FC, useEffect, useMemo, useState } from "react";
 import {
-  getHaulTrip,
+  getTrip,
   selectGearsMap,
   selectHaulGearFilterGridStats,
   selectHaulsLoading,
@@ -70,7 +70,7 @@ export const HaulsMenu: FC = () => {
     selectHaulVesselLengthFilterGridStats,
   );
 
-  const selectedHaulId = selectedHaul?.haulId;
+  const selectedHaulId = selectedHaul?.id;
 
   // Pagination state
   const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
@@ -107,7 +107,7 @@ export const HaulsMenu: FC = () => {
   };
 
   const handleHaulChange = (haul: Haul) => {
-    const newHaul = haul.haulId === selectedHaulId ? undefined : haul;
+    const newHaul = haul.id === selectedHaulId ? undefined : haul;
     dispatch(setSelectedHaul(newHaul));
   };
 
@@ -128,7 +128,7 @@ export const HaulsMenu: FC = () => {
   useEffect(() => {
     if (selectedHaul) {
       const selectedIndex = hauls.findIndex(
-        (val) => val.haulId === selectedHaul?.haulId,
+        (val) => val.id === selectedHaul?.id,
       );
 
       if (selectedIndex !== -1) {
@@ -238,10 +238,10 @@ export const HaulsMenu: FC = () => {
               <Box sx={{ pt: 1 }}>
                 {currentHauls?.map((h) => (
                   <ListItem
-                    key={h.haulId}
-                    selected={h.haulId === selectedHaul?.haulId}
+                    key={h.id}
+                    selected={h.id === selectedHaul?.id}
                     title={
-                      vessels[h.haulId]?.fiskeridir?.name ??
+                      vessels[h.id]?.fiskeridir?.name ??
                       h.vesselName?.toUpperCase() ??
                       "Ukjent"
                     }
@@ -270,9 +270,13 @@ export const HaulsMenu: FC = () => {
                     ]}
                     catches={Object.values(reduceCatchesOnSpecies(h.catches))}
                     onSelect={() => handleHaulChange(h)}
-                    onTripClick={() => {
-                      dispatch(getHaulTrip(h));
-                    }}
+                    onTripClick={
+                      h.tripId
+                        ? () => {
+                            dispatch(getTrip({ tripId: h.tripId! }));
+                          }
+                        : undefined
+                    }
                   />
                 ))}
               </Box>

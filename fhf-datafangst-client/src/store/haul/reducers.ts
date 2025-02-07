@@ -26,7 +26,7 @@ export const haulBuilder = (
     .addCase(getHauls.fulfilled, (state, action) => {
       state.hauls = {};
       for (const haul of action.payload) {
-        state.hauls[haul.haulId] = haul;
+        state.hauls[haul.id] = haul;
       }
       state.haulsLoading = false;
     })
@@ -39,7 +39,7 @@ export const haulBuilder = (
     .addCase(addHauls.fulfilled, (state, action) => {
       state.hauls ??= {};
       for (const haul of action.payload) {
-        state.hauls[haul.haulId] = haul;
+        state.hauls[haul.id] = haul;
       }
       state.haulsLoading = false;
     })
@@ -56,7 +56,7 @@ export const haulBuilder = (
               state.selectedGridsString.includes(c),
             )
           ) {
-            delete state.hauls[haul.haulId];
+            delete state.hauls[haul.id];
           }
         }
       }

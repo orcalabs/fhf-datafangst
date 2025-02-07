@@ -16,7 +16,7 @@ import { SpeciesFilter } from "components/Filters/SpeciesFilter";
 import { Landing, LandingsSorting, Ordering } from "generated/openapi";
 import { FC, useEffect } from "react";
 import {
-  getLandingTrip,
+  getTrip,
   selectGearsMap,
   selectLandingGearFilterGridStats,
   selectLandings,
@@ -218,9 +218,13 @@ export const LandingsMenu: FC = () => {
                     ]}
                     catches={l.catches}
                     onSelect={() => handleLandingChange(l)}
-                    onTripClick={() => {
-                      dispatch(getLandingTrip(l));
-                    }}
+                    onTripClick={
+                      l.tripId
+                        ? () => {
+                            dispatch(getTrip({ tripId: l.tripId! }));
+                          }
+                        : undefined
+                    }
                   />
                 ))}
               </Box>

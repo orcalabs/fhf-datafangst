@@ -1729,7 +1729,13 @@ export interface Haul {
      * @type {number}
      * @memberof Haul
      */
-    'haulId': number;
+    'id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Haul
+     */
+    'tripId': number | null;
     /**
      * 
      * @type {number}
@@ -2121,6 +2127,12 @@ export interface Landing {
      * @memberof Landing
      */
     'id': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Landing
+     */
+    'tripId': number | null;
     /**
      * 
      * @type {string}
@@ -3492,19 +3504,6 @@ export interface TripBenchmarksParams {
 /**
  * 
  * @export
- * @interface TripOfHaulPath
- */
-export interface TripOfHaulPath {
-    /**
-     * 
-     * @type {number}
-     * @memberof TripOfHaulPath
-     */
-    'haul_id': number;
-}
-/**
- * 
- * @export
  * @interface TripOfLandingPath
  */
 export interface TripOfLandingPath {
@@ -3628,6 +3627,12 @@ export interface TripsParameters {
      * @memberof TripsParameters
      */
     'fiskeridirVesselIds[]': Array<number> | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof TripsParameters
+     */
+    'tripIds[]': Array<number> | null;
 }
 
 
@@ -8007,90 +8012,6 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Returns the trip associated with the given haul.
-         * @param {number} haulId 
-         * @param {string} [bwToken] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripTripOfHaulTripOfHaul: async (haulId: number, bwToken?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'haulId' is not null or undefined
-            assertParamExists('routesV1TripTripOfHaulTripOfHaul', 'haulId', haulId)
-            const localVarPath = `/v1.0/trip_of_haul/{haul_id}`
-                .replace(`{${"haul_id"}}`, encodeURIComponent(String(haulId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (bwToken != null) {
-                localVarHeaderParameter['bw-token'] = String(bwToken);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Returns the trip associated with the given landing.
-         * @param {string} landingId 
-         * @param {string} [bwToken] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripTripOfLanding: async (landingId: string, bwToken?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'landingId' is not null or undefined
-            assertParamExists('routesV1TripTripOfLanding', 'landingId', landingId)
-            const localVarPath = `/v1.0/trip_of_landing/{landing_id}`
-                .replace(`{${"landing_id"}}`, encodeURIComponent(String(landingId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (bwToken != null) {
-                localVarHeaderParameter['bw-token'] = String(bwToken);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Returns all trips matching the provided parameters. All vessels below 15m have significantly reduced trip data quality as they do not report ERS POR and DEP messages.
          * @param {string} [bwToken] 
          * @param {number | null} [limit] 
@@ -8106,10 +8027,11 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
+         * @param {Array<number> | null} [tripIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripTrips: async (bwToken?: string, limit?: number | null, offset?: number | null, ordering?: Ordering | null, deliveryPoints?: Array<string> | null, startDate?: string | null, endDate?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripTrips: async (bwToken?: string, limit?: number | null, offset?: number | null, ordering?: Ordering | null, deliveryPoints?: Array<string> | null, startDate?: string | null, endDate?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, tripIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trips`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8180,6 +8102,10 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
 
             if (fiskeridirVesselIds) {
                 localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+            }
+
+            if (tripIds) {
+                localVarQueryParameter['tripIds[]'] = tripIds;
             }
 
             if (bwToken != null) {
@@ -8296,32 +8222,6 @@ export const TripApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Returns the trip associated with the given haul.
-         * @param {number} haulId 
-         * @param {string} [bwToken] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1TripTripOfHaulTripOfHaul(haulId: number, bwToken?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTripOfHaulTripOfHaul(haulId, bwToken, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripTripOfHaulTripOfHaul']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Returns the trip associated with the given landing.
-         * @param {string} landingId 
-         * @param {string} [bwToken] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1TripTripOfLanding(landingId: string, bwToken?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Trip>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTripOfLanding(landingId, bwToken, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripTripOfLanding']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * Returns all trips matching the provided parameters. All vessels below 15m have significantly reduced trip data quality as they do not report ERS POR and DEP messages.
          * @param {string} [bwToken] 
          * @param {number | null} [limit] 
@@ -8337,11 +8237,12 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
+         * @param {Array<number> | null} [tripIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripTrips(bwToken?: string, limit?: number | null, offset?: number | null, ordering?: Ordering | null, deliveryPoints?: Array<string> | null, startDate?: string | null, endDate?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Trip>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTrips(bwToken, limit, offset, ordering, deliveryPoints, startDate, endDate, minWeight, maxWeight, sorting, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, options);
+        async routesV1TripTrips(bwToken?: string, limit?: number | null, offset?: number | null, ordering?: Ordering | null, deliveryPoints?: Array<string> | null, startDate?: string | null, endDate?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, tripIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Trip>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTrips(bwToken, limit, offset, ordering, deliveryPoints, startDate, endDate, minWeight, maxWeight, sorting, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, tripIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripTrips']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -8411,31 +8312,13 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.routesV1TripCurrentTripPositions(requestParameters.fiskeridirVesselId, requestParameters.bwToken, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the trip associated with the given haul.
-         * @param {TripApiRoutesV1TripTripOfHaulTripOfHaulRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripTripOfHaulTripOfHaul(requestParameters: TripApiRoutesV1TripTripOfHaulTripOfHaulRequest, options?: RawAxiosRequestConfig): AxiosPromise<Trip> {
-            return localVarFp.routesV1TripTripOfHaulTripOfHaul(requestParameters.haulId, requestParameters.bwToken, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns the trip associated with the given landing.
-         * @param {TripApiRoutesV1TripTripOfLandingRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripTripOfLanding(requestParameters: TripApiRoutesV1TripTripOfLandingRequest, options?: RawAxiosRequestConfig): AxiosPromise<Trip> {
-            return localVarFp.routesV1TripTripOfLanding(requestParameters.landingId, requestParameters.bwToken, options).then((request) => request(axios, basePath));
-        },
-        /**
          * Returns all trips matching the provided parameters. All vessels below 15m have significantly reduced trip data quality as they do not report ERS POR and DEP messages.
          * @param {TripApiRoutesV1TripTripsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         routesV1TripTrips(requestParameters: TripApiRoutesV1TripTripsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Trip>> {
-            return localVarFp.routesV1TripTrips(requestParameters.bwToken, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1TripTrips(requestParameters.bwToken, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.tripIds, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -8637,48 +8520,6 @@ export interface TripApiRoutesV1TripCurrentTripPositionsRequest {
 }
 
 /**
- * Request parameters for routesV1TripTripOfHaulTripOfHaul operation in TripApi.
- * @export
- * @interface TripApiRoutesV1TripTripOfHaulTripOfHaulRequest
- */
-export interface TripApiRoutesV1TripTripOfHaulTripOfHaulRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof TripApiRoutesV1TripTripOfHaulTripOfHaul
-     */
-    readonly haulId: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripTripOfHaulTripOfHaul
-     */
-    readonly bwToken?: string
-}
-
-/**
- * Request parameters for routesV1TripTripOfLanding operation in TripApi.
- * @export
- * @interface TripApiRoutesV1TripTripOfLandingRequest
- */
-export interface TripApiRoutesV1TripTripOfLandingRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripTripOfLanding
-     */
-    readonly landingId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripTripOfLanding
-     */
-    readonly bwToken?: string
-}
-
-/**
  * Request parameters for routesV1TripTrips operation in TripApi.
  * @export
  * @interface TripApiRoutesV1TripTripsRequest
@@ -8781,6 +8622,13 @@ export interface TripApiRoutesV1TripTripsRequest {
      * @memberof TripApiRoutesV1TripTrips
      */
     readonly fiskeridirVesselIds?: Array<number> | null
+
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof TripApiRoutesV1TripTrips
+     */
+    readonly tripIds?: Array<number> | null
 }
 
 /**
@@ -8857,28 +8705,6 @@ export class TripApi extends BaseAPI {
     }
 
     /**
-     * Returns the trip associated with the given haul.
-     * @param {TripApiRoutesV1TripTripOfHaulTripOfHaulRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripApi
-     */
-    public routesV1TripTripOfHaulTripOfHaul(requestParameters: TripApiRoutesV1TripTripOfHaulTripOfHaulRequest, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripTripOfHaulTripOfHaul(requestParameters.haulId, requestParameters.bwToken, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns the trip associated with the given landing.
-     * @param {TripApiRoutesV1TripTripOfLandingRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripApi
-     */
-    public routesV1TripTripOfLanding(requestParameters: TripApiRoutesV1TripTripOfLandingRequest, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripTripOfLanding(requestParameters.landingId, requestParameters.bwToken, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * Returns all trips matching the provided parameters. All vessels below 15m have significantly reduced trip data quality as they do not report ERS POR and DEP messages.
      * @param {TripApiRoutesV1TripTripsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -8886,7 +8712,7 @@ export class TripApi extends BaseAPI {
      * @memberof TripApi
      */
     public routesV1TripTrips(requestParameters: TripApiRoutesV1TripTripsRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripTrips(requestParameters.bwToken, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, options).then((request) => request(this.axios, this.basePath));
+        return TripApiFp(this.configuration).routesV1TripTrips(requestParameters.bwToken, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.tripIds, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
