@@ -91,8 +91,12 @@ export const trackBuilder = (
       }
     })
     .addCase(getCurrentTripTrack.fulfilled, (state, action) => {
-      state.track = action.payload;
+      const track = action.payload;
+      state.track = track;
       state.trackLoading = false;
+      if (track.length) {
+        setMapFocus(state.map, track);
+      }
     })
     .addCase(getCurrentTripTrack.rejected, (state, _action) => {
       state.trackLoading = false;
