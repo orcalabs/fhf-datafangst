@@ -86,7 +86,9 @@ export const trackBuilder = (
     .addCase(getCurrentTripTrack.pending, (state, action) => {
       action.meta.arg.accessToken = state.authUser?.access_token;
       state.trackLoading = action.meta.arg.loading;
-      state.track = undefined;
+      if (state.trackLoading) {
+        state.track = undefined;
+      }
     })
     .addCase(getCurrentTripTrack.fulfilled, (state, action) => {
       state.track = action.payload;
