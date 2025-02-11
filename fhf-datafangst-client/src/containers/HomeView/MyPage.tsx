@@ -365,15 +365,16 @@ export const MyPage: FC = () => {
         />
       </PageLayoutCenterBottom>
       <PageLayoutRight
-        open={!!selectedTrip || !!currentTrip || selectedGrids.length > 0}
+        open={
+          subMenu === MyPageSubmenu.Trips && (!!selectedTrip || !!currentTrip)
+        }
       >
-        {selectedTrip ? (
-          <SelectedTripMenu />
-        ) : currentTrip ? (
-          <CurrentTripMenu />
-        ) : (
-          <HaulsMenu />
-        )}
+        {selectedTrip ? <SelectedTripMenu /> : <CurrentTripMenu />}
+      </PageLayoutRight>
+      <PageLayoutRight
+        open={subMenu === MyPageSubmenu.Area && selectedGrids.length > 0}
+      >
+        <HaulsMenu />
       </PageLayoutRight>
       {(selectedTrip ?? currentTrip) ? (
         <TripsLayer />
