@@ -4,7 +4,13 @@ import { Layout } from "components";
 import { HomeView } from "containers";
 import { AuthProvider } from "oidc-react";
 import { Navigate, Route, Routes } from "react-router";
-import { MenuViewState } from "store";
+
+export enum AppPage {
+  Live = "live",
+  Area = "area",
+  Trips = "trips",
+  MyPage = "mypage",
+}
 
 export const App: React.FC = () => {
   return (
@@ -13,16 +19,16 @@ export const App: React.FC = () => {
       <AuthProvider {...authConfig}>
         <Layout>
           <Routes>
-            {Object.values(MenuViewState).map((view) => (
+            {Object.values(AppPage).map((page) => (
               <Route
-                key={view}
-                path={view}
-                element={<HomeView view={view} />}
+                key={page}
+                path={page}
+                element={<HomeView page={page} />}
               />
             ))}
 
             {/* NB! Fallback redirect, must be last! */}
-            <Route path="*" element={<Navigate to={MenuViewState.Live} />} />
+            <Route path="*" element={<Navigate to={AppPage.Live} />} />
           </Routes>
         </Layout>
       </AuthProvider>

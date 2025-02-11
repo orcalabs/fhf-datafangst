@@ -8,21 +8,12 @@ import {
 import { Ordering, TripSorting } from "generated/openapi";
 import { FC } from "react";
 
-// const TripSorting = {
-//   StartDate: "startDate",
-//   StopDate: "stopDate",
-//   Weight: "weight",
-// } as const;
-
-// type TripsSorting = (typeof TripSorting)[keyof typeof TripSorting];
-
 interface Props {
   value?: [TripSorting, Ordering];
   onChange: (_: [TripSorting, Ordering]) => void;
 }
 
-export const SortingFilter: FC<Props> = (props) => {
-  const { value, onChange } = props;
+export const SortingFilter: FC<Props> = ({ value, onChange }) => {
   const controlValue = value?.join(" ") ?? "stopDate desc";
 
   return (

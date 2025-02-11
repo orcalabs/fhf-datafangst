@@ -237,7 +237,7 @@ export const generateHaulsVector = (hauls: Haul[] | undefined) => {
     const color = colorScale.getColor(sum);
     const haulFeature = new Feature({
       geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
-      haulId: haul.haulId,
+      haulId: haul.id,
       red: color.r,
       green: color.g,
       blue: color.b,
@@ -677,7 +677,7 @@ export const generateTripHaulsVector = (
 
   for (let i = 0; i < hauls.length; i++) {
     const haul = hauls[i];
-    const isSelected = haul.haulId === selectedTripHaul?.haulId;
+    const isSelected = haul.id === selectedTripHaul?.id;
     const haulFeature = new Feature({
       geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
       haul,

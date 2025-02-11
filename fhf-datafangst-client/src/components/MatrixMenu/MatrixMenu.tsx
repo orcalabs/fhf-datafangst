@@ -1,50 +1,40 @@
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import theme from "app/theme";
 import { HaulFilters, LandingFilters } from "components";
+import { MatrixTab, useMatrixTab } from "hooks";
 import { FC, useEffect } from "react";
 import {
   initialHaulsMatrixSearch,
   initialLandingsMatrixSearch,
-  MatrixToggle,
   selectHaulsMatrixSearch,
   selectLandingsMatrixSearch,
-  selectMatrixToggle,
   setHaulsMatrixSearch,
   setLandingsMatrixSearch,
-  setMatrixToggle,
   useAppDispatch,
   useAppSelector,
 } from "store";
 
-export const CatchData: FC = () => {
+export const MatrixMenu: FC = () => {
   const dispatch = useAppDispatch();
-  const toggle = useAppSelector(selectMatrixToggle);
+
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const landingsSearch = useAppSelector(selectLandingsMatrixSearch);
 
-  const onToggleChange = (_: any, value: MatrixToggle) => {
-    if (value !== null) {
-      dispatch(setMatrixToggle(value));
-    }
-  };
+  const [matrixTab, setMatrixTab] = useMatrixTab();
 
   useEffect(() => {
     dispatch(
-      toggle === MatrixToggle.Haul
+      matrixTab === MatrixTab.Ers
         ? setHaulsMatrixSearch({
             ...initialHaulsMatrixSearch,
             ...landingsSearch,
-            sorting: undefined,
-            filter: undefined,
           })
         : setLandingsMatrixSearch({
             ...initialLandingsMatrixSearch,
             ...haulsSearch,
-            sorting: undefined,
-            filter: undefined,
           }),
     );
-  }, [toggle]);
+  }, [matrixTab]);
 
   return (
     <Box sx={{ height: "100%", px: 2.5, py: 1 }}>
@@ -70,15 +60,15 @@ export const CatchData: FC = () => {
         <ToggleButtonGroup
           exclusive
           size="small"
-          value={toggle}
-          onChange={onToggleChange}
+          value={matrixTab}
+          onChange={(_: any, value: MatrixTab) => setMatrixTab(value)}
           sx={{ width: "100%", alignSelf: "center" }}
         >
-          <ToggleButton value={MatrixToggle.Haul}> ERS </ToggleButton>
-          <ToggleButton value={MatrixToggle.Landing}> Seddeldata </ToggleButton>
+          <ToggleButton value={MatrixTab.Ers}> ERS </ToggleButton>
+          <ToggleButton value={MatrixTab.Landing}> Seddeldata </ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      {toggle === MatrixToggle.Haul ? <HaulFilters /> : <LandingFilters />}
+      {matrixTab === MatrixTab.Ers ? <HaulFilters /> : <LandingFilters />}
     </Box>
   );
 };

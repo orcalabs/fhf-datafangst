@@ -18,10 +18,6 @@ interface Props {
 export const DetailedHaulPopover: FC<Props> = ({ haul }) => {
   const gears = useAppSelector(selectGearsMap);
 
-  if (!haul) {
-    return <></>;
-  }
-
   const item = (Icon: any, text: string) => (
     <Box sx={{ display: "flex", gap: 2 }}>
       <SvgIcon sx={{ position: "relative", color: "white" }}>
@@ -33,53 +29,51 @@ export const DetailedHaulPopover: FC<Props> = ({ haul }) => {
 
   return (
     <Box sx={{ px: 2, py: 1, bgcolor: "fourth.dark" }}>
-      {haul && (
-        <Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
-              "& svg": { mr: 2 },
-            }}
-          >
-            <Box sx={{ display: "flex", color: "white" }}>
-              <FishIcon
-                fill={theme.palette.secondary.main}
-                width="36"
-                height="36"
-              />
-              <Box sx={{ display: "flex", ml: 1, alignItems: "center" }}>
-                <Typography variant="h5" color="white">
-                  HAL
-                </Typography>
-              </Box>
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            "& svg": { mr: 2 },
+          }}
+        >
+          <Box sx={{ display: "flex", color: "white" }}>
+            <FishIcon
+              fill={theme.palette.secondary.main}
+              width="36"
+              height="36"
+            />
+            <Box sx={{ display: "flex", ml: 1, alignItems: "center" }}>
+              <Typography variant="h5" color="white">
+                HAL
+              </Typography>
             </Box>
-            <Divider sx={{ bgcolor: "text.secondary", mt: 0, mb: 1, mx: 0 }} />
-
-            {item(
-              CalendarMonthSharpIcon,
-              dateFormat(haul.startTimestamp, "d. MMM HH:mm") +
-                " - " +
-                dateFormat(haul.stopTimestamp, "d. MMM HH:mm yyyy"),
-            )}
-            {item(TimerSharpIcon, createHaulDurationString(haul))}
-            {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
-            {item(PhishingSharpIcon, gears[haul.gear].name)}
           </Box>
+          <Divider sx={{ bgcolor: "text.secondary", mt: 0, mb: 1, mx: 0 }} />
 
-          <Typography
-            sx={{
-              color: "white",
-              fontWeight: 600,
-              mt: 3,
-            }}
-          >
-            Estimert fangst
-          </Typography>
-          <CatchesTable catches={haul.catches} />
+          {item(
+            CalendarMonthSharpIcon,
+            dateFormat(haul.startTimestamp, "d. MMM HH:mm") +
+              " - " +
+              dateFormat(haul.stopTimestamp, "d. MMM HH:mm yyyy"),
+          )}
+          {item(TimerSharpIcon, createHaulDurationString(haul))}
+          {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
+          {item(PhishingSharpIcon, gears[haul.gear].name)}
         </Box>
-      )}
+
+        <Typography
+          sx={{
+            color: "white",
+            fontWeight: 600,
+            mt: 3,
+          }}
+        >
+          Estimert fangst
+        </Typography>
+        <CatchesTable catches={haul.catches} />
+      </Box>
     </Box>
   );
 };

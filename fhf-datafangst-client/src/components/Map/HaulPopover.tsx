@@ -2,7 +2,7 @@ import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
 import { FC } from "react";
-import { selectHauls, useAppSelector } from "store";
+import { selectHaul, useAppSelector } from "store";
 import {
   dateFormat,
   kilosOrTonsFormatter,
@@ -15,8 +15,7 @@ interface Props {
 }
 
 export const HaulPopover: FC<Props> = ({ haulId }) => {
-  const hauls = useAppSelector(selectHauls);
-  const haul = hauls[haulId];
+  const haul = useAppSelector((s) => selectHaul(s, haulId));
 
   if (!haul) {
     return <></>;

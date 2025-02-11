@@ -1,3 +1,4 @@
+import { AppPage } from "containers/App/App";
 import { BwUser } from "models";
 import { User } from "oidc-react";
 import { AisState, initialAisState } from "./ais/state";
@@ -26,26 +27,13 @@ import { initialVesselState, VesselState } from "./vessel/state";
 import { initialVmsState, VmsState } from "./vms/state";
 import { initialWeatherState, WeatherState } from "./weather/state";
 
-export enum MenuViewState {
-  Overview = "overview",
-  Live = "live",
-  MyPage = "mypage",
-  Trips = "trips",
-}
-
-export enum MatrixToggle {
-  Haul,
-  Landing,
-}
-
 export interface BaseState {
   error: boolean;
   isLoggedIn: boolean;
-  viewState?: MenuViewState;
+  appPage?: AppPage;
   bwUser?: BwUser;
   bwUserLoading: boolean;
   authUser?: User;
-  matrixToggle: MatrixToggle;
   tripFiltersOpen: boolean;
   tripDetailsOpen: boolean;
 }
@@ -53,9 +41,8 @@ export interface BaseState {
 const initialBaseState: BaseState = {
   error: false,
   isLoggedIn: false,
-  viewState: undefined,
+  appPage: undefined,
   authUser: undefined,
-  matrixToggle: MatrixToggle.Haul,
   tripFiltersOpen: false,
   tripDetailsOpen: false,
   bwUserLoading: false,
@@ -102,6 +89,7 @@ export const emptyState: Partial<AppState> = {
   selectedTripHaul: undefined,
   selectedLiveVessel: undefined,
   tripFiltersOpen: false,
+  tripDetailsOpen: false,
   track: undefined,
   trips: undefined,
   tripsSearch: undefined,

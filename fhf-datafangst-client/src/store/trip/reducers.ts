@@ -8,8 +8,7 @@ import { getEstimatedLiveFuelConsumption } from "store/vessel";
 import { getGearGroupsFromVessels } from "utils";
 import {
   getCurrentTrip,
-  getHaulTrip,
-  getLandingTrip,
+  getTrip,
   getTrips,
   getTripTrack,
   paginateTripsSearch,
@@ -22,15 +21,12 @@ export const tripBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
 ): ActionReducerMapBuilder<AppState> =>
   builder
-    .addCase(getHaulTrip.fulfilled, (state, action) => {
-      const trip = action.payload;
-      state.selectedTrip = trip;
-      (action as any).asyncDispatch(getTripTrack({ trip }));
+    .addCase(getTrip.pending, (state, action) => {
+      action.meta.arg.accessToken = state.authUser?.access_token;
     })
-    .addCase(getLandingTrip.fulfilled, (state, action) => {
-      const trip = action.payload;
+    .addCase(getTrip.fulfilled, (state, action) => {
+      const trip = action.payload[0];
       state.selectedTrip = trip;
-
       (action as any).asyncDispatch(getTripTrack({ trip }));
     })
     .addCase(getTrips.pending, (state, _) => {
@@ -56,10 +52,15 @@ export const tripBuilder = (
       state.selectedTripHaul = undefined;
 
       if (!trip && state.currentTrip) {
-        const callSign = state.bwUser?.fiskInfoProfile.ircs;
-        const vessel = callSign
-          ? state.vesselsByCallSign?.[callSign]
-          : undefined;
+        let vessel;
+
+        if (state.selectedLiveVessel) {
+          vessel =
+            state.vesselsByFiskeridirId?.[state.selectedLiveVessel.vesselId];
+        } else {
+          const callSign = state.bwUser?.fiskInfoProfile.ircs;
+          vessel = callSign ? state.vesselsByCallSign?.[callSign] : undefined;
+        }
 
         if (vessel) {
           (action as any).asyncDispatch(
@@ -159,10 +160,6 @@ export const tripBuilder = (
           }),
         );
       } else {
-        (action as any).asyncDispatch(
-          getTrack({
-            tripId: trip.tripId,
-          }),
-        );
+        (action as any).asyncDispatch(getTrack({ tripId: trip.tripId }));
       }
     });

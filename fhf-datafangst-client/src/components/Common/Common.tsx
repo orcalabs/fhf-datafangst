@@ -7,6 +7,7 @@ import { FixedSizeList, ListChildComponentProps } from "react-window";
 export const StyledPopper = styled(Popper)(({ theme }) => ({
   [`& .${autocompleteClasses.listbox}`]: {
     padding: 0,
+    maxHeight: 400,
   },
   [`& .${autocompleteClasses.option}`]: {
     borderBottom: "1px solid",

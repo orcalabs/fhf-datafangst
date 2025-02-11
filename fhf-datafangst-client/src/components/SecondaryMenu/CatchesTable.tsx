@@ -14,10 +14,16 @@ import {
   Typography,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
+import { SpeciesFiskeridir } from "generated/openapi";
 import { Catch, CatchWeightType } from "models";
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { selectSpeciesFiskeridirMap, useAppSelector } from "store";
-import { kilosOrTonsFormatter, sumCatches, sumPriceFromCatches } from "utils";
+import {
+  kilosOrTonsFormatter,
+  reduceCatchesOnSpecies,
+  sumCatches,
+  sumPriceFromCatches,
+} from "utils";
 
 type SortFn = (a: Catch, b: Catch) => number;
 
@@ -33,8 +39,35 @@ const weightDesc =
 
 const priceAsc = (a: Catch, b: Catch): number =>
   (a.priceForFisher ?? 0) - (b.priceForFisher ?? 0);
+
 const priceDesc = (a: Catch, b: Catch): number =>
   (b.priceForFisher ?? 0) - (a.priceForFisher ?? 0);
+
+const _speciesAsc =
+  (speciesMap: Record<number, SpeciesFiskeridir>) =>
+  (a: Catch, b: Catch): number => {
+    const nameA = speciesMap[a.speciesFiskeridirId].name;
+    const nameB = speciesMap[b.speciesFiskeridirId].name;
+
+    if (!nameA && !nameB) return 0;
+    else if (!nameA) return -1;
+    else if (!nameB) return 1;
+
+    return nameA.localeCompare(nameB, "no");
+  };
+
+const _speciesDesc =
+  (speciesMap: Record<number, SpeciesFiskeridir>) =>
+  (a: Catch, b: Catch): number => {
+    const nameA = speciesMap[a.speciesFiskeridirId].name;
+    const nameB = speciesMap[b.speciesFiskeridirId].name;
+
+    if (!nameA && !nameB) return 0;
+    else if (!nameB) return -1;
+    else if (!nameA) return 1;
+
+    return nameB.localeCompare(nameA, "no");
+  };
 
 const weightTypes = [
   {
@@ -95,64 +128,53 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+const nok = new Intl.NumberFormat("no-NB", {
+  style: "currency",
+  currency: "NOK",
+  maximumFractionDigits: 0,
+});
+
 interface Props {
   catches: Catch[];
   isEstimatedValue?: boolean;
 }
 
-export const CatchesTable: FC<Props> = (props) => {
-  const catches = useMemo(() => [...props.catches], [props.catches]);
+export const CatchesTable: FC<Props> = ({
+  catches: _catches,
+  isEstimatedValue,
+}) => {
   const fiskeridirSpecies = useAppSelector(selectSpeciesFiskeridirMap);
-  const nok = new Intl.NumberFormat("no-NB", {
-    style: "currency",
-    currency: "NOK",
-    maximumFractionDigits: 0,
-  });
 
-  const speciesAsc = useMemo(
-    () =>
-      (a: Catch, b: Catch): number => {
-        const nameA = fiskeridirSpecies[a.speciesFiskeridirId].name;
-        const nameB = fiskeridirSpecies[b.speciesFiskeridirId].name;
-
-        if (!nameA || !nameB) {
-          return 0;
-        }
-
-        return nameB.localeCompare(nameA, "no");
-      },
-    [],
+  const [speciesAsc, speciesDesc] = useMemo(
+    () => [_speciesAsc(fiskeridirSpecies), _speciesDesc(fiskeridirSpecies)],
+    [fiskeridirSpecies],
   );
 
-  const speciesDesc = useMemo(
-    () =>
-      (a: Catch, b: Catch): number => {
-        const nameA = fiskeridirSpecies[a.speciesFiskeridirId].name;
-        const nameB = fiskeridirSpecies[b.speciesFiskeridirId].name;
+  const [sortFn, setSortFn] = useState<SortFn>(() => speciesAsc);
 
-        if (!nameA || !nameB) {
-          return 0;
-        }
-
-        return nameA.localeCompare(nameB, "no");
-      },
-    [],
+  const reducedCatches = useMemo(
+    () => Object.values(reduceCatchesOnSpecies(_catches)),
+    [_catches],
   );
 
-  const computeWeightType = useCallback(
+  const catches = useMemo(
+    () => reducedCatches.sort(sortFn),
+    [reducedCatches, sortFn],
+  );
+
+  const initialWeightType = useMemo(
     () =>
-      catches.reduce((sum, curr) => sum + curr.livingWeight, 0) > 0
+      catches.sum((v) => v.livingWeight) > 0
         ? 0
-        : catches.reduce((sum, curr) => sum + (curr.grossWeight ?? 0), 0) > 0
+        : catches.sum((v) => v.grossWeight ?? 0) > 0
           ? 1
           : 2,
     [catches],
   );
 
-  const [sortFn, setSortFn] = useState<SortFn>(() => speciesDesc);
-  const [weightTypeIdx, setWeightTypeIdx] = useState(computeWeightType);
+  const [weightTypeIdx, setWeightTypeIdx] = useState(initialWeightType);
 
-  useEffect(() => setWeightTypeIdx(computeWeightType()), [computeWeightType]);
+  useEffect(() => setWeightTypeIdx(initialWeightType), [initialWeightType]);
 
   if (catches.length === 0) {
     return (
@@ -161,8 +183,6 @@ export const CatchesTable: FC<Props> = (props) => {
       </Box>
     );
   }
-
-  catches.sort(sortFn);
 
   const catchRow = (c: Catch, key: number, weightType: CatchWeightType) => (
     <TableRow
@@ -180,10 +200,10 @@ export const CatchesTable: FC<Props> = (props) => {
       {hasPrice && Number.isFinite(c.priceForFisher) && (
         <StyledTableCell
           align="right"
-          title={`${c[weightType] && c.priceForFisher ? (c.priceForFisher! / c[weightType]!).toFixed(1) : 0} kr/kg ${props.isEstimatedValue ? "*" : ""}`}
+          title={`${c[weightType] && c.priceForFisher ? (c.priceForFisher! / c[weightType]!).toFixed(1) : 0} kr/kg ${isEstimatedValue ? "*" : ""}`}
         >
           {nok.format(c.priceForFisher!)}
-          {props.isEstimatedValue && <StarText />}
+          {isEstimatedValue && <StarText />}
         </StyledTableCell>
       )}
       <StyledTableCell align="right">
@@ -286,7 +306,7 @@ export const CatchesTable: FC<Props> = (props) => {
                 {hasPrice && (
                   <StyledTableCell align="right">
                     {nok.format(sumPriceFromCatches(catches))}
-                    {props.isEstimatedValue && <StarText />}
+                    {isEstimatedValue && <StarText />}
                   </StyledTableCell>
                 )}
                 <StyledTableCell align="right">
@@ -299,7 +319,7 @@ export const CatchesTable: FC<Props> = (props) => {
           )}
         </Table>
       </TableContainer>
-      {props.isEstimatedValue && (
+      {isEstimatedValue && (
         <Typography sx={{ color: "text.secondary" }} variant="subtitle2">
           <Box
             component="span"
@@ -313,6 +333,7 @@ export const CatchesTable: FC<Props> = (props) => {
     </Stack>
   );
 };
+
 const StarText: FC = () => {
   return (
     <Box

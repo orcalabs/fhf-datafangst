@@ -12,6 +12,7 @@ export const TrackLayer: FC = () => {
   const track = useAppSelector(selectTrack);
   const state = useAppSelector(selectFishmapState);
   const haul = useAppSelector(selectSelectedHaul);
+
   const [trackVectors, setTrackVectors] = useState<TravelVector[]>();
   const [zoom, setZoom] = useState<number | undefined>(
     state.map.getView().getZoom(),

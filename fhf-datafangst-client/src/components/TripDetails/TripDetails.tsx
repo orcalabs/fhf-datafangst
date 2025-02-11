@@ -15,6 +15,8 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { OverlayScrollbars } from "components";
+import { HEADER_HEIGHT } from "components/Layout/Header";
 import { Landing } from "generated/openapi";
 import { EventType } from "models";
 import { FC, forwardRef } from "react";
@@ -120,11 +122,10 @@ export const TripDetails: FC = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        bgcolor: "white",
-        zIndex: 10000,
+    <OverlayScrollbars
+      style={{
+        height: `calc(100vh - ${HEADER_HEIGHT}px)`,
+        backgroundColor: "white",
       }}
     >
       <Box display="flex" justifyContent={"space-between"} sx={{ p: 2 }}>
@@ -190,6 +191,6 @@ export const TripDetails: FC = () => {
           ))}
         </Stepper>
       </Box>
-    </Box>
+    </OverlayScrollbars>
   );
 };

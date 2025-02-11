@@ -109,12 +109,10 @@ export const middle = (a: number, b: number, c: number) =>
 export const sumCatches = (
   catches: Catch[],
   weightType: CatchWeightType = "livingWeight",
-) => {
-  return catches.reduce((sum, curr) => sum + (curr[weightType] ?? 0), 0);
-};
+) => catches.sum((v) => v[weightType] ?? 0);
 
 export const sumPriceFromCatches = (catches: Catch[]) =>
-  catches.reduce((sum, curr) => sum + (curr.priceForFisher ?? 0), 0);
+  catches.sum((v) => v.priceForFisher ?? 0);
 
 export const findHighestHaulCatchWeight = (hauls: Haul[]) => {
   let highest = 0;
@@ -207,26 +205,6 @@ export const createGearListString = (
 export const createOwnersListString = (owners: RegisterVesselOwner[]) =>
   owners.map((g) => toTitleCase(g.name)).join(", ");
 
-export const reduceHaulsCatches = (
-  hauls: Haul[] | undefined,
-): Record<number, Catch> =>
-  hauls?.reduce((tot: Record<number, Catch>, cur) => {
-    for (const c of cur.catches) {
-      if (c.speciesFiskeridirId) {
-        const x = tot[c.speciesFiskeridirId];
-        if (x) {
-          x.livingWeight += c.livingWeight;
-        } else {
-          tot[c.speciesFiskeridirId] = {
-            speciesFiskeridirId: c.speciesFiskeridirId,
-            livingWeight: c.livingWeight,
-          };
-        }
-      }
-    }
-    return tot;
-  }, {}) ?? {};
-
 export const reduceCatchesOnSpecies = (
   catches: Catch[],
 ): Record<number, Catch> =>
@@ -235,17 +213,15 @@ export const reduceCatchesOnSpecies = (
       const x = tot[cur.speciesFiskeridirId];
       if (x) {
         x.livingWeight += cur.livingWeight;
-        if (
-          Number.isFinite(x.priceForFisher) &&
-          Number.isFinite(cur.priceForFisher)
-        ) {
-          x.priceForFisher! += cur.priceForFisher!;
+
+        if (Number.isFinite(cur.priceForFisher)) {
+          x.priceForFisher = (x.priceForFisher ?? 0) + cur.priceForFisher!;
         }
-        if (x.grossWeight !== undefined && cur.grossWeight !== undefined) {
-          x.grossWeight += cur.grossWeight;
+        if (Number.isFinite(cur.grossWeight)) {
+          x.grossWeight = (x.grossWeight ?? 0) + cur.grossWeight!;
         }
-        if (x.productWeight !== undefined && cur.productWeight !== undefined) {
-          x.productWeight += cur.productWeight;
+        if (Number.isFinite(cur.productWeight)) {
+          x.productWeight = (x.productWeight ?? 0) + cur.productWeight!;
         }
       } else {
         tot[cur.speciesFiskeridirId] = {

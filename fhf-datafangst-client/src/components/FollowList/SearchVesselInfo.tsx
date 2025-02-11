@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import theme from "app/theme";
 import { Vessel } from "generated/openapi";
-import { useAuth } from "oidc-react";
 import { FC } from "react";
 import {
   selectUserFollowList,
@@ -35,21 +34,14 @@ interface Props {
   vessel: Vessel;
 }
 
-export const SearchVesselInfo: FC<Props> = (props) => {
-  const { vessel } = props;
-  const { userData } = useAuth();
+export const SearchVesselInfo: FC<Props> = ({ vessel }) => {
   const dispatch = useAppDispatch();
+
   const followList = useAppSelector(selectUserFollowList);
 
   const handleAddUser = () => {
     const following = followList ?? [];
-
-    dispatch(
-      updateUser({
-        following: [...following, vessel],
-        accessToken: userData?.access_token,
-      }),
-    );
+    dispatch(updateUser({ following: [...following, vessel] }));
   };
 
   return (

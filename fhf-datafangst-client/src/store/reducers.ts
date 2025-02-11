@@ -4,11 +4,10 @@ import {
   getBwUser,
   resetState,
   resetTrackState,
+  setAppPage,
   setError,
-  setMatrixToggle,
   setTripDetailsOpen,
   setTripFiltersOpen,
-  setViewState,
 } from "./actions";
 import { aisBuilder } from "./ais";
 import { benchmarkBuilder } from "./benchmark";
@@ -22,7 +21,7 @@ import { haulBuilder } from "./haul";
 import { landingBuilder } from "./landing";
 import { orgBuilder } from "./org";
 import { speciesBuilder } from "./species";
-import { AppState, emptyState, initialAppState, MatrixToggle } from "./state";
+import { AppState, emptyState, initialAppState } from "./state";
 import { trackBuilder } from "./track";
 import { tripBuilder } from "./trip";
 import { tripBenchmarkBuilder } from "./tripBenchmark";
@@ -59,23 +58,11 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setViewState, (state, action) => {
-      const viewState = action.payload;
-      // Prevent wrong matrix state if clicking the tabs quickly
-      if (state.haulsMatrixLoading) {
-        return;
-      }
-
-      return {
-        ...state,
-        ...emptyState,
-        viewState,
-        haulsMatrix: undefined,
-        haulsMatrixSearch: undefined,
-        haulsMatrix2Search: undefined,
-        matrixToggle: MatrixToggle.Haul,
-      };
-    })
+    .addCase(setAppPage, (state, action) => ({
+      ...state,
+      ...emptyState,
+      appPage: action.payload,
+    }))
     .addCase(getBwUser.pending, (state, _) => {
       state.bwUserLoading = true;
       state.bwUser = undefined;
@@ -159,9 +146,6 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         (action as any).asyncDispatch(getUser(token));
         (action as any).asyncDispatch(getFuelMeasurements({ token }));
       }
-    })
-    .addCase(setMatrixToggle, (state, action) => {
-      state.matrixToggle = action.payload;
     })
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
     .addCase(setTripFiltersOpen, (state, action) => {

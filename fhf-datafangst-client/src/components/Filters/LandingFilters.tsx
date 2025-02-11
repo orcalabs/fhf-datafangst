@@ -9,7 +9,6 @@ import {
   selectLandingsMatrixSearch,
   selectLandingSpeciesFilterStats,
   selectLandingVesselLengthFilterStats,
-  setHoveredLandingFilter,
   setLandingsMatrixSearch,
   useAppDispatch,
   useAppSelector,
@@ -37,11 +36,8 @@ export const LandingFilters: FC<Props> = (props) => {
   const speciesStats = useAppSelector(selectLandingSpeciesFilterStats);
   const lengthGroupStats = useAppSelector(selectLandingVesselLengthFilterStats);
 
-  const onFilterHover = (filter: LandingsFilter) =>
-    dispatch(setHoveredLandingFilter(filter));
-
-  const setSearch = (update: Partial<LandingsArgs>) => {
-    dispatch(setLandingsMatrixSearch({ ...landingsSearch, ...update }));
+  const setSearch = (update: Partial<LandingsArgs>, filter: LandingsFilter) => {
+    dispatch(setLandingsMatrixSearch({ ...landingsSearch, ...update, filter }));
   };
 
   return (
@@ -49,7 +45,6 @@ export const LandingFilters: FC<Props> = (props) => {
       <Stack
         direction="row"
         justifyContent="space-between"
-        onMouseEnter={() => onFilterHover(LandingsFilter.Date)}
         sx={{
           "& .MuiButtonBase-root": {
             borderRadius: 0,
@@ -63,13 +58,17 @@ export const LandingFilters: FC<Props> = (props) => {
           <YearsFilter
             value={landingsSearch?.years}
             minYear={MinLandingYear}
-            onChange={(value) => setSearch({ years: value })}
+            onChange={(value) =>
+              setSearch({ years: value }, LandingsFilter.Date)
+            }
           />
         </Box>
         <Box sx={{ width: "48%" }}>
           <MonthsFilter
             value={landingsSearch?.months}
-            onChange={(value) => setSearch({ months: value })}
+            onChange={(value) =>
+              setSearch({ months: value }, LandingsFilter.Date)
+            }
           />
         </Box>
       </Stack>
@@ -79,37 +78,42 @@ export const LandingFilters: FC<Props> = (props) => {
         </Box>
       ) : (
         <>
-          <Box onMouseEnter={() => onFilterHover(LandingsFilter.GearGroup)}>
-            <GearFilter
-              value={landingsSearch?.gearGroupIds}
-              stats={gearStats}
-              onChange={(value) => setSearch({ gearGroupIds: value })}
-              removeIfSingleEntry={removeSingleEntryFilters}
-            />
-          </Box>
-          <Box onMouseEnter={() => onFilterHover(LandingsFilter.SpeciesGroup)}>
-            <SpeciesFilter
-              value={landingsSearch?.speciesGroupIds}
-              stats={speciesStats}
-              onChange={(value) => setSearch({ speciesGroupIds: value })}
-            />
-          </Box>
-          <Box onMouseEnter={() => onFilterHover(LandingsFilter.VesselLength)}>
-            <LengthGroupFilter
-              value={landingsSearch?.vesselLengthGroups}
-              stats={lengthGroupStats}
-              onChange={(value) => setSearch({ vesselLengthGroups: value })}
-              removeIfSingleEntry={removeSingleEntryFilters}
-            />
-          </Box>
+          <GearFilter
+            value={landingsSearch?.gearGroupIds}
+            stats={gearStats}
+            onChange={(value) =>
+              setSearch({ gearGroupIds: value }, LandingsFilter.GearGroup)
+            }
+            removeIfSingleEntry={removeSingleEntryFilters}
+          />
+          <SpeciesFilter
+            value={landingsSearch?.speciesGroupIds}
+            stats={speciesStats}
+            onChange={(value) =>
+              setSearch({ speciesGroupIds: value }, LandingsFilter.SpeciesGroup)
+            }
+          />
+          <LengthGroupFilter
+            value={landingsSearch?.vesselLengthGroups}
+            stats={lengthGroupStats}
+            onChange={(value) =>
+              setSearch(
+                { vesselLengthGroups: value },
+                LandingsFilter.VesselLength,
+              )
+            }
+            removeIfSingleEntry={removeSingleEntryFilters}
+          />
           {!selectedVessel && (
-            <Box
-              onMouseEnter={() => onFilterHover(LandingsFilter.Vessel)}
-              sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}
-            >
+            <Box sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}>
               <VesselFilter
                 value={landingsSearch?.vessels}
-                onChange={(value) => setSearch({ vessels: value })}
+                onChange={(value) =>
+                  setSearch(
+                    { vessels: value },
+                    landingsSearch?.filter ?? LandingsFilter.VesselLength,
+                  )
+                }
                 useVirtualization
               />
             </Box>

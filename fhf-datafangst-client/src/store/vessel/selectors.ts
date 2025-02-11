@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { Vessel } from "generated/openapi";
-import { selectHauls } from "store/haul";
+import { selectHaulsMap } from "store/haul";
 import { selectLandings } from "store/landing";
 import { selectAppState } from "store/selectAppState";
 import { selectBwUserCallSign } from "store/selectors";
@@ -61,15 +61,14 @@ export const selectVesselByMmsi = createSelector(
 export const selectVesselsByHaulId = createSelector(
   selectVesselsByFiskeridirId,
   selectVesselsByCallsign,
-  selectHauls,
+  selectHaulsMap,
   (vesselsByFiskeridirId, vesselsByCallSign, hauls) => {
     const vesselsMap: Record<string, Vessel> = {};
     for (const haul of Object.values(hauls)) {
       if (haul.fiskeridirVesselId) {
-        vesselsMap[haul.haulId] =
-          vesselsByFiskeridirId[haul.fiskeridirVesselId];
+        vesselsMap[haul.id] = vesselsByFiskeridirId[haul.fiskeridirVesselId];
       } else {
-        vesselsMap[haul.haulId] = vesselsByCallSign[haul.callSign];
+        vesselsMap[haul.id] = vesselsByCallSign[haul.callSign];
       }
     }
 

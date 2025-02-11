@@ -12,12 +12,19 @@ import { MinLandingYear } from "utils";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 import { createTimestampsFromYearsMonths } from "./utils";
 
-export const LandingsFilter = {
-  ...ActiveLandingFilter,
-  Vessel: "vessel",
-} as const;
-export type LandingsFilter =
-  (typeof LandingsFilter)[keyof typeof LandingsFilter];
+export type LandingsFilter = ActiveLandingFilter;
+export const LandingsFilter = ActiveLandingFilter;
+
+export interface LandingsMatrixArgs {
+  filter: LandingsFilter;
+  years?: number[];
+  months?: number[];
+  vessels?: Vessel[];
+  catchLocations?: string[];
+  gearGroupIds?: GearGroupDetailed[];
+  speciesGroupIds?: SpeciesGroupDetailed[];
+  vesselLengthGroups?: LengthGroup[];
+}
 
 export interface LandingsArgs {
   years?: number[];
@@ -27,7 +34,6 @@ export interface LandingsArgs {
   gearGroupIds?: GearGroupDetailed[];
   speciesGroupIds?: SpeciesGroupDetailed[];
   vesselLengthGroups?: LengthGroup[];
-  filter?: LandingsFilter;
   ordering?: Ordering;
   sorting?: LandingsSorting;
   limit?: number;
@@ -51,7 +57,7 @@ export const getLandings = apiFn((query: LandingsArgs, signal) =>
       gearGroupIds: query.gearGroupIds?.map((g) => g.id),
       speciesGroupIds: query.speciesGroupIds?.map((g) => g.id),
       vesselLengthGroups: query.vesselLengthGroups?.map((g) => g.id),
-      ordering: query?.ordering ?? Ordering.Desc,
+      ordering: query.ordering ?? Ordering.Desc,
       sorting: query.sorting ?? LandingsSorting.LandingTimestamp,
       limit: query.limit,
       offset:
@@ -63,13 +69,10 @@ export const getLandings = apiFn((query: LandingsArgs, signal) =>
   ),
 );
 
-export const getLandingsMatrix = apiFn((query: LandingsArgs, signal) =>
+export const getLandingsMatrix = apiFn((query: LandingsMatrixArgs, signal) =>
   api.routesV1LandingLandingMatrix(
     {
-      activeFilter:
-        query.filter === LandingsFilter.Vessel
-          ? ActiveLandingFilter.VesselLength
-          : (query.filter as ActiveLandingFilter),
+      activeFilter: query.filter,
       months:
         query.filter === LandingsFilter.Date
           ? undefined

@@ -1,8 +1,6 @@
-import { DateRange } from "components/MainMenu/SearchFilters/DateFilter";
+import { DateRange } from "components/SearchFilters/DateFilter";
 import {
   GearGroupDetailed,
-  Haul,
-  Landing,
   Ordering,
   SpeciesGroupDetailed,
   TripApi,
@@ -12,7 +10,13 @@ import {
 import { LengthGroup } from "models";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
+export interface TripArgs {
+  tripId: number;
+  accessToken?: string;
+}
+
 export interface TripsArgs {
+  tripIds?: number[];
   vessels?: Vessel[];
   deliveryPoints?: string[];
   dateRange?: DateRange;
@@ -40,17 +44,20 @@ export interface CurrentTripTrackArgs {
 
 const api = new TripApi(apiConfiguration, undefined, axiosInstance);
 
-export const getTripFromHaul = apiFn(({ haulId }: Haul, signal) =>
-  api.routesV1TripTripOfHaulTripOfHaul({ haulId }, { signal }),
-);
-
-export const getTripFromLanding = apiFn((landing: Landing, signal) =>
-  api.routesV1TripTripOfLanding({ landingId: landing.id }, { signal }),
+export const getTrip = apiFn((query: TripArgs, signal) =>
+  api.routesV1TripTrips(
+    {
+      tripIds: [query.tripId],
+      bwToken: query.accessToken,
+    },
+    { signal },
+  ),
 );
 
 export const getTrips = apiFn((query: TripsArgs, signal) =>
   api.routesV1TripTrips(
     {
+      tripIds: query.tripIds,
       fiskeridirVesselIds: query.vessels?.map((v) => v.fiskeridir.id),
       deliveryPoints: query.deliveryPoints,
       startDate: query.dateRange?.start?.toISOString(),

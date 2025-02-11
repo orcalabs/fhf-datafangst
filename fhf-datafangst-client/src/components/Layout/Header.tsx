@@ -4,26 +4,34 @@ import {
   AppBar,
   Button,
   Divider,
-  Modal,
   Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
 import LogoIcon from "assets/logos/logoIcon";
-import { AboutUs } from "components";
+import { AboutUs, HeaderMenuButtons } from "components";
+import { AppPage } from "containers/App/App";
 import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
 import { Link as RouterLink } from "react-router";
-import { MenuViewState, selectIsLoggedIn, useAppSelector } from "store";
+import { selectIsLoggedIn, useAppSelector } from "store";
 
-export const Header: FC = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
+export const HEADER_HEIGHT = 52;
+
+export interface Props {
+  page: AppPage;
+}
+
+export const Header: FC<Props> = ({ page }) => {
   const { signIn, signOutRedirect } = useAuth();
+
+  const loggedIn = useAppSelector(selectIsLoggedIn);
+
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
 
   return (
     <AppBar
-      position="fixed"
+      position="relative"
       sx={{
         borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
         bgcolor: "primary.dark",
@@ -36,12 +44,18 @@ export const Header: FC = () => {
         sx={{
           display: "grid",
           gridTemplateColumns: "1fr auto 1fr",
-          height: 52,
+          height: HEADER_HEIGHT,
         }}
       >
+        <HeaderMenuButtons page={page} />
+
         <RouterLink
-          style={{ maxHeight: 52, gridColumn: 2, textDecoration: "none" }}
-          to={`/${MenuViewState.Live}`}
+          style={{
+            maxHeight: HEADER_HEIGHT,
+            gridColumn: 2,
+            textDecoration: "none",
+          }}
+          to={`/${AppPage.Live}`}
         >
           <Stack direction="row" alignItems="center">
             <LogoIcon height={40} />
@@ -89,11 +103,7 @@ export const Header: FC = () => {
           </Button>
         </Stack>
       </Toolbar>
-      <Modal open={aboutModalOpen} onClose={() => setAboutModalOpen(false)}>
-        <>
-          <AboutUs />
-        </>
-      </Modal>
+      <AboutUs open={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
     </AppBar>
   );
 };

@@ -24,10 +24,9 @@ export const MapAttributions: FC = () => {
       alignItems="center"
       gap={0.5}
       sx={{
-        bottom: 5,
-        position: "relative",
+        pointerEvents: "auto",
+        padding: 1,
         fontSize: "small",
-        right: "10px",
         zIndex: 10,
       }}
     >

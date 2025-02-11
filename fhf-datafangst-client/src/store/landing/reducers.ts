@@ -1,12 +1,10 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { LandingsFilter } from "api";
 import { Landing, LandingsSorting, Ordering } from "generated/openapi";
 import { AppState, emptyState } from "store/state";
 import {
   getLandings,
   getLandingsMatrix,
   getLandingsMatrix2,
-  setHoveredLandingFilter,
   setLandingDateSliderFrame,
   setLandingsMatrix2Search,
   setLandingsMatrixSearch,
@@ -67,9 +65,6 @@ export const landingBuilder = (
     .addCase(setSelectedTripLanding, (state, action) => {
       state.selectedTripLanding = action.payload;
     })
-    .addCase(setHoveredLandingFilter, (state, action) => {
-      state.hoveredLandingFilter = action.payload;
-    })
     .addCase(setLandingsSearch, (state, action) => {
       (action as any).asyncDispatch(
         getLandings({
@@ -81,12 +76,10 @@ export const landingBuilder = (
     })
     .addCase(setLandingsMatrixSearch, (state, action) => {
       if (
-        action.payload.filter === undefined ||
-        action.payload.filter !== state.hoveredLandingFilter ||
-        action.payload.filter === LandingsFilter.Vessel
+        state.landingsMatrixSearch?.filter !== action.payload.filter ||
+        state.landingsMatrixSearch.vessels?.length !==
+          action.payload.vessels?.length
       ) {
-        action.payload.filter =
-          state.hoveredLandingFilter ?? LandingsFilter.VesselLength;
         (action as any).asyncDispatch(
           getLandingsMatrix({ ...action.payload, catchLocations: undefined }),
         );
@@ -96,6 +89,7 @@ export const landingBuilder = (
         ...state,
         ...emptyState,
         haulsMatrix: undefined,
+        haulsMatrixSearch: undefined,
         landings: undefined,
         landingsMatrixSearch: action.payload,
         landingsMatrix2Search: undefined,
@@ -103,12 +97,12 @@ export const landingBuilder = (
     })
     .addCase(setLandingsMatrix2Search, (state, action) => {
       if (
-        action.payload.filter === undefined ||
-        action.payload.filter !== state.hoveredLandingFilter ||
-        action.payload.filter === LandingsFilter.Vessel
+        state.landingsMatrix2Search?.filter !== action.payload.filter ||
+        state.landingsMatrix2Search.catchLocations?.length !==
+          action.payload.catchLocations?.length ||
+        state.landingsMatrix2Search.vessels?.length !==
+          action.payload.vessels?.length
       ) {
-        action.payload.filter =
-          state.hoveredLandingFilter ?? LandingsFilter.VesselLength;
         (action as any).asyncDispatch(getLandingsMatrix2(action.payload));
       }
 

@@ -1,34 +1,20 @@
 import { Box, Tab, Tabs } from "@mui/material";
+import { AppPage } from "containers/App/App";
 import { FC } from "react";
 import { useNavigate } from "react-router";
-import {
-  MenuViewState,
-  selectViewState,
-  setHoveredHaulFilter,
-  useAppDispatch,
-  useAppSelector,
-} from "store";
 
-export const HeaderMenuButtons: FC = () => {
+export interface Props {
+  page: AppPage;
+}
+
+export const HeaderMenuButtons: FC<Props> = ({ page }) => {
   const navigate = useNavigate();
-
-  const dispatch = useAppDispatch();
-  const viewState = useAppSelector(selectViewState);
-
-  const handleChange = (newValue: MenuViewState) => {
-    if (newValue !== null) {
-      navigate(`/${newValue}`);
-      dispatch(setHoveredHaulFilter(undefined));
-    }
-  };
 
   return (
     <Box
       sx={{
         pl: 1,
         width: 500,
-        position: "relative",
-        zIndex: 10000,
         "& .MuiButtonBase-root.Mui-selected": {
           color: "white",
           fontWeight: "bold",
@@ -37,27 +23,24 @@ export const HeaderMenuButtons: FC = () => {
     >
       <Tabs
         sx={{
-          height: 45,
-          minHeight: 45,
           "& .MuiButtonBase-root": {
-            height: 52,
             minWidth: 100,
             ":hover": {
               color: "white",
             },
           },
         }}
-        value={viewState ?? MenuViewState.Live}
-        onChange={(_, newVal: MenuViewState) => handleChange(newVal)}
+        value={page}
+        onChange={(_, newPage: AppPage) => navigate(`/${newPage}`)}
         textColor="secondary"
         TabIndicatorProps={{
           sx: { bgcolor: "white" },
         }}
       >
-        <Tab label="Live" value={MenuViewState.Live}></Tab>
-        <Tab label="Områder" value={MenuViewState.Overview}></Tab>
-        <Tab label="Turer" value={MenuViewState.Trips}></Tab>
-        <Tab label="Mitt fartøy" value={MenuViewState.MyPage}></Tab>
+        <Tab label="Live" value={AppPage.Live}></Tab>
+        <Tab label="Områder" value={AppPage.Area}></Tab>
+        <Tab label="Turer" value={AppPage.Trips}></Tab>
+        <Tab label="Mitt fartøy" value={AppPage.MyPage}></Tab>
       </Tabs>
     </Box>
   );

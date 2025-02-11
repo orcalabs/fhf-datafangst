@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router";
 import { store } from "store";
 import "utils/prototypes.ts";
-import { App } from "./containers";
+import { App } from "./containers/App/App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 

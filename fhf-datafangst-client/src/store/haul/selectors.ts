@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { HaulsArgs, HaulsFilter } from "api";
+import { HaulsFilter, HaulsMatrixArgs } from "api";
 import { getAllYearsArray } from "components/Filters/YearsFilter";
 import {
   GearGroupDetailed,
@@ -15,18 +15,6 @@ import { selectAppState } from "store/selectAppState";
 import { selectSpeciesGroups } from "store/species";
 import { computeMatrixStats } from "store/utils";
 import { fishingLocationAreas, MinErsYear, sumCatches } from "utils";
-
-export const selectShowHaulTimeSlider = createSelector(
-  selectAppState,
-  (state) =>
-    (!!state.haulsMatrix || state.haulsMatrixLoading) &&
-    !state.selectedTrip &&
-    state.trips === undefined &&
-    !state.selectedGrids.length &&
-    state.fishingFacilities === undefined &&
-    !state.fishingFacilitiesLoading &&
-    !state.tripsLoading,
-);
 
 export const selectHaulsLoading = createSelector(
   selectAppState,
@@ -58,14 +46,23 @@ export const selectHaulsMatrix2Search = createSelector(
   (state) => state.haulsMatrix2Search,
 );
 
-export const selectHauls = createSelector(
+export const selectHaulsMap = createSelector(
   selectAppState,
   (state) => state.hauls ?? {},
 );
 
+export const selectHauls = createSelector(selectHaulsMap, (state) =>
+  Object.values(state),
+);
+
+export const selectHaul = createSelector(
+  [selectHaulsMap, (_, id: number) => id],
+  (hauls, id) => hauls[id] as Haul | undefined,
+);
+
 export const selectHaulsSorted = createSelector(
   [
-    selectHauls,
+    selectHaulsMap,
     (_, sorting: HaulsSorting) => sorting,
     (_, __, ordering: Ordering) => ordering,
   ],
@@ -126,10 +123,7 @@ export const selectSelectedTripHaul = createSelector(
 
 export const selectHaulsFilter = createSelector(
   selectHaulsMatrixSearch,
-  (state) =>
-    state?.filter === HaulsFilter.Vessel
-      ? HaulsFilter.VesselLength
-      : state?.filter,
+  (state) => state?.filter,
 );
 
 export const selectHaulDateSliderFrame = createSelector(
@@ -147,7 +141,7 @@ const getIndexes = (original: { id: any }[], selected?: { id: any }[]) =>
   }, []) ?? [];
 
 const _selectHaulsActiveFilterSelectedIndexes = (
-  search: HaulsArgs | undefined,
+  search: HaulsMatrixArgs | undefined,
   gearGroups: GearGroupDetailed[],
   speciesGroups: SpeciesGroupDetailed[],
   currentDateSliderFrame?: Date,

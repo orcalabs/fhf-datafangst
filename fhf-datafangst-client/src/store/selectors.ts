@@ -12,19 +12,14 @@ export const selectAccessToken = createSelector(
   (state) => state.authUser?.access_token,
 );
 
-export const selectViewState = createSelector(
+export const selectAppPage = createSelector(
   selectAppState,
-  (state) => state.viewState,
+  (state) => state.appPage,
 );
 
 export const selectIsLoggedIn = createSelector(
   selectAppState,
   (state) => state.isLoggedIn,
-);
-
-export const selectSecondaryMenuOpen = createSelector(
-  selectAppState,
-  (state) => state.selectedGrids.length > 0 || Boolean(state.selectedTrip),
 );
 
 export const selectTrackMissing = createSelector(
@@ -33,11 +28,6 @@ export const selectTrackMissing = createSelector(
     (state.selectedHaul ?? state.selectedTrip) &&
     !state.track?.length &&
     !state.trackLoading,
-);
-
-export const selectMatrixToggle = createSelector(
-  selectAppState,
-  (state) => state.matrixToggle,
 );
 
 export const selectTripFiltersOpen = createSelector(

@@ -22,14 +22,3 @@ export const selectFishmapState = createSelector(selectAppState, (state) => ({
   zoom: state.zoomLevel,
   zoomFactor: state.zoomFactor,
 }));
-
-export const selectShowGrid = createSelector(
-  selectAppState,
-  (state) =>
-    (state.haulsMatrix ?? state.landingsMatrix) &&
-    !state.selectedTrip &&
-    state.trips === undefined &&
-    state.fishingFacilities === undefined &&
-    !state.fishingFacilitiesLoading &&
-    !state.tripsLoading,
-);

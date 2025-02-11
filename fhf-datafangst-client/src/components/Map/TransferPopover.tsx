@@ -1,7 +1,7 @@
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import { Divider, Stack, Typography } from "@mui/material";
 import { ErsQuantumType, Tra, TraCatch } from "generated/openapi";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { selectVesselsByFiskeridirId, useAppSelector } from "store";
 import { dateFormat, kilosOrTonsFormatter, toTitleCase } from "utils";
 
@@ -15,17 +15,18 @@ const textStyle = {
   fontWeight: 400,
 };
 
-const sumTraWeight = (catches: TraCatch[]) => {
-  return catches.reduce(
-    (sum, curr) =>
-      curr.catchQuantum === ErsQuantumType.Kg ? sum + curr.livingWeight : sum,
-    0,
+const sumTraWeight = (catches: TraCatch[]) =>
+  catches.sum((v) =>
+    v.catchQuantum === ErsQuantumType.Kg ? v.livingWeight : 0,
   );
-};
 
 export const TransferPopover: FC<Props> = ({ transfer }) => {
-  const weight = sumTraWeight(transfer.catches);
   const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
+
+  const weight = useMemo(
+    () => sumTraWeight(transfer.catches),
+    [transfer.catches],
+  );
 
   return (
     <Stack sx={{ p: 1, pr: 1.2 }} spacing={1}>

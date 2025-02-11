@@ -1,26 +1,24 @@
 import { VectorLayer } from "components";
+import { MatrixTab, useMatrixTab } from "hooks";
 import { Feature } from "ol";
 import { Geometry } from "ol/geom";
 import VectorSource from "ol/source/Vector";
 import { useEffect, useState } from "react";
 import {
-  MatrixToggle,
   selectHaulLocationsMatrix,
   selectHaulsMatrixActiveFilterSelectedIndexes,
   selectLandingLocationsMatrix,
   selectLandingsMatrixActiveFilterSelectedIndexes,
-  selectMatrixToggle,
   selectSelectedGridsString,
-  selectSelectedOrCurrentTrip,
   useAppSelector,
 } from "store";
 import { generateLocationsMatrix } from "utils";
 
 export const LocationsGrid = () => {
-  const matrixToggle = useAppSelector(selectMatrixToggle);
+  const [matrixTab, __] = useMatrixTab();
 
   const [matrix, selectedFilters] =
-    matrixToggle === MatrixToggle.Haul
+    matrixTab === MatrixTab.Ers
       ? [
           useAppSelector(selectHaulLocationsMatrix),
           useAppSelector(selectHaulsMatrixActiveFilterSelectedIndexes),
@@ -30,7 +28,6 @@ export const LocationsGrid = () => {
           useAppSelector(selectLandingsMatrixActiveFilterSelectedIndexes),
         ];
 
-  const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
 
   const [gridVector, _] = useState<VectorSource<Feature<Geometry>>>(
@@ -38,16 +35,16 @@ export const LocationsGrid = () => {
   );
 
   useEffect(() => {
+    gridVector.clear();
     if (matrix) {
-      gridVector?.clear();
       const features = generateLocationsMatrix(
         matrix,
         selectedFilters,
         selectedGrids,
       );
-      gridVector?.addFeatures(features);
+      gridVector.addFeatures(features);
     }
   }, [matrix, selectedFilters]);
 
-  return selectedTrip ? <></> : <VectorLayer source={gridVector} zIndex={1} />;
+  return <VectorLayer source={gridVector} zIndex={1} />;
 };

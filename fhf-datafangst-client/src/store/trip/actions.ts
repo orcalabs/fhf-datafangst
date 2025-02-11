@@ -3,17 +3,9 @@ import * as Api from "api";
 import { Trip } from "generated/openapi";
 import { TripTrackIdentifier } from "./state";
 
+export const getTrip = createAsyncThunk("trip/getTrip", Api.getTrip);
+
 export const getTrips = createAsyncThunk("trip/getTrips", Api.getTrips);
-
-export const getHaulTrip = createAsyncThunk(
-  "trip/getHaulTrip",
-  Api.getTripFromHaul,
-);
-
-export const getLandingTrip = createAsyncThunk(
-  "trip/getLandingTrip",
-  Api.getTripFromLanding,
-);
 
 export const getCurrentTrip = createAsyncThunk(
   "trip/getCurrentTrip",

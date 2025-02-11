@@ -1,4 +1,4 @@
-import { HaulsArgs, HaulsFilter } from "api/haulsApi";
+import { HaulsArgs, HaulsFilter, HaulsMatrixArgs } from "api/haulsApi";
 import { getMonth, getYear } from "date-fns";
 import { Haul, HaulsMatrix } from "generated/openapi";
 
@@ -10,9 +10,8 @@ export interface HaulState {
   haulsMatrixLoading: boolean;
   haulsMatrix2Loading: boolean;
   haulsSearch?: HaulsArgs;
-  haulsMatrixSearch?: HaulsArgs;
-  haulsMatrix2Search?: HaulsArgs;
-  hoveredHaulFilter?: HaulsFilter;
+  haulsMatrixSearch?: HaulsMatrixArgs;
+  haulsMatrix2Search?: HaulsMatrixArgs;
   selectedHaul?: Haul;
   selectedTripHaul?: Haul;
   showTimeSlider: boolean;
@@ -29,7 +28,6 @@ export const initialHaulState: HaulState = {
   haulsSearch: undefined,
   haulsMatrixSearch: undefined,
   haulsMatrix2Search: undefined,
-  hoveredHaulFilter: undefined,
   selectedHaul: undefined,
   selectedTripHaul: undefined,
   showTimeSlider: false,
@@ -37,7 +35,8 @@ export const initialHaulState: HaulState = {
 
 const month = getMonth(new Date());
 
-export const initialHaulsMatrixSearch: HaulsArgs = {
+export const initialHaulsMatrixSearch: HaulsMatrixArgs = {
+  filter: HaulsFilter.VesselLength,
   months: [month === 0 ? 12 : month],
   years: [getYear(new Date()) - (month === 0 ? 1 : 0)],
 };

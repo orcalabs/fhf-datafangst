@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
-import { LandingsArgs, LandingsFilter } from "api";
+import { LandingsArgs, LandingsMatrixArgs } from "api";
 import { Landing } from "generated/openapi";
 
 export const getLandings = createAsyncThunk(
@@ -22,11 +22,11 @@ export const setLandingsSearch = createAction<LandingsArgs>(
   "landing/setLandingsSearch",
 );
 
-export const setLandingsMatrixSearch = createAction<LandingsArgs>(
+export const setLandingsMatrixSearch = createAction<LandingsMatrixArgs>(
   "landing/setLandingsMatrixSearch",
 );
 
-export const setLandingsMatrix2Search = createAction<LandingsArgs>(
+export const setLandingsMatrix2Search = createAction<LandingsMatrixArgs>(
   "landing/setLandingsMatrix2Search",
 );
 
@@ -36,10 +36,6 @@ export const setLandingDateSliderFrame = createAction<Date | undefined>(
 
 export const setSelectedLanding = createAction<Landing | number | undefined>(
   "landing/setSelectedLanding",
-);
-
-export const setHoveredLandingFilter = createAction<LandingsFilter | undefined>(
-  "landing/setHoveredLandingFilter",
 );
 
 export const setSelectedTripLanding = createAction<Landing | undefined>(

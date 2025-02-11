@@ -10,11 +10,11 @@ import {
 import { generateHaulsVector } from "utils";
 
 export const HaulsLayer: FC = () => {
-  const haulsMap = useAppSelector(selectHauls);
-  const hauls = Object.values(haulsMap);
+  const hauls = useAppSelector(selectHauls);
   const fishmap = useAppSelector(selectFishmap);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
+
   const removeLayer = useCallback(() => {
     for (const layer of fishmap.getLayers().getArray()) {
       if (layer.get("name") === "HaulsLayer") {
@@ -55,7 +55,7 @@ export const HaulsLayer: FC = () => {
         removeLayer();
       };
     }
-  }, [fishmap, removeLayer, haulsMap, selectedTrip]);
+  }, [fishmap, removeLayer, hauls, selectedTrip]);
 
   return null;
 };
