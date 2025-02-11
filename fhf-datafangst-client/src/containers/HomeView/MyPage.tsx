@@ -16,6 +16,7 @@ import { HaulsFilter } from "api";
 import theme from "app/theme";
 import { FishIcon } from "assets/icons";
 import {
+  CurrentTripMenu,
   HaulFilters,
   HaulsLayer,
   HaulsMenu,
@@ -90,7 +91,7 @@ export const MyPage: FC = () => {
 
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const selectedTrip = useAppSelector(selectSelectedTrip);
-  const selectedCurrentTrip = useAppSelector(selectCurrentTrip);
+  const currentTrip = useAppSelector(selectCurrentTrip);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const fishingFacilitiesSearch = useAppSelector(selectFishingFacilitySearch);
@@ -363,10 +364,18 @@ export const MyPage: FC = () => {
           }}
         />
       </PageLayoutCenterBottom>
-      <PageLayoutRight open={!!selectedTrip || selectedGrids.length > 0}>
-        {selectedTrip ? <SelectedTripMenu /> : <HaulsMenu />}
+      <PageLayoutRight
+        open={!!selectedTrip || !!currentTrip || selectedGrids.length > 0}
+      >
+        {selectedTrip ? (
+          <SelectedTripMenu />
+        ) : currentTrip ? (
+          <CurrentTripMenu />
+        ) : (
+          <HaulsMenu />
+        )}
       </PageLayoutRight>
-      {(selectedTrip ?? selectedCurrentTrip) ? (
+      {(selectedTrip ?? currentTrip) ? (
         <TripsLayer />
       ) : (
         subMenu === MyPageSubmenu.Area && (
