@@ -41,7 +41,7 @@ export const LivePage: FC = () => {
   useEffect(() => {
     const id = setInterval(() => {
       dispatch(getCurrentPositions({}));
-      if (selectedPosition) {
+      if (selectedPosition && !selectedTrip) {
         dispatch(
           getCurrentTripTrack({
             vesselId: selectedPosition.vesselId,
@@ -51,7 +51,7 @@ export const LivePage: FC = () => {
       }
     }, 60_000);
     return () => clearInterval(id);
-  }, [selectedPosition, currentTrip]);
+  }, [selectedPosition, selectedTrip, currentTrip]);
 
   // Get track of vessels with no reported CurrentTrip.
   useEffect(() => {
