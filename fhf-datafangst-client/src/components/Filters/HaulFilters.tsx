@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, SxProps } from "@mui/material";
 import { HaulsArgs, HaulsFilter } from "api";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 import { Vessel } from "generated/openapi";
@@ -24,11 +24,14 @@ import { YearsFilter } from "./YearsFilter";
 interface Props {
   selectedVessel?: Vessel;
   removeSingleEntryFilters?: boolean;
+  sx?: SxProps;
 }
 
-export const HaulFilters: FC<Props> = (props) => {
-  const { selectedVessel, removeSingleEntryFilters } = props;
-
+export const HaulFilters: FC<Props> = ({
+  selectedVessel,
+  removeSingleEntryFilters,
+  sx,
+}) => {
   const dispatch = useAppDispatch();
   const haulsSearch = useAppSelector(selectHaulsMatrixSearch);
   const matrixLoading = useAppSelector(selectHaulsMatrixLoading);
@@ -40,8 +43,16 @@ export const HaulFilters: FC<Props> = (props) => {
     dispatch(setHaulsMatrixSearch({ ...haulsSearch, ...update, filter }));
   };
 
+  if (matrixLoading) {
+    return (
+      <Box sx={{ ...sx, py: 7, pl: 2.5 }}>
+        <LocalLoadingProgress />
+      </Box>
+    );
+  }
+
   return (
-    <>
+    <Stack sx={sx}>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -68,51 +79,43 @@ export const HaulFilters: FC<Props> = (props) => {
           />
         </Box>
       </Stack>
-      {matrixLoading ? (
-        <Box sx={{ py: 7, pl: 2.5 }}>
-          <LocalLoadingProgress />
+      <GearFilter
+        value={haulsSearch?.gearGroupIds}
+        stats={gearStats}
+        onChange={(value) =>
+          setSearch({ gearGroupIds: value }, HaulsFilter.GearGroup)
+        }
+        removeIfSingleEntry={removeSingleEntryFilters}
+      />
+      <SpeciesFilter
+        value={haulsSearch?.speciesGroupIds}
+        stats={speciesStats}
+        onChange={(value) =>
+          setSearch({ speciesGroupIds: value }, HaulsFilter.SpeciesGroup)
+        }
+      />
+      <LengthGroupFilter
+        value={haulsSearch?.vesselLengthGroups}
+        stats={lengthGroupStats}
+        onChange={(value) =>
+          setSearch({ vesselLengthGroups: value }, HaulsFilter.VesselLength)
+        }
+        removeIfSingleEntry={removeSingleEntryFilters}
+      />
+      {!selectedVessel && (
+        <Box sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}>
+          <VesselFilter
+            value={haulsSearch?.vessels}
+            onChange={(value) =>
+              setSearch(
+                { vessels: value },
+                haulsSearch?.filter ?? HaulsFilter.VesselLength,
+              )
+            }
+            useVirtualization
+          />
         </Box>
-      ) : (
-        <>
-          <GearFilter
-            value={haulsSearch?.gearGroupIds}
-            stats={gearStats}
-            onChange={(value) =>
-              setSearch({ gearGroupIds: value }, HaulsFilter.GearGroup)
-            }
-            removeIfSingleEntry={removeSingleEntryFilters}
-          />
-          <SpeciesFilter
-            value={haulsSearch?.speciesGroupIds}
-            stats={speciesStats}
-            onChange={(value) =>
-              setSearch({ speciesGroupIds: value }, HaulsFilter.SpeciesGroup)
-            }
-          />
-          <LengthGroupFilter
-            value={haulsSearch?.vesselLengthGroups}
-            stats={lengthGroupStats}
-            onChange={(value) =>
-              setSearch({ vesselLengthGroups: value }, HaulsFilter.VesselLength)
-            }
-            removeIfSingleEntry={removeSingleEntryFilters}
-          />
-          {!selectedVessel && (
-            <Box sx={{ "& .MuiIconButton-root": { color: "text.secondary" } }}>
-              <VesselFilter
-                value={haulsSearch?.vessels}
-                onChange={(value) =>
-                  setSearch(
-                    { vessels: value },
-                    haulsSearch?.filter ?? HaulsFilter.VesselLength,
-                  )
-                }
-                useVirtualization
-              />
-            </Box>
-          )}
-        </>
       )}
-    </>
+    </Stack>
   );
 };

@@ -13,7 +13,11 @@ import {
   ListSubheader,
 } from "@mui/material";
 import theme from "app/theme";
-import { LocalLoadingProgress, PaginationButtons } from "components";
+import {
+  LocalLoadingProgress,
+  OverlayScrollbars,
+  PaginationButtons,
+} from "components";
 import { FishingFacility } from "generated/openapi";
 import { FishingFacilityToolTypes } from "models";
 import { FC } from "react";
@@ -69,10 +73,19 @@ export const MyGears: FC = () => {
   };
 
   return (
-    <List sx={{ color: "white", pt: 0 }}>
+    <List
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        color: "white",
+        pt: 0,
+        overflowY: "hidden",
+      }}
+    >
       <ListSubheader
         sx={{
-          bgcolor: "primary.light",
+          bgcolor: "inherit",
+          pb: 1,
         }}
       >
         <FormGroup>
@@ -103,34 +116,36 @@ export const MyGears: FC = () => {
           <LocalLoadingProgress />
         </Box>
       ) : !gears?.length ? (
-        <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater </Box>
+        <Box sx={{ py: 2, pl: 2.5 }}>Ingen resultater </Box>
       ) : (
         <>
-          {gears?.map((g) => (
-            <ListItemButton
-              dense
-              key={g.toolId}
-              sx={listItemSx}
-              selected={selectedGearId === g.toolId}
-              onClick={() => handleGearChange(g)}
-            >
-              <ListItemAvatar sx={{ pr: 2 }}>
-                <PhishingSharpIcon
-                  width="32"
-                  height="32"
-                  fill={theme.palette.secondary.main}
+          <OverlayScrollbars style={{ flexGrow: 1 }}>
+            {gears?.map((g) => (
+              <ListItemButton
+                dense
+                key={g.toolId}
+                sx={listItemSx}
+                selected={selectedGearId === g.toolId}
+                onClick={() => handleGearChange(g)}
+              >
+                <ListItemAvatar sx={{ pr: 2 }}>
+                  <PhishingSharpIcon
+                    width="32"
+                    height="32"
+                    fill={theme.palette.secondary.main}
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={FishingFacilityToolTypes[g.toolType]}
+                  secondary={`${dateFormat(g.setupTimestamp, "PPP")} - ${
+                    g.removedTimestamp
+                      ? dateFormat(g.removedTimestamp, "PPP")
+                      : "Nå"
+                  }`}
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={FishingFacilityToolTypes[g.toolType]}
-                secondary={`${dateFormat(g.setupTimestamp, "PPP")} - ${
-                  g.removedTimestamp
-                    ? dateFormat(g.removedTimestamp, "PPP")
-                    : "Nå"
-                }`}
-              />
-            </ListItemButton>
-          ))}
+              </ListItemButton>
+            ))}
+          </OverlayScrollbars>
 
           <Box sx={{ mt: 1 }}>
             <PaginationButtons

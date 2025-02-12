@@ -1,6 +1,7 @@
-import { Box, List, ListSubheader } from "@mui/material";
+import { Box, List, ListSubheader, Stack } from "@mui/material";
 import {
   LocalLoadingProgress,
+  OverlayScrollbars,
   PaginationButtons,
   VesselInfo,
 } from "components";
@@ -40,9 +41,18 @@ export const SelectedLiveVesselMenu: FC = () => {
   }
 
   return (
-    <>
+    <Stack sx={{ maxHeight: "100%" }}>
       <VesselInfo vessel={vessel} />
-      <List sx={{ color: "white", pt: 0 }}>
+
+      <List
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          color: "white",
+          pt: 0,
+          overflowY: "hidden",
+        }}
+      >
         <ListSubheader
           sx={{
             bgcolor: "primary.light",
@@ -60,7 +70,9 @@ export const SelectedLiveVesselMenu: FC = () => {
           <Box sx={{ py: 1, pl: 2.5 }}>Ingen leveranser</Box>
         ) : (
           <>
-            {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
+            <OverlayScrollbars style={{ flexGrow: 1 }}>
+              {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
+            </OverlayScrollbars>
 
             <Box sx={{ mt: 1 }}>
               <PaginationButtons
@@ -73,6 +85,6 @@ export const SelectedLiveVesselMenu: FC = () => {
           </>
         )}
       </List>
-    </>
+    </Stack>
   );
 };

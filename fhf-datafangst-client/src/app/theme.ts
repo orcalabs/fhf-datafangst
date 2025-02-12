@@ -12,6 +12,14 @@ declare module "@mui/material/styles" {
     fourth: PaletteOptions["primary"];
     fifth: PaletteOptions["primary"];
   }
+
+  interface PaletteColor {
+    alt?: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    alt?: string;
+  }
 }
 
 export const fontStyle: any = {
@@ -22,7 +30,7 @@ export const fontStyle: any = {
   fontWeightSemiBold: 600,
   fontWeightBold: 700,
 };
-// Create a theme instance.
+
 const theme = createTheme(
   {
     typography: {
@@ -59,6 +67,7 @@ const theme = createTheme(
         main: "#111C4E",
         light: "#404971",
         dark: "#0B1336",
+        alt: "#373F62",
         contrastText: "#fff",
       },
       secondary: {

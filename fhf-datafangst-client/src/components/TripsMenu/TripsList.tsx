@@ -2,6 +2,7 @@ import { Box, List, ListSubheader } from "@mui/material";
 import { TripsArgs } from "api";
 import {
   LocalLoadingProgress,
+  OverlayScrollbars,
   PaginationButtons,
   SearchFilters,
 } from "components";
@@ -66,12 +67,20 @@ export const TripsList: FC = () => {
   }, []);
 
   return (
-    <List sx={{ color: "white", pt: 0 }}>
+    <List
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        color: "white",
+        pt: 0,
+        overflowY: "hidden",
+      }}
+    >
       <ListSubheader
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          bgcolor: "primary.light",
+          bgcolor: "inherit",
           pl: 2.5,
           pr: 0,
           pt: appPage === AppPage.MyPage ? 0 : 1,
@@ -94,7 +103,9 @@ export const TripsList: FC = () => {
         <Box sx={{ py: 1, pl: 2.5 }}>Ingen resultater</Box>
       ) : (
         <>
-          {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
+          <OverlayScrollbars style={{ flexGrow: 1 }}>
+            {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
+          </OverlayScrollbars>
 
           <Box sx={{ mt: 1, mr: appPage === AppPage.MyPage ? 2 : 0 }}>
             <PaginationButtons
