@@ -1,5 +1,6 @@
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SpeedIcon from "@mui/icons-material/Speed";
@@ -8,7 +9,6 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Divider,
   Stack,
   Typography,
 } from "@mui/material";
@@ -66,23 +66,40 @@ import {
 import { MinErsYear } from "utils";
 
 const accordionSx = {
+  borderTop: `1px solid ${theme.palette.grey[700]}`,
+
+  "&:last-of-type": {
+    borderBottom: `1px solid ${theme.palette.grey[700]}`,
+  },
+
+  "&::before": {
+    display: "none",
+  },
   m: 0,
   color: "white",
   boxShadow: "none",
   bgcolor: "primary.light",
   "&.Mui-expanded": {
     m: 0,
-    bgcolor: "primary.light",
-    "&:hover": { bgcolor: "primary.light" },
+    bgcolor: theme.palette.primary.alt,
+    "&:hover": { bgcolor: theme.palette.primary.alt },
+  },
+  "& .MuiAccordionDetails-root": {
+    px: 4,
   },
   "& .MuiAccordionSummary-root": {
+    bgcolor: "primary.light",
     py: 2,
-    px: 2.5,
+    px: 2,
     "&:hover": { bgcolor: "primary.dark" },
+    "&.Mui-expanded": {
+      bgcolor: theme.palette.primary.alt,
+    },
   },
-  "& .MuiAccordionSummary-content": { m: 0, alignItems: "center" },
-
-  "&:before": { display: "none" },
+  "& .MuiAccordionSummary-content": {
+    m: 0,
+    alignItems: "center",
+  },
 };
 
 export const MyPage: FC = () => {
@@ -178,9 +195,9 @@ export const MyPage: FC = () => {
   return (
     <>
       <PageLayoutLeft>
-        <VesselInfo vessel={vessel} />
-
-        <Divider sx={{ bgcolor: "text.secondary", mt: 3, mb: 1, mx: 4 }} />
+        <Box sx={{ pb: 2.5, pt: 0.5 }}>
+          <VesselInfo vessel={vessel} />
+        </Box>
 
         <Accordion
           square
@@ -208,7 +225,17 @@ export const MyPage: FC = () => {
             <Typography variant="h6"> Mine turer </Typography>
           </AccordionSummary>
         </Accordion>
-        {subMenu === MyPageSubmenu.Trips && <TripsList />}
+        {subMenu === MyPageSubmenu.Trips && (
+          <Stack
+            sx={{
+              pl: 2,
+              bgcolor: theme.palette.primary.alt,
+              overflowY: "hidden",
+            }}
+          >
+            <TripsList />
+          </Stack>
+        )}
         <Accordion
           square
           disableGutters
@@ -235,10 +262,16 @@ export const MyPage: FC = () => {
           </AccordionSummary>
         </Accordion>
         {subMenu === MyPageSubmenu.Area && (
-          <Stack sx={{ overflowY: "hidden" }}>
+          <Stack
+            sx={{
+              overflowY: "hidden",
+              px: 2,
+              bgcolor: theme.palette.primary.alt,
+            }}
+          >
             <OverlayScrollbars>
               <HaulFilters
-                sx={{ px: 2.5, pb: 2, pt: 0 }}
+                sx={{ px: 2.5, pb: 2.5, pt: 0 }}
                 selectedVessel={vessel}
                 removeSingleEntryFilters
               />
@@ -268,10 +301,23 @@ export const MyPage: FC = () => {
             <Typography variant="h6"> Mine redskap </Typography>
           </AccordionSummary>
         </Accordion>
-        {subMenu === MyPageSubmenu.Facility && <MyGears />}
+        {subMenu === MyPageSubmenu.Facility && (
+          <Stack
+            sx={{
+              pl: 2,
+              bgcolor: theme.palette.primary.alt,
+              overflowY: "hidden",
+              borderBottom: `1px solid ${theme.palette.grey[700]}`,
+            }}
+          >
+            <MyGears />
+          </Stack>
+        )}
         <Button
           variant="contained"
           sx={{
+            borderTop: `2px solid ${theme.palette.text.secondary}`,
+            borderBottom: `1px solid ${theme.palette.grey[700]}`,
             m: 0,
             width: "100%",
             py: 2,
@@ -290,6 +336,7 @@ export const MyPage: FC = () => {
             },
           }}
           onClick={() => setSubmenu(MyPageSubmenu.Stats)}
+          endIcon={<KeyboardArrowRightIcon sx={{ width: 24, height: 24 }} />}
         >
           <Box
             sx={{
@@ -299,11 +346,14 @@ export const MyPage: FC = () => {
           >
             <SpeedIcon sx={{ color: "secondary.light", fontSize: 32 }} />
           </Box>
-          <Typography variant="h6"> Min statistikk </Typography>
+          <Typography variant="h6" sx={{ width: "100%", textAlign: "left" }}>
+            Statistikk
+          </Typography>
         </Button>
         <Button
           variant="contained"
           sx={{
+            borderBottom: `1px solid ${theme.palette.grey[700]}`,
             m: 0,
             width: "100%",
             py: 2,
@@ -321,6 +371,7 @@ export const MyPage: FC = () => {
             },
           }}
           onClick={() => setSubmenu(MyPageSubmenu.Administrate)}
+          endIcon={<KeyboardArrowRightIcon sx={{ width: 24, height: 24 }} />}
         >
           <Box
             sx={{
@@ -330,7 +381,9 @@ export const MyPage: FC = () => {
           >
             <SettingsIcon sx={{ color: "secondary.light", fontSize: 32 }} />
           </Box>
-          <Typography variant="h6"> Administrer </Typography>
+          <Typography variant="h6" sx={{ width: "100%", textAlign: "left" }}>
+            Administrer
+          </Typography>
         </Button>
       </PageLayoutLeft>
       <PageLayoutCenter

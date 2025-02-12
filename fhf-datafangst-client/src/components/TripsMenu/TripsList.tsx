@@ -80,7 +80,7 @@ export const TripsList: FC = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          bgcolor: "primary.light",
+          bgcolor: "inherit",
           pl: 2.5,
           pr: 0,
           pt: appPage === AppPage.MyPage ? 0 : 1,

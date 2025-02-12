@@ -84,7 +84,8 @@ export const MyGears: FC = () => {
     >
       <ListSubheader
         sx={{
-          bgcolor: "primary.light",
+          bgcolor: "inherit",
+          pb: 1,
         }}
       >
         <FormGroup>
@@ -115,7 +116,7 @@ export const MyGears: FC = () => {
           <LocalLoadingProgress />
         </Box>
       ) : !gears?.length ? (
-        <Box sx={{ pt: 2, pl: 2.5 }}>Ingen resultater </Box>
+        <Box sx={{ py: 2, pl: 2.5 }}>Ingen resultater </Box>
       ) : (
         <>
           <OverlayScrollbars style={{ flexGrow: 1 }}>

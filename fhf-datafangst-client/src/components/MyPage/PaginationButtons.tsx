@@ -10,7 +10,7 @@ export const PaginationButton = (props: any) => (
     sx={{
       borderRadius: 0,
       my: 1,
-      bgcolor: props.bgcolor ?? "primary.light",
+      bgcolor: props.bgcolor ?? "inherit",
       color: "white",
       "&:hover": { bgcolor: "primary.main" },
     }}
