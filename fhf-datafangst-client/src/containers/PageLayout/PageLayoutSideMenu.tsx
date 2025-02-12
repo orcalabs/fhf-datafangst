@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@mui/material";
+import { Stack, useMediaQuery } from "@mui/material";
 import theme from "app/theme";
 import { OverlayScrollbars } from "components";
 import { HEADER_HEIGHT } from "components/Layout/Header";
@@ -13,8 +13,10 @@ export const PageLayoutLeft: FC<Props> = (props) => (
   <PageLayoutSideMenu {...props} side="left" />
 );
 
-export const PageLayoutRight: FC<Props> = (props) => (
-  <PageLayoutSideMenu {...props} side="right" />
+export const PageLayoutRight: FC<Props> = ({ children, ...props }) => (
+  <PageLayoutSideMenu {...props} side="right">
+    <OverlayScrollbars style={{ flexGrow: 1 }}>{children}</OverlayScrollbars>
+  </PageLayoutSideMenu>
 );
 
 interface PropsInner extends Props {
@@ -33,8 +35,8 @@ const PageLayoutSideMenu: FC<PropsInner> = ({
   }
 
   return (
-    <OverlayScrollbars
-      style={{
+    <Stack
+      sx={{
         width: breakPoint ? "max(400px, 15vw)" : "max(400px, 18vw)",
         height: `calc(100vh - ${HEADER_HEIGHT}px)`,
         color: "white",
@@ -44,6 +46,6 @@ const PageLayoutSideMenu: FC<PropsInner> = ({
       }}
     >
       {children}
-    </OverlayScrollbars>
+    </Stack>
   );
 };

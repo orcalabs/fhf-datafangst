@@ -1,6 +1,6 @@
-import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import theme from "app/theme";
-import { HaulFilters, LandingFilters } from "components";
+import { HaulFilters, LandingFilters, OverlayScrollbars } from "components";
 import { MatrixTab, useMatrixTab } from "hooks";
 import { FC, useEffect } from "react";
 import {
@@ -37,11 +37,12 @@ export const MatrixMenu: FC = () => {
   }, [matrixTab]);
 
   return (
-    <Box sx={{ height: "100%", px: 2.5, py: 1 }}>
+    <Stack sx={{ height: "100%", py: 1, boxSizing: "border-box" }}>
       <Box
         sx={{
           pb: 1.5,
           pt: 1,
+          px: 2.5,
           "& .MuiToggleButtonGroup-grouped": {
             borderRadius: 0,
             color: "text.secondary",
@@ -68,7 +69,11 @@ export const MatrixMenu: FC = () => {
           <ToggleButton value={MatrixTab.Landing}> Seddeldata </ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      {matrixTab === MatrixTab.Ers ? <HaulFilters /> : <LandingFilters />}
-    </Box>
+      <OverlayScrollbars style={{ flexGrow: 1 }}>
+        <Box sx={{ px: 2.5 }}>
+          {matrixTab === MatrixTab.Ers ? <HaulFilters /> : <LandingFilters />}
+        </Box>
+      </OverlayScrollbars>
+    </Stack>
   );
 };

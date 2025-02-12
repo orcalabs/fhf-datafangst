@@ -5,11 +5,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SpeedIcon from "@mui/icons-material/Speed";
 import {
   Accordion,
-  AccordionDetails,
   AccordionSummary,
   Box,
   Button,
   Divider,
+  Stack,
   Typography,
 } from "@mui/material";
 import { HaulsFilter } from "api";
@@ -25,6 +25,7 @@ import {
   MyGears,
   MySettings,
   MyStats,
+  OverlayScrollbars,
   SelectedTripMenu,
   TimeSlider,
   TrackLayer,
@@ -206,10 +207,8 @@ export const MyPage: FC = () => {
             </Box>
             <Typography variant="h6"> Mine turer </Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{ pb: 0, pr: 0 }}>
-            <TripsList />
-          </AccordionDetails>
         </Accordion>
+        {subMenu === MyPageSubmenu.Trips && <TripsList />}
         <Accordion
           square
           disableGutters
@@ -234,10 +233,18 @@ export const MyPage: FC = () => {
             </Box>
             <Typography variant="h6"> Mine områder </Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{ px: 2.5, pb: 2, pt: 0 }}>
-            <HaulFilters selectedVessel={vessel} removeSingleEntryFilters />
-          </AccordionDetails>
         </Accordion>
+        {subMenu === MyPageSubmenu.Area && (
+          <Stack sx={{ flexGrow: 1, overflowY: "hidden" }}>
+            <OverlayScrollbars style={{ flexGrow: 1 }}>
+              <HaulFilters
+                sx={{ px: 2.5, pb: 2, pt: 0 }}
+                selectedVessel={vessel}
+                removeSingleEntryFilters
+              />
+            </OverlayScrollbars>
+          </Stack>
+        )}
         <Accordion
           square
           disableGutters
@@ -260,10 +267,8 @@ export const MyPage: FC = () => {
             </Box>
             <Typography variant="h6"> Mine redskap </Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{ pb: 0 }}>
-            <MyGears />
-          </AccordionDetails>
         </Accordion>
+        {subMenu === MyPageSubmenu.Facility && <MyGears />}
         <Button
           variant="contained"
           sx={{
@@ -275,6 +280,7 @@ export const MyPage: FC = () => {
             borderRadius: 0,
             color: "white",
             boxShadow: "none",
+            marginTop: "auto",
             bgcolor:
               subMenu === MyPageSubmenu.Stats
                 ? "primary.dark"

@@ -11,7 +11,10 @@ export const OverlayScrollbars: FC<Props> = ({ style, children }) => {
     <OverlayScrollbarsComponent
       defer
       className="overlayscrollbars-react"
-      options={{ scrollbars: { theme: "os-theme-light" } }}
+      options={{
+        overflow: { x: "visible" },
+        scrollbars: { theme: "os-theme-light" },
+      }}
       style={style}
     >
       {children}
