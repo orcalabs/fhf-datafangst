@@ -235,8 +235,8 @@ export const MyPage: FC = () => {
           </AccordionSummary>
         </Accordion>
         {subMenu === MyPageSubmenu.Area && (
-          <Stack sx={{ flexGrow: 1, overflowY: "hidden" }}>
-            <OverlayScrollbars style={{ flexGrow: 1 }}>
+          <Stack sx={{ overflowY: "hidden" }}>
+            <OverlayScrollbars>
               <HaulFilters
                 sx={{ px: 2.5, pb: 2, pt: 0 }}
                 selectedVessel={vessel}
