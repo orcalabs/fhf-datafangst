@@ -1,6 +1,11 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import theme from "app/theme";
-import { BenchmarkOverview, Company, TripBenchmarkPage } from "components";
+import {
+  BenchmarkOverview,
+  Company,
+  OverlayScrollbars,
+  TripBenchmarkPage,
+} from "components";
 import { FC, useState } from "react";
 
 export const MyStats: FC = () => {
@@ -47,11 +52,13 @@ export const MyStats: FC = () => {
             label="Rederi"
           />
         </Tabs>
-        <Box sx={{ height: "100%", overflowY: "auto" }}>
-          {tabValue === "overview" && <BenchmarkOverview />}
-          {tabValue === "performance" && <TripBenchmarkPage />}
-          {tabValue === "company" && <Company />}
-        </Box>
+        <Stack sx={{ overflowY: "hidden" }}>
+          <OverlayScrollbars>
+            {tabValue === "overview" && <BenchmarkOverview />}
+            {tabValue === "performance" && <TripBenchmarkPage />}
+            {tabValue === "company" && <Company />}
+          </OverlayScrollbars>
+        </Stack>
       </Stack>
     </Box>
   );

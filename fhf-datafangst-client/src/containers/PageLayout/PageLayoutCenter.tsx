@@ -1,4 +1,5 @@
-import { Box, SxProps } from "@mui/material";
+import { Stack, SxProps } from "@mui/material";
+import { HEADER_HEIGHT } from "components/Layout/Header";
 import { FC, ReactNode } from "react";
 
 interface Props {
@@ -28,11 +29,19 @@ interface PropsInner extends Props {
 }
 
 const Inner: FC<PropsInner> = ({ open = true, area, sx, children }) => {
-  return open ? (
-    <Box sx={sx} gridArea={area}>
+  if (!open) {
+    return <></>;
+  }
+
+  return (
+    <Stack
+      gridArea={area}
+      sx={{
+        height: `calc(100vh - ${HEADER_HEIGHT}px)`,
+        ...sx,
+      }}
+    >
       {children}
-    </Box>
-  ) : (
-    <></>
+    </Stack>
   );
 };

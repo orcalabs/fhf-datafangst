@@ -1,6 +1,6 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import theme from "app/theme";
-import { FuelPage, VesselSettings } from "components";
+import { FuelPage, OverlayScrollbars, VesselSettings } from "components";
 import { FollowList } from "components/FollowList/FollowList";
 import { FC, useState } from "react";
 
@@ -46,11 +46,13 @@ export const MySettings: FC = () => {
             label="Følgeliste"
           />
         </Tabs>
-        <Box sx={{ height: "100%" }}>
-          {tabValue === "vessel" && <VesselSettings />}
-          {tabValue === "following" && <FollowList />}
-          {tabValue === "fuel" && <FuelPage />}
-        </Box>
+        <Stack sx={{ overflowY: "hidden" }}>
+          <OverlayScrollbars>
+            {tabValue === "vessel" && <VesselSettings />}
+            {tabValue === "following" && <FollowList />}
+            {tabValue === "fuel" && <FuelPage />}
+          </OverlayScrollbars>
+        </Stack>
       </Stack>
     </Box>
   );
