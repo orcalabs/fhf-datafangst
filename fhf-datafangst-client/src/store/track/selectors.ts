@@ -20,3 +20,8 @@ export const selectCurrentPositionsLoading = createSelector(
   selectAppState,
   (state) => state.currentPositionsLoading,
 );
+
+export const selectCurrentPositionsMap = createSelector(
+  selectAppState,
+  (state) => state.currentPositionsMap,
+);
