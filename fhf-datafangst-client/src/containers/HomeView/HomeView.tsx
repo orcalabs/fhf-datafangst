@@ -9,6 +9,7 @@ import {
   SeamapLayer,
   ShorelineLayer,
 } from "components";
+import { SearchBar } from "components/SearchBar/SearchBar";
 import { AppPage } from "containers/App/App";
 import { AreaPage } from "containers/HomeView/AreaPage";
 import { LivePage } from "containers/HomeView/LivePage";
@@ -88,10 +89,12 @@ export const HomeView: FC<Props> = ({ page }) => {
         sx={{
           display: "grid",
           placeContent: "start end",
-          pointerEvents: "none",
         }}
       >
-        <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
+        <Stack direction="row">
+          {page === AppPage.Live && <SearchBar />}
+          <MapFilters mapFilter={mapFilter} onFilterChange={setMapFilter} />
+        </Stack>
         {mapFilter.coastline && <ShorelineLayer />}
         {mapFilter.seamap && <SeamapLayer />}
         {mapFilter.deliveryPoints && <DeliveryPointsLayer />}

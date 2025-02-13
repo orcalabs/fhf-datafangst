@@ -78,6 +78,11 @@ export const trackBuilder = (
     })
     .addCase(getCurrentPositions.fulfilled, (state, action) => {
       state.currentPositions = action.payload;
+      state.currentPositionsMap = {};
+
+      for (const pos of action.payload) {
+        state.currentPositionsMap[pos.vesselId] = pos;
+      }
       state.currentPositionsLoading = false;
     })
     .addCase(getCurrentPositions.rejected, (state, _action) => {
