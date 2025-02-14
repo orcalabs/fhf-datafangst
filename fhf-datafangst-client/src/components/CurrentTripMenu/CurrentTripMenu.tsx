@@ -4,7 +4,14 @@ import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import { Box, Divider, styled, SvgIcon, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Stack,
+  styled,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
 import chartsTheme from "app/chartsTheme";
 import theme from "app/theme";
 import { CatchesTable } from "components";
@@ -146,15 +153,15 @@ export const CurrentTripMenu: FC = () => {
             </InfoItem>
           )}
         </Box>
-        <Box sx={{ my: 1, width: "100%" }}>
+        <Stack sx={{ py: 1, width: "100%" }} spacing={0.5}>
           <Typography sx={{ fontSize: "1rem" }} variant="h5">
             Estimert fangst
           </Typography>
           <CatchesTable catches={trip.hauls.flatMap((h) => h.catches)} />
-        </Box>
+        </Stack>
         {estimatedLiveFuel && (
-          <Box sx={{ width: "100%", my: 3 }}>
-            <Typography sx={{ fontSize: "1rem" }} variant="h5">
+          <Stack sx={{ width: "100%", py: 3 }}>
+            <Typography sx={{ fontSize: "1rem", pb: 0.5 }} variant="h5">
               Estimert drivstofforbruk
             </Typography>
             <Typography sx={{ color: "text.secondary", px: 3 }}>
@@ -220,7 +227,7 @@ export const CurrentTripMenu: FC = () => {
               }}
               theme={chartsTheme}
             />
-          </Box>
+          </Stack>
         )}
       </Box>
     </>
