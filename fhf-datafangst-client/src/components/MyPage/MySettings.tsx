@@ -46,8 +46,8 @@ export const MySettings: FC = () => {
             label="Følgeliste"
           />
         </Tabs>
-        <Stack sx={{ overflowY: "hidden" }}>
-          <OverlayScrollbars>
+        <Stack sx={{ overflowY: "hidden", height: "100%" }}>
+          <OverlayScrollbars darkTheme style={{ height: "100%" }}>
             {tabValue === "vessel" && <VesselSettings />}
             {tabValue === "following" && <FollowList />}
             {tabValue === "fuel" && <FuelPage />}

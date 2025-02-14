@@ -53,7 +53,7 @@ export const MyStats: FC = () => {
           />
         </Tabs>
         <Stack sx={{ overflowY: "hidden" }}>
-          <OverlayScrollbars>
+          <OverlayScrollbars darkTheme>
             {tabValue === "overview" && <BenchmarkOverview />}
             {tabValue === "performance" && <TripBenchmarkPage />}
             {tabValue === "company" && <Company />}

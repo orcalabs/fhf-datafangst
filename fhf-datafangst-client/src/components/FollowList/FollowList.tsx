@@ -73,7 +73,7 @@ export const FollowList: FC = () => {
         gridTemplateRows: "1fr",
         columnGap: 8,
         width: "100%",
-        height: "100%",
+        height: "calc(100% - 4px)",
       }}
     >
       <Box
