@@ -1,4 +1,4 @@
-import { Box, List, ListSubheader, Stack } from "@mui/material";
+import { Box, Divider, List, ListSubheader, Stack } from "@mui/material";
 import {
   LocalLoadingProgress,
   OverlayScrollbars,
@@ -43,7 +43,7 @@ export const SelectedLiveVesselMenu: FC = () => {
   return (
     <Stack sx={{ maxHeight: "100%" }}>
       <VesselInfo vessel={vessel} />
-
+      <Divider sx={{ bgcolor: "text.secondary", mt: 2.5, mb: 1, mx: 4 }} />
       <List
         sx={{
           display: "flex",
