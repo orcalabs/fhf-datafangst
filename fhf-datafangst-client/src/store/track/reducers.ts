@@ -1,4 +1,5 @@
 import { ActionReducerMapBuilder, Draft } from "@reduxjs/toolkit";
+import { AppPage } from "containers/App/App";
 import { AisVmsPosition } from "generated/openapi";
 import { Map } from "ol";
 import { boundingExtent } from "ol/extent";
@@ -99,7 +100,7 @@ export const trackBuilder = (
       const track = action.payload;
       state.track = track;
       state.trackLoading = false;
-      if (track.length) {
+      if (track.length && state.appPage === AppPage.MyPage) {
         setMapFocus(state.map, track);
       }
     })
