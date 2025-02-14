@@ -59,7 +59,11 @@ export const MapFilters: FC<Props> = (props) => {
         icon={<LayersIcon />}
       >
         <SpeedDialAction
-          sx={mapFilter.deliveryPoints ? activeStyle : {}}
+          sx={
+            mapFilter.deliveryPoints
+              ? activeStyle
+              : { "&:hover": { svg: { color: "primary.light" } } }
+          }
           onClick={() => handleChange("deliveryPoints")}
           icon={<DeliveryPointIcon />}
           tooltipTitle={"Vis fiskemottak"}
