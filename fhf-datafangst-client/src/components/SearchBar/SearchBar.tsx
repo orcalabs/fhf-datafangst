@@ -13,27 +13,31 @@ import { Vessel } from "generated/openapi";
 import { FC, useMemo, useState } from "react";
 import {
   selectCurrentPositionsMap,
-  selectVesselsByCallsign,
+  selectFishmap,
+  selectVesselsByFiskeridirId,
   setSelectedLiveVessel,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { toTitleCase } from "utils";
+import { fromLonLat, toTitleCase } from "utils";
 
 export const SearchBar: FC = () => {
-  const vesselsMap = useAppSelector(selectVesselsByCallsign);
+  const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const currentPositionsMap = useAppSelector(selectCurrentPositionsMap);
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState<string>("");
+  const map = useAppSelector(selectFishmap);
 
   const vessels = useMemo(
     () =>
-      Object.values(vesselsMap).sort((a, b) =>
-        (a.fiskeridir?.name ?? "Ukjent").localeCompare(
-          b.fiskeridir?.name ?? "Ukjent",
-          "no",
+      Object.values(vesselsMap)
+        .filter((vessel) => currentPositionsMap[vessel.fiskeridir.id])
+        .sort((a, b) =>
+          (a.fiskeridir?.name ?? "Ukjent").localeCompare(
+            b.fiskeridir?.name ?? "Ukjent",
+            "no",
+          ),
         ),
-      ),
     [vesselsMap],
   );
 
@@ -87,8 +91,10 @@ export const SearchBar: FC = () => {
 
             if (liveVessel) {
               dispatch(setSelectedLiveVessel(liveVessel));
-            } else {
-              // Display snackbar error
+              // Set map center to selected vessel
+              map
+                .getView()
+                .setCenter(fromLonLat(liveVessel.lon, liveVessel.lat));
             }
           }
         }}

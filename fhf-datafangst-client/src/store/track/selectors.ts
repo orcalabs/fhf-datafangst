@@ -23,5 +23,5 @@ export const selectCurrentPositionsLoading = createSelector(
 
 export const selectCurrentPositionsMap = createSelector(
   selectAppState,
-  (state) => state.currentPositionsMap,
+  (state) => state.currentPositionsMap ?? {},
 );
