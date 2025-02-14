@@ -22,23 +22,25 @@ import {
 import { fromLonLat, toTitleCase } from "utils";
 
 export const SearchBar: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const map = useAppSelector(selectFishmap);
   const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const currentPositionsMap = useAppSelector(selectCurrentPositionsMap);
-  const dispatch = useAppDispatch();
+
   const [inputValue, setInputValue] = useState<string>("");
-  const map = useAppSelector(selectFishmap);
 
   const vessels = useMemo(
     () =>
       Object.values(vesselsMap)
-        .filter((vessel) => currentPositionsMap[vessel.fiskeridir.id])
+        .filter((vessel) => vessel.fiskeridir.id in currentPositionsMap)
         .sort((a, b) =>
           (a.fiskeridir?.name ?? "Ukjent").localeCompare(
             b.fiskeridir?.name ?? "Ukjent",
             "no",
           ),
         ),
-    [vesselsMap],
+    [vesselsMap, currentPositionsMap],
   );
 
   return (
