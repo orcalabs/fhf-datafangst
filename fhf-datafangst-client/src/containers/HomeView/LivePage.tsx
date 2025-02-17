@@ -3,6 +3,7 @@ import {
   LoadingScreen,
   SelectedLiveVesselMenu,
   SelectedTripMenu,
+  TrackLayer,
   TripDetails,
   TripsLayer,
 } from "components";
@@ -17,6 +18,7 @@ import {
   selectCurrentTripLoading,
   selectSelectedLiveVessel,
   selectSelectedTrip,
+  selectTrack,
   selectTripDetailsOpen,
   useAppDispatch,
   useAppSelector,
@@ -30,6 +32,7 @@ export const LivePage: FC = () => {
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
   const currentTripLoading = useAppSelector(selectCurrentTripLoading);
   const selectedPosition = useAppSelector(selectSelectedLiveVessel);
+  const track = useAppSelector(selectTrack);
   const loading = useAppSelector(selectCurrentPositionsLoading);
 
   // Get all vessel positions on page load
@@ -55,7 +58,12 @@ export const LivePage: FC = () => {
 
   // Get track of vessels with no reported CurrentTrip.
   useEffect(() => {
-    if (!currentTrip && !currentTripLoading && selectedPosition) {
+    if (
+      !currentTrip &&
+      !currentTripLoading &&
+      !selectedTrip &&
+      selectedPosition
+    ) {
       dispatch(
         getCurrentTripTrack({
           vesselId: selectedPosition.vesselId,
@@ -63,7 +71,7 @@ export const LivePage: FC = () => {
         }),
       );
     }
-  }, [currentTrip, selectedPosition, currentTripLoading]);
+  }, [currentTrip, selectedPosition, currentTripLoading, selectedTrip]);
 
   return (
     <>
@@ -78,6 +86,7 @@ export const LivePage: FC = () => {
         <TripsLayer />
       </PageLayoutRight>
       {loading ? <LoadingScreen open /> : <LiveVesselsLayer />}
+      {track && !currentTrip && !selectedTrip && <TrackLayer />}
     </>
   );
 };
