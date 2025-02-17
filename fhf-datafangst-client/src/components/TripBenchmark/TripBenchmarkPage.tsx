@@ -59,7 +59,6 @@ export const TripBenchmarkPage: FC = () => {
   const eeoi = useAppSelector(selectEeoi);
   const averageEeoi = useAppSelector(selectAverageEeoi);
   const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
-
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
       startOfYear(new Date(2024, 1, 1)),
@@ -292,7 +291,7 @@ export const TripBenchmarkPage: FC = () => {
               {totalFuelConsumption &&
                 benchmarkItem(
                   "Drivstofforbruk (total)",
-                  kilosOrTonsFormatter(totalFuelConsumption),
+                  kilosOrTonsFormatter(totalFuelConsumption * 1000),
                 )}
             </CardContent>
           </Card>
