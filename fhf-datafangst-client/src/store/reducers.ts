@@ -15,7 +15,7 @@ import { dashboardBuilder } from "./dashboard";
 import { deliveryPointBuilder } from "./deliveryPoint";
 import { fishingFacilityBuilder } from "./fishingFacility";
 import { fishmapBuilder } from "./fishmap/";
-import { fuelBuilder, getFuelMeasurements } from "./fuel";
+import { fuelBuilder } from "./fuel";
 import { gearBuilder } from "./gear";
 import { haulBuilder } from "./haul";
 import { landingBuilder } from "./landing";
@@ -144,7 +144,6 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       if (token) {
         (action as any).asyncDispatch(getBwUser(token));
         (action as any).asyncDispatch(getUser(token));
-        (action as any).asyncDispatch(getFuelMeasurements({ token }));
       }
     })
     .addCase(resetTrackState, (state, _) => ({ ...state, ...emptyTrackState }))
