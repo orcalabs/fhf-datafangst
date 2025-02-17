@@ -11,6 +11,7 @@ export * from "./Common/Common";
 export { LocalLoadingProgress } from "./Common/LocalLoadingProgress";
 export { Company } from "./Company/Company";
 export { CurrentTripMenu } from "./CurrentTripMenu/CurrentTripMenu";
+export * from "./FileUpload/FileUpload";
 export { HaulFilters } from "./Filters/HaulFilters";
 export { LandingFilters } from "./Filters/LandingFilters";
 export { AddFollowerList } from "./FollowList/AddFollowerList";

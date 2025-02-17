@@ -2,6 +2,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import EditIcon from "@mui/icons-material/Edit";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import {
   Box,
@@ -25,13 +26,17 @@ import {
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import theme from "app/theme";
+import { FileUpload, LocalLoadingProgress } from "components";
 import { nb } from "date-fns/locale";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import {
   createFuelMeasurement,
   deleteFuelMeasurement,
+  getFuelMeasurements,
   selectFuelMeasurements,
+  selectFuelMeasurementsLoading,
   updateFuelMeasurement,
+  uploadFuelMeasurements,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -58,11 +63,15 @@ interface EditFuel {
   id: number;
   timestamp: Date | null;
   fuel: number;
+  fuelAfter: number | null;
 }
 
 export const FuelPage: FC = () => {
   const dispatch = useAppDispatch();
+
   const fuel = useAppSelector(selectFuelMeasurements);
+  const loading = useAppSelector(selectFuelMeasurementsLoading);
+
   const [inputType, setInputType] = useState<string>("measurement");
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
@@ -70,8 +79,15 @@ export const FuelPage: FC = () => {
   const [editEntry, setEditEntry] = useState<EditFuel | undefined>({
     id: -1,
     fuel: 0,
+    fuelAfter: null,
     timestamp: null,
   });
+
+  useEffect(() => {
+    if (!fuel) {
+      dispatch(getFuelMeasurements({}));
+    }
+  }, []);
 
   const resetEdit = () => {
     setEditEntry(undefined);
@@ -106,6 +122,20 @@ export const FuelPage: FC = () => {
             fiskeoperasjoner (hal) vil det gi mer korrekte resultater.
           </Typography>
         </Stack>
+
+        <Divider />
+
+        <FileUpload
+          accept=".xlsx"
+          onChange={(file) => {
+            dispatch(uploadFuelMeasurements({ file }));
+          }}
+        >
+          <IconButton>
+            <FileUploadIcon />
+          </IconButton>
+        </FileUpload>
+
         <Divider />
 
         <Stack
@@ -206,19 +236,13 @@ export const FuelPage: FC = () => {
                         ? inputDate.toISOString()
                         : new Date().toISOString(),
                       fuel: +newFuel,
+                      fuelAfter:
+                        inputType === "bunker" && newFuelAfterBunker
+                          ? +newFuelAfterBunker
+                          : null,
                     }),
                   );
 
-                  if (inputType === "bunker" && newFuelAfterBunker) {
-                    const date = inputDate ?? new Date();
-                    date.setMinutes(date.getMinutes() + 1);
-                    dispatch(
-                      createFuelMeasurement({
-                        timestamp: date.toISOString(),
-                        fuel: +newFuelAfterBunker,
-                      }),
-                    );
-                  }
                   setNewFuel("");
                   setInputDate(null);
                   setNewFuelAfterBunker("");
@@ -237,6 +261,9 @@ export const FuelPage: FC = () => {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Måling (liter)</StyledTableCell>
+                    <StyledTableCell>
+                      Måling etter bunkring (liter)
+                    </StyledTableCell>
                     <StyledTableCell>Tidspunkt</StyledTableCell>
                     <StyledTableCell />
                   </TableRow>
@@ -259,6 +286,23 @@ export const FuelPage: FC = () => {
                                 setEditEntry({
                                   ...editEntry,
                                   fuel: +event.target.value,
+                                })
+                              }
+                            />
+                          </StyledTableCell>
+                          <StyledTableCell>
+                            <TextField
+                              sx={{ width: 120 }}
+                              size="small"
+                              type="number"
+                              variant="outlined"
+                              value={editEntry?.fuelAfter}
+                              onChange={(
+                                event: ChangeEvent<HTMLInputElement>,
+                              ) =>
+                                setEditEntry({
+                                  ...editEntry,
+                                  fuelAfter: +event.target.value,
                                 })
                               }
                             />
@@ -305,6 +349,7 @@ export const FuelPage: FC = () => {
                                     updateFuelMeasurement({
                                       id: editEntry.id,
                                       fuel: editEntry.fuel,
+                                      fuelAfter: editEntry.fuelAfter,
                                       timestamp:
                                         editEntry.timestamp!.toISOString(),
                                     }),
@@ -329,6 +374,7 @@ export const FuelPage: FC = () => {
                       ) : (
                         <>
                           <StyledTableCell>{f.fuel}</StyledTableCell>
+                          <StyledTableCell>{f.fuelAfter}</StyledTableCell>
                           <StyledTableCell>
                             {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
                           </StyledTableCell>
@@ -345,6 +391,7 @@ export const FuelPage: FC = () => {
                                   setEditEntry({
                                     id: f.id,
                                     fuel: f.fuel,
+                                    fuelAfter: f.fuelAfter,
                                     timestamp: new Date(f.timestamp),
                                   });
                                 }}
@@ -374,6 +421,10 @@ export const FuelPage: FC = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+          ) : loading ? (
+            <Box sx={{ width: "fit-content", marginRight: "auto" }}>
+              <LocalLoadingProgress color="black" />
+            </Box>
           ) : (
             <Typography sx={{ pl: 1, fontStyle: "italic" }}>
               Ingen målinger registrert

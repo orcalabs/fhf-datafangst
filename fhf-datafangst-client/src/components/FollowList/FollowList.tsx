@@ -17,7 +17,6 @@ import { fontStyle } from "app/theme";
 import { VesselIcon } from "assets/icons";
 import { AddFollowerList } from "components";
 import { Vessel } from "generated/openapi";
-import { useAuth } from "oidc-react";
 import { FC } from "react";
 import {
   selectGearGroupsMap,
@@ -50,8 +49,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 
 export const FollowList: FC = () => {
   const dispatch = useAppDispatch();
+
   const gearGroupsMap = useAppSelector(selectGearGroupsMap);
-  const { userData } = useAuth();
   const followList = useAppSelector(selectUserFollowList);
 
   const handleDeleteFollow = (vessel: Vessel) => {
@@ -60,7 +59,6 @@ export const FollowList: FC = () => {
         following:
           followList?.filter((f) => f.fiskeridir.id !== vessel.fiskeridir.id) ??
           [],
-        accessToken: userData?.access_token,
       }),
     );
   };
