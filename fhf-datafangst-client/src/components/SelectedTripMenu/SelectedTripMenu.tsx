@@ -279,9 +279,7 @@ export const SelectedTripMenu: FC = () => {
               <SvgIcon sx={iconStyle}>
                 <LocalGasStationIcon />
               </SvgIcon>
-              <Typography>
-                {kilosOrTonsFormatter(trip.fuelConsumption * 1_000)}
-              </Typography>
+              <Typography>{trip.fuelConsumption.toFixed(0)} liter</Typography>
             </InfoItem>
           )}
           {fuel && appPage === AppPage.MyPage && (

@@ -32,15 +32,6 @@ export const GeneralStats: FC<Props> = ({ vesselEntries }) => {
     [vesselEntries],
   );
 
-  const avgFuelconsumption = useMemo(
-    () =>
-      orgFuelConsumption?.length
-        ? orgFuelConsumption.sum((v) => v.estimatedFuel) /
-          orgFuelConsumption.length
-        : 0,
-    [orgFuelConsumption],
-  );
-
   return (
     <Grid container spacing={3} sx={{ p: 1 }}>
       <Grid size={6}>
@@ -183,10 +174,7 @@ export const GeneralStats: FC<Props> = ({ vesselEntries }) => {
               option={{
                 tooltip: {
                   trigger: "axis",
-                  valueFormatter: (fuel: number | null) =>
-                    avgFuelconsumption > 1 && fuel
-                      ? fuel.toFixed(2)
-                      : fuel && (fuel * 1000).toFixed(2),
+                  valueFormatter: (fuel: number | null) => fuel?.toFixed(2),
                 },
                 dataset: {
                   dimensions: ["fiskeridirVesselId", "estimatedFuel"],
@@ -194,13 +182,9 @@ export const GeneralStats: FC<Props> = ({ vesselEntries }) => {
                 },
                 yAxis: {
                   type: "value",
-                  name:
-                    avgFuelconsumption > 1
-                      ? "Drivstoff (tonn)"
-                      : "Drivstoff (kg)",
+                  name: "Drivstoff (liter)",
                   axisLabel: {
-                    formatter: (fuel: number) =>
-                      avgFuelconsumption > 1 ? fuel : fuel * 1000,
+                    formatter: (fuel: number) => fuel.toFixed(2),
                   },
                 },
                 xAxis: {

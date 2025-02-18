@@ -2,7 +2,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Divider, Stack, Typography } from "@mui/material";
 import { AisVmsPosition } from "generated/openapi";
 import { FC } from "react";
-import { dateFormat, fuelTonsToLiters } from "utils";
+import { dateFormat } from "utils";
 
 interface Props {
   hoveredPosition: AisVmsPosition;
@@ -52,9 +52,8 @@ export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
               Estimert drivstoff
             </Typography>
             <Typography sx={textStyle}>
-              {fuelTonsToLiters(
-                hoveredPosition.tripCumulativeFuelConsumption,
-              ).toFixed(1) + " liter"}
+              {hoveredPosition.tripCumulativeFuelConsumption.toFixed(1) +
+                " liter"}
             </Typography>
           </Stack>
         </>

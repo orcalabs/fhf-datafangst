@@ -935,6 +935,7 @@ export const ErrorDiscriminants = {
     QueryPayload: 'QueryPayload',
     UpdateVesselNotFound: 'UpdateVesselNotFound',
     OrgNotFound: 'OrgNotFound',
+    CallSignDoesNotExist: 'CallSignDoesNotExist',
     Unexpected: 'Unexpected'
 } as const;
 
@@ -2470,7 +2471,7 @@ export interface LiveFuel {
      * @type {number}
      * @memberof LiveFuel
      */
-    'total_fuel': number;
+    'totalFuel': number;
     /**
      * 
      * @type {Array<LiveFuelEntry>}
