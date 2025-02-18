@@ -281,8 +281,6 @@ export const getGearGroupsFromVessels = (vessels: Vessel[]) => {
   return res;
 };
 
-export const fuelTonsToLiters = (fuelTons: number) => (fuelTons * 1000) / 0.85;
-
 // Prevents all input from keys not related to input of a natural number
 export const numberInputLimiter = (e: React.KeyboardEvent<HTMLDivElement>) => {
   if (

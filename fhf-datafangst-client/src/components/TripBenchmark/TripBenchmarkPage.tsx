@@ -54,11 +54,12 @@ export const TripBenchmarkPage: FC = () => {
 
   const bench = useAppSelector(selectTripBenchmarks);
   const loading = useAppSelector(selectTripBenchmarksLoading);
-  const globalAvgFuelconsumption = useAppSelector(selectAverageTripBenchmarks);
+  const averageTripBenchmarks = useAppSelector(selectAverageTripBenchmarks);
   const vessel = useAppSelector(selectLoggedInVessel);
   const eeoi = useAppSelector(selectEeoi);
   const averageEeoi = useAppSelector(selectAverageEeoi);
   const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
+
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     new DateRange(
       startOfYear(new Date(2024, 1, 1)),
@@ -125,18 +126,10 @@ export const TripBenchmarkPage: FC = () => {
     [bench?.trips],
   );
 
-  const {
-    avgFuelconsumption,
-    avgWeightPerHour,
-    avgWeightPerDistance,
-    avgWeightPerFuel,
-  } = useMemo(
+  const { avgWeightPerHour, avgWeightPerDistance, avgWeightPerFuel } = useMemo(
     () =>
       bench?.trips.length
         ? {
-            avgFuelconsumption:
-              bench.trips.sum((v) => v.fuelConsumption ?? 0) /
-              bench.trips.length,
             avgWeightPerHour:
               bench.trips.sum((v) => v.weightPerHour ?? 0) / bench.trips.length,
             avgWeightPerDistance:
@@ -146,7 +139,6 @@ export const TripBenchmarkPage: FC = () => {
               bench.trips.sum((v) => v.weightPerFuel ?? 0) / bench.trips.length,
           }
         : {
-            avgFuelconsumption: 0,
             avgWeightPerHour: 0,
             avgWeightPerDistance: 0,
             avgWeightPerFuel: 0,
@@ -275,23 +267,23 @@ export const TripBenchmarkPage: FC = () => {
                 )}
               {bench.weightPerFuel &&
                 benchmarkItem(
-                  "Rundvekt per tonn drivstoff",
-                  kilosOrTonsFormatter(bench.weightPerFuel),
+                  "Rundvekt per liter drivstoff",
+                  bench.weightPerFuel.toFixed(1),
                 )}
               {bench.catchValuePerFuel &&
                 benchmarkItem(
-                  "Fangstverdi per tonn drivstoff",
+                  "Fangstverdi per liter drivstoff",
                   nok.format(bench.catchValuePerFuel),
                 )}
               {bench.fuelConsumption &&
                 benchmarkItem(
                   "Drivstofforbruk (tokt)",
-                  kilosOrTonsFormatter(bench.fuelConsumption * 1000),
+                  bench.fuelConsumption.toFixed(0) + " liter",
                 )}
               {totalFuelConsumption &&
                 benchmarkItem(
                   "Drivstofforbruk (total)",
-                  kilosOrTonsFormatter(totalFuelConsumption * 1000),
+                  totalFuelConsumption.toFixed(0) + " liter",
                 )}
             </CardContent>
           </Card>
@@ -305,26 +297,21 @@ export const TripBenchmarkPage: FC = () => {
                   option={{
                     legend: {},
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.fuelConsumption,
+                      averageTripBenchmarks?.fuelConsumption,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.fuelConsumption,
-                        avgFuelconsumption > 1 ? undefined : "tonsToKilos",
+                        averageTripBenchmarks?.fuelConsumption,
                       ),
                     ),
                     yAxis: {
                       type: "value",
-                      name:
-                        avgFuelconsumption > 1
-                          ? "Drivstoff (tonn)"
-                          : "Drivstoff (kg)",
+                      name: "Drivstoff (liter)",
                       axisLabel: {
-                        formatter: (fuel: number) =>
-                          avgFuelconsumption > 1 ? fuel : fuel * 1000,
+                        formatter: (fuel: number) => fuel.toFixed(0),
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.fuelConsumption &&
-                        globalAvgFuelconsumption.fuelConsumption > val.max
-                          ? Math.ceil(globalAvgFuelconsumption.fuelConsumption)
+                        averageTripBenchmarks?.fuelConsumption &&
+                        averageTripBenchmarks.fuelConsumption > val.max
+                          ? Math.ceil(averageTripBenchmarks.fuelConsumption)
                           : undefined,
                     },
                     dataset: {
@@ -333,10 +320,7 @@ export const TripBenchmarkPage: FC = () => {
                     },
                     tooltip: {
                       trigger: "axis",
-                      valueFormatter: (fuel: number | null) =>
-                        avgFuelconsumption > 1 && fuel
-                          ? fuel.toFixed(2)
-                          : fuel && (fuel * 1000).toFixed(2),
+                      valueFormatter: (fuel: number | null) => fuel?.toFixed(2),
                     },
                   }}
                   theme={chartsTheme}
@@ -345,13 +329,13 @@ export const TripBenchmarkPage: FC = () => {
             </Grid>
             {/* Weight per ton fuel */}
             <Grid size={6}>
-              <ChartCard title="Fangstvekt per tonn drivstoff">
+              <ChartCard title="Fangstvekt per liter drivstoff">
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.weightPerFuel,
+                      averageTripBenchmarks?.weightPerFuel,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.weightPerFuel,
+                        averageTripBenchmarks?.weightPerFuel,
                         avgWeightPerFuel > 1000 ? "kilosToTons" : undefined,
                       ),
                     ),
@@ -366,9 +350,9 @@ export const TripBenchmarkPage: FC = () => {
                           avgWeightPerFuel > 1000 ? weight / 1000 : weight,
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.weightPerFuel &&
-                        globalAvgFuelconsumption.weightPerFuel > val.max
-                          ? Math.ceil(globalAvgFuelconsumption.weightPerFuel)
+                        averageTripBenchmarks?.weightPerFuel &&
+                        averageTripBenchmarks.weightPerFuel > val.max
+                          ? Math.ceil(averageTripBenchmarks.weightPerFuel)
                           : undefined,
                     },
                     dataset: {
@@ -394,9 +378,9 @@ export const TripBenchmarkPage: FC = () => {
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.weightPerHour,
+                      averageTripBenchmarks?.weightPerHour,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.weightPerHour,
+                        averageTripBenchmarks?.weightPerHour,
                         avgWeightPerHour > 1000 ? "kilosToTons" : undefined,
                       ),
                     ),
@@ -411,9 +395,9 @@ export const TripBenchmarkPage: FC = () => {
                           avgWeightPerHour > 1000 ? weight / 1000 : weight,
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.weightPerHour &&
-                        globalAvgFuelconsumption.weightPerHour > val.max
-                          ? Math.ceil(globalAvgFuelconsumption.weightPerHour)
+                        averageTripBenchmarks?.weightPerHour &&
+                        averageTripBenchmarks.weightPerHour > val.max
+                          ? Math.ceil(averageTripBenchmarks.weightPerHour)
                           : undefined,
                     },
                     dataset: {
@@ -439,9 +423,9 @@ export const TripBenchmarkPage: FC = () => {
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.weightPerDistance,
+                      averageTripBenchmarks?.weightPerDistance,
                       markLineLabelFormatter(
-                        globalAvgFuelconsumption?.weightPerDistance,
+                        averageTripBenchmarks?.weightPerDistance,
                         avgWeightPerDistance > 1000 ? "kilosToTons" : undefined,
                       ),
                     ),
@@ -457,11 +441,9 @@ export const TripBenchmarkPage: FC = () => {
                           avgWeightPerDistance > 1000 ? weight / 1000 : weight,
                       },
                       max: (val: any) =>
-                        globalAvgFuelconsumption?.weightPerDistance &&
-                        globalAvgFuelconsumption.weightPerDistance > val.max
-                          ? Math.ceil(
-                              globalAvgFuelconsumption.weightPerDistance,
-                            )
+                        averageTripBenchmarks?.weightPerDistance &&
+                        averageTripBenchmarks.weightPerDistance > val.max
+                          ? Math.ceil(averageTripBenchmarks.weightPerDistance)
                           : undefined,
                     },
                     dataset: {
@@ -483,15 +465,13 @@ export const TripBenchmarkPage: FC = () => {
             </Grid>
             {/* Price per fuel */}
             <Grid size={6}>
-              <ChartCard title="Fangstverdi per tonn drivstoff">
+              <ChartCard title="Fangstverdi per liter drivstoff">
                 <ReactEChart
                   option={{
                     ...generalChartOptions(
-                      globalAvgFuelconsumption?.catchValuePerFuel,
-                      globalAvgFuelconsumption?.catchValuePerFuel
-                        ? nok.format(
-                            globalAvgFuelconsumption?.catchValuePerFuel,
-                          )
+                      averageTripBenchmarks?.catchValuePerFuel,
+                      averageTripBenchmarks?.catchValuePerFuel
+                        ? nok.format(averageTripBenchmarks?.catchValuePerFuel)
                         : "",
                     ),
 
@@ -602,7 +582,7 @@ export const TripBenchmarkPage: FC = () => {
                           <TableCell>{createObjectDurationString(t)}</TableCell>
                           <TableCell align="right">
                             {t.fuelConsumption &&
-                              kilosOrTonsFormatter(t.fuelConsumption * 1000)}
+                              t.fuelConsumption.toFixed(0) + " liter"}
                           </TableCell>
                           <TableCell align="right">
                             {t.weightPerHour &&

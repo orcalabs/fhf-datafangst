@@ -31,7 +31,6 @@ import {
   createGearListString,
   createObjectDurationString,
   dateFormat,
-  fuelTonsToLiters,
 } from "utils";
 
 const InfoItem = styled("div")(({ theme }) => ({
@@ -51,15 +50,6 @@ export const CurrentTripMenu: FC = () => {
   const fuel = useAppSelector(selectFuelOfTrip);
   const estimatedLiveFuel = useAppSelector(selectEstimatedLiveFuelConsumption);
   const appPage = useAppSelector(selectAppPage);
-
-  const liveFuelLiters = useMemo(
-    () =>
-      estimatedLiveFuel?.entries.map((e) => ({
-        ...e,
-        fuel: fuelTonsToLiters(e.fuel),
-      })),
-    [estimatedLiveFuel],
-  );
 
   const tripGears = useMemo(
     () =>
@@ -165,8 +155,7 @@ export const CurrentTripMenu: FC = () => {
               Estimert drivstofforbruk
             </Typography>
             <Typography sx={{ color: "text.secondary", px: 3 }}>
-              Siste 24 timer:{" "}
-              {fuelTonsToLiters(estimatedLiveFuel?.total_fuel).toFixed(0)} liter
+              Siste 24 timer: {estimatedLiveFuel.totalFuel.toFixed(0)} liter
             </Typography>
             <ReactEChart
               option={{
@@ -210,7 +199,7 @@ export const CurrentTripMenu: FC = () => {
                 },
                 dataset: {
                   dimensions: ["timestamp", "fuel"],
-                  source: liveFuelLiters,
+                  source: estimatedLiveFuel.entries,
                 },
 
                 tooltip: {
