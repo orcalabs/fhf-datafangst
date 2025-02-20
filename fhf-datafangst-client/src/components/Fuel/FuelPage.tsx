@@ -2,13 +2,14 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import EditIcon from "@mui/icons-material/Edit";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import {
   Box,
   Button,
   Divider,
   IconButton,
+  Paper,
   Stack,
   styled,
   Table,
@@ -21,6 +22,9 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
+  tooltipClasses,
+  TooltipProps,
   Typography,
 } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -64,6 +68,7 @@ interface EditFuel {
   timestamp: Date | null;
   fuel: number;
   fuelAfter: number | null;
+  error: boolean;
 }
 
 export const FuelPage: FC = () => {
@@ -81,6 +86,7 @@ export const FuelPage: FC = () => {
     fuel: 0,
     fuelAfter: null,
     timestamp: null,
+    error: false,
   });
 
   useEffect(() => {
@@ -99,6 +105,11 @@ export const FuelPage: FC = () => {
   ) => {
     setInputType(newAlignment);
   };
+
+  const reportError =
+    newFuelAfterBunker.length > 0 &&
+    inputType === "bunker" &&
+    newFuelAfterBunker <= newFuel;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
@@ -122,26 +133,11 @@ export const FuelPage: FC = () => {
             fiskeoperasjoner (hal) vil det gi mer korrekte resultater.
           </Typography>
         </Stack>
-
         <Divider />
-
-        <FileUpload
-          accept=".xlsx"
-          onChange={(file) => {
-            dispatch(uploadFuelMeasurements({ file }));
-          }}
-        >
-          <IconButton>
-            <FileUploadIcon />
-          </IconButton>
-        </FileUpload>
-
-        <Divider />
-
         <Stack
           spacing={1}
           sx={{
-            p: 3,
+            p: 4,
             bgcolor: "#E6E8EF",
             borderRadius: 2,
             width: "fit-content",
@@ -158,7 +154,12 @@ export const FuelPage: FC = () => {
             <ToggleButton value="measurement">Peiling</ToggleButton>
             <ToggleButton value="bunker">Bunkring</ToggleButton>
           </ToggleButtonGroup>
-          <Stack direction="row" sx={{ width: "50%" }} spacing={2}>
+          <Stack
+            direction="row"
+            sx={{ width: "50%" }}
+            spacing={2}
+            alignItems="flex-start"
+          >
             <Stack spacing={0.5}>
               <Typography
                 variant="subtitle2"
@@ -188,9 +189,20 @@ export const FuelPage: FC = () => {
                   Drivstoff etter bunkring (liter)
                 </Typography>
                 <TextField
-                  sx={{ width: 205 }}
+                  sx={{
+                    width: 205,
+                    "& .MuiFormHelperText-root": {
+                      position: "absolute",
+                      top: 40,
+                      mx: "2px",
+                    },
+                  }}
                   size="small"
                   variant="outlined"
+                  error={reportError}
+                  helperText={
+                    reportError ? "Må være større enn før bunkring" : ""
+                  }
                   value={newFuelAfterBunker}
                   onKeyDown={numberInputLimiter}
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
@@ -199,7 +211,7 @@ export const FuelPage: FC = () => {
                 />
               </Stack>
             )}
-            <Stack spacing={0.5} sx={{ alignSelf: "flex-end" }}>
+            <Stack spacing={0.5}>
               <Typography
                 variant="subtitle2"
                 sx={{ color: theme.palette.grey[500] }}
@@ -222,216 +234,362 @@ export const FuelPage: FC = () => {
                 onChange={(value) => setInputDate(value)}
               />
             </Stack>
-            <Box sx={{ alignSelf: "flex-end" }}>
-              <Button
-                variant="contained"
-                sx={{ minWidth: 150, height: 40, alignItems: "center" }}
-                color="success"
-                disabled={newFuel === ""}
-                startIcon={<PostAddIcon />}
-                onClick={() => {
-                  dispatch(
-                    createFuelMeasurement({
-                      timestamp: inputDate
-                        ? inputDate.toISOString()
-                        : new Date().toISOString(),
-                      fuel: +newFuel,
-                      fuelAfter:
-                        inputType === "bunker" && newFuelAfterBunker
-                          ? +newFuelAfterBunker
-                          : null,
-                    }),
-                  );
+            <Button
+              variant="contained"
+              sx={{
+                minWidth: 150,
+                height: 40,
+                alignItems: "center",
+                alignSelf: "flex-end",
+              }}
+              color="success"
+              disabled={newFuel === "" || reportError}
+              startIcon={<PostAddIcon />}
+              onClick={() => {
+                dispatch(
+                  createFuelMeasurement({
+                    timestamp: inputDate
+                      ? inputDate.toISOString()
+                      : new Date().toISOString(),
+                    fuel: +newFuel,
+                    fuelAfter:
+                      inputType === "bunker" && newFuelAfterBunker
+                        ? +newFuelAfterBunker
+                        : null,
+                  }),
+                );
 
-                  setNewFuel("");
-                  setInputDate(null);
-                  setNewFuelAfterBunker("");
-                }}
-              >
-                Registrer
-              </Button>
-            </Box>
+                setNewFuel("");
+                setInputDate(null);
+                setNewFuelAfterBunker("");
+              }}
+            >
+              Registrer
+            </Button>
           </Stack>
         </Stack>
         <Stack spacing={2}>
-          <Typography variant="h5">Logg</Typography>
-          {fuel && fuel.length ? (
-            <TableContainer>
-              <Table size="small" sx={{ tableLayout: "fixed", width: 850 }}>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>Måling (liter)</StyledTableCell>
-                    <StyledTableCell>
-                      Måling etter bunkring (liter)
-                    </StyledTableCell>
-                    <StyledTableCell>Tidspunkt</StyledTableCell>
-                    <StyledTableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {fuel?.map((f, i) => (
-                    <TableRow key={i}>
-                      {f.id === editEntry?.id && editEntry ? (
-                        <>
-                          <StyledTableCell>
-                            <TextField
-                              sx={{ width: 120 }}
-                              size="small"
-                              type="number"
-                              variant="outlined"
-                              value={editEntry?.fuel}
-                              onChange={(
-                                event: ChangeEvent<HTMLInputElement>,
-                              ) =>
-                                setEditEntry({
-                                  ...editEntry,
-                                  fuel: +event.target.value,
-                                })
-                              }
-                            />
-                          </StyledTableCell>
-                          <StyledTableCell>
-                            <TextField
-                              sx={{ width: 120 }}
-                              size="small"
-                              type="number"
-                              variant="outlined"
-                              value={editEntry?.fuelAfter}
-                              onChange={(
-                                event: ChangeEvent<HTMLInputElement>,
-                              ) =>
-                                setEditEntry({
-                                  ...editEntry,
-                                  fuelAfter: +event.target.value,
-                                })
-                              }
-                            />
-                          </StyledTableCell>
-                          <StyledTableCell>
-                            <DateTimePicker
-                              sx={{ width: 230 }}
-                              disableFuture
-                              slotProps={{
-                                textField: {
-                                  size: "small",
-                                },
-                              }}
-                              value={editEntry?.timestamp}
-                              onChange={(value) => {
-                                setEditEntry({
-                                  ...editEntry,
-                                  timestamp: value,
-                                });
-                              }}
-                            />
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            <Stack
-                              direction="row"
-                              justifyContent="flex-end"
-                              spacing={1}
-                            >
-                              <Button
-                                sx={{ width: 100 }}
-                                disabled={
-                                  !(
-                                    editEntry &&
-                                    editEntry.timestamp &&
-                                    isValidDate(editEntry.timestamp) &&
-                                    editEntry.fuel
-                                  )
-                                }
-                                size="small"
-                                color="success"
-                                startIcon={<DoneIcon />}
-                                onClick={() => {
-                                  dispatch(
-                                    updateFuelMeasurement({
-                                      id: editEntry.id,
-                                      fuel: editEntry.fuel,
-                                      fuelAfter: editEntry.fuelAfter,
-                                      timestamp:
-                                        editEntry.timestamp!.toISOString(),
-                                    }),
-                                  );
-                                  resetEdit();
+          <Paper
+            sx={{
+              width: 922,
+              bgcolor: theme.palette.grey[100],
+              borderRadius: 2,
+              p: 2,
+            }}
+          >
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="flex-end"
+              sx={{ pb: 3.5 }}
+            >
+              <Typography variant="h5">Logg</Typography>
+              <FileUpload
+                accept=".xlsx"
+                onChange={(file) => {
+                  dispatch(uploadFuelMeasurements({ file }));
+                }}
+              >
+                <ImportTooltip
+                  title={
+                    <>
+                      <Stack direction="row" spacing={1}>
+                        <Typography fontWeight="bold">
+                          Akseptert filtype:
+                        </Typography>
+                        <Typography
+                          fontWeight="bold"
+                          sx={{ color: "grey.A400" }}
+                        >
+                          .xlsx
+                        </Typography>
+                      </Stack>
+                      <Divider sx={{ mt: 1 }} />
+                      <Typography sx={{ pt: 1, color: "#5B6165" }}>
+                        Gyldig kolonnestruktur:
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{ pl: 1.5, color: "fourth.dark" }}
+                      >
+                        <Typography>Tid (dd.mm.åååå TT:MM:SS)</Typography>
+                        <Typography>|</Typography>
+                        <Typography>Liter</Typography>
+                        <Typography>|</Typography>
+                        <Typography>
+                          Liter etter bunkring (valgfritt)
+                        </Typography>
+                      </Stack>
+                      <Typography sx={{ pt: 0.5, color: "#5B6165" }}>
+                        Eksempel:
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{ pl: 1.5, color: "fourth.dark" }}
+                      >
+                        <Typography>01.01.2001 11:11:10</Typography>
+                        <Typography>|</Typography>
+                        <Typography>560</Typography>
+                        <Typography>|</Typography>
+                        <Typography>2000</Typography>
+                      </Stack>
+                    </>
+                  }
+                >
+                  <Button
+                    variant="contained"
+                    size="small"
+                    // sx={{ minWidth: 120, height: 40, alignItems: "center" }}
+                    color="secondary"
+                    startIcon={<UploadFileIcon />}
+                  >
+                    Importer
+                  </Button>
+                </ImportTooltip>
+              </FileUpload>
+            </Stack>
+            {fuel && fuel.length ? (
+              <TableContainer>
+                <Table
+                  size="small"
+                  sx={{
+                    tableLayout: "fixed",
+                    width: 877,
+                    bgcolor: theme.palette.grey[100],
+                    borderRadius: 2,
+                  }}
+                >
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell sx={{ width: 180 }}>
+                        Tidspunkt
+                      </StyledTableCell>
+                      <StyledTableCell sx={{ width: 180 }} align="right">
+                        Måling (liter)
+                      </StyledTableCell>
+                      <StyledTableCell sx={{ width: 250 }} align="right">
+                        Måling etter bunkring (liter)
+                      </StyledTableCell>
+                      <StyledTableCell sx={{ width: 150 }} />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {fuel?.map((f, i) => (
+                      <TableRow key={i}>
+                        {f.id === editEntry?.id && editEntry ? (
+                          <>
+                            <StyledTableCell>
+                              <DateTimePicker
+                                sx={{ width: 230 }}
+                                disableFuture
+                                slotProps={{
+                                  textField: {
+                                    size: "small",
+                                  },
                                 }}
-                              >
-                                OK
-                              </Button>
-                              <Button
-                                sx={{ width: 100 }}
-                                size="small"
-                                color="error"
-                                startIcon={<ClearIcon />}
-                                onClick={() => resetEdit()}
-                              >
-                                Avbryt
-                              </Button>
-                            </Stack>
-                          </StyledTableCell>
-                        </>
-                      ) : (
-                        <>
-                          <StyledTableCell>{f.fuel}</StyledTableCell>
-                          <StyledTableCell>{f.fuelAfter}</StyledTableCell>
-                          <StyledTableCell>
-                            {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            <Stack
-                              direction="row"
-                              spacing={2}
-                              justifyContent="flex-end"
-                            >
-                              <IconButton
-                                color="warning"
-                                size="small"
-                                onClick={() => {
+                                value={editEntry?.timestamp}
+                                onChange={(value) => {
                                   setEditEntry({
-                                    id: f.id,
-                                    fuel: f.fuel,
-                                    fuelAfter: f.fuelAfter,
-                                    timestamp: new Date(f.timestamp),
+                                    ...editEntry,
+                                    timestamp: value,
                                   });
                                 }}
-                              >
-                                <EditIcon />
-                              </IconButton>
-                              <IconButton
-                                size="small"
-                                color="error"
-                                onClick={() => {
-                                  dispatch(
-                                    deleteFuelMeasurement({
-                                      id: f.id,
-                                    }),
-                                  );
-                                  resetEdit();
+                              />
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                              <TextField
+                                sx={{
+                                  width: 120,
+                                  "& .MuiInputBase-input": {
+                                    textAlign: "right",
+                                    pr: 1,
+                                  },
                                 }}
+                                size="small"
+                                onKeyDown={numberInputLimiter}
+                                variant="outlined"
+                                value={editEntry?.fuel}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                  setEditEntry({
+                                    ...editEntry,
+                                    fuel: +e.target.value,
+                                  })
+                                }
+                              />
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                              <TextField
+                                sx={{
+                                  width: 120,
+                                  "& .MuiInputBase-input": {
+                                    textAlign: "right",
+                                    pr: 1,
+                                  },
+                                }}
+                                error={editEntry.error}
+                                size="small"
+                                onKeyDown={numberInputLimiter}
+                                variant="outlined"
+                                value={editEntry?.fuelAfter ?? ""}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                  setEditEntry({
+                                    ...editEntry,
+                                    fuelAfter: e.target.value
+                                      ? +e.target.value
+                                      : null,
+                                    error: !!(editEntry.fuel > +e.target.value),
+                                  })
+                                }
+                              />
+                              {editEntry.error && (
+                                <Typography
+                                  sx={{
+                                    fontWeight: 400,
+                                    lineHeight: 1.66,
+                                    fontSize: "0.75rem",
+                                    color: "error.main",
+                                    mt: "2px",
+                                  }}
+                                >
+                                  Må være større enn før bunkring
+                                </Typography>
+                              )}
+                            </StyledTableCell>
+
+                            <StyledTableCell align="right">
+                              <Stack
+                                direction="row"
+                                justifyContent="flex-end"
+                                spacing={1}
                               >
-                                <DeleteIcon />
-                              </IconButton>
-                            </Stack>
-                          </StyledTableCell>
-                        </>
-                      )}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : loading ? (
-            <Box sx={{ width: "fit-content", marginRight: "auto" }}>
-              <LocalLoadingProgress color="black" />
-            </Box>
-          ) : (
-            <Typography sx={{ pl: 1, fontStyle: "italic" }}>
-              Ingen målinger registrert
-            </Typography>
-          )}
+                                <Button
+                                  sx={{ width: 100 }}
+                                  disabled={
+                                    !(
+                                      editEntry &&
+                                      editEntry.timestamp &&
+                                      isValidDate(editEntry.timestamp) &&
+                                      editEntry.fuel
+                                    ) || editEntry.error
+                                  }
+                                  size="small"
+                                  color="success"
+                                  startIcon={<DoneIcon />}
+                                  onClick={() => {
+                                    dispatch(
+                                      updateFuelMeasurement({
+                                        id: editEntry.id,
+                                        fuel: editEntry.fuel,
+                                        fuelAfter: editEntry.fuelAfter,
+                                        timestamp:
+                                          editEntry.timestamp!.toISOString(),
+                                      }),
+                                    );
+                                    resetEdit();
+                                  }}
+                                >
+                                  OK
+                                </Button>
+                                <Button
+                                  sx={{ width: 100 }}
+                                  size="small"
+                                  color="error"
+                                  startIcon={<ClearIcon />}
+                                  onClick={() => resetEdit()}
+                                >
+                                  Avbryt
+                                </Button>
+                              </Stack>
+                            </StyledTableCell>
+                          </>
+                        ) : (
+                          <>
+                            <StyledTableCell>
+                              {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                              {f.fuel}
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                              {f.fuelAfter}
+                            </StyledTableCell>
+
+                            <StyledTableCell align="right">
+                              <Stack
+                                direction="row"
+                                spacing={2}
+                                justifyContent="flex-end"
+                              >
+                                <IconButton
+                                  color="warning"
+                                  size="small"
+                                  onClick={() => {
+                                    setEditEntry({
+                                      id: f.id,
+                                      fuel: f.fuel,
+                                      fuelAfter: f.fuelAfter,
+                                      timestamp: new Date(f.timestamp),
+                                      error: false,
+                                    });
+                                  }}
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                                <IconButton
+                                  size="small"
+                                  color="error"
+                                  onClick={() => {
+                                    dispatch(
+                                      deleteFuelMeasurement({
+                                        id: f.id,
+                                      }),
+                                    );
+                                    resetEdit();
+                                  }}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </Stack>
+                            </StyledTableCell>
+                          </>
+                        )}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : loading ? (
+              <Box sx={{ width: "fit-content", marginRight: "auto" }}>
+                <LocalLoadingProgress color="black" />
+              </Box>
+            ) : (
+              <Typography
+                sx={{
+                  pl: 1,
+                  fontStyle: "italic",
+                  bgcolor: theme.palette.grey[100],
+                }}
+              >
+                Ingen målinger registrert
+              </Typography>
+            )}
+          </Paper>
         </Stack>
       </Stack>
     </LocalizationProvider>
   );
 };
+
+const ImportTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.grey[300],
+    color: "rgba(0, 0, 0, 0.87)",
+    maxWidth: 650,
+    "& .MuiTypography-root": { fontSize: "0.85rem" },
+    border: `1px solid ${theme.palette.grey[400]}`,
+  },
+}));
