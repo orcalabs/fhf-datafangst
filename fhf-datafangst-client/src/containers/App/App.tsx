@@ -28,7 +28,7 @@ export const App: React.FC = () => {
             ))}
 
             {/* NB! Fallback redirect, must be last! */}
-            <Route path="*" element={<Navigate to={AppPage.Live} />} />
+            <Route path="*" element={<Navigate to={`/${AppPage.Live}`} />} />
           </Routes>
         </Layout>
       </AuthProvider>
