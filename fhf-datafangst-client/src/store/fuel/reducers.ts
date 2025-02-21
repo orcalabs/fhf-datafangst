@@ -13,7 +13,7 @@ export const fuelBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(getFuelMeasurements.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile.ircs;
+      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
       action.meta.arg.token = state.authUser?.access_token;
       state.fuelMeasurementsLoading = true;
       state.fuelMeasurements = undefined;
@@ -26,7 +26,7 @@ export const fuelBuilder = (
       state.fuelMeasurementsLoading = false;
     })
     .addCase(createFuelMeasurement.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile.ircs;
+      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(createFuelMeasurement.fulfilled, (state, action) => {
@@ -40,7 +40,7 @@ export const fuelBuilder = (
       }
     })
     .addCase(uploadFuelMeasurements.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile.ircs;
+      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(uploadFuelMeasurements.fulfilled, (state, action) => {
@@ -54,7 +54,7 @@ export const fuelBuilder = (
       }
     })
     .addCase(updateFuelMeasurement.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile.ircs;
+      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(updateFuelMeasurement.fulfilled, (state, action) => {
@@ -69,7 +69,7 @@ export const fuelBuilder = (
       }
     })
     .addCase(deleteFuelMeasurement.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile.ircs;
+      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(deleteFuelMeasurement.fulfilled, (state, action) => {
