@@ -52,7 +52,7 @@ export const vesselBuilder = (
     })
     .addCase(updateVessel.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile.ircs;
+      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
     })
     .addCase(updateVessel.fulfilled, (state, action) => {
       const vessel = action.payload;

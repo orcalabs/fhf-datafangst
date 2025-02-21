@@ -21,7 +21,7 @@ interface VesselInfo {
 
 // Incomplete compared to output, we only use the fields we require.
 export interface BwUser {
-  fiskInfoProfile: VesselInfo;
+  fiskInfoProfile: VesselInfo | null;
   user: ContactDetails;
   policies: string[] | null;
   roles: string[] | null;

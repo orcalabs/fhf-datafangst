@@ -47,7 +47,7 @@ export const selectBwUserProfile = createSelector(
 
 export const selectBwUserCallSign = createSelector(
   selectBwUserProfile,
-  (state) => state?.fiskInfoProfile.ircs,
+  (state) => state?.fiskInfoProfile?.ircs,
 );
 
 const AIS_ROLES = [
