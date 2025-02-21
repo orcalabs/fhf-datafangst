@@ -3,7 +3,7 @@ import { authConfig } from "app/auth";
 import { Layout } from "components";
 import { HomeView } from "containers";
 import { AuthProvider } from "oidc-react";
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Route, Routes, useSearchParams } from "react-router";
 
 export enum AppPage {
   Live = "live",
@@ -13,10 +13,13 @@ export enum AppPage {
 }
 
 export const App: React.FC = () => {
+  const [loginParam, _] = useSearchParams();
+  const autoSignIn = !!loginParam.get("signedIn");
+
   return (
     <>
       <CssBaseline />
-      <AuthProvider {...authConfig}>
+      <AuthProvider {...{ ...authConfig, autoSignIn: autoSignIn }}>
         <Layout>
           <Routes>
             {Object.values(AppPage).map((page) => (
