@@ -1,8 +1,25 @@
+import { AppPage } from "containers/App/App";
 import { WebStorageStateStore } from "oidc-client-ts";
 import { AuthProviderProps, UserManager } from "oidc-react";
 
 export const authConfig: AuthProviderProps = {
   autoSignIn: false,
+  onBeforeSignIn: () => {
+    window.localStorage.setItem("pathname", window.location.pathname);
+  },
+  onSignIn: () => {
+    // Redirect after login will go to location.origin. Check localstorage if there is a
+    // subpath to route to after login redirect
+    const redirectPathname = localStorage.getItem("pathname");
+
+    if (redirectPathname) {
+      const subpath = redirectPathname.substring(1);
+      if (Object.values(AppPage).includes(subpath as any)) {
+        localStorage.removeItem("pathname");
+        window.location.href = window.location.origin + redirectPathname;
+      }
+    }
+  },
   userManager: new UserManager({
     accessTokenExpiringNotificationTimeInSeconds: 1,
     automaticSilentRenew: true,

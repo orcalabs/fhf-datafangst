@@ -173,7 +173,10 @@ export const MyPage: FC = () => {
                 bgcolor: "secondary.light",
               },
             }}
-            onClick={() => signIn()}
+            onClick={() => {
+              window.localStorage.setItem("pathname", window.location.pathname);
+              signIn();
+            }}
           >
             Logg inn
           </Button>
