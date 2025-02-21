@@ -100,7 +100,13 @@ export const Header: FC<Props> = ({ page }) => {
                 textTransform: "none",
                 fontWeight: "bold",
               }}
-              onClick={() => signIn()}
+              onClick={() => {
+                window.localStorage.setItem(
+                  "pathname",
+                  window.location.pathname,
+                );
+                signIn();
+              }}
               endIcon={<AccountCircleIcon color="secondary" />}
             >
               Logg inn

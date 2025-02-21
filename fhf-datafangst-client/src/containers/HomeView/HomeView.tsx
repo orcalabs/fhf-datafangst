@@ -48,7 +48,6 @@ export interface Props {
 
 export const HomeView: FC<Props> = ({ page }) => {
   const dispatch = useAppDispatch();
-
   const pageState = useAppSelector(selectAppPage);
 
   const [mapFilter, setMapFilter] = useState<MapFilter>(initialMapFilter);
