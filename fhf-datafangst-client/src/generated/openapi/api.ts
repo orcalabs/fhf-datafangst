@@ -3772,6 +3772,12 @@ export interface Vessel {
      * @memberof Vessel
      */
     'currentTrip': VesselCurrentTrip | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Vessel
+     */
+    'isActive': boolean;
 }
 /**
  * 
