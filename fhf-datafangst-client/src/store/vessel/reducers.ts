@@ -20,7 +20,6 @@ export const vesselBuilder = (
       state.vessels = vessels;
       state.vesselsByCallSign = {};
       state.vesselsByFiskeridirId = {};
-      state.vesselsByMmsi = {};
       for (const vessel of vessels) {
         if (vessel.fiskeridir?.callSign) {
           state.vesselsByCallSign[vessel.fiskeridir.callSign] = vessel;
@@ -28,10 +27,6 @@ export const vesselBuilder = (
 
         if (vessel.fiskeridir?.id) {
           state.vesselsByFiskeridirId[vessel.fiskeridir.id] = vessel;
-        }
-
-        if (vessel.ais) {
-          state.vesselsByMmsi[vessel.ais.mmsi] = vessel;
         }
       }
     })
@@ -64,10 +59,6 @@ export const vesselBuilder = (
       }
       if (state.vesselsByCallSign && vessel.fiskeridir.callSign) {
         state.vesselsByCallSign[vessel.fiskeridir.callSign] = vessel;
-      }
-
-      if (state.vesselsByMmsi && vessel.ais?.mmsi) {
-        state.vesselsByMmsi[vessel.ais.mmsi] = vessel;
       }
 
       if (state.vesselsByFiskeridirId && vessel.fiskeridir.id)
