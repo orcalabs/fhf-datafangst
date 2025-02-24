@@ -21,7 +21,7 @@ export const vesselBuilder = (
       state.vesselsByCallSign = {};
       state.vesselsByFiskeridirId = {};
       for (const vessel of vessels) {
-        if (vessel.fiskeridir?.callSign) {
+        if (vessel.fiskeridir?.callSign && vessel.isActive) {
           state.vesselsByCallSign[vessel.fiskeridir.callSign] = vessel;
         }
 
