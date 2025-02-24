@@ -41,23 +41,6 @@ export const selectVesselByFiskeridirId = createSelector(
   (vessels, id) => (id !== undefined ? vessels[id] : undefined),
 );
 
-export const selectVesselsByMmsi = createSelector(selectVessels, (state) => {
-  if (!state) return undefined;
-
-  const res: Record<number, Vessel> = {};
-  for (const vessel of state) {
-    if (vessel.ais) {
-      res[vessel.ais.mmsi] = vessel;
-    }
-  }
-  return res;
-});
-
-export const selectVesselByMmsi = createSelector(
-  [selectVesselsByMmsi, (_, mmsi: number) => mmsi],
-  (vessels, mmsi) => (vessels ? vessels[mmsi] : undefined),
-);
-
 export const selectVesselsByHaulId = createSelector(
   selectVesselsByFiskeridirId,
   selectVesselsByCallsign,
