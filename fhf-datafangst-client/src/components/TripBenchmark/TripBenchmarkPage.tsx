@@ -239,18 +239,25 @@ export const TripBenchmarkPage: FC = () => {
 
               <Divider sx={{ my: 2 }} />
 
-              {eeoi && averageEeoi && (
+              {eeoi && (
                 <Stack gap={1} direction="row">
                   <Typography>EEOI (gCO2/t.nm): </Typography>
                   <Typography>
                     <span
                       style={{
-                        color: eeoi > averageEeoi ? "red" : "green",
+                        color:
+                          averageEeoi && eeoi > averageEeoi
+                            ? "red"
+                            : averageEeoi && eeoi < averageEeoi
+                              ? "green"
+                              : "black",
                       }}
                     >
                       {(eeoi * 1_000_000).toFixed(1)}
-                    </span>{" "}
-                    (avg: {(averageEeoi * 1_000_000).toFixed(1)})
+                    </span>
+                    {averageEeoi && (
+                      <> (avg: {(averageEeoi * 1_000_000).toFixed(1)})</>
+                    )}
                   </Typography>
                 </Stack>
               )}
