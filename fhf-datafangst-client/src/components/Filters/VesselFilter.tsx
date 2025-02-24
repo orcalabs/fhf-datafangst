@@ -110,7 +110,7 @@ const VesselFilterInner = memo(
                     {toTitleCase(option?.fiskeridir.name ?? "Ukjent")}
                   </Typography>
                   <Typography variant="caption" color="textSecondary">
-                    {option.fiskeridir.registrationId}
+                    {option.fiskeridir.callSign ?? "Ukjent kallesignal"}
                   </Typography>
                 </Box>
               </Box>
