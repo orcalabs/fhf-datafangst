@@ -90,5 +90,6 @@ export const vesselBuilder = (
         ...state,
         selectedLiveVessel: action.payload,
         tripsSearch: vessel ? { vessels: [vessel] } : undefined,
+        selectedTrip: undefined,
       };
     });
