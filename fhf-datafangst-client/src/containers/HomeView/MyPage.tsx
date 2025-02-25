@@ -60,6 +60,7 @@ import {
   setFishingFacilitiesSearch,
   setHaulDateSliderFrame,
   setHaulsMatrixSearch,
+  setInitialMapZoom,
   useAppDispatch,
   useAppSelector,
 } from "store";
@@ -134,6 +135,7 @@ export const MyPage: FC = () => {
           vessels: [vessel],
         }),
       );
+      dispatch(setInitialMapZoom());
     } else if (subMenu === MyPageSubmenu.Facility) {
       dispatch(
         setFishingFacilitiesSearch({
