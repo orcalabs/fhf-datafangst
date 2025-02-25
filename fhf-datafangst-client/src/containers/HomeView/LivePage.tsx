@@ -85,7 +85,7 @@ export const LivePage: FC = () => {
         {selectedTrip ? <SelectedTripMenu /> : <CurrentTripMenu />}
         <TripsLayer />
       </PageLayoutRight>
-      {loading ? <LoadingScreen open /> : <LiveVesselsLayer />}
+      {loading ? <LoadingScreen open /> : !selectedTrip && <LiveVesselsLayer />}
       {track && !currentTrip && !selectedTrip && <TrackLayer />}
     </>
   );
