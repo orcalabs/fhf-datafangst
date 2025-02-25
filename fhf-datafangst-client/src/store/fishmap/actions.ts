@@ -6,3 +6,5 @@ export const initializeMap = createAction<Map>("fishmap/initializeMap");
 export const toggleSelectedArea = createAction<Feature>(
   "fishmap/toggleSelectedArea",
 );
+
+export const setInitialMapZoom = createAction("fishmap/setInitialMapZoom");
