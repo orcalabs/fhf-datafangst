@@ -37,7 +37,7 @@ const Inner: FC<PropsInner> = ({ open = true, area, sx, children }) => {
     <Stack
       gridArea={area}
       sx={{
-        height: `calc(100vh - ${HEADER_HEIGHT}px)`,
+        maxHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
         ...sx,
       }}
     >
