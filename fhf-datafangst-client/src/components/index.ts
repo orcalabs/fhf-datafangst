@@ -67,4 +67,5 @@ export { TimeSlider } from "./TimeSlider/TimeSlider";
 export { TripBenchmarkPage } from "./TripBenchmark/TripBenchmarkPage";
 export { TripDetails } from "./TripDetails/TripDetails";
 export { TripsList } from "./TripsMenu/TripsList";
+export { UserManual } from "./UserManual/UserManual";
 export { VesselSettings } from "./VesselSettings/VesselSettings";

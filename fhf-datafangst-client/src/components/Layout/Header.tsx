@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import LogoIcon from "assets/logos/logoIcon";
-import { AboutUs, HeaderMenuButtons } from "components";
+import { AboutUs, HeaderMenuButtons, UserManual } from "components";
 import { AppPage } from "containers/App/App";
 import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
@@ -34,6 +34,7 @@ export const Header: FC<Props> = ({ page }) => {
   const loggedIn = useAppSelector(selectIsLoggedIn);
 
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
+  const [userManualModalOpen, setUserManualModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -82,6 +83,16 @@ export const Header: FC<Props> = ({ page }) => {
           sx={{ gridColumn: 3, justifySelf: "end" }}
           alignItems="center"
         >
+          <Button
+            sx={{ color: "white", textTransform: "none" }}
+            onClick={() => setUserManualModalOpen(true)}
+          >
+            Brukerveiledning
+          </Button>
+          <Divider
+            orientation="vertical"
+            sx={{ bgcolor: "white", height: loggedIn ? 16 : 12 }}
+          />
           <Button
             sx={{ color: "white", textTransform: "none" }}
             onClick={() => setAboutModalOpen(true)}
@@ -185,6 +196,10 @@ export const Header: FC<Props> = ({ page }) => {
         </Stack>
       </Toolbar>
       <AboutUs open={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
+      <UserManual
+        open={userManualModalOpen}
+        onClose={() => setUserManualModalOpen(false)}
+      />
     </AppBar>
   );
 };
