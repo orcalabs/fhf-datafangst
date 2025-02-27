@@ -159,6 +159,8 @@ export const haulBuilder = (
         (action as any).asyncDispatch(
           addHauls({ ...action.payload, catchLocations: x }),
         );
+      } else {
+        (action as any).asyncDispatch(getHauls(action.payload));
       }
 
       state.haulsMatrix2Search = action.payload;
