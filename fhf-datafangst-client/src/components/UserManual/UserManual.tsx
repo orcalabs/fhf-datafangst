@@ -92,7 +92,7 @@ const LiveMapDemo: FC = () => {
     <Stack spacing={2}>
       <Typography>
         Søk etter eller klikk på fartøy i kartet for å se nåværende posisjon og
-        status. Når en båt et valgt vil turene til båten vises på venstre side.
+        status. Når en båt er valgt vil turene til båten vises på venstre side.
         På kartet vises sporet av nåværende tur dersom fartøyet har registrert
         en avgangsmelding (DEP). Hvis ikke vises spor fra siste 24 timer.
       </Typography>
