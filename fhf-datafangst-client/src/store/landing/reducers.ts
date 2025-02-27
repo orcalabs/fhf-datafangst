@@ -90,9 +90,12 @@ export const landingBuilder = (
         ...emptyState,
         haulsMatrix: undefined,
         haulsMatrixSearch: undefined,
+        haulsMatrix2Search: undefined,
         landings: undefined,
         landingsMatrixSearch: action.payload,
         landingsMatrix2Search: undefined,
+        selectedGrids: [],
+        selectedGridsString: [],
       };
     })
     .addCase(setLandingsMatrix2Search, (state, action) => {

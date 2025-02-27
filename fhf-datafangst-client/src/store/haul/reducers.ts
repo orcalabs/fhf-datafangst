@@ -129,9 +129,12 @@ export const haulBuilder = (
         ...emptyState,
         landingsMatrix: undefined,
         landingsMatrixSearch: undefined,
+        landingsMatrix2Search: undefined,
         hauls: undefined,
         haulsMatrixSearch: action.payload,
         haulsMatrix2Search: undefined,
+        selectedGrids: [],
+        selectedGridsString: [],
       };
     })
     .addCase(setHaulsMatrix2Search, (state, action) => {
@@ -156,6 +159,8 @@ export const haulBuilder = (
         (action as any).asyncDispatch(
           addHauls({ ...action.payload, catchLocations: x }),
         );
+      } else {
+        (action as any).asyncDispatch(getHauls(action.payload));
       }
 
       state.haulsMatrix2Search = action.payload;
