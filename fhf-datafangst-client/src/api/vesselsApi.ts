@@ -26,8 +26,8 @@ export const getVessels = apiFn((_: undefined, signal) =>
   api.routesV1VesselVessels({ signal }),
 );
 
-export const getVesselBenchmarks = apiFn((bwToken: string, signal) =>
-  api.routesV1VesselBenchmarksBenchmarks({ bwToken }, { signal }),
+export const getVesselBenchmarks = apiFn((authorization: string, signal) =>
+  api.routesV1VesselBenchmarksBenchmarks({ authorization }, { signal }),
 );
 
 export const getEstimatedFuelConsumption = apiFn((args: FuelArgs, signal) =>
@@ -39,7 +39,7 @@ export const getEstimatedFuelConsumption = apiFn((args: FuelArgs, signal) =>
       endDate: args.endDate
         ? formatISO(args.endDate, { representation: "date" })
         : undefined,
-      bwToken: args.token!,
+      authorization: args.token!,
     },
     {
       params: { call_sign_override: args.callSignOverride },
@@ -53,7 +53,7 @@ export const getEstimastedLiveFuelConsumption = apiFn(
     api.routesV1VesselLiveFuel(
       {
         threshold: args.threshold,
-        bwToken: args.token!,
+        authorization: args.token!,
       },
       {
         params: { call_sign_override: args.callSignOverride },
@@ -66,7 +66,7 @@ export const updateVessel = apiFn((args: UpdateVesselArgs) =>
   api.routesV1VesselUpdateVessel(
     {
       updateVessel: args,
-      bwToken: args.token!,
+      authorization: args.token!,
     },
     {
       params: { call_sign_override: args.callSignOverride },

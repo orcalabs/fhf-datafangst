@@ -13,7 +13,7 @@ export interface UserArgs {
 const api = new UserApi(apiConfiguration, undefined, axiosInstance);
 
 export const getUser = apiFn((token: string, signal) =>
-  api.routesV1UserGetUser({ bwToken: token }, { signal }),
+  api.routesV1UserGetUser({ authorization: token }, { signal }),
 );
 
 const _updateUser = apiFn((args: UserApiRoutesV1UserUpdateUserRequest) =>
@@ -22,5 +22,7 @@ const _updateUser = apiFn((args: UserApiRoutesV1UserUpdateUserRequest) =>
 
 export const updateUser = async (query: UserArgs) => {
   const user = { following: query.following.map((f) => f.fiskeridir.id) };
-  return _updateUser({ user, bwToken: query.accessToken! }).then(() => user);
+  return _updateUser({ user, authorization: query.accessToken! }).then(
+    () => user,
+  );
 };

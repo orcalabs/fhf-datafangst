@@ -37,7 +37,7 @@ export const getFishingFacilities = apiFn(
         offset: query.offset ?? 0,
         ordering: query.ordering ?? Ordering.Desc,
         sorting: query.sorting ?? FishingFacilitiesSorting.Setup,
-        bwToken: query.accessToken!,
+        authorization: query.accessToken!,
       },
       { signal },
     ),

@@ -26,7 +26,7 @@ export const getOrgBenchmarks = apiFn((query: OrgBenchmarksArgs, signal) =>
       orgId: query.orgId,
       start: query.start?.toISOString(),
       end: query.end?.toISOString(),
-      bwToken: query.token!,
+      authorization: query.token!,
     },
     {
       params: { call_sign_override: query.callSignOverride },
@@ -46,7 +46,7 @@ export const getOrgFuelConsumption = apiFn(
         endDate: query.endDate
           ? formatISO(query.endDate, { representation: "date" })
           : undefined,
-        bwToken: query.token!,
+        authorization: query.token!,
       },
       {
         params: { call_sign_override: query.callSignOverride },

@@ -25,7 +25,7 @@ export const getTrack = apiFn((query: TrackArgs, signal) =>
       tripId: query.tripId,
       start: query.start,
       end: query.end,
-      bwToken: query.accessToken,
+      authorization: query.accessToken,
     },
     { signal },
   ),
@@ -36,7 +36,7 @@ export const getCurrentPositions = apiFn(
     api.routesV1AisVmsCurrentPositions(
       {
         positionTimestampLimit: subHours(new Date(), 48).toISOString(),
-        bwToken: query.token,
+        authorization: query.token,
       },
       { signal },
     ),

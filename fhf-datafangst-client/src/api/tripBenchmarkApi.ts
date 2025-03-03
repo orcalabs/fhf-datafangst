@@ -43,7 +43,7 @@ export const getTripBenchmarks = apiFn((query: TripBenchmarksArgs, signal) =>
       startDate: query.start?.toISOString(),
       endDate: query.end?.toISOString(),
       ordering: query.ordering,
-      bwToken: query.accessToken!,
+      authorization: query.accessToken!,
     },
     {
       // Temporary fix for assigning a vessel to user in prod
@@ -71,7 +71,7 @@ export const getEeoi = apiFn((query: EeoiArgs, signal) =>
     {
       startDate: query.start?.toISOString(),
       endDate: query.end?.toISOString(),
-      bwToken: query.accessToken!,
+      authorization: query.accessToken!,
     },
     {
       // Temporary fix for assigning a vessel to user in prod
