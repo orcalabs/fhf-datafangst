@@ -23,7 +23,7 @@ export const UserManual: FC<Props> = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md">
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogContent
         sx={{
           bgcolor: "#EDF0F3",
