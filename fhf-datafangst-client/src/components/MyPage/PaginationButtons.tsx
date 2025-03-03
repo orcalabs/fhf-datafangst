@@ -54,8 +54,10 @@ export const PaginationButtons: FC<Props> = (props) => {
           sx={{
             height: "1.5rem",
             width: "5rem",
-            margin: "auto",
+            mx: "auto",
+            my: 1,
             gridColumn: 2,
+            alignSelf: "center",
             borderRadius: 0,
             border: 0,
             "&, *": {

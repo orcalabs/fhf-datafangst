@@ -1,4 +1,4 @@
-import { Box, List, ListSubheader } from "@mui/material";
+import { Box, List, ListSubheader, Typography } from "@mui/material";
 import { TripsArgs } from "api";
 import {
   LocalLoadingProgress,
@@ -96,11 +96,13 @@ export const TripsList: FC = () => {
         />
       </ListSubheader>
       {tripsLoading ? (
-        <Box sx={{ pt: 2, pl: 2.5 }}>
+        <Box sx={{ py: 3 }}>
           <LocalLoadingProgress />
         </Box>
       ) : !trips?.length && offset === 0 ? (
-        <Box sx={{ py: 1, pl: 2.5 }}>Ingen resultater</Box>
+        <Typography sx={{ py: 2, pl: 3.5, fontStyle: "italic" }}>
+          Ingen resultater
+        </Typography>
       ) : (
         <>
           <OverlayScrollbars style={{ flexGrow: 1 }}>

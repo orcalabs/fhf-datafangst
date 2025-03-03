@@ -11,6 +11,7 @@ import {
   ListItemButton,
   ListItemText,
   ListSubheader,
+  Typography,
 } from "@mui/material";
 import theme from "app/theme";
 import {
@@ -112,11 +113,13 @@ export const MyGears: FC = () => {
         </FormGroup>
       </ListSubheader>
       {gearsLoading ? (
-        <Box sx={{ pt: 2, pl: 2.5 }}>
+        <Box sx={{ py: 3 }}>
           <LocalLoadingProgress />
         </Box>
       ) : !gears?.length ? (
-        <Box sx={{ py: 2, pl: 2.5 }}>Ingen resultater </Box>
+        <Typography sx={{ py: 2, pl: 3.5, fontStyle: "italic" }}>
+          Ingen resultater
+        </Typography>
       ) : (
         <>
           <OverlayScrollbars style={{ flexGrow: 1 }}>
