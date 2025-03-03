@@ -328,7 +328,7 @@ export const SelectedTripMenu: FC = () => {
                   variant="h5"
                   sx={{ fontSize: "1rem", lineHeight: 1.6 }}
                 >
-                  Estimert fangst
+                  Rapportert fangst
                   {expanded ? (
                     <KeyboardArrowUpIcon />
                   ) : (

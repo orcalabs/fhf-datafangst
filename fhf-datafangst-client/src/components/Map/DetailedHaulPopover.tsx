@@ -70,7 +70,7 @@ export const DetailedHaulPopover: FC<Props> = ({ haul }) => {
             mt: 3,
           }}
         >
-          Estimert fangst
+          Rapportert fangst
         </Typography>
         <CatchesTable catches={haul.catches} />
       </Box>

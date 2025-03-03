@@ -145,7 +145,7 @@ export const CurrentTripMenu: FC = () => {
         </Box>
         <Stack sx={{ py: 1, width: "100%" }} spacing={0.5}>
           <Typography sx={{ fontSize: "1rem" }} variant="h5">
-            Estimert fangst
+            Rapportert fangst
           </Typography>
           <CatchesTable catches={trip.hauls.flatMap((h) => h.catches)} />
         </Stack>
