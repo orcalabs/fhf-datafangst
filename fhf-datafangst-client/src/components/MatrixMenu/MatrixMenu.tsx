@@ -52,9 +52,15 @@ export const MatrixMenu: FC = () => {
             "&.Mui-selected": {
               backgroundColor: "secondary.main",
               color: "white",
-              "&:hover": { bgcolor: "secondary.main" },
+              "&:hover": {
+                bgcolor: "secondary.main",
+                borderColor: theme.palette.grey.A100,
+              },
             },
-            "&:hover": { bgcolor: "secondary.main" },
+            "&:hover": {
+              bgcolor: "secondary.main",
+              borderColor: theme.palette.grey.A100,
+            },
           },
         }}
       >

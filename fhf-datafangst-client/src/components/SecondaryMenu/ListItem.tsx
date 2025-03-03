@@ -111,7 +111,7 @@ export const ListItem: FC<Props> = ({
                 mt: 3,
               }}
             >
-              Estimert fangst
+              Rapportert fangst
             </Typography>
             <CatchesTable catches={catches} />
             {onTripClick && (

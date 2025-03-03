@@ -45,7 +45,7 @@ export const HaulFilters: FC<Props> = ({
 
   if (matrixLoading) {
     return (
-      <Box sx={{ ...sx, py: 7, pl: 2.5 }}>
+      <Box sx={{ ...sx, py: 3 }}>
         <LocalLoadingProgress />
       </Box>
     );

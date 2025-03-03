@@ -21,7 +21,6 @@ import {
 } from "@mui/material";
 import { DeliveryPointIcon, FishIcon, FishLocationIcon } from "assets/icons";
 import { CatchesTable } from "components";
-import { AppPage } from "containers/App/App";
 import { addMonths, getMonth, getYear, subMonths } from "date-fns";
 import { TripAssemblerId } from "generated/openapi";
 import { FC, useMemo, useState } from "react";
@@ -30,9 +29,7 @@ import {
   getLandings,
   getTripTrack,
   resetTrackState,
-  selectAppPage,
   selectDeliveryPointsMap,
-  selectFuelOfTrip,
   selectGearsMap,
   selectSelectedHaul,
   selectSelectedTrip,
@@ -73,8 +70,6 @@ export const SelectedTripMenu: FC = () => {
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const gears = useAppSelector(selectGearsMap);
   const identifier = useAppSelector(selectTripTrackIdentifier);
-  const fuel = useAppSelector(selectFuelOfTrip);
-  const appPage = useAppSelector(selectAppPage);
   const deliveryPoints = useAppSelector(selectDeliveryPointsMap);
 
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -274,20 +269,12 @@ export const SelectedTripMenu: FC = () => {
               <Typography>{trip.hauls.length} hal</Typography>
             </InfoItem>
           )}
-          {trip.fuelConsumption && (
+          {!!trip.fuelConsumption && (
             <InfoItem>
               <SvgIcon sx={iconStyle}>
                 <LocalGasStationIcon />
               </SvgIcon>
               <Typography>{trip.fuelConsumption.toFixed(0)} liter</Typography>
-            </InfoItem>
-          )}
-          {fuel && appPage === AppPage.MyPage && (
-            <InfoItem>
-              <SvgIcon sx={iconStyle}>
-                <LocalGasStationIcon />
-              </SvgIcon>
-              <Typography>{fuel.toFixed(0)} L</Typography>
             </InfoItem>
           )}
         </Box>
@@ -328,11 +315,11 @@ export const SelectedTripMenu: FC = () => {
                   variant="h5"
                   sx={{ fontSize: "1rem", lineHeight: 1.6 }}
                 >
-                  Estimert fangst
+                  Rapportert fangst
                   {expanded ? (
-                    <KeyboardArrowUpIcon />
+                    <KeyboardArrowUpIcon sx={{ ml: "2px" }} />
                   ) : (
-                    <KeyboardArrowDownIcon />
+                    <KeyboardArrowDownIcon sx={{ ml: "2px" }} />
                   )}
                 </Typography>
                 {!expanded && (
