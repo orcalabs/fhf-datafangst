@@ -330,9 +330,9 @@ export const SelectedTripMenu: FC = () => {
                 >
                   Rapportert fangst
                   {expanded ? (
-                    <KeyboardArrowUpIcon />
+                    <KeyboardArrowUpIcon sx={{ ml: "2px" }} />
                   ) : (
-                    <KeyboardArrowDownIcon />
+                    <KeyboardArrowDownIcon sx={{ ml: "2px" }} />
                   )}
                 </Typography>
                 {!expanded && (
