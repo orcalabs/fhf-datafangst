@@ -60,6 +60,9 @@ export const DateFilter: FC<Props> = (props) => {
               "&:hover": {
                 borderRadius: 0,
               },
+              "&.clearButton": {
+                p: 0,
+              },
             },
             "& .MuiIconButton-sizeMedium": {
               color: "secondary.main",
@@ -77,6 +80,7 @@ export const DateFilter: FC<Props> = (props) => {
             slotProps={{
               textField: { size: "small" },
               popper: { disablePortal: true },
+              field: { clearable: true },
             }}
             onChange={handleStartDateChange}
             value={value?.rawStart ?? null}
@@ -88,6 +92,7 @@ export const DateFilter: FC<Props> = (props) => {
             slotProps={{
               textField: { size: "small" },
               popper: { disablePortal: true },
+              field: { clearable: true },
             }}
             value={value?.rawEnd ?? null}
             maxDate={new Date()}
