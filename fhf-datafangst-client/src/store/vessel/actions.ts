@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
 import { CurrentPosition } from "generated/openapi";
-import { bwTokenRequired } from "store/actions";
+import { authTokenRequired } from "store/actions";
 
 export const getVessels = createAsyncThunk("vessel/getVessels", Api.getVessels);
 
@@ -22,7 +22,7 @@ export const setSelectedLiveVessel = createAction<CurrentPosition | undefined>(
 export const getEstimatedLiveFuelConsumption = createAsyncThunk(
   "vessel/getEstimastedLiveFuelConsumption",
   Api.getEstimastedLiveFuelConsumption,
-  { condition: bwTokenRequired },
+  { condition: authTokenRequired },
 );
 
 export const updateVessel = createAsyncThunk(

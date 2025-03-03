@@ -48,7 +48,7 @@ export const getTrip = apiFn((query: TripArgs, signal) =>
   api.routesV1TripTrips(
     {
       tripIds: [query.tripId],
-      bwToken: query.accessToken,
+      authorization: query.accessToken,
     },
     { signal },
   ),
@@ -71,7 +71,7 @@ export const getTrips = apiFn((query: TripsArgs, signal) =>
       ordering: query.sorting ? query.sorting[1] : Ordering.Desc,
       limit: query.limit ?? 10,
       offset: query.offset ?? 0,
-      bwToken: query.accessToken,
+      authorization: query.accessToken,
     },
     { signal: query.cancel === false ? undefined : signal },
   ),
@@ -81,7 +81,7 @@ export const getCurrentTrip = apiFn((query: CurrentTripArgs, signal) =>
   api.routesV1TripCurrentTrip(
     {
       fiskeridirVesselId: query.vessel.fiskeridir.id,
-      bwToken: query.accessToken,
+      authorization: query.accessToken,
     },
     { signal },
   ),
@@ -92,7 +92,7 @@ export const getCurrentTripTrack = apiFn(
     api.routesV1TripCurrentTripPositions(
       {
         fiskeridirVesselId: query.vesselId,
-        bwToken: query.accessToken,
+        authorization: query.accessToken,
       },
       { signal },
     ),

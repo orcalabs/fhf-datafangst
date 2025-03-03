@@ -4,6 +4,7 @@ import { Configuration } from "generated/openapi";
 export const apiConfiguration = new Configuration({
   basePath: process.env.REACT_APP_API_URL,
 });
+
 export const axiosInstance = defaultAxios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
@@ -14,6 +15,14 @@ export const axiosBwInstance = defaultAxios.create({
 
 export const axiosBwInternalInstance = defaultAxios.create({
   baseURL: process.env.REACT_APP_BW_INTERNAL_API_URL,
+});
+
+axiosInstance.interceptors.request.use(function addBearer(v) {
+  const auth = v.headers.getAuthorization();
+  if (auth) {
+    v.headers.setAuthorization(`Bearer ${auth}`);
+  }
+  return v;
 });
 
 type AxiosFnReturnType<T extends (...args: any) => Promise<any>> = T extends (

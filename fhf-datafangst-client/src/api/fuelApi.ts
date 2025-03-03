@@ -41,7 +41,7 @@ export const getFuelMeasurements = apiFn((args: FuelMeasurementsArgs, signal) =>
     {
       startDate: args.startDate?.toISOString(),
       endDate: args.endDate?.toISOString(),
-      bwToken: args.token!,
+      authorization: args.token!,
     },
     { params: { call_sign_override: args.callSignOverride }, signal },
   ),
@@ -52,7 +52,7 @@ export const createFuelMeasurement = apiFn(
     api.routesV1FuelMeasurementCreateFuelMeasurements(
       {
         createFuelMeasurement: [body],
-        bwToken: token!,
+        authorization: token!,
       },
       {
         params: { call_sign_override: body.callSignOverride },
@@ -65,7 +65,7 @@ export const uploadFuelMeasurements = apiFn(
     api.routesV1FuelMeasurementUploadFuelMeasurements(
       {
         uploadFuelMeasurement: body,
-        bwToken: token!,
+        authorization: token!,
       },
       {
         params: { call_sign_override: body.callSignOverride },
@@ -78,7 +78,7 @@ export const updateFuelMeasurement = apiFn(
     api.routesV1FuelMeasurementUpdateFuelMeasurements(
       {
         fuelMeasurement: [body],
-        bwToken: token!,
+        authorization: token!,
       },
       {
         params: { call_sign_override: body.callSignOverride },
@@ -91,7 +91,7 @@ export const deleteFuelMeasurement = apiFn(
     api.routesV1FuelMeasurementDeleteFuelMeasurements(
       {
         deleteFuelMeasurement: [body],
-        bwToken: token!,
+        authorization: token!,
       },
       {
         params: { call_sign_override: body.callSignOverride },

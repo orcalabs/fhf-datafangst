@@ -4,7 +4,7 @@ import { AppPage } from "containers/App/App";
 import { User } from "oidc-react";
 import { AppState } from "./state";
 
-export const bwTokenRequired = <T>(
+export const authTokenRequired = <T>(
   _: T,
   { getState }: Pick<GetThunkAPI<{ state: AppState }>, "getState" | "extra">,
 ): boolean => !!getState().authUser?.access_token;
