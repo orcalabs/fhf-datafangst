@@ -1,6 +1,5 @@
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
-import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
@@ -15,15 +14,12 @@ import {
 import chartsTheme from "app/chartsTheme";
 import theme from "app/theme";
 import { CatchesTable } from "components";
-import { AppPage } from "containers/App/App";
 import ReactEChart from "echarts-for-react";
 import { Gear, GearDetailed } from "generated/openapi";
 import { FC, useMemo } from "react";
 import {
-  selectAppPage,
   selectCurrentTrip,
   selectEstimatedLiveFuelConsumption,
-  selectFuelOfTrip,
   selectGearsMap,
   useAppSelector,
 } from "store";
@@ -47,9 +43,7 @@ const iconStyle = {
 export const CurrentTripMenu: FC = () => {
   const trip = useAppSelector(selectCurrentTrip);
   const gears = useAppSelector(selectGearsMap);
-  const fuel = useAppSelector(selectFuelOfTrip);
   const estimatedLiveFuel = useAppSelector(selectEstimatedLiveFuelConsumption);
-  const appPage = useAppSelector(selectAppPage);
 
   const tripGears = useMemo(
     () =>
@@ -131,15 +125,6 @@ export const CurrentTripMenu: FC = () => {
                 <LocationOnSharpIcon />
               </SvgIcon>
               <Typography>{trip.hauls.length} hal</Typography>
-            </InfoItem>
-          )}
-
-          {fuel && appPage === AppPage.MyPage && (
-            <InfoItem>
-              <SvgIcon sx={iconStyle}>
-                <LocalGasStationIcon />
-              </SvgIcon>
-              <Typography>{fuel.toFixed(0)} liter</Typography>
             </InfoItem>
           )}
         </Box>
