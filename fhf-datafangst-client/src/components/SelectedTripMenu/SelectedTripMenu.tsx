@@ -274,7 +274,7 @@ export const SelectedTripMenu: FC = () => {
               <Typography>{trip.hauls.length} hal</Typography>
             </InfoItem>
           )}
-          {trip.fuelConsumption && (
+          {!!trip.fuelConsumption && (
             <InfoItem>
               <SvgIcon sx={iconStyle}>
                 <LocalGasStationIcon />
@@ -287,7 +287,7 @@ export const SelectedTripMenu: FC = () => {
               <SvgIcon sx={iconStyle}>
                 <LocalGasStationIcon />
               </SvgIcon>
-              <Typography>{fuel.toFixed(0)} L</Typography>
+              <Typography>{fuel.toFixed(0)} liter</Typography>
             </InfoItem>
           )}
         </Box>
