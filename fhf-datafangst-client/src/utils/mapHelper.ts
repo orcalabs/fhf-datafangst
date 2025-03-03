@@ -182,7 +182,7 @@ export const fishingFacilityStyle = (
     color = "#085382";
   } else if (toolType === FishingFacilityToolType.Longline) {
     // Line
-    color = "#d72424";
+    color = "#2AA751";
   } else {
     color = "orange";
   }
@@ -195,13 +195,13 @@ export const fishingFacilityStyle = (
       new Style({
         stroke: new Stroke({
           color,
-          width: selected ? 3 : 2,
+          width: selected ? 4 : 3,
         }),
       }),
       new Style({
         geometry: new Point(geo.getFirstCoordinate()),
         image: new Circle({
-          radius: selected ? 3.5 : 2.5,
+          radius: selected ? 4.5 : 3.5,
           fill: new Fill({
             color,
           }),
