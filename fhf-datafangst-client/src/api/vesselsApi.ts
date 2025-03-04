@@ -33,10 +33,10 @@ export const getVesselBenchmarks = apiFn((authorization: string, signal) =>
 export const getEstimatedFuelConsumption = apiFn((args: FuelArgs, signal) =>
   api.routesV1VesselFuel(
     {
-      startDate: args.startDate
+      start: args.startDate
         ? formatISO(args.startDate, { representation: "date" })
         : undefined,
-      endDate: args.endDate
+      end: args.endDate
         ? formatISO(args.endDate, { representation: "date" })
         : undefined,
       authorization: args.token!,
