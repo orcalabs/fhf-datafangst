@@ -783,6 +783,25 @@ export interface CurrentTripPositionsPath {
 /**
  * 
  * @export
+ * @interface DateTimeRangeInner
+ */
+export interface DateTimeRangeInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof DateTimeRangeInner
+     */
+    'start': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DateTimeRangeInner
+     */
+    'end': string | null;
+}
+/**
+ * 
+ * @export
  * @interface DeleteFuelMeasurement
  */
 export interface DeleteFuelMeasurement {
@@ -1559,13 +1578,13 @@ export interface FuelParams {
      * @type {string}
      * @memberof FuelParams
      */
-    'startDate': string | null;
+    'start': string | null;
     /**
      * 
      * @type {string}
      * @memberof FuelParams
      */
-    'endDate': string | null;
+    'end': string | null;
 }
 /**
  * 
@@ -2570,6 +2589,25 @@ export const Month = {
 export type Month = typeof Month[keyof typeof Month];
 
 
+/**
+ * 
+ * @export
+ * @interface NaiveDateRangeInner
+ */
+export interface NaiveDateRangeInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof NaiveDateRangeInner
+     */
+    'start': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof NaiveDateRangeInner
+     */
+    'end': string | null;
+}
 /**
  * 
  * @export
@@ -7142,12 +7180,12 @@ export const OrgApiAxiosParamCreator = function (configuration?: Configuration) 
          * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
          * @param {string} authorization 
          * @param {number} orgId 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1OrgFuel: async (authorization: string, orgId: number, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1OrgFuel: async (authorization: string, orgId: number, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'authorization' is not null or undefined
             assertParamExists('routesV1OrgFuel', 'authorization', authorization)
             // verify required parameter 'orgId' is not null or undefined
@@ -7169,16 +7207,16 @@ export const OrgApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString().substring(0,10) :
-                    startDate;
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString().substring(0,10) :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString().substring(0,10) :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString().substring(0,10) :
+                    end;
             }
 
             if (authorization != null) {
@@ -7225,13 +7263,13 @@ export const OrgApiFp = function(configuration?: Configuration) {
          * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
          * @param {string} authorization 
          * @param {number} orgId 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1OrgFuel(authorization: string, orgId: number, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelEntry>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgFuel(authorization, orgId, startDate, endDate, options);
+        async routesV1OrgFuel(authorization: string, orgId: number, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelEntry>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgFuel(authorization, orgId, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['OrgApi.routesV1OrgFuel']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -7262,7 +7300,7 @@ export const OrgApiFactory = function (configuration?: Configuration, basePath?:
          * @throws {RequiredError}
          */
         routesV1OrgFuel(requestParameters: OrgApiRoutesV1OrgFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelEntry>> {
-            return localVarFp.routesV1OrgFuel(requestParameters.authorization, requestParameters.orgId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1OrgFuel(requestParameters.authorization, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -7327,14 +7365,14 @@ export interface OrgApiRoutesV1OrgFuelRequest {
      * @type {string}
      * @memberof OrgApiRoutesV1OrgFuel
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof OrgApiRoutesV1OrgFuel
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
 }
 
 /**
@@ -7363,7 +7401,7 @@ export class OrgApi extends BaseAPI {
      * @memberof OrgApi
      */
     public routesV1OrgFuel(requestParameters: OrgApiRoutesV1OrgFuelRequest, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).routesV1OrgFuel(requestParameters.authorization, requestParameters.orgId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+        return OrgApiFp(this.configuration).routesV1OrgFuel(requestParameters.authorization, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -9040,12 +9078,12 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
          * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselFuel: async (authorization: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1VesselFuel: async (authorization: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'authorization' is not null or undefined
             assertParamExists('routesV1VesselFuel', 'authorization', authorization)
             const localVarPath = `/v1.0/vessel/fuel`;
@@ -9064,16 +9102,16 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString().substring(0,10) :
-                    startDate;
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString().substring(0,10) :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString().substring(0,10) :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString().substring(0,10) :
+                    end;
             }
 
             if (authorization != null) {
@@ -9242,13 +9280,13 @@ export const VesselApiFp = function(configuration?: Configuration) {
         /**
          * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
          * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1VesselFuel(authorization: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselFuel(authorization, startDate, endDate, options);
+        async routesV1VesselFuel(authorization: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselFuel(authorization, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselFuel']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -9316,7 +9354,7 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1VesselFuel(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1VesselFuel(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9379,14 +9417,14 @@ export interface VesselApiRoutesV1VesselFuelRequest {
      * @type {string}
      * @memberof VesselApiRoutesV1VesselFuel
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof VesselApiRoutesV1VesselFuel
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
 }
 
 /**
@@ -9457,7 +9495,7 @@ export class VesselApi extends BaseAPI {
      * @memberof VesselApi
      */
     public routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig) {
-        return VesselApiFp(this.configuration).routesV1VesselFuel(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+        return VesselApiFp(this.configuration).routesV1VesselFuel(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

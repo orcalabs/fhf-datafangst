@@ -40,10 +40,10 @@ export const getOrgFuelConsumption = apiFn(
     api.routesV1OrgFuel(
       {
         orgId: query.orgId,
-        startDate: query.startDate
+        start: query.startDate
           ? formatISO(query.startDate, { representation: "date" })
           : undefined,
-        endDate: query.endDate
+        end: query.endDate
           ? formatISO(query.endDate, { representation: "date" })
           : undefined,
         authorization: query.token!,
