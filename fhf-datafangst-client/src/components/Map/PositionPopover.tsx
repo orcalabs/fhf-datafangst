@@ -37,27 +37,25 @@ export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
           </Typography>
         </Stack>
       </Stack>
-      {hoveredPosition.tripCumulativeFuelConsumption && (
-        <>
-          <Divider />
-          <Stack sx={{ px: 1 }} alignItems="center">
-            <Typography
-              sx={{
-                ...textStyle,
-                fontStyle: "italic",
-                color: "#575757",
-                fontSize: "0.82rem",
-              }}
-            >
-              Estimert drivstoff
-            </Typography>
-            <Typography sx={textStyle}>
-              {hoveredPosition.tripCumulativeFuelConsumption.toFixed(1) +
-                " liter"}
-            </Typography>
-          </Stack>
-        </>
-      )}
+      <>
+        <Divider />
+        <Stack sx={{ px: 1 }} alignItems="center">
+          <Typography
+            sx={{
+              ...textStyle,
+              fontStyle: "italic",
+              color: "#575757",
+              fontSize: "0.82rem",
+            }}
+          >
+            Estimert drivstoff
+          </Typography>
+          <Typography sx={textStyle}>
+            {hoveredPosition.tripCumulativeFuelConsumption.toFixed(1) +
+              " liter"}
+          </Typography>
+        </Stack>
+      </>
     </Stack>
   );
 };
