@@ -239,7 +239,7 @@ export const TripBenchmarkPage: FC = () => {
 
               <Divider sx={{ my: 2 }} />
 
-              {eeoi && (
+              {!!eeoi && (
                 <Stack gap={1} direction="row">
                   <Typography>EEOI (gCO2/t.nm): </Typography>
                   <Typography>
@@ -262,27 +262,27 @@ export const TripBenchmarkPage: FC = () => {
                 </Stack>
               )}
 
-              {bench.weightPerHour &&
+              {bench.weightPerHour !== null &&
                 benchmarkItem(
                   "Rundvekt per time",
                   kilosOrTonsFormatter(bench.weightPerHour),
                 )}
-              {bench.weightPerDistance &&
+              {bench.weightPerDistance !== null &&
                 benchmarkItem(
                   "Rundvekt per distanse",
                   kilosOrTonsFormatter(bench.weightPerDistance),
                 )}
-              {bench.weightPerFuel &&
+              {bench.weightPerFuel !== null &&
                 benchmarkItem(
                   "Rundvekt per liter drivstoff",
                   bench.weightPerFuel.toFixed(1),
                 )}
-              {bench.catchValuePerFuel &&
+              {bench.catchValuePerFuel !== null &&
                 benchmarkItem(
                   "Fangstverdi per liter drivstoff",
                   nok.format(bench.catchValuePerFuel),
                 )}
-              {bench.fuelConsumption &&
+              {bench.fuelConsumption !== null &&
                 benchmarkItem(
                   "Drivstofforbruk (tokt)",
                   bench.fuelConsumption.toFixed(0) + " liter",
