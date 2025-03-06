@@ -936,6 +936,21 @@ export interface EeoiParams {
  * @enum {string}
  */
 
+export const EngineType = {
+    Ssd: 'SSD',
+    Msd: 'MSD',
+    Hsd: 'HSD'
+} as const;
+
+export type EngineType = typeof EngineType[keyof typeof EngineType];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
 export const ErrorDiscriminants = {
     FuelAfterLowerThanFuel: 'FuelAfterLowerThanFuel',
     StartAfterEnd: 'StartAfterEnd',
@@ -1483,6 +1498,18 @@ export interface FiskeridirVessel {
      * @memberof FiskeridirVessel
      */
     'boilerEngineBuildingYear': number | null;
+    /**
+     * 
+     * @type {EngineType}
+     * @memberof FiskeridirVessel
+     */
+    'engineType': EngineType | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FiskeridirVessel
+     */
+    'engineRpm': number | null;
     /**
      * 
      * @type {number}
@@ -3739,6 +3766,18 @@ export interface UpdateVessel {
     'boilerEngineBuildingYear': number | null;
     /**
      * 
+     * @type {EngineType}
+     * @memberof UpdateVessel
+     */
+    'engineType': EngineType | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateVessel
+     */
+    'engineRpm': number | null;
+    /**
+     * 
      * @type {number}
      * @memberof UpdateVessel
      */
@@ -3750,6 +3789,8 @@ export interface UpdateVessel {
      */
     'serviceSpeed': number | null;
 }
+
+
 /**
  * 
  * @export
