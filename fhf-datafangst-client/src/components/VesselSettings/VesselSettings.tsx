@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import theme from "app/theme";
-import { UpdateVessel } from "generated/openapi";
+import { EngineType, UpdateVessel } from "generated/openapi";
 import { FC, ReactNode, useState } from "react";
 import {
   selectLoggedInVessel,
@@ -34,7 +34,9 @@ const years = Array.from(
 
 export const VesselSettings: FC = () => {
   const dispatch = useAppDispatch();
+
   const vessel = useAppSelector(selectLoggedInVessel);
+
   const initialForm: UpdateVessel = {
     enginePower: vessel?.fiskeridir.enginePower ?? null,
     engineBuildingYear: vessel?.fiskeridir.engineBuildingYear ?? null,
@@ -43,9 +45,12 @@ export const VesselSettings: FC = () => {
       vessel?.fiskeridir.auxiliaryEngineBuildingYear ?? null,
     boilerEnginePower: vessel?.fiskeridir.boilerEnginePower ?? null,
     boilerEngineBuildingYear: vessel?.fiskeridir.boilerEnginePower ?? null,
+    engineType: vessel?.fiskeridir.engineType ?? null,
+    engineRpm: vessel?.fiskeridir.engineRpm ?? null,
     serviceSpeed: vessel?.fiskeridir.serviceSpeed ?? null,
     degreeOfElectrification: vessel?.fiskeridir.degreeOfElectrification ?? null,
   };
+
   const [form, setForm] = useState<UpdateVessel>(initialForm);
 
   // Set if form is changed. It will not validate values, so setting a field to
@@ -53,9 +58,12 @@ export const VesselSettings: FC = () => {
   const [isDirty, setIsDirty] = useState<boolean>(false);
 
   const handleFormChange = (value: string | number, key: string) => {
-    setForm((form) => ({ ...form, [key]: value ? Number(value) : null }));
+    setForm((form) => ({ ...form, [key]: value ? value : null }));
     setIsDirty(true);
   };
+
+  const handleNumChange = (value: string, key: string) =>
+    handleFormChange(value ? +value : "", key);
 
   return (
     <>
@@ -77,9 +85,9 @@ export const VesselSettings: FC = () => {
             variant="outlined"
             value={form.enginePower ?? ""}
             onKeyDown={numberInputLimiter}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              handleFormChange(event.target.value, "enginePower");
-            }}
+            onChange={(event) =>
+              handleNumChange(event.target.value, "enginePower")
+            }
           />
         </SettingsEntry>
         <SettingsEntry name={"Hovedmotor, byggeår"}>
@@ -90,6 +98,22 @@ export const VesselSettings: FC = () => {
             }}
           />
         </SettingsEntry>
+        <SettingsEntry name={"Hovedmotor type"}>
+          <EngineTypeSelect
+            value={form.engineType}
+            onChange={(e) => handleFormChange(e.target.value, "engineType")}
+          />
+        </SettingsEntry>
+        <SettingsEntry name={"Hovedmotor RPM"}>
+          <TextField
+            size="small"
+            hiddenLabel
+            variant="outlined"
+            value={form.engineRpm ?? ""}
+            onKeyDown={numberInputLimiter}
+            onChange={(e) => handleNumChange(e.target.value, "engineRpm")}
+          />
+        </SettingsEntry>
         <SettingsEntry name={"Hjelpemotor, kraft (hk)"}>
           <TextField
             size="small"
@@ -97,9 +121,9 @@ export const VesselSettings: FC = () => {
             variant="outlined"
             value={form.auxiliaryEnginePower ?? ""}
             onKeyDown={numberInputLimiter}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleFormChange(e.target.value, "auxiliaryEnginePower");
-            }}
+            onChange={(e) =>
+              handleNumChange(e.target.value, "auxiliaryEnginePower")
+            }
           />
         </SettingsEntry>
         <SettingsEntry name={"Hjelpemotor, byggeår"}>
@@ -117,9 +141,9 @@ export const VesselSettings: FC = () => {
             variant="outlined"
             value={form.boilerEnginePower ?? ""}
             onKeyDown={numberInputLimiter}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleFormChange(e.target.value, "boilerEnginePower");
-            }}
+            onChange={(e) =>
+              handleNumChange(e.target.value, "boilerEnginePower")
+            }
           />
         </SettingsEntry>
         <SettingsEntry name={"Boiler engine, byggeår"}>
@@ -137,9 +161,7 @@ export const VesselSettings: FC = () => {
             variant="outlined"
             value={form.serviceSpeed ?? ""}
             onKeyDown={numberInputLimiter}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleFormChange(e.target.value, "serviceSpeed");
-            }}
+            onChange={(e) => handleNumChange(e.target.value, "serviceSpeed")}
           />
         </SettingsEntry>
         <SettingsEntry name={"Elektrifiseringsgrad (%)"}>
@@ -200,12 +222,12 @@ export const VesselSettings: FC = () => {
   );
 };
 
-interface SelectProps {
+interface YearSelectProps {
   value: number | null | undefined;
   onChange: (e: SelectChangeEvent<number>) => void;
 }
 
-const YearSelect: FC<SelectProps> = ({ value, onChange }) => {
+const YearSelect: FC<YearSelectProps> = ({ value, onChange }) => {
   return (
     <Select
       size="small"
@@ -232,6 +254,33 @@ const YearSelect: FC<SelectProps> = ({ value, onChange }) => {
       {years.map((year) => (
         <MenuItem key={year} value={year} sx={{ justifyContent: "center" }}>
           {year}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+};
+
+interface EngineTypeSelectProps {
+  value: EngineType | null | undefined;
+  onChange: (e: SelectChangeEvent<EngineType>) => void;
+}
+
+const EngineTypeSelect: FC<EngineTypeSelectProps> = ({ value, onChange }) => {
+  return (
+    <Select
+      displayEmpty
+      size="small"
+      sx={{ width: 120 }}
+      MenuProps={{
+        transitionDuration: 0,
+        sx: { height: 500, width: 400, zIndex: 3000 },
+      }}
+      value={value ?? ""}
+      onChange={onChange}
+    >
+      {Object.values(EngineType).map((v) => (
+        <MenuItem key={v} value={v} sx={{ justifyContent: "center" }}>
+          {v}
         </MenuItem>
       ))}
     </Select>
