@@ -6,6 +6,7 @@ export const authConfig: AuthProviderProps = {
   autoSignIn: false,
   onBeforeSignIn: () => {
     window.localStorage.setItem("pathname", window.location.pathname);
+    window.localStorage.setItem("searchParams", window.location.search);
   },
   onSignIn: () => {
     // Redirect after login will go to location.origin. Check localstorage if there is a
@@ -18,6 +19,10 @@ export const authConfig: AuthProviderProps = {
         localStorage.removeItem("pathname");
         window.location.href = window.location.origin + redirectPathname;
       }
+    }
+    const searchParams = localStorage.getItem("searchParams");
+    if (searchParams) {
+      window.location.search = searchParams;
     }
   },
   userManager: new UserManager({

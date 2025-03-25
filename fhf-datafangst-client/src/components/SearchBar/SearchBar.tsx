@@ -11,19 +11,17 @@ import { VesselIcon } from "assets/icons";
 import { ListboxComponent, StyledPopper } from "components/Common/Common";
 import { Vessel } from "generated/openapi";
 import { FC, useMemo, useState } from "react";
+import { useSearchParams } from "react-router";
 import {
   selectCurrentPositionsMap,
   selectFishmap,
   selectVesselsByFiskeridirId,
-  setSelectedLiveVessel,
-  useAppDispatch,
   useAppSelector,
 } from "store";
 import { fromLonLat, toTitleCase } from "utils";
 
 export const SearchBar: FC = () => {
-  const dispatch = useAppDispatch();
-
+  const [_, setParams] = useSearchParams();
   const map = useAppSelector(selectFishmap);
   const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const currentPositionsMap = useAppSelector(selectCurrentPositionsMap);
@@ -92,7 +90,12 @@ export const SearchBar: FC = () => {
             const liveVessel = currentPositionsMap?.[value.fiskeridir.id];
 
             if (liveVessel) {
-              dispatch(setSelectedLiveVessel(liveVessel));
+              const callSign =
+                vesselsMap?.[liveVessel.vesselId].fiskeridir.callSign;
+
+              if (callSign) {
+                setParams(new URLSearchParams({ callSign }));
+              }
               // Set map center to selected vessel
               map
                 .getView()
