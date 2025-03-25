@@ -26,6 +26,7 @@ import Select from "ol/interaction/Select";
 import { Types } from "ol/MapBrowserEventType";
 import RenderFeature from "ol/render/Feature";
 import React, { FC, useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import {
   initializeMap,
   resetState,
@@ -34,7 +35,6 @@ import {
   selectSelectedOrCurrentTrip,
   setSelectedFishingFacility,
   setSelectedHaul,
-  setSelectedLiveVessel,
   setSelectedTripHaul,
   store,
   toggleSelectedArea,
@@ -55,7 +55,7 @@ const pixelFeature = (feature: FeatureLike): Feature<Geometry> | undefined =>
 
 export const Map: FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
-
+  const [_, setParams] = useSearchParams();
   const mapState = useAppSelector(selectFishmapState);
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
@@ -214,7 +214,7 @@ export const Map: FC<Props> = ({ children }) => {
           const haulId = feature.get("haulId");
           const haul = feature.get("haul");
           const gearIdx = feature.get("fishingFacilityIdx");
-          const livePosition = feature.get("livePosition");
+          const livePosition = feature.get("livePosition") as CurrentPosition;
 
           // Avoid registering clicks on areas without catches
           if (grid && feature.get("weight") > 0) {
@@ -238,11 +238,18 @@ export const Map: FC<Props> = ({ children }) => {
             }
             dispatch(setSelectedFishingFacility(gearIdx));
           } else if (livePosition) {
-            dispatch(setSelectedLiveVessel(livePosition));
+            const vessels = store.getState().vesselsByFiskeridirId;
+            const callSign =
+              vessels?.[livePosition.vesselId].fiskeridir.callSign;
+
+            if (callSign) {
+              setParams(new URLSearchParams({ callSign }));
+            }
           }
         } else {
           if (store.getState().selectedLiveVessel !== undefined) {
             dispatch(resetState());
+            setParams(new URLSearchParams());
           }
         }
       });
