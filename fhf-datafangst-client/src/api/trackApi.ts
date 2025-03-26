@@ -1,4 +1,3 @@
-import { subHours } from "date-fns";
 import { AisVmsApi } from "generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
@@ -35,7 +34,6 @@ export const getCurrentPositions = apiFn(
   (query: CurrentPositionsArgs, signal) =>
     api.routesV1AisVmsCurrentPositions(
       {
-        positionTimestampLimit: subHours(new Date(), 48).toISOString(),
         authorization: query.token,
       },
       { signal },
