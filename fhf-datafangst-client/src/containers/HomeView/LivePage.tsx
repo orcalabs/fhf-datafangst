@@ -9,8 +9,8 @@ import {
 } from "components";
 import { LiveVesselsLayer } from "components/Layers/LiveVesselsLayer";
 import { PageLayoutCenter, PageLayoutLeft, PageLayoutRight } from "containers";
+import { useQueryParams } from "hooks";
 import { FC, useEffect } from "react";
-import { useSearchParams } from "react-router";
 import {
   getCurrentPositions,
   getCurrentTripTrack,
@@ -34,6 +34,8 @@ let FIRST_LOAD = true;
 
 export const LivePage: FC = () => {
   const dispatch = useAppDispatch();
+  const [params, setParams] = useQueryParams();
+
   const currentTrip = useAppSelector(selectCurrentTrip);
   const selectedTrip = useAppSelector(selectSelectedTrip);
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
@@ -43,16 +45,16 @@ export const LivePage: FC = () => {
   const loading = useAppSelector(selectCurrentPositionsLoading);
   const currentPositionsMap = useAppSelector(selectCurrentPositionsMap);
   const vessels = useAppSelector(selectVesselsByCallsign);
+  const map = useAppSelector(selectFishmap);
 
-  const [params, setParams] = useSearchParams();
-  const selectedVesselCallSign = params.get("callSign");
+  const selectedVesselCallSign = params.callSign;
+
   const selectedVessel = selectedVesselCallSign
     ? vessels[selectedVesselCallSign]
     : undefined;
   const liveVessel = selectedVessel
     ? currentPositionsMap?.[selectedVessel.fiskeridir.id]
     : undefined;
-  const map = useAppSelector(selectFishmap);
 
   if (!selectedVesselCallSign) {
     FIRST_LOAD = false;
@@ -66,11 +68,19 @@ export const LivePage: FC = () => {
         map.getView().setCenter(fromLonLat(liveVessel.lon, liveVessel.lat));
         FIRST_LOAD = false;
       }
-    } else if (selectedVesselCallSign && Object.entries(vessels).length) {
-      params.delete("callSign");
-      setParams(params);
+    } else if (
+      selectedVesselCallSign &&
+      Object.entries(vessels).length &&
+      Object.entries(currentPositionsMap).length
+    ) {
+      setParams({});
     }
-  }, [liveVessel?.vesselId, vessels, selectedVesselCallSign]);
+  }, [
+    liveVessel?.vesselId,
+    vessels,
+    currentPositionsMap,
+    selectedVesselCallSign,
+  ]);
 
   // Get all vessel positions on page load
   useEffect(() => {

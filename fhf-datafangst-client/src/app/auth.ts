@@ -20,8 +20,10 @@ export const authConfig: AuthProviderProps = {
         window.location.href = window.location.origin + redirectPathname;
       }
     }
+
     const searchParams = localStorage.getItem("searchParams");
     if (searchParams) {
+      localStorage.removeItem("searchParams");
       window.location.search = searchParams;
     }
   },
