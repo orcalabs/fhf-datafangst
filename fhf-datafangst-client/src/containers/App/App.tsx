@@ -2,8 +2,9 @@ import { CssBaseline } from "@mui/material";
 import { authConfig } from "app/auth";
 import { Layout } from "components";
 import { HomeView } from "containers";
+import { useQueryParams } from "hooks";
 import { AuthProvider } from "oidc-react";
-import { Navigate, Route, Routes, useSearchParams } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 
 export enum AppPage {
   Live = "live",
@@ -13,13 +14,13 @@ export enum AppPage {
 }
 
 export const App: React.FC = () => {
-  const [loginParam, _] = useSearchParams();
-  const autoSignIn = !!loginParam.get("signedIn");
+  const [query, _] = useQueryParams();
+  const autoSignIn = query.signedIn === "true";
 
   return (
     <>
       <CssBaseline />
-      <AuthProvider {...{ ...authConfig, autoSignIn: autoSignIn }}>
+      <AuthProvider {...authConfig} autoSignIn={autoSignIn}>
         <Layout>
           <Routes>
             {Object.values(AppPage).map((page) => (
@@ -31,7 +32,18 @@ export const App: React.FC = () => {
             ))}
 
             {/* NB! Fallback redirect, must be last! */}
-            <Route path="*" element={<Navigate to={`/${AppPage.Live}`} />} />
+            <Route
+              path="*"
+              element={
+                <Navigate
+                  to={
+                    query.callSign
+                      ? `/${AppPage.Live}?callSign=${query.callSign}`
+                      : `/${AppPage.Live}`
+                  }
+                />
+              }
+            />
           </Routes>
         </Layout>
       </AuthProvider>

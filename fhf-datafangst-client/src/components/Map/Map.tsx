@@ -15,6 +15,7 @@ import {
   Haul,
   Tra,
 } from "generated/openapi";
+import { useQueryParams } from "hooks";
 import { Map as OLMap, MapBrowserEvent, View } from "ol";
 import { defaults, MousePosition, ScaleLine } from "ol/control";
 import { Coordinate, toStringHDMS } from "ol/coordinate";
@@ -26,7 +27,6 @@ import Select from "ol/interaction/Select";
 import { Types } from "ol/MapBrowserEventType";
 import RenderFeature from "ol/render/Feature";
 import React, { FC, useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
 import {
   initializeMap,
   resetState,
@@ -55,7 +55,7 @@ const pixelFeature = (feature: FeatureLike): Feature<Geometry> | undefined =>
 
 export const Map: FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const [_, setParams] = useSearchParams();
+  const [_, setParams] = useQueryParams();
   const mapState = useAppSelector(selectFishmapState);
   const fishingFacilities = useAppSelector(selectFishingFacilities);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
@@ -243,13 +243,13 @@ export const Map: FC<Props> = ({ children }) => {
               vessels?.[livePosition.vesselId].fiskeridir.callSign;
 
             if (callSign) {
-              setParams(new URLSearchParams({ callSign }));
+              setParams({ callSign });
             }
           }
         } else {
           if (store.getState().selectedLiveVessel !== undefined) {
             dispatch(resetState());
-            setParams(new URLSearchParams());
+            setParams({});
           }
         }
       });
