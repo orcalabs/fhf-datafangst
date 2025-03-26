@@ -62,6 +62,10 @@ export const LivePage: FC = () => {
 
   useEffect(() => {
     if (liveVessel) {
+      if (liveVessel.vesselId === selectedPosition?.vesselId) {
+        return;
+      }
+
       dispatch(setSelectedLiveVessel(liveVessel));
       // Set map center to selected vessel
       if (FIRST_LOAD) {
@@ -78,6 +82,7 @@ export const LivePage: FC = () => {
   }, [
     liveVessel?.vesselId,
     vessels,
+    selectedPosition,
     currentPositionsMap,
     selectedVesselCallSign,
   ]);
@@ -101,7 +106,7 @@ export const LivePage: FC = () => {
       }
     }, 60_000);
     return () => clearInterval(id);
-  }, [selectedPosition, selectedTrip, currentTrip]);
+  }, [selectedPosition?.vesselId, selectedTrip, currentTrip]);
 
   // Get track of vessels with no reported CurrentTrip.
   useEffect(() => {
@@ -118,7 +123,12 @@ export const LivePage: FC = () => {
         }),
       );
     }
-  }, [currentTrip, selectedPosition, currentTripLoading, selectedTrip]);
+  }, [
+    currentTrip,
+    selectedPosition?.vesselId,
+    currentTripLoading,
+    selectedTrip,
+  ]);
 
   return (
     <>
