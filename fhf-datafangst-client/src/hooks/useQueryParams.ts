@@ -54,7 +54,7 @@ export function useQueryParams() {
         }
       }
 
-      navigate("?" + search);
+      navigate(location.pathname + "?" + search);
     },
     [navigate],
   );
