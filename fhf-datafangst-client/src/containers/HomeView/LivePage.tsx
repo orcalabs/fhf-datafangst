@@ -61,13 +61,11 @@ export const LivePage: FC = () => {
   }
 
   useEffect(() => {
-    if (liveVessel) {
+    if (params.callSign && liveVessel) {
       if (liveVessel.vesselId === selectedPosition?.vesselId) {
         return;
       }
-
       dispatch(setSelectedLiveVessel(liveVessel));
-      // Set map center to selected vessel
       if (FIRST_LOAD) {
         map.getView().setCenter(fromLonLat(liveVessel.lon, liveVessel.lat));
         FIRST_LOAD = false;
@@ -82,7 +80,6 @@ export const LivePage: FC = () => {
   }, [
     liveVessel?.vesselId,
     vessels,
-    selectedPosition,
     currentPositionsMap,
     selectedVesselCallSign,
   ]);
