@@ -86,6 +86,10 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         };
         // Assign Gadus Njord to Per Gunnar, Eivind, Bård, Tore and Dorthea
       } else if (
+        state.bwUser.user.email === "stale.walderhaug@fhf.no" ||
+        state.bwUser.user.email === "rita.naustvik@fhf.no" ||
+        state.bwUser.user.email === "eskild.johansen@fhf.no" ||
+        state.bwUser.user.email === "kim@orcalabs.no" ||
         state.bwUser.user.email === "per.gunnar.auran@sintef.no" ||
         state.bwUser.user.email === "eivind@rinde.no" ||
         state.bwUser.user.email === "bard.hanssen@sintef.no" ||
