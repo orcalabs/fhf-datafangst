@@ -90,7 +90,6 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         state.bwUser.user.email === "rita.naustvik@fhf.no" ||
         state.bwUser.user.email === "eskild.johansen@fhf.no" ||
         state.bwUser.user.email === "kim@orcalabs.no" ||
-        state.bwUser.user.email === "per.gunnar.auran@sintef.no" ||
         state.bwUser.user.email === "eivind@rinde.no" ||
         state.bwUser.user.email === "bard.hanssen@sintef.no" ||
         state.bwUser.user.email === "fiskinfo.nord@gmail.com" ||
@@ -124,6 +123,18 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       } else if (state.bwUser.user.email === "erlend.stav@sintef.no") {
         state.bwUser.fiskInfoProfile = {
           ircs: "LJWR",
+          mmsi: 259616000,
+          imo: -1,
+          regNum: "",
+          sbrRegNum: "",
+          vesselId: "",
+          vesselEmail: "",
+          vesselPhone: "",
+          vesselName: "",
+        };
+      } else if (state.bwUser.user.email === "per.gunnar.auran@sintef.no") {
+        state.bwUser.fiskInfoProfile = {
+          ircs: "LK7442",
           mmsi: 259616000,
           imo: -1,
           regNum: "",
