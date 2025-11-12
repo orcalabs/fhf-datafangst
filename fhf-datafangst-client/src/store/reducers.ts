@@ -134,7 +134,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         };
       } else if (state.bwUser.user.email === "per.gunnar.auran@sintef.no") {
         state.bwUser.fiskInfoProfile = {
-          ircs: "LK7442",
+          ircs: "LDKM",
           mmsi: 259616000,
           imo: -1,
           regNum: "",
