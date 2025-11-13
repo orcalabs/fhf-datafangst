@@ -122,7 +122,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         // Assign Loran to Erlend
       } else if (state.bwUser.user.email === "erlend.stav@sintef.no") {
         state.bwUser.fiskInfoProfile = {
-          ircs: "LJWR",
+          ircs: "LFLJ",
           mmsi: 259616000,
           imo: -1,
           regNum: "",
