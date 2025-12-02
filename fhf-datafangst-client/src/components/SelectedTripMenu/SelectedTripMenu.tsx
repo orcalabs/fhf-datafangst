@@ -126,7 +126,7 @@ export const SelectedTripMenu: FC = () => {
             <Typography variant="h5">LEVERANSE</Typography>
             <Typography color="secondary.light" variant="h6">
               {toTitleCase(
-                vessels[trip.fiskeridirVesselId].fiskeridir.name ?? "Ukjent",
+                vessels[trip.fiskeridirVesselId]?.fiskeridir.name ?? "Ukjent",
               )}
             </Typography>
           </Stack>
