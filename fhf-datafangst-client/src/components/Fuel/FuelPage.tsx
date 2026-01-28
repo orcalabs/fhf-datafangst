@@ -103,7 +103,9 @@ export const FuelPage: FC = () => {
     _: React.MouseEvent<HTMLElement>,
     newAlignment: string,
   ) => {
-    setInputType(newAlignment);
+    if (newAlignment !== null) {
+      setInputType(newAlignment);
+    }
   };
 
   const reportError =
