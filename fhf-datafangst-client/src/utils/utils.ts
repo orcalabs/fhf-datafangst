@@ -132,6 +132,13 @@ export const distanceFormatter = (distance: number) =>
     : distance.toFixed(1) + " m";
 
 export const createDurationString = (duration: Duration) => {
+  if (duration.years) {
+    duration = {
+      ...duration,
+      months: duration.years * 12 + (duration.months ?? 0),
+    };
+  }
+
   const durationString = formatDuration(duration, {
     format: ["months", "days", "hours", "minutes"],
     delimiter: ", ",
