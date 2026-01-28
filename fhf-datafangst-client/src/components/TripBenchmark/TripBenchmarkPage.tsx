@@ -18,7 +18,7 @@ import chartsTheme from "app/chartsTheme";
 import theme, { fontStyle } from "app/theme";
 import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
 import { DateFilter, DateRange } from "components/SearchFilters/DateFilter";
-import { endOfYear, startOfYear } from "date-fns";
+import { startOfYear } from "date-fns";
 import ReactEChart from "echarts-for-react";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import {
@@ -61,10 +61,7 @@ export const TripBenchmarkPage: FC = () => {
   const totalFuelConsumption = useAppSelector(selectEstimatedFuelConsumption);
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
-    new DateRange(
-      startOfYear(new Date(2024, 1, 1)),
-      endOfYear(new Date(2024, 1, 1)),
-    ),
+    new DateRange(startOfYear(new Date()), new Date()),
   );
 
   useEffect(() => {
@@ -211,11 +208,15 @@ export const TripBenchmarkPage: FC = () => {
   };
 
   return (
-    <Stack spacing={3} sx={{ width: "100%", p: 3 }}>
+    <Stack spacing={3} sx={{ width: "100%", p: 3, minHeight: 600 }}>
       <Stack sx={{ width: "33%" }}>
         <Card variant="elevation" sx={{ bgcolor: "white", borderRadius: 2 }}>
           <CardContent>
-            <DateFilter value={dateRange} onChange={setDateRange} />
+            <DateFilter
+              value={dateRange}
+              onChange={setDateRange}
+              validateRange
+            />
           </CardContent>
         </Card>
       </Stack>
