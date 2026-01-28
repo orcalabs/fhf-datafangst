@@ -48,7 +48,7 @@ export const SearchFilters: FC<Props> = (props) => {
           />
         );
       case "dateRange":
-        return <DateFilter value={value} onChange={onChange} />;
+        return <DateFilter value={value} onChange={onChange} validateRange />;
       case "speciesGroups":
         return <SpeciesFilter value={value} onChange={onChange} />;
       case "gearGroups":

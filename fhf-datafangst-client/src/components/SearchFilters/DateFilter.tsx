@@ -3,7 +3,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { endOfDay, isValid, startOfDay } from "date-fns";
 import { nb } from "date-fns/locale";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 export class DateRange {
   rawStart?: Date;
@@ -34,20 +34,32 @@ export class DateRange {
 interface Props {
   value?: DateRange;
   onChange: (_?: DateRange) => void;
+  validateRange?: boolean;
 }
 
 export const DateFilter: FC<Props> = (props) => {
-  const { value, onChange } = props;
+  const { value, onChange, validateRange } = props;
+  const [error, setError] = useState<boolean>(false);
 
-  const handleStartDateChange = (date: Date | null) =>
+  const handleStartDateChange = (date: Date | null) => {
+    setError(false);
+    if (value?.rawEnd && date && date >= value?.rawEnd) {
+      setError(true);
+    }
     onChange(new DateRange(date, value?.rawEnd));
+  };
 
-  const handleEndDateChange = (date: Date | null) =>
+  const handleEndDateChange = (date: Date | null) => {
+    setError(false);
+    if (value?.rawStart && date && date <= value?.rawStart) {
+      setError(true);
+    }
     onChange(new DateRange(value?.rawStart, date));
+  };
 
   return (
     <>
-      <Typography sx={{ pb: 1 }} fontWeight="bold">
+      <Typography sx={{ pb: 1.5 }} fontWeight="bold">
         Dato
       </Typography>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
@@ -78,25 +90,35 @@ export const DateFilter: FC<Props> = (props) => {
           <DatePicker
             label={"Fra"}
             slotProps={{
-              textField: { size: "small" },
+              textField: {
+                size: "small",
+                error: validateRange && error,
+                helperText:
+                  validateRange &&
+                  error &&
+                  "Ugyldig datointervall. Fra-dato må være mindre enn Til-dato",
+              },
               popper: { disablePortal: true },
               field: { clearable: true },
             }}
             onChange={handleStartDateChange}
             value={value?.rawStart ?? null}
             minDate={new Date("2011-01-01")}
-            maxDate={value?.rawEnd ?? new Date()}
+            maxDate={new Date()}
           />
           <DatePicker
             label={"Til"}
             slotProps={{
-              textField: { size: "small" },
+              textField: {
+                size: "small",
+                error: validateRange && error,
+              },
               popper: { disablePortal: true },
               field: { clearable: true },
             }}
             value={value?.rawEnd ?? null}
+            minDate={new Date("2011-01-01")}
             maxDate={new Date()}
-            minDate={value ? value.rawStart : new Date("2011-01-01")}
             onChange={handleEndDateChange}
           />
         </Box>
