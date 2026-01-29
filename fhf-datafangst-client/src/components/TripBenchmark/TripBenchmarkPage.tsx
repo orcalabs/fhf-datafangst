@@ -209,13 +209,14 @@ export const TripBenchmarkPage: FC = () => {
 
   return (
     <Stack spacing={3} sx={{ width: "100%", p: 3, minHeight: 600 }}>
-      <Stack sx={{ width: "33%" }}>
+      <Stack sx={{ width: 520 }}>
         <Card variant="elevation" sx={{ bgcolor: "white", borderRadius: 2 }}>
           <CardContent>
             <DateFilter
               value={dateRange}
               onChange={setDateRange}
               validateRange
+              showShortCuts
             />
           </CardContent>
         </Card>
