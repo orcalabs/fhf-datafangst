@@ -20,5 +20,5 @@ export const getSpeciesMainGroups = apiFn((_: undefined, signal) =>
 );
 
 export const getSpeciesGroups = apiFn((_: undefined, signal) =>
-  api.routesV1SpeciesSpeciesGroups({}, { signal }),
+  api.routesV1SpeciesSpeciesGroups({ signal }),
 );

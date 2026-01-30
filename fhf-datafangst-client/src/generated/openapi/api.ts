@@ -84,13 +84,13 @@ export interface AisPosition {
      * @type {number}
      * @memberof AisPosition
      */
-    'cog': number | null;
+    'cog'?: number | null;
     /**
      * 
      * @type {AisPositionDetails}
      * @memberof AisPosition
      */
-    'det': AisPositionDetails | null;
+    'det'?: AisPositionDetails;
 }
 /**
  * 
@@ -103,25 +103,25 @@ export interface AisPositionDetails {
      * @type {NavigationStatus}
      * @memberof AisPositionDetails
      */
-    'navigationalStatus': NavigationStatus | null;
+    'navigationalStatus'?: NavigationStatus;
     /**
      * 
      * @type {number}
      * @memberof AisPositionDetails
      */
-    'rateOfTurn': number | null;
+    'rateOfTurn'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AisPositionDetails
      */
-    'speedOverGround': number | null;
+    'speedOverGround'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AisPositionDetails
      */
-    'trueHeading': number | null;
+    'trueHeading'?: number | null;
     /**
      * 
      * @type {number}
@@ -148,13 +148,13 @@ export interface AisTrackParameters {
      * @type {string}
      * @memberof AisTrackParameters
      */
-    'start': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof AisTrackParameters
      */
-    'end': string | null;
+    'end'?: string | null;
 }
 /**
  * 
@@ -186,13 +186,13 @@ export interface AisVessel {
      * @type {string}
      * @memberof AisVessel
      */
-    'callSign': string | null;
+    'callSign'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof AisVessel
      */
-    'name': string | null;
+    'name'?: string | null;
 }
 /**
  * 
@@ -205,31 +205,31 @@ export interface AisVmsParameters {
      * @type {number}
      * @memberof AisVmsParameters
      */
-    'mmsi': number | null;
+    'mmsi'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof AisVmsParameters
      */
-    'callSign': string | null;
+    'callSign'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof AisVmsParameters
      */
-    'tripId': number | null;
+    'tripId'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof AisVmsParameters
      */
-    'start': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof AisVmsParameters
      */
-    'end': string | null;
+    'end'?: string | null;
 }
 /**
  * 
@@ -284,13 +284,13 @@ export interface AisVmsPosition {
      * @type {TripPositionLayerId}
      * @memberof AisVmsPosition
      */
-    'prunedBy'?: TripPositionLayerId | null;
+    'prunedBy'?: TripPositionLayerId;
     /**
      * 
      * @type {AisVmsPositionDetails}
      * @memberof AisVmsPosition
      */
-    'det'?: AisVmsPositionDetails | null;
+    'det'?: AisVmsPositionDetails;
 }
 
 
@@ -305,7 +305,7 @@ export interface AisVmsPositionDetails {
      * @type {NavigationStatus}
      * @memberof AisVmsPositionDetails
      */
-    'navigationalStatus'?: NavigationStatus | null;
+    'navigationalStatus'?: NavigationStatus;
     /**
      * 
      * @type {number}
@@ -336,21 +336,6 @@ export interface AisVmsPositionDetails {
 /**
  * 
  * @export
- * @interface AllFishingPredictionsPath
- */
-export interface AllFishingPredictionsPath {
-    /**
-     * 
-     * @type {ModelId}
-     * @memberof AllFishingPredictionsPath
-     */
-    'model_id': ModelId;
-}
-
-
-/**
- * 
- * @export
  * @interface AverageEeoiParams
  */
 export interface AverageEeoiParams {
@@ -359,31 +344,82 @@ export interface AverageEeoiParams {
      * @type {string}
      * @memberof AverageEeoiParams
      */
-    'startDate': string;
+    'start': string;
     /**
      * 
      * @type {string}
      * @memberof AverageEeoiParams
      */
-    'endDate': string;
+    'end': string;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof AverageEeoiParams
      */
-    'gearGroups[]': Array<GearGroup> | null;
+    'gearGroups[]'?: Array<GearGroup> | null;
     /**
      * 
      * @type {VesselLengthGroup}
      * @memberof AverageEeoiParams
      */
-    'lengthGroup': VesselLengthGroup | null;
+    'lengthGroup'?: VesselLengthGroup;
     /**
      * 
      * @type {Array<number>}
      * @memberof AverageEeoiParams
      */
-    'vesselIds[]': Array<number> | null;
+    'vesselIds[]'?: Array<number> | null;
+    /**
+     * 
+     * @type {SpeciesGroup}
+     * @memberof AverageEeoiParams
+     */
+    'speciesGroupId'?: SpeciesGroup;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface AverageFuiParams
+ */
+export interface AverageFuiParams {
+    /**
+     * 
+     * @type {string}
+     * @memberof AverageFuiParams
+     */
+    'start': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AverageFuiParams
+     */
+    'end': string;
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof AverageFuiParams
+     */
+    'gearGroups[]'?: Array<GearGroup> | null;
+    /**
+     * 
+     * @type {VesselLengthGroup}
+     * @memberof AverageFuiParams
+     */
+    'lengthGroup'?: VesselLengthGroup;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof AverageFuiParams
+     */
+    'vesselIds[]'?: Array<number> | null;
+    /**
+     * 
+     * @type {SpeciesGroup}
+     * @memberof AverageFuiParams
+     */
+    'speciesGroupId'?: SpeciesGroup;
 }
 
 
@@ -398,31 +434,31 @@ export interface AverageTripBenchmarks {
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'weightPerHour': number | null;
+    'weightPerHour'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'weightPerDistance': number | null;
+    'weightPerDistance'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'weightPerFuel': number | null;
+    'weightPerFuel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'catchValuePerFuel': number | null;
+    'catchValuePerFuel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageTripBenchmarks
      */
-    'fuelConsumption': number | null;
+    'fuelConsumption'?: number | null;
 }
 /**
  * 
@@ -435,31 +471,31 @@ export interface AverageTripBenchmarksParams {
      * @type {string}
      * @memberof AverageTripBenchmarksParams
      */
-    'startDate': string;
+    'start': string;
     /**
      * 
      * @type {string}
      * @memberof AverageTripBenchmarksParams
      */
-    'endDate': string;
+    'end': string;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof AverageTripBenchmarksParams
      */
-    'gearGroups[]': Array<GearGroup> | null;
+    'gearGroups[]'?: Array<GearGroup> | null;
     /**
      * 
      * @type {VesselLengthGroup}
      * @memberof AverageTripBenchmarksParams
      */
-    'lengthGroup': VesselLengthGroup | null;
+    'lengthGroup'?: VesselLengthGroup;
     /**
      * 
      * @type {Array<number>}
      * @memberof AverageTripBenchmarksParams
      */
-    'vesselIds[]': Array<number> | null;
+    'vesselIds[]'?: Array<number> | null;
 }
 
 
@@ -606,7 +642,7 @@ export interface CreateFuelMeasurement {
      * @type {number}
      * @memberof CreateFuelMeasurement
      */
-    'fuelAfter': number | null;
+    'fuelAfter'?: number | null;
 }
 /**
  * 
@@ -676,31 +712,31 @@ export interface CurrentPosition {
      * @type {number}
      * @memberof CurrentPosition
      */
-    'cog': number | null;
+    'cog'?: number | null;
     /**
      * 
      * @type {NavigationStatus}
      * @memberof CurrentPosition
      */
-    'navigationalStatus': NavigationStatus | null;
+    'navigationalStatus'?: NavigationStatus;
     /**
      * 
      * @type {number}
      * @memberof CurrentPosition
      */
-    'rateOfTurn': number | null;
+    'rateOfTurn'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof CurrentPosition
      */
-    'speed': number | null;
+    'speed'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof CurrentPosition
      */
-    'trueHeading': number | null;
+    'trueHeading'?: number | null;
     /**
      * 
      * @type {number}
@@ -721,7 +757,7 @@ export interface CurrentPositionParameters {
      * @type {string}
      * @memberof CurrentPositionParameters
      */
-    'positionTimestampLimit': string | null;
+    'positionTimestampLimit'?: string | null;
 }
 /**
  * 
@@ -740,7 +776,7 @@ export interface CurrentTrip {
      * @type {number}
      * @memberof CurrentTrip
      */
-    'targetSpeciesFiskeridirId': number | null;
+    'targetSpeciesFiskeridirId'?: number | null;
     /**
      * 
      * @type {Array<Haul>}
@@ -783,6 +819,25 @@ export interface CurrentTripPositionsPath {
 /**
  * 
  * @export
+ * @interface DateTimeRange
+ */
+export interface DateTimeRange {
+    /**
+     * 
+     * @type {string}
+     * @memberof DateTimeRange
+     */
+    'start': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DateTimeRange
+     */
+    'end': string;
+}
+/**
+ * 
+ * @export
  * @interface DateTimeRangeInner
  */
 export interface DateTimeRangeInner {
@@ -791,13 +846,32 @@ export interface DateTimeRangeInner {
      * @type {string}
      * @memberof DateTimeRangeInner
      */
-    'start': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof DateTimeRangeInner
      */
-    'end': string | null;
+    'end'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface DateTimeRangeInnerRequired
+ */
+export interface DateTimeRangeInnerRequired {
+    /**
+     * 
+     * @type {string}
+     * @memberof DateTimeRangeInnerRequired
+     */
+    'start': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DateTimeRangeInnerRequired
+     */
+    'end': string;
 }
 /**
  * 
@@ -872,25 +946,25 @@ export interface DeliveryPoint {
      * @type {string}
      * @memberof DeliveryPoint
      */
-    'name': string | null;
+    'name'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof DeliveryPoint
      */
-    'address': string | null;
+    'address'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof DeliveryPoint
      */
-    'latitude': number | null;
+    'latitude'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof DeliveryPoint
      */
-    'longitude': number | null;
+    'longitude'?: number | null;
 }
 /**
  * 
@@ -922,13 +996,13 @@ export interface EeoiParams {
      * @type {string}
      * @memberof EeoiParams
      */
-    'startDate': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof EeoiParams
      */
-    'endDate': string | null;
+    'end'?: string | null;
 }
 /**
  * 
@@ -1024,61 +1098,61 @@ export interface FishingFacilitiesParams {
      * @type {Array<number>}
      * @memberof FishingFacilitiesParams
      */
-    'mmsis[]': Array<number> | null;
+    'mmsis[]'?: Array<number> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof FishingFacilitiesParams
      */
-    'fiskeridirVesselIds[]': Array<number> | null;
+    'fiskeridirVesselIds[]'?: Array<number> | null;
     /**
      * 
      * @type {Array<FishingFacilityToolType>}
      * @memberof FishingFacilitiesParams
      */
-    'toolTypes[]': Array<FishingFacilityToolType> | null;
+    'toolTypes[]'?: Array<FishingFacilityToolType> | null;
     /**
      * 
      * @type {boolean}
      * @memberof FishingFacilitiesParams
      */
-    'active': boolean | null;
+    'active'?: boolean | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof FishingFacilitiesParams
      */
-    'setupRanges[]': Array<string> | null;
+    'setupRanges[]'?: Array<string> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof FishingFacilitiesParams
      */
-    'removedRanges[]': Array<string> | null;
+    'removedRanges[]'?: Array<string> | null;
     /**
      * 
      * @type {number}
      * @memberof FishingFacilitiesParams
      */
-    'limit': number | null;
+    'limit'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FishingFacilitiesParams
      */
-    'offset': number | null;
+    'offset'?: number | null;
     /**
      * 
      * @type {Ordering}
      * @memberof FishingFacilitiesParams
      */
-    'ordering': Ordering | null;
+    'ordering'?: Ordering;
     /**
      * 
      * @type {FishingFacilitiesSorting}
      * @memberof FishingFacilitiesParams
      */
-    'sorting': FishingFacilitiesSorting | null;
+    'sorting'?: FishingFacilitiesSorting;
 }
 
 
@@ -1114,61 +1188,61 @@ export interface FishingFacility {
      * @type {string}
      * @memberof FishingFacility
      */
-    'barentswatchVesselId': string | null;
+    'barentswatchVesselId'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof FishingFacility
      */
-    'fiskeridirVesselId': number | null;
+    'fiskeridirVesselId'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'vesselName': string | null;
+    'vesselName'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'callSign': string | null;
+    'callSign'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof FishingFacility
      */
-    'mmsi': number | null;
+    'mmsi'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FishingFacility
      */
-    'imo': number | null;
+    'imo'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'regNum': string | null;
+    'regNum'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'sbrRegNum': string | null;
+    'sbrRegNum'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'contactPhone': string | null;
+    'contactPhone'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'contactEmail': string | null;
+    'contactEmail'?: string | null;
     /**
      * 
      * @type {FishingFacilityToolType}
@@ -1180,19 +1254,19 @@ export interface FishingFacility {
      * @type {string}
      * @memberof FishingFacility
      */
-    'toolTypeName': string | null;
+    'toolTypeName'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'toolColor': string | null;
+    'toolColor'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof FishingFacility
      */
-    'toolCount': number | null;
+    'toolCount'?: number | null;
     /**
      * 
      * @type {string}
@@ -1204,19 +1278,19 @@ export interface FishingFacility {
      * @type {string}
      * @memberof FishingFacility
      */
-    'setupProcessedTimestamp': string | null;
+    'setupProcessedTimestamp'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'removedTimestamp': string | null;
+    'removedTimestamp'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'removedProcessedTimestamp': string | null;
+    'removedProcessedTimestamp'?: string | null;
     /**
      * 
      * @type {string}
@@ -1228,19 +1302,19 @@ export interface FishingFacility {
      * @type {string}
      * @memberof FishingFacility
      */
-    'source': string | null;
+    'source'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'comment': string | null;
+    'comment'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FishingFacility
      */
-    'geometryWkt': string | null;
+    'geometryWkt'?: string | null;
 }
 
 
@@ -1268,125 +1342,6 @@ export const FishingFacilityToolType = {
 export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeof FishingFacilityToolType];
 
 
-/**
- * 
- * @export
- * @interface FishingPredictionsPath
- */
-export interface FishingPredictionsPath {
-    /**
-     * 
-     * @type {ModelId}
-     * @memberof FishingPredictionsPath
-     */
-    'model_id': ModelId;
-    /**
-     * 
-     * @type {SpeciesGroup}
-     * @memberof FishingPredictionsPath
-     */
-    'species_group_id': SpeciesGroup;
-}
-
-
-/**
- * 
- * @export
- * @interface FishingSpotPrediction
- */
-export interface FishingSpotPrediction {
-    /**
-     * 
-     * @type {number}
-     * @memberof FishingSpotPrediction
-     */
-    'latitude': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FishingSpotPrediction
-     */
-    'longitude': number;
-    /**
-     * 
-     * @type {SpeciesGroup}
-     * @memberof FishingSpotPrediction
-     */
-    'speciesGroupId': SpeciesGroup;
-    /**
-     * 
-     * @type {string}
-     * @memberof FishingSpotPrediction
-     */
-    'date': string;
-}
-
-
-/**
- * 
- * @export
- * @interface FishingSpotPredictionParams
- */
-export interface FishingSpotPredictionParams {
-    /**
-     * 
-     * @type {string}
-     * @memberof FishingSpotPredictionParams
-     */
-    'date': string | null;
-}
-/**
- * 
- * @export
- * @interface FishingWeightPrediction
- */
-export interface FishingWeightPrediction {
-    /**
-     * 
-     * @type {string}
-     * @memberof FishingWeightPrediction
-     */
-    'catchLocationId': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FishingWeightPrediction
-     */
-    'weight': number;
-    /**
-     * 
-     * @type {SpeciesGroup}
-     * @memberof FishingWeightPrediction
-     */
-    'speciesGroupId': SpeciesGroup;
-    /**
-     * 
-     * @type {string}
-     * @memberof FishingWeightPrediction
-     */
-    'date': string;
-}
-
-
-/**
- * 
- * @export
- * @interface FishingWeightPredictionParams
- */
-export interface FishingWeightPredictionParams {
-    /**
-     * 
-     * @type {string}
-     * @memberof FishingWeightPredictionParams
-     */
-    'date': string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof FishingWeightPredictionParams
-     */
-    'limit': number | null;
-}
 /**
  * 
  * @export
@@ -1425,31 +1380,31 @@ export interface FiskeridirVessel {
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'callSign': string | null;
+    'callSign'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'name': string | null;
+    'name'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FiskeridirVessel
      */
-    'registrationId': string | null;
+    'registrationId'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'length': number | null;
+    'length'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'width': number | null;
+    'width'?: number | null;
     /**
      * 
      * @type {Array<RegisterVesselOwner>}
@@ -1461,67 +1416,67 @@ export interface FiskeridirVessel {
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'engineBuildingYear': number | null;
+    'engineBuildingYear'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'enginePower': number | null;
+    'enginePower'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'buildingYear': number | null;
+    'buildingYear'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'auxiliaryEnginePower': number | null;
+    'auxiliaryEnginePower'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'auxiliaryEngineBuildingYear': number | null;
+    'auxiliaryEngineBuildingYear'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'boilerEnginePower': number | null;
+    'boilerEnginePower'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'boilerEngineBuildingYear': number | null;
+    'boilerEngineBuildingYear'?: number | null;
     /**
      * 
      * @type {EngineType}
      * @memberof FiskeridirVessel
      */
-    'engineType': EngineType | null;
+    'engineType'?: EngineType;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'engineRpm': number | null;
+    'engineRpm'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'degreeOfElectrification': number | null;
+    'degreeOfElectrification'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof FiskeridirVessel
      */
-    'serviceSpeed': number | null;
+    'serviceSpeed'?: number | null;
 }
 
 
@@ -1573,7 +1528,7 @@ export interface FuelMeasurement {
      * @type {number}
      * @memberof FuelMeasurement
      */
-    'fuelAfter': number | null;
+    'fuelAfter'?: number | null;
 }
 /**
  * 
@@ -1586,13 +1541,13 @@ export interface FuelMeasurementsParams {
      * @type {string}
      * @memberof FuelMeasurementsParams
      */
-    'startDate': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FuelMeasurementsParams
      */
-    'endDate': string | null;
+    'end'?: string | null;
 }
 /**
  * 
@@ -1605,13 +1560,32 @@ export interface FuelParams {
      * @type {string}
      * @memberof FuelParams
      */
-    'start': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof FuelParams
      */
-    'end': string | null;
+    'end'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface FuiParams
+ */
+export interface FuiParams {
+    /**
+     * 
+     * @type {string}
+     * @memberof FuiParams
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FuiParams
+     */
+    'end'?: string | null;
 }
 /**
  * 
@@ -1787,19 +1761,19 @@ export interface Haul {
      * @type {number}
      * @memberof Haul
      */
-    'tripId': number | null;
+    'tripId'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Haul
      */
-    'haulDistance': number | null;
+    'haulDistance'?: number | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof Haul
      */
-    'catchLocations': Array<string> | null;
+    'catchLocations'?: Array<string> | null;
     /**
      * 
      * @type {number}
@@ -1859,13 +1833,13 @@ export interface Haul {
      * @type {number}
      * @memberof Haul
      */
-    'fiskeridirVesselId': number | null;
+    'fiskeridirVesselId'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof Haul
      */
-    'vesselName': string | null;
+    'vesselName'?: string | null;
     /**
      * 
      * @type {string}
@@ -1913,37 +1887,37 @@ export interface HaulOceanClimate {
      * @type {number}
      * @memberof HaulOceanClimate
      */
-    'waterSpeed': number | null;
+    'waterSpeed'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulOceanClimate
      */
-    'waterDirection': number | null;
+    'waterDirection'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulOceanClimate
      */
-    'salinity': number | null;
+    'salinity'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulOceanClimate
      */
-    'waterTemperature': number | null;
+    'waterTemperature'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulOceanClimate
      */
-    'oceanClimateDepth': number | null;
+    'oceanClimateDepth'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulOceanClimate
      */
-    'seaFloorDepth': number | null;
+    'seaFloorDepth'?: number | null;
 }
 /**
  * 
@@ -1956,43 +1930,43 @@ export interface HaulWeather {
      * @type {number}
      * @memberof HaulWeather
      */
-    'windSpeed10m': number | null;
+    'windSpeed10m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulWeather
      */
-    'windDirection10m': number | null;
+    'windDirection10m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulWeather
      */
-    'airTemperature2m': number | null;
+    'airTemperature2m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulWeather
      */
-    'relativeHumidity2m': number | null;
+    'relativeHumidity2m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulWeather
      */
-    'airPressureAtSeaLevel': number | null;
+    'airPressureAtSeaLevel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulWeather
      */
-    'precipitationAmount': number | null;
+    'precipitationAmount'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof HaulWeather
      */
-    'cloudAreaFraction': number | null;
+    'cloudAreaFraction'?: number | null;
 }
 /**
  * 
@@ -2036,49 +2010,49 @@ export interface HaulsMatrixParams {
      * @type {Array<number>}
      * @memberof HaulsMatrixParams
      */
-    'months[]': Array<number> | null;
+    'months[]'?: Array<number> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof HaulsMatrixParams
      */
-    'catchLocations[]': Array<string> | null;
+    'catchLocations[]'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof HaulsMatrixParams
      */
-    'gearGroupIds[]': Array<GearGroup> | null;
+    'gearGroupIds[]'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof HaulsMatrixParams
      */
-    'speciesGroupIds[]': Array<SpeciesGroup> | null;
+    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof HaulsMatrixParams
      */
-    'vesselLengthGroups[]': Array<VesselLengthGroup> | null;
+    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof HaulsMatrixParams
      */
-    'fiskeridirVesselIds[]': Array<number> | null;
+    'fiskeridirVesselIds[]'?: Array<number> | null;
     /**
      * 
      * @type {number}
      * @memberof HaulsMatrixParams
      */
-    'bycatchPercentage': number | null;
+    'bycatchPercentage'?: number | null;
     /**
      * 
      * @type {boolean}
      * @memberof HaulsMatrixParams
      */
-    'majoritySpeciesGroup': boolean | null;
+    'majoritySpeciesGroup'?: boolean | null;
 }
 /**
  * 
@@ -2106,49 +2080,61 @@ export interface HaulsParams {
      * @type {Array<string>}
      * @memberof HaulsParams
      */
-    'months[]': Array<string> | null;
+    'months[]'?: Array<string> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof HaulsParams
      */
-    'catchLocations[]': Array<string> | null;
+    'catchLocations[]'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof HaulsParams
      */
-    'gearGroupIds[]': Array<GearGroup> | null;
+    'gearGroupIds[]'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof HaulsParams
      */
-    'speciesGroupIds[]': Array<SpeciesGroup> | null;
+    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof HaulsParams
      */
-    'vesselLengthGroups[]': Array<VesselLengthGroup> | null;
+    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof HaulsParams
      */
-    'fiskeridirVesselIds[]': Array<number> | null;
+    'fiskeridirVesselIds[]'?: Array<number> | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HaulsParams
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HaulsParams
+     */
+    'end'?: string | null;
     /**
      * 
      * @type {HaulsSorting}
      * @memberof HaulsParams
      */
-    'sorting': HaulsSorting | null;
+    'sorting'?: HaulsSorting;
     /**
      * 
      * @type {Ordering}
      * @memberof HaulsParams
      */
-    'ordering': Ordering | null;
+    'ordering'?: Ordering;
 }
 
 
@@ -2184,7 +2170,7 @@ export interface Landing {
      * @type {number}
      * @memberof Landing
      */
-    'tripId': number | null;
+    'tripId'?: number | null;
     /**
      * 
      * @type {string}
@@ -2196,7 +2182,7 @@ export interface Landing {
      * @type {string}
      * @memberof Landing
      */
-    'catchLocation': string | null;
+    'catchLocation'?: string | null;
     /**
      * 
      * @type {Gear}
@@ -2214,31 +2200,31 @@ export interface Landing {
      * @type {string}
      * @memberof Landing
      */
-    'deliveryPointId': string | null;
+    'deliveryPointId'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof Landing
      */
-    'fiskeridirVesselId': number | null;
+    'fiskeridirVesselId'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof Landing
      */
-    'vesselCallSign': string | null;
+    'vesselCallSign'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Landing
      */
-    'vesselName': string | null;
+    'vesselName'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof Landing
      */
-    'vesselLength': number | null;
+    'vesselLength'?: number | null;
     /**
      * 
      * @type {VesselLengthGroup}
@@ -2353,37 +2339,37 @@ export interface LandingMatrixParams {
      * @type {Array<number>}
      * @memberof LandingMatrixParams
      */
-    'months[]': Array<number> | null;
+    'months[]'?: Array<number> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof LandingMatrixParams
      */
-    'catchLocations[]': Array<string> | null;
+    'catchLocations[]'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof LandingMatrixParams
      */
-    'gearGroupIds[]': Array<GearGroup> | null;
+    'gearGroupIds[]'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof LandingMatrixParams
      */
-    'speciesGroupIds[]': Array<SpeciesGroup> | null;
+    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof LandingMatrixParams
      */
-    'vesselLengthGroups[]': Array<VesselLengthGroup> | null;
+    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof LandingMatrixParams
      */
-    'fiskeridirVesselIds[]': Array<number> | null;
+    'fiskeridirVesselIds[]'?: Array<number> | null;
 }
 /**
  * 
@@ -2436,61 +2422,73 @@ export interface LandingsParams {
      * @type {Array<string>}
      * @memberof LandingsParams
      */
-    'months[]': Array<string> | null;
+    'months[]'?: Array<string> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof LandingsParams
      */
-    'catchLocations[]': Array<string> | null;
+    'catchLocations[]'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof LandingsParams
      */
-    'gearGroupIds[]': Array<GearGroup> | null;
+    'gearGroupIds[]'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof LandingsParams
      */
-    'speciesGroupIds[]': Array<SpeciesGroup> | null;
+    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof LandingsParams
      */
-    'vesselLengthGroups[]': Array<VesselLengthGroup> | null;
+    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof LandingsParams
      */
-    'fiskeridirVesselIds[]': Array<number> | null;
+    'fiskeridirVesselIds[]'?: Array<number> | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LandingsParams
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LandingsParams
+     */
+    'end'?: string | null;
     /**
      * 
      * @type {LandingsSorting}
      * @memberof LandingsParams
      */
-    'sorting': LandingsSorting | null;
+    'sorting'?: LandingsSorting;
     /**
      * 
      * @type {Ordering}
      * @memberof LandingsParams
      */
-    'ordering': Ordering | null;
+    'ordering'?: Ordering;
     /**
      * 
      * @type {number}
      * @memberof LandingsParams
      */
-    'limit': number | null;
+    'limit'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof LandingsParams
      */
-    'offset': number | null;
+    'offset'?: number | null;
 }
 
 
@@ -2557,7 +2555,7 @@ export interface LiveFuelParams {
      * @type {string}
      * @memberof LiveFuelParams
      */
-    'threshold': string | null;
+    'threshold'?: string | null;
 }
 /**
  * 
@@ -2574,22 +2572,6 @@ export const MainGearGroup = {
 } as const;
 
 export type MainGearGroup = typeof MainGearGroup[keyof typeof MainGearGroup];
-
-
-/**
- * 
- * @export
- * @enum {string}
- */
-
-export const ModelId = {
-    Spot: 'Spot',
-    Weight: 'Weight',
-    WeightWeather: 'WeightWeather',
-    SpotWeather: 'SpotWeather'
-} as const;
-
-export type ModelId = typeof ModelId[keyof typeof ModelId];
 
 
 /**
@@ -2627,13 +2609,13 @@ export interface NaiveDateRangeInner {
      * @type {string}
      * @memberof NaiveDateRangeInner
      */
-    'start': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof NaiveDateRangeInner
      */
-    'end': string | null;
+    'end'?: string | null;
 }
 /**
  * 
@@ -2663,6 +2645,25 @@ export const NavigationStatus = {
 export type NavigationStatus = typeof NavigationStatus[keyof typeof NavigationStatus];
 
 
+/**
+ * 
+ * @export
+ * @interface OptionalDateTimeRange
+ */
+export interface OptionalDateTimeRange {
+    /**
+     * 
+     * @type {string}
+     * @memberof OptionalDateTimeRange
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof OptionalDateTimeRange
+     */
+    'end'?: string | null;
+}
 /**
  * 
  * @export
@@ -2737,13 +2738,13 @@ export interface OrgBenchmarkParameters {
      * @type {string}
      * @memberof OrgBenchmarkParameters
      */
-    'start': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof OrgBenchmarkParameters
      */
-    'end': string | null;
+    'end'?: string | null;
 }
 /**
  * 
@@ -2924,7 +2925,7 @@ export interface RegisterVesselOwner {
      * @type {string}
      * @memberof RegisterVesselOwner
      */
-    'city': string | null;
+    'city'?: string | null;
     /**
      * 
      * @type {RegisterVesselEntityType}
@@ -2936,7 +2937,7 @@ export interface RegisterVesselOwner {
      * @type {number}
      * @memberof RegisterVesselOwner
      */
-    'id': number | null;
+    'id'?: number | null;
     /**
      * 
      * @type {string}
@@ -3007,7 +3008,7 @@ export interface SpeciesFao {
      * @type {string}
      * @memberof SpeciesFao
      */
-    'name': string | null;
+    'name'?: string | null;
 }
 /**
  * 
@@ -3026,7 +3027,7 @@ export interface SpeciesFiskeridir {
      * @type {string}
      * @memberof SpeciesFiskeridir
      */
-    'name': string | null;
+    'name'?: string | null;
 }
 /**
  * 
@@ -3104,19 +3105,6 @@ export interface SpeciesGroupDetailed {
 /**
  * 
  * @export
- * @interface SpeciesGroupParams
- */
-export interface SpeciesGroupParams {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SpeciesGroupParams
-     */
-    'hasMlModels': boolean | null;
-}
-/**
- * 
- * @export
  * @enum {string}
  */
 
@@ -3166,25 +3154,25 @@ export interface Tra {
      * @type {number}
      * @memberof Tra
      */
-    'fiskeridirVesselId': number | null;
+    'fiskeridirVesselId'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Tra
      */
-    'latitude': number | null;
+    'latitude'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Tra
      */
-    'longitude': number | null;
+    'longitude'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof Tra
      */
-    'reloadingTimestamp': string | null;
+    'reloadingTimestamp'?: string | null;
     /**
      * 
      * @type {string}
@@ -3202,25 +3190,25 @@ export interface Tra {
      * @type {number}
      * @memberof Tra
      */
-    'reloadToFiskeridirVesselId': number | null;
+    'reloadToFiskeridirVesselId'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Tra
      */
-    'reloadFromFiskeridirVesselId': number | null;
+    'reloadFromFiskeridirVesselId'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof Tra
      */
-    'reloadToCallSign': string | null;
+    'reloadToCallSign'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Tra
      */
-    'reloadFromCallSign': string | null;
+    'reloadFromCallSign'?: string | null;
 }
 /**
  * 
@@ -3302,7 +3290,7 @@ export interface Trip {
      * @type {string}
      * @memberof Trip
      */
-    'mostRecentDeliveryDate': string | null;
+    'mostRecentDeliveryDate'?: string | null;
     /**
      * 
      * @type {Array<Gear>}
@@ -3344,13 +3332,13 @@ export interface Trip {
      * @type {string}
      * @memberof Trip
      */
-    'startPortId': string | null;
+    'startPortId'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Trip
      */
-    'endPortId': string | null;
+    'endPortId'?: string | null;
     /**
      * 
      * @type {Array<VesselEvent>}
@@ -3374,19 +3362,19 @@ export interface Trip {
      * @type {number}
      * @memberof Trip
      */
-    'targetSpeciesFiskeridirId': number | null;
+    'targetSpeciesFiskeridirId'?: number | null;
     /**
      * 
      * @type {string}
      * @memberof Trip
      */
-    'targetSpeciesFaoId': string | null;
+    'targetSpeciesFaoId'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof Trip
      */
-    'fuelConsumption': number | null;
+    'fuelConsumption'?: number | null;
     /**
      * 
      * @type {number}
@@ -3398,7 +3386,7 @@ export interface Trip {
      * @type {number}
      * @memberof Trip
      */
-    'distance': number | null;
+    'distance'?: number | null;
     /**
      * 
      * @type {HasTrack}
@@ -3451,37 +3439,37 @@ export interface TripBenchmark {
      * @type {number}
      * @memberof TripBenchmark
      */
-    'weightPerHour': number | null;
+    'weightPerHour'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmark
      */
-    'weightPerDistance': number | null;
+    'weightPerDistance'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmark
      */
-    'fuelConsumption': number | null;
+    'fuelConsumption'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmark
      */
-    'weightPerFuel': number | null;
+    'weightPerFuel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmark
      */
-    'catchValuePerFuel': number | null;
+    'catchValuePerFuel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmark
      */
-    'eeoi': number | null;
+    'eeoi'?: number | null;
 }
 /**
  * 
@@ -3513,31 +3501,31 @@ export interface TripBenchmarks {
      * @type {number}
      * @memberof TripBenchmarks
      */
-    'weightPerHour': number | null;
+    'weightPerHour'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmarks
      */
-    'weightPerDistance': number | null;
+    'weightPerDistance'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmarks
      */
-    'fuelConsumption': number | null;
+    'fuelConsumption'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmarks
      */
-    'weightPerFuel': number | null;
+    'weightPerFuel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripBenchmarks
      */
-    'catchValuePerFuel': number | null;
+    'catchValuePerFuel'?: number | null;
     /**
      * 
      * @type {Array<TripBenchmark>}
@@ -3556,19 +3544,19 @@ export interface TripBenchmarksParams {
      * @type {string}
      * @memberof TripBenchmarksParams
      */
-    'startDate': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof TripBenchmarksParams
      */
-    'endDate': string | null;
+    'end'?: string | null;
     /**
      * 
      * @type {Ordering}
      * @memberof TripBenchmarksParams
      */
-    'ordering': Ordering | null;
+    'ordering'?: Ordering;
 }
 
 
@@ -3625,85 +3613,85 @@ export interface TripsParameters {
      * @type {number}
      * @memberof TripsParameters
      */
-    'limit': number | null;
+    'limit'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripsParameters
      */
-    'offset': number | null;
+    'offset'?: number | null;
     /**
      * 
      * @type {Ordering}
      * @memberof TripsParameters
      */
-    'ordering': Ordering | null;
+    'ordering'?: Ordering;
     /**
      * 
      * @type {Array<string>}
      * @memberof TripsParameters
      */
-    'deliveryPoints[]': Array<string> | null;
+    'deliveryPoints[]'?: Array<string> | null;
     /**
      * 
      * @type {string}
      * @memberof TripsParameters
      */
-    'startDate': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof TripsParameters
      */
-    'endDate': string | null;
+    'end'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof TripsParameters
      */
-    'minWeight': number | null;
+    'minWeight'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof TripsParameters
      */
-    'maxWeight': number | null;
+    'maxWeight'?: number | null;
     /**
      * 
      * @type {TripSorting}
      * @memberof TripsParameters
      */
-    'sorting': TripSorting | null;
+    'sorting'?: TripSorting;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof TripsParameters
      */
-    'gearGroupIds[]': Array<GearGroup> | null;
+    'gearGroupIds[]'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof TripsParameters
      */
-    'speciesGroupIds[]': Array<SpeciesGroup> | null;
+    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof TripsParameters
      */
-    'vesselLengthGroups[]': Array<VesselLengthGroup> | null;
+    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof TripsParameters
      */
-    'fiskeridirVesselIds[]': Array<number> | null;
+    'fiskeridirVesselIds[]'?: Array<number> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof TripsParameters
      */
-    'tripIds[]': Array<number> | null;
+    'tripIds[]'?: Array<number> | null;
 }
 
 
@@ -3733,61 +3721,61 @@ export interface UpdateVessel {
      * @type {number}
      * @memberof UpdateVessel
      */
-    'enginePower': number | null;
+    'enginePower'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'engineBuildingYear': number | null;
+    'engineBuildingYear'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'auxiliaryEnginePower': number | null;
+    'auxiliaryEnginePower'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'auxiliaryEngineBuildingYear': number | null;
+    'auxiliaryEngineBuildingYear'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'boilerEnginePower': number | null;
+    'boilerEnginePower'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'boilerEngineBuildingYear': number | null;
+    'boilerEngineBuildingYear'?: number | null;
     /**
      * 
      * @type {EngineType}
      * @memberof UpdateVessel
      */
-    'engineType': EngineType | null;
+    'engineType'?: EngineType;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'engineRpm': number | null;
+    'engineRpm'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'degreeOfElectrification': number | null;
+    'degreeOfElectrification'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof UpdateVessel
      */
-    'serviceSpeed': number | null;
+    'serviceSpeed'?: number | null;
 }
 
 
@@ -3834,7 +3822,7 @@ export interface Vessel {
      * @type {AisVessel}
      * @memberof Vessel
      */
-    'ais': AisVessel | null;
+    'ais'?: AisVessel;
     /**
      * 
      * @type {Array<GearGroup>}
@@ -3852,7 +3840,7 @@ export interface Vessel {
      * @type {VesselCurrentTrip}
      * @memberof Vessel
      */
-    'currentTrip': VesselCurrentTrip | null;
+    'currentTrip'?: VesselCurrentTrip;
     /**
      * 
      * @type {boolean}
@@ -3871,31 +3859,31 @@ export interface VesselBenchmarks {
      * @type {Benchmark}
      * @memberof VesselBenchmarks
      */
-    'fishingTime': Benchmark | null;
+    'fishingTime'?: Benchmark;
     /**
      * 
      * @type {Benchmark}
      * @memberof VesselBenchmarks
      */
-    'fishingDistance': Benchmark | null;
+    'fishingDistance'?: Benchmark;
     /**
      * 
      * @type {Benchmark}
      * @memberof VesselBenchmarks
      */
-    'tripTime': Benchmark | null;
+    'tripTime'?: Benchmark;
     /**
      * 
      * @type {Benchmark}
      * @memberof VesselBenchmarks
      */
-    'landings': Benchmark | null;
+    'landings'?: Benchmark;
     /**
      * 
      * @type {Benchmark}
      * @memberof VesselBenchmarks
      */
-    'ersDca': Benchmark | null;
+    'ersDca'?: Benchmark;
     /**
      * 
      * @type {Array<CumulativeLandings>}
@@ -3920,7 +3908,7 @@ export interface VesselCurrentTrip {
      * @type {number}
      * @memberof VesselCurrentTrip
      */
-    'targetSpeciesFiskeridirId': number | null;
+    'targetSpeciesFiskeridirId'?: number | null;
 }
 /**
  * 
@@ -3957,10 +3945,68 @@ export interface VesselEvent {
      * @type {string}
      * @memberof VesselEvent
      */
-    'occurenceTimestamp': string | null;
+    'occurenceTimestamp'?: string | null;
 }
 
 
+/**
+ * 
+ * @export
+ * @interface VesselEventParams
+ */
+export interface VesselEventParams {
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselEventParams
+     */
+    'startTimestamp'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselEventParams
+     */
+    'endTimestamp'?: string | null;
+    /**
+     * 
+     * @type {VesselEventType}
+     * @memberof VesselEventParams
+     */
+    'vesselEventType'?: VesselEventType;
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselEventParams
+     */
+    'limit'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselEventParams
+     */
+    'offset'?: number | null;
+    /**
+     * 
+     * @type {Ordering}
+     * @memberof VesselEventParams
+     */
+    'ordering'?: Ordering;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface VesselEventPath
+ */
+export interface VesselEventPath {
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselEventPath
+     */
+    'fiskeridir_vessel_id': number;
+}
 /**
  * 
  * @export
@@ -4050,13 +4096,13 @@ export interface VmsParameters {
      * @type {string}
      * @memberof VmsParameters
      */
-    'start': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof VmsParameters
      */
-    'end': string | null;
+    'end'?: string | null;
 }
 /**
  * 
@@ -4082,7 +4128,7 @@ export interface VmsPosition {
      * @type {number}
      * @memberof VmsPosition
      */
-    'course': number | null;
+    'course'?: number | null;
     /**
      * 
      * @type {number}
@@ -4100,7 +4146,7 @@ export interface VmsPosition {
      * @type {number}
      * @memberof VmsPosition
      */
-    'speed': number | null;
+    'speed'?: number | null;
     /**
      * 
      * @type {string}
@@ -4149,37 +4195,37 @@ export interface Weather {
      * @type {number}
      * @memberof Weather
      */
-    'windSpeed10m': number | null;
+    'windSpeed10m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Weather
      */
-    'windDirection10m': number | null;
+    'windDirection10m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Weather
      */
-    'airTemperature2m': number | null;
+    'airTemperature2m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Weather
      */
-    'relativeHumidity2m': number | null;
+    'relativeHumidity2m'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Weather
      */
-    'airPressureAtSeaLevel': number | null;
+    'airPressureAtSeaLevel'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof Weather
      */
-    'precipitationAmount': number | null;
+    'precipitationAmount'?: number | null;
     /**
      * 
      * @type {number}
@@ -4191,7 +4237,7 @@ export interface Weather {
      * @type {number}
      * @memberof Weather
      */
-    'cloudAreaFraction': number | null;
+    'cloudAreaFraction'?: number | null;
     /**
      * 
      * @type {number}
@@ -4229,19 +4275,19 @@ export interface WeatherParams {
      * @type {string}
      * @memberof WeatherParams
      */
-    'startDate': string | null;
+    'start'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof WeatherParams
      */
-    'endDate': string | null;
+    'end'?: string | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof WeatherParams
      */
-    'weatherLocationIds[]': Array<number> | null;
+    'weatherLocationIds[]'?: Array<number> | null;
 }
 /**
  * 
@@ -4254,37 +4300,37 @@ export interface WhaleCatch {
      * @type {number}
      * @memberof WhaleCatch
      */
-    'blubberMeasureA': number | null;
+    'blubberMeasureA'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'blubberMeasureB': number | null;
+    'blubberMeasureB'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'blubberMeasureC': number | null;
+    'blubberMeasureC'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'circumference': number | null;
+    'circumference'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'fetusLength': number | null;
+    'fetusLength'?: number | null;
     /**
      * 
      * @type {WhaleGender}
      * @memberof WhaleCatch
      */
-    'genderId': WhaleGender | null;
+    'genderId'?: WhaleGender;
     /**
      * 
      * @type {string}
@@ -4296,13 +4342,13 @@ export interface WhaleCatch {
      * @type {number}
      * @memberof WhaleCatch
      */
-    'individualNumber': number | null;
+    'individualNumber'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof WhaleCatch
      */
-    'length': number | null;
+    'length'?: number | null;
 }
 
 
@@ -4355,6 +4401,10 @@ export const AisApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (start !== undefined) {
                 localVarQueryParameter['start'] = (start as any instanceof Date) ?
@@ -4520,6 +4570,10 @@ export const AisVmsApiAxiosParamCreator = function (configuration?: Configuratio
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             if (mmsi !== undefined) {
                 localVarQueryParameter['mmsi'] = mmsi;
             }
@@ -4582,6 +4636,10 @@ export const AisVmsApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (positionTimestampLimit !== undefined) {
                 localVarQueryParameter['positionTimestampLimit'] = (positionTimestampLimit as any instanceof Date) ?
@@ -4805,6 +4863,10 @@ export const DeliveryPointApiAxiosParamCreator = function (configuration?: Confi
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4886,7 +4948,7 @@ export const FishingFacilityApiAxiosParamCreator = function (configuration?: Con
     return {
         /**
          * Returns all fishing facilities matching the provided parameters. Access to fishing facilities are limited to authenticated users with sufficient permissions.
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {Array<number> | null} [mmsis] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {Array<FishingFacilityToolType> | null} [toolTypes] 
@@ -4895,14 +4957,12 @@ export const FishingFacilityApiAxiosParamCreator = function (configuration?: Con
          * @param {Array<string> | null} [removedRanges] 
          * @param {number | null} [limit] 
          * @param {number | null} [offset] 
-         * @param {Ordering | null} [ordering] 
-         * @param {FishingFacilitiesSorting | null} [sorting] 
+         * @param {Ordering} [ordering] 
+         * @param {FishingFacilitiesSorting} [sorting] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FishingFacilityFishingFacilities: async (authorization: string, mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<FishingFacilityToolType> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering | null, sorting?: FishingFacilitiesSorting | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1FishingFacilityFishingFacilities', 'authorization', authorization)
+        routesV1FishingFacilityFishingFacilities: async (authorization?: string, mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<FishingFacilityToolType> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering, sorting?: FishingFacilitiesSorting, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/fishing_facilities`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4918,6 +4978,10 @@ export const FishingFacilityApiAxiosParamCreator = function (configuration?: Con
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (mmsis) {
                 localVarQueryParameter['mmsis[]'] = mmsis;
@@ -4986,7 +5050,7 @@ export const FishingFacilityApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Returns all fishing facilities matching the provided parameters. Access to fishing facilities are limited to authenticated users with sufficient permissions.
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {Array<number> | null} [mmsis] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
          * @param {Array<FishingFacilityToolType> | null} [toolTypes] 
@@ -4995,12 +5059,12 @@ export const FishingFacilityApiFp = function(configuration?: Configuration) {
          * @param {Array<string> | null} [removedRanges] 
          * @param {number | null} [limit] 
          * @param {number | null} [offset] 
-         * @param {Ordering | null} [ordering] 
-         * @param {FishingFacilitiesSorting | null} [sorting] 
+         * @param {Ordering} [ordering] 
+         * @param {FishingFacilitiesSorting} [sorting] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FishingFacilityFishingFacilities(authorization: string, mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<FishingFacilityToolType> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering | null, sorting?: FishingFacilitiesSorting | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingFacility>>> {
+        async routesV1FishingFacilityFishingFacilities(authorization?: string, mmsis?: Array<number> | null, fiskeridirVesselIds?: Array<number> | null, toolTypes?: Array<FishingFacilityToolType> | null, active?: boolean | null, setupRanges?: Array<string> | null, removedRanges?: Array<string> | null, limit?: number | null, offset?: number | null, ordering?: Ordering, sorting?: FishingFacilitiesSorting, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingFacility>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FishingFacilityFishingFacilities(authorization, mmsis, fiskeridirVesselIds, toolTypes, active, setupRanges, removedRanges, limit, offset, ordering, sorting, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FishingFacilityApi.routesV1FishingFacilityFishingFacilities']?.[localVarOperationServerIndex]?.url;
@@ -5022,7 +5086,7 @@ export const FishingFacilityApiFactory = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FishingFacilityFishingFacilities(requestParameters: FishingFacilityApiRoutesV1FishingFacilityFishingFacilitiesRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FishingFacility>> {
+        routesV1FishingFacilityFishingFacilities(requestParameters: FishingFacilityApiRoutesV1FishingFacilityFishingFacilitiesRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<FishingFacility>> {
             return localVarFp.routesV1FishingFacilityFishingFacilities(requestParameters.authorization, requestParameters.mmsis, requestParameters.fiskeridirVesselIds, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.sorting, options).then((request) => request(axios, basePath));
         },
     };
@@ -5039,7 +5103,7 @@ export interface FishingFacilityApiRoutesV1FishingFacilityFishingFacilitiesReque
      * @type {string}
      * @memberof FishingFacilityApiRoutesV1FishingFacilityFishingFacilities
      */
-    readonly authorization: string
+    readonly authorization?: string
 
     /**
      * 
@@ -5102,14 +5166,14 @@ export interface FishingFacilityApiRoutesV1FishingFacilityFishingFacilitiesReque
      * @type {Ordering}
      * @memberof FishingFacilityApiRoutesV1FishingFacilityFishingFacilities
      */
-    readonly ordering?: Ordering | null
+    readonly ordering?: Ordering
 
     /**
      * 
      * @type {FishingFacilitiesSorting}
      * @memberof FishingFacilityApiRoutesV1FishingFacilityFishingFacilities
      */
-    readonly sorting?: FishingFacilitiesSorting | null
+    readonly sorting?: FishingFacilitiesSorting
 }
 
 /**
@@ -5126,446 +5190,8 @@ export class FishingFacilityApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof FishingFacilityApi
      */
-    public routesV1FishingFacilityFishingFacilities(requestParameters: FishingFacilityApiRoutesV1FishingFacilityFishingFacilitiesRequest, options?: RawAxiosRequestConfig) {
+    public routesV1FishingFacilityFishingFacilities(requestParameters: FishingFacilityApiRoutesV1FishingFacilityFishingFacilitiesRequest = {}, options?: RawAxiosRequestConfig) {
         return FishingFacilityApiFp(this.configuration).routesV1FishingFacilityFishingFacilities(requestParameters.authorization, requestParameters.mmsis, requestParameters.fiskeridirVesselIds, requestParameters.toolTypes, requestParameters.active, requestParameters.setupRanges, requestParameters.removedRanges, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.sorting, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * FishingPredictionApi - axios parameter creator
- * @export
- */
-export const FishingPredictionApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionAllFishingSpotPredictions: async (modelId: ModelId, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'modelId' is not null or undefined
-            assertParamExists('routesV1FishingPredictionAllFishingSpotPredictions', 'modelId', modelId)
-            const localVarPath = `/v1.0/fishing_spot_predictions/{model_id}`
-                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionAllFishingWeightPredictions: async (modelId: ModelId, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'modelId' is not null or undefined
-            assertParamExists('routesV1FishingPredictionAllFishingWeightPredictions', 'modelId', modelId)
-            const localVarPath = `/v1.0/fishing_weight_predictions/{model_id}`
-                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {SpeciesGroup} speciesGroupId 
-         * @param {string | null} [date] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionFishingSpotPredictions: async (modelId: ModelId, speciesGroupId: SpeciesGroup, date?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'modelId' is not null or undefined
-            assertParamExists('routesV1FishingPredictionFishingSpotPredictions', 'modelId', modelId)
-            // verify required parameter 'speciesGroupId' is not null or undefined
-            assertParamExists('routesV1FishingPredictionFishingSpotPredictions', 'speciesGroupId', speciesGroupId)
-            const localVarPath = `/v1.0/fishing_spot_predictions/{model_id}/{species_group_id}`
-                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)))
-                .replace(`{${"species_group_id"}}`, encodeURIComponent(String(speciesGroupId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (date !== undefined) {
-                localVarQueryParameter['date'] = (date as any instanceof Date) ?
-                    (date as any).toISOString().substring(0,10) :
-                    date;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {SpeciesGroup} speciesGroupId 
-         * @param {string | null} [date] 
-         * @param {number | null} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionFishingWeightPredictions: async (modelId: ModelId, speciesGroupId: SpeciesGroup, date?: string | null, limit?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'modelId' is not null or undefined
-            assertParamExists('routesV1FishingPredictionFishingWeightPredictions', 'modelId', modelId)
-            // verify required parameter 'speciesGroupId' is not null or undefined
-            assertParamExists('routesV1FishingPredictionFishingWeightPredictions', 'speciesGroupId', speciesGroupId)
-            const localVarPath = `/v1.0/fishing_weight_predictions/{model_id}/{species_group_id}`
-                .replace(`{${"model_id"}}`, encodeURIComponent(String(modelId)))
-                .replace(`{${"species_group_id"}}`, encodeURIComponent(String(speciesGroupId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            if (date !== undefined) {
-                localVarQueryParameter['date'] = (date as any instanceof Date) ?
-                    (date as any).toISOString().substring(0,10) :
-                    date;
-            }
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * FishingPredictionApi - functional programming interface
- * @export
- */
-export const FishingPredictionApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = FishingPredictionApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1FishingPredictionAllFishingSpotPredictions(modelId: ModelId, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingSpotPrediction>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FishingPredictionAllFishingSpotPredictions(modelId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FishingPredictionApi.routesV1FishingPredictionAllFishingSpotPredictions']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1FishingPredictionAllFishingWeightPredictions(modelId: ModelId, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FishingPredictionAllFishingWeightPredictions(modelId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FishingPredictionApi.routesV1FishingPredictionAllFishingWeightPredictions']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {SpeciesGroup} speciesGroupId 
-         * @param {string | null} [date] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1FishingPredictionFishingSpotPredictions(modelId: ModelId, speciesGroupId: SpeciesGroup, date?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FishingSpotPrediction>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FishingPredictionFishingSpotPredictions(modelId, speciesGroupId, date, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FishingPredictionApi.routesV1FishingPredictionFishingSpotPredictions']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {ModelId} modelId 
-         * @param {SpeciesGroup} speciesGroupId 
-         * @param {string | null} [date] 
-         * @param {number | null} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1FishingPredictionFishingWeightPredictions(modelId: ModelId, speciesGroupId: SpeciesGroup, date?: string | null, limit?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FishingWeightPrediction>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FishingPredictionFishingWeightPredictions(modelId, speciesGroupId, date, limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FishingPredictionApi.routesV1FishingPredictionFishingWeightPredictions']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * FishingPredictionApi - factory interface
- * @export
- */
-export const FishingPredictionApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = FishingPredictionApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {FishingPredictionApiRoutesV1FishingPredictionAllFishingSpotPredictionsRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionAllFishingSpotPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionAllFishingSpotPredictionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FishingSpotPrediction>> {
-            return localVarFp.routesV1FishingPredictionAllFishingSpotPredictions(requestParameters.modelId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {FishingPredictionApiRoutesV1FishingPredictionAllFishingWeightPredictionsRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionAllFishingWeightPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionAllFishingWeightPredictionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FishingWeightPrediction>> {
-            return localVarFp.routesV1FishingPredictionAllFishingWeightPredictions(requestParameters.modelId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictionsRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionFishingSpotPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<FishingSpotPrediction> {
-            return localVarFp.routesV1FishingPredictionFishingSpotPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.date, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictionsRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1FishingPredictionFishingWeightPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FishingWeightPrediction>> {
-            return localVarFp.routesV1FishingPredictionFishingWeightPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.date, requestParameters.limit, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * Request parameters for routesV1FishingPredictionAllFishingSpotPredictions operation in FishingPredictionApi.
- * @export
- * @interface FishingPredictionApiRoutesV1FishingPredictionAllFishingSpotPredictionsRequest
- */
-export interface FishingPredictionApiRoutesV1FishingPredictionAllFishingSpotPredictionsRequest {
-    /**
-     * 
-     * @type {ModelId}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionAllFishingSpotPredictions
-     */
-    readonly modelId: ModelId
-}
-
-/**
- * Request parameters for routesV1FishingPredictionAllFishingWeightPredictions operation in FishingPredictionApi.
- * @export
- * @interface FishingPredictionApiRoutesV1FishingPredictionAllFishingWeightPredictionsRequest
- */
-export interface FishingPredictionApiRoutesV1FishingPredictionAllFishingWeightPredictionsRequest {
-    /**
-     * 
-     * @type {ModelId}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionAllFishingWeightPredictions
-     */
-    readonly modelId: ModelId
-}
-
-/**
- * Request parameters for routesV1FishingPredictionFishingSpotPredictions operation in FishingPredictionApi.
- * @export
- * @interface FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictionsRequest
- */
-export interface FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictionsRequest {
-    /**
-     * 
-     * @type {ModelId}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictions
-     */
-    readonly modelId: ModelId
-
-    /**
-     * 
-     * @type {SpeciesGroup}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictions
-     */
-    readonly speciesGroupId: SpeciesGroup
-
-    /**
-     * 
-     * @type {string}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictions
-     */
-    readonly date?: string | null
-}
-
-/**
- * Request parameters for routesV1FishingPredictionFishingWeightPredictions operation in FishingPredictionApi.
- * @export
- * @interface FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictionsRequest
- */
-export interface FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictionsRequest {
-    /**
-     * 
-     * @type {ModelId}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictions
-     */
-    readonly modelId: ModelId
-
-    /**
-     * 
-     * @type {SpeciesGroup}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictions
-     */
-    readonly speciesGroupId: SpeciesGroup
-
-    /**
-     * 
-     * @type {string}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictions
-     */
-    readonly date?: string | null
-
-    /**
-     * 
-     * @type {number}
-     * @memberof FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictions
-     */
-    readonly limit?: number | null
-}
-
-/**
- * FishingPredictionApi - object-oriented interface
- * @export
- * @class FishingPredictionApi
- * @extends {BaseAPI}
- */
-export class FishingPredictionApi extends BaseAPI {
-    /**
-     * 
-     * @param {FishingPredictionApiRoutesV1FishingPredictionAllFishingSpotPredictionsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FishingPredictionApi
-     */
-    public routesV1FishingPredictionAllFishingSpotPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionAllFishingSpotPredictionsRequest, options?: RawAxiosRequestConfig) {
-        return FishingPredictionApiFp(this.configuration).routesV1FishingPredictionAllFishingSpotPredictions(requestParameters.modelId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {FishingPredictionApiRoutesV1FishingPredictionAllFishingWeightPredictionsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FishingPredictionApi
-     */
-    public routesV1FishingPredictionAllFishingWeightPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionAllFishingWeightPredictionsRequest, options?: RawAxiosRequestConfig) {
-        return FishingPredictionApiFp(this.configuration).routesV1FishingPredictionAllFishingWeightPredictions(requestParameters.modelId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictionsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FishingPredictionApi
-     */
-    public routesV1FishingPredictionFishingSpotPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionFishingSpotPredictionsRequest, options?: RawAxiosRequestConfig) {
-        return FishingPredictionApiFp(this.configuration).routesV1FishingPredictionFishingSpotPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.date, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictionsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FishingPredictionApi
-     */
-    public routesV1FishingPredictionFishingWeightPredictions(requestParameters: FishingPredictionApiRoutesV1FishingPredictionFishingWeightPredictionsRequest, options?: RawAxiosRequestConfig) {
-        return FishingPredictionApiFp(this.configuration).routesV1FishingPredictionFishingWeightPredictions(requestParameters.modelId, requestParameters.speciesGroupId, requestParameters.date, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5579,14 +5205,12 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
     return {
         /**
          * 
-         * @param {string} authorization 
          * @param {Array<CreateFuelMeasurement>} createFuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementCreateFuelMeasurements: async (authorization: string, createFuelMeasurement: Array<CreateFuelMeasurement>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1FuelMeasurementCreateFuelMeasurements', 'authorization', authorization)
+        routesV1FuelMeasurementCreateFuelMeasurements: async (createFuelMeasurement: Array<CreateFuelMeasurement>, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'createFuelMeasurement' is not null or undefined
             assertParamExists('routesV1FuelMeasurementCreateFuelMeasurements', 'createFuelMeasurement', createFuelMeasurement)
             const localVarPath = `/v1.0/fuel_measurements`;
@@ -5604,6 +5228,10 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
@@ -5625,14 +5253,12 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {Array<DeleteFuelMeasurement>} deleteFuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementDeleteFuelMeasurements: async (authorization: string, deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1FuelMeasurementDeleteFuelMeasurements', 'authorization', authorization)
+        routesV1FuelMeasurementDeleteFuelMeasurements: async (deleteFuelMeasurement: Array<DeleteFuelMeasurement>, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'deleteFuelMeasurement' is not null or undefined
             assertParamExists('routesV1FuelMeasurementDeleteFuelMeasurements', 'deleteFuelMeasurement', deleteFuelMeasurement)
             const localVarPath = `/v1.0/fuel_measurements`;
@@ -5650,6 +5276,10 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
@@ -5671,15 +5301,13 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementGetFuelMeasurements: async (authorization: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1FuelMeasurementGetFuelMeasurements', 'authorization', authorization)
+        routesV1FuelMeasurementGetFuelMeasurements: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/fuel_measurements`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5696,16 +5324,20 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (authorization != null) {
@@ -5725,14 +5357,12 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {Array<FuelMeasurement>} fuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementUpdateFuelMeasurements: async (authorization: string, fuelMeasurement: Array<FuelMeasurement>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1FuelMeasurementUpdateFuelMeasurements', 'authorization', authorization)
+        routesV1FuelMeasurementUpdateFuelMeasurements: async (fuelMeasurement: Array<FuelMeasurement>, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'fuelMeasurement' is not null or undefined
             assertParamExists('routesV1FuelMeasurementUpdateFuelMeasurements', 'fuelMeasurement', fuelMeasurement)
             const localVarPath = `/v1.0/fuel_measurements`;
@@ -5750,6 +5380,10 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
@@ -5771,14 +5405,12 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {UploadFuelMeasurement} uploadFuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementUploadFuelMeasurements: async (authorization: string, uploadFuelMeasurement: UploadFuelMeasurement, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1FuelMeasurementUploadFuelMeasurements', 'authorization', authorization)
+        routesV1FuelMeasurementUploadFuelMeasurements: async (uploadFuelMeasurement: UploadFuelMeasurement, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'uploadFuelMeasurement' is not null or undefined
             assertParamExists('routesV1FuelMeasurementUploadFuelMeasurements', 'uploadFuelMeasurement', uploadFuelMeasurement)
             const localVarPath = `/v1.0/fuel_measurements/upload`;
@@ -5796,6 +5428,10 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
@@ -5827,66 +5463,66 @@ export const FuelMeasurementApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} authorization 
          * @param {Array<CreateFuelMeasurement>} createFuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementCreateFuelMeasurements(authorization: string, createFuelMeasurement: Array<CreateFuelMeasurement>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementCreateFuelMeasurements(authorization, createFuelMeasurement, options);
+        async routesV1FuelMeasurementCreateFuelMeasurements(createFuelMeasurement: Array<CreateFuelMeasurement>, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementCreateFuelMeasurements(createFuelMeasurement, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementCreateFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {Array<DeleteFuelMeasurement>} deleteFuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementDeleteFuelMeasurements(authorization: string, deleteFuelMeasurement: Array<DeleteFuelMeasurement>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementDeleteFuelMeasurements(authorization, deleteFuelMeasurement, options);
+        async routesV1FuelMeasurementDeleteFuelMeasurements(deleteFuelMeasurement: Array<DeleteFuelMeasurement>, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementDeleteFuelMeasurements(deleteFuelMeasurement, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementDeleteFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementGetFuelMeasurements(authorization: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementGetFuelMeasurements(authorization, startDate, endDate, options);
+        async routesV1FuelMeasurementGetFuelMeasurements(authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementGetFuelMeasurements(authorization, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementGetFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {Array<FuelMeasurement>} fuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementUpdateFuelMeasurements(authorization: string, fuelMeasurement: Array<FuelMeasurement>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementUpdateFuelMeasurements(authorization, fuelMeasurement, options);
+        async routesV1FuelMeasurementUpdateFuelMeasurements(fuelMeasurement: Array<FuelMeasurement>, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementUpdateFuelMeasurements(fuelMeasurement, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementUpdateFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {UploadFuelMeasurement} uploadFuelMeasurement 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementUploadFuelMeasurements(authorization: string, uploadFuelMeasurement: UploadFuelMeasurement, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementUploadFuelMeasurements(authorization, uploadFuelMeasurement, options);
+        async routesV1FuelMeasurementUploadFuelMeasurements(uploadFuelMeasurement: UploadFuelMeasurement, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementUploadFuelMeasurements(uploadFuelMeasurement, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementUploadFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -5908,7 +5544,7 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         routesV1FuelMeasurementCreateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
-            return localVarFp.routesV1FuelMeasurementCreateFuelMeasurements(requestParameters.authorization, requestParameters.createFuelMeasurement, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1FuelMeasurementCreateFuelMeasurements(requestParameters.createFuelMeasurement, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5917,7 +5553,7 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters.authorization, requestParameters.deleteFuelMeasurement, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters.deleteFuelMeasurement, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5925,8 +5561,8 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
-            return localVarFp.routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
+            return localVarFp.routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5935,7 +5571,7 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters.authorization, requestParameters.fuelMeasurement, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters.fuelMeasurement, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5944,7 +5580,7 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         routesV1FuelMeasurementUploadFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUploadFuelMeasurementsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
-            return localVarFp.routesV1FuelMeasurementUploadFuelMeasurements(requestParameters.authorization, requestParameters.uploadFuelMeasurement, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1FuelMeasurementUploadFuelMeasurements(requestParameters.uploadFuelMeasurement, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5957,17 +5593,17 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
 export interface FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest {
     /**
      * 
-     * @type {string}
-     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurements
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {Array<CreateFuelMeasurement>}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurements
      */
     readonly createFuelMeasurement: Array<CreateFuelMeasurement>
+
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurements
+     */
+    readonly authorization?: string
 }
 
 /**
@@ -5978,17 +5614,17 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurements
 export interface FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest {
     /**
      * 
-     * @type {string}
-     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurements
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {Array<DeleteFuelMeasurement>}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurements
      */
     readonly deleteFuelMeasurement: Array<DeleteFuelMeasurement>
+
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurements
+     */
+    readonly authorization?: string
 }
 
 /**
@@ -6002,21 +5638,21 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsReq
      * @type {string}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
      */
-    readonly authorization: string
+    readonly authorization?: string
 
     /**
      * 
      * @type {string}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
 }
 
 /**
@@ -6027,17 +5663,17 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsReq
 export interface FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest {
     /**
      * 
-     * @type {string}
-     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurements
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {Array<FuelMeasurement>}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurements
      */
     readonly fuelMeasurement: Array<FuelMeasurement>
+
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurements
+     */
+    readonly authorization?: string
 }
 
 /**
@@ -6048,17 +5684,17 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurements
 export interface FuelMeasurementApiRoutesV1FuelMeasurementUploadFuelMeasurementsRequest {
     /**
      * 
-     * @type {string}
-     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUploadFuelMeasurements
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {UploadFuelMeasurement}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUploadFuelMeasurements
      */
     readonly uploadFuelMeasurement: UploadFuelMeasurement
+
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUploadFuelMeasurements
+     */
+    readonly authorization?: string
 }
 
 /**
@@ -6076,7 +5712,7 @@ export class FuelMeasurementApi extends BaseAPI {
      * @memberof FuelMeasurementApi
      */
     public routesV1FuelMeasurementCreateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementCreateFuelMeasurements(requestParameters.authorization, requestParameters.createFuelMeasurement, options).then((request) => request(this.axios, this.basePath));
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementCreateFuelMeasurements(requestParameters.createFuelMeasurement, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6087,7 +5723,7 @@ export class FuelMeasurementApi extends BaseAPI {
      * @memberof FuelMeasurementApi
      */
     public routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters.authorization, requestParameters.deleteFuelMeasurement, options).then((request) => request(this.axios, this.basePath));
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementDeleteFuelMeasurements(requestParameters.deleteFuelMeasurement, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6097,8 +5733,8 @@ export class FuelMeasurementApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof FuelMeasurementApi
      */
-    public routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    public routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest = {}, options?: RawAxiosRequestConfig) {
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6109,7 +5745,7 @@ export class FuelMeasurementApi extends BaseAPI {
      * @memberof FuelMeasurementApi
      */
     public routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters.authorization, requestParameters.fuelMeasurement, options).then((request) => request(this.axios, this.basePath));
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementUpdateFuelMeasurements(requestParameters.fuelMeasurement, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6120,7 +5756,7 @@ export class FuelMeasurementApi extends BaseAPI {
      * @memberof FuelMeasurementApi
      */
     public routesV1FuelMeasurementUploadFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUploadFuelMeasurementsRequest, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementUploadFuelMeasurements(requestParameters.authorization, requestParameters.uploadFuelMeasurement, options).then((request) => request(this.axios, this.basePath));
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementUploadFuelMeasurements(requestParameters.uploadFuelMeasurement, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -6153,6 +5789,10 @@ export const GearApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -6187,6 +5827,10 @@ export const GearApiAxiosParamCreator = function (configuration?: Configuration)
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6219,6 +5863,10 @@ export const GearApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -6365,12 +6013,14 @@ export const HaulApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
-         * @param {HaulsSorting | null} [sorting] 
-         * @param {Ordering | null} [ordering] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {HaulsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1HaulHauls: async (months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: HaulsSorting | null, ordering?: Ordering | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1HaulHauls: async (months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, start?: string | null, end?: string | null, sorting?: HaulsSorting, ordering?: Ordering, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/hauls`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6386,6 +6036,10 @@ export const HaulApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (months) {
                 localVarQueryParameter['months[]'] = months;
@@ -6409,6 +6063,18 @@ export const HaulApiAxiosParamCreator = function (configuration?: Configuration)
 
             if (fiskeridirVesselIds) {
                 localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+            }
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (sorting !== undefined) {
@@ -6463,6 +6129,10 @@ export const HaulApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (months) {
                 localVarQueryParameter['months[]'] = months;
@@ -6525,13 +6195,15 @@ export const HaulApiFp = function(configuration?: Configuration) {
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
-         * @param {HaulsSorting | null} [sorting] 
-         * @param {Ordering | null} [ordering] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {HaulsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1HaulHauls(months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: HaulsSorting | null, ordering?: Ordering | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1HaulHauls(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, sorting, ordering, options);
+        async routesV1HaulHauls(months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, start?: string | null, end?: string | null, sorting?: HaulsSorting, ordering?: Ordering, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Haul>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1HaulHauls(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, start, end, sorting, ordering, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['HaulApi.routesV1HaulHauls']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -6573,7 +6245,7 @@ export const HaulApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1HaulHauls(requestParameters: HaulApiRoutesV1HaulHaulsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Haul>> {
-            return localVarFp.routesV1HaulHauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1HaulHauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.start, requestParameters.end, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns an aggregated matrix view of haul living weights.
@@ -6637,17 +6309,31 @@ export interface HaulApiRoutesV1HaulHaulsRequest {
 
     /**
      * 
+     * @type {string}
+     * @memberof HaulApiRoutesV1HaulHauls
+     */
+    readonly start?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HaulApiRoutesV1HaulHauls
+     */
+    readonly end?: string | null
+
+    /**
+     * 
      * @type {HaulsSorting}
      * @memberof HaulApiRoutesV1HaulHauls
      */
-    readonly sorting?: HaulsSorting | null
+    readonly sorting?: HaulsSorting
 
     /**
      * 
      * @type {Ordering}
      * @memberof HaulApiRoutesV1HaulHauls
      */
-    readonly ordering?: Ordering | null
+    readonly ordering?: Ordering
 }
 
 /**
@@ -6735,7 +6421,7 @@ export class HaulApi extends BaseAPI {
      * @memberof HaulApi
      */
     public routesV1HaulHauls(requestParameters: HaulApiRoutesV1HaulHaulsRequest = {}, options?: RawAxiosRequestConfig) {
-        return HaulApiFp(this.configuration).routesV1HaulHauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
+        return HaulApiFp(this.configuration).routesV1HaulHauls(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.start, requestParameters.end, requestParameters.sorting, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6790,6 +6476,10 @@ export const LandingApiAxiosParamCreator = function (configuration?: Configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             if (months) {
                 localVarQueryParameter['months[]'] = months;
             }
@@ -6833,14 +6523,16 @@ export const LandingApiAxiosParamCreator = function (configuration?: Configurati
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
-         * @param {LandingsSorting | null} [sorting] 
-         * @param {Ordering | null} [ordering] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {LandingsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
          * @param {number | null} [limit] 
          * @param {number | null} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1LandingLandings: async (months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: LandingsSorting | null, ordering?: Ordering | null, limit?: number | null, offset?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1LandingLandings: async (months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, start?: string | null, end?: string | null, sorting?: LandingsSorting, ordering?: Ordering, limit?: number | null, offset?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/landings`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6856,6 +6548,10 @@ export const LandingApiAxiosParamCreator = function (configuration?: Configurati
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (months) {
                 localVarQueryParameter['months[]'] = months;
@@ -6879,6 +6575,18 @@ export const LandingApiAxiosParamCreator = function (configuration?: Configurati
 
             if (fiskeridirVesselIds) {
                 localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+            }
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (sorting !== undefined) {
@@ -6944,15 +6652,17 @@ export const LandingApiFp = function(configuration?: Configuration) {
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
          * @param {Array<number> | null} [fiskeridirVesselIds] 
-         * @param {LandingsSorting | null} [sorting] 
-         * @param {Ordering | null} [ordering] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {LandingsSorting} [sorting] 
+         * @param {Ordering} [ordering] 
          * @param {number | null} [limit] 
          * @param {number | null} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1LandingLandings(months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, sorting?: LandingsSorting | null, ordering?: Ordering | null, limit?: number | null, offset?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Landing>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1LandingLandings(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, sorting, ordering, limit, offset, options);
+        async routesV1LandingLandings(months?: Array<string> | null, catchLocations?: Array<string> | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, start?: string | null, end?: string | null, sorting?: LandingsSorting, ordering?: Ordering, limit?: number | null, offset?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Landing>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1LandingLandings(months, catchLocations, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, start, end, sorting, ordering, limit, offset, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['LandingApi.routesV1LandingLandings']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -6983,7 +6693,7 @@ export const LandingApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         routesV1LandingLandings(requestParameters: LandingApiRoutesV1LandingLandingsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Landing>> {
-            return localVarFp.routesV1LandingLandings(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1LandingLandings(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.start, requestParameters.end, requestParameters.sorting, requestParameters.ordering, requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -7094,17 +6804,31 @@ export interface LandingApiRoutesV1LandingLandingsRequest {
 
     /**
      * 
+     * @type {string}
+     * @memberof LandingApiRoutesV1LandingLandings
+     */
+    readonly start?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof LandingApiRoutesV1LandingLandings
+     */
+    readonly end?: string | null
+
+    /**
+     * 
      * @type {LandingsSorting}
      * @memberof LandingApiRoutesV1LandingLandings
      */
-    readonly sorting?: LandingsSorting | null
+    readonly sorting?: LandingsSorting
 
     /**
      * 
      * @type {Ordering}
      * @memberof LandingApiRoutesV1LandingLandings
      */
-    readonly ordering?: Ordering | null
+    readonly ordering?: Ordering
 
     /**
      * 
@@ -7147,7 +6871,7 @@ export class LandingApi extends BaseAPI {
      * @memberof LandingApi
      */
     public routesV1LandingLandings(requestParameters: LandingApiRoutesV1LandingLandingsRequest = {}, options?: RawAxiosRequestConfig) {
-        return LandingApiFp(this.configuration).routesV1LandingLandings(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.sorting, requestParameters.ordering, requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
+        return LandingApiFp(this.configuration).routesV1LandingLandings(requestParameters.months, requestParameters.catchLocations, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.start, requestParameters.end, requestParameters.sorting, requestParameters.ordering, requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -7161,16 +6885,14 @@ export const OrgApiAxiosParamCreator = function (configuration?: Configuration) 
     return {
         /**
          * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
-         * @param {string} authorization 
          * @param {number} orgId 
+         * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1OrgBenchmarks: async (authorization: string, orgId: number, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1OrgBenchmarks', 'authorization', authorization)
+        routesV1OrgBenchmarks: async (orgId: number, authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'orgId' is not null or undefined
             assertParamExists('routesV1OrgBenchmarks', 'orgId', orgId)
             const localVarPath = `/v1.0/org/{org_id}/benchmarks`
@@ -7189,6 +6911,10 @@ export const OrgApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (start !== undefined) {
                 localVarQueryParameter['start'] = (start as any instanceof Date) ?
@@ -7219,16 +6945,14 @@ export const OrgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
-         * @param {string} authorization 
          * @param {number} orgId 
+         * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1OrgFuel: async (authorization: string, orgId: number, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1OrgFuel', 'authorization', authorization)
+        routesV1OrgFuel: async (orgId: number, authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'orgId' is not null or undefined
             assertParamExists('routesV1OrgFuel', 'orgId', orgId)
             const localVarPath = `/v1.0/org/{org_id}/fuel`
@@ -7247,6 +6971,10 @@ export const OrgApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (start !== undefined) {
                 localVarQueryParameter['start'] = (start as any instanceof Date) ?
@@ -7287,30 +7015,30 @@ export const OrgApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Returns organization benchmarks for the given organization id (Breg org id). This will include benchmarks for all vessels associated with the organization.
-         * @param {string} authorization 
          * @param {number} orgId 
+         * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1OrgBenchmarks(authorization: string, orgId: number, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrgBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgBenchmarks(authorization, orgId, start, end, options);
+        async routesV1OrgBenchmarks(orgId: number, authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrgBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgBenchmarks(orgId, authorization, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['OrgApi.routesV1OrgBenchmarks']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
-         * @param {string} authorization 
          * @param {number} orgId 
+         * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1OrgFuel(authorization: string, orgId: number, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelEntry>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgFuel(authorization, orgId, start, end, options);
+        async routesV1OrgFuel(orgId: number, authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelEntry>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1OrgFuel(orgId, authorization, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['OrgApi.routesV1OrgFuel']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -7332,7 +7060,7 @@ export const OrgApiFactory = function (configuration?: Configuration, basePath?:
          * @throws {RequiredError}
          */
         routesV1OrgBenchmarks(requestParameters: OrgApiRoutesV1OrgBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<OrgBenchmarks> {
-            return localVarFp.routesV1OrgBenchmarks(requestParameters.authorization, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1OrgBenchmarks(requestParameters.orgId, requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a fuel consumption estimate for the given date range for all vessels associated with the given org, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range.
@@ -7341,7 +7069,7 @@ export const OrgApiFactory = function (configuration?: Configuration, basePath?:
          * @throws {RequiredError}
          */
         routesV1OrgFuel(requestParameters: OrgApiRoutesV1OrgFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelEntry>> {
-            return localVarFp.routesV1OrgFuel(requestParameters.authorization, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1OrgFuel(requestParameters.orgId, requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -7354,17 +7082,17 @@ export const OrgApiFactory = function (configuration?: Configuration, basePath?:
 export interface OrgApiRoutesV1OrgBenchmarksRequest {
     /**
      * 
-     * @type {string}
-     * @memberof OrgApiRoutesV1OrgBenchmarks
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {number}
      * @memberof OrgApiRoutesV1OrgBenchmarks
      */
     readonly orgId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgBenchmarks
+     */
+    readonly authorization?: string
 
     /**
      * 
@@ -7389,17 +7117,17 @@ export interface OrgApiRoutesV1OrgBenchmarksRequest {
 export interface OrgApiRoutesV1OrgFuelRequest {
     /**
      * 
-     * @type {string}
-     * @memberof OrgApiRoutesV1OrgFuel
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {number}
      * @memberof OrgApiRoutesV1OrgFuel
      */
     readonly orgId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiRoutesV1OrgFuel
+     */
+    readonly authorization?: string
 
     /**
      * 
@@ -7431,7 +7159,7 @@ export class OrgApi extends BaseAPI {
      * @memberof OrgApi
      */
     public routesV1OrgBenchmarks(requestParameters: OrgApiRoutesV1OrgBenchmarksRequest, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).routesV1OrgBenchmarks(requestParameters.authorization, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+        return OrgApiFp(this.configuration).routesV1OrgBenchmarks(requestParameters.orgId, requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7442,7 +7170,7 @@ export class OrgApi extends BaseAPI {
      * @memberof OrgApi
      */
     public routesV1OrgFuel(requestParameters: OrgApiRoutesV1OrgFuelRequest, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).routesV1OrgFuel(requestParameters.authorization, requestParameters.orgId, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+        return OrgApiFp(this.configuration).routesV1OrgFuel(requestParameters.orgId, requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -7475,6 +7203,10 @@ export const SpeciesApiAxiosParamCreator = function (configuration?: Configurati
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -7509,6 +7241,10 @@ export const SpeciesApiAxiosParamCreator = function (configuration?: Configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7542,6 +7278,10 @@ export const SpeciesApiAxiosParamCreator = function (configuration?: Configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7555,11 +7295,10 @@ export const SpeciesApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {boolean | null} [hasMlModels] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1SpeciesSpeciesGroups: async (hasMlModels?: boolean | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1SpeciesSpeciesGroups: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/species_groups`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7576,9 +7315,9 @@ export const SpeciesApiAxiosParamCreator = function (configuration?: Configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (hasMlModels !== undefined) {
-                localVarQueryParameter['hasMlModels'] = hasMlModels;
-            }
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -7612,6 +7351,10 @@ export const SpeciesApiAxiosParamCreator = function (configuration?: Configurati
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -7669,12 +7412,11 @@ export const SpeciesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {boolean | null} [hasMlModels] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1SpeciesSpeciesGroups(hasMlModels?: boolean | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SpeciesGroupDetailed>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1SpeciesSpeciesGroups(hasMlModels, options);
+        async routesV1SpeciesSpeciesGroups(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SpeciesGroupDetailed>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1SpeciesSpeciesGroups(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SpeciesApi.routesV1SpeciesSpeciesGroups']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -7726,12 +7468,11 @@ export const SpeciesApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @param {SpeciesApiRoutesV1SpeciesSpeciesGroupsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1SpeciesSpeciesGroups(requestParameters: SpeciesApiRoutesV1SpeciesSpeciesGroupsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<SpeciesGroupDetailed>> {
-            return localVarFp.routesV1SpeciesSpeciesGroups(requestParameters.hasMlModels, options).then((request) => request(axios, basePath));
+        routesV1SpeciesSpeciesGroups(options?: RawAxiosRequestConfig): AxiosPromise<Array<SpeciesGroupDetailed>> {
+            return localVarFp.routesV1SpeciesSpeciesGroups(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7743,20 +7484,6 @@ export const SpeciesApiFactory = function (configuration?: Configuration, basePa
         },
     };
 };
-
-/**
- * Request parameters for routesV1SpeciesSpeciesGroups operation in SpeciesApi.
- * @export
- * @interface SpeciesApiRoutesV1SpeciesSpeciesGroupsRequest
- */
-export interface SpeciesApiRoutesV1SpeciesSpeciesGroupsRequest {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SpeciesApiRoutesV1SpeciesSpeciesGroups
-     */
-    readonly hasMlModels?: boolean | null
-}
 
 /**
  * SpeciesApi - object-oriented interface
@@ -7797,13 +7524,12 @@ export class SpeciesApi extends BaseAPI {
 
     /**
      * 
-     * @param {SpeciesApiRoutesV1SpeciesSpeciesGroupsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SpeciesApi
      */
-    public routesV1SpeciesSpeciesGroups(requestParameters: SpeciesApiRoutesV1SpeciesSpeciesGroupsRequest = {}, options?: RawAxiosRequestConfig) {
-        return SpeciesApiFp(this.configuration).routesV1SpeciesSpeciesGroups(requestParameters.hasMlModels, options).then((request) => request(this.axios, this.basePath));
+    public routesV1SpeciesSpeciesGroups(options?: RawAxiosRequestConfig) {
+        return SpeciesApiFp(this.configuration).routesV1SpeciesSpeciesGroups(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7827,15 +7553,15 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
+         * @param {string} [start] 
+         * @param {string} [end] 
          * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {VesselLengthGroup} [lengthGroup] 
          * @param {Array<number> | null} [vesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksAverage: async (startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripBenchmarksAverage: async (start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trip/benchmarks/average`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7852,16 +7578,20 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (gearGroups) {
@@ -7889,15 +7619,16 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
+         * @param {string} [start] 
+         * @param {string} [end] 
          * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {VesselLengthGroup} [lengthGroup] 
          * @param {Array<number> | null} [vesselIds] 
+         * @param {SpeciesGroup} [speciesGroupId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksAverageEeoi: async (startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripBenchmarksAverageEeoi: async (start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trip/benchmarks/average_eeoi`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7914,16 +7645,20 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (gearGroups) {
@@ -7936,6 +7671,81 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
 
             if (vesselIds) {
                 localVarQueryParameter['vesselIds[]'] = vesselIds;
+            }
+
+            if (speciesGroupId !== undefined) {
+                localVarQueryParameter['speciesGroupId'] = speciesGroupId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns the average FUI of all vessels matching the given parameters.
+         * @param {string} [start] 
+         * @param {string} [end] 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
+         * @param {SpeciesGroup} [speciesGroupId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverageFui: async (start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip/benchmarks/average_fui`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+            if (gearGroups) {
+                localVarQueryParameter['gearGroups[]'] = gearGroups;
+            }
+
+            if (lengthGroup !== undefined) {
+                localVarQueryParameter['lengthGroup'] = lengthGroup;
+            }
+
+            if (vesselIds) {
+                localVarQueryParameter['vesselIds[]'] = vesselIds;
+            }
+
+            if (speciesGroupId !== undefined) {
+                localVarQueryParameter['speciesGroupId'] = speciesGroupId;
             }
 
 
@@ -7951,16 +7761,14 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * Returns trip benchmarks for the vessel associated with the authenticated user.
-         * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {Ordering | null} [ordering] 
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {Ordering} [ordering] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksBenchmarks: async (authorization: string, startDate?: string | null, endDate?: string | null, ordering?: Ordering | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1TripBenchmarksBenchmarks', 'authorization', authorization)
+        routesV1TripBenchmarksBenchmarks: async (authorization?: string, start?: string | null, end?: string | null, ordering?: Ordering, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trip/benchmarks`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7977,16 +7785,20 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (ordering !== undefined) {
@@ -8010,15 +7822,13 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksEeoi: async (authorization: string, startDate?: string | null, endDate?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1TripBenchmarksEeoi', 'authorization', authorization)
+        routesV1TripBenchmarksEeoi: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trip/benchmarks/eeoi`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8035,16 +7845,76 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns the FUI of the logged in user for the given period.
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksFui: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip/benchmarks/fui`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (authorization != null) {
@@ -8089,6 +7959,10 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
             }
@@ -8131,6 +8005,10 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
             }
@@ -8151,13 +8029,13 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {string} [authorization] 
          * @param {number | null} [limit] 
          * @param {number | null} [offset] 
-         * @param {Ordering | null} [ordering] 
+         * @param {Ordering} [ordering] 
          * @param {Array<string> | null} [deliveryPoints] 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {number | null} [minWeight] 
          * @param {number | null} [maxWeight] 
-         * @param {TripSorting | null} [sorting] 
+         * @param {TripSorting} [sorting] 
          * @param {Array<GearGroup> | null} [gearGroupIds] 
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
@@ -8166,7 +8044,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripTrips: async (authorization?: string, limit?: number | null, offset?: number | null, ordering?: Ordering | null, deliveryPoints?: Array<string> | null, startDate?: string | null, endDate?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, tripIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripTrips: async (authorization?: string, limit?: number | null, offset?: number | null, ordering?: Ordering, deliveryPoints?: Array<string> | null, start?: string | null, end?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, tripIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trips`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8182,6 +8060,10 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (limit !== undefined) {
                 localVarQueryParameter['limit'] = limit;
@@ -8199,16 +8081,16 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['deliveryPoints[]'] = deliveryPoints;
             }
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (minWeight !== undefined) {
@@ -8270,63 +8152,95 @@ export const TripApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Returns the average trip benchmarks for the given timespan and vessels matching the given parameters.
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
+         * @param {string} [start] 
+         * @param {string} [end] 
          * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {VesselLengthGroup} [lengthGroup] 
          * @param {Array<number> | null} [vesselIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksAverage(startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageTripBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverage(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
+        async routesV1TripBenchmarksAverage(start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageTripBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverage(start, end, gearGroups, lengthGroup, vesselIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverage']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} [startDate] 
-         * @param {string} [endDate] 
+         * @param {string} [start] 
+         * @param {string} [end] 
          * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup | null} [lengthGroup] 
+         * @param {VesselLengthGroup} [lengthGroup] 
          * @param {Array<number> | null} [vesselIds] 
+         * @param {SpeciesGroup} [speciesGroupId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksAverageEeoi(startDate?: string, endDate?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup | null, vesselIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageEeoi(startDate, endDate, gearGroups, lengthGroup, vesselIds, options);
+        async routesV1TripBenchmarksAverageEeoi(start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageEeoi(start, end, gearGroups, lengthGroup, vesselIds, speciesGroupId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverageEeoi']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Returns trip benchmarks for the vessel associated with the authenticated user.
-         * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
-         * @param {Ordering | null} [ordering] 
+         * Returns the average FUI of all vessels matching the given parameters.
+         * @param {string} [start] 
+         * @param {string} [end] 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
+         * @param {SpeciesGroup} [speciesGroupId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksBenchmarks(authorization: string, startDate?: string | null, endDate?: string | null, ordering?: Ordering | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TripBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksBenchmarks(authorization, startDate, endDate, ordering, options);
+        async routesV1TripBenchmarksAverageFui(start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageFui(start, end, gearGroups, lengthGroup, vesselIds, speciesGroupId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverageFui']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Returns trip benchmarks for the vessel associated with the authenticated user.
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {Ordering} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripBenchmarksBenchmarks(authorization?: string, start?: string | null, end?: string | null, ordering?: Ordering, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TripBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksBenchmarks(authorization, start, end, ordering, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksBenchmarks']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
-         * @param {string} authorization 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksEeoi(authorization: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksEeoi(authorization, startDate, endDate, options);
+        async routesV1TripBenchmarksEeoi(authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksEeoi(authorization, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksEeoi']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Returns the FUI of the logged in user for the given period.
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripBenchmarksFui(authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksFui(authorization, start, end, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksFui']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -8360,13 +8274,13 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {string} [authorization] 
          * @param {number | null} [limit] 
          * @param {number | null} [offset] 
-         * @param {Ordering | null} [ordering] 
+         * @param {Ordering} [ordering] 
          * @param {Array<string> | null} [deliveryPoints] 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {number | null} [minWeight] 
          * @param {number | null} [maxWeight] 
-         * @param {TripSorting | null} [sorting] 
+         * @param {TripSorting} [sorting] 
          * @param {Array<GearGroup> | null} [gearGroupIds] 
          * @param {Array<SpeciesGroup> | null} [speciesGroupIds] 
          * @param {Array<VesselLengthGroup> | null} [vesselLengthGroups] 
@@ -8375,8 +8289,8 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripTrips(authorization?: string, limit?: number | null, offset?: number | null, ordering?: Ordering | null, deliveryPoints?: Array<string> | null, startDate?: string | null, endDate?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting | null, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, tripIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Trip>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTrips(authorization, limit, offset, ordering, deliveryPoints, startDate, endDate, minWeight, maxWeight, sorting, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, tripIds, options);
+        async routesV1TripTrips(authorization?: string, limit?: number | null, offset?: number | null, ordering?: Ordering, deliveryPoints?: Array<string> | null, start?: string | null, end?: string | null, minWeight?: number | null, maxWeight?: number | null, sorting?: TripSorting, gearGroupIds?: Array<GearGroup> | null, speciesGroupIds?: Array<SpeciesGroup> | null, vesselLengthGroups?: Array<VesselLengthGroup> | null, fiskeridirVesselIds?: Array<number> | null, tripIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Trip>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripTrips(authorization, limit, offset, ordering, deliveryPoints, start, end, minWeight, maxWeight, sorting, gearGroupIds, speciesGroupIds, vesselLengthGroups, fiskeridirVesselIds, tripIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripTrips']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -8398,7 +8312,7 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1TripBenchmarksAverage(requestParameters: TripApiRoutesV1TripBenchmarksAverageRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AverageTripBenchmarks> {
-            return localVarFp.routesV1TripBenchmarksAverage(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1TripBenchmarksAverage(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
@@ -8407,7 +8321,16 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1TripBenchmarksAverageEeoi(requestParameters: TripApiRoutesV1TripBenchmarksAverageEeoiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1TripBenchmarksAverageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1TripBenchmarksAverageEeoi(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns the average FUI of all vessels matching the given parameters.
+         * @param {TripApiRoutesV1TripBenchmarksAverageFuiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverageFui(requestParameters: TripApiRoutesV1TripBenchmarksAverageFuiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1TripBenchmarksAverageFui(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns trip benchmarks for the vessel associated with the authenticated user.
@@ -8415,8 +8338,8 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksBenchmarks(requestParameters: TripApiRoutesV1TripBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<TripBenchmarks> {
-            return localVarFp.routesV1TripBenchmarksBenchmarks(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, requestParameters.ordering, options).then((request) => request(axios, basePath));
+        routesV1TripBenchmarksBenchmarks(requestParameters: TripApiRoutesV1TripBenchmarksBenchmarksRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<TripBenchmarks> {
+            return localVarFp.routesV1TripBenchmarksBenchmarks(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.ordering, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
@@ -8424,8 +8347,17 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1TripBenchmarksEeoi(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
+        routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1TripBenchmarksEeoi(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns the FUI of the logged in user for the given period.
+         * @param {TripApiRoutesV1TripBenchmarksFuiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksFui(requestParameters: TripApiRoutesV1TripBenchmarksFuiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1TripBenchmarksFui(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
@@ -8452,7 +8384,7 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1TripTrips(requestParameters: TripApiRoutesV1TripTripsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Trip>> {
-            return localVarFp.routesV1TripTrips(requestParameters.authorization, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.tripIds, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1TripTrips(requestParameters.authorization, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.start, requestParameters.end, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.tripIds, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -8468,14 +8400,14 @@ export interface TripApiRoutesV1TripBenchmarksAverageRequest {
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksAverage
      */
-    readonly startDate?: string
+    readonly start?: string
 
     /**
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksAverage
      */
-    readonly endDate?: string
+    readonly end?: string
 
     /**
      * 
@@ -8489,7 +8421,7 @@ export interface TripApiRoutesV1TripBenchmarksAverageRequest {
      * @type {VesselLengthGroup}
      * @memberof TripApiRoutesV1TripBenchmarksAverage
      */
-    readonly lengthGroup?: VesselLengthGroup | null
+    readonly lengthGroup?: VesselLengthGroup
 
     /**
      * 
@@ -8510,14 +8442,14 @@ export interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest {
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
      */
-    readonly startDate?: string
+    readonly start?: string
 
     /**
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
      */
-    readonly endDate?: string
+    readonly end?: string
 
     /**
      * 
@@ -8531,7 +8463,7 @@ export interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest {
      * @type {VesselLengthGroup}
      * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
      */
-    readonly lengthGroup?: VesselLengthGroup | null
+    readonly lengthGroup?: VesselLengthGroup
 
     /**
      * 
@@ -8539,6 +8471,62 @@ export interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest {
      * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
      */
     readonly vesselIds?: Array<number> | null
+
+    /**
+     * 
+     * @type {SpeciesGroup}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
+     */
+    readonly speciesGroupId?: SpeciesGroup
+}
+
+/**
+ * Request parameters for routesV1TripBenchmarksAverageFui operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksAverageFuiRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksAverageFuiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
+     */
+    readonly start?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
+     */
+    readonly end?: string
+
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
+     */
+    readonly gearGroups?: Array<GearGroup> | null
+
+    /**
+     * 
+     * @type {VesselLengthGroup}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
+     */
+    readonly lengthGroup?: VesselLengthGroup
+
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
+     */
+    readonly vesselIds?: Array<number> | null
+
+    /**
+     * 
+     * @type {SpeciesGroup}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
+     */
+    readonly speciesGroupId?: SpeciesGroup
 }
 
 /**
@@ -8552,28 +8540,28 @@ export interface TripApiRoutesV1TripBenchmarksBenchmarksRequest {
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
      */
-    readonly authorization: string
+    readonly authorization?: string
 
     /**
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
 
     /**
      * 
      * @type {Ordering}
      * @memberof TripApiRoutesV1TripBenchmarksBenchmarks
      */
-    readonly ordering?: Ordering | null
+    readonly ordering?: Ordering
 }
 
 /**
@@ -8587,21 +8575,49 @@ export interface TripApiRoutesV1TripBenchmarksEeoiRequest {
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksEeoi
      */
-    readonly authorization: string
+    readonly authorization?: string
 
     /**
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksEeoi
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksEeoi
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
+}
+
+/**
+ * Request parameters for routesV1TripBenchmarksFui operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksFuiRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksFuiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksFui
+     */
+    readonly authorization?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksFui
+     */
+    readonly start?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksFui
+     */
+    readonly end?: string | null
 }
 
 /**
@@ -8678,7 +8694,7 @@ export interface TripApiRoutesV1TripTripsRequest {
      * @type {Ordering}
      * @memberof TripApiRoutesV1TripTrips
      */
-    readonly ordering?: Ordering | null
+    readonly ordering?: Ordering
 
     /**
      * 
@@ -8692,14 +8708,14 @@ export interface TripApiRoutesV1TripTripsRequest {
      * @type {string}
      * @memberof TripApiRoutesV1TripTrips
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripTrips
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
 
     /**
      * 
@@ -8720,7 +8736,7 @@ export interface TripApiRoutesV1TripTripsRequest {
      * @type {TripSorting}
      * @memberof TripApiRoutesV1TripTrips
      */
-    readonly sorting?: TripSorting | null
+    readonly sorting?: TripSorting
 
     /**
      * 
@@ -8773,7 +8789,7 @@ export class TripApi extends BaseAPI {
      * @memberof TripApi
      */
     public routesV1TripBenchmarksAverage(requestParameters: TripApiRoutesV1TripBenchmarksAverageRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksAverage(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
+        return TripApiFp(this.configuration).routesV1TripBenchmarksAverage(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8784,7 +8800,18 @@ export class TripApi extends BaseAPI {
      * @memberof TripApi
      */
     public routesV1TripBenchmarksAverageEeoi(requestParameters: TripApiRoutesV1TripBenchmarksAverageEeoiRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageEeoi(requestParameters.startDate, requestParameters.endDate, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(this.axios, this.basePath));
+        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageEeoi(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns the average FUI of all vessels matching the given parameters.
+     * @param {TripApiRoutesV1TripBenchmarksAverageFuiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksAverageFui(requestParameters: TripApiRoutesV1TripBenchmarksAverageFuiRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageFui(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8794,8 +8821,8 @@ export class TripApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TripApi
      */
-    public routesV1TripBenchmarksBenchmarks(requestParameters: TripApiRoutesV1TripBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksBenchmarks(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
+    public routesV1TripBenchmarksBenchmarks(requestParameters: TripApiRoutesV1TripBenchmarksBenchmarksRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksBenchmarks(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8805,8 +8832,19 @@ export class TripApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TripApi
      */
-    public routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksEeoi(requestParameters.authorization, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
+    public routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksEeoi(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns the FUI of the logged in user for the given period.
+     * @param {TripApiRoutesV1TripBenchmarksFuiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksFui(requestParameters: TripApiRoutesV1TripBenchmarksFuiRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksFui(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8839,7 +8877,7 @@ export class TripApi extends BaseAPI {
      * @memberof TripApi
      */
     public routesV1TripTrips(requestParameters: TripApiRoutesV1TripTripsRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripTrips(requestParameters.authorization, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.startDate, requestParameters.endDate, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.tripIds, options).then((request) => request(this.axios, this.basePath));
+        return TripApiFp(this.configuration).routesV1TripTrips(requestParameters.authorization, requestParameters.limit, requestParameters.offset, requestParameters.ordering, requestParameters.deliveryPoints, requestParameters.start, requestParameters.end, requestParameters.minWeight, requestParameters.maxWeight, requestParameters.sorting, requestParameters.gearGroupIds, requestParameters.speciesGroupIds, requestParameters.vesselLengthGroups, requestParameters.fiskeridirVesselIds, requestParameters.tripIds, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -8853,13 +8891,11 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * 
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1UserGetUser: async (authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1UserGetUser', 'authorization', authorization)
+        routesV1UserGetUser: async (authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8875,6 +8911,10 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
@@ -8893,14 +8933,12 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {User} user 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1UserUpdateUser: async (authorization: string, user: User, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1UserUpdateUser', 'authorization', authorization)
+        routesV1UserUpdateUser: async (user: User, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'user' is not null or undefined
             assertParamExists('routesV1UserUpdateUser', 'user', user)
             const localVarPath = `/v1.0/user`;
@@ -8918,6 +8956,10 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
@@ -8949,11 +8991,11 @@ export const UserApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1UserGetUser(authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async routesV1UserGetUser(authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1UserGetUser(authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.routesV1UserGetUser']?.[localVarOperationServerIndex]?.url;
@@ -8961,13 +9003,13 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} authorization 
          * @param {User} user 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1UserUpdateUser(authorization: string, user: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1UserUpdateUser(authorization, user, options);
+        async routesV1UserUpdateUser(user: User, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1UserUpdateUser(user, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.routesV1UserUpdateUser']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -8988,7 +9030,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1UserGetUser(requestParameters: UserApiRoutesV1UserGetUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<User> {
+        routesV1UserGetUser(requestParameters: UserApiRoutesV1UserGetUserRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<User> {
             return localVarFp.routesV1UserGetUser(requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
@@ -8998,7 +9040,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1UserUpdateUser(requestParameters: UserApiRoutesV1UserUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1UserUpdateUser(requestParameters.authorization, requestParameters.user, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1UserUpdateUser(requestParameters.user, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9014,7 +9056,7 @@ export interface UserApiRoutesV1UserGetUserRequest {
      * @type {string}
      * @memberof UserApiRoutesV1UserGetUser
      */
-    readonly authorization: string
+    readonly authorization?: string
 }
 
 /**
@@ -9025,17 +9067,17 @@ export interface UserApiRoutesV1UserGetUserRequest {
 export interface UserApiRoutesV1UserUpdateUserRequest {
     /**
      * 
-     * @type {string}
-     * @memberof UserApiRoutesV1UserUpdateUser
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {User}
      * @memberof UserApiRoutesV1UserUpdateUser
      */
     readonly user: User
+
+    /**
+     * 
+     * @type {string}
+     * @memberof UserApiRoutesV1UserUpdateUser
+     */
+    readonly authorization?: string
 }
 
 /**
@@ -9052,7 +9094,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public routesV1UserGetUser(requestParameters: UserApiRoutesV1UserGetUserRequest, options?: RawAxiosRequestConfig) {
+    public routesV1UserGetUser(requestParameters: UserApiRoutesV1UserGetUserRequest = {}, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).routesV1UserGetUser(requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -9064,7 +9106,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public routesV1UserUpdateUser(requestParameters: UserApiRoutesV1UserUpdateUserRequest, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).routesV1UserUpdateUser(requestParameters.authorization, requestParameters.user, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.configuration).routesV1UserUpdateUser(requestParameters.user, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -9078,13 +9120,11 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * Returns benchmark data for the vessel associated with the authenticated user.
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselBenchmarksBenchmarks: async (authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1VesselBenchmarksBenchmarks', 'authorization', authorization)
+        routesV1VesselBenchmarksBenchmarks: async (authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/vessels/benchmarks`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9100,6 +9140,10 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
@@ -9118,15 +9162,13 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselFuel: async (authorization: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1VesselFuel', 'authorization', authorization)
+        routesV1VesselFuel: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/vessel/fuel`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9142,6 +9184,10 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (start !== undefined) {
                 localVarQueryParameter['start'] = (start as any instanceof Date) ?
@@ -9172,14 +9218,12 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {string | null} [threshold] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselLiveFuel: async (authorization: string, threshold?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1VesselLiveFuel', 'authorization', authorization)
+        routesV1VesselLiveFuel: async (authorization?: string, threshold?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/vessel/live_fuel`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9195,6 +9239,10 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (threshold !== undefined) {
                 localVarQueryParameter['threshold'] = (threshold as any instanceof Date) ?
@@ -9219,14 +9267,12 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * Updates the vessel with the provided information. Note that all trip benchmarks that rely on some of the provided information will not be updated immediatley upon updating a vessel, trip benchmark updates can be expected within 24 hours.
-         * @param {string} authorization 
          * @param {UpdateVessel} updateVessel 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselUpdateVessel: async (authorization: string, updateVessel: UpdateVessel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('routesV1VesselUpdateVessel', 'authorization', authorization)
+        routesV1VesselUpdateVessel: async (updateVessel: UpdateVessel, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateVessel' is not null or undefined
             assertParamExists('routesV1VesselUpdateVessel', 'updateVessel', updateVessel)
             const localVarPath = `/v1.0/vessels`;
@@ -9245,6 +9291,10 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             if (authorization != null) {
                 localVarHeaderParameter['authorization'] = String(authorization);
             }
@@ -9257,6 +9307,81 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(updateVessel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} fiskeridirVesselId 
+         * @param {string | null} [startTimestamp] 
+         * @param {string | null} [endTimestamp] 
+         * @param {VesselEventType} [vesselEventType] 
+         * @param {number | null} [limit] 
+         * @param {number | null} [offset] 
+         * @param {Ordering} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1VesselVesselEvents: async (fiskeridirVesselId: number, startTimestamp?: string | null, endTimestamp?: string | null, vesselEventType?: VesselEventType, limit?: number | null, offset?: number | null, ordering?: Ordering, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fiskeridirVesselId' is not null or undefined
+            assertParamExists('routesV1VesselVesselEvents', 'fiskeridirVesselId', fiskeridirVesselId)
+            const localVarPath = `/v1.0/vessel_events/{fiskeridir_vessel_id}`
+                .replace(`{${"fiskeridir_vessel_id"}}`, encodeURIComponent(String(fiskeridirVesselId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (startTimestamp !== undefined) {
+                localVarQueryParameter['startTimestamp'] = (startTimestamp as any instanceof Date) ?
+                    (startTimestamp as any).toISOString() :
+                    startTimestamp;
+            }
+
+            if (endTimestamp !== undefined) {
+                localVarQueryParameter['endTimestamp'] = (endTimestamp as any instanceof Date) ?
+                    (endTimestamp as any).toISOString() :
+                    endTimestamp;
+            }
+
+            if (vesselEventType !== undefined) {
+                localVarQueryParameter['vesselEventType'] = vesselEventType;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (ordering !== undefined) {
+                localVarQueryParameter['ordering'] = ordering;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -9285,6 +9410,10 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -9308,11 +9437,11 @@ export const VesselApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Returns benchmark data for the vessel associated with the authenticated user.
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1VesselBenchmarksBenchmarks(authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<VesselBenchmarks>> {
+        async routesV1VesselBenchmarksBenchmarks(authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<VesselBenchmarks>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselBenchmarksBenchmarks(authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselBenchmarksBenchmarks']?.[localVarOperationServerIndex]?.url;
@@ -9320,13 +9449,13 @@ export const VesselApiFp = function(configuration?: Configuration) {
         },
         /**
          * Returns a fuel consumption estimate for the given date range for the vessel associated with the authenticated user, if no date range is given the last 30 days are returned. This is not based on trips and is the full fuel consumption estimate for the given date range
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1VesselFuel(authorization: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+        async routesV1VesselFuel(authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselFuel(authorization, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselFuel']?.[localVarOperationServerIndex]?.url;
@@ -9334,12 +9463,12 @@ export const VesselApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} authorization 
+         * @param {string} [authorization] 
          * @param {string | null} [threshold] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1VesselLiveFuel(authorization: string, threshold?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LiveFuel>> {
+        async routesV1VesselLiveFuel(authorization?: string, threshold?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LiveFuel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselLiveFuel(authorization, threshold, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselLiveFuel']?.[localVarOperationServerIndex]?.url;
@@ -9347,15 +9476,33 @@ export const VesselApiFp = function(configuration?: Configuration) {
         },
         /**
          * Updates the vessel with the provided information. Note that all trip benchmarks that rely on some of the provided information will not be updated immediatley upon updating a vessel, trip benchmark updates can be expected within 24 hours.
-         * @param {string} authorization 
          * @param {UpdateVessel} updateVessel 
+         * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1VesselUpdateVessel(authorization: string, updateVessel: UpdateVessel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Vessel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselUpdateVessel(authorization, updateVessel, options);
+        async routesV1VesselUpdateVessel(updateVessel: UpdateVessel, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Vessel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselUpdateVessel(updateVessel, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselUpdateVessel']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} fiskeridirVesselId 
+         * @param {string | null} [startTimestamp] 
+         * @param {string | null} [endTimestamp] 
+         * @param {VesselEventType} [vesselEventType] 
+         * @param {number | null} [limit] 
+         * @param {number | null} [offset] 
+         * @param {Ordering} [ordering] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1VesselVesselEvents(fiskeridirVesselId: number, startTimestamp?: string | null, endTimestamp?: string | null, vesselEventType?: VesselEventType, limit?: number | null, offset?: number | null, ordering?: Ordering, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<VesselEvent>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1VesselVesselEvents(fiskeridirVesselId, startTimestamp, endTimestamp, vesselEventType, limit, offset, ordering, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['VesselApi.routesV1VesselVesselEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -9385,7 +9532,7 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselBenchmarksBenchmarks(requestParameters: VesselApiRoutesV1VesselBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig): AxiosPromise<VesselBenchmarks> {
+        routesV1VesselBenchmarksBenchmarks(requestParameters: VesselApiRoutesV1VesselBenchmarksBenchmarksRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<VesselBenchmarks> {
             return localVarFp.routesV1VesselBenchmarksBenchmarks(requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9394,7 +9541,7 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+        routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
             return localVarFp.routesV1VesselFuel(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9403,7 +9550,7 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1VesselLiveFuel(requestParameters: VesselApiRoutesV1VesselLiveFuelRequest, options?: RawAxiosRequestConfig): AxiosPromise<LiveFuel> {
+        routesV1VesselLiveFuel(requestParameters: VesselApiRoutesV1VesselLiveFuelRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<LiveFuel> {
             return localVarFp.routesV1VesselLiveFuel(requestParameters.authorization, requestParameters.threshold, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9413,7 +9560,16 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         routesV1VesselUpdateVessel(requestParameters: VesselApiRoutesV1VesselUpdateVesselRequest, options?: RawAxiosRequestConfig): AxiosPromise<Vessel> {
-            return localVarFp.routesV1VesselUpdateVessel(requestParameters.authorization, requestParameters.updateVessel, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1VesselUpdateVessel(requestParameters.updateVessel, requestParameters.authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {VesselApiRoutesV1VesselVesselEventsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1VesselVesselEvents(requestParameters: VesselApiRoutesV1VesselVesselEventsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<VesselEvent>> {
+            return localVarFp.routesV1VesselVesselEvents(requestParameters.fiskeridirVesselId, requestParameters.startTimestamp, requestParameters.endTimestamp, requestParameters.vesselEventType, requestParameters.limit, requestParameters.offset, requestParameters.ordering, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns all known vessels.
@@ -9437,7 +9593,7 @@ export interface VesselApiRoutesV1VesselBenchmarksBenchmarksRequest {
      * @type {string}
      * @memberof VesselApiRoutesV1VesselBenchmarksBenchmarks
      */
-    readonly authorization: string
+    readonly authorization?: string
 }
 
 /**
@@ -9451,7 +9607,7 @@ export interface VesselApiRoutesV1VesselFuelRequest {
      * @type {string}
      * @memberof VesselApiRoutesV1VesselFuel
      */
-    readonly authorization: string
+    readonly authorization?: string
 
     /**
      * 
@@ -9479,7 +9635,7 @@ export interface VesselApiRoutesV1VesselLiveFuelRequest {
      * @type {string}
      * @memberof VesselApiRoutesV1VesselLiveFuel
      */
-    readonly authorization: string
+    readonly authorization?: string
 
     /**
      * 
@@ -9497,17 +9653,73 @@ export interface VesselApiRoutesV1VesselLiveFuelRequest {
 export interface VesselApiRoutesV1VesselUpdateVesselRequest {
     /**
      * 
-     * @type {string}
-     * @memberof VesselApiRoutesV1VesselUpdateVessel
-     */
-    readonly authorization: string
-
-    /**
-     * 
      * @type {UpdateVessel}
      * @memberof VesselApiRoutesV1VesselUpdateVessel
      */
     readonly updateVessel: UpdateVessel
+
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselApiRoutesV1VesselUpdateVessel
+     */
+    readonly authorization?: string
+}
+
+/**
+ * Request parameters for routesV1VesselVesselEvents operation in VesselApi.
+ * @export
+ * @interface VesselApiRoutesV1VesselVesselEventsRequest
+ */
+export interface VesselApiRoutesV1VesselVesselEventsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselApiRoutesV1VesselVesselEvents
+     */
+    readonly fiskeridirVesselId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselApiRoutesV1VesselVesselEvents
+     */
+    readonly startTimestamp?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof VesselApiRoutesV1VesselVesselEvents
+     */
+    readonly endTimestamp?: string | null
+
+    /**
+     * 
+     * @type {VesselEventType}
+     * @memberof VesselApiRoutesV1VesselVesselEvents
+     */
+    readonly vesselEventType?: VesselEventType
+
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselApiRoutesV1VesselVesselEvents
+     */
+    readonly limit?: number | null
+
+    /**
+     * 
+     * @type {number}
+     * @memberof VesselApiRoutesV1VesselVesselEvents
+     */
+    readonly offset?: number | null
+
+    /**
+     * 
+     * @type {Ordering}
+     * @memberof VesselApiRoutesV1VesselVesselEvents
+     */
+    readonly ordering?: Ordering
 }
 
 /**
@@ -9524,7 +9736,7 @@ export class VesselApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof VesselApi
      */
-    public routesV1VesselBenchmarksBenchmarks(requestParameters: VesselApiRoutesV1VesselBenchmarksBenchmarksRequest, options?: RawAxiosRequestConfig) {
+    public routesV1VesselBenchmarksBenchmarks(requestParameters: VesselApiRoutesV1VesselBenchmarksBenchmarksRequest = {}, options?: RawAxiosRequestConfig) {
         return VesselApiFp(this.configuration).routesV1VesselBenchmarksBenchmarks(requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -9535,7 +9747,7 @@ export class VesselApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof VesselApi
      */
-    public routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest, options?: RawAxiosRequestConfig) {
+    public routesV1VesselFuel(requestParameters: VesselApiRoutesV1VesselFuelRequest = {}, options?: RawAxiosRequestConfig) {
         return VesselApiFp(this.configuration).routesV1VesselFuel(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -9546,7 +9758,7 @@ export class VesselApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof VesselApi
      */
-    public routesV1VesselLiveFuel(requestParameters: VesselApiRoutesV1VesselLiveFuelRequest, options?: RawAxiosRequestConfig) {
+    public routesV1VesselLiveFuel(requestParameters: VesselApiRoutesV1VesselLiveFuelRequest = {}, options?: RawAxiosRequestConfig) {
         return VesselApiFp(this.configuration).routesV1VesselLiveFuel(requestParameters.authorization, requestParameters.threshold, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -9558,7 +9770,18 @@ export class VesselApi extends BaseAPI {
      * @memberof VesselApi
      */
     public routesV1VesselUpdateVessel(requestParameters: VesselApiRoutesV1VesselUpdateVesselRequest, options?: RawAxiosRequestConfig) {
-        return VesselApiFp(this.configuration).routesV1VesselUpdateVessel(requestParameters.authorization, requestParameters.updateVessel, options).then((request) => request(this.axios, this.basePath));
+        return VesselApiFp(this.configuration).routesV1VesselUpdateVessel(requestParameters.updateVessel, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {VesselApiRoutesV1VesselVesselEventsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof VesselApi
+     */
+    public routesV1VesselVesselEvents(requestParameters: VesselApiRoutesV1VesselVesselEventsRequest, options?: RawAxiosRequestConfig) {
+        return VesselApiFp(this.configuration).routesV1VesselVesselEvents(requestParameters.fiskeridirVesselId, requestParameters.startTimestamp, requestParameters.endTimestamp, requestParameters.vesselEventType, requestParameters.limit, requestParameters.offset, requestParameters.ordering, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9607,6 +9830,10 @@ export const VmsApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication auth0 required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (start !== undefined) {
                 localVarQueryParameter['start'] = (start as any instanceof Date) ?
@@ -9734,13 +9961,13 @@ export const WeatherApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {Array<number> | null} [weatherLocationIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1WeatherWeather: async (startDate?: string | null, endDate?: string | null, weatherLocationIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1WeatherWeather: async (start?: string | null, end?: string | null, weatherLocationIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/weather`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9757,16 +9984,20 @@ export const WeatherApiAxiosParamCreator = function (configuration?: Configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (weatherLocationIds) {
@@ -9786,13 +10017,13 @@ export const WeatherApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {Array<number> | null} [weatherLocationIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1WeatherWeatherLocations: async (startDate?: string | null, endDate?: string | null, weatherLocationIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1WeatherWeatherLocations: async (start?: string | null, end?: string | null, weatherLocationIds?: Array<number> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/weather_locations`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9809,16 +10040,20 @@ export const WeatherApiAxiosParamCreator = function (configuration?: Configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString() :
-                    startDate;
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
             }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString() :
-                    endDate;
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
             if (weatherLocationIds) {
@@ -9848,28 +10083,28 @@ export const WeatherApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {Array<number> | null} [weatherLocationIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1WeatherWeather(startDate?: string | null, endDate?: string | null, weatherLocationIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Weather>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1WeatherWeather(startDate, endDate, weatherLocationIds, options);
+        async routesV1WeatherWeather(start?: string | null, end?: string | null, weatherLocationIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Weather>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1WeatherWeather(start, end, weatherLocationIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WeatherApi.routesV1WeatherWeather']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string | null} [startDate] 
-         * @param {string | null} [endDate] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
          * @param {Array<number> | null} [weatherLocationIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1WeatherWeatherLocations(startDate?: string | null, endDate?: string | null, weatherLocationIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WeatherLocation>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1WeatherWeatherLocations(startDate, endDate, weatherLocationIds, options);
+        async routesV1WeatherWeatherLocations(start?: string | null, end?: string | null, weatherLocationIds?: Array<number> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WeatherLocation>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1WeatherWeatherLocations(start, end, weatherLocationIds, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WeatherApi.routesV1WeatherWeatherLocations']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -9891,7 +10126,7 @@ export const WeatherApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         routesV1WeatherWeather(requestParameters: WeatherApiRoutesV1WeatherWeatherRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Weather>> {
-            return localVarFp.routesV1WeatherWeather(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1WeatherWeather(requestParameters.start, requestParameters.end, requestParameters.weatherLocationIds, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9900,7 +10135,7 @@ export const WeatherApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         routesV1WeatherWeatherLocations(requestParameters: WeatherApiRoutesV1WeatherWeatherLocationsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<WeatherLocation>> {
-            return localVarFp.routesV1WeatherWeatherLocations(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1WeatherWeatherLocations(requestParameters.start, requestParameters.end, requestParameters.weatherLocationIds, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9916,14 +10151,14 @@ export interface WeatherApiRoutesV1WeatherWeatherRequest {
      * @type {string}
      * @memberof WeatherApiRoutesV1WeatherWeather
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof WeatherApiRoutesV1WeatherWeather
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
 
     /**
      * 
@@ -9944,14 +10179,14 @@ export interface WeatherApiRoutesV1WeatherWeatherLocationsRequest {
      * @type {string}
      * @memberof WeatherApiRoutesV1WeatherWeatherLocations
      */
-    readonly startDate?: string | null
+    readonly start?: string | null
 
     /**
      * 
      * @type {string}
      * @memberof WeatherApiRoutesV1WeatherWeatherLocations
      */
-    readonly endDate?: string | null
+    readonly end?: string | null
 
     /**
      * 
@@ -9976,7 +10211,7 @@ export class WeatherApi extends BaseAPI {
      * @memberof WeatherApi
      */
     public routesV1WeatherWeather(requestParameters: WeatherApiRoutesV1WeatherWeatherRequest = {}, options?: RawAxiosRequestConfig) {
-        return WeatherApiFp(this.configuration).routesV1WeatherWeather(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(this.axios, this.basePath));
+        return WeatherApiFp(this.configuration).routesV1WeatherWeather(requestParameters.start, requestParameters.end, requestParameters.weatherLocationIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9987,7 +10222,7 @@ export class WeatherApi extends BaseAPI {
      * @memberof WeatherApi
      */
     public routesV1WeatherWeatherLocations(requestParameters: WeatherApiRoutesV1WeatherWeatherLocationsRequest = {}, options?: RawAxiosRequestConfig) {
-        return WeatherApiFp(this.configuration).routesV1WeatherWeatherLocations(requestParameters.startDate, requestParameters.endDate, requestParameters.weatherLocationIds, options).then((request) => request(this.axios, this.basePath));
+        return WeatherApiFp(this.configuration).routesV1WeatherWeatherLocations(requestParameters.start, requestParameters.end, requestParameters.weatherLocationIds, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
