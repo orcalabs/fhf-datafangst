@@ -39,8 +39,8 @@ const api = new FuelMeasurementApi(apiConfiguration, undefined, axiosInstance);
 export const getFuelMeasurements = apiFn((args: FuelMeasurementsArgs, signal) =>
   api.routesV1FuelMeasurementGetFuelMeasurements(
     {
-      startDate: args.startDate?.toISOString(),
-      endDate: args.endDate?.toISOString(),
+      start: args.startDate?.toISOString(),
+      end: args.endDate?.toISOString(),
       authorization: args.token!,
     },
     { params: { call_sign_override: args.callSignOverride }, signal },

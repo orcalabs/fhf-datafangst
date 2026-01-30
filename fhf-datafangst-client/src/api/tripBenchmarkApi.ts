@@ -40,8 +40,8 @@ const api = new TripApi(apiConfiguration, undefined, axiosInstance);
 export const getTripBenchmarks = apiFn((query: TripBenchmarksArgs, signal) =>
   api.routesV1TripBenchmarksBenchmarks(
     {
-      startDate: query.start?.toISOString(),
-      endDate: query.end?.toISOString(),
+      start: query.start?.toISOString(),
+      end: query.end?.toISOString(),
       ordering: query.ordering,
       authorization: query.accessToken!,
     },
@@ -57,8 +57,8 @@ export const getAverageTripBenchmarks = apiFn(
   (query: AverageTripBenchmarkArgs, signal) =>
     api.routesV1TripBenchmarksAverage(
       {
-        startDate: query.startDate.toISOString(),
-        endDate: query.endDate.toISOString(),
+        start: query.startDate.toISOString(),
+        end: query.endDate.toISOString(),
         gearGroups: query.gearGroups,
         lengthGroup: query.lengthGroup,
       },
@@ -69,8 +69,8 @@ export const getAverageTripBenchmarks = apiFn(
 export const getEeoi = apiFn((query: EeoiArgs, signal) =>
   api.routesV1TripBenchmarksEeoi(
     {
-      startDate: query.start?.toISOString(),
-      endDate: query.end?.toISOString(),
+      start: query.start?.toISOString(),
+      end: query.end?.toISOString(),
       authorization: query.accessToken!,
     },
     {
@@ -84,8 +84,8 @@ export const getEeoi = apiFn((query: EeoiArgs, signal) =>
 export const getAverageEeoi = apiFn((query: AverageEeoiArgs, signal) =>
   api.routesV1TripBenchmarksAverageEeoi(
     {
-      startDate: query.startDate.toISOString(),
-      endDate: query.endDate.toISOString(),
+      start: query.startDate.toISOString(),
+      end: query.endDate.toISOString(),
       gearGroups: query.gearGroups,
       lengthGroup: query.lengthGroup,
     },

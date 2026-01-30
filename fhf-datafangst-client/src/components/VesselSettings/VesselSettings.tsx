@@ -45,7 +45,7 @@ export const VesselSettings: FC = () => {
       vessel?.fiskeridir.auxiliaryEngineBuildingYear ?? null,
     boilerEnginePower: vessel?.fiskeridir.boilerEnginePower ?? null,
     boilerEngineBuildingYear: vessel?.fiskeridir.boilerEnginePower ?? null,
-    engineType: vessel?.fiskeridir.engineType ?? null,
+    engineType: vessel?.fiskeridir.engineType ?? undefined,
     engineRpm: vessel?.fiskeridir.engineRpm ?? null,
     serviceSpeed: vessel?.fiskeridir.serviceSpeed ?? null,
     degreeOfElectrification: vessel?.fiskeridir.degreeOfElectrification ?? null,

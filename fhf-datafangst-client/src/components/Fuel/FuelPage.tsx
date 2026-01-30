@@ -67,7 +67,7 @@ interface EditFuel {
   id: number;
   timestamp: Date | null;
   fuel: number;
-  fuelAfter: number | null;
+  fuelAfter: number | null | undefined;
   error: boolean;
 }
 

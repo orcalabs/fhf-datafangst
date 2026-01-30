@@ -40,6 +40,7 @@ import {
 import {
   createObjectDurationString,
   dateFormat,
+  isDefined,
   kilosOrTonsFormatter,
 } from "utils";
 
@@ -264,27 +265,27 @@ export const TripBenchmarkPage: FC = () => {
                 </Stack>
               )}
 
-              {bench.weightPerHour !== null &&
+              {isDefined(bench.weightPerHour) &&
                 benchmarkItem(
                   "Rundvekt per time",
                   kilosOrTonsFormatter(bench.weightPerHour),
                 )}
-              {bench.weightPerDistance !== null &&
+              {isDefined(bench.weightPerDistance) &&
                 benchmarkItem(
                   "Rundvekt per distanse",
                   kilosOrTonsFormatter(bench.weightPerDistance),
                 )}
-              {bench.weightPerFuel !== null &&
+              {isDefined(bench.weightPerFuel) &&
                 benchmarkItem(
                   "Rundvekt per liter drivstoff",
                   bench.weightPerFuel.toFixed(1),
                 )}
-              {bench.catchValuePerFuel !== null &&
+              {isDefined(bench.catchValuePerFuel) &&
                 benchmarkItem(
                   "Fangstverdi per liter drivstoff",
                   nok.format(bench.catchValuePerFuel),
                 )}
-              {bench.fuelConsumption !== null &&
+              {isDefined(bench.fuelConsumption) &&
                 benchmarkItem(
                   "Drivstofforbruk (tokt)",
                   bench.fuelConsumption.toFixed(0) + " liter",

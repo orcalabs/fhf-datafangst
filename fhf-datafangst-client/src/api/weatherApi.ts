@@ -12,8 +12,8 @@ const api = new WeatherApi(apiConfiguration, undefined, axiosInstance);
 export const getWeather = apiFn((query: WeatherArgs, signal) =>
   api.routesV1WeatherWeather(
     {
-      startDate: query.startDate,
-      endDate: query.endDate,
+      start: query.startDate,
+      end: query.endDate,
       weatherLocationIds: query.weatherLocationIds,
     },
     { signal },
