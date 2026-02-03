@@ -356,7 +356,7 @@ export interface AverageEeoiParams {
      * @type {Array<GearGroup>}
      * @memberof AverageEeoiParams
      */
-    'gearGroups[]'?: Array<GearGroup> | null;
+    'gearGroups'?: Array<GearGroup> | null;
     /**
      * 
      * @type {VesselLengthGroup}
@@ -368,7 +368,7 @@ export interface AverageEeoiParams {
      * @type {Array<number>}
      * @memberof AverageEeoiParams
      */
-    'vesselIds[]'?: Array<number> | null;
+    'vesselIds'?: Array<number> | null;
     /**
      * 
      * @type {SpeciesGroup}
@@ -401,7 +401,7 @@ export interface AverageFuiParams {
      * @type {Array<GearGroup>}
      * @memberof AverageFuiParams
      */
-    'gearGroups[]'?: Array<GearGroup> | null;
+    'gearGroups'?: Array<GearGroup> | null;
     /**
      * 
      * @type {VesselLengthGroup}
@@ -413,7 +413,7 @@ export interface AverageFuiParams {
      * @type {Array<number>}
      * @memberof AverageFuiParams
      */
-    'vesselIds[]'?: Array<number> | null;
+    'vesselIds'?: Array<number> | null;
     /**
      * 
      * @type {SpeciesGroup}
@@ -483,7 +483,7 @@ export interface AverageTripBenchmarksParams {
      * @type {Array<GearGroup>}
      * @memberof AverageTripBenchmarksParams
      */
-    'gearGroups[]'?: Array<GearGroup> | null;
+    'gearGroups'?: Array<GearGroup> | null;
     /**
      * 
      * @type {VesselLengthGroup}
@@ -495,7 +495,7 @@ export interface AverageTripBenchmarksParams {
      * @type {Array<number>}
      * @memberof AverageTripBenchmarksParams
      */
-    'vesselIds[]'?: Array<number> | null;
+    'vesselIds'?: Array<number> | null;
 }
 
 
@@ -1098,19 +1098,19 @@ export interface FishingFacilitiesParams {
      * @type {Array<number>}
      * @memberof FishingFacilitiesParams
      */
-    'mmsis[]'?: Array<number> | null;
+    'mmsis'?: Array<number> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof FishingFacilitiesParams
      */
-    'fiskeridirVesselIds[]'?: Array<number> | null;
+    'fiskeridirVesselIds'?: Array<number> | null;
     /**
      * 
      * @type {Array<FishingFacilityToolType>}
      * @memberof FishingFacilitiesParams
      */
-    'toolTypes[]'?: Array<FishingFacilityToolType> | null;
+    'toolTypes'?: Array<FishingFacilityToolType> | null;
     /**
      * 
      * @type {boolean}
@@ -1122,13 +1122,13 @@ export interface FishingFacilitiesParams {
      * @type {Array<string>}
      * @memberof FishingFacilitiesParams
      */
-    'setupRanges[]'?: Array<string> | null;
+    'setupRanges'?: Array<string> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof FishingFacilitiesParams
      */
-    'removedRanges[]'?: Array<string> | null;
+    'removedRanges'?: Array<string> | null;
     /**
      * 
      * @type {number}
@@ -2010,37 +2010,37 @@ export interface HaulsMatrixParams {
      * @type {Array<number>}
      * @memberof HaulsMatrixParams
      */
-    'months[]'?: Array<number> | null;
+    'months'?: Array<number> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof HaulsMatrixParams
      */
-    'catchLocations[]'?: Array<string> | null;
+    'catchLocations'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof HaulsMatrixParams
      */
-    'gearGroupIds[]'?: Array<GearGroup> | null;
+    'gearGroupIds'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof HaulsMatrixParams
      */
-    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
+    'speciesGroupIds'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof HaulsMatrixParams
      */
-    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
+    'vesselLengthGroups'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof HaulsMatrixParams
      */
-    'fiskeridirVesselIds[]'?: Array<number> | null;
+    'fiskeridirVesselIds'?: Array<number> | null;
     /**
      * 
      * @type {number}
@@ -2080,37 +2080,37 @@ export interface HaulsParams {
      * @type {Array<string>}
      * @memberof HaulsParams
      */
-    'months[]'?: Array<string> | null;
+    'months'?: Array<string> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof HaulsParams
      */
-    'catchLocations[]'?: Array<string> | null;
+    'catchLocations'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof HaulsParams
      */
-    'gearGroupIds[]'?: Array<GearGroup> | null;
+    'gearGroupIds'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof HaulsParams
      */
-    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
+    'speciesGroupIds'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof HaulsParams
      */
-    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
+    'vesselLengthGroups'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof HaulsParams
      */
-    'fiskeridirVesselIds[]'?: Array<number> | null;
+    'fiskeridirVesselIds'?: Array<number> | null;
     /**
      * 
      * @type {string}
@@ -2339,37 +2339,37 @@ export interface LandingMatrixParams {
      * @type {Array<number>}
      * @memberof LandingMatrixParams
      */
-    'months[]'?: Array<number> | null;
+    'months'?: Array<number> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof LandingMatrixParams
      */
-    'catchLocations[]'?: Array<string> | null;
+    'catchLocations'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof LandingMatrixParams
      */
-    'gearGroupIds[]'?: Array<GearGroup> | null;
+    'gearGroupIds'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof LandingMatrixParams
      */
-    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
+    'speciesGroupIds'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof LandingMatrixParams
      */
-    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
+    'vesselLengthGroups'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof LandingMatrixParams
      */
-    'fiskeridirVesselIds[]'?: Array<number> | null;
+    'fiskeridirVesselIds'?: Array<number> | null;
 }
 /**
  * 
@@ -2422,37 +2422,37 @@ export interface LandingsParams {
      * @type {Array<string>}
      * @memberof LandingsParams
      */
-    'months[]'?: Array<string> | null;
+    'months'?: Array<string> | null;
     /**
      * 
      * @type {Array<string>}
      * @memberof LandingsParams
      */
-    'catchLocations[]'?: Array<string> | null;
+    'catchLocations'?: Array<string> | null;
     /**
      * 
      * @type {Array<GearGroup>}
      * @memberof LandingsParams
      */
-    'gearGroupIds[]'?: Array<GearGroup> | null;
+    'gearGroupIds'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof LandingsParams
      */
-    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
+    'speciesGroupIds'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof LandingsParams
      */
-    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
+    'vesselLengthGroups'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof LandingsParams
      */
-    'fiskeridirVesselIds[]'?: Array<number> | null;
+    'fiskeridirVesselIds'?: Array<number> | null;
     /**
      * 
      * @type {string}
@@ -3631,7 +3631,7 @@ export interface TripsParameters {
      * @type {Array<string>}
      * @memberof TripsParameters
      */
-    'deliveryPoints[]'?: Array<string> | null;
+    'deliveryPoints'?: Array<string> | null;
     /**
      * 
      * @type {string}
@@ -3667,31 +3667,31 @@ export interface TripsParameters {
      * @type {Array<GearGroup>}
      * @memberof TripsParameters
      */
-    'gearGroupIds[]'?: Array<GearGroup> | null;
+    'gearGroupIds'?: Array<GearGroup> | null;
     /**
      * 
      * @type {Array<SpeciesGroup>}
      * @memberof TripsParameters
      */
-    'speciesGroupIds[]'?: Array<SpeciesGroup> | null;
+    'speciesGroupIds'?: Array<SpeciesGroup> | null;
     /**
      * 
      * @type {Array<VesselLengthGroup>}
      * @memberof TripsParameters
      */
-    'vesselLengthGroups[]'?: Array<VesselLengthGroup> | null;
+    'vesselLengthGroups'?: Array<VesselLengthGroup> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof TripsParameters
      */
-    'fiskeridirVesselIds[]'?: Array<number> | null;
+    'fiskeridirVesselIds'?: Array<number> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof TripsParameters
      */
-    'tripIds[]'?: Array<number> | null;
+    'tripIds'?: Array<number> | null;
 }
 
 
@@ -4287,7 +4287,7 @@ export interface WeatherParams {
      * @type {Array<number>}
      * @memberof WeatherParams
      */
-    'weatherLocationIds[]'?: Array<number> | null;
+    'weatherLocationIds'?: Array<number> | null;
 }
 /**
  * 
@@ -4984,15 +4984,15 @@ export const FishingFacilityApiAxiosParamCreator = function (configuration?: Con
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (mmsis) {
-                localVarQueryParameter['mmsis[]'] = mmsis;
+                localVarQueryParameter['mmsis'] = mmsis;
             }
 
             if (fiskeridirVesselIds) {
-                localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
             }
 
             if (toolTypes) {
-                localVarQueryParameter['toolTypes[]'] = toolTypes;
+                localVarQueryParameter['toolTypes'] = toolTypes;
             }
 
             if (active !== undefined) {
@@ -5000,11 +5000,11 @@ export const FishingFacilityApiAxiosParamCreator = function (configuration?: Con
             }
 
             if (setupRanges) {
-                localVarQueryParameter['setupRanges[]'] = setupRanges;
+                localVarQueryParameter['setupRanges'] = setupRanges;
             }
 
             if (removedRanges) {
-                localVarQueryParameter['removedRanges[]'] = removedRanges;
+                localVarQueryParameter['removedRanges'] = removedRanges;
             }
 
             if (limit !== undefined) {
@@ -6042,27 +6042,27 @@ export const HaulApiAxiosParamCreator = function (configuration?: Configuration)
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (months) {
-                localVarQueryParameter['months[]'] = months;
+                localVarQueryParameter['months'] = months;
             }
 
             if (catchLocations) {
-                localVarQueryParameter['catchLocations[]'] = catchLocations;
+                localVarQueryParameter['catchLocations'] = catchLocations;
             }
 
             if (gearGroupIds) {
-                localVarQueryParameter['gearGroupIds[]'] = gearGroupIds;
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
             }
 
             if (speciesGroupIds) {
-                localVarQueryParameter['speciesGroupIds[]'] = speciesGroupIds;
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
             }
 
             if (vesselLengthGroups) {
-                localVarQueryParameter['vesselLengthGroups[]'] = vesselLengthGroups;
+                localVarQueryParameter['vesselLengthGroups'] = vesselLengthGroups;
             }
 
             if (fiskeridirVesselIds) {
-                localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
             }
 
             if (start !== undefined) {
@@ -6135,27 +6135,27 @@ export const HaulApiAxiosParamCreator = function (configuration?: Configuration)
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (months) {
-                localVarQueryParameter['months[]'] = months;
+                localVarQueryParameter['months'] = months;
             }
 
             if (catchLocations) {
-                localVarQueryParameter['catchLocations[]'] = catchLocations;
+                localVarQueryParameter['catchLocations'] = catchLocations;
             }
 
             if (gearGroupIds) {
-                localVarQueryParameter['gearGroupIds[]'] = gearGroupIds;
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
             }
 
             if (speciesGroupIds) {
-                localVarQueryParameter['speciesGroupIds[]'] = speciesGroupIds;
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
             }
 
             if (vesselLengthGroups) {
-                localVarQueryParameter['vesselLengthGroups[]'] = vesselLengthGroups;
+                localVarQueryParameter['vesselLengthGroups'] = vesselLengthGroups;
             }
 
             if (fiskeridirVesselIds) {
-                localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
             }
 
             if (bycatchPercentage !== undefined) {
@@ -6481,27 +6481,27 @@ export const LandingApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (months) {
-                localVarQueryParameter['months[]'] = months;
+                localVarQueryParameter['months'] = months;
             }
 
             if (catchLocations) {
-                localVarQueryParameter['catchLocations[]'] = catchLocations;
+                localVarQueryParameter['catchLocations'] = catchLocations;
             }
 
             if (gearGroupIds) {
-                localVarQueryParameter['gearGroupIds[]'] = gearGroupIds;
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
             }
 
             if (speciesGroupIds) {
-                localVarQueryParameter['speciesGroupIds[]'] = speciesGroupIds;
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
             }
 
             if (vesselLengthGroups) {
-                localVarQueryParameter['vesselLengthGroups[]'] = vesselLengthGroups;
+                localVarQueryParameter['vesselLengthGroups'] = vesselLengthGroups;
             }
 
             if (fiskeridirVesselIds) {
-                localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
             }
 
 
@@ -6554,27 +6554,27 @@ export const LandingApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (months) {
-                localVarQueryParameter['months[]'] = months;
+                localVarQueryParameter['months'] = months;
             }
 
             if (catchLocations) {
-                localVarQueryParameter['catchLocations[]'] = catchLocations;
+                localVarQueryParameter['catchLocations'] = catchLocations;
             }
 
             if (gearGroupIds) {
-                localVarQueryParameter['gearGroupIds[]'] = gearGroupIds;
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
             }
 
             if (speciesGroupIds) {
-                localVarQueryParameter['speciesGroupIds[]'] = speciesGroupIds;
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
             }
 
             if (vesselLengthGroups) {
-                localVarQueryParameter['vesselLengthGroups[]'] = vesselLengthGroups;
+                localVarQueryParameter['vesselLengthGroups'] = vesselLengthGroups;
             }
 
             if (fiskeridirVesselIds) {
-                localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
             }
 
             if (start !== undefined) {
@@ -7595,7 +7595,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (gearGroups) {
-                localVarQueryParameter['gearGroups[]'] = gearGroups;
+                localVarQueryParameter['gearGroups'] = gearGroups;
             }
 
             if (lengthGroup !== undefined) {
@@ -7603,7 +7603,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (vesselIds) {
-                localVarQueryParameter['vesselIds[]'] = vesselIds;
+                localVarQueryParameter['vesselIds'] = vesselIds;
             }
 
 
@@ -7662,7 +7662,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (gearGroups) {
-                localVarQueryParameter['gearGroups[]'] = gearGroups;
+                localVarQueryParameter['gearGroups'] = gearGroups;
             }
 
             if (lengthGroup !== undefined) {
@@ -7670,7 +7670,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (vesselIds) {
-                localVarQueryParameter['vesselIds[]'] = vesselIds;
+                localVarQueryParameter['vesselIds'] = vesselIds;
             }
 
             if (speciesGroupId !== undefined) {
@@ -7733,7 +7733,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (gearGroups) {
-                localVarQueryParameter['gearGroups[]'] = gearGroups;
+                localVarQueryParameter['gearGroups'] = gearGroups;
             }
 
             if (lengthGroup !== undefined) {
@@ -7741,7 +7741,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (vesselIds) {
-                localVarQueryParameter['vesselIds[]'] = vesselIds;
+                localVarQueryParameter['vesselIds'] = vesselIds;
             }
 
             if (speciesGroupId !== undefined) {
@@ -8078,7 +8078,7 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (deliveryPoints) {
-                localVarQueryParameter['deliveryPoints[]'] = deliveryPoints;
+                localVarQueryParameter['deliveryPoints'] = deliveryPoints;
             }
 
             if (start !== undefined) {
@@ -8106,23 +8106,23 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (gearGroupIds) {
-                localVarQueryParameter['gearGroupIds[]'] = gearGroupIds;
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
             }
 
             if (speciesGroupIds) {
-                localVarQueryParameter['speciesGroupIds[]'] = speciesGroupIds;
+                localVarQueryParameter['speciesGroupIds'] = speciesGroupIds;
             }
 
             if (vesselLengthGroups) {
-                localVarQueryParameter['vesselLengthGroups[]'] = vesselLengthGroups;
+                localVarQueryParameter['vesselLengthGroups'] = vesselLengthGroups;
             }
 
             if (fiskeridirVesselIds) {
-                localVarQueryParameter['fiskeridirVesselIds[]'] = fiskeridirVesselIds;
+                localVarQueryParameter['fiskeridirVesselIds'] = fiskeridirVesselIds;
             }
 
             if (tripIds) {
-                localVarQueryParameter['tripIds[]'] = tripIds;
+                localVarQueryParameter['tripIds'] = tripIds;
             }
 
             if (authorization != null) {
@@ -10001,7 +10001,7 @@ export const WeatherApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (weatherLocationIds) {
-                localVarQueryParameter['weatherLocationIds[]'] = weatherLocationIds;
+                localVarQueryParameter['weatherLocationIds'] = weatherLocationIds;
             }
 
 
@@ -10057,7 +10057,7 @@ export const WeatherApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (weatherLocationIds) {
-                localVarQueryParameter['weatherLocationIds[]'] = weatherLocationIds;
+                localVarQueryParameter['weatherLocationIds'] = weatherLocationIds;
             }
 
 
