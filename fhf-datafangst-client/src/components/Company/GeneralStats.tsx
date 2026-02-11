@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import chartsTheme from "app/chartsTheme";
 import { fontStyle } from "app/theme";
 import ReactEChart from "echarts-for-react";
