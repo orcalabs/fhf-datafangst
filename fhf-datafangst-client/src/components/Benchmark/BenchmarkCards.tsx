@@ -3,7 +3,7 @@ import PhishingRoundedIcon from "@mui/icons-material/PhishingRounded";
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import { Trip } from "generated/openapi";
 import { FC } from "react";
 import {

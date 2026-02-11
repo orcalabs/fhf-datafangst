@@ -1,4 +1,5 @@
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
+import EditDocumentIcon from "@mui/icons-material/EditDocument";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
@@ -17,6 +18,7 @@ import theme from "app/theme";
 import { FishIcon } from "assets/icons";
 import {
   CurrentTripMenu,
+  FuelPage,
   HaulFilters,
   HaulsLayer,
   HaulsMenu,
@@ -333,6 +335,41 @@ export const MyPage: FC = () => {
             boxShadow: "none",
             marginTop: "auto",
             bgcolor:
+              subMenu === MyPageSubmenu.RegisterFuel
+                ? "primary.dark"
+                : "primary.light",
+            ":hover": {
+              bgcolor: "primary.dark",
+            },
+          }}
+          onClick={() => setSubmenu(MyPageSubmenu.RegisterFuel)}
+          endIcon={<KeyboardArrowRightIcon sx={{ width: 24, height: 24 }} />}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              "& svg": { mr: 2 },
+            }}
+          >
+            <EditDocumentIcon sx={{ color: "secondary.light", fontSize: 32 }} />
+          </Box>
+          <Typography variant="h6" sx={{ width: "100%", textAlign: "left" }}>
+            Registrer drivstoff
+          </Typography>
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            borderBottom: `1px solid ${theme.palette.grey[700]}`,
+            m: 0,
+            width: "100%",
+            py: 2,
+            px: 2.5,
+            justifyContent: "start",
+            borderRadius: 0,
+            color: "white",
+            boxShadow: "none",
+            bgcolor:
               subMenu === MyPageSubmenu.Stats
                 ? "primary.dark"
                 : "primary.light",
@@ -408,6 +445,12 @@ export const MyPage: FC = () => {
         sx={{ zIndex: 1000 }}
       >
         <MyStats />
+      </PageLayoutCenter>
+      <PageLayoutCenter
+        open={subMenu === MyPageSubmenu.RegisterFuel}
+        sx={{ zIndex: 1000 }}
+      >
+        <FuelPage />
       </PageLayoutCenter>
       <PageLayoutCenterBottom
         open={subMenu === MyPageSubmenu.Area && selectedGrids.length === 0}

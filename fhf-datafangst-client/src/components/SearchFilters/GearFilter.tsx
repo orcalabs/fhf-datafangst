@@ -6,7 +6,7 @@ import {
   FormGroup,
   Typography,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import { GearGroupDetailed } from "generated/openapi";
 import { FC } from "react";
 import { selectGearGroups, selectTripsSearch, useAppSelector } from "store";

@@ -66,8 +66,9 @@ export const MapFilters: FC<Props> = (props) => {
           }
           onClick={() => handleChange("deliveryPoints")}
           icon={<DeliveryPointIcon />}
-          tooltipTitle={"Vis fiskemottak"}
-          tooltipPlacement="left"
+          slotProps={{
+            tooltip: { title: "Vis fiskemottak", placement: "left" },
+          }}
         />
         <SpeedDialAction
           sx={
@@ -77,8 +78,9 @@ export const MapFilters: FC<Props> = (props) => {
           }
           onClick={() => handleChange("coastline")}
           icon={<CoastlineIcon />}
-          tooltipTitle={"Vis kystlinje"}
-          tooltipPlacement="left"
+          slotProps={{
+            tooltip: { title: "Vis kystlinje", placement: "left" },
+          }}
         />
         <SpeedDialAction
           sx={
@@ -88,8 +90,9 @@ export const MapFilters: FC<Props> = (props) => {
           }
           onClick={() => handleChange("seamap")}
           icon={<MapSharpIcon />}
-          tooltipTitle={"Vis sjøkart"}
-          tooltipPlacement="left"
+          slotProps={{
+            tooltip: { title: "Vis sjøkart", placement: "left" },
+          }}
         />
       </SpeedDial>
     </Box>

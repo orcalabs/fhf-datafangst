@@ -33,9 +33,7 @@ export const HeaderMenuButtons: FC<Props> = ({ page }) => {
         value={page}
         onChange={(_, newPage: AppPage) => navigate(`/${newPage}`)}
         textColor="secondary"
-        TabIndicatorProps={{
-          sx: { bgcolor: "white" },
-        }}
+        slotProps={{ indicator: { sx: { bgcolor: "white" } } }}
       >
         <Tab label="Live" value={AppPage.Live}></Tab>
         <Tab label="Områder" value={AppPage.Area}></Tab>
