@@ -1,5 +1,5 @@
 import { Box, Divider, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import chartsTheme from "app/chartsTheme";
 import ReactEChart from "echarts-for-react";
 import { Landing, SpeciesFiskeridir } from "generated/openapi";

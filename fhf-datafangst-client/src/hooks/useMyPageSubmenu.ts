@@ -5,6 +5,7 @@ export enum MyPageSubmenu {
   Trips = "trips",
   Area = "area",
   Facility = "facility",
+  RegisterFuel = "registerFuel",
   Stats = "stats",
   Administrate = "administrate",
 }

@@ -1,11 +1,11 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import theme from "app/theme";
-import { FuelPage, OverlayScrollbars, VesselSettings } from "components";
+import { OverlayScrollbars, VesselSettings } from "components";
 import { FollowList } from "components/FollowList/FollowList";
 import { FC, useState } from "react";
 
 export const MySettings: FC = () => {
-  const [tabValue, setTabValue] = useState("fuel");
+  const [tabValue, setTabValue] = useState("vessel");
   return (
     <Box
       sx={{
@@ -29,11 +29,6 @@ export const MySettings: FC = () => {
           onChange={(_, newVal: string) => setTabValue(newVal)}
         >
           <Tab
-            sx={{ color: theme.palette.grey[500] }}
-            value="fuel"
-            label="Drivstoff"
-          />
-          <Tab
             sx={{
               color: theme.palette.grey[500],
             }}
@@ -50,7 +45,6 @@ export const MySettings: FC = () => {
           <OverlayScrollbars darkTheme style={{ height: "100%" }}>
             {tabValue === "vessel" && <VesselSettings />}
             {tabValue === "following" && <FollowList />}
-            {tabValue === "fuel" && <FuelPage />}
           </OverlayScrollbars>
         </Stack>
       </Stack>
