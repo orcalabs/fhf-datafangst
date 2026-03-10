@@ -106,7 +106,7 @@ const accordionSx = {
 };
 
 export const MyPage: FC = () => {
-  const { signIn } = useAuth();
+  const { signIn, isLoading } = useAuth();
 
   const dispatch = useAppDispatch();
 
@@ -123,6 +123,16 @@ export const MyPage: FC = () => {
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
 
   const [subMenu, setSubmenu] = useMyPageSubmenu();
+
+  useEffect(() => {
+    if (subMenu !== MyPageSubmenu.Trips && !loggedIn && !isLoading) {
+      window.localStorage.setItem(
+        "redirect",
+        window.location.pathname + window.location.search,
+      );
+      signIn();
+    }
+  }, [subMenu, loggedIn, isLoading]);
 
   useEffect(() => {
     if (!vessel) return;
@@ -178,7 +188,10 @@ export const MyPage: FC = () => {
               },
             }}
             onClick={() => {
-              window.localStorage.setItem("pathname", window.location.pathname);
+              window.localStorage.setItem(
+                "redirect",
+                window.location.pathname + window.location.search,
+              );
               signIn();
             }}
           >
