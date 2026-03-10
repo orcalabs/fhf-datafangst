@@ -45,9 +45,7 @@ export const AreaPage: FC = () => {
       <PageLayoutLeft>
         <MatrixMenu />
       </PageLayoutLeft>
-      <PageLayoutCenterBottom
-        open={!selectedTrip && selectedGrids.length === 0}
-      >
+      <PageLayoutCenterBottom open={!selectedTrip}>
         {matrixTab === MatrixTab.Ers ? (
           <TimeSlider
             options={haulsSearch}

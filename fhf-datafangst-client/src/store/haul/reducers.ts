@@ -166,5 +166,10 @@ export const haulBuilder = (
       state.haulsMatrix2Search = action.payload;
     })
     .addCase(setHaulDateSliderFrame, (state, action) => {
-      state.haulDateSliderFrame = action.payload;
+      return {
+        ...state,
+        ...emptyState,
+        haulsMatrix2Search: undefined,
+        haulDateSliderFrame: action.payload,
+      };
     });
