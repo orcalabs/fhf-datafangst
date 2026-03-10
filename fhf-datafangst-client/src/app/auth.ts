@@ -5,26 +5,21 @@ import { AuthProviderProps, UserManager } from "oidc-react";
 export const authConfig: AuthProviderProps = {
   autoSignIn: false,
   onBeforeSignIn: () => {
-    window.localStorage.setItem("pathname", window.location.pathname);
-    window.localStorage.setItem("searchParams", window.location.search);
+    window.localStorage.setItem(
+      "redirect",
+      window.location.pathname + window.location.search,
+    );
   },
   onSignIn: () => {
     // Redirect after login will go to location.origin. Check localstorage if there is a
     // subpath to route to after login redirect
-    const redirectPathname = localStorage.getItem("pathname");
-
-    if (redirectPathname) {
-      const subpath = redirectPathname.substring(1);
-      if (Object.values(AppPage).includes(subpath as any)) {
-        localStorage.removeItem("pathname");
-        window.location.href = window.location.origin + redirectPathname;
-      }
-    }
-
-    const searchParams = localStorage.getItem("searchParams");
-    if (searchParams) {
-      localStorage.removeItem("searchParams");
-      window.location.search = searchParams;
+    const redirect = localStorage.getItem("redirect");
+    if (
+      redirect &&
+      Object.values(AppPage).some((v) => redirect.substring(1).startsWith(v))
+    ) {
+      localStorage.removeItem("redirect");
+      window.location.href = window.location.origin + redirect;
     }
   },
   userManager: new UserManager({

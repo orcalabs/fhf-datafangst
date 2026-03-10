@@ -113,8 +113,8 @@ export const Header: FC<Props> = ({ page }) => {
               }}
               onClick={() => {
                 window.localStorage.setItem(
-                  "pathname",
-                  window.location.pathname,
+                  "redirect",
+                  window.location.pathname + window.location.search,
                 );
                 signIn();
               }}
