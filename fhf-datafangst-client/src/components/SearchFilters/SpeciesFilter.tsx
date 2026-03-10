@@ -1,18 +1,26 @@
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import { StyledPopper } from "components";
-import { SpeciesGroupDetailed } from "generated/openapi";
-import { FC } from "react";
+import { SpeciesGroup, SpeciesGroupDetailed } from "generated/openapi";
+import { FC, useMemo } from "react";
 import { selectSpeciesGroupsSortedByName, useAppSelector } from "store";
 
 interface Props {
   value?: SpeciesGroupDetailed[];
+  options?: SpeciesGroup[];
   onChange: (_?: SpeciesGroupDetailed[]) => void;
 }
 
-export const SpeciesFilter: FC<Props> = (props) => {
-  const { value, onChange } = props;
-  const specieGroups = useAppSelector(selectSpeciesGroupsSortedByName);
+export const SpeciesFilter: FC<Props> = ({ value, options, onChange }) => {
+  const _specieGroups = useAppSelector(selectSpeciesGroupsSortedByName);
+
+  const specieGroups = useMemo(
+    () =>
+      options
+        ? _specieGroups.filter((v) => options.includes(v.id))
+        : _specieGroups,
+    [_specieGroups, options],
+  );
 
   return (
     <Box

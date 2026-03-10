@@ -1,11 +1,11 @@
 import { Box, List, ListSubheader, Typography } from "@mui/material";
-import { TripsArgs } from "api";
 import {
   LocalLoadingProgress,
   OverlayScrollbars,
   PaginationButtons,
   SearchFilters,
 } from "components";
+import { SearchParams } from "components/SearchFilters/SearchFilters";
 import { AppPage } from "containers/App/App";
 import { FC, useEffect, useMemo } from "react";
 import {
@@ -22,7 +22,7 @@ import {
 import { withoutKeys } from "utils";
 import { TripItem } from "./TripItem";
 
-const filterParams: TripsArgs = {
+const filterParams: SearchParams = {
   dateRange: undefined,
   vessels: undefined,
   speciesGroups: undefined,

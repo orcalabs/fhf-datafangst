@@ -1,6 +1,7 @@
 import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Box, Button, Popper } from "@mui/material";
+import { TripsArgs } from "api";
 import {
   DateFilter,
   GearFilter,
@@ -18,8 +19,21 @@ import {
   useAppSelector,
 } from "store";
 
+export type SearchParams = Partial<
+  Pick<
+    TripsArgs,
+    | "vessels"
+    | "dateRange"
+    | "speciesGroups"
+    | "gearGroups"
+    | "vesselLengthGroups"
+    | "weight"
+    | "sorting"
+  >
+>;
+
 interface Props {
-  params: Record<string, any>;
+  params: SearchParams;
   onChange: (_: any) => void;
 }
 
@@ -32,83 +46,62 @@ export const SearchFilters: FC<Props> = (props) => {
     dispatch(setTripFiltersOpen(!filtersAnchor));
   };
 
-  const handleChange = (param: any) =>
+  const handleChange = (param: SearchParams) =>
     props.onChange({ ...props.params, ...param });
 
-  const renderParam = (key: string, value: any) => {
-    const onChange = (value: any) => handleChange({ [key]: value });
+  const renderParam = (key: keyof SearchParams) => {
+    const onChange = (value: SearchParams[typeof key]) =>
+      handleChange({ [key]: value });
 
     switch (key) {
       case "vessels":
         return (
           <VesselFilter
-            value={value}
+            value={props.params[key]}
             onChange={onChange}
             useVirtualization={true}
           />
         );
       case "dateRange":
-        return <DateFilter value={value} onChange={onChange} validateRange />;
+        return (
+          <DateFilter
+            value={props.params[key]}
+            onChange={onChange}
+            validateRange
+          />
+        );
       case "speciesGroups":
-        return <SpeciesFilter value={value} onChange={onChange} />;
+        return (
+          <SpeciesFilter
+            value={props.params[key]}
+            options={props.params.vessels?.flatMap((v) => v.speciesGroups)}
+            onChange={onChange}
+          />
+        );
       case "gearGroups":
-        return <GearFilter value={value} onChange={onChange} />;
+        return (
+          <GearFilter
+            value={props.params[key]}
+            options={props.params.vessels?.flatMap((v) => v.gearGroups)}
+            onChange={onChange}
+          />
+        );
       case "vesselLengthGroups":
-        return <VesselLengthFilter value={value} onChange={onChange} />;
+        return (
+          <VesselLengthFilter
+            value={props.params[key]}
+            options={props.params.vessels?.map(
+              (v) => v.fiskeridir.lengthGroupId,
+            )}
+            onChange={onChange}
+          />
+        );
       case "weight":
-        return <WeightFilter value={value} onChange={onChange} />;
+        return <WeightFilter value={props.params[key]} onChange={onChange} />;
       case "sorting":
-        return <SortingFilter value={value} onChange={onChange} />;
+        return <SortingFilter value={props.params[key]} onChange={onChange} />;
     }
   };
-
-  const content = (
-    <Box
-      sx={{
-        overflow: "auto",
-        boxShadow: "none",
-        borderLeft: 1,
-        bgcolor: "white",
-        color: "black",
-        p: 2,
-        minWidth: 330,
-        maxWidth: 375,
-        maxHeight: "100%",
-        "& .MuiSlider-thumb": {
-          borderRadius: 0,
-          width: 15,
-          height: 15,
-          "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
-            boxShadow: "inherit",
-          },
-        },
-        "& .MuiTypography-body1": { fontSize: "0.9rem" },
-        "& .MuiOutlinedInput-root": { borderRadius: 0 },
-        "& .MuiToggleButton-root": { borderRadius: 0 },
-        "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: "text.secondary",
-        },
-        "& .MuiButtonBase-root": {
-          "&.Mui-checked": {
-            color: "secondary.main",
-          },
-          "&.MuiToggleButton-root": {
-            "&.Mui-selected": {
-              bgcolor: "secondary.main",
-              color: "black",
-              ":hover": {
-                bgcolor: "#8FC6C1",
-              },
-            },
-          },
-        },
-      }}
-    >
-      {Object.entries(props.params).map(([key, value], i) => (
-        <span key={i}>{renderParam(key, value)}</span>
-      ))}
-    </Box>
-  );
 
   return (
     <>
@@ -175,7 +168,51 @@ export const SearchFilters: FC<Props> = (props) => {
           },
         ]}
       >
-        {content}
+        <Box
+          sx={{
+            overflow: "auto",
+            boxShadow: "none",
+            borderLeft: 1,
+            bgcolor: "white",
+            color: "black",
+            p: 2,
+            minWidth: 330,
+            maxWidth: 375,
+            maxHeight: "100%",
+            "& .MuiSlider-thumb": {
+              borderRadius: 0,
+              width: 15,
+              height: 15,
+              "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
+                boxShadow: "inherit",
+              },
+            },
+            "& .MuiTypography-body1": { fontSize: "0.9rem" },
+            "& .MuiOutlinedInput-root": { borderRadius: 0 },
+            "& .MuiToggleButton-root": { borderRadius: 0 },
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "text.secondary",
+            },
+            "& .MuiButtonBase-root": {
+              "&.Mui-checked": {
+                color: "secondary.main",
+              },
+              "&.MuiToggleButton-root": {
+                "&.Mui-selected": {
+                  bgcolor: "secondary.main",
+                  color: "black",
+                  ":hover": {
+                    bgcolor: "#8FC6C1",
+                  },
+                },
+              },
+            },
+          }}
+        >
+          {Object.keys(props.params).map((key, i) => (
+            <span key={i}>{renderParam(key as keyof typeof props.params)}</span>
+          ))}
+        </Box>
       </Popper>
     </>
   );
