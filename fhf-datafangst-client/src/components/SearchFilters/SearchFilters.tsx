@@ -11,6 +11,7 @@ import {
   WeightFilter,
 } from "components";
 import { VesselFilter } from "components/Filters/VesselFilter";
+import { Vessel } from "generated/openapi";
 import { FC, useRef } from "react";
 import {
   selectTripFiltersOpen,
@@ -34,10 +35,15 @@ export type SearchParams = Partial<
 
 interface Props {
   params: SearchParams;
+  selectedVessel?: Vessel;
   onChange: (_: any) => void;
 }
 
-export const SearchFilters: FC<Props> = (props) => {
+export const SearchFilters: FC<Props> = ({
+  params,
+  selectedVessel,
+  onChange,
+}) => {
   const dispatch = useAppDispatch();
   const filtersAnchor = useAppSelector(selectTripFiltersOpen);
   const filterButtonRef = useRef(null);
@@ -47,7 +53,7 @@ export const SearchFilters: FC<Props> = (props) => {
   };
 
   const handleChange = (param: SearchParams) =>
-    props.onChange({ ...props.params, ...param });
+    onChange({ ...params, ...param });
 
   const renderParam = (key: keyof SearchParams) => {
     const onChange = (value: SearchParams[typeof key]) =>
@@ -55,51 +61,51 @@ export const SearchFilters: FC<Props> = (props) => {
 
     switch (key) {
       case "vessels":
-        return (
+        return !selectedVessel ? (
           <VesselFilter
-            value={props.params[key]}
+            value={params[key]}
             onChange={onChange}
             useVirtualization={true}
           />
-        );
+        ) : undefined;
       case "dateRange":
         return (
-          <DateFilter
-            value={props.params[key]}
-            onChange={onChange}
-            validateRange
-          />
+          <DateFilter value={params[key]} onChange={onChange} validateRange />
         );
       case "speciesGroups":
         return (
           <SpeciesFilter
-            value={props.params[key]}
-            options={props.params.vessels?.flatMap((v) => v.speciesGroups)}
+            value={params[key]}
+            options={
+              selectedVessel?.speciesGroups ??
+              params.vessels?.flatMap((v) => v.speciesGroups)
+            }
             onChange={onChange}
           />
         );
       case "gearGroups":
         return (
           <GearFilter
-            value={props.params[key]}
-            options={props.params.vessels?.flatMap((v) => v.gearGroups)}
+            value={params[key]}
+            options={
+              selectedVessel?.gearGroups ??
+              params.vessels?.flatMap((v) => v.gearGroups)
+            }
             onChange={onChange}
           />
         );
       case "vesselLengthGroups":
-        return (
+        return !selectedVessel ? (
           <VesselLengthFilter
-            value={props.params[key]}
-            options={props.params.vessels?.map(
-              (v) => v.fiskeridir.lengthGroupId,
-            )}
+            value={params[key]}
+            options={params.vessels?.map((v) => v.fiskeridir.lengthGroupId)}
             onChange={onChange}
           />
-        );
+        ) : undefined;
       case "weight":
-        return <WeightFilter value={props.params[key]} onChange={onChange} />;
+        return <WeightFilter value={params[key]} onChange={onChange} />;
       case "sorting":
-        return <SortingFilter value={props.params[key]} onChange={onChange} />;
+        return <SortingFilter value={params[key]} onChange={onChange} />;
     }
   };
 
@@ -209,8 +215,8 @@ export const SearchFilters: FC<Props> = (props) => {
             },
           }}
         >
-          {Object.keys(props.params).map((key, i) => (
-            <span key={i}>{renderParam(key as keyof typeof props.params)}</span>
+          {Object.keys(params).map((key, i) => (
+            <span key={i}>{renderParam(key as keyof typeof params)}</span>
           ))}
         </Box>
       </Popper>

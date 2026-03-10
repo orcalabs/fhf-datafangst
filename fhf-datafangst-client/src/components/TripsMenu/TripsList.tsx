@@ -19,7 +19,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { withoutKeys } from "utils";
 import { TripItem } from "./TripItem";
 
 const filterParams: SearchParams = {
@@ -45,14 +44,8 @@ export const TripsList: FC = () => {
   const limit = tripsSearch?.limit ?? 10;
 
   const activeFilterParams = useMemo(
-    () =>
-      appPage === AppPage.MyPage
-        ? {
-            ...withoutKeys(filterParams, "vessels", "vesselLengthGroups"),
-            ...withoutKeys(tripsSearch, "vessels"),
-          }
-        : { ...filterParams, ...tripsSearch },
-    [tripsSearch, filterParams, appPage],
+    () => ({ ...filterParams, ...tripsSearch }),
+    [tripsSearch, filterParams],
   );
   const handleTripsPagination = (offset: number, limit: number) => {
     dispatch(paginateTripsSearch({ offset, limit }));
@@ -90,6 +83,7 @@ export const TripsList: FC = () => {
         Leveranser
         <SearchFilters
           params={activeFilterParams}
+          selectedVessel={appPage === AppPage.MyPage ? vessel : undefined}
           onChange={(value) =>
             dispatch(setTripsSearch({ ...tripsSearch, ...value, offset: 0 }))
           }

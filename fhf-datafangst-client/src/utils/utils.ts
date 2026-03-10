@@ -266,19 +266,6 @@ export const trackForHaul = (
   return haulTrack;
 };
 
-export const withoutKeys = (
-  obj?: Record<any, any>,
-  ...keys: any[]
-): Record<any, any> | undefined => {
-  const res = { ...obj };
-
-  for (const key of keys) {
-    delete res[key];
-  }
-
-  return res;
-};
-
 export const getGearGroupsFromVessels = (vessels: Vessel[]) => {
   let res: GearGroup[] = [];
   for (const vessel of vessels) {
