@@ -18,6 +18,7 @@ import { FC, useEffect } from "react";
 import {
   getTrip,
   selectGearsMap,
+  selectLandingDateSliderFrame,
   selectLandingGearFilterGridStats,
   selectLandings,
   selectLandingsLoading,
@@ -46,6 +47,7 @@ export const LandingsMenu: FC = () => {
   const gears = useAppSelector(selectGearsMap);
   const landings = useAppSelector(selectLandings);
   const landingsLoading = useAppSelector(selectLandingsLoading);
+  const landingDateSliderFrame = useAppSelector(selectLandingDateSliderFrame);
   const selectedLanding = useAppSelector(selectSelectedLanding);
   const landingsSearch = useAppSelector(selectLandingsSearch);
   const matrixSearch = useAppSelector(selectLandingsMatrixSearch);
@@ -83,7 +85,17 @@ export const LandingsMenu: FC = () => {
   useEffect(() => {
     if (matrixSearch || matrix2Search) {
       onMatrixSearchChange(
-        { ...matrixSearch, ...matrix2Search, catchLocations: selectedGrids },
+        {
+          ...matrixSearch,
+          ...matrix2Search,
+          ...(landingDateSliderFrame
+            ? {
+                years: [landingDateSliderFrame.getFullYear()],
+                months: [landingDateSliderFrame.getMonth() + 1],
+              }
+            : undefined),
+          catchLocations: selectedGrids,
+        },
         (matrixSearch ?? matrix2Search)?.filter ?? LandingsFilter.VesselLength,
       );
     }

@@ -10,7 +10,7 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { HaulsArgs, HaulsFilter } from "api";
+import { HaulsFilter, HaulsMatrixArgs } from "api";
 import { LocalLoadingProgress, SortMenu, SortOption } from "components";
 import { GearFilter } from "components/Filters/GearFilter";
 import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
@@ -20,6 +20,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import {
   getTrip,
   selectGearsMap,
+  selectHaulDateSliderFrame,
   selectHaulGearFilterGridStats,
   selectHaulsLoading,
   selectHaulsMatrix2Loading,
@@ -59,6 +60,7 @@ export const HaulsMenu: FC = () => {
     selectHaulsSorted(state, sortOrder[0], sortOrder[1]),
   );
   const haulsLoading = useAppSelector(selectHaulsLoading);
+  const haulDateSliderFrame = useAppSelector(selectHaulDateSliderFrame);
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const matrixSearch = useAppSelector(selectHaulsMatrixSearch);
@@ -111,14 +113,27 @@ export const HaulsMenu: FC = () => {
     dispatch(setSelectedHaul(newHaul));
   };
 
-  const onSearchChange = (update: Partial<HaulsArgs>, filter: HaulsFilter) => {
+  const onSearchChange = (
+    update: Partial<HaulsMatrixArgs>,
+    filter: HaulsFilter,
+  ) => {
     dispatch(setHaulsMatrix2Search({ ...matrix2Search, ...update, filter }));
   };
 
   useEffect(() => {
     if (matrixSearch || matrix2Search) {
       onSearchChange(
-        { ...matrixSearch, ...matrix2Search, catchLocations: selectedGrids },
+        {
+          ...matrixSearch,
+          ...matrix2Search,
+          ...(haulDateSliderFrame
+            ? {
+                years: [haulDateSliderFrame.getFullYear()],
+                months: [haulDateSliderFrame.getMonth() + 1],
+              }
+            : undefined),
+          catchLocations: selectedGrids,
+        },
         (matrixSearch ?? matrix2Search)?.filter ?? HaulsFilter.VesselLength,
       );
     }

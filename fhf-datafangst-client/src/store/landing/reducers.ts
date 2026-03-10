@@ -123,5 +123,10 @@ export const landingBuilder = (
       );
     })
     .addCase(setLandingDateSliderFrame, (state, action) => {
-      state.landingDateSliderFrame = action.payload;
+      return {
+        ...state,
+        ...emptyState,
+        landingsMatrix2Search: undefined,
+        landingDateSliderFrame: action.payload,
+      };
     });
