@@ -10,21 +10,30 @@ on:
       - master
 
 jobs:
-  cache:
+  cache-client:
     uses: orcalabs/github-actions/.github/workflows/npm_cache.yml@master
     with:
       src-dir: fhf-datafangst-client
+
+  cache-fuel-registration:
+    uses: orcalabs/github-actions/.github/workflows/npm_cache.yml@master
+    with:
+      src-dir: fhf-datafangst-fuel-registration
 
   images:
     uses: orcalabs/github-actions/.github/workflows/container-apps-deploy.yml@master
     secrets: inherit
     with:
       object: '{
-        "fhf-datafangst-client" : {
+          "fhf-datafangst-client" : {
             "container-app-name" : "dev-fhf-datafangst-client",
             "dockerfile" : "dockerfiles/fhf-datafangst-client/Dockerfile"
+          },
+          "fhf-datafangst-fuel-registration" : {
+            "container-app-name" : "dev-fhf-datafangst-fuel-registration",
+            "dockerfile" : "dockerfiles/fhf-datafangst-fuel-registration/Dockerfile"
           }
         }'
-      registry: ghcr.io/orcalabs/fhf-datafangst/fhf-datafangst-client
+      registry: ghcr.io/orcalabs/fhf-datafangst
       container-app-resource-group: dev
       container-app-env-name: dev-kyogre
