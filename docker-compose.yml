@@ -7,3 +7,12 @@ services:
     container_name: fhf-datafangst-client
     ports:
       - 11000:80
+
+  fuel-registration:
+    image: fhf-datafangst/fhf-datafangst-fuel-registration:latest
+    build:
+      dockerfile: dockerfiles/fhf-datafangst-fuel-registration/Dockerfile
+      context: .
+    container_name: fhf-datafangst-fuel-registration
+    ports:
+      - 11000:80

@@ -6,8 +6,14 @@ on:
     - cron: '0 7 * * 1'
 
 jobs:
-  update:
+  update-client:
     uses: orcalabs/github-actions/.github/workflows/npm_update.yml@master
     secrets: inherit
     with:
       src-dir: fhf-datafangst-client
+
+  update-fuel-registration:
+    uses: orcalabs/github-actions/.github/workflows/npm_update.yml@master
+    secrets: inherit
+    with:
+      src-dir: fhf-datafangst-fuel-registration
