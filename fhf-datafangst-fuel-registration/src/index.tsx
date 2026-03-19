@@ -11,24 +11,33 @@ import { store } from "store";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
-const container = document.getElementById("root");
-const root = createRoot(container!);
+if (window !== window.top) {
+  // `window !== window.top` means that the app is currently being rendered inside an iframe,
+  // which happens during auth token renewal.
+  authConfig.userManager!.signinSilentCallback();
+  if (window.frameElement) {
+    window.parent.document.body.removeChild(window.frameElement);
+  }
+} else {
+  const container = document.getElementById("root");
+  const root = createRoot(container!);
 
-root.render(
-  <StyledEngineProvider injectFirst>
-    <AuthProvider {...authConfig} autoSignIn={true}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </BrowserRouter>
-      </ThemeProvider>
-    </AuthProvider>
-  </StyledEngineProvider>,
-);
+  root.render(
+    <StyledEngineProvider injectFirst>
+      <AuthProvider {...authConfig} autoSignIn={true}>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </BrowserRouter>
+        </ThemeProvider>
+      </AuthProvider>
+    </StyledEngineProvider>,
+  );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  reportWebVitals();
+}
