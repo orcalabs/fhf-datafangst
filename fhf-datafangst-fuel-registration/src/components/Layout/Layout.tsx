@@ -13,9 +13,13 @@ export const Layout: React.FC<Props> = ({ children }) => {
       defer
     >
       <Box
-        sx={{ height: "100vh", width: "100%", bgcolor: "rgb(237, 240, 243)" }}
+        sx={{
+          minHeight: ["100vh", "100dvh"],
+          width: "100%",
+          bgcolor: "rgb(237, 240, 243)",
+        }}
       >
-        <main style={{ height: "100vh" }}>{children}</main>
+        <main>{children}</main>
       </Box>
     </OverlayScrollbarsComponent>
   );
