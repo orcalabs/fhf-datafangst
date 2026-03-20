@@ -30,7 +30,7 @@ jobs:
             "dockerfile" : "dockerfiles/fhf-datafangst-client/Dockerfile"
           },
           "fhf-datafangst-fuel-registration" : {
-            "container-app-name" : "dev-fhf-datafangst-fuel-registration",
+            "container-app-name" : "dev-fhf-datafangst-fuel-registr",
             "dockerfile" : "dockerfiles/fhf-datafangst-fuel-registration/Dockerfile"
           }
         }'
