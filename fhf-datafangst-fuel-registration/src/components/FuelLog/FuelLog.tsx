@@ -485,7 +485,6 @@ export const FuelLog: FC = () => {
           sx={{
             pl: 1,
             fontStyle: "italic",
-            bgcolor: theme.palette.grey[100],
           }}
         >
           Ingen målinger registrert
