@@ -41,7 +41,7 @@ const theme = createTheme(
       },
       h2: {
         fontWeight: fontStyle.fontWeightBold,
-        fontSize: "2.3rem",
+        fontSize: "1.8rem",
       },
       h3: {
         fontWeight: fontStyle.fontWeightBold,

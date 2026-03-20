@@ -26,11 +26,7 @@ import {
   useAppSelector,
 } from "store";
 
-interface Props {
-  onResetTabValue: () => void;
-}
-
-export const Header: FC<Props> = ({ onResetTabValue }) => {
+export const Header: FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down(400));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -72,7 +68,6 @@ export const Header: FC<Props> = ({ onResetTabValue }) => {
               gridColumnStart: isMobile ? 1 : 2,
               gridColumnEnd: 3,
             }}
-            onClick={onResetTabValue}
           >
             <Stack
               spacing={2}
@@ -173,6 +168,7 @@ export const Header: FC<Props> = ({ onResetTabValue }) => {
           onClose={() => setUserManualModalOpen(false)}
         />
       </AppBar>
+      <Toolbar />
     </>
   );
 };

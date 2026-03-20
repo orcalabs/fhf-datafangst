@@ -230,7 +230,9 @@ export const FuelLog: FC = () => {
                           </StyledTableCell>
                         </StyledTableRow>
                         <StyledTableRow>
-                          <StyledTableCell>Liter</StyledTableCell>
+                          <StyledTableCell>
+                            {f.fuelAfter ? "Liter før bunkring" : "Liter"}
+                          </StyledTableCell>
                           <StyledTableCell align="right">
                             {f.fuel}
                           </StyledTableCell>
