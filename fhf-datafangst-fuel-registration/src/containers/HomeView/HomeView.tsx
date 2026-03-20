@@ -1,3 +1,4 @@
+import "@khmyznikov/pwa-install";
 import { Stack, Typography } from "@mui/material";
 import theme from "app/theme";
 import {
