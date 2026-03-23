@@ -126,9 +126,7 @@ export const FuelLog: FC = () => {
   const [editEntry, setEditEntry] = useState<EditFuel | undefined>(undefined);
 
   useEffect(() => {
-    if (!fuel) {
-      dispatch(getFuelMeasurements({}));
-    }
+    dispatch(getFuelMeasurements({}));
   }, []);
 
   const resetEdit = () => {
@@ -477,8 +475,8 @@ export const FuelLog: FC = () => {
           </TableContainer>
         )
       ) : loading ? (
-        <Box sx={{ width: "fit-content", marginRight: "auto" }}>
-          <LocalLoadingProgress color="black" />
+        <Box sx={{ width: "fit-content", marginInline: "auto" }}>
+          <LocalLoadingProgress color={theme.palette.primary.main} />
         </Box>
       ) : (
         <Typography

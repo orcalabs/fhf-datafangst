@@ -73,6 +73,7 @@ export const fuelBuilder = (
       if (idx !== undefined && idx >= 0) {
         state.fuelMeasurements!.splice(idx, 1);
       }
+      state.fuelPostStatus = "success";
     })
     .addCase(deleteFuelMeasurement.rejected, (state, _) => {
       state.fuelPostStatus = "error";

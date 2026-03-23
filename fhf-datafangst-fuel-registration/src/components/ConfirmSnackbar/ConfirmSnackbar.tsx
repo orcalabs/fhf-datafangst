@@ -33,14 +33,14 @@ export const ConfirmSnackbar: FC = () => {
       open={snackbarOpen}
       autoHideDuration={3000}
       onClose={handleClose}
+      sx={{ position: "fixed", bottom: 8 }}
     >
       {fuelPostStatus && (
         <Alert
           onClose={handleClose}
           severity={fuelPostStatus}
           variant="filled"
-          // sx={{ width: "100%" }}
-          sx={{ width: "calc(100% - 16px)", position: "fixed", bottom: 8 }}
+          sx={{ width: "100%" }}
         >
           {fuelPostStatus === "success"
             ? "Fullført"
