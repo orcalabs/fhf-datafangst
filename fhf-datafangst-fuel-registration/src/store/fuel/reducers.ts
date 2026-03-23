@@ -4,6 +4,7 @@ import {
   createFuelMeasurement,
   deleteFuelMeasurement,
   getFuelMeasurements,
+  resetFuelPostStatus,
   updateFuelMeasurement,
 } from "./actions";
 
@@ -37,8 +38,11 @@ export const fuelBuilder = (
       } else {
         state.fuelMeasurements = action.payload;
       }
+      state.fuelPostStatus = "success";
     })
-
+    .addCase(createFuelMeasurement.rejected, (state, _) => {
+      state.fuelPostStatus = "error";
+    })
     .addCase(updateFuelMeasurement.pending, (state, action) => {
       action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
       action.meta.arg.token = state.authUser?.access_token;
@@ -53,6 +57,10 @@ export const fuelBuilder = (
           ...action.meta.arg,
         };
       }
+      state.fuelPostStatus = "success";
+    })
+    .addCase(updateFuelMeasurement.rejected, (state, _) => {
+      state.fuelPostStatus = "error";
     })
     .addCase(deleteFuelMeasurement.pending, (state, action) => {
       action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
@@ -65,4 +73,10 @@ export const fuelBuilder = (
       if (idx !== undefined && idx >= 0) {
         state.fuelMeasurements!.splice(idx, 1);
       }
+    })
+    .addCase(deleteFuelMeasurement.rejected, (state, _) => {
+      state.fuelPostStatus = "error";
+    })
+    .addCase(resetFuelPostStatus, (state, _) => {
+      state.fuelPostStatus = undefined;
     });

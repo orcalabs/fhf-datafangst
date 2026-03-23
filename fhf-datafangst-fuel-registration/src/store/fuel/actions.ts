@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import * as Api from "api";
 
 export const getFuelMeasurements = createAsyncThunk(
@@ -20,3 +20,5 @@ export const deleteFuelMeasurement = createAsyncThunk(
   "fuel/deleteFuelMeasurement",
   Api.deleteFuelMeasurement,
 );
+
+export const resetFuelPostStatus = createAction("base/resetFuelPostStatus");

@@ -9,6 +9,7 @@ import {
   LocalLoadingProgress,
   Tabs,
 } from "components";
+import { ConfirmSnackbar } from "components/ConfirmSnackbar/ConfirmSnackbar";
 import { FC } from "react";
 import {
   selectBwUserLoading,
@@ -78,6 +79,7 @@ export const HomeView: FC = () => {
           </Stack>
         )}
       </Stack>
+      <ConfirmSnackbar />
     </Stack>
   );
 };
