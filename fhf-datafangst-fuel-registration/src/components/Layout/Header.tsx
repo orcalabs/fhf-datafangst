@@ -157,7 +157,6 @@ export const Header: FC = () => {
                   install-description="Legg til på appen på din startskjerm."
                   manual-apple="true"
                   manual-chrome="true"
-                  manifest-url="/manifest.json"
                 />
               )}
             </>
