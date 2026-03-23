@@ -1,5 +1,6 @@
 import "@khmyznikov/pwa-install";
 import { PWAInstallElement } from "@khmyznikov/pwa-install";
+import AddToHomeScreenIcon from "@mui/icons-material/AddToHomeScreen";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -39,6 +40,7 @@ export const Header: FC = () => {
   const isInstalled = window.matchMedia("(display-mode: standalone)").matches;
 
   let pwaInstallElement: PWAInstallElement | null = null;
+
   const handleShowDialog = () => {
     if (pwaInstallElement) {
       pwaInstallElement.showDialog(true);
@@ -125,9 +127,14 @@ export const Header: FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={() => setAnchorEl(null)}
               >
-                <MenuItem onClick={handleShowDialog}>
-                  Legg til på startskjerm
-                </MenuItem>
+                {!isInstalled && (
+                  <MenuItem onClick={handleShowDialog}>
+                    <ListItemIcon>
+                      <AddToHomeScreenIcon fontSize="small" color="secondary" />
+                    </ListItemIcon>
+                    Legg til på startskjerm
+                  </MenuItem>
+                )}
                 <MenuItem onClick={() => setUserManualModalOpen(true)}>
                   <ListItemIcon>
                     <InfoOutlineIcon fontSize="small" color="secondary" />
@@ -147,9 +154,10 @@ export const Header: FC = () => {
                   ref={(el) => {
                     pwaInstallElement = el;
                   }}
-                  disable-install-description="true"
-                  name="Legg til på startskjerm"
-                  description="Ønsker du å legge til denne siden på startskjermen din?"
+                  install-description="Legg til på appen på din startskjerm."
+                  manual-apple="true"
+                  manual-chrome="true"
+                  manifest-url="/manifest.json"
                 />
               )}
             </>
