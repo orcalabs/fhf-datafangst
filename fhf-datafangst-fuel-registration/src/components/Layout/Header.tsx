@@ -41,9 +41,20 @@ export const Header: FC = () => {
 
   let pwaInstallElement: PWAInstallElement | null = null;
 
+  let deferredPrompt: BeforeInstallPromptEvent | null = null;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
   const handleShowDialog = () => {
     if (pwaInstallElement) {
-      pwaInstallElement.showDialog(true);
+      if (deferredPrompt) {
+        pwaInstallElement.showDialog(true);
+      } else {
+        pwaInstallElement.showDialog(false);
+      }
     }
   };
 
@@ -154,7 +165,7 @@ export const Header: FC = () => {
                   ref={(el) => {
                     pwaInstallElement = el;
                   }}
-                  install-description="Legg til på appen på din startskjerm."
+                  disable-install-description="true"
                   manual-apple="true"
                   manual-chrome="true"
                 />
