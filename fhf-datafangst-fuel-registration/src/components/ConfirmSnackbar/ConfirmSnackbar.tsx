@@ -39,7 +39,8 @@ export const ConfirmSnackbar: FC = () => {
           onClose={handleClose}
           severity={fuelPostStatus}
           variant="filled"
-          sx={{ width: "100%" }}
+          // sx={{ width: "100%" }}
+          sx={{ width: "calc(100% - 16px)", position: "fixed", bottom: 8 }}
         >
           {fuelPostStatus === "success"
             ? "Fullført"
