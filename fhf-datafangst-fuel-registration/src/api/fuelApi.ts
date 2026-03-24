@@ -10,6 +10,8 @@ export interface FuelMeasurementsArgs {
   token?: string;
   startDate?: Date;
   endDate?: Date;
+  limit: number;
+  offset: number;
   callSignOverride?: string | null;
 }
 
@@ -30,15 +32,17 @@ export interface DeleteFuelMeasurementsArgs extends DeleteFuelMeasurement {
 
 const api = new FuelMeasurementApi(apiConfiguration, undefined, axiosInstance);
 
-export const getFuelMeasurements = apiFn((args: FuelMeasurementsArgs, signal) =>
-  api.routesV1FuelMeasurementGetFuelMeasurements(
-    {
-      start: args.startDate?.toISOString(),
-      end: args.endDate?.toISOString(),
-      authorization: args.token!,
-    },
-    { params: { call_sign_override: args.callSignOverride }, signal },
-  ),
+export const getFuelMeasurements = apiFn(
+  ({ startDate, endDate, token, ...args }: FuelMeasurementsArgs, signal) =>
+    api.routesV1FuelMeasurementGetFuelMeasurements(
+      {
+        start: startDate?.toISOString(),
+        end: endDate?.toISOString(),
+        authorization: token!,
+        ...args,
+      },
+      { params: { call_sign_override: args.callSignOverride }, signal },
+    ),
 );
 
 export const createFuelMeasurement = apiFn(

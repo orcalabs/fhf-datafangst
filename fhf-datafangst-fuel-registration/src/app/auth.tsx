@@ -32,9 +32,11 @@ export const authConfig: AuthProviderProps = {
   }),
 };
 
-const isMobile = !!(process.env.REACT_APP_MOBILE as string);
+const isMobileDev =
+  !!(process.env.REACT_APP_MOBILE_DEV as string) &&
+  (process.env.REACT_APP_ENV as string) === "staging";
 
-export const useAuth: typeof baseUseAuth = isMobile
+export const useAuth: typeof baseUseAuth = isMobileDev
   ? (): AuthContextProps => ({
       signIn: async () => {},
       signInCallback: async () => {},
@@ -43,7 +45,7 @@ export const useAuth: typeof baseUseAuth = isMobile
       signOutRedirect: async () => {},
       userManager: authConfig.userManager!,
       userData: new User({
-        access_token: "TODO",
+        access_token: "******",
         token_type: "Bearer",
         profile: {
           aud: "fhf-datafangst",
@@ -51,14 +53,14 @@ export const useAuth: typeof baseUseAuth = isMobile
           iat: 1774349943000,
           idp: "local",
           iss: "https://id.pilot.bwlab.no",
-          sid: "TODO",
-          sub: "TODO",
+          sid: "",
+          sub: "",
         },
       }),
       isLoading: false,
     })
   : baseUseAuth;
 
-export const AuthProvider: typeof BaseAuthProvider = isMobile
+export const AuthProvider: typeof BaseAuthProvider = isMobileDev
   ? ({ children }) => <>{children}</>
   : BaseAuthProvider;

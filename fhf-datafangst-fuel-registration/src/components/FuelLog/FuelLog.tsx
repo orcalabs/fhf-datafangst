@@ -39,6 +39,7 @@ import {
   getFuelMeasurements,
   selectFuelMeasurements,
   selectFuelMeasurementsLoading,
+  selectFuelMeasurementsScrollable,
   updateFuelMeasurement,
   useAppDispatch,
   useAppSelector,
@@ -113,27 +114,54 @@ const numberInputLimiter = (e: React.KeyboardEvent<HTMLDivElement>) => {
 
 export const FuelLog: FC = () => {
   const dispatch = useAppDispatch();
+
   const isMediumResolution = useMediaQuery(theme.breakpoints.down(920));
   const isSmallResolution = useMediaQuery(theme.breakpoints.between(470, 920));
   const isMobile = useMediaQuery(theme.breakpoints.down(435));
+
   const fuel = useAppSelector(selectFuelMeasurements);
   const loading = useAppSelector(selectFuelMeasurementsLoading);
+  const scrollable = useAppSelector(selectFuelMeasurementsScrollable);
+
   const [confirmDelete, setConfirmDelete] = useState<Confirm | undefined>(
     undefined,
   );
-
   const [editEntry, setEditEntry] = useState<EditFuel | undefined>(undefined);
+  const [offset, setOffset] = useState(0);
+
+  const limit = 20;
 
   useEffect(() => {
-    dispatch(getFuelMeasurements({}));
-  }, []);
+    dispatch(getFuelMeasurements({ limit, offset }));
+  }, [offset]);
+
+  useEffect(() => {
+    if (!scrollable || loading || !fuel?.length) {
+      return;
+    }
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (scrollTop + windowHeight >= documentHeight - 100) {
+        setOffset((v) => v + limit);
+      }
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [fuel, loading]);
 
   const resetEdit = () => {
     setEditEntry(undefined);
   };
 
   return (
-    <Box sx={{ paddingBottom: scrollable ? 4 : undefined }}>
+    <Box sx={{ paddingBottom: scrollable && !isMobile ? 8 : undefined }}>
       {fuel?.length &&
         (isMediumResolution ? (
           <Stack
@@ -143,7 +171,7 @@ export const FuelLog: FC = () => {
               px: isMobile ? 2 : 0,
             }}
           >
-            {fuel?.map((f, i) => (
+            {fuel.map((f, i) => (
               <Card
                 key={i}
                 variant="outlined"
@@ -472,21 +500,27 @@ export const FuelLog: FC = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        )
-      ) : loading ? (
-        <Box sx={{ width: "fit-content", marginInline: "auto" }}>
+        ))}
+
+      {loading ? (
+        <Box
+          sx={{ width: "fit-content", marginInline: "auto", paddingBlock: 2 }}
+        >
           <LocalLoadingProgress color={theme.palette.primary.main} />
         </Box>
       ) : (
-        <Typography
-          sx={{
-            pl: 1,
-            fontStyle: "italic",
-          }}
-        >
-          Ingen målinger registrert
-        </Typography>
+        !fuel?.length && (
+          <Typography
+            sx={{
+              pl: 1,
+              fontStyle: "italic",
+            }}
+          >
+            Ingen målinger registrert
+          </Typography>
+        )
       )}
+
       {confirmDelete && (
         <ConfirmModal
           {...confirmDelete}
