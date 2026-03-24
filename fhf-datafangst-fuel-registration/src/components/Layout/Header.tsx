@@ -139,14 +139,24 @@ export const Header: FC = () => {
                 onClose={() => setAnchorEl(null)}
               >
                 {!isInstalled && (
-                  <MenuItem onClick={handleShowDialog}>
+                  <MenuItem
+                    onClick={() => {
+                      handleShowDialog();
+                      setAnchorEl(null);
+                    }}
+                  >
                     <ListItemIcon>
                       <AddToHomeScreenIcon fontSize="small" color="secondary" />
                     </ListItemIcon>
                     Legg til på startskjerm
                   </MenuItem>
                 )}
-                <MenuItem onClick={() => setUserManualModalOpen(true)}>
+                <MenuItem
+                  onClick={() => {
+                    setUserManualModalOpen(true);
+                    setAnchorEl(null);
+                  }}
+                >
                   <ListItemIcon>
                     <InfoOutlineIcon fontSize="small" color="secondary" />
                   </ListItemIcon>
