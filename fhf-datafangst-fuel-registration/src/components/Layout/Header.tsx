@@ -17,10 +17,10 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { useAuth } from "app/auth";
 import theme from "app/theme";
 import { VesselIcon } from "assets/icons";
 import { UserManual } from "components";
-import { useAuth } from "oidc-react";
 import { FC, useState } from "react";
 import { Link } from "react-router";
 import {
@@ -30,13 +30,17 @@ import {
 } from "store";
 
 export const Header: FC = () => {
+  const { signOutRedirect } = useAuth();
+
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down(400));
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [userManualModalOpen, setUserManualModalOpen] = useState(false);
-  const { signOutRedirect } = useAuth();
+
   const userData = useAppSelector(selectBwUserProfile);
   const bwUserLoading = useAppSelector(selectBwUserLoading);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [userManualModalOpen, setUserManualModalOpen] = useState(false);
+
   const isInstalled = window.matchMedia("(display-mode: standalone)").matches;
 
   let pwaInstallElement: PWAInstallElement | null = null;

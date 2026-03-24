@@ -1,7 +1,7 @@
 import { CssBaseline } from "@mui/material";
+import { useAuth } from "app/auth";
 import { Layout } from "components";
 import { HomeView } from "containers";
-import { useAuth } from "oidc-react";
 import { useEffect } from "react";
 import {
   checkLoggedIn,
@@ -16,10 +16,10 @@ export const App: React.FC = () => {
   const loggedIn = useAppSelector(selectIsLoggedIn);
 
   useEffect(() => {
-    if (userData && !isLoading) {
+    if (userData && !isLoading && !loggedIn) {
       dispatch(checkLoggedIn(userData));
     }
-  }, [userData, isLoading]);
+  }, [userData, isLoading, loggedIn]);
 
   return (
     <>
