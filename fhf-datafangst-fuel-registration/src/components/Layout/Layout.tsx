@@ -14,7 +14,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
     >
       <Box
         sx={{
-          minHeight: ["100vh", "100dvh"],
+          height: ["100vh", "100dvh"],
           width: "100%",
           bgcolor: "rgb(237, 240, 243)",
         }}
