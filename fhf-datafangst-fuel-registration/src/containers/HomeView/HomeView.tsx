@@ -1,14 +1,7 @@
 import "@khmyznikov/pwa-install";
 import { Stack, Typography } from "@mui/material";
 import theme from "app/theme";
-import {
-  Bunker,
-  FuelLog,
-  Gauge,
-  Header,
-  LocalLoadingProgress,
-  Tabs,
-} from "components";
+import { Bunker, FuelLog, Gauge, LocalLoadingProgress, Tabs } from "components";
 import { ConfirmSnackbar } from "components/ConfirmSnackbar/ConfirmSnackbar";
 import { FC } from "react";
 import {
@@ -43,7 +36,6 @@ export const HomeView: FC = () => {
         pb: "calc(20px + env(safe-area-inset-bottom))",
       }}
     >
-      <Header />
       <Stack
         sx={{
           pt: 2,

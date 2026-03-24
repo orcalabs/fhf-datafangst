@@ -82,6 +82,7 @@ export const Header: FC = () => {
           sx={{
             display: "grid",
             gridTemplateColumns: isMobile ? "1fr 1fr auto" : "1fr auto 1fr",
+            gridTemplateRows: "1fr",
           }}
         >
           <Link
