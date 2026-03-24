@@ -40,12 +40,13 @@ export const HomeView: FC = () => {
       sx={{
         display: "flex",
         bgcolor: "rgb(237, 240, 243)",
+        pb: "calc(20px + env(safe-area-inset-bottom))",
       }}
     >
       <Header />
       <Stack
         sx={{
-          py: 2,
+          pt: 2,
           width: "fit-content",
           marginInline: "auto",
         }}
