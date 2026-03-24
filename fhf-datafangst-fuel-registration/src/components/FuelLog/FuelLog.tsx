@@ -27,8 +27,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import theme from "app/theme";
 import { LocalLoadingProgress } from "components";
 import { Confirm, ConfirmModal } from "components/ConfirmModal/ConfirmModal";
@@ -134,9 +133,9 @@ export const FuelLog: FC = () => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
-      {fuel && fuel.length ? (
-        isMediumResolution ? (
+    <Box sx={{ paddingBottom: scrollable ? 4 : undefined }}>
+      {fuel?.length &&
+        (isMediumResolution ? (
           <Stack
             spacing={1.5}
             sx={{
@@ -639,6 +638,6 @@ export const FuelLog: FC = () => {
           </DialogActions>
         </Dialog>
       )}
-    </LocalizationProvider>
+    </Box>
   );
 };
