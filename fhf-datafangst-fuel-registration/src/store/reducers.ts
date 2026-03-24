@@ -47,9 +47,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselId: "",
           vesselEmail: "",
           vesselPhone: "",
-          vesselName: "",
+          vesselName: "Senja",
         };
-        // Assign Gadus Njord to Per Gunnar, Eivind, Bård, Tore and Dorthea
+        // Assign Gadus Njord to most test users
       } else if (
         state.bwUser.user.email === "stale.walderhaug@fhf.no" ||
         state.bwUser.user.email === "rita.naustvik@fhf.no" ||
@@ -69,7 +69,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselId: "",
           vesselEmail: "",
           vesselPhone: "",
-          vesselName: "",
+          vesselName: "Gadus Njord",
         };
         // Assign Hermes to Per
       } else if (state.bwUser.user.email === "per.finne@fiskeridir.no") {
@@ -82,9 +82,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselId: "",
           vesselEmail: "",
           vesselPhone: "",
-          vesselName: "",
+          vesselName: "Hermes",
         };
-        // Assign Loran to Erlend
+        // Assign Frøyanes Junior to Erlend
       } else if (state.bwUser.user.email === "erlend.stav@sintef.no") {
         state.bwUser.fiskInfoProfile = {
           ircs: "LFLJ",
@@ -95,8 +95,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselId: "",
           vesselEmail: "",
           vesselPhone: "",
-          vesselName: "",
+          vesselName: "Frøyanes Junior",
         };
+        // Assign Selvåg Senior to Per Gunnar
       } else if (state.bwUser.user.email === "per.gunnar.auran@sintef.no") {
         state.bwUser.fiskInfoProfile = {
           ircs: "LGOQ",
@@ -107,7 +108,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselId: "",
           vesselEmail: "",
           vesselPhone: "",
-          vesselName: "",
+          vesselName: "Selvåg Senior",
         };
       }
     })
