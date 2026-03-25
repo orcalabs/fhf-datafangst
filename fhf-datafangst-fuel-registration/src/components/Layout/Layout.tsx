@@ -1,14 +1,16 @@
 import { Box, useMediaQuery } from "@mui/material";
-import theme from "app/theme";
 import { Header } from "components";
-import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import React, { ReactNode } from "react";
+import React, { lazy, ReactNode } from "react";
+
+const LayoutDesktop = lazy(() => import("./LayoutDesktop"));
+
 interface Props {
   children: ReactNode;
 }
 
 export const Layout: React.FC<Props> = ({ children }) => {
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTouch = useMediaQuery("(pointer: coarse)");
+
   return (
     <Box
       sx={{
@@ -18,18 +20,10 @@ export const Layout: React.FC<Props> = ({ children }) => {
       }}
     >
       <Header />
-      {isMobile ? (
+      {isTouch ? (
         <main>{children}</main>
       ) : (
-        <OverlayScrollbarsComponent
-          className="overlayscrollbars-react"
-          options={{
-            scrollbars: { theme: "os-theme-dark" },
-          }}
-          defer
-        >
-          <main style={{ height: "calc(100vh - 64px)" }}>{children}</main>
-        </OverlayScrollbarsComponent>
+        <LayoutDesktop>{children}</LayoutDesktop>
       )}
     </Box>
   );
