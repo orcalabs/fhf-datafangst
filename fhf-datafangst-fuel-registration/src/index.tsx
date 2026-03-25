@@ -5,7 +5,6 @@ import { authConfig, AuthProvider } from "app/auth";
 import theme from "app/theme";
 import { App } from "containers/App/App";
 import { nb } from "date-fns/locale";
-import "overlayscrollbars/overlayscrollbars.css";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router";
