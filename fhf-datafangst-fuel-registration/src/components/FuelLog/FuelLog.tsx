@@ -33,7 +33,7 @@ import { LocalLoadingProgress } from "components";
 import { Confirm, ConfirmModal } from "components/ConfirmModal/ConfirmModal";
 import { format, isToday, isYesterday } from "date-fns";
 import { nb } from "date-fns/locale";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import {
   deleteFuelMeasurement,
   getFuelMeasurements,
@@ -115,6 +115,8 @@ const numberInputLimiter = (e: React.KeyboardEvent<HTMLDivElement>) => {
 export const FuelLog: FC = () => {
   const dispatch = useAppDispatch();
 
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
   const isMediumResolution = useMediaQuery(theme.breakpoints.down(920));
   const isSmallResolution = useMediaQuery(theme.breakpoints.between(470, 920));
   const isMobile = useMediaQuery(theme.breakpoints.down(435));
@@ -136,25 +138,23 @@ export const FuelLog: FC = () => {
   }, [offset]);
 
   useEffect(() => {
-    if (!scrollable || loading || !fuel?.length) {
+    if (!scrollable || loading || !fuel?.length || !scrollRef.current) {
       return;
     }
 
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setOffset((v) => v + limit);
+        }
+      },
+      { threshold: 1 },
+    );
 
-      if (scrollTop + windowHeight >= documentHeight - 100) {
-        setOffset((v) => v + limit);
-      }
-    };
+    observer.observe(scrollRef.current);
 
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [fuel, loading]);
+    return () => observer.disconnect();
+  }, [fuel, loading, scrollable]);
 
   const resetEdit = () => {
     setEditEntry(undefined);
@@ -162,39 +162,300 @@ export const FuelLog: FC = () => {
 
   return (
     <Box sx={{ paddingBottom: scrollable && !isMobile ? 8 : undefined }}>
-      {fuel?.length &&
-        (isMediumResolution ? (
-          <Stack
-            spacing={1.5}
-            sx={{
-              width: isMobile ? "100vw" : "100%",
-              px: isMobile ? 2 : 0,
-            }}
-          >
-            {fuel.map((f, i) => (
-              <Card
-                key={i}
-                variant="outlined"
+      {fuel?.length && (
+        <>
+          {isMediumResolution ? (
+            <Stack
+              spacing={1.5}
+              sx={{
+                width: isMobile ? "100vw" : "100%",
+                px: isMobile ? 2 : 0,
+              }}
+            >
+              {fuel.map((f, i) => (
+                <Card
+                  key={i}
+                  variant="outlined"
+                  sx={{
+                    borderColor: "rgba(0, 0, 0, 0.17)",
+                    width: isSmallResolution ? 450 : "unset",
+                  }}
+                >
+                  <CardContent sx={{ p: "0 !important" }}>
+                    <TableContainer component={Paper} elevation={0}>
+                      <Table>
+                        <TableHead>
+                          <StyledTableRow>
+                            <StyledTableCell>
+                              {f.fuelAfter ? "Bunkring" : "Peiling"}
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                              <Stack
+                                direction="row"
+                                spacing={1}
+                                justifyContent={"flex-end"}
+                              >
+                                <IconButton
+                                  size="small"
+                                  sx={{ bgcolor: "#DAE4EC", borderRadius: 1 }}
+                                  onClick={() => {
+                                    setEditEntry({
+                                      id: f.id,
+                                      fuel: f.fuel,
+                                      fuelAfter: f.fuelAfter,
+                                      timestamp: new Date(f.timestamp),
+                                      error: false,
+                                    });
+                                  }}
+                                >
+                                  <EditNoteIcon
+                                    fontSize="small"
+                                    sx={{ color: "fourth.main" }}
+                                  />
+                                </IconButton>
+                                <IconButton
+                                  size="small"
+                                  sx={{ bgcolor: "#F1DFDF", borderRadius: 1 }}
+                                  onClick={() => {
+                                    dispatch(
+                                      deleteFuelMeasurement({
+                                        id: f.id,
+                                      }),
+                                    );
+                                    resetEdit();
+                                  }}
+                                >
+                                  <DeleteOutlineIcon
+                                    fontSize="small"
+                                    sx={{ color: "error.main" }}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setConfirmDelete({
+                                        message:
+                                          "Er du sikker på at du vil slette denne målingen?",
+                                        onConfirm: () => {
+                                          dispatch(
+                                            deleteFuelMeasurement({
+                                              id: f.id,
+                                            }),
+                                          );
+                                        },
+                                      });
+                                    }}
+                                  />
+                                </IconButton>
+                              </Stack>
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        </TableHead>
+                        <TableBody>
+                          <StyledTableRow>
+                            <StyledTableCell>Tidspunkt</StyledTableCell>
+                            <StyledTableCell align="right">
+                              {dateFormat(f.timestamp, "dd.MM.yyyy, HH:mm")}
+                            </StyledTableCell>
+                          </StyledTableRow>
+                          <StyledTableRow>
+                            <StyledTableCell>
+                              {f.fuelAfter ? "Liter før bunkring" : "Liter"}
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                              {f.fuel}
+                            </StyledTableCell>
+                          </StyledTableRow>
+                          {f.fuelAfter && (
+                            <StyledTableRow>
+                              <StyledTableCell>
+                                Liter etter bunkring
+                              </StyledTableCell>
+                              <StyledTableCell align="right">
+                                {f.fuelAfter}
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          )}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </CardContent>
+                </Card>
+              ))}
+            </Stack>
+          ) : (
+            <TableContainer sx={{ width: 900 }}>
+              <Table
                 sx={{
-                  borderColor: "rgba(0, 0, 0, 0.17)",
-                  width: isSmallResolution ? 450 : "unset",
+                  bgcolor: theme.palette.grey[100],
+                  borderRadius: 2,
+                  tableLayout: "fixed",
                 }}
               >
-                <CardContent sx={{ p: "0 !important" }}>
-                  <TableContainer component={Paper} elevation={0}>
-                    <Table>
-                      <TableHead>
-                        <StyledTableRow>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell sx={{ width: 220 }}>
+                      Tidspunkt
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ width: 180 }} align="right">
+                      Måling (liter)
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ width: 250 }} align="right">
+                      Måling etter bunkring (liter)
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ width: 240 }} />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {fuel?.map((f, i) => (
+                    <TableRow key={i} sx={{ height: 85 }}>
+                      {f.id === editEntry?.id && editEntry ? (
+                        <>
                           <StyledTableCell>
-                            {f.fuelAfter ? "Bunkring" : "Peiling"}
+                            <DateTimePicker
+                              sx={{ width: 230 }}
+                              disableFuture
+                              slotProps={{
+                                textField: {
+                                  size: "small",
+                                },
+                              }}
+                              value={editEntry?.timestamp}
+                              onChange={(value) => {
+                                setEditEntry({
+                                  ...editEntry,
+                                  timestamp: value,
+                                });
+                              }}
+                            />
                           </StyledTableCell>
+                          <StyledTableCell align="right">
+                            <TextField
+                              sx={{
+                                width: 120,
+                                "& .MuiInputBase-input": {
+                                  textAlign: "right",
+                                  pr: 1,
+                                },
+                              }}
+                              size="small"
+                              onKeyDown={numberInputLimiter}
+                              variant="outlined"
+                              value={editEntry?.fuel}
+                              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                setEditEntry({
+                                  ...editEntry,
+                                  fuel: +e.target.value,
+                                  error: editEntry.fuelAfter
+                                    ? +e.target.value > editEntry.fuelAfter
+                                    : false,
+                                })
+                              }
+                            />
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            <TextField
+                              sx={{
+                                width: 120,
+                                "& .MuiInputBase-input": {
+                                  textAlign: "right",
+                                  pr: 1,
+                                },
+                                "& .MuiFormHelperText-root": {
+                                  position: "absolute",
+                                  top: 38,
+                                  fontWeight: 400,
+                                  lineHeight: 1.66,
+                                  fontSize: "0.75rem",
+                                  width: 180,
+                                  color: "error.main",
+                                  mx: "1px",
+                                },
+                              }}
+                              error={editEntry.error}
+                              size="small"
+                              helperText={
+                                editEntry.error &&
+                                "Må være større enn før bunkring"
+                              }
+                              onKeyDown={numberInputLimiter}
+                              variant="outlined"
+                              value={editEntry?.fuelAfter ?? ""}
+                              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                setEditEntry({
+                                  ...editEntry,
+                                  fuelAfter: e.target.value
+                                    ? +e.target.value
+                                    : null,
+                                  error: !!(editEntry.fuel > +e.target.value),
+                                })
+                              }
+                            />
+                          </StyledTableCell>
+
                           <StyledTableCell align="right">
                             <Stack
                               direction="row"
+                              justifyContent="flex-end"
                               spacing={1}
-                              justifyContent={"flex-end"}
+                            >
+                              <Button
+                                sx={{ width: 100 }}
+                                disabled={
+                                  !(
+                                    editEntry &&
+                                    editEntry.timestamp &&
+                                    isValidDate(editEntry.timestamp) &&
+                                    editEntry.fuel
+                                  ) || editEntry.error
+                                }
+                                size="small"
+                                color="success"
+                                startIcon={<DoneIcon />}
+                                onClick={() => {
+                                  dispatch(
+                                    updateFuelMeasurement({
+                                      id: editEntry.id,
+                                      fuel: editEntry.fuel,
+                                      fuelAfter: editEntry.fuelAfter,
+                                      timestamp:
+                                        editEntry.timestamp!.toISOString(),
+                                    }),
+                                  );
+                                  resetEdit();
+                                }}
+                              >
+                                OK
+                              </Button>
+                              <Button
+                                sx={{ width: 100 }}
+                                size="small"
+                                color="error"
+                                startIcon={<ClearIcon />}
+                                onClick={() => resetEdit()}
+                              >
+                                Avbryt
+                              </Button>
+                            </Stack>
+                          </StyledTableCell>
+                        </>
+                      ) : (
+                        <>
+                          <StyledTableCell>
+                            {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {f.fuel}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {f.fuelAfter}
+                          </StyledTableCell>
+
+                          <StyledTableCell align="right">
+                            <Stack
+                              direction="row"
+                              spacing={2}
+                              justifyContent="flex-end"
                             >
                               <IconButton
+                                title="Rediger"
                                 size="small"
                                 sx={{ bgcolor: "#DAE4EC", borderRadius: 1 }}
                                 onClick={() => {
@@ -207,300 +468,45 @@ export const FuelLog: FC = () => {
                                   });
                                 }}
                               >
-                                <EditNoteIcon
-                                  fontSize="small"
-                                  sx={{ color: "fourth.main" }}
-                                />
+                                <EditNoteIcon sx={{ color: "fourth.main" }} />
                               </IconButton>
                               <IconButton
-                                size="small"
+                                title="Slett"
                                 sx={{ bgcolor: "#F1DFDF", borderRadius: 1 }}
-                                onClick={() => {
-                                  dispatch(
-                                    deleteFuelMeasurement({
-                                      id: f.id,
-                                    }),
-                                  );
-                                  resetEdit();
+                                size="small"
+                                color="error"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setConfirmDelete({
+                                    message:
+                                      "Er du sikker på at du vil slette denne målingen?",
+                                    onConfirm: () => {
+                                      dispatch(
+                                        deleteFuelMeasurement({
+                                          id: f.id,
+                                        }),
+                                      );
+                                    },
+                                  });
                                 }}
                               >
                                 <DeleteOutlineIcon
-                                  fontSize="small"
                                   sx={{ color: "error.main" }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setConfirmDelete({
-                                      message:
-                                        "Er du sikker på at du vil slette denne målingen?",
-                                      onConfirm: () => {
-                                        dispatch(
-                                          deleteFuelMeasurement({
-                                            id: f.id,
-                                          }),
-                                        );
-                                      },
-                                    });
-                                  }}
                                 />
                               </IconButton>
                             </Stack>
                           </StyledTableCell>
-                        </StyledTableRow>
-                      </TableHead>
-                      <TableBody>
-                        <StyledTableRow>
-                          <StyledTableCell>Tidspunkt</StyledTableCell>
-                          <StyledTableCell align="right">
-                            {dateFormat(f.timestamp, "dd.MM.yyyy, HH:mm")}
-                          </StyledTableCell>
-                        </StyledTableRow>
-                        <StyledTableRow>
-                          <StyledTableCell>
-                            {f.fuelAfter ? "Liter før bunkring" : "Liter"}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {f.fuel}
-                          </StyledTableCell>
-                        </StyledTableRow>
-                        {f.fuelAfter && (
-                          <StyledTableRow>
-                            <StyledTableCell>
-                              Liter etter bunkring
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                              {f.fuelAfter}
-                            </StyledTableCell>
-                          </StyledTableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </CardContent>
-              </Card>
-            ))}
-          </Stack>
-        ) : (
-          <TableContainer sx={{ width: 900 }}>
-            <Table
-              sx={{
-                bgcolor: theme.palette.grey[100],
-                borderRadius: 2,
-                tableLayout: "fixed",
-              }}
-            >
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell sx={{ width: 220 }}>
-                    Tidspunkt
-                  </StyledTableCell>
-                  <StyledTableCell sx={{ width: 180 }} align="right">
-                    Måling (liter)
-                  </StyledTableCell>
-                  <StyledTableCell sx={{ width: 250 }} align="right">
-                    Måling etter bunkring (liter)
-                  </StyledTableCell>
-                  <StyledTableCell sx={{ width: 240 }} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {fuel?.map((f, i) => (
-                  <TableRow key={i} sx={{ height: 85 }}>
-                    {f.id === editEntry?.id && editEntry ? (
-                      <>
-                        <StyledTableCell>
-                          <DateTimePicker
-                            sx={{ width: 230 }}
-                            disableFuture
-                            slotProps={{
-                              textField: {
-                                size: "small",
-                              },
-                            }}
-                            value={editEntry?.timestamp}
-                            onChange={(value) => {
-                              setEditEntry({
-                                ...editEntry,
-                                timestamp: value,
-                              });
-                            }}
-                          />
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          <TextField
-                            sx={{
-                              width: 120,
-                              "& .MuiInputBase-input": {
-                                textAlign: "right",
-                                pr: 1,
-                              },
-                            }}
-                            size="small"
-                            onKeyDown={numberInputLimiter}
-                            variant="outlined"
-                            value={editEntry?.fuel}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                              setEditEntry({
-                                ...editEntry,
-                                fuel: +e.target.value,
-                                error: editEntry.fuelAfter
-                                  ? +e.target.value > editEntry.fuelAfter
-                                  : false,
-                              })
-                            }
-                          />
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          <TextField
-                            sx={{
-                              width: 120,
-                              "& .MuiInputBase-input": {
-                                textAlign: "right",
-                                pr: 1,
-                              },
-                              "& .MuiFormHelperText-root": {
-                                position: "absolute",
-                                top: 38,
-                                fontWeight: 400,
-                                lineHeight: 1.66,
-                                fontSize: "0.75rem",
-                                width: 180,
-                                color: "error.main",
-                                mx: "1px",
-                              },
-                            }}
-                            error={editEntry.error}
-                            size="small"
-                            helperText={
-                              editEntry.error &&
-                              "Må være større enn før bunkring"
-                            }
-                            onKeyDown={numberInputLimiter}
-                            variant="outlined"
-                            value={editEntry?.fuelAfter ?? ""}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                              setEditEntry({
-                                ...editEntry,
-                                fuelAfter: e.target.value
-                                  ? +e.target.value
-                                  : null,
-                                error: !!(editEntry.fuel > +e.target.value),
-                              })
-                            }
-                          />
-                        </StyledTableCell>
-
-                        <StyledTableCell align="right">
-                          <Stack
-                            direction="row"
-                            justifyContent="flex-end"
-                            spacing={1}
-                          >
-                            <Button
-                              sx={{ width: 100 }}
-                              disabled={
-                                !(
-                                  editEntry &&
-                                  editEntry.timestamp &&
-                                  isValidDate(editEntry.timestamp) &&
-                                  editEntry.fuel
-                                ) || editEntry.error
-                              }
-                              size="small"
-                              color="success"
-                              startIcon={<DoneIcon />}
-                              onClick={() => {
-                                dispatch(
-                                  updateFuelMeasurement({
-                                    id: editEntry.id,
-                                    fuel: editEntry.fuel,
-                                    fuelAfter: editEntry.fuelAfter,
-                                    timestamp:
-                                      editEntry.timestamp!.toISOString(),
-                                  }),
-                                );
-                                resetEdit();
-                              }}
-                            >
-                              OK
-                            </Button>
-                            <Button
-                              sx={{ width: 100 }}
-                              size="small"
-                              color="error"
-                              startIcon={<ClearIcon />}
-                              onClick={() => resetEdit()}
-                            >
-                              Avbryt
-                            </Button>
-                          </Stack>
-                        </StyledTableCell>
-                      </>
-                    ) : (
-                      <>
-                        <StyledTableCell>
-                          {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {f.fuel}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {f.fuelAfter}
-                        </StyledTableCell>
-
-                        <StyledTableCell align="right">
-                          <Stack
-                            direction="row"
-                            spacing={2}
-                            justifyContent="flex-end"
-                          >
-                            <IconButton
-                              title="Rediger"
-                              size="small"
-                              sx={{ bgcolor: "#DAE4EC", borderRadius: 1 }}
-                              onClick={() => {
-                                setEditEntry({
-                                  id: f.id,
-                                  fuel: f.fuel,
-                                  fuelAfter: f.fuelAfter,
-                                  timestamp: new Date(f.timestamp),
-                                  error: false,
-                                });
-                              }}
-                            >
-                              <EditNoteIcon sx={{ color: "fourth.main" }} />
-                            </IconButton>
-                            <IconButton
-                              title="Slett"
-                              sx={{ bgcolor: "#F1DFDF", borderRadius: 1 }}
-                              size="small"
-                              color="error"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setConfirmDelete({
-                                  message:
-                                    "Er du sikker på at du vil slette denne målingen?",
-                                  onConfirm: () => {
-                                    dispatch(
-                                      deleteFuelMeasurement({
-                                        id: f.id,
-                                      }),
-                                    );
-                                  },
-                                });
-                              }}
-                            >
-                              <DeleteOutlineIcon sx={{ color: "error.main" }} />
-                            </IconButton>
-                          </Stack>
-                        </StyledTableCell>
-                      </>
-                    )}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ))}
+                        </>
+                      )}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+          <Box ref={scrollRef} sx={{ height: "20px" }} />
+        </>
+      )}
 
       {loading ? (
         <Box
