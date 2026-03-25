@@ -15,12 +15,25 @@ export const fuelBuilder = (
     .addCase(getFuelMeasurements.pending, (state, action) => {
       action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
       action.meta.arg.token = state.authUser?.access_token;
+      action.meta.arg.limit += 1;
       state.fuelMeasurementsLoading = true;
-      state.fuelMeasurements = undefined;
+      if (action.meta.arg.offset === 0) {
+        state.fuelMeasurements = undefined;
+      }
     })
     .addCase(getFuelMeasurements.fulfilled, (state, action) => {
+      const newMeasurements = action.payload.slice(
+        0,
+        action.meta.arg.limit - 1,
+      );
+
+      state.fuelMeasurements = state.fuelMeasurements
+        ? state.fuelMeasurements.concat(newMeasurements)
+        : newMeasurements;
+
       state.fuelMeasurementsLoading = false;
-      state.fuelMeasurements = action.payload;
+      state.fuelMeasurementsScrollable =
+        action.payload.length === action.meta.arg.limit;
     })
     .addCase(getFuelMeasurements.rejected, (state, _) => {
       state.fuelMeasurementsLoading = false;

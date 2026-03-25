@@ -1548,6 +1548,18 @@ export interface FuelMeasurementsParams {
      * @memberof FuelMeasurementsParams
      */
     'end'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurementsParams
+     */
+    'limit'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurementsParams
+     */
+    'offset'?: number | null;
 }
 /**
  * 
@@ -3804,6 +3816,12 @@ export interface User {
      * @memberof User
      */
     'following': Array<number>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'fuelConsent'?: boolean | null;
 }
 /**
  * 
@@ -5304,10 +5322,12 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
+         * @param {number | null} [limit] 
+         * @param {number | null} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementGetFuelMeasurements: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1FuelMeasurementGetFuelMeasurements: async (authorization?: string, start?: string | null, end?: string | null, limit?: number | null, offset?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/fuel_measurements`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5338,6 +5358,14 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
                 localVarQueryParameter['end'] = (end as any instanceof Date) ?
                     (end as any).toISOString() :
                     end;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
             }
 
             if (authorization != null) {
@@ -5492,11 +5520,13 @@ export const FuelMeasurementApiFp = function(configuration?: Configuration) {
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
+         * @param {number | null} [limit] 
+         * @param {number | null} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementGetFuelMeasurements(authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementGetFuelMeasurements(authorization, start, end, options);
+        async routesV1FuelMeasurementGetFuelMeasurements(authorization?: string, start?: string | null, end?: string | null, limit?: number | null, offset?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurement>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementGetFuelMeasurements(authorization, start, end, limit, offset, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementGetFuelMeasurements']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -5562,7 +5592,7 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurement>> {
-            return localVarFp.routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5653,6 +5683,20 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsReq
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
      */
     readonly end?: string | null
+
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
+     */
+    readonly limit?: number | null
+
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurements
+     */
+    readonly offset?: number | null
 }
 
 /**
@@ -5734,7 +5778,7 @@ export class FuelMeasurementApi extends BaseAPI {
      * @memberof FuelMeasurementApi
      */
     public routesV1FuelMeasurementGetFuelMeasurements(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsRequest = {}, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementGetFuelMeasurements(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

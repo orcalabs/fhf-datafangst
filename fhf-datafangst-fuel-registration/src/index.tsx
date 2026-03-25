@@ -1,8 +1,10 @@
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
-import { authConfig } from "app/auth";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { authConfig, AuthProvider } from "app/auth";
 import theme from "app/theme";
 import { App } from "containers/App/App";
-import { AuthProvider } from "oidc-react";
+import { nb } from "date-fns/locale";
 import "overlayscrollbars/overlayscrollbars.css";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
@@ -26,11 +28,13 @@ if (window !== window.top) {
     <StyledEngineProvider injectFirst>
       <AuthProvider {...authConfig} autoSignIn={true}>
         <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Provider store={store}>
-              <App />
-            </Provider>
-          </BrowserRouter>
+          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
+            <BrowserRouter>
+              <Provider store={store}>
+                <App />
+              </Provider>
+            </BrowserRouter>
+          </LocalizationProvider>
         </ThemeProvider>
       </AuthProvider>
     </StyledEngineProvider>,
