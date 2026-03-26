@@ -20,9 +20,9 @@ const _updateUser = apiFn((args: UserApiRoutesV1UserUpdateUserRequest) =>
   api.routesV1UserUpdateUser(args),
 );
 
-export const updateUser = async (query: UserArgs) => {
-  const user = { following: query.following.map((f) => f.fiskeridir.id) };
-  return _updateUser({ user, authorization: query.accessToken! }).then(
+export const updateUser = async ({ following, accessToken }: UserArgs) => {
+  const user = { following: following.map((f) => f.fiskeridir.id) };
+  return _updateUser({ updateUser: user, authorization: accessToken! }).then(
     () => user,
   );
 };
