@@ -3392,6 +3392,12 @@ export interface Trip {
      * @type {number}
      * @memberof Trip
      */
+    'fuelConsumptionEstimatedOnly'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Trip
+     */
     'trackCoverage': number;
     /**
      * 
@@ -3722,6 +3728,25 @@ export const TwelveMileBorder = {
 export type TwelveMileBorder = typeof TwelveMileBorder[keyof typeof TwelveMileBorder];
 
 
+/**
+ * 
+ * @export
+ * @interface UpdateUser
+ */
+export interface UpdateUser {
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof UpdateUser
+     */
+    'following'?: Array<number> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateUser
+     */
+    'fuelConsent'?: boolean | null;
+}
 /**
  * 
  * @export
@@ -8977,14 +9002,14 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @param {User} user 
+         * @param {UpdateUser} updateUser 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1UserUpdateUser: async (user: User, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'user' is not null or undefined
-            assertParamExists('routesV1UserUpdateUser', 'user', user)
+        routesV1UserUpdateUser: async (updateUser: UpdateUser, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateUser' is not null or undefined
+            assertParamExists('routesV1UserUpdateUser', 'updateUser', updateUser)
             const localVarPath = `/v1.0/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9016,7 +9041,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(updateUser, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -9047,13 +9072,13 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {User} user 
+         * @param {UpdateUser} updateUser 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1UserUpdateUser(user: User, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1UserUpdateUser(user, authorization, options);
+        async routesV1UserUpdateUser(updateUser: UpdateUser, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1UserUpdateUser(updateUser, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.routesV1UserUpdateUser']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -9084,7 +9109,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1UserUpdateUser(requestParameters: UserApiRoutesV1UserUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1UserUpdateUser(requestParameters.user, requestParameters.authorization, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1UserUpdateUser(requestParameters.updateUser, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9111,10 +9136,10 @@ export interface UserApiRoutesV1UserGetUserRequest {
 export interface UserApiRoutesV1UserUpdateUserRequest {
     /**
      * 
-     * @type {User}
+     * @type {UpdateUser}
      * @memberof UserApiRoutesV1UserUpdateUser
      */
-    readonly user: User
+    readonly updateUser: UpdateUser
 
     /**
      * 
@@ -9150,7 +9175,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public routesV1UserUpdateUser(requestParameters: UserApiRoutesV1UserUpdateUserRequest, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).routesV1UserUpdateUser(requestParameters.user, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
+        return UserApiFp(this.configuration).routesV1UserUpdateUser(requestParameters.updateUser, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
