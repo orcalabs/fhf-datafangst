@@ -4,6 +4,7 @@ import AddToHomeScreenIcon from "@mui/icons-material/AddToHomeScreen";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
+import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
 import {
   AppBar,
   Button,
@@ -20,26 +21,36 @@ import {
 import { useAuth } from "app/auth";
 import theme from "app/theme";
 import { VesselIcon } from "assets/icons";
-import { UserManual } from "components";
-import { FC, useState } from "react";
+import { ConsentDialog, UserManual } from "components";
+import { FC, useEffect, useState } from "react";
 import { Link } from "react-router";
 import {
   selectBwUserLoading,
   selectBwUserProfile,
+  selectUser,
   useAppSelector,
 } from "store";
 
 export const Header: FC = () => {
   const { signOutRedirect } = useAuth();
 
+  const toggleMenu = useMediaQuery(theme.breakpoints.down(900));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down(400));
 
+  const user = useAppSelector(selectUser);
   const userData = useAppSelector(selectBwUserProfile);
   const bwUserLoading = useAppSelector(selectBwUserLoading);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userManualModalOpen, setUserManualModalOpen] = useState(false);
+  const [consentDialogOpen, setConsentDialogOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user && (user.fuelConsent === undefined || user.fuelConsent === null)) {
+      setConsentDialogOpen(true);
+    }
+  }, [user]);
 
   const isInstalled = window.matchMedia("(display-mode: standalone)").matches;
 
@@ -123,7 +134,7 @@ export const Header: FC = () => {
             </Stack>
           </Link>
 
-          {isMobile ? (
+          {toggleMenu ? (
             <>
               <IconButton onClick={handleMenu} sx={{ justifySelf: "flex-end" }}>
                 <MenuIcon sx={{ color: "white" }} />
@@ -167,6 +178,17 @@ export const Header: FC = () => {
                   </ListItemIcon>
                   Brukerveiledning
                 </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setConsentDialogOpen(true);
+                    setAnchorEl(null);
+                  }}
+                >
+                  <ListItemIcon>
+                    <PrivacyTipIcon fontSize="small" color="secondary" />
+                  </ListItemIcon>
+                  Samtykkeerklæring
+                </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => signOutRedirect()}>
                   <ListItemIcon>
@@ -196,6 +218,12 @@ export const Header: FC = () => {
             >
               <IconButton
                 sx={{ color: "secondary.light" }}
+                onClick={() => setConsentDialogOpen(true)}
+              >
+                <PrivacyTipIcon />
+              </IconButton>
+              <IconButton
+                sx={{ color: "secondary.light" }}
                 onClick={() => setUserManualModalOpen(true)}
               >
                 <InfoOutlineIcon />
@@ -222,6 +250,12 @@ export const Header: FC = () => {
         <UserManual
           open={userManualModalOpen}
           onClose={() => setUserManualModalOpen(false)}
+        />
+        <ConsentDialog
+          open={consentDialogOpen}
+          onClose={() => {
+            setConsentDialogOpen(false);
+          }}
         />
       </AppBar>
       <Toolbar />

@@ -1,5 +1,7 @@
 export { Bunker } from "./Bunker/Bunker";
 export { ConfirmModal } from "./ConfirmModal/ConfirmModal";
+export { ConsentDialog } from "./ConsentDialog/ConsentDialog";
+export { ConsentText } from "./ConsentDialog/ConsentText";
 export { FuelLog } from "./FuelLog/FuelLog";
 export { Gauge } from "./Gauge/Gauge";
 export { Header } from "./Layout/Header";

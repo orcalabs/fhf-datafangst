@@ -40,6 +40,7 @@ import {
   selectFuelMeasurements,
   selectFuelMeasurementsLoading,
   selectFuelMeasurementsScrollable,
+  selectUserConsent,
   updateFuelMeasurement,
   useAppDispatch,
   useAppSelector,
@@ -124,6 +125,7 @@ export const FuelLog: FC = () => {
   const fuel = useAppSelector(selectFuelMeasurements);
   const loading = useAppSelector(selectFuelMeasurementsLoading);
   const scrollable = useAppSelector(selectFuelMeasurementsScrollable);
+  const consent = useAppSelector(selectUserConsent);
 
   const [confirmDelete, setConfirmDelete] = useState<Confirm | undefined>(
     undefined,
@@ -162,7 +164,7 @@ export const FuelLog: FC = () => {
 
   return (
     <Box sx={{ paddingBottom: scrollable && !isMobile ? 8 : undefined }}>
-      {fuel?.length && (
+      {!!fuel?.length && (
         <>
           {isMediumResolution ? (
             <Stack
@@ -197,7 +199,13 @@ export const FuelLog: FC = () => {
                               >
                                 <IconButton
                                   size="small"
-                                  sx={{ bgcolor: "#DAE4EC", borderRadius: 1 }}
+                                  sx={{
+                                    bgcolor: consent
+                                      ? "#DAE4EC"
+                                      : "rgba(0, 0, 0, 0.06) !important",
+                                    borderRadius: 1,
+                                  }}
+                                  disabled={!consent}
                                   onClick={() => {
                                     setEditEntry({
                                       id: f.id,
@@ -210,7 +218,11 @@ export const FuelLog: FC = () => {
                                 >
                                   <EditNoteIcon
                                     fontSize="small"
-                                    sx={{ color: "fourth.main" }}
+                                    sx={{
+                                      color: consent
+                                        ? "fourth.main"
+                                        : "text.disabled",
+                                    }}
                                   />
                                 </IconButton>
                                 <IconButton
@@ -457,7 +469,13 @@ export const FuelLog: FC = () => {
                               <IconButton
                                 title="Rediger"
                                 size="small"
-                                sx={{ bgcolor: "#DAE4EC", borderRadius: 1 }}
+                                sx={{
+                                  bgcolor: consent
+                                    ? "#DAE4EC"
+                                    : "rgba(0, 0, 0, 0.05) !important",
+                                  borderRadius: 1,
+                                }}
+                                disabled={!consent}
                                 onClick={() => {
                                   setEditEntry({
                                     id: f.id,
@@ -468,7 +486,13 @@ export const FuelLog: FC = () => {
                                   });
                                 }}
                               >
-                                <EditNoteIcon sx={{ color: "fourth.main" }} />
+                                <EditNoteIcon
+                                  sx={{
+                                    color: consent
+                                      ? "fourth.main"
+                                      : "text.disabled",
+                                  }}
+                                />
                               </IconButton>
                               <IconButton
                                 title="Slett"

@@ -7,3 +7,8 @@ export const selectUserLoading = createSelector(
 );
 
 export const selectUser = createSelector(selectAppState, (state) => state.user);
+
+export const selectUserConsent = createSelector(
+  selectAppState,
+  (state) => state.user?.fuelConsent,
+);

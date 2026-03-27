@@ -11,11 +11,17 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import theme from "app/theme";
 import { useTimestampUpdater } from "hooks/useTimestampUpdater";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { createFuelMeasurement, useAppDispatch } from "store";
+import {
+  createFuelMeasurement,
+  selectUserConsent,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 import { numberInputLimiter } from "utils";
 
 export const Gauge: FC = () => {
   const dispatch = useAppDispatch();
+  const consent = useAppSelector(selectUserConsent);
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
 
@@ -59,10 +65,10 @@ export const Gauge: FC = () => {
             variant="subtitle2"
             sx={{ color: theme.palette.grey[500] }}
           >
-            Drivstoff
+            Drivstoff i tanken
           </Typography>
           <TextField
-            sx={{ width: 160 }}
+            sx={{ width: 205 }}
             variant="outlined"
             color="secondary"
             value={newFuel}
@@ -93,7 +99,7 @@ export const Gauge: FC = () => {
             alignItems: "center",
             bgcolor: "grey.A400",
           }}
-          disabled={newFuel === ""}
+          disabled={newFuel === "" || !consent}
           startIcon={<PostAddIcon />}
           onClick={() => {
             dispatch(
@@ -124,6 +130,20 @@ export const Gauge: FC = () => {
           Nullstill
         </Button>
       </Stack>
+      {!consent && (
+        <Typography
+          sx={{
+            px: 5,
+            display: "flex",
+            color: "grey.A700",
+            maxWidth: 450,
+            textAlign: "center",
+          }}
+        >
+          * Du har ikke gitt oss samtykke for bruk av data og kan derfor ikke
+          registrere drivstoff. Samtykke kan endres fra menyen.
+        </Typography>
+      )}
     </Stack>
   );
 };

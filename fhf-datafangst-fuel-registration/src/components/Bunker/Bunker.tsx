@@ -11,11 +11,17 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import theme from "app/theme";
 import { useTimestampUpdater } from "hooks/useTimestampUpdater";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { createFuelMeasurement, useAppDispatch } from "store";
+import {
+  createFuelMeasurement,
+  selectUserConsent,
+  useAppDispatch,
+  useAppSelector,
+} from "store";
 import { numberInputLimiter } from "utils";
 
 export const Bunker: FC = () => {
   const dispatch = useAppDispatch();
+  const consent = useAppSelector(selectUserConsent);
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
   const [newFuelAfterBunker, setNewFuelAfterBunker] = useState<string>("");
@@ -70,7 +76,8 @@ export const Bunker: FC = () => {
             variant="subtitle2"
             sx={{ color: theme.palette.grey[500] }}
           >
-            Drivstoff før bunkring
+            Drivstoff i tank <span style={{ fontStyle: "italic" }}>før</span>{" "}
+            bunkring
           </Typography>
           <TextField
             sx={{ width: 205 }}
@@ -100,7 +107,8 @@ export const Bunker: FC = () => {
             variant="subtitle2"
             sx={{ color: theme.palette.grey[500] }}
           >
-            Drivstoff etter bunkring
+            Drivstoff i tank <span style={{ fontStyle: "italic" }}>etter</span>{" "}
+            bunkring
           </Typography>
           <TextField
             sx={{
@@ -143,7 +151,7 @@ export const Bunker: FC = () => {
             alignItems: "center",
             bgcolor: "grey.A400",
           }}
-          disabled={newFuel === "" || error || !newFuelAfterBunker}
+          disabled={newFuel === "" || error || !newFuelAfterBunker || !consent}
           startIcon={<PostAddIcon />}
           onClick={() => {
             dispatch(
@@ -175,6 +183,20 @@ export const Bunker: FC = () => {
           Nullstill
         </Button>
       </Stack>
+      {!consent && (
+        <Typography
+          sx={{
+            px: 5,
+            display: "flex",
+            color: "grey.A700",
+            maxWidth: 450,
+            textAlign: "center",
+          }}
+        >
+          * Du har ikke gitt oss samtykke for bruk av data og kan derfor ikke
+          registrere drivstoff. Samtykke kan endres fra menyen.
+        </Typography>
+      )}
     </Stack>
   );
 };
