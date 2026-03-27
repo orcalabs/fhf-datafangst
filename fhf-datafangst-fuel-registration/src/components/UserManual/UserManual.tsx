@@ -19,9 +19,7 @@ export const UserManual: FC<Props> = ({ open, onClose }) => {
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogContent
         sx={{
-          bgcolor: "#EDF0F3",
           p: 4,
-          height: "85vh",
         }}
       >
         <Stack spacing={3}>
@@ -51,11 +49,7 @@ export const UserManual: FC<Props> = ({ open, onClose }) => {
           </Stack>
         </Stack>
       </DialogContent>
-      <DialogActions
-        sx={{
-          bgcolor: "#EDF0F3",
-        }}
-      >
+      <DialogActions>
         <Button
           startIcon={<CloseIcon />}
           autoFocus
