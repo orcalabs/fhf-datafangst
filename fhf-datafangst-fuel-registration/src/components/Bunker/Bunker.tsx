@@ -91,6 +91,7 @@ export const Bunker: FC = () => {
             }
             slotProps={{
               htmlInput: {
+                inputMode: "numeric",
                 pattern: "[0-9]*",
               },
               input: {
@@ -135,6 +136,7 @@ export const Bunker: FC = () => {
             }
             slotProps={{
               htmlInput: {
+                inputMode: "numeric",
                 pattern: "[0-9]*",
               },
               input: {

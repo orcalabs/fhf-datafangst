@@ -349,6 +349,7 @@ export const FuelLog: FC = () => {
                               }}
                               slotProps={{
                                 htmlInput: {
+                                  inputMode: "numeric",
                                   pattern: "[0-9]*",
                                 },
                                 input: {
@@ -391,6 +392,7 @@ export const FuelLog: FC = () => {
                               }}
                               slotProps={{
                                 htmlInput: {
+                                  inputMode: "numeric",
                                   pattern: "[0-9]*",
                                 },
                                 input: {
@@ -610,6 +612,7 @@ export const FuelLog: FC = () => {
               <TextField
                 slotProps={{
                   htmlInput: {
+                    inputMode: "numeric",
                     pattern: "[0-9]*",
                   },
                   input: {
@@ -643,6 +646,7 @@ export const FuelLog: FC = () => {
                     <TextField
                       slotProps={{
                         htmlInput: {
+                          inputMode: "numeric",
                           pattern: "[0-9]*",
                         },
                         input: {
