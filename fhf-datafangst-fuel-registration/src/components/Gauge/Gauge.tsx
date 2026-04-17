@@ -79,6 +79,7 @@ export const Gauge: FC = () => {
             }
             slotProps={{
               htmlInput: {
+                inputMode: "numeric",
                 pattern: "[0-9]*",
               },
               input: {
