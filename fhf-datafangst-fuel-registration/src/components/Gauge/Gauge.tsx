@@ -78,7 +78,11 @@ export const Gauge: FC = () => {
               setNewFuel(event.target.value)
             }
             slotProps={{
+              htmlInput: {
+                pattern: "[0-9]*",
+              },
               input: {
+                inputMode: "numeric",
                 endAdornment: (
                   <InputAdornment position="end">
                     {newFuel && (

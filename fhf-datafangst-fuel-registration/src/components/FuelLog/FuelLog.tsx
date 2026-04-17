@@ -347,6 +347,14 @@ export const FuelLog: FC = () => {
                                   pr: 1,
                                 },
                               }}
+                              slotProps={{
+                                htmlInput: {
+                                  pattern: "[0-9]*",
+                                },
+                                input: {
+                                  inputMode: "numeric",
+                                },
+                              }}
                               size="small"
                               onKeyDown={numberInputLimiter}
                               variant="outlined"
@@ -379,6 +387,14 @@ export const FuelLog: FC = () => {
                                   width: 180,
                                   color: "error.main",
                                   mx: "1px",
+                                },
+                              }}
+                              slotProps={{
+                                htmlInput: {
+                                  pattern: "[0-9]*",
+                                },
+                                input: {
+                                  inputMode: "numeric",
                                 },
                               }}
                               error={editEntry.error}
@@ -593,7 +609,11 @@ export const FuelLog: FC = () => {
               />
               <TextField
                 slotProps={{
+                  htmlInput: {
+                    pattern: "[0-9]*",
+                  },
                   input: {
+                    inputMode: "numeric",
                     endAdornment: (
                       <InputAdornment position="end">
                         <Typography sx={{ fontSize: "0.9rem" }}>
@@ -622,7 +642,11 @@ export const FuelLog: FC = () => {
                   <>
                     <TextField
                       slotProps={{
+                        htmlInput: {
+                          pattern: "[0-9]*",
+                        },
                         input: {
+                          inputMode: "numeric",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Typography sx={{ fontSize: "0.9rem" }}>
