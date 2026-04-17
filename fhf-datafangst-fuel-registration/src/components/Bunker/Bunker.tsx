@@ -90,7 +90,11 @@ export const Bunker: FC = () => {
               setNewFuel(event.target.value)
             }
             slotProps={{
+              htmlInput: {
+                pattern: "[0-9]*",
+              },
               input: {
+                inputMode: "numeric",
                 endAdornment: (
                   <InputAdornment position="end">
                     {newFuel && (
@@ -130,7 +134,11 @@ export const Bunker: FC = () => {
               setNewFuelAfterBunker(event.target.value)
             }
             slotProps={{
+              htmlInput: {
+                pattern: "[0-9]*",
+              },
               input: {
+                inputMode: "numeric",
                 endAdornment: (
                   <InputAdornment position="end">
                     {newFuelAfterBunker && (
