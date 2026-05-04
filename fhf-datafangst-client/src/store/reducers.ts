@@ -93,7 +93,8 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
         state.bwUser.user.email === "eivind@rinde.no" ||
         state.bwUser.user.email === "bard.hanssen@sintef.no" ||
         state.bwUser.user.email === "fiskinfo.nord@gmail.com" ||
-        state.bwUser.user.email === "dorthea.vatn@sintef.no"
+        state.bwUser.user.email === "dorthea.vatn@sintef.no" ||
+        state.bwUser.user.email === "oystein.hermansen@gmail.com"
       ) {
         state.bwUser.fiskInfoProfile = {
           ircs: "LDDF",
