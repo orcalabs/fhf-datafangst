@@ -25,11 +25,6 @@ export default defineConfig([
       },
     },
     rules: {
-      // TODO
-      "react-hooks/set-state-in-effect": "off",
-      "react-hooks/immutability": "off",
-      "react-hooks/incompatible-library": "off",
-
       "react-hooks/exhaustive-deps": "off",
 
       "@typescript-eslint/no-deprecated": "warn",

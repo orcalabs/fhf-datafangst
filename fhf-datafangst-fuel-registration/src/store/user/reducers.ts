@@ -21,5 +21,7 @@ export const userBuilder = (
       action.meta.arg.accessToken = state.authUser?.access_token;
     })
     .addCase(updateUser.fulfilled, (state, action) => {
-      state.user = { following: [], fuelConsent: action.payload.fuelConsent };
+      if (state.user) {
+        state.user.fuelConsent = action.payload.fuelConsent;
+      }
     });

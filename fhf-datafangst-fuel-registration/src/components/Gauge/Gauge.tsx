@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import type { ChangeEvent, FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import theme from "~/app/theme";
 import { useTimestampUpdater } from "~/hooks/useTimestampUpdater";
 import {
@@ -22,16 +22,13 @@ import { numberInputLimiter } from "~/utils";
 
 export const Gauge: FC = () => {
   const dispatch = useAppDispatch();
-  const consent = useAppSelector(selectUserConsent);
-  const [inputDate, setInputDate] = useState<Date | null>(null);
-  const [newFuel, setNewFuel] = useState<string>("");
 
   const minuteTime = useTimestampUpdater();
-  const [timeValue, setTimeValue] = useState<Date | null>(null);
 
-  useEffect(() => {
-    setTimeValue(minuteTime);
-  }, [minuteTime]);
+  const consent = useAppSelector(selectUserConsent);
+
+  const [inputDate, setInputDate] = useState<Date | null>(null);
+  const [newFuel, setNewFuel] = useState<string>("");
 
   const resetForm = () => {
     setNewFuel("");
@@ -56,7 +53,7 @@ export const Gauge: FC = () => {
                 clearable: true,
               },
             }}
-            value={inputDate ?? timeValue}
+            value={inputDate ?? minuteTime}
             enableAccessibleFieldDOMStructure={false}
             onChange={(value) => setInputDate(value)}
           />
