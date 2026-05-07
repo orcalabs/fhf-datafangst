@@ -1,6 +1,5 @@
 import { Alert, Snackbar } from "@mui/material";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
 import {
   resetFuelPostStatus,
   selectFuelPostStatus,
@@ -9,29 +8,18 @@ import {
 } from "~/store";
 
 export const ConfirmSnackbar: FC = () => {
-  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
-  const fuelPostStatus = useAppSelector(selectFuelPostStatus);
   const dispatch = useAppDispatch();
 
+  const fuelPostStatus = useAppSelector(selectFuelPostStatus);
+
   const handleClose = () => {
-    setSnackbarOpen(false);
-
-    // Used to avoid Alert color changing during Snackbars autoHideDuration.
-    setTimeout(() => {
-      dispatch(resetFuelPostStatus());
-    }, 2000);
+    dispatch(resetFuelPostStatus());
   };
-
-  useEffect(() => {
-    if (fuelPostStatus) {
-      setSnackbarOpen(true);
-    }
-  }, [fuelPostStatus]);
 
   return (
     <Snackbar
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      open={snackbarOpen}
+      open={!!fuelPostStatus}
       autoHideDuration={3000}
       onClose={handleClose}
       sx={{ position: "fixed", bottom: 8 }}

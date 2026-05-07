@@ -19,7 +19,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "~/app/auth";
 import theme from "~/app/theme";
@@ -45,13 +45,18 @@ export const Header: FC = () => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userManualModalOpen, setUserManualModalOpen] = useState(false);
-  const [consentDialogOpen, setConsentDialogOpen] = useState<boolean>(false);
+  const [consentDialogOpen, setConsentDialogOpen] = useState(false);
+  const [consentDialogAutoOpen, setConsentDialogAutoOpen] = useState(true);
 
-  useEffect(() => {
-    if (user && (user.fuelConsent === undefined || user.fuelConsent === null)) {
-      setConsentDialogOpen(true);
-    }
-  }, [user]);
+  if (
+    user &&
+    (user.fuelConsent === undefined || user.fuelConsent === null) &&
+    !consentDialogOpen &&
+    consentDialogAutoOpen
+  ) {
+    setConsentDialogOpen(true);
+    setConsentDialogAutoOpen(false);
+  }
 
   const isInstalled = window.matchMedia("(display-mode: standalone)").matches;
 

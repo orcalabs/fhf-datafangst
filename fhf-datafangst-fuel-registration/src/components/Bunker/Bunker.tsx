@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import type { ChangeEvent, FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import theme from "~/app/theme";
 import { useTimestampUpdater } from "~/hooks/useTimestampUpdater";
 import {
@@ -22,18 +22,14 @@ import { numberInputLimiter } from "~/utils";
 
 export const Bunker: FC = () => {
   const dispatch = useAppDispatch();
+
+  const minuteTime = useTimestampUpdater();
+
   const consent = useAppSelector(selectUserConsent);
+
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
   const [newFuelAfterBunker, setNewFuelAfterBunker] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
-
-  const minuteTime = useTimestampUpdater();
-  const [timeValue, setTimeValue] = useState<Date | null>(null);
-
-  useEffect(() => {
-    setTimeValue(minuteTime);
-  }, [minuteTime]);
 
   const resetForm = () => {
     setNewFuel("");
@@ -41,13 +37,8 @@ export const Bunker: FC = () => {
     setNewFuelAfterBunker("");
   };
 
-  useEffect(() => {
-    if (newFuelAfterBunker.length > 0 && +newFuelAfterBunker <= +newFuel) {
-      setError(true);
-    } else {
-      setError(false);
-    }
-  }, [newFuel, newFuelAfterBunker]);
+  const error =
+    newFuelAfterBunker.length > 0 && +newFuelAfterBunker <= +newFuel;
 
   return (
     <Stack spacing={3} alignItems="center">
@@ -67,7 +58,7 @@ export const Bunker: FC = () => {
                 clearable: true,
               },
             }}
-            value={inputDate ?? timeValue}
+            value={inputDate ?? minuteTime}
             enableAccessibleFieldDOMStructure={false}
             onChange={(value) => setInputDate(value)}
           />
