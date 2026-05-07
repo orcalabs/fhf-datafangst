@@ -8,16 +8,17 @@ import {
   Typography,
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import theme from "app/theme";
-import { useTimestampUpdater } from "hooks/useTimestampUpdater";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useEffect, useState } from "react";
+import theme from "~/app/theme";
+import { useTimestampUpdater } from "~/hooks/useTimestampUpdater";
 import {
   createFuelMeasurement,
   selectUserConsent,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { numberInputLimiter } from "utils";
+} from "~/store";
+import { numberInputLimiter } from "~/utils";
 
 export const Bunker: FC = () => {
   const dispatch = useAppDispatch();

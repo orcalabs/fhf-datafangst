@@ -6,7 +6,7 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 
 export interface Confirm {
   message: string;

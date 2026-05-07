@@ -1,4 +1,4 @@
-import { BwUser } from "models";
+import type { BwUser } from "~/models";
 import { apiFn, axiosBwInternalInstance } from "./baseApi";
 
 export const getBwUser = apiFn((token: string, signal) =>

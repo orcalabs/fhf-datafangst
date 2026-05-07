@@ -7,8 +7,7 @@ RUN npm ci
 
 COPY fhf-datafangst-fuel-registration .
 RUN npm run build
-RUN npm run compress
 
 FROM nginx:alpine
 COPY dockerfiles/fhf-datafangst-fuel-registration/nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html

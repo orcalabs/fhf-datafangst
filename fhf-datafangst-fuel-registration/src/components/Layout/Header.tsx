@@ -1,5 +1,5 @@
 import "@khmyznikov/pwa-install";
-import { PWAInstallElement } from "@khmyznikov/pwa-install";
+import type { PWAInstallElement } from "@khmyznikov/pwa-install";
 import AddToHomeScreenIcon from "@mui/icons-material/AddToHomeScreen";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -18,18 +18,19 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useAuth } from "app/auth";
-import theme from "app/theme";
-import { VesselIcon } from "assets/icons";
-import { ConsentDialog, UserManual } from "components";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { useAuth } from "~/app/auth";
+import theme from "~/app/theme";
+import { VesselIcon } from "~/assets/icons";
+import { ConsentDialog, UserManual } from "~/components";
 import {
   selectBwUserLoading,
   selectBwUserProfile,
   selectUser,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export const Header: FC = () => {
   const { signOutRedirect } = useAuth();
@@ -56,7 +57,7 @@ export const Header: FC = () => {
 
   let pwaInstallElement: PWAInstallElement | null = null;
 
-  let deferredPrompt: BeforeInstallPromptEvent | null = null;
+  let deferredPrompt: Event | null = null;
 
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
@@ -115,8 +116,8 @@ export const Header: FC = () => {
               sx={{ pl: isMobile ? 2 : 0 }}
             >
               <VesselIcon
-                height={isSmallMobile ? 28 : isMobile ? "30" : "44"}
-                width={isSmallMobile ? 28 : isMobile ? "30" : "44"}
+                height={isSmallMobile ? 28 : isMobile ? 30 : 44}
+                width={isSmallMobile ? 28 : isMobile ? 30 : 44}
                 fill="white"
               />
               {!bwUserLoading && (

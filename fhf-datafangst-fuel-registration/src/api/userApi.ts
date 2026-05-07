@@ -1,7 +1,5 @@
-import {
-  UserApi,
-  UserApiRoutesV1UserUpdateUserRequest,
-} from "generated/openapi";
+import type { UserApiRoutesV1UserUpdateUserRequest } from "~/generated/openapi";
+import { UserApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface UserArgs {
