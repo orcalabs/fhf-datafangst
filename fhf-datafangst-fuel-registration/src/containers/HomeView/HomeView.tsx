@@ -17,7 +17,7 @@ import {
   useAppSelector,
 } from "~/store";
 
-export const TABS = [
+const TABS = [
   {
     key: "peiling",
     Element: Gauge,
