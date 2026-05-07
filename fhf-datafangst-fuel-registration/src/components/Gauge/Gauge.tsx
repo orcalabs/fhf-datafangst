@@ -36,8 +36,8 @@ export const Gauge: FC = () => {
   };
 
   return (
-    <Stack spacing={3} alignItems="center">
-      <Stack spacing={2} alignItems="flex-start">
+    <Stack spacing={3} sx={{ alignItems: "center" }}>
+      <Stack spacing={2} sx={{ alignItems: "flex-start" }}>
         <Stack spacing={0.5}>
           <Typography
             variant="subtitle2"
@@ -54,7 +54,6 @@ export const Gauge: FC = () => {
               },
             }}
             value={inputDate ?? minuteTime}
-            enableAccessibleFieldDOMStructure={false}
             onChange={(value) => setInputDate(value)}
           />
         </Stack>

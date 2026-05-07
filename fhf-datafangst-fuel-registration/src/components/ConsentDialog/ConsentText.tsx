@@ -11,7 +11,7 @@ export const ConsentText: FC = () => {
           og vi trenger derfor ditt samtykke til hvordan appen samler inn og
           benytter disse.
         </Typography>
-        <Typography fontStyle="italic" sx={{ color: "info.main" }}>
+        <Typography sx={{ fontStyle: "italic", color: "info.main" }}>
           Samtykke er påkrevd for å kunne registrere drivstoffdata.
         </Typography>
       </Stack>

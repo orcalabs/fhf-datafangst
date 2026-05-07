@@ -1,5 +1,5 @@
 import ClearIcon from "@mui/icons-material/Clear";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DoneIcon from "@mui/icons-material/Done";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import {
@@ -197,7 +197,7 @@ export const FuelLog: FC = () => {
                               <Stack
                                 direction="row"
                                 spacing={1}
-                                justifyContent={"flex-end"}
+                                sx={{ justifyContent: "flex-end" }}
                               >
                                 <IconButton
                                   size="small"
@@ -239,7 +239,7 @@ export const FuelLog: FC = () => {
                                     resetEdit();
                                   }}
                                 >
-                                  <DeleteOutlineIcon
+                                  <DeleteOutlinedIcon
                                     fontSize="small"
                                     sx={{ color: "error.main" }}
                                     onClick={(e) => {
@@ -425,8 +425,8 @@ export const FuelLog: FC = () => {
                           <StyledTableCell align="right">
                             <Stack
                               direction="row"
-                              justifyContent="flex-end"
                               spacing={1}
+                              sx={{ justifyContent: "flex-end" }}
                             >
                               <Button
                                 sx={{ width: 100 }}
@@ -484,7 +484,7 @@ export const FuelLog: FC = () => {
                             <Stack
                               direction="row"
                               spacing={2}
-                              justifyContent="flex-end"
+                              sx={{ justifyContent: "flex-end" }}
                             >
                               <IconButton
                                 title="Rediger"
@@ -534,7 +534,7 @@ export const FuelLog: FC = () => {
                                   });
                                 }}
                               >
-                                <DeleteOutlineIcon
+                                <DeleteOutlinedIcon
                                   sx={{ color: "error.main" }}
                                 />
                               </IconButton>
