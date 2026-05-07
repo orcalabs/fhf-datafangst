@@ -1,20 +1,21 @@
-import defaultAxios, { AxiosResponse } from "axios";
-import { Configuration } from "generated/openapi";
+import type { AxiosResponse } from "axios";
+import defaultAxios from "axios";
+import { Configuration } from "~/generated/openapi";
 
 export const apiConfiguration = new Configuration({
-  basePath: process.env.REACT_APP_API_URL,
+  basePath: import.meta.env.VITE_API_URL,
 });
 
 export const axiosInstance = defaultAxios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 export const axiosBwInstance = defaultAxios.create({
-  baseURL: process.env.REACT_APP_BW_API_URL,
+  baseURL: import.meta.env.VITE_BW_API_URL,
 });
 
 export const axiosBwInternalInstance = defaultAxios.create({
-  baseURL: process.env.REACT_APP_BW_INTERNAL_API_URL,
+  baseURL: import.meta.env.VITE_BW_INTERNAL_API_URL,
 });
 
 axiosInstance.interceptors.request.use(function addBearer(v) {

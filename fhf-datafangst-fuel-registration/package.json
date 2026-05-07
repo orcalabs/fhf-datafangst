@@ -1,7 +1,17 @@
 {
   "name": "fhf-datafangst-fuel-registration",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000 --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "fmt": "prettier -w .",
+    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i https://api.dev.datafangst.orcalabs.no/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models",
+    "api-gen:local": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://localhost:8081/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models"
+  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -11,62 +21,32 @@
     "@mui/x-date-pickers": "^8.27.0",
     "@reduxjs/toolkit": "^2.11.0",
     "axios": "^1.7.9",
-    "browserify": "^17.0.1",
-    "crypto-browserify": "^3.12.1",
     "date-fns": "^4.1.0",
     "oidc-react": "^4.0.1",
     "overlayscrollbars-react": "^0.5.6",
-    "process": "^0.11.10",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "react-redux": "^9.2.0",
-    "react-router": "^7.9.6",
-    "stream-browserify": "^3.0.0",
-    "web-vitals": "^5.1.0"
-  },
-  "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "compress": "compress-cra -c ./compress-cra.json",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "lint": "eslint .",
-    "fmt": "prettier -w .",
-    "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i https://api.dev.datafangst.orcalabs.no/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true",
-    "api-gen:local": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://localhost:8080/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-router": "^7.9.6"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@eslint/js": "^10.0.1",
     "@openapitools/openapi-generator-cli": "^2.25.2",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.0",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^8.48.0",
-    "@typescript-eslint/parser": "^8.48.0",
-    "compress-create-react-app": "^1.4.5",
-    "eslint": "^9.39.1",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-webpack-plugin": "^5.0.2",
-    "globals": "^16.5.0",
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.2.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.3.0",
-    "react-app-rewired": "^2.2.1",
-    "typescript": "^4.9.5",
-    "typescript-eslint": "^8.48.0"
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.2",
+    "vite": "^8.0.10",
+    "vite-plugin-checker": "^0.13.0",
+    "vite-plugin-compression2": "^2.5.3"
   }
 }

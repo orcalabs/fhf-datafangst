@@ -1,7 +1,9 @@
-import { Box, SxProps, Tab as MuiTab, Tabs as MuiTabs } from "@mui/material";
-import { fontStyle } from "app/theme";
-import { FC, useEffect } from "react";
+import type { SxProps } from "@mui/material";
+import { Box, Tab as MuiTab, Tabs as MuiTabs } from "@mui/material";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
+import { fontStyle } from "~/app/theme";
 
 export interface Tab {
   key: string;

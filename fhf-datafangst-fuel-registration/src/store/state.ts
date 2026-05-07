@@ -1,7 +1,9 @@
-import { BwUser } from "models";
-import { User } from "oidc-react";
-import { FuelState, initialFuelState } from "./fuel/state";
-import { initialUserState, UserState } from "./user/state";
+import type { User } from "oidc-react";
+import type { BwUser } from "~/models";
+import type { FuelState } from "./fuel/state";
+import { initialFuelState } from "./fuel/state";
+import type { UserState } from "./user/state";
+import { initialUserState } from "./user/state";
 
 export interface BaseState {
   error: boolean;

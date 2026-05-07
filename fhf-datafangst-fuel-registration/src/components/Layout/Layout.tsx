@@ -1,6 +1,7 @@
 import { Box, useMediaQuery } from "@mui/material";
-import { Header } from "components";
-import React, { lazy, ReactNode } from "react";
+import type { ReactNode } from "react";
+import React, { lazy } from "react";
+import { Header } from "~/components";
 
 const LayoutDesktop = lazy(() => import("./LayoutDesktop"));
 

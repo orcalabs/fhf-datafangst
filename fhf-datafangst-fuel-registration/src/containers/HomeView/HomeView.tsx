@@ -1,15 +1,21 @@
 import "@khmyznikov/pwa-install";
 import { Stack, Typography } from "@mui/material";
-import theme from "app/theme";
-import { Bunker, FuelLog, Gauge, LocalLoadingProgress, Tabs } from "components";
-import { ConfirmSnackbar } from "components/ConfirmSnackbar/ConfirmSnackbar";
-import { FC } from "react";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import {
+  Bunker,
+  FuelLog,
+  Gauge,
+  LocalLoadingProgress,
+  Tabs,
+} from "~/components";
+import { ConfirmSnackbar } from "~/components/ConfirmSnackbar/ConfirmSnackbar";
 import {
   selectBwUserLoading,
   selectBwUserProfile,
   selectUserLoading,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export const TABS = [
   {

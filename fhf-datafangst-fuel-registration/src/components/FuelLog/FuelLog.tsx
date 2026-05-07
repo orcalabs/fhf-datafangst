@@ -28,12 +28,14 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import theme from "app/theme";
-import { LocalLoadingProgress } from "components";
-import { Confirm, ConfirmModal } from "components/ConfirmModal/ConfirmModal";
 import { format, isToday, isYesterday } from "date-fns";
 import { nb } from "date-fns/locale";
-import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useEffect, useRef, useState } from "react";
+import theme from "~/app/theme";
+import { LocalLoadingProgress } from "~/components";
+import type { Confirm } from "~/components/ConfirmModal/ConfirmModal";
+import { ConfirmModal } from "~/components/ConfirmModal/ConfirmModal";
 import {
   deleteFuelMeasurement,
   getFuelMeasurements,
@@ -44,9 +46,9 @@ import {
   updateFuelMeasurement,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
-const StyledTableRow = styled(TableRow)(({}) => ({
+const StyledTableRow = styled(TableRow)(() => ({
   "&:last-child td, &:last-child th": {
     border: 0,
   },

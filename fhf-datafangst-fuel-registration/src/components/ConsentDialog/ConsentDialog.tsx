@@ -9,15 +9,15 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import theme from "app/theme";
-import { ConsentText } from "components";
-import { FC } from "react";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import { ConsentText } from "~/components";
 import {
   selectUserConsent,
   updateUser,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export interface Props {
   open: boolean;

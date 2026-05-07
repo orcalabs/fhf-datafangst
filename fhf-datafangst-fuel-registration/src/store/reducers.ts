@@ -1,7 +1,9 @@
-import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import { checkLoggedIn, getBwUser, setError } from "./actions";
 import { fuelBuilder } from "./fuel";
-import { AppState, initialAppState } from "./state";
+import type { AppState } from "./state";
+import { initialAppState } from "./state";
 import { getUser, userBuilder } from "./user";
 
 class AppActionReducerMapBuilder<State> {

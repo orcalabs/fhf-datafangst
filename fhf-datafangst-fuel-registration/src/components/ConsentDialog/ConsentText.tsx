@@ -1,5 +1,5 @@
 import { Link, Stack, Typography } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 
 export const ConsentText: FC = () => {
   return (
