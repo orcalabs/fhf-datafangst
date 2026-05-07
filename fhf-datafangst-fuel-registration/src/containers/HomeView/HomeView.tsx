@@ -64,7 +64,7 @@ export const HomeView: FC = () => {
             )}
           </>
         ) : (
-          <Stack sx={{ px: 3 }} spacing={3} alignItems="center">
+          <Stack sx={{ px: 3, alignItems: "center" }} spacing={3}>
             <Typography variant="h5">Beklager!</Typography>
             <Stack spacing={2}>
               <Typography variant="h6" align="center">

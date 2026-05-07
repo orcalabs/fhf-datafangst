@@ -1,7 +1,7 @@
 import "@khmyznikov/pwa-install";
 import type { PWAInstallElement } from "@khmyznikov/pwa-install";
 import AddToHomeScreenIcon from "@mui/icons-material/AddToHomeScreen";
-import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
@@ -117,8 +117,7 @@ export const Header: FC = () => {
             <Stack
               spacing={2}
               direction="row"
-              alignItems="center"
-              sx={{ pl: isMobile ? 2 : 0 }}
+              sx={{ pl: isMobile ? 2 : 0, alignItems: "center" }}
             >
               <VesselIcon
                 height={isSmallMobile ? 28 : isMobile ? 30 : 44}
@@ -127,7 +126,7 @@ export const Header: FC = () => {
               />
               {!bwUserLoading && (
                 <Typography
-                  color="white"
+                  sx={{ color: "white" }}
                   variant={isSmallMobile ? "h3" : isMobile ? "h5" : "h4"}
                 >
                   {userData?.fiskInfoProfile
@@ -180,7 +179,7 @@ export const Header: FC = () => {
                   }}
                 >
                   <ListItemIcon>
-                    <InfoOutlineIcon fontSize="small" color="secondary" />
+                    <InfoOutlinedIcon fontSize="small" color="secondary" />
                   </ListItemIcon>
                   Brukerveiledning
                 </MenuItem>
@@ -217,10 +216,12 @@ export const Header: FC = () => {
           ) : (
             <Stack
               direction="row"
-              justifySelf="flex-end"
               spacing={1}
-              sx={{ gridColumn: 3 }}
-              alignItems="center"
+              sx={{
+                gridColumn: 3,
+                alignItems: "center",
+                justifySelf: "flex-end",
+              }}
             >
               <IconButton
                 sx={{ color: "secondary.light" }}
@@ -232,7 +233,7 @@ export const Header: FC = () => {
                 sx={{ color: "secondary.light" }}
                 onClick={() => setUserManualModalOpen(true)}
               >
-                <InfoOutlineIcon />
+                <InfoOutlinedIcon />
               </IconButton>
               <Divider
                 orientation="vertical"
