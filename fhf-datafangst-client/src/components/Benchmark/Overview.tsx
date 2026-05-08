@@ -1,12 +1,13 @@
 import { Box, Typography } from "@mui/material";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   BenchmarkCards,
   HistoricalCatches,
   LocalLoadingProgress,
   SpeciesHistogram,
-} from "components";
-import { Ordering, TripSorting } from "generated/openapi";
-import { FC, useEffect } from "react";
+} from "~/components";
+import { Ordering, TripSorting } from "~/generated/openapi";
 import {
   getBenchmarkData,
   getLandings,
@@ -19,7 +20,7 @@ import {
   selectUserFollowList,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export const BenchmarkOverview: FC = () => {
   const dispatch = useAppDispatch();

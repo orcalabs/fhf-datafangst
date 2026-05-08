@@ -1,16 +1,17 @@
 import { Card, CardContent, CardHeader } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import chartsTheme from "app/chartsTheme";
-import { fontStyle } from "app/theme";
 import ReactEChart from "echarts-for-react";
-import { OrgBenchmarkEntry } from "generated/openapi";
-import { FC, ReactNode, useMemo } from "react";
+import type { FC, ReactNode } from "react";
+import { useMemo } from "react";
+import chartsTheme from "~/app/chartsTheme";
+import { fontStyle } from "~/app/theme";
+import type { OrgBenchmarkEntry } from "~/generated/openapi";
 import {
   selectSpeciesGroupsMap,
   selectVesselsByFiskeridirId,
   useAppSelector,
-} from "store";
-import { toTitleCase } from "utils";
+} from "~/store";
+import { toTitleCase } from "~/utils";
 
 interface Props {
   vesselEntries: OrgBenchmarkEntry[];

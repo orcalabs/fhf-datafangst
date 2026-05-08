@@ -1,14 +1,16 @@
+import type {
+  GearGroupDetailed,
+  SpeciesGroupDetailed,
+  Vessel,
+} from "~/generated/openapi";
 import {
   ActiveLandingFilter,
-  GearGroupDetailed,
   LandingApi,
   LandingsSorting,
   Ordering,
-  SpeciesGroupDetailed,
-  Vessel,
-} from "generated/openapi";
-import { LengthGroup } from "models";
-import { MinLandingYear } from "utils";
+} from "~/generated/openapi";
+import type { LengthGroup } from "~/models";
+import { MinLandingYear } from "~/utils";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 import { createTimestampsFromYearsMonths } from "./utils";
 

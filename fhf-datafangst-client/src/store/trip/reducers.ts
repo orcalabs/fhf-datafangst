@@ -1,11 +1,13 @@
-import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
-import { TripsArgs } from "api";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { current } from "@reduxjs/toolkit";
 import { subHours } from "date-fns";
-import { GearGroupDetailed } from "generated/openapi";
-import { AppState, emptyState } from "store/state";
-import { getCurrentTripTrack, getTrack } from "store/track";
-import { getEstimatedLiveFuelConsumption } from "store/vessel";
-import { getGearGroupsFromVessels } from "utils";
+import type { TripsArgs } from "~/api";
+import type { GearGroupDetailed } from "~/generated/openapi";
+import type { AppState } from "~/store/state";
+import { emptyState } from "~/store/state";
+import { getCurrentTripTrack, getTrack } from "~/store/track";
+import { getEstimatedLiveFuelConsumption } from "~/store/vessel";
+import { getGearGroupsFromVessels } from "~/utils";
 import {
   getCurrentTrip,
   getTrip,

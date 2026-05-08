@@ -1,14 +1,14 @@
 import PhishingSharp from "@mui/icons-material/PhishingSharp";
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import theme from "app/theme";
-import { FishingFacilityToolTypes } from "models";
-import { FC } from "react";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import { FishingFacilityToolTypes } from "~/models";
 import {
   selectFishingFacility,
   selectSelectedOrCurrentTrip,
   useAppSelector,
-} from "store";
-import { dateFormat } from "utils";
+} from "~/store";
+import { dateFormat } from "~/utils";
 
 interface Props {
   fishingFacilityIdx: number;

@@ -7,13 +7,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
-import { FC } from "react";
+import type { FC } from "react";
+import theme from "~/app/theme";
 import {
   selectSelectedTrip,
   selectVesselByFiskeridirId,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export interface Props {
   vesselId?: number;

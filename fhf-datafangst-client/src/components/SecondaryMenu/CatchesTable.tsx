@@ -14,16 +14,17 @@ import {
   Typography,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
-import { SpeciesFiskeridir } from "generated/openapi";
-import { Catch, CatchWeightType } from "models";
-import { FC, useEffect, useMemo, useState } from "react";
-import { selectSpeciesFiskeridirMap, useAppSelector } from "store";
+import type { FC } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { SpeciesFiskeridir } from "~/generated/openapi";
+import type { Catch, CatchWeightType } from "~/models";
+import { selectSpeciesFiskeridirMap, useAppSelector } from "~/store";
 import {
   kilosOrTonsFormatter,
   reduceCatchesOnSpecies,
   sumCatches,
   sumPriceFromCatches,
-} from "utils";
+} from "~/utils";
 
 type SortFn = (a: Catch, b: Catch) => number;
 

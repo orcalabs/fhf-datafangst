@@ -4,6 +4,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import EditIcon from "@mui/icons-material/Edit";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import type { TooltipProps } from "@mui/material";
 import {
   Box,
   Button,
@@ -24,15 +25,15 @@ import {
   ToggleButtonGroup,
   Tooltip,
   tooltipClasses,
-  TooltipProps,
   Typography,
 } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import theme from "app/theme";
-import { FileUpload, LocalLoadingProgress } from "components";
 import { nb } from "date-fns/locale";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useEffect, useState } from "react";
+import theme from "~/app/theme";
+import { FileUpload, LocalLoadingProgress } from "~/components";
 import {
   createFuelMeasurement,
   deleteFuelMeasurement,
@@ -43,8 +44,8 @@ import {
   uploadFuelMeasurements,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { dateFormat, numberInputLimiter } from "utils";
+} from "~/store";
+import { dateFormat, numberInputLimiter } from "~/utils";
 
 const isValidDate = (d: Date) => {
   return d instanceof Date && !isNaN(d.valueOf());
@@ -130,7 +131,8 @@ export const FuelPage: FC = () => {
             <Typography>
               Registrer mengde drivstoff i tanken på gitte tidspunkt.
               Regelmessige målinger gir mer detaljert analyse av fisket. For
-              korrekt kalkulering av forbruket må drivstoff registreres når:{" "}
+              korrekt kalkulering av forbruket må drivstoff registreres
+              når:{" "}
             </Typography>
             <Stack sx={{ pl: 2 }}>
               <Typography>1: Fartøyet forlater havn</Typography>

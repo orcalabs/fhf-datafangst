@@ -1,20 +1,20 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { HaulsFilter, HaulsMatrixArgs } from "api";
-import { getAllYearsArray } from "components/Filters/YearsFilter";
-import {
+import type { HaulsMatrixArgs } from "~/api";
+import { HaulsFilter } from "~/api";
+import { getAllYearsArray } from "~/components/Filters/YearsFilter";
+import type {
   GearGroupDetailed,
   Haul,
-  HaulsSorting,
-  Ordering,
   SpeciesGroupDetailed,
-} from "generated/openapi";
-import { LengthGroups } from "models";
-import { selectSelectedGridsString } from "store/fishmap";
-import { selectGearGroups } from "store/gear";
-import { selectAppState } from "store/selectAppState";
-import { selectSpeciesGroups } from "store/species";
-import { computeMatrixStats } from "store/utils";
-import { fishingLocationAreas, MinErsYear, sumCatches } from "utils";
+} from "~/generated/openapi";
+import { HaulsSorting, Ordering } from "~/generated/openapi";
+import { LengthGroups } from "~/models";
+import { selectGearGroups } from "~/store/gear";
+import { selectSelectedGridsString } from "~/store/grid";
+import { selectAppState } from "~/store/selectAppState";
+import { selectSpeciesGroups } from "~/store/species";
+import { computeMatrixStats } from "~/store/utils";
+import { fishingLocationAreas, MinErsYear, sumCatches } from "~/utils";
 
 export const selectHaulsLoading = createSelector(
   selectAppState,

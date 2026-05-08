@@ -8,8 +8,8 @@ import {
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { fontStyle } from "app/theme";
-import { FC } from "react";
+import type { FC } from "react";
+import { fontStyle } from "~/app/theme";
 
 interface BenchmarkCardProps {
   title: string;

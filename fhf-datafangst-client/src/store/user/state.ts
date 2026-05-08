@@ -1,4 +1,4 @@
-import { User } from "generated/openapi";
+import type { User } from "~/generated/openapi";
 
 export interface UserState {
   user?: User;

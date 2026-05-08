@@ -4,10 +4,10 @@ import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Trip } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
+import type { Trip } from "~/generated/openapi";
+import type { BenchmarkModalParams } from "~/store";
 import {
-  BenchmarkModalParams,
   selectBenchmarkTrips,
   selectLoggedInVessel,
   selectTrips,
@@ -15,12 +15,12 @@ import {
   setBenchmarkModal,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 import {
   createDurationFromHours,
   kilosOrTonsFormatter,
   metersToNatuticalMilesString,
-} from "utils";
+} from "~/utils";
 import { BenchmarkCard } from "./BenchmarkCard";
 import { BenchmarkModal } from "./BenchmarkModal";
 

@@ -1,4 +1,17 @@
-import { Box, Popover, PopoverPosition } from "@mui/material";
+import type { PopoverPosition } from "@mui/material";
+import { Box, Popover } from "@mui/material";
+import type { MapBrowserEvent } from "ol";
+import MousePosition from "ol/control/MousePosition";
+import ScaleLine from "ol/control/ScaleLine";
+import { toStringHDMS, type Coordinate } from "ol/coordinate";
+import { pointerMove } from "ol/events/condition";
+import type Feature from "ol/Feature";
+import type { FeatureLike } from "ol/Feature";
+import type { Geometry } from "ol/geom";
+import Select from "ol/interaction/Select";
+import RenderFeature from "ol/render/Feature";
+import type { FC } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DeliveryPointPopover,
   DetailedHaulPopover,
@@ -7,31 +20,17 @@ import {
   PositionPopover,
   ShorelinePopover,
   TransferPopover,
-} from "components";
-import {
+} from "~/components";
+import type {
   AisVmsPosition,
   CurrentPosition,
   DeliveryPoint,
   Haul,
   Tra,
-} from "generated/openapi";
-import { useQueryParams } from "hooks";
-import { Map as OLMap, MapBrowserEvent, View } from "ol";
-import { defaults, MousePosition, ScaleLine } from "ol/control";
-import { Coordinate, toStringHDMS } from "ol/coordinate";
-import { pointerMove } from "ol/events/condition";
-import Feature, { FeatureLike } from "ol/Feature";
-import { Geometry } from "ol/geom";
-import { defaults as interactionDefaults } from "ol/interaction/defaults";
-import Select from "ol/interaction/Select";
-import { Types } from "ol/MapBrowserEventType";
-import RenderFeature from "ol/render/Feature";
-import React, { FC, useEffect, useState } from "react";
+} from "~/generated/openapi";
+import { useFishmapContext, useQueryParams } from "~/hooks";
 import {
-  initializeMap,
   resetState,
-  selectFishingFacilities,
-  selectFishmapState,
   selectSelectedOrCurrentTrip,
   setSelectedFishingFacility,
   setSelectedHaul,
@@ -40,8 +39,8 @@ import {
   toggleSelectedArea,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { fishingFacilityStyle, tripHaulStyle } from "utils";
+} from "~/store";
+import { fishingFacilityStyle, tripHaulStyle } from "~/utils";
 import { FishingFacilityPopover } from "./FishingFacilityPopover";
 import { LivePositionPopover } from "./LivePositionPopover";
 
@@ -56,8 +55,9 @@ const pixelFeature = (feature: FeatureLike): Feature<Geometry> | undefined =>
 export const Map: FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
   const [_, setParams] = useQueryParams();
-  const mapState = useAppSelector(selectFishmapState);
-  const fishingFacilities = useAppSelector(selectFishingFacilities);
+
+  const { map, defaultZoom } = useFishmapContext();
+
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
 
   const [hoveredPosition, setHoveredPosition] = useState<AisVmsPosition>();
@@ -72,8 +72,6 @@ export const Map: FC<Props> = ({ children }) => {
     useState<DeliveryPoint>();
   const [hoveredTransfer, setHoveredTransfer] = useState<Tra>();
   const [anchorPos, setAnchorPos] = useState<PopoverPosition>();
-
-  let disableHitDetection = false;
 
   const handleClosePopover = () => {
     setAnchorPos(undefined);
@@ -93,37 +91,19 @@ export const Map: FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    const map = new OLMap({
-      target: "map",
-      layers: [],
-      view: new View({
-        center: mapState.centerCoordinate,
-        zoom: mapState.zoom,
-        zoomFactor: mapState.zoomFactor,
-      }),
-      controls: defaults({
-        attribution: false,
-        rotate: false,
-        zoom: false,
-      }),
-      interactions: interactionDefaults({
-        doubleClickZoom: false,
-      }),
-    });
+    map.setTarget(undefined);
+    map.setTarget("map");
 
-    const scaleLineControl = new ScaleLine({
+    const scaleLine = new ScaleLine({
       units: "metric",
       target: "scale-line",
     });
 
-    const coordinateControl = new MousePosition({
+    const mousePosition = new MousePosition({
       coordinateFormat: (coord) => toStringHDMS(coord as Coordinate, 2),
       projection: "EPSG:4326",
       target: "map-coordinate",
     });
-
-    map.addControl(scaleLineControl);
-    map.addControl(coordinateControl);
 
     // Interaction for handling hover effect on Hauls
     const hoverInteraction = new Select({
@@ -141,14 +121,17 @@ export const Map: FC<Props> = ({ children }) => {
         return false;
       },
       style: (feature) => {
-        const zoom = store.getState().map.getView().getZoom();
+        const zoom = map.getView().getZoom() ?? defaultZoom;
         const feat = pixelFeature(feature);
 
         feat?.set("hovered", true, true);
 
-        return tripHaulStyle(zoom ? zoom * 3 : mapState.zoom * 3, true, true);
+        return tripHaulStyle(zoom * 3, true, true);
       },
     });
+
+    map.addControl(scaleLine);
+    map.addControl(mousePosition);
 
     // Interaction for handling hover effect on Gears
     const gearHoverInteraction = new Select({
@@ -183,9 +166,9 @@ export const Map: FC<Props> = ({ children }) => {
 
     // Listener for applying correct icon size from zoom level when deselecting a Haul.
     hoverInteraction.on("select", (e) => {
-      const zoom = store.getState().map.getView().getZoom();
+      const zoom = map.getView().getZoom() ?? defaultZoom;
       for (const f of e.deselected) {
-        f.setStyle(tripHaulStyle(zoom ? zoom * 3 : mapState.zoom * 3));
+        f.setStyle(tripHaulStyle(zoom * 3));
         f.unset("hovered", true);
       }
     });
@@ -193,96 +176,83 @@ export const Map: FC<Props> = ({ children }) => {
     map.addInteraction(hoverInteraction);
     map.addInteraction(gearHoverInteraction);
 
-    dispatch(initializeMap(map));
-  }, [dispatch, mapState.centerCoordinate, mapState.zoom, mapState.zoomFactor]);
-
-  useEffect(() => {
-    const handleClick = (type: Types) => {
-      mapState.map.on(type, (evt: MapBrowserEvent<any>) => {
-        if (evt.dragging) {
-          return;
-        }
-        const feature = mapState.map.forEachFeatureAtPixel(
-          evt.pixel,
-          pixelFeature,
-          {
-            layerFilter: (layer) => !layer.get("disableHitDetection"),
-          },
-        );
-        if (feature) {
-          const grid = feature.get("lokref");
-          const haulId = feature.get("haulId");
-          const haul = feature.get("haul");
-          const gearIdx = feature.get("fishingFacilityIdx");
-          const livePosition = feature.get("livePosition") as CurrentPosition;
-
-          // Avoid registering clicks on areas without catches
-          if (grid && feature.get("weight") > 0) {
-            dispatch(toggleSelectedArea(feature));
-          } else if (haulId !== undefined) {
-            dispatch(setSelectedHaul(haulId));
-          } else if (haul) {
-            if (haul.id === store.getState().selectedTripHaul?.id) {
-              dispatch(setSelectedTripHaul(undefined));
-              return;
-            }
-            dispatch(setSelectedTripHaul(haul));
-          } else if (gearIdx !== undefined) {
-            if (
-              fishingFacilities &&
-              fishingFacilities[gearIdx].toolId ===
-                store.getState().selectedFishingFacility?.toolId
-            ) {
-              dispatch(setSelectedFishingFacility(undefined));
-              return;
-            }
-            dispatch(setSelectedFishingFacility(gearIdx));
-          } else if (livePosition) {
-            const vessels = store.getState().vesselsByFiskeridirId;
-            const callSign =
-              vessels?.[livePosition.vesselId].fiskeridir.callSign;
-
-            if (callSign) {
-              setParams({ callSign });
-            }
-          }
-        } else {
-          if (store.getState().selectedLiveVessel !== undefined) {
-            dispatch(resetState());
-            setParams({});
-          }
-        }
+    const click = (evt: MapBrowserEvent) => {
+      if (evt.dragging) {
+        return;
+      }
+      const feature = map.forEachFeatureAtPixel(evt.pixel, pixelFeature, {
+        layerFilter: (layer) => !layer.get("disableHitDetection"),
       });
+      if (feature) {
+        const grid = feature.get("lokref");
+        const haulId = feature.get("haulId");
+        const haul = feature.get("haul");
+        const gearIdx = feature.get("fishingFacilityIdx");
+        const livePosition = feature.get("livePosition") as CurrentPosition;
+
+        // Avoid registering clicks on areas without catches
+        if (grid && feature.get("weight") > 0) {
+          dispatch(toggleSelectedArea(feature));
+        } else if (haulId !== undefined) {
+          dispatch(setSelectedHaul(haulId));
+        } else if (haul) {
+          if (haul.id === store.getState().selectedTripHaul?.id) {
+            dispatch(setSelectedTripHaul(undefined));
+            return;
+          }
+          dispatch(setSelectedTripHaul(haul));
+        } else if (gearIdx !== undefined) {
+          const fishingFacilities = store.getState().fishingFacilities;
+          if (
+            fishingFacilities &&
+            fishingFacilities[gearIdx].toolId ===
+              store.getState().selectedFishingFacility?.toolId
+          ) {
+            dispatch(setSelectedFishingFacility(undefined));
+            return;
+          }
+          dispatch(setSelectedFishingFacility(gearIdx));
+        } else if (livePosition) {
+          const vessels = store.getState().vesselsByFiskeridirId;
+          const callSign = vessels?.[livePosition.vesselId].fiskeridir.callSign;
+
+          if (callSign) {
+            setParams({ callSign });
+          }
+        }
+      } else {
+        if (store.getState().selectedLiveVessel !== undefined) {
+          dispatch(resetState());
+          setParams({});
+        }
+      }
     };
+
+    map.on("click", click);
+
+    let disableHitDetection = false;
 
     // Hacky solution to the slow performance of OpenLayers' hit detection with WebGL Points Layer.
     // By disabling pointer move event during panning we avoid lagg on high resolution monitors.
-    mapState.map.on("movestart", function (_) {
-      disableHitDetection = true;
-    });
-    mapState.map.on("moveend", function (_) {
-      disableHitDetection = false;
-    });
+    const view = map.getView();
+    const disableHitDetectionTrue = () => (disableHitDetection = true);
+    const disableHitDetectionFalse = () => (disableHitDetection = false);
 
-    mapState.map.getView().on("change:resolution", function (_) {
-      disableHitDetection = true;
-    });
+    map.on("movestart", disableHitDetectionTrue);
+    map.on("moveend", disableHitDetectionFalse);
+    view.on("change:resolution", disableHitDetectionTrue);
 
-    mapState.map.on("pointermove", function (evt) {
+    const pointermove = (evt: MapBrowserEvent) => {
       if (evt.dragging || disableHitDetection) {
         return;
       }
-      mapState.map.getTargetElement().style.cursor = "";
+      map.getTargetElement().style.cursor = "";
       resetHover();
       handleClosePopover();
 
-      const feature = mapState.map.forEachFeatureAtPixel(
-        evt.pixel,
-        pixelFeature,
-        {
-          layerFilter: (layer) => !layer?.get("disableHitDetection"),
-        },
-      );
+      const feature = map.forEachFeatureAtPixel(evt.pixel, pixelFeature, {
+        layerFilter: (layer) => !layer?.get("disableHitDetection"),
+      });
 
       if (feature) {
         const weightedArea = feature.get("weight");
@@ -301,7 +271,7 @@ export const Map: FC<Props> = ({ children }) => {
         } else if (livePosition) {
           setHoveredLivePosition(livePosition);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
-          mapState.map.getTargetElement().style.cursor = "pointer";
+          map.getTargetElement().style.cursor = "pointer";
         } else if (
           shoreLine.navn === "12 nautiske mil" ||
           shoreLine.navn === "4 nautiske mil"
@@ -309,19 +279,19 @@ export const Map: FC<Props> = ({ children }) => {
           setHoveredShoreline(shoreLine.navn);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (weightedArea && weightedArea !== 0) {
-          mapState.map.getTargetElement().style.cursor = "pointer";
+          map.getTargetElement().style.cursor = "pointer";
         } else if (haulId !== undefined) {
-          mapState.map.getTargetElement().style.cursor = "pointer";
+          map.getTargetElement().style.cursor = "pointer";
           setHoveredHaulId(haulId);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (fishingFacilityIdx !== undefined) {
           if (!selectedTrip) {
-            mapState.map.getTargetElement().style.cursor = "pointer";
+            map.getTargetElement().style.cursor = "pointer";
           }
           setHoveredFishingFacilityIdx(fishingFacilityIdx);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (haul !== undefined) {
-          mapState.map.getTargetElement().style.cursor = "pointer";
+          map.getTargetElement().style.cursor = "pointer";
           setHoveredHaul(haul);
           setAnchorPos({ left: evt.pixel[0] + 10, top: evt.pixel[1] + 52 });
         } else if (deliveryPoint) {
@@ -332,10 +302,28 @@ export const Map: FC<Props> = ({ children }) => {
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         }
       }
-    });
+    };
 
-    handleClick("click");
-  }, [dispatch, mapState.map]);
+    map.on("pointermove", pointermove);
+
+    return () => {
+      map.setTarget(undefined);
+
+      map.removeControl(scaleLine);
+      map.removeControl(mousePosition);
+
+      map.removeInteraction(hoverInteraction);
+      map.removeInteraction(gearHoverInteraction);
+
+      map.un("click", click);
+
+      map.un("movestart", disableHitDetectionTrue);
+      map.un("moveend", disableHitDetectionFalse);
+      view.un("change:resolution", disableHitDetectionTrue);
+
+      map.un("pointermove", pointermove);
+    };
+  }, [map]);
 
   return (
     <>

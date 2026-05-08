@@ -5,12 +5,17 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import chartsTheme from "app/chartsTheme";
-import theme from "app/theme";
 import ReactEChart from "echarts-for-react";
-import { Delivery, Haul, SpeciesFiskeridir, Trip } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import chartsTheme from "~/app/chartsTheme";
+import theme from "~/app/theme";
+import type {
+  Delivery,
+  Haul,
+  SpeciesFiskeridir,
+  Trip,
+} from "~/generated/openapi";
 import {
   BenchmarkDataSource,
   selectBenchmarkDataSource,
@@ -21,8 +26,8 @@ import {
   setBenchmarkDataSource,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { kilosOrTonsFormatter } from "utils";
+} from "~/store";
+import { kilosOrTonsFormatter } from "~/utils";
 
 const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
   const res: Record<number, number> = {};

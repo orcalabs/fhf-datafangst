@@ -15,20 +15,22 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { OverlayScrollbars } from "components";
-import { HEADER_HEIGHT } from "components/Layout/Header";
-import { Landing } from "generated/openapi";
-import { EventType } from "models";
-import { FC, forwardRef } from "react";
-import { TableComponents, TableVirtuoso } from "react-virtuoso";
+import type { FC } from "react";
+import { forwardRef } from "react";
+import type { TableComponents } from "react-virtuoso";
+import { TableVirtuoso } from "react-virtuoso";
+import { OverlayScrollbars } from "~/components";
+import { HEADER_HEIGHT } from "~/components/Layout/Header";
+import type { Landing } from "~/generated/openapi";
+import { EventType } from "~/models";
 import {
   selectLandings,
   selectSelectedTrip,
   setTripDetailsOpen,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { dateFormat } from "utils";
+} from "~/store";
+import { dateFormat } from "~/utils";
 import { VesselDetails } from "./VesselDetails";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

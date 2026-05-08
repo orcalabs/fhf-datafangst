@@ -1,5 +1,5 @@
-import { FishingFacilitiesArgs } from "api";
-import { FishingFacility } from "generated/openapi";
+import type { FishingFacilitiesArgs } from "~/api";
+import type { FishingFacility } from "~/generated/openapi";
 
 export interface FishingFacilityState {
   fishingFacilities?: FishingFacility[];

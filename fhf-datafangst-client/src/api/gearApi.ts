@@ -1,4 +1,4 @@
-import { GearApi } from "generated/openapi";
+import { GearApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 const api = new GearApi(apiConfiguration, undefined, axiosInstance);

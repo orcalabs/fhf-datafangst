@@ -1,12 +1,12 @@
+import type { Duration } from "date-fns";
 import {
   differenceInHours,
-  Duration,
   format,
   formatDuration,
   intervalToDuration,
 } from "date-fns";
 import { nb } from "date-fns/locale";
-import {
+import type {
   AisVmsPosition,
   GearDetailed,
   GearGroup,
@@ -14,8 +14,8 @@ import {
   Haul,
   RegisterVesselOwner,
   Vessel,
-} from "generated/openapi";
-import { Catch, CatchWeightType } from "models";
+} from "~/generated/openapi";
+import type { Catch, CatchWeightType } from "~/models";
 
 export const Months: Record<number, string> = {
   1: "Januar",

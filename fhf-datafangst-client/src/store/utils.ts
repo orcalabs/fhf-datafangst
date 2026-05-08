@@ -1,4 +1,4 @@
-import { matrixSum } from "utils";
+import { matrixSum } from "~/utils";
 
 export const computeMatrixStats = <T>(
   matrix: number[],

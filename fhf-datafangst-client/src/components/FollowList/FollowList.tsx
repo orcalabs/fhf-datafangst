@@ -13,19 +13,19 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { fontStyle } from "app/theme";
-import { VesselIcon } from "assets/icons";
-import { AddFollowerList } from "components";
-import { Vessel } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
+import { fontStyle } from "~/app/theme";
+import { VesselIcon } from "~/assets/icons";
+import { AddFollowerList } from "~/components";
+import type { Vessel } from "~/generated/openapi";
 import {
   selectGearGroupsMap,
   selectUserFollowList,
   updateUser,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { createGearListString, createOwnersListString } from "utils";
+} from "~/store";
+import { createGearListString, createOwnersListString } from "~/utils";
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {

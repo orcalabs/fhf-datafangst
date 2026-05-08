@@ -1,4 +1,5 @@
-import { HaulsFilter, LandingsFilter } from "api";
+import type { FC } from "react";
+import { HaulsFilter, LandingsFilter } from "~/api";
 import {
   HaulsLayer,
   HaulsMenu,
@@ -9,11 +10,10 @@ import {
   TimeSlider,
   TrackLayer,
   TripsLayer,
-} from "components";
-import { PageLayoutLeft, PageLayoutRight } from "containers";
-import { PageLayoutCenterBottom } from "containers/PageLayout/PageLayoutCenter";
-import { MatrixTab, useMatrixTab } from "hooks";
-import { FC } from "react";
+} from "~/components";
+import { PageLayoutLeft, PageLayoutRight } from "~/containers";
+import { PageLayoutCenterBottom } from "~/containers/PageLayout/PageLayoutCenter";
+import { MatrixTab, useMatrixTab } from "~/hooks";
 import {
   selectHaulsMatrixSearch,
   selectLandingsMatrixSearch,
@@ -26,8 +26,8 @@ import {
   setLandingsMatrixSearch,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { MinErsYear, MinLandingYear } from "utils";
+} from "~/store";
+import { MinErsYear, MinLandingYear } from "~/utils";
 
 export const AreaPage: FC = () => {
   const dispatch = useAppDispatch();

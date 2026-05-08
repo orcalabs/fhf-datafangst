@@ -1,13 +1,14 @@
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
-import theme from "app/theme";
-import { ListboxComponent, StyledPopper } from "components";
-import { AppPage } from "containers/App/App";
-import { Vessel } from "generated/openapi";
-import { FC, memo } from "react";
-import { selectAppPage, selectVesselsSorted, useAppSelector } from "store";
-import { toTitleCase } from "utils";
+import type { FC } from "react";
+import { memo } from "react";
+import theme from "~/app/theme";
+import { ListboxComponent, StyledPopper } from "~/components";
+import { AppPage } from "~/containers/App/App";
+import type { Vessel } from "~/generated/openapi";
+import { selectAppPage, selectVesselsSorted, useAppSelector } from "~/store";
+import { toTitleCase } from "~/utils";
 
 interface Props {
   value?: Vessel[];

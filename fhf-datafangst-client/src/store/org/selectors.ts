@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { selectAppState } from "store/selectAppState";
+import { selectAppState } from "~/store/selectAppState";
 
 export const selectOrgBenchmarks = createSelector(
   selectAppState,

@@ -1,32 +1,36 @@
-import { VectorLayer } from "components";
-import { Feature } from "ol";
-import { Geometry, Point } from "ol/geom";
-import VectorSource from "ol/source/Vector";
-import { FC, useEffect, useState } from "react";
+import type { Feature } from "ol";
+import type { Geometry, Point } from "ol/geom";
+import type VectorSource from "ol/source/Vector";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import { VectorLayer } from "~/components";
+import { AppPage } from "~/containers/App/App";
+import { useFishmapContext } from "~/hooks";
 import {
-  selectFishmapState,
+  selectAppPage,
   selectSelectedOrCurrentTrip,
   selectSelectedTripHaul,
   selectTrack,
   useAppSelector,
-} from "store";
+} from "~/store";
+import type { TravelVector } from "~/utils";
 import {
   generateCatchTransferVector,
   generateFishingFacilitiesVector,
   generateTripHaulsVector,
   generateVesselTrackVector,
   trackForHaul,
-  TravelVector,
-} from "utils";
+} from "~/utils";
 
 export const TripsLayer: FC = () => {
+  const { map, focusTrack } = useFishmapContext();
+
+  const appPage = useAppSelector(selectAppPage);
   const track = useAppSelector(selectTrack);
-  const state = useAppSelector(selectFishmapState);
   const trip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedTripHaul = useAppSelector(selectSelectedTripHaul);
-  const [zoom, setZoom] = useState<number | undefined>(
-    state.map.getView().getZoom(),
-  );
+
+  const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
   const [trackVectors, setTrackVectors] = useState<TravelVector[]>();
   const [haulsVector, setHaulsVector] =
     useState<VectorSource<Feature<Point>>>();
@@ -37,15 +41,23 @@ export const TripsLayer: FC = () => {
   const [catchTransferVector, setCatchTransferVector] =
     useState<VectorSource<Feature<Geometry>>>();
 
+  useEffect(() => {
+    if (track && trip && ("tripId" in trip || appPage === AppPage.MyPage)) {
+      focusTrack(track);
+    }
+  }, [track]);
+
   // Store map zoom level in state
   useEffect(() => {
-    state.map.on("moveend", function () {
-      const zoom = state.map.getView().getZoom();
+    const onMoveEnd = function () {
+      const zoom = map.getView().getZoom();
       if (zoom) {
         setZoom(zoom);
       }
-    });
-  }, [state.map]);
+    };
+    map.on("moveend", onMoveEnd);
+    return () => map.un("moveend", onMoveEnd);
+  }, [map]);
 
   useEffect(() => {
     if (trip) {

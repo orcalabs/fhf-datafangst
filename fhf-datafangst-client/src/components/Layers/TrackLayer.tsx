@@ -1,32 +1,31 @@
-import { VectorLayer } from "components";
-import { FC, useEffect, useState } from "react";
-import {
-  selectFishmapState,
-  selectSelectedHaul,
-  selectTrack,
-  useAppSelector,
-} from "store";
-import { generateVesselTrackVector, TravelVector } from "utils";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import { VectorLayer } from "~/components";
+import { useFishmapContext } from "~/hooks";
+import { selectSelectedHaul, selectTrack, useAppSelector } from "~/store";
+import type { TravelVector } from "~/utils";
+import { generateVesselTrackVector } from "~/utils";
 
 export const TrackLayer: FC = () => {
+  const { map } = useFishmapContext();
+
   const track = useAppSelector(selectTrack);
-  const state = useAppSelector(selectFishmapState);
   const haul = useAppSelector(selectSelectedHaul);
 
   const [trackVectors, setTrackVectors] = useState<TravelVector[]>();
-  const [zoom, setZoom] = useState<number | undefined>(
-    state.map.getView().getZoom(),
-  );
+  const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
 
   // Store map zoom level in state
   useEffect(() => {
-    state.map.on("moveend", function () {
-      const zoom = state.map.getView().getZoom();
+    const onMoveEnd = function () {
+      const zoom = map.getView().getZoom();
       if (zoom) {
         setZoom(zoom);
       }
-    });
-  }, [state.map]);
+    };
+    map.on("moveend", onMoveEnd);
+    return () => map.un("moveend", onMoveEnd);
+  }, [map]);
 
   useEffect(() => {
     const vec = generateVesselTrackVector(track, zoom, haul);

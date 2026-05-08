@@ -1,16 +1,20 @@
+import type { FC } from "react";
 import {
   SelectedTripMenu,
   TripDetails,
   TripsLayer,
   TripsList,
-} from "components";
-import { PageLayoutCenter, PageLayoutLeft, PageLayoutRight } from "containers";
-import { FC } from "react";
+} from "~/components";
+import {
+  PageLayoutCenter,
+  PageLayoutLeft,
+  PageLayoutRight,
+} from "~/containers";
 import {
   selectSelectedTrip,
   selectTripDetailsOpen,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export const TripsPage: FC = () => {
   const selectedTrip = useAppSelector(selectSelectedTrip);

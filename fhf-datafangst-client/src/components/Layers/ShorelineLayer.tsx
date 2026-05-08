@@ -1,7 +1,7 @@
-import theme from "app/theme";
-import { VectorLayer } from "components";
 import { Stroke, Style } from "ol/style";
-import { shorelineVector } from "utils";
+import theme from "~/app/theme";
+import { VectorLayer } from "~/components";
+import { shorelineVector } from "~/utils";
 
 const style = new Style({
   stroke: new Stroke({

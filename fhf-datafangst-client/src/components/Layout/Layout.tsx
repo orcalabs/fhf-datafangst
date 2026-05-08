@@ -1,5 +1,6 @@
 import { useAuth } from "oidc-react";
-import React, { ReactNode, useEffect } from "react";
+import type { ReactNode } from "react";
+import React, { useEffect } from "react";
 import {
   checkLoggedIn,
   getDeliveryPoints,
@@ -13,7 +14,7 @@ import {
   getSpeciesMainGroups,
   getVessels,
   useAppDispatch,
-} from "store";
+} from "~/store";
 
 interface Props {
   children: ReactNode;

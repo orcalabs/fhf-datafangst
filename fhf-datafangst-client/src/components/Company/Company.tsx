@@ -1,10 +1,11 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
-import theme from "app/theme";
-import { DateFilter, LocalLoadingProgress } from "components";
-import { DateRange } from "components/SearchFilters/DateFilter";
 import { endOfYear, startOfYear } from "date-fns";
-import { RegisterVesselEntityType } from "generated/openapi";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import theme from "~/app/theme";
+import { DateFilter, LocalLoadingProgress } from "~/components";
+import { DateRange } from "~/components/SearchFilters/DateFilter";
+import { RegisterVesselEntityType } from "~/generated/openapi";
 import {
   getOrgBenchmarks,
   getOrgFuelConsumption,
@@ -13,7 +14,7 @@ import {
   selectOrgBenchmarksLoading,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 import { CatchStats } from "./CatchStats";
 import { GeneralStats } from "./GeneralStats";
 

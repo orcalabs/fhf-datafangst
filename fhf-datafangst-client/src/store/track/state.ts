@@ -1,4 +1,4 @@
-import { AisVmsPosition, CurrentPosition } from "generated/openapi";
+import type { AisVmsPosition, CurrentPosition } from "~/generated/openapi";
 
 export interface TrackState {
   track?: AisVmsPosition[];

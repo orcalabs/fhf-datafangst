@@ -1,31 +1,44 @@
-import { AppPage } from "containers/App/App";
-import { BwUser } from "models";
-import { User } from "oidc-react";
-import { AisState, initialAisState } from "./ais/state";
-import { BenchmarkState, initialBenchmarkState } from "./benchmark/state";
-import { DashboardState, initialDashboardState } from "./dashboard/state";
-import {
-  DeliveryPointState,
-  initialDeliveryPointState,
-} from "./deliveryPoint/state";
-import {
-  FishingFacilityState,
-  initialFishingFacilitiesState,
-} from "./fishingFacility/state";
-import { FishmapState, initialFishmapState } from "./fishmap/state";
-import { FuelState, initialFuelState } from "./fuel/state";
-import { GearState, initialGearState } from "./gear/state";
-import { HaulState, initialHaulState } from "./haul/state";
-import { initialLandingState, LandingState } from "./landing/state";
-import { initialOrgState, OrgState } from "./org/state";
-import { initialSpeciesState, SpeciesState } from "./species/state";
-import { initialTrackState, TrackState } from "./track/state";
-import { initialTripState, TripState } from "./trip/state";
-import { initialTripBenchmarkState, TripBenchmarkState } from "./tripBenchmark";
-import { initialUserState, UserState } from "./user/state";
-import { initialVesselState, VesselState } from "./vessel/state";
-import { initialVmsState, VmsState } from "./vms/state";
-import { initialWeatherState, WeatherState } from "./weather/state";
+import type { User } from "oidc-react";
+import type { AppPage } from "~/containers/App/App";
+import type { BwUser } from "~/models";
+import type { AisState } from "./ais/state";
+import { initialAisState } from "./ais/state";
+import type { BenchmarkState } from "./benchmark/state";
+import { initialBenchmarkState } from "./benchmark/state";
+import type { DashboardState } from "./dashboard/state";
+import { initialDashboardState } from "./dashboard/state";
+import type { DeliveryPointState } from "./deliveryPoint/state";
+import { initialDeliveryPointState } from "./deliveryPoint/state";
+import type { FishingFacilityState } from "./fishingFacility/state";
+import { initialFishingFacilitiesState } from "./fishingFacility/state";
+import type { FuelState } from "./fuel/state";
+import { initialFuelState } from "./fuel/state";
+import type { GearState } from "./gear/state";
+import { initialGearState } from "./gear/state";
+import type { GridState } from "./grid/state";
+import { initialGridState } from "./grid/state";
+import type { HaulState } from "./haul/state";
+import { initialHaulState } from "./haul/state";
+import type { LandingState } from "./landing/state";
+import { initialLandingState } from "./landing/state";
+import type { OrgState } from "./org/state";
+import { initialOrgState } from "./org/state";
+import type { SpeciesState } from "./species/state";
+import { initialSpeciesState } from "./species/state";
+import type { TrackState } from "./track/state";
+import { initialTrackState } from "./track/state";
+import type { TripState } from "./trip/state";
+import { initialTripState } from "./trip/state";
+import type { TripBenchmarkState } from "./tripBenchmark";
+import { initialTripBenchmarkState } from "./tripBenchmark";
+import type { UserState } from "./user/state";
+import { initialUserState } from "./user/state";
+import type { VesselState } from "./vessel/state";
+import { initialVesselState } from "./vessel/state";
+import type { VmsState } from "./vms/state";
+import { initialVmsState } from "./vms/state";
+import type { WeatherState } from "./weather/state";
+import { initialWeatherState } from "./weather/state";
 
 export interface BaseState {
   error: boolean;
@@ -49,8 +62,9 @@ const initialBaseState: BaseState = {
 };
 
 export interface AppState
-  extends BaseState,
-    FishmapState,
+  extends
+    BaseState,
+    GridState,
     VesselState,
     HaulState,
     GearState,
@@ -70,7 +84,7 @@ export interface AppState
     BenchmarkState,
     OrgState {}
 
-export const emptyState: Partial<AppState> = {
+export const emptyState = {
   ais: undefined,
   currentTrip: undefined,
   fishingFacilities: undefined,
@@ -94,11 +108,11 @@ export const emptyState: Partial<AppState> = {
   trips: undefined,
   tripsSearch: undefined,
   vms: undefined,
-};
+} satisfies Partial<AppState>;
 
 export const initialAppState: AppState = {
   ...initialBaseState,
-  ...initialFishmapState,
+  ...initialGridState,
   ...initialVesselState,
   ...initialHaulState,
   ...initialGearState,

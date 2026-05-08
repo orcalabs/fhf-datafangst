@@ -1,12 +1,12 @@
 import { Box, Divider, List, ListSubheader, Stack } from "@mui/material";
+import type { FC } from "react";
 import {
   LocalLoadingProgress,
   OverlayScrollbars,
   PaginationButtons,
   VesselInfo,
-} from "components";
-import { TripItem } from "components/TripsMenu/TripItem";
-import { FC } from "react";
+} from "~/components";
+import { TripItem } from "~/components/TripsMenu/TripItem";
 import {
   paginateTripsSearch,
   selectSelectedLiveVessel,
@@ -16,7 +16,7 @@ import {
   selectVesselByFiskeridirId,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export const SelectedLiveVesselMenu: FC = () => {
   const dispatch = useAppDispatch();
@@ -71,7 +71,9 @@ export const SelectedLiveVesselMenu: FC = () => {
         ) : (
           <>
             <OverlayScrollbars style={{ flexGrow: 1 }}>
-              {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
+              {trips?.map((t) => (
+                <TripItem key={t.tripId} trip={t} />
+              ))}
             </OverlayScrollbars>
 
             <Box sx={{ mt: 1 }}>

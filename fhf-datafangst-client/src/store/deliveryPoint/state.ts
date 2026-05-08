@@ -1,4 +1,4 @@
-import { DeliveryPoint } from "generated/openapi";
+import type { DeliveryPoint } from "~/generated/openapi";
 
 export interface DeliveryPointState {
   deliveryPoints: DeliveryPoint[];

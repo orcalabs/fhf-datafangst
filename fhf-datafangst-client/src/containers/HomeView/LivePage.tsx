@@ -1,3 +1,5 @@
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   CurrentTripMenu,
   LoadingScreen,
@@ -6,11 +8,14 @@ import {
   TrackLayer,
   TripDetails,
   TripsLayer,
-} from "components";
-import { LiveVesselsLayer } from "components/Layers/LiveVesselsLayer";
-import { PageLayoutCenter, PageLayoutLeft, PageLayoutRight } from "containers";
-import { useQueryParams } from "hooks";
-import { FC, useEffect } from "react";
+} from "~/components";
+import { LiveVesselsLayer } from "~/components/Layers/LiveVesselsLayer";
+import {
+  PageLayoutCenter,
+  PageLayoutLeft,
+  PageLayoutRight,
+} from "~/containers";
+import { useFishmapContext, useQueryParams } from "~/hooks";
 import {
   getCurrentPositions,
   getCurrentTripTrack,
@@ -18,7 +23,6 @@ import {
   selectCurrentPositionsMap,
   selectCurrentTrip,
   selectCurrentTripLoading,
-  selectFishmap,
   selectSelectedLiveVessel,
   selectSelectedTrip,
   selectTrack,
@@ -27,8 +31,8 @@ import {
   setSelectedLiveVessel,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { fromLonLat } from "utils";
+} from "~/store";
+import { fromLonLat } from "~/utils";
 
 let FIRST_LOAD = true;
 
@@ -45,7 +49,8 @@ export const LivePage: FC = () => {
   const loading = useAppSelector(selectCurrentPositionsLoading);
   const currentPositionsMap = useAppSelector(selectCurrentPositionsMap);
   const vessels = useAppSelector(selectVesselsByCallsign);
-  const map = useAppSelector(selectFishmap);
+
+  const { map } = useFishmapContext();
 
   const selectedVesselCallSign = params.callSign;
 

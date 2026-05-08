@@ -1,4 +1,4 @@
-import { VesselEventType, VesselLengthGroup } from "generated/openapi";
+import { VesselEventType, VesselLengthGroup } from "~/generated/openapi";
 
 export enum Months {
   January = 1,

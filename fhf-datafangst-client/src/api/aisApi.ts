@@ -1,5 +1,5 @@
-import { AisApi } from "generated/openapi";
-import { Track } from "models";
+import { AisApi } from "~/generated/openapi";
+import type { Track } from "~/models";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface AisArgs {

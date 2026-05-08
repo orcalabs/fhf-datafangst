@@ -1,4 +1,4 @@
-import { SvgIconComponent } from "@mui/icons-material";
+import type { SvgIconComponent } from "@mui/icons-material";
 import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import {
   Accordion,
@@ -10,11 +10,11 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
-import { FishIcon } from "assets/icons";
-import { CatchesTable } from "components";
-import { Catch } from "models";
-import { FC } from "react";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import { FishIcon } from "~/assets/icons";
+import { CatchesTable } from "~/components";
+import type { Catch } from "~/models";
 
 const accordionSx = {
   m: 0,

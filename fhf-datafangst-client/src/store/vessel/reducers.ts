@@ -1,7 +1,8 @@
-import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
-import { Vessel } from "generated/openapi";
-import { AppState } from "store/state";
-import { getCurrentTrip, getTrips } from "store/trip";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { current } from "@reduxjs/toolkit";
+import type { Vessel } from "~/generated/openapi";
+import type { AppState } from "~/store/state";
+import { getCurrentTrip, getTrips } from "~/store/trip";
 import {
   getEstimatedFuelConsumption,
   getEstimatedLiveFuelConsumption,

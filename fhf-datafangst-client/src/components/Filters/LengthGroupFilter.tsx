@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import { VesselLengthGroup } from "generated/openapi";
-import { LengthGroup, LengthGroupsMap } from "models";
-import { FC } from "react";
+import type { FC } from "react";
+import type { VesselLengthGroup } from "~/generated/openapi";
+import type { LengthGroup } from "~/models";
+import { LengthGroupsMap } from "~/models";
 import { Bar } from "./Bar";
 
 interface Props {

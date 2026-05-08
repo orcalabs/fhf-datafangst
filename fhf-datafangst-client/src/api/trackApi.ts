@@ -1,4 +1,4 @@
-import { AisVmsApi } from "generated/openapi";
+import { AisVmsApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface TrackArgs {

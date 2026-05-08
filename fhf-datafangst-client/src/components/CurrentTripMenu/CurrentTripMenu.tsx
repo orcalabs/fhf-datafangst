@@ -11,23 +11,24 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import chartsTheme from "app/chartsTheme";
-import theme from "app/theme";
-import { CatchesTable } from "components";
 import ReactEChart from "echarts-for-react";
-import { Gear, GearDetailed } from "generated/openapi";
-import { FC, useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
+import chartsTheme from "~/app/chartsTheme";
+import theme from "~/app/theme";
+import { CatchesTable } from "~/components";
+import type { Gear, GearDetailed } from "~/generated/openapi";
 import {
   selectCurrentTrip,
   selectEstimatedLiveFuelConsumption,
   selectGearsMap,
   useAppSelector,
-} from "store";
+} from "~/store";
 import {
   createGearListString,
   createObjectDurationString,
   dateFormat,
-} from "utils";
+} from "~/utils";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",

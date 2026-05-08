@@ -1,5 +1,5 @@
-import { Middleware, UnknownAction } from "@reduxjs/toolkit";
-import { AppState } from "./state";
+import type { Middleware, UnknownAction } from "@reduxjs/toolkit";
+import type { AppState } from "./state";
 
 export const asyncDispatchMiddleware: Middleware<object, AppState> =
   (store) => (next) => (action) => {

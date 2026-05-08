@@ -19,11 +19,12 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { DeliveryPointIcon, FishIcon, FishLocationIcon } from "assets/icons";
-import { CatchesTable } from "components";
 import { addMonths, getMonth, getYear, subMonths } from "date-fns";
-import { TripAssemblerId } from "generated/openapi";
-import { FC, useMemo, useState } from "react";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
+import { DeliveryPointIcon, FishIcon, FishLocationIcon } from "~/assets/icons";
+import { CatchesTable } from "~/components";
+import { TripAssemblerId } from "~/generated/openapi";
 import {
   getHaulTrack,
   getLandings,
@@ -40,7 +41,7 @@ import {
   TripTrackIdentifier,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 import {
   createGearListString,
   createObjectDurationString,
@@ -49,7 +50,7 @@ import {
   metersToNatuticalMilesString,
   sumCatches,
   toTitleCase,
-} from "utils";
+} from "~/utils";
 
 const InfoItem = styled("div")(({ theme }) => ({
   display: "flex",
@@ -131,7 +132,7 @@ export const SelectedTripMenu: FC = () => {
             </Typography>
           </Stack>
         </Stack>
-        {process.env.REACT_APP_ENV === "staging" ? (
+        {import.meta.env.VITE_ENV === "staging" ? (
           <>
             <ToggleButtonGroup
               color="secondary"

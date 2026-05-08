@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import { GearGroup, GearGroupDetailed } from "generated/openapi";
-import { FC } from "react";
-import { selectGearGroupsMap, useAppSelector } from "store";
+import type { FC } from "react";
+import type { GearGroup, GearGroupDetailed } from "~/generated/openapi";
+import { selectGearGroupsMap, useAppSelector } from "~/store";
 import { Bar } from "./Bar";
 
 interface Props {

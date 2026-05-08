@@ -1,9 +1,9 @@
-import {
+import type {
   CurrentPosition,
   LiveFuel,
   Vessel,
   VesselBenchmarks,
-} from "generated/openapi";
+} from "~/generated/openapi";
 
 export interface VesselState {
   vessels?: Vessel[];

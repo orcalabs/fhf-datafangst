@@ -7,9 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { GearGroup, GearGroupDetailed } from "generated/openapi";
-import { FC, useMemo } from "react";
-import { selectGearGroups, useAppSelector } from "store";
+import type { FC } from "react";
+import { useMemo } from "react";
+import type { GearGroup, GearGroupDetailed } from "~/generated/openapi";
+import { selectGearGroups, useAppSelector } from "~/store";
 
 interface Props {
   value?: GearGroupDetailed[];

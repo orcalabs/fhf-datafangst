@@ -14,13 +14,14 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import LogoIcon from "assets/logos/logoIcon";
-import { AboutUs, HeaderMenuButtons, UserManual } from "components";
-import { AppPage } from "containers/App/App";
 import { useAuth } from "oidc-react";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Link, Link as RouterLink } from "react-router";
-import { selectBwUserProfile, selectIsLoggedIn, useAppSelector } from "store";
+import LogoIcon from "~/assets/logos/logoIcon";
+import { AboutUs, HeaderMenuButtons, UserManual } from "~/components";
+import { AppPage } from "~/containers/App/App";
+import { selectBwUserProfile, selectIsLoggedIn, useAppSelector } from "~/store";
 
 export const HEADER_HEIGHT = 52;
 
@@ -152,24 +153,22 @@ export const Header: FC<Props> = ({ page }) => {
                 open={Boolean(anchorEl)}
                 onClose={() => setAnchorEl(null)}
               >
-                {bwProfile && (
-                  <>
-                    <Stack direction="row" gap={1.5} sx={{ p: 2, pt: 1 }}>
-                      <Avatar>{bwProfile?.user.firstName?.charAt(0)}</Avatar>
-                      <Stack direction="column">
-                        <Typography>
-                          {bwProfile?.user.firstName +
-                            " " +
-                            bwProfile?.user.lastName}
-                        </Typography>
-                        <Typography variant="subtitle2">
-                          {bwProfile?.user.email}
-                        </Typography>
-                      </Stack>
+                {bwProfile && [
+                  <Stack key={1} direction="row" gap={1.5} sx={{ p: 2, pt: 1 }}>
+                    <Avatar>{bwProfile?.user.firstName?.charAt(0)}</Avatar>
+                    <Stack direction="column">
+                      <Typography>
+                        {bwProfile?.user.firstName +
+                          " " +
+                          bwProfile?.user.lastName}
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {bwProfile?.user.email}
+                      </Typography>
                     </Stack>
-                    <Divider sx={{ bgcolor: "primary.main", mb: 1 }} />
-                  </>
-                )}
+                  </Stack>,
+                  <Divider key={2} sx={{ bgcolor: "primary.main", mb: 1 }} />,
+                ]}
 
                 <Link
                   style={{ color: "black", textDecoration: "none" }}

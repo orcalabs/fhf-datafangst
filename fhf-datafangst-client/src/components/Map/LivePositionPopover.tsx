@@ -8,16 +8,17 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { VesselIcon } from "assets/icons";
-import { CurrentPosition } from "generated/openapi";
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
+import { VesselIcon } from "~/assets/icons";
+import type { CurrentPosition } from "~/generated/openapi";
 import {
   getVessels,
   selectVesselByFiskeridirId,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { dateFormat } from "utils";
+} from "~/store";
+import { dateFormat } from "~/utils";
 
 interface Props {
   position: CurrentPosition;

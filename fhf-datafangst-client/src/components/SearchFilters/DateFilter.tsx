@@ -1,7 +1,6 @@
 import { Box, Chip, Stack, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import theme from "app/theme";
 import {
   endOfDay,
   endOfMonth,
@@ -15,7 +14,9 @@ import {
   subYears,
 } from "date-fns";
 import { nb } from "date-fns/locale";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
+import theme from "~/app/theme";
 
 export class DateRange {
   rawStart?: Date;

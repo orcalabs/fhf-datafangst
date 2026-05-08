@@ -1,8 +1,10 @@
-import { Box, Stack, SxProps } from "@mui/material";
-import { HaulsArgs, HaulsFilter } from "api";
-import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
-import { Vessel } from "generated/openapi";
-import { FC } from "react";
+import type { SxProps } from "@mui/material";
+import { Box, Stack } from "@mui/material";
+import type { FC } from "react";
+import type { HaulsArgs } from "~/api";
+import { HaulsFilter } from "~/api";
+import { LocalLoadingProgress } from "~/components/Common/LocalLoadingProgress";
+import type { Vessel } from "~/generated/openapi";
 import {
   selectHaulGearFilterStats,
   selectHaulsMatrixLoading,
@@ -12,8 +14,8 @@ import {
   setHaulsMatrixSearch,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { MinErsYear } from "utils";
+} from "~/store";
+import { MinErsYear } from "~/utils";
 import { GearFilter } from "./GearFilter";
 import { LengthGroupFilter } from "./LengthGroupFilter";
 import { MonthsFilter } from "./MonthsFilter";

@@ -1,6 +1,6 @@
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props {
   name: string;

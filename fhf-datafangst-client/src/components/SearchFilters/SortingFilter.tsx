@@ -5,8 +5,8 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { Ordering, TripSorting } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
+import type { Ordering, TripSorting } from "~/generated/openapi";
 
 interface Props {
   value?: [TripSorting, Ordering];

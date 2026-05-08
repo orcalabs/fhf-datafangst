@@ -1,11 +1,12 @@
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import LocationDisabledIcon from "@mui/icons-material/LocationDisabled";
 import { ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
-import theme from "app/theme";
-import { FishIcon } from "assets/icons";
-import { AppPage } from "containers/App/App";
-import { HasTrack, Trip } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import { FishIcon } from "~/assets/icons";
+import { AppPage } from "~/containers/App/App";
+import type { Trip } from "~/generated/openapi";
+import { HasTrack } from "~/generated/openapi";
 import {
   selectAppPage,
   selectCanReadAisUnder15,
@@ -14,8 +15,8 @@ import {
   setSelectedTrip,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { dateFormat, kilosOrTonsFormatter } from "utils";
+} from "~/store";
+import { dateFormat, kilosOrTonsFormatter } from "~/utils";
 
 const listItemSx = {
   px: 2.5,

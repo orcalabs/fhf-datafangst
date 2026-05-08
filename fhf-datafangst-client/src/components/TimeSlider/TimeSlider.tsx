@@ -2,11 +2,13 @@ import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Button, IconButton, Slider, Typography } from "@mui/material";
-import { HaulsFilter, LandingsFilter } from "api";
-import { getAllYearsArray } from "components/Filters/YearsFilter";
 import { isFuture } from "date-fns";
-import { FC, useEffect, useMemo, useState } from "react";
-import { Months } from "utils";
+import type { FC } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { LandingsFilter } from "~/api";
+import { HaulsFilter } from "~/api";
+import { getAllYearsArray } from "~/components/Filters/YearsFilter";
+import { Months } from "~/utils";
 
 const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
 

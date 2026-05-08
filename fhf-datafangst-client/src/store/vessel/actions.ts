@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import * as Api from "api";
-import { CurrentPosition } from "generated/openapi";
-import { authTokenRequired } from "store/actions";
+import * as Api from "~/api";
+import type { CurrentPosition } from "~/generated/openapi";
+import { authTokenRequired } from "~/store/actions";
 
 export const getVessels = createAsyncThunk("vessel/getVessels", Api.getVessels);
 

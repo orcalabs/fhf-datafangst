@@ -1,29 +1,30 @@
-import WebGLPointsLayer from "ol/layer/WebGLPoints";
-import { FC, useCallback, useEffect } from "react";
+import WebGLVectorLayer from "ol/layer/WebGLVector";
+import type { FC } from "react";
+import { useCallback, useEffect } from "react";
+import { useFishmapContext } from "~/hooks";
 import {
-  selectFishmap,
   selectHauls,
   selectSelectedGridsString,
   selectSelectedOrCurrentTrip,
   useAppSelector,
-} from "store";
-import { generateHaulsVector } from "utils";
+} from "~/store";
+import { generateHaulsVector } from "~/utils";
 
 export const HaulsLayer: FC = () => {
+  const { map } = useFishmapContext();
+
   const hauls = useAppSelector(selectHauls);
-  const fishmap = useAppSelector(selectFishmap);
   const selectedGrids = useAppSelector(selectSelectedGridsString);
   const selectedTrip = useAppSelector(selectSelectedOrCurrentTrip);
 
   const removeLayer = useCallback(() => {
-    for (const layer of fishmap.getLayers().getArray()) {
+    for (const layer of map.getLayers().getArray()) {
       if (layer.get("name") === "HaulsLayer") {
-        fishmap.removeLayer(layer);
-        layer.dispose();
+        map.removeLayer(layer);
         return;
       }
     }
-  }, [fishmap]);
+  }, [map]);
 
   useEffect(() => {
     if (!selectedGrids.length || selectedTrip) {
@@ -35,7 +36,7 @@ export const HaulsLayer: FC = () => {
 
     const source = generateHaulsVector(hauls);
     if (source) {
-      const layer = new WebGLPointsLayer({
+      const layer = new WebGLVectorLayer({
         source,
         zIndex: 5,
         properties: { name: "HaulsLayer" },
@@ -50,12 +51,12 @@ export const HaulsLayer: FC = () => {
         },
       });
       removeLayer();
-      fishmap.addLayer(layer);
+      map.addLayer(layer);
       return () => {
         removeLayer();
       };
     }
-  }, [fishmap, removeLayer, hauls, selectedTrip]);
+  }, [map, removeLayer, hauls, selectedTrip]);
 
   return null;
 };

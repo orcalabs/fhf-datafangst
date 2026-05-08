@@ -1,5 +1,7 @@
-import { Box, SxProps } from "@mui/material";
-import { FC, ReactNode, useRef } from "react";
+import type { SxProps } from "@mui/material";
+import { Box } from "@mui/material";
+import type { FC, ReactNode } from "react";
+import { useRef } from "react";
 
 interface Props {
   accept?: string;

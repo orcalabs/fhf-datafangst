@@ -1,8 +1,8 @@
-import {
+import type {
   GearDetailed,
   GearGroupDetailed,
   GearMainGroupDetailed,
-} from "generated/openapi";
+} from "~/generated/openapi";
 
 export interface GearState {
   gears?: GearDetailed[];

@@ -7,9 +7,11 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { VesselLengthGroup } from "generated/openapi";
-import { LengthGroup, LengthGroups } from "models";
-import { FC, useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
+import type { VesselLengthGroup } from "~/generated/openapi";
+import type { LengthGroup } from "~/models";
+import { LengthGroups } from "~/models";
 
 interface Props {
   value?: LengthGroup[];

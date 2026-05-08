@@ -13,9 +13,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { HaulsFilter } from "api";
-import theme from "app/theme";
-import { FishIcon } from "assets/icons";
+import { useAuth } from "oidc-react";
+import type { FC } from "react";
+import { useEffect } from "react";
+import { HaulsFilter } from "~/api";
+import theme from "~/app/theme";
+import { FishIcon } from "~/assets/icons";
 import {
   CurrentTripMenu,
   FuelPage,
@@ -35,16 +38,14 @@ import {
   TripsLayer,
   TripsList,
   VesselInfo,
-} from "components";
-import { FishingFacilitiesLayer } from "components/Layers/FishingFacilitiesLayer";
-import { PageLayoutLeft, PageLayoutRight } from "containers";
+} from "~/components";
+import { FishingFacilitiesLayer } from "~/components/Layers/FishingFacilitiesLayer";
+import { PageLayoutLeft, PageLayoutRight } from "~/containers";
 import {
   PageLayoutCenter,
   PageLayoutCenterBottom,
-} from "containers/PageLayout/PageLayoutCenter";
-import { MyPageSubmenu, useMyPageSubmenu } from "hooks";
-import { useAuth } from "oidc-react";
-import { FC, useEffect } from "react";
+} from "~/containers/PageLayout/PageLayoutCenter";
+import { MyPageSubmenu, useFishmapContext, useMyPageSubmenu } from "~/hooks";
 import {
   getCurrentTrip,
   initialHaulsMatrixSearch,
@@ -62,11 +63,10 @@ import {
   setFishingFacilitiesSearch,
   setHaulDateSliderFrame,
   setHaulsMatrixSearch,
-  setInitialMapZoom,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { MinErsYear } from "utils";
+} from "~/store";
+import { MinErsYear } from "~/utils";
 
 const accordionSx = {
   borderTop: `1px solid ${theme.palette.grey[700]}`,
@@ -110,6 +110,8 @@ export const MyPage: FC = () => {
 
   const dispatch = useAppDispatch();
 
+  const { resetZoom } = useFishmapContext();
+
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const selectedTrip = useAppSelector(selectSelectedTrip);
   const currentTrip = useAppSelector(selectCurrentTrip);
@@ -147,7 +149,7 @@ export const MyPage: FC = () => {
           vessels: [vessel],
         }),
       );
-      dispatch(setInitialMapZoom());
+      resetZoom();
     } else if (subMenu === MyPageSubmenu.Facility) {
       dispatch(
         setFishingFacilitiesSearch({

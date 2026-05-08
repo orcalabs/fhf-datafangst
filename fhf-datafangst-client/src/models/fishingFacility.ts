@@ -1,4 +1,4 @@
-import { FishingFacilityToolType } from "generated/openapi";
+import { FishingFacilityToolType } from "~/generated/openapi";
 
 export const FishingFacilityToolTypes: Record<FishingFacilityToolType, string> =
   {

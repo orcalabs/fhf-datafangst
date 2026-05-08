@@ -1,4 +1,4 @@
-import { SpeciesApi } from "generated/openapi";
+import { SpeciesApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 const api = new SpeciesApi(apiConfiguration, undefined, axiosInstance);

@@ -1,13 +1,11 @@
-import { DateRange } from "components/SearchFilters/DateFilter";
-import {
+import type { DateRange } from "~/components/SearchFilters/DateFilter";
+import type {
   GearGroupDetailed,
-  Ordering,
   SpeciesGroupDetailed,
-  TripApi,
-  TripSorting,
   Vessel,
-} from "generated/openapi";
-import { LengthGroup } from "models";
+} from "~/generated/openapi";
+import { Ordering, TripApi, TripSorting } from "~/generated/openapi";
+import type { LengthGroup } from "~/models";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface TripArgs {

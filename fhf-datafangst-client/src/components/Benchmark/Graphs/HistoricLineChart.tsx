@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
-import chartsTheme from "app/chartsTheme";
 import ReactEChart from "echarts-for-react";
-import { FC } from "react";
+import type { FC } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { HistoricParams } from "store";
-import { dateFormat } from "utils";
+import chartsTheme from "~/app/chartsTheme";
+import type { HistoricParams } from "~/store";
+import { dateFormat } from "~/utils";
 
 const seriesEntry = {
   type: "line",

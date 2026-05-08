@@ -1,10 +1,9 @@
+import type { FishingFacilityToolType, Vessel } from "~/generated/openapi";
 import {
   FishingFacilitiesSorting,
   FishingFacilityApi,
-  FishingFacilityToolType,
   Ordering,
-  Vessel,
-} from "generated/openapi";
+} from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface FishingFacilitiesArgs {

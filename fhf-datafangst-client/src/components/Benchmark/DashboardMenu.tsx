@@ -8,12 +8,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import theme, { fontStyle } from "app/theme";
-import { VesselIcon } from "assets/icons";
-import { FC } from "react";
+import type { FC } from "react";
 import { useNavigate } from "react-router";
-import { selectActiveDashboardMenu, useAppSelector } from "store";
-import { DashboardViewState } from "store/dashboard";
+import theme, { fontStyle } from "~/app/theme";
+import { VesselIcon } from "~/assets/icons";
+import { selectActiveDashboardMenu, useAppSelector } from "~/store";
+import { DashboardViewState } from "~/store/dashboard";
 
 const menuItems = [
   {

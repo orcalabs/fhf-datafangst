@@ -1,6 +1,7 @@
-import { Stack, SxProps } from "@mui/material";
-import { HEADER_HEIGHT } from "components/Layout/Header";
-import { FC, ReactNode } from "react";
+import type { SxProps } from "@mui/material";
+import { Stack } from "@mui/material";
+import type { FC, ReactNode } from "react";
+import { HEADER_HEIGHT } from "~/components/Layout/Header";
 
 interface Props {
   open?: boolean;

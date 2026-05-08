@@ -1,4 +1,6 @@
 import { Stack } from "@mui/system";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   DeliveryPointsLayer,
   Header,
@@ -8,26 +10,25 @@ import {
   MapFilters,
   SeamapLayer,
   ShorelineLayer,
-} from "components";
-import { SearchBar } from "components/SearchBar/SearchBar";
-import { AppPage } from "containers/App/App";
-import { AreaPage } from "containers/HomeView/AreaPage";
-import { LivePage } from "containers/HomeView/LivePage";
-import { MyPage } from "containers/HomeView/MyPage";
-import { TripsPage } from "containers/HomeView/TripsPage";
-import { PageLayout } from "containers/PageLayout/PageLayout";
+} from "~/components";
+import { SearchBar } from "~/components/SearchBar/SearchBar";
+import { AppPage } from "~/containers/App/App";
+import { AreaPage } from "~/containers/HomeView/AreaPage";
+import { LivePage } from "~/containers/HomeView/LivePage";
+import { MyPage } from "~/containers/HomeView/MyPage";
+import { TripsPage } from "~/containers/HomeView/TripsPage";
+import { PageLayout } from "~/containers/PageLayout/PageLayout";
 import {
   PageLayoutCenter,
   PageLayoutCenterFull,
-} from "containers/PageLayout/PageLayoutCenter";
-import { PageLayoutHeader } from "containers/PageLayout/PageLayoutHeader";
-import { FC, useEffect, useState } from "react";
+} from "~/containers/PageLayout/PageLayoutCenter";
+import { PageLayoutHeader } from "~/containers/PageLayout/PageLayoutHeader";
 import {
   selectAppPage,
   setAppPage,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export interface MapFilter {
   coastline: boolean;
