@@ -1,8 +1,5 @@
-import type { Feature } from "ol";
-import type Geometry from "ol/geom/Geometry";
-import type VectorSource from "ol/source/Vector";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { VectorLayer } from "~/components";
 import { useFishmapContext } from "~/hooks";
 import { selectDeliveryPoints, useAppSelector } from "~/store";
@@ -13,7 +10,6 @@ export const DeliveryPointsLayer: FC = () => {
 
   const deliveryPoints = useAppSelector(selectDeliveryPoints);
 
-  const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
   const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
 
   // Store map zoom level in state
@@ -28,6 +24,11 @@ export const DeliveryPointsLayer: FC = () => {
     return () => map.un("moveend", onMoveEnd);
   }, [map]);
 
+  const vector = useMemo(
+    () => generateDeliveryPointsVector(deliveryPoints),
+    [deliveryPoints],
+  );
+
   // Change icon size from zoom level and if selected
   useEffect(() => {
     if (zoom) {
@@ -37,11 +38,6 @@ export const DeliveryPointsLayer: FC = () => {
       });
     }
   }, [zoom, vector]);
-
-  useEffect(
-    () => setVector(generateDeliveryPointsVector(deliveryPoints)),
-    [deliveryPoints],
-  );
 
   return <VectorLayer source={vector} zIndex={4} />;
 };

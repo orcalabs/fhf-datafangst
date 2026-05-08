@@ -1,8 +1,5 @@
-import type { Feature } from "ol";
-import type Geometry from "ol/geom/Geometry";
-import type VectorSource from "ol/source/Vector";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { VectorLayer } from "~/components";
 import { useFishmapContext } from "~/hooks";
 import {
@@ -20,7 +17,6 @@ export const LiveVesselsLayer: FC = () => {
   const positions = useAppSelector(selectCurrentPositions);
   const selectedPosition = useAppSelector(selectSelectedLiveVessel);
 
-  const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
   const [iconSize, setIconSize] = useState<number | undefined>(
     (map.getView().getZoom() ?? 1) * ZOOM_FACTOR,
   );
@@ -37,6 +33,11 @@ export const LiveVesselsLayer: FC = () => {
     return () => map.un("moveend", fn);
   }, [map]);
 
+  const vector = useMemo(
+    () => generateLiveVesselsVector(positions, iconSize, selectedPosition),
+    [positions],
+  );
+
   // Change icon size from zoom level and if selected
   useEffect(() => {
     if (iconSize) {
@@ -50,10 +51,6 @@ export const LiveVesselsLayer: FC = () => {
       );
     }
   }, [iconSize, selectedPosition]);
-
-  useEffect(() => {
-    setVector(generateLiveVesselsVector(positions, iconSize, selectedPosition));
-  }, [positions]);
 
   return <VectorLayer source={vector} zIndex={7} />;
 };

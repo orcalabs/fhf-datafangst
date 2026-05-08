@@ -4,7 +4,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Button, IconButton, Slider, Typography } from "@mui/material";
 import { isFuture } from "date-fns";
 import type { FC } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { LandingsFilter } from "~/api";
 import { HaulsFilter } from "~/api";
 import { getAllYearsArray } from "~/api/utils";
@@ -59,11 +59,9 @@ export const TimeSlider: FC<Props> = ({
     return res;
   }, [options?.years, options?.months]);
 
-  useEffect(() => {
-    if (options?.filter !== HaulsFilter.Date) {
-      setOpen(false);
-    }
-  }, [options?.filter]);
+  if (open && options?.filter !== HaulsFilter.Date) {
+    setOpen(false);
+  }
 
   const handleSliderChange = (idx: number) => {
     onValueChange(selectedDates[idx]);

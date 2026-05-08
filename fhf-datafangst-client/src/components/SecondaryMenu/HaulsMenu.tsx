@@ -81,6 +81,7 @@ export const HaulsMenu: FC = () => {
   // Pagination state
   const [haulsPerPage, setHaulsPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [prevSelectedGrids, setPrevSelectedGrids] = useState(selectedGrids);
 
   const currentHauls = useMemo(
     () =>
@@ -144,22 +145,21 @@ export const HaulsMenu: FC = () => {
   }, [selectedGrids]);
 
   // Change current page when Haul is selected from map click
-  useEffect(() => {
-    if (selectedHaul) {
-      const selectedIndex = hauls.findIndex(
-        (val) => val.id === selectedHaul?.id,
-      );
-
-      if (selectedIndex !== -1) {
-        setCurrentPage(Math.floor(selectedIndex / haulsPerPage));
+  if (selectedHaul) {
+    const selectedIndex = hauls.findIndex((val) => val.id === selectedHaul?.id);
+    if (selectedIndex !== -1) {
+      const page = Math.floor(selectedIndex / haulsPerPage);
+      if (page !== currentPage) {
+        setCurrentPage(page);
       }
     }
-  }, [selectedHaul]);
+  }
 
   // Reset pagination on new grid selection
-  useEffect(() => {
+  if (selectedGrids !== prevSelectedGrids) {
     setCurrentPage(0);
-  }, [selectedGrids]);
+    setPrevSelectedGrids(selectedGrids);
+  }
 
   return (
     <>
