@@ -112,37 +112,38 @@ export const TripBenchmarkPage: FC = () => {
     }
   }, [dateRange, vessel]);
 
+  const trips = bench?.trips;
+
   const totalDuration = useMemo(
     () =>
-      bench
+      trips
         ? createObjectDurationString({
             start: 0,
-            end: bench.trips.sum(
+            end: trips.sum(
               (t) => new Date(t.end).getTime() - new Date(t.start).getTime(),
             ),
           })
         : undefined,
-    [bench?.trips],
+    [trips],
   );
 
   const { avgWeightPerHour, avgWeightPerDistance, avgWeightPerFuel } = useMemo(
     () =>
-      bench?.trips.length
+      trips?.length
         ? {
             avgWeightPerHour:
-              bench.trips.sum((v) => v.weightPerHour ?? 0) / bench.trips.length,
+              trips.sum((v) => v.weightPerHour ?? 0) / trips.length,
             avgWeightPerDistance:
-              bench.trips.sum((v) => v.weightPerDistance ?? 0) /
-              bench.trips.length,
+              trips.sum((v) => v.weightPerDistance ?? 0) / trips.length,
             avgWeightPerFuel:
-              bench.trips.sum((v) => v.weightPerFuel ?? 0) / bench.trips.length,
+              trips.sum((v) => v.weightPerFuel ?? 0) / trips.length,
           }
         : {
             avgWeightPerHour: 0,
             avgWeightPerDistance: 0,
             avgWeightPerFuel: 0,
           },
-    [bench?.trips],
+    [trips],
   );
 
   const generalChartOptions = (

@@ -33,7 +33,6 @@ export default defineConfig([
       "react-hooks/static-components": "off",
       "react-hooks/refs": "off",
       "react-hooks/globals": "off",
-      "react-hooks/preserve-manual-memoization": "off",
 
       "react-hooks/exhaustive-deps": "off",
 
