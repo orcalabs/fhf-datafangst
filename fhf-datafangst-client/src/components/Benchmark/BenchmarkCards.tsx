@@ -4,9 +4,8 @@ import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import StraightenRoundedIcon from "@mui/icons-material/StraightenRounded";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import type { FC } from "react";
+import { useMemo, type FC } from "react";
 import type { Trip } from "~/generated/openapi";
-import type { BenchmarkModalParams } from "~/store";
 import {
   selectBenchmarkTrips,
   selectLoggedInVessel,
@@ -20,6 +19,7 @@ import {
   createDurationFromHours,
   kilosOrTonsFormatter,
   metersToNatuticalMilesString,
+  unreachable,
 } from "~/utils";
 import { BenchmarkCard } from "./BenchmarkCard";
 import { BenchmarkModal } from "./BenchmarkModal";
@@ -49,145 +49,176 @@ enum BenchmarkType {
   FishingWeight,
 }
 
-const createDataset = (
-  ownTrips: Trip[],
-  followTrips: Record<number, Trip[]>,
-  dataExtractor: (t: Trip) => number,
-  reducer: (d: number) => number,
-) => {
-  const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
-  const vessel = useAppSelector(selectLoggedInVessel);
-
-  const vesselNames = [vessel?.fiskeridir.name ?? ""];
-  const dataset = [
-    ["date", "vesselName", "value"],
-    ...ownTrips.map((trip) => [
-      trip.start,
-      vessel?.fiskeridir.name ?? "",
-      reducer(dataExtractor(trip)),
-    ]),
-    ...Object.keys(followTrips).reduce(
-      (acc: [string, string, number][], fiskeridirId: string) => {
-        const name = fiskeridirVessels[+fiskeridirId].fiskeridir.name ?? "";
-        vesselNames.push(name);
-        const tmp: [string, string, number][] = followTrips[+fiskeridirId].map(
-          (trip) => [trip.start, name, reducer(dataExtractor(trip))],
-        );
-        return [...acc, ...tmp];
-      },
-      [],
-    ),
-  ];
-  return { dataset, vesselNames };
-};
-
 export const BenchmarkCards: FC = () => {
   const dispatch = useAppDispatch();
-  const followTrips = useAppSelector(selectBenchmarkTrips);
-  const followTripsList = Object.values(followTrips).flat();
 
-  const hasFollows = followTripsList.length !== 0;
   const trips = useAppSelector(selectTrips);
-  if (!trips) {
+  const followTrips = useAppSelector(selectBenchmarkTrips);
+  const vessel = useAppSelector(selectLoggedInVessel);
+  const fiskeridirVessels = useAppSelector(selectVesselsByFiskeridirId);
+
+  const data = useMemo(() => {
+    if (!trips) {
+      return undefined;
+    }
+
+    const followTripsList = Object.values(followTrips).flat();
+    const hasFollows = followTripsList.length !== 0;
+
+    const myTotalTimes = trips.map((trip) => getTotalTimes(trip));
+    const myFishingHours = trips.map((trip) => getFishingHours(trip));
+    const myFishingDistance = trips.map((trip) => getFishingDistance(trip));
+    const myFishingWeight = trips.map(
+      (trip) => trip.delivery.totalLivingWeight,
+    );
+    const myTotalTimeMean =
+      myTotalTimes.reduce((a, b) => a + b, 0) / myTotalTimes.length;
+    const myFishingHoursMean =
+      myFishingHours.reduce((a, b) => a + b, 0) / myFishingHours.length;
+    const myFishingDistanceMean =
+      myFishingDistance.reduce((a, b) => a + b, 0) / myFishingDistance.length;
+    const myFishingWeightMean =
+      myFishingWeight.reduce((a, b) => a + b, 0) / myFishingWeight.length;
+
+    const followTotalTimes = followTripsList.map((trip) => getTotalTimes(trip));
+    const followFishingHours = followTripsList.map((trip) =>
+      getFishingHours(trip),
+    );
+    const followFishingDistance = followTripsList.map((trip) =>
+      getFishingDistance(trip),
+    );
+    const followFishingWeight = followTripsList.map(
+      (trip) => trip.delivery.totalLivingWeight,
+    );
+    const followTotalTimeMean =
+      followTotalTimes.reduce((a, b) => a + b, 0) / followTotalTimes.length;
+    const followFishingHoursMean =
+      followFishingHours.reduce((a, b) => a + b, 0) / followFishingHours.length;
+    const followFishingDistanceMean =
+      followFishingDistance.reduce((a, b) => a + b, 0) /
+      followFishingDistance.length;
+    const followFishingWeightMean =
+      followFishingWeight.reduce((a, b) => a + b, 0) /
+      followFishingWeight.length;
+
+    return {
+      hasFollows,
+      myTotalTimes,
+      myFishingHours,
+      myFishingDistance,
+      myFishingWeight,
+      myTotalTimeMean,
+      myFishingHoursMean,
+      myFishingDistanceMean,
+      myFishingWeightMean,
+      followTotalTimeMean,
+      followFishingHoursMean,
+      followFishingDistanceMean,
+      followFishingWeightMean,
+    };
+  }, [followTrips, trips]);
+
+  if (!trips || !data) {
     return <></>;
   }
 
-  const myTotalTimes = trips.map((trip) => getTotalTimes(trip));
-  const myFishingHours = trips.map((trip) => getFishingHours(trip));
-  const myFishingDistance = trips.map((trip) => getFishingDistance(trip));
-  const myFishingWeight = trips.map((trip) => trip.delivery.totalLivingWeight);
-  const myTotalTimeMean =
-    myTotalTimes.reduce((a, b) => a + b, 0) / myTotalTimes.length;
-  const myFishingHoursMean =
-    myFishingHours.reduce((a, b) => a + b, 0) / myFishingHours.length;
-  const myFishingDistanceMean =
-    myFishingDistance.reduce((a, b) => a + b, 0) / myFishingDistance.length;
-  const myFishingWeightMean =
-    myFishingWeight.reduce((a, b) => a + b, 0) / myFishingWeight.length;
-
-  const followTotalTimes = followTripsList.map((trip) => getTotalTimes(trip));
-  const followFishingHours = followTripsList.map((trip) =>
-    getFishingHours(trip),
-  );
-  const followFishingDistance = followTripsList.map((trip) =>
-    getFishingDistance(trip),
-  );
-  const followFishingWeight = followTripsList.map(
-    (trip) => trip.delivery.totalLivingWeight,
-  );
-  const followTotalTimeMean =
-    followTotalTimes.reduce((a, b) => a + b, 0) / followTotalTimes.length;
-  const followFishingHoursMean =
-    followFishingHours.reduce((a, b) => a + b, 0) / followFishingHours.length;
-  const followFishingDistanceMean =
-    followFishingDistance.reduce((a, b) => a + b, 0) /
-    followFishingDistance.length;
-  const followFishingWeightMean =
-    followFishingWeight.reduce((a, b) => a + b, 0) / followFishingWeight.length;
-
-  const modalParams: Record<BenchmarkType, BenchmarkModalParams> = {
-    [BenchmarkType.TotalTime]: {
-      title: "Total tid",
-      description:
-        "Total tid er regnet som tiden mellom havneavgang og havneanløp.",
-      dataset: {
-        ...createDataset(
-          trips,
-          followTrips,
-          getTotalTimes,
-          myTotalTimeMean > 24 ? (d) => d / 24 : (d) => d,
-        ),
-        metric: myTotalTimeMean > 24 ? "Dager" : "Timer",
-      },
-    },
-    [BenchmarkType.FishingHours]: {
-      title: "Fisketid",
-      description:
-        "Fisketid er regnet som summen av tiden brukt under hver fangstmelding.",
-      dataset: {
-        ...createDataset(
-          trips,
-          followTrips,
-          getFishingHours,
-          myFishingHoursMean > 24 ? (d) => d / 24 : (d) => d,
-        ),
-        metric: myFishingHoursMean > 24 ? "Dager" : "Timer",
-      },
-    },
-
-    [BenchmarkType.FishingDistance]: {
-      title: "Fiskedistanse",
-      description:
-        "Fiskedistanse er regnet ut basert på VMS og AIS-meldingene som ble sendt under hver fangstmelding.",
-      dataset: {
-        ...createDataset(
-          trips,
-          followTrips,
-          getFishingDistance,
-          myFishingDistanceMean > 1852 ? (d) => d / 1852 : (d) => d,
-        ),
-        metric: myFishingDistanceMean > 1852 ? "Nautiske mil" : "Meter",
-      },
-    },
-    [BenchmarkType.FishingWeight]: {
-      title: "Total vekt",
-      description: "Total vekt er basert på total landet vekt",
-      dataset: {
-        ...createDataset(
-          trips,
-          followTrips,
-          getFishingWeight,
-          myFishingWeightMean > 1000 ? (d) => d / 1000 : (d) => d,
-        ),
-        metric: myFishingWeightMean > 1000 ? "Tonn" : "Kilo",
-      },
-    },
-  };
+  const {
+    hasFollows,
+    myTotalTimes,
+    myFishingHours,
+    myFishingDistance,
+    myFishingWeight,
+    myTotalTimeMean,
+    myFishingHoursMean,
+    myFishingDistanceMean,
+    myFishingWeightMean,
+    followTotalTimeMean,
+    followFishingHoursMean,
+    followFishingDistanceMean,
+    followFishingWeightMean,
+  } = data;
 
   const handleClick = (type: BenchmarkType) => {
-    const modal = {
-      ...modalParams[type],
+    const createDataset = (
+      dataExtractor: (t: Trip) => number,
+      reducer: (d: number) => number,
+      metric: string,
+    ) => {
+      const vesselNames = [vessel?.fiskeridir.name ?? ""];
+      const dataset = [
+        ["date", "vesselName", "value"],
+        ...trips.map((trip) => [
+          trip.start,
+          vessel?.fiskeridir.name ?? "",
+          reducer(dataExtractor(trip)),
+        ]),
+        ...Object.keys(followTrips).reduce(
+          (acc: [string, string, number][], fiskeridirId: string) => {
+            const name = fiskeridirVessels[+fiskeridirId].fiskeridir.name ?? "";
+            vesselNames.push(name);
+            const tmp: [string, string, number][] = followTrips[
+              +fiskeridirId
+            ].map((trip) => [trip.start, name, reducer(dataExtractor(trip))]);
+            return [...acc, ...tmp];
+          },
+          [],
+        ),
+      ];
+      return { dataset, vesselNames, metric };
     };
+
+    let modal;
+    switch (type) {
+      case BenchmarkType.TotalTime:
+        modal = {
+          title: "Total tid",
+          description:
+            "Total tid er regnet som tiden mellom havneavgang og havneanløp.",
+          dataset: createDataset(
+            getTotalTimes,
+            myTotalTimeMean > 24 ? (d) => d / 24 : (d) => d,
+            myTotalTimeMean > 24 ? "Dager" : "Timer",
+          ),
+        };
+        break;
+      case BenchmarkType.FishingHours:
+        modal = {
+          title: "Fisketid",
+          description:
+            "Fisketid er regnet som summen av tiden brukt under hver fangstmelding.",
+          dataset: createDataset(
+            getFishingHours,
+            myFishingHoursMean > 24 ? (d) => d / 24 : (d) => d,
+            myFishingHoursMean > 24 ? "Dager" : "Timer",
+          ),
+        };
+        break;
+      case BenchmarkType.FishingDistance:
+        modal = {
+          title: "Fiskedistanse",
+          description:
+            "Fiskedistanse er regnet ut basert på VMS og AIS-meldingene som ble sendt under hver fangstmelding.",
+          dataset: createDataset(
+            getFishingDistance,
+            myFishingDistanceMean > 1852 ? (d) => d / 1852 : (d) => d,
+            myFishingDistanceMean > 1852 ? "Nautiske mil" : "Meter",
+          ),
+        };
+        break;
+      case BenchmarkType.FishingWeight:
+        modal = {
+          title: "Total vekt",
+          description: "Total vekt er basert på total landet vekt",
+          dataset: createDataset(
+            getFishingWeight,
+            myFishingWeightMean > 1000 ? (d) => d / 1000 : (d) => d,
+            myFishingWeightMean > 1000 ? "Tonn" : "Kilo",
+          ),
+        };
+        break;
+      default:
+        unreachable(type);
+    }
 
     dispatch(setBenchmarkModal(modal));
   };

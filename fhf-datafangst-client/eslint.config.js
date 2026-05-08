@@ -9,7 +9,7 @@ export default defineConfig([
   globalIgnores(["dist"]),
   {
     files: ["**/*.{ts,tsx}"],
-    ignores: ["src/generated/**/*", "old_src/**/*", "**/*.{js,mjs}"],
+    ignores: ["src/generated/**/*", "**/*.{js,mjs}"],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -34,7 +34,6 @@ export default defineConfig([
       "react-hooks/refs": "off",
       "react-hooks/globals": "off",
       "react-hooks/preserve-manual-memoization": "off",
-      "react-hooks/rules-of-hooks": "off",
 
       "react-hooks/exhaustive-deps": "off",
 
