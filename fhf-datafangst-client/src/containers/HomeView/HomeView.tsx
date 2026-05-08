@@ -12,7 +12,6 @@ import {
   ShorelineLayer,
 } from "~/components";
 import { SearchBar } from "~/components/SearchBar/SearchBar";
-import { AppPage } from "~/containers/App/App";
 import { AreaPage } from "~/containers/HomeView/AreaPage";
 import { LivePage } from "~/containers/HomeView/LivePage";
 import { MyPage } from "~/containers/HomeView/MyPage";
@@ -23,6 +22,7 @@ import {
   PageLayoutCenterFull,
 } from "~/containers/PageLayout/PageLayoutCenter";
 import { PageLayoutHeader } from "~/containers/PageLayout/PageLayoutHeader";
+import { AppPage } from "~/models";
 import {
   selectAppPage,
   setAppPage,

@@ -18,10 +18,11 @@ import { startOfYear } from "date-fns";
 import ReactEChart from "echarts-for-react";
 import type { FC, ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import { DateRange } from "~/api";
 import chartsTheme from "~/app/chartsTheme";
 import theme, { fontStyle } from "~/app/theme";
 import { LocalLoadingProgress } from "~/components/Common/LocalLoadingProgress";
-import { DateFilter, DateRange } from "~/components/SearchFilters/DateFilter";
+import { DateFilter } from "~/components/SearchFilters/DateFilter";
 import {
   getAverageEeoi,
   getAverageTripBenchmarks,

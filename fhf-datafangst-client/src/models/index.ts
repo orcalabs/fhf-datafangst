@@ -1,4 +1,5 @@
 export * from "./ais";
+export * from "./app";
 export * from "./catch";
 export * from "./common";
 export * from "./fishingFacility";

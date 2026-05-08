@@ -4,7 +4,7 @@ import { ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
 import type { FC } from "react";
 import theme from "~/app/theme";
 import { FishIcon } from "~/assets/icons";
-import { AppPage } from "~/containers/App/App";
+import { AppPage } from "~/models";
 import type { Trip } from "~/generated/openapi";
 import { HasTrack } from "~/generated/openapi";
 import {

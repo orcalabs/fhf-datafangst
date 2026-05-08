@@ -8,7 +8,7 @@ import {
   SearchFilters,
 } from "~/components";
 import type { SearchParams } from "~/components/SearchFilters/SearchFilters";
-import { AppPage } from "~/containers/App/App";
+import { AppPage } from "~/models";
 import {
   paginateTripsSearch,
   selectAppPage,

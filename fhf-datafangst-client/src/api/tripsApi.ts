@@ -1,4 +1,4 @@
-import type { DateRange } from "~/components/SearchFilters/DateFilter";
+import { endOfDay, isValid, startOfDay } from "date-fns";
 import type {
   GearGroupDetailed,
   SpeciesGroupDetailed,
@@ -7,6 +7,32 @@ import type {
 import { Ordering, TripApi, TripSorting } from "~/generated/openapi";
 import type { LengthGroup } from "~/models";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
+
+export class DateRange {
+  rawStart?: Date;
+  rawEnd?: Date;
+
+  get start() {
+    return isValid(this.rawStart)
+      ? startOfDay(this.rawStart!)
+      : this.rawEnd
+        ? new Date(0)
+        : undefined;
+  }
+
+  get end() {
+    return isValid(this.rawEnd)
+      ? endOfDay(this.rawEnd!)
+      : this.rawStart
+        ? new Date()
+        : undefined;
+  }
+
+  constructor(start?: Date | null, end?: Date | null) {
+    this.rawStart = start ?? undefined;
+    this.rawEnd = end ?? undefined;
+  }
+}
 
 export interface TripArgs {
   tripId: number;

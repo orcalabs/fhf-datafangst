@@ -2,9 +2,9 @@ import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { endOfYear, startOfYear } from "date-fns";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
+import { DateRange } from "~/api";
 import theme from "~/app/theme";
 import { DateFilter, LocalLoadingProgress } from "~/components";
-import { DateRange } from "~/components/SearchFilters/DateFilter";
 import { RegisterVesselEntityType } from "~/generated/openapi";
 import {
   getOrgBenchmarks,

@@ -29,7 +29,6 @@ export default defineConfig([
       "react-hooks/set-state-in-effect": "off",
       "react-hooks/immutability": "off",
       "react-hooks/incompatible-library": "off",
-      "react-refresh/only-export-components": "off",
 
       "react-hooks/exhaustive-deps": "off",
 

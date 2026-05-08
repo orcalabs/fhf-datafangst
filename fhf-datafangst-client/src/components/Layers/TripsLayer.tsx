@@ -4,7 +4,7 @@ import type VectorSource from "ol/source/Vector";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import { VectorLayer } from "~/components";
-import { AppPage } from "~/containers/App/App";
+import { AppPage } from "~/models";
 import { useFishmapContext } from "~/hooks";
 import {
   selectAppPage,

@@ -7,7 +7,7 @@ import type { FC } from "react";
 import { useEffect, useMemo, useState } from "react";
 import type { LandingsFilter } from "~/api";
 import { HaulsFilter } from "~/api";
-import { getAllYearsArray } from "~/components/Filters/YearsFilter";
+import { getAllYearsArray } from "~/api/utils";
 import { Months } from "~/utils";
 
 const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
