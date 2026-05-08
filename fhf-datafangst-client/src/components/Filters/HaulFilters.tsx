@@ -57,8 +57,8 @@ export const HaulFilters: FC<Props> = ({
     <Stack sx={sx}>
       <Stack
         direction="row"
-        justifyContent="space-between"
         sx={{
+          justifyContent: "space-between",
           "& .MuiButtonBase-root": {
             borderRadius: 0,
             "&:hover": {
@@ -114,7 +114,6 @@ export const HaulFilters: FC<Props> = ({
                 haulsSearch?.filter ?? HaulsFilter.VesselLength,
               )
             }
-            useVirtualization
           />
         </Box>
       )}

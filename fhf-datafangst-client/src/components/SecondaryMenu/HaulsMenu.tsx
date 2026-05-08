@@ -164,7 +164,7 @@ export const HaulsMenu: FC = () => {
   return (
     <>
       <Box sx={{ px: 2.5, pt: 2.5 }}>
-        <Typography sx={{ py: 1 }} variant="h5" fontSize="1.3rem">
+        <Typography variant="h5" sx={{ py: 1, fontSize: "1.3rem" }}>
           VALGTE OMRÅDER
         </Typography>
         <Divider sx={{ bgcolor: "text.secondary", mt: 2, mb: 0 }} />

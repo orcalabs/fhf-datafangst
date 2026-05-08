@@ -45,8 +45,8 @@ export const LandingFilters: FC<Props> = (props) => {
     <>
       <Stack
         direction="row"
-        justifyContent="space-between"
         sx={{
+          justifyContent: "space-between",
           "& .MuiButtonBase-root": {
             borderRadius: 0,
             "&:hover": {
@@ -115,7 +115,6 @@ export const LandingFilters: FC<Props> = (props) => {
                     landingsSearch?.filter ?? LandingsFilter.VesselLength,
                   )
                 }
-                useVirtualization
               />
             </Box>
           )}

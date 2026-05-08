@@ -167,9 +167,8 @@ export const FuelPage: FC = () => {
             </ToggleButtonGroup>
             <Stack
               direction="row"
-              sx={{ width: "50%" }}
               spacing={2}
-              alignItems="flex-start"
+              sx={{ width: "50%", alignItems: "flex-start" }}
             >
               <Stack spacing={0.5}>
                 <Typography
@@ -230,15 +229,23 @@ export const FuelPage: FC = () => {
                   Tidspunkt
                 </Typography>
                 <DateTimePicker
-                  sx={{ width: 250 }}
                   disableFuture
+                  label="Nå"
+                  sx={{
+                    width: 250,
+                    "& .MuiPickersOutlinedInput-notchedOutline legend": {
+                      display: "none",
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "text.disabled",
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      display: "none",
+                    },
+                  }}
                   slotProps={{
                     field: {
                       clearable: true,
-                    },
-                    textField: {
-                      placeholder: "Nå",
-                      size: "small",
                     },
                   }}
                   value={inputDate}
@@ -290,9 +297,11 @@ export const FuelPage: FC = () => {
             >
               <Stack
                 direction="row"
-                justifyContent="space-between"
-                alignItems="flex-end"
-                sx={{ pb: 3.5 }}
+                sx={{
+                  pb: 3.5,
+                  alignItems: "flex-end",
+                  justifyContent: "space-between",
+                }}
               >
                 <Typography variant="h5">Logg</Typography>
                 <FileUpload
@@ -305,12 +314,11 @@ export const FuelPage: FC = () => {
                     title={
                       <>
                         <Stack direction="row" spacing={1}>
-                          <Typography fontWeight="bold">
+                          <Typography sx={{ fontWeight: "bold" }}>
                             Akseptert filtype:
                           </Typography>
                           <Typography
-                            fontWeight="bold"
-                            sx={{ color: "grey.A400" }}
+                            sx={{ color: "grey.A400", fontWeight: "bold" }}
                           >
                             .xlsx
                           </Typography>
@@ -478,8 +486,8 @@ export const FuelPage: FC = () => {
                               <StyledTableCell align="right">
                                 <Stack
                                   direction="row"
-                                  justifyContent="flex-end"
                                   spacing={1}
+                                  sx={{ justifyContent: "flex-end" }}
                                 >
                                   <Button
                                     sx={{ width: 100 }}
@@ -537,7 +545,7 @@ export const FuelPage: FC = () => {
                                 <Stack
                                   direction="row"
                                   spacing={2}
-                                  justifyContent="flex-end"
+                                  sx={{ justifyContent: "flex-end" }}
                                 >
                                   <IconButton
                                     color="warning"

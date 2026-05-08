@@ -67,7 +67,10 @@ export const Company: FC = () => {
 
   return (
     <Stack spacing={2} sx={{ p: 2, width: "100%" }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction="row"
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
+      >
         <Typography variant="h3">
           {vessel?.fiskeridir.owners[0]?.name}
         </Typography>

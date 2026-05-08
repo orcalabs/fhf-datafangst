@@ -130,7 +130,7 @@ export const TripDetails: FC = () => {
         backgroundColor: "white",
       }}
     >
-      <Box display="flex" justifyContent={"space-between"} sx={{ p: 2 }}>
+      <Box sx={{ display: "flex", p: 2, justifyContent: "space-between" }}>
         <Box sx={{ width: 350 }}>
           <VesselDetails vesselId={trip?.fiskeridirVesselId} />
         </Box>
@@ -161,7 +161,7 @@ export const TripDetails: FC = () => {
           "& .MuiStepConnector-root": { ml: "17px" },
         }}
       >
-        <Typography variant="h4" fontWeight={700} sx={{ my: "auto", pb: 2 }}>
+        <Typography variant="h4" sx={{ my: "auto", pb: 2, fontWeight: 700 }}>
           Logg
         </Typography>
         <Stepper orientation="vertical" nonLinear>

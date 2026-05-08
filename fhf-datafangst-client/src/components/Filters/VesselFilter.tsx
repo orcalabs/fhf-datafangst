@@ -1,10 +1,10 @@
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
-import { Autocomplete, Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import type { FC } from "react";
 import { memo } from "react";
 import theme from "~/app/theme";
-import { ListboxComponent, StyledPopper } from "~/components";
+import { StyledPopper, VirtualAutocomplete } from "~/components";
 import type { Vessel } from "~/generated/openapi";
 import { AppPage } from "~/models";
 import { selectAppPage, selectVesselsSorted, useAppSelector } from "~/store";
@@ -13,7 +13,6 @@ import { toTitleCase } from "~/utils";
 interface Props {
   value?: Vessel[];
   onChange: (vessel?: Vessel[]) => void;
-  useVirtualization?: boolean;
 }
 
 export const VesselFilter: FC<Props> = (props) => {
@@ -33,14 +32,14 @@ interface PropsInner {
 
 const VesselFilterInner = memo(
   function VesselFilterInner({ props, appPage, vessels }: PropsInner) {
-    const { value, onChange, useVirtualization } = props;
+    const { value, onChange } = props;
 
     return (
       <>
-        <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
+        <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>
           Fartøy
         </Typography>
-        <Autocomplete
+        <VirtualAutocomplete
           sx={{
             "& .MuiButtonBase-root": {
               borderRadius: 0,
@@ -81,7 +80,9 @@ const VesselFilterInner = memo(
               }
             />
           )}
-          renderOption={(props: any, option: Vessel) => (
+          optionKey={(v) => v.fiskeridir.id}
+          renderOption={(props, option) => [
+            option,
             <li
               {...props}
               key={option.fiskeridir.id}
@@ -115,17 +116,13 @@ const VesselFilterInner = memo(
                   </Typography>
                 </Box>
               </Box>
-            </li>
-          )}
+            </li>,
+          ]}
           slots={{
             popper: StyledPopper,
           }}
           slotProps={{
             chip: { deleteIcon: <DisabledByDefaultIcon /> },
-
-            listbox: {
-              component: useVirtualization ? ListboxComponent : undefined,
-            },
           }}
         />
       </>

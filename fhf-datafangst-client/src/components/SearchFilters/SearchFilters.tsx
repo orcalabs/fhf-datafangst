@@ -67,11 +67,7 @@ export const SearchFilters: FC<Props> = ({
     switch (key) {
       case "vessels":
         return !selectedVessel ? (
-          <VesselFilter
-            value={params[key]}
-            onChange={onChange}
-            useVirtualization={true}
-          />
+          <VesselFilter value={params[key]} onChange={onChange} />
         ) : undefined;
       case "dateRange":
         return (

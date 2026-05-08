@@ -22,13 +22,13 @@ export const MapAttributions: FC = () => {
   return (
     <Stack
       direction="row"
-      alignItems="center"
-      gap={0.5}
       sx={{
+        gap: 0.5,
         pointerEvents: "auto",
         padding: 1,
         fontSize: "small",
         zIndex: 10,
+        alignItems: "center",
       }}
     >
       <Link

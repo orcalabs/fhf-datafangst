@@ -40,9 +40,7 @@ export const SpeciesFilter: FC<Props> = ({ value, options, onChange }) => {
         },
       }}
     >
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-        Art
-      </Typography>
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>Art</Typography>
       <Autocomplete
         multiple
         size="small"

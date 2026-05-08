@@ -35,7 +35,7 @@ export const UserManual: FC<Props> = ({ open, onClose }) => {
         }}
       >
         <Stack spacing={1}>
-          <Typography fontWeight="bold" fontSize="1.7rem">
+          <Typography sx={{ fontWeight: "bold", fontSize: "1.7rem" }}>
             Brukerveiledning
           </Typography>
 

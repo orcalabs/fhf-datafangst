@@ -36,11 +36,9 @@ export const GearFilter: FC<Props> = ({
 
   return (
     <>
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-        Redskap
-      </Typography>
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>Redskap</Typography>
       <FormGroup>
-        <Grid container rowSpacing={0.1} columnSpacing={1} width={330}>
+        <Grid container rowSpacing={0.1} columnSpacing={1} sx={{ width: 330 }}>
           {gearGroups.map((val, i) => (
             <Grid key={i} size={6}>
               <FormControlLabel

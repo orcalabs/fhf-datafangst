@@ -32,7 +32,11 @@ export const TransferPopover: FC<Props> = ({ transfer }) => {
 
   return (
     <Stack sx={{ p: 1, pr: 1.2 }} spacing={1}>
-      <Stack direction="row" justifyContent="space-evenly" spacing={1}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{ justifyContent: "space-evenly" }}
+      >
         <SwapHorizontalCircleIcon fontSize="large" sx={{ color: "#BB00FF" }} />
         <Stack>
           <Typography sx={{ ...textStyle, fontWeight: 700 }}>
@@ -49,10 +53,9 @@ export const TransferPopover: FC<Props> = ({ transfer }) => {
       <Divider />
       <Stack>
         <Stack
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", justifyContent: "space-between" }}
           spacing={1}
           direction="row"
-          justifyContent="space-between"
         >
           <Typography sx={{ ...textStyle, color: "#4E4E4E" }}>
             {transfer.reloadToCallSign
@@ -74,10 +77,9 @@ export const TransferPopover: FC<Props> = ({ transfer }) => {
         {(transfer.reloadFromFiskeridirVesselId ||
           transfer.reloadToFiskeridirVesselId) && (
           <Stack
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", justifyContent: "space-between" }}
             direction="row"
             spacing={1}
-            justifyContent="space-between"
           >
             <Typography sx={{ ...textStyle, color: "#4E4E4E" }}>
               {transfer.reloadToCallSign ? "Til: " : "Fra:"}

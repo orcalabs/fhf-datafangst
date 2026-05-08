@@ -22,9 +22,7 @@ export const MonthsFilter: FC<Props> = (props) => {
 
   return (
     <>
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-        Måned
-      </Typography>
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>Måned</Typography>
       <Autocomplete
         sx={{
           "& .MuiAutocomplete-inputRoot": {
@@ -66,7 +64,8 @@ export const MonthsFilter: FC<Props> = (props) => {
             variant="standard"
             placeholder={values?.length ? undefined : "Alle"}
             slotProps={{
-              htmlInput: { ...params.inputProps, readOnly: true },
+              ...params.slotProps,
+              htmlInput: { ...params.slotProps.htmlInput, readOnly: true },
             }}
           />
         )}

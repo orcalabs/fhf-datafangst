@@ -17,7 +17,11 @@ const textStyle = {
 export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
   return (
     <Stack sx={{ p: 1, pl: 0.5 }} spacing={1}>
-      <Stack direction="row" justifyContent="space-between" spacing={1}>
+      <Stack
+        direction="row"
+        sx={{ justifyContent: "space-between" }}
+        spacing={1}
+      >
         <LocationOnIcon fontSize="large" sx={{ color: "third.main" }} />
         <Stack>
           <Typography sx={textStyle}>
@@ -39,7 +43,7 @@ export const PositionPopover: FC<Props> = ({ hoveredPosition }) => {
       </Stack>
       <>
         <Divider />
-        <Stack sx={{ px: 1 }} alignItems="center">
+        <Stack sx={{ px: 1, alignItems: "center" }}>
           <Typography
             sx={{
               ...textStyle,

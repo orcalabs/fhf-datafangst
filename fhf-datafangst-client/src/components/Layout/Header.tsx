@@ -70,9 +70,9 @@ export const Header: FC<Props> = ({ page }) => {
           }}
           to={`/${AppPage.Live}`}
         >
-          <Stack direction="row" alignItems="center">
+          <Stack direction="row" sx={{ alignItems: "center" }}>
             <LogoIcon height={40} />
-            <Typography color="white" variant="h4">
+            <Typography variant="h4" sx={{ color: "white" }}>
               DataFangst
             </Typography>
           </Stack>
@@ -81,8 +81,7 @@ export const Header: FC<Props> = ({ page }) => {
         <Stack
           direction="row"
           spacing={1}
-          sx={{ gridColumn: 3, justifySelf: "end" }}
-          alignItems="center"
+          sx={{ gridColumn: 3, justifySelf: "end", alignItems: "center" }}
         >
           <Button
             sx={{ color: "white", textTransform: "none" }}
@@ -154,7 +153,7 @@ export const Header: FC<Props> = ({ page }) => {
                 onClose={() => setAnchorEl(null)}
               >
                 {bwProfile && [
-                  <Stack key={1} direction="row" gap={1.5} sx={{ p: 2, pt: 1 }}>
+                  <Stack key={1} direction="row" sx={{ gap: 1.5, p: 2, pt: 1 }}>
                     <Avatar>{bwProfile?.user.firstName?.charAt(0)}</Avatar>
                     <Stack direction="column">
                       <Typography>
