@@ -32,7 +32,6 @@ export default defineConfig([
       "react-refresh/only-export-components": "off",
       "react-hooks/static-components": "off",
       "react-hooks/refs": "off",
-      "react-hooks/globals": "off",
 
       "react-hooks/exhaustive-deps": "off",
 

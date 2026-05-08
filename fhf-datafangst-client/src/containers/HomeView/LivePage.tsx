@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   CurrentTripMenu,
   LoadingScreen,
@@ -34,11 +34,13 @@ import {
 } from "~/store";
 import { fromLonLat } from "~/utils";
 
-let FIRST_LOAD = true;
-
 export const LivePage: FC = () => {
   const dispatch = useAppDispatch();
   const [params, setParams] = useQueryParams();
+
+  const selectedVesselCallSign = params.callSign;
+
+  const shouldCenter = useRef(!!selectedVesselCallSign);
 
   const currentTrip = useAppSelector(selectCurrentTrip);
   const selectedTrip = useAppSelector(selectSelectedTrip);
@@ -52,8 +54,6 @@ export const LivePage: FC = () => {
 
   const { map } = useFishmapContext();
 
-  const selectedVesselCallSign = params.callSign;
-
   const selectedVessel = selectedVesselCallSign
     ? vessels[selectedVesselCallSign]
     : undefined;
@@ -61,19 +61,15 @@ export const LivePage: FC = () => {
     ? currentPositionsMap?.[selectedVessel.fiskeridir.id]
     : undefined;
 
-  if (!selectedVesselCallSign) {
-    FIRST_LOAD = false;
-  }
-
   useEffect(() => {
     if (params.callSign && liveVessel) {
       if (liveVessel.vesselId === selectedPosition?.vesselId) {
         return;
       }
       dispatch(setSelectedLiveVessel(liveVessel));
-      if (FIRST_LOAD) {
+      if (shouldCenter.current) {
         map.getView().setCenter(fromLonLat(liveVessel.lon, liveVessel.lat));
-        FIRST_LOAD = false;
+        shouldCenter.current = false;
       }
     } else if (
       selectedVesselCallSign &&
