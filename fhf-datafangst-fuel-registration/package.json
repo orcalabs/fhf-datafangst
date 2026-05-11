@@ -18,7 +18,7 @@
     "@khmyznikov/pwa-install": "^0.6.3",
     "@mui/icons-material": "^9.0.1",
     "@mui/material": "^9.0.1",
-    "@mui/x-date-pickers": "^9.0.4",
+    "@mui/x-date-pickers": "^9.1.0",
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.16.0",
     "date-fns": "^4.1.0",
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@openapitools/openapi-generator-cli": "^2.32.0",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.6.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-basic-ssl": "^2.3.0",
@@ -45,7 +45,7 @@
     "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.11",
+    "vite": "^8.0.12",
     "vite-plugin-checker": "^0.13.0",
     "vite-plugin-compression2": "^2.5.3"
   }
