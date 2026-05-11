@@ -1,28 +1,14 @@
 import type { FC } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { VectorLayer } from "~/components";
 import { useFishmapContext } from "~/hooks";
 import { selectDeliveryPoints, useAppSelector } from "~/store";
 import { deliveryPointStyle, generateDeliveryPointsVector } from "~/utils";
 
 export const DeliveryPointsLayer: FC = () => {
-  const { map } = useFishmapContext();
+  const { zoom } = useFishmapContext();
 
   const deliveryPoints = useAppSelector(selectDeliveryPoints);
-
-  const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
-
-  // Store map zoom level in state
-  useEffect(() => {
-    const onMoveEnd = function () {
-      const zoom = map.getView().getZoom();
-      if (zoom) {
-        setZoom(zoom);
-      }
-    };
-    map.on("moveend", onMoveEnd);
-    return () => map.un("moveend", onMoveEnd);
-  }, [map]);
 
   const vector = useMemo(
     () => generateDeliveryPointsVector(deliveryPoints),

@@ -11,37 +11,52 @@ const defaultZoom = 2.7;
 const defaultZoomFactor = 3.7;
 
 export const FishmapProvider: FC<PropsWithChildren> = (props) => {
-  const [map, _] = useState(
-    () =>
-      new OLMap({
-        target: "map",
-        layers: [],
-        view: new View({
-          center: defaultCenter,
-          zoom: defaultZoom,
-          zoomFactor: defaultZoomFactor,
-        }),
-        controls: defaults({
-          attribution: false,
-          rotate: false,
-          zoom: false,
-        }),
-        interactions: interactionDefaults({
-          doubleClickZoom: false,
-        }),
+  const [zoom, setZoom] = useState(defaultZoom);
+  const [map, _] = useState(() => {
+    const view = new View({
+      center: defaultCenter,
+      zoom: defaultZoom,
+      zoomFactor: defaultZoomFactor,
+    });
+
+    let timeout: number;
+
+    view.on("change:resolution", () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        const z = view.getZoom();
+        if (z) {
+          setZoom(z);
+        }
+      }, 100);
+    });
+
+    return new OLMap({
+      layers: [],
+      view,
+      controls: defaults({
+        attribution: false,
+        rotate: false,
+        zoom: false,
       }),
-  );
+      interactions: interactionDefaults({
+        doubleClickZoom: false,
+      }),
+    });
+  });
 
   return (
     <FishmapContext
       value={{
         map,
+        zoom,
         defaultCenter,
         defaultZoom,
         defaultZoomFactor,
         resetZoom: () => {
           map.getView().setCenter(defaultCenter);
-          map.getView().setZoom(defaultZoomFactor);
+          map.getView().setZoom(defaultZoom);
           map.getView().setResolution(4576);
         },
         focusTrack: (track) => {

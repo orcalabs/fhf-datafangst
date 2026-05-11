@@ -4,6 +4,7 @@ import type { AisVmsPosition } from "~/generated/openapi";
 
 export interface FishmapCtx {
   map: OLMap;
+  zoom: number;
   defaultCenter: [number, number];
   defaultZoom: number;
   defaultZoomFactor: number;

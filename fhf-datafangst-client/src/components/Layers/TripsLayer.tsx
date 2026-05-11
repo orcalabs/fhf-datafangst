@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { VectorLayer } from "~/components";
 import { useFishmapContext } from "~/hooks";
 import { AppPage } from "~/models";
@@ -19,32 +19,18 @@ import {
 } from "~/utils";
 
 export const TripsLayer: FC = () => {
-  const { map, focusTrack } = useFishmapContext();
+  const { zoom, focusTrack } = useFishmapContext();
 
   const appPage = useAppSelector(selectAppPage);
   const track = useAppSelector(selectTrack);
   const trip = useAppSelector(selectSelectedOrCurrentTrip);
   const selectedTripHaul = useAppSelector(selectSelectedTripHaul);
 
-  const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
-
   useEffect(() => {
     if (track && trip && ("tripId" in trip || appPage === AppPage.MyPage)) {
       focusTrack(track);
     }
   }, [track]);
-
-  // Store map zoom level in state
-  useEffect(() => {
-    const onMoveEnd = function () {
-      const zoom = map.getView().getZoom();
-      if (zoom) {
-        setZoom(zoom);
-      }
-    };
-    map.on("moveend", onMoveEnd);
-    return () => map.un("moveend", onMoveEnd);
-  }, [map]);
 
   const trackVectors = useMemo(
     () =>
