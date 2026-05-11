@@ -1,5 +1,5 @@
 import OLTileLayer from "ol/layer/Tile";
-import XYZ from "ol/source/XYZ.js";
+import { TileWMS } from "ol/source";
 import type { FC } from "react";
 import { useEffect } from "react";
 import { useFishmapContext } from "~/hooks";
@@ -17,8 +17,10 @@ export const SeamapLayer: FC<Props> = ({ zIndex = 0 }) => {
     }
 
     const seamapLayer = new OLTileLayer({
-      source: new XYZ({
-        url: "https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=sjokartraster&zoom={z}&x={x}&y={y}",
+      source: new TileWMS({
+        url: "https://wms.geonorge.no/skwms1/wms.sjokartraster2",
+        params: { LAYERS: "all", TILED: true },
+        transition: 0,
       }),
       zIndex,
       opacity: 1,
