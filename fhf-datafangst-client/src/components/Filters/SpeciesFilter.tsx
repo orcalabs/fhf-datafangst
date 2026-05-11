@@ -1,9 +1,10 @@
 import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import { Box, Button, Collapse, Typography } from "@mui/material";
-import { SpeciesGroup, SpeciesGroupDetailed } from "generated/openapi";
-import { FC, useEffect, useState } from "react";
-import { selectSpeciesGroupsMap, useAppSelector } from "store";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import type { SpeciesGroup, SpeciesGroupDetailed } from "~/generated/openapi";
+import { selectSpeciesGroupsMap, useAppSelector } from "~/store";
 import { Bar } from "./Bar";
 
 const NUM_BARS = 7;

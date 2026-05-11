@@ -1,6 +1,7 @@
 import { Vector as OLVectorLayer } from "ol/layer";
-import { FC, useEffect } from "react";
-import { selectFishmap, useAppSelector } from "store";
+import type { FC } from "react";
+import { useEffect } from "react";
+import { useFishmapContext } from "~/hooks";
 
 interface Props {
   source: any;
@@ -9,12 +10,11 @@ interface Props {
   name?: string;
 }
 
-export const VectorLayer: FC<Props> = (props) => {
-  const { source, style, zIndex, name } = props;
-  const fishmap = useAppSelector(selectFishmap);
+export const VectorLayer: FC<Props> = ({ source, style, zIndex, name }) => {
+  const { map } = useFishmapContext();
 
   useEffect(() => {
-    if (!fishmap) return;
+    if (!map) return;
 
     const vectorLayer = new OLVectorLayer({
       source,
@@ -22,14 +22,14 @@ export const VectorLayer: FC<Props> = (props) => {
       zIndex,
       properties: { name },
     });
-    fishmap.addLayer(vectorLayer);
+    map.addLayer(vectorLayer);
 
     return () => {
-      if (fishmap) {
-        fishmap.removeLayer(vectorLayer);
+      if (map) {
+        map.removeLayer(vectorLayer);
       }
     };
-  }, [fishmap, source, style, zIndex]);
+  }, [map, source, style, zIndex]);
 
   return null;
 };

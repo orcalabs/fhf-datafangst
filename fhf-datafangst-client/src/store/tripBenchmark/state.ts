@@ -1,4 +1,7 @@
-import { AverageTripBenchmarks, TripBenchmarks } from "generated/openapi";
+import type {
+  AverageTripBenchmarks,
+  TripBenchmarks,
+} from "~/generated/openapi";
 
 export interface TripBenchmarkState {
   tripBenchmarks?: TripBenchmarks;

@@ -1,7 +1,8 @@
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { Haul } from "generated/openapi";
-import { getTrack } from "store";
-import { AppState, emptyState } from "store/state";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import type { Haul } from "~/generated/openapi";
+import { getTrack } from "~/store";
+import type { AppState } from "~/store/state";
+import { emptyState } from "~/store/state";
 import {
   addHauls,
   getHauls,

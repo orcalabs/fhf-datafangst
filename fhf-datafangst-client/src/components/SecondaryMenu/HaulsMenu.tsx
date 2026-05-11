@@ -10,13 +10,17 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { HaulsFilter, HaulsMatrixArgs } from "api";
-import { LocalLoadingProgress, SortMenu, SortOption } from "components";
-import { GearFilter } from "components/Filters/GearFilter";
-import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
-import { SpeciesFilter } from "components/Filters/SpeciesFilter";
-import { Haul, HaulsSorting, Ordering } from "generated/openapi";
-import { FC, useEffect, useMemo, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { HaulsMatrixArgs } from "~/api";
+import { HaulsFilter } from "~/api";
+import type { SortOption } from "~/components";
+import { LocalLoadingProgress, SortMenu } from "~/components";
+import { GearFilter } from "~/components/Filters/GearFilter";
+import { LengthGroupFilter } from "~/components/Filters/LengthGroupFilter";
+import { SpeciesFilter } from "~/components/Filters/SpeciesFilter";
+import type { Haul } from "~/generated/openapi";
+import { HaulsSorting, Ordering } from "~/generated/openapi";
 import {
   getTrip,
   selectGearsMap,
@@ -36,7 +40,7 @@ import {
   setSelectedHaul,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 import {
   createHaulDurationString,
   dateFormat,
@@ -44,7 +48,7 @@ import {
   kilosOrTonsFormatter,
   reduceCatchesOnSpecies,
   sumCatches,
-} from "utils";
+} from "~/utils";
 import { ListItem } from "./ListItem";
 
 export const HaulsMenu: FC = () => {

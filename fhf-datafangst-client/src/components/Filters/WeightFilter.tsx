@@ -6,8 +6,9 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { FC, useState } from "react";
-import { middle } from "utils";
+import type { FC } from "react";
+import { useState } from "react";
+import { middle } from "~/utils";
 
 interface Props {
   value?: [number, number];

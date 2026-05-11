@@ -1,10 +1,10 @@
 import { CssBaseline } from "@mui/material";
-import { authConfig } from "app/auth";
-import { Layout } from "components";
-import { HomeView } from "containers";
-import { useQueryParams } from "hooks";
 import { AuthProvider } from "oidc-react";
 import { Navigate, Route, Routes } from "react-router";
+import { authConfig } from "~/app/auth";
+import { Layout } from "~/components";
+import { HomeView } from "~/containers";
+import { useQueryParams } from "~/hooks";
 
 export enum AppPage {
   Live = "live",

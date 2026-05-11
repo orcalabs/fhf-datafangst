@@ -1,10 +1,10 @@
-import {
+import type {
   CreateFuelMeasurement,
   DeleteFuelMeasurement,
   FuelMeasurement,
-  FuelMeasurementApi,
   UploadFuelMeasurement,
-} from "generated/openapi";
+} from "~/generated/openapi";
+import { FuelMeasurementApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface FuelMeasurementsArgs {

@@ -1,6 +1,6 @@
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { Trip } from "generated/openapi";
-import { AppState } from "store/state";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import type { Trip } from "~/generated/openapi";
+import type { AppState } from "~/store/state";
 import {
   clearBenchmarkData,
   getBenchmarkData,

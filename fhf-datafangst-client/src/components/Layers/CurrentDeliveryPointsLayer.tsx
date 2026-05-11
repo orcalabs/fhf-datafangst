@@ -1,43 +1,42 @@
-import { VectorLayer } from "components";
-import { Feature } from "ol";
-import Geometry from "ol/geom/Geometry";
-import VectorSource from "ol/source/Vector";
-import { FC, useEffect, useState } from "react";
-import {
-  selectFishmapState,
-  selectMapDeliveryPoints,
-  useAppSelector,
-} from "store";
-import { deliveryPointStyle, generateDeliveryPointsVector } from "utils";
+import type { Feature } from "ol";
+import type Geometry from "ol/geom/Geometry";
+import type VectorSource from "ol/source/Vector";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import { VectorLayer } from "~/components";
+import { useFishmapContext } from "~/hooks";
+import { selectMapDeliveryPoints, useAppSelector } from "~/store";
+import { deliveryPointStyle, generateDeliveryPointsVector } from "~/utils";
 
 export const CurrentDeliveryPointsLayer: FC = () => {
-  const deliveryPoints = useAppSelector(selectMapDeliveryPoints);
-  const state = useAppSelector(selectFishmapState);
-  const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
-  const [zoom, setZoom] = useState<number | undefined>(
-    state.map.getView().getZoom(),
-  );
+  const { map } = useFishmapContext();
 
-  const iconSize = zoom ? zoom * 0.12 : state.zoom * 0.12;
+  const deliveryPoints = useAppSelector(selectMapDeliveryPoints);
+
+  const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
+  const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
 
   // Store map zoom level in state
   useEffect(() => {
-    state.map.on("moveend", function () {
-      const zoom = state.map.getView().getZoom();
+    const onMoveEnd = function () {
+      const zoom = map.getView().getZoom();
       if (zoom) {
         setZoom(zoom);
       }
-    });
-  }, [state.map]);
+    };
+    map.on("moveend", onMoveEnd);
+    return () => map.un("moveend", onMoveEnd);
+  }, [map]);
 
   // Change icon size from zoom level and if selected
   useEffect(() => {
     if (zoom) {
+      const iconSize = zoom * 0.12;
       vector?.forEachFeature((f) => {
         f.setStyle(deliveryPointStyle(iconSize));
       });
     }
-  }, [zoom, iconSize, vector]);
+  }, [zoom, vector]);
 
   useEffect(
     () => setVector(generateDeliveryPointsVector(deliveryPoints)),

@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import * as Api from "api";
-import { LandingsArgs, LandingsMatrixArgs } from "api";
-import { Landing } from "generated/openapi";
+import type { LandingsArgs, LandingsMatrixArgs } from "~/api";
+import * as Api from "~/api";
+import type { Landing } from "~/generated/openapi";
 
 export const getLandings = createAsyncThunk(
   "landing/getLandings",

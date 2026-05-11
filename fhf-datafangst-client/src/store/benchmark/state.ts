@@ -1,4 +1,4 @@
-import { Trip } from "generated/openapi";
+import type { Trip } from "~/generated/openapi";
 
 export interface HistoricParams {
   vesselNames: string[];

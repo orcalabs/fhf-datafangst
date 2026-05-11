@@ -8,13 +8,17 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { LandingsArgs, LandingsFilter, LandingsMatrixArgs } from "api";
-import { LocalLoadingProgress, SortMenu, SortOption } from "components";
-import { GearFilter } from "components/Filters/GearFilter";
-import { LengthGroupFilter } from "components/Filters/LengthGroupFilter";
-import { SpeciesFilter } from "components/Filters/SpeciesFilter";
-import { Landing, LandingsSorting, Ordering } from "generated/openapi";
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
+import type { LandingsArgs, LandingsMatrixArgs } from "~/api";
+import { LandingsFilter } from "~/api";
+import type { SortOption } from "~/components";
+import { LocalLoadingProgress, SortMenu } from "~/components";
+import { GearFilter } from "~/components/Filters/GearFilter";
+import { LengthGroupFilter } from "~/components/Filters/LengthGroupFilter";
+import { SpeciesFilter } from "~/components/Filters/SpeciesFilter";
+import type { Landing } from "~/generated/openapi";
+import { LandingsSorting, Ordering } from "~/generated/openapi";
 import {
   getTrip,
   selectGearsMap,
@@ -36,8 +40,8 @@ import {
   setSelectedLanding,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { dateFormat, kilosOrTonsFormatter } from "utils";
+} from "~/store";
+import { dateFormat, kilosOrTonsFormatter } from "~/utils";
 import { ListItem } from "./ListItem";
 
 export const LandingsMenu: FC = () => {

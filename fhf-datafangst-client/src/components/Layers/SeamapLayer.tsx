@@ -1,18 +1,18 @@
 import OLTileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ.js";
-import { FC, useEffect } from "react";
-import { selectFishmap, useAppSelector } from "store";
+import type { FC } from "react";
+import { useEffect } from "react";
+import { useFishmapContext } from "~/hooks";
 
 interface Props {
   zIndex?: number;
 }
 
-export const SeamapLayer: FC<Props> = (props) => {
-  const { zIndex = 0 } = props;
-  const fishmap = useAppSelector(selectFishmap);
+export const SeamapLayer: FC<Props> = ({ zIndex = 0 }) => {
+  const { map } = useFishmapContext();
 
   useEffect(() => {
-    if (!fishmap) {
+    if (!map) {
       return;
     }
 
@@ -24,14 +24,14 @@ export const SeamapLayer: FC<Props> = (props) => {
       opacity: 1,
     });
 
-    fishmap.addLayer(seamapLayer);
+    map.addLayer(seamapLayer);
 
     return () => {
-      if (fishmap) {
-        fishmap.removeLayer(seamapLayer);
+      if (map) {
+        map.removeLayer(seamapLayer);
       }
     };
-  }, [fishmap, zIndex]);
+  }, [map, zIndex]);
 
   return null;
 };

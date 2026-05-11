@@ -1,4 +1,4 @@
-import { AisPositionDetails } from "generated/openapi";
+import type { AisPositionDetails } from "~/generated/openapi";
 
 export interface Position {
   lat: number;

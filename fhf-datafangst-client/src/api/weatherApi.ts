@@ -1,4 +1,4 @@
-import { WeatherApi } from "generated/openapi";
+import { WeatherApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface WeatherArgs {

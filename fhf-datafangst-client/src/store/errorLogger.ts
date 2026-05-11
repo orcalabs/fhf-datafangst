@@ -1,5 +1,5 @@
-import { Middleware } from "@reduxjs/toolkit";
-import { AppState } from "./state";
+import type { Middleware } from "@reduxjs/toolkit";
+import type { AppState } from "./state";
 
 export const errorLoggerMiddleware: Middleware<object, AppState> =
   () => (next) => (action) => {

@@ -1,33 +1,33 @@
 import { MapboxVectorLayer } from "ol-mapbox-style";
-import { FC, useEffect } from "react";
-import { selectFishmap, useAppSelector } from "store";
+import type { FC } from "react";
+import { useEffect } from "react";
+import { useFishmapContext } from "~/hooks";
 
 interface Props {
   zIndex?: number;
 }
 
-export const MapBoxLayer: FC<Props> = (props) => {
-  const { zIndex = 0 } = props;
-  const fishmap = useAppSelector(selectFishmap);
+export const MapBoxLayer: FC<Props> = ({ zIndex = 0 }) => {
+  const { map } = useFishmapContext();
 
   useEffect(() => {
-    if (!fishmap) return;
+    if (!map) return;
 
     const vector = new MapboxVectorLayer({
-      styleUrl: process.env.REACT_APP_MAPBOX_STYLE_URL as string,
-      accessToken: process.env.REACT_APP_MAPBOX_TOKEN as string,
+      styleUrl: import.meta.env.VITE_MAPBOX_STYLE_URL as string,
+      accessToken: import.meta.env.VITE_MAPBOX_TOKEN as string,
       zIndex,
       properties: { disableHitDetection: true },
     });
 
-    fishmap.addLayer(vector);
+    map.addLayer(vector);
 
     return () => {
-      if (fishmap) {
-        fishmap.removeLayer(vector);
+      if (map) {
+        map.removeLayer(vector);
       }
     };
-  }, [fishmap, zIndex]);
+  }, [map, zIndex]);
 
   return null;
 };

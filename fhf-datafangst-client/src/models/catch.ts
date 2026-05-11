@@ -1,4 +1,4 @@
-import { Quality } from "generated/openapi";
+import type { Quality } from "~/generated/openapi";
 
 export interface Catch {
   speciesFiskeridirId: number;

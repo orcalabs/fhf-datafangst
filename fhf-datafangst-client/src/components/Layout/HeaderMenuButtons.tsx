@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { AppPage } from "containers/App/App";
-import { FC } from "react";
+import type { FC } from "react";
 import { useNavigate } from "react-router";
+import { AppPage } from "~/containers/App/App";
 
 export interface Props {
   page: AppPage;

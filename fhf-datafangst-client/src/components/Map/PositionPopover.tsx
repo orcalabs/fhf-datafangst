@@ -1,8 +1,8 @@
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Divider, Stack, Typography } from "@mui/material";
-import { AisVmsPosition } from "generated/openapi";
-import { FC } from "react";
-import { dateFormat } from "utils";
+import type { FC } from "react";
+import type { AisVmsPosition } from "~/generated/openapi";
+import { dateFormat } from "~/utils";
 
 interface Props {
   hoveredPosition: AisVmsPosition;

@@ -1,14 +1,18 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { LandingsFilter, LandingsMatrixArgs } from "api";
-import { getAllYearsArray } from "components/Filters/YearsFilter";
-import { GearGroupDetailed, SpeciesGroupDetailed } from "generated/openapi";
-import { LengthGroups } from "models";
-import { selectSelectedGridsString } from "store/fishmap";
-import { selectGearGroups } from "store/gear";
-import { selectAppState } from "store/selectAppState";
-import { selectSpeciesGroups } from "store/species";
-import { computeMatrixStats } from "store/utils";
-import { fishingLocationAreas, MinLandingYear } from "utils";
+import type { LandingsMatrixArgs } from "~/api";
+import { LandingsFilter } from "~/api";
+import { getAllYearsArray } from "~/components/Filters/YearsFilter";
+import type {
+  GearGroupDetailed,
+  SpeciesGroupDetailed,
+} from "~/generated/openapi";
+import { LengthGroups } from "~/models";
+import { selectGearGroups } from "~/store/gear";
+import { selectSelectedGridsString } from "~/store/grid";
+import { selectAppState } from "~/store/selectAppState";
+import { selectSpeciesGroups } from "~/store/species";
+import { computeMatrixStats } from "~/store/utils";
+import { fishingLocationAreas, MinLandingYear } from "~/utils";
 
 export const selectLandingsLoading = createSelector(
   selectAppState,

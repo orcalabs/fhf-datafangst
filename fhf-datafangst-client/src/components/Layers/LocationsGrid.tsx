@@ -1,9 +1,9 @@
-import { VectorLayer } from "components";
-import { MatrixTab, useMatrixTab } from "hooks";
-import { Feature } from "ol";
-import { Geometry } from "ol/geom";
+import type { Feature } from "ol";
+import type { Geometry } from "ol/geom";
 import VectorSource from "ol/source/Vector";
 import { useEffect, useState } from "react";
+import { VectorLayer } from "~/components";
+import { MatrixTab, useMatrixTab } from "~/hooks";
 import {
   selectHaulLocationsMatrix,
   selectHaulsMatrixActiveFilterSelectedIndexes,
@@ -11,8 +11,8 @@ import {
   selectLandingsMatrixActiveFilterSelectedIndexes,
   selectSelectedGridsString,
   useAppSelector,
-} from "store";
-import { generateLocationsMatrix } from "utils";
+} from "~/store";
+import { generateLocationsMatrix } from "~/utils";
 
 export const LocationsGrid = () => {
   const [matrixTab, __] = useMatrixTab();

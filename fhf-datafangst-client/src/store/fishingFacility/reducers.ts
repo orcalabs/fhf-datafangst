@@ -1,7 +1,9 @@
-import { ActionReducerMapBuilder, current } from "@reduxjs/toolkit";
-import { FishingFacilitiesArgs } from "api";
-import { FishingFacility } from "generated/openapi";
-import { AppState, emptyState } from "store/state";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { current } from "@reduxjs/toolkit";
+import type { FishingFacilitiesArgs } from "~/api";
+import type { FishingFacility } from "~/generated/openapi";
+import type { AppState } from "~/store/state";
+import { emptyState } from "~/store/state";
 import {
   getFishingFacilities,
   paginateFishingFacilitiesSearch,

@@ -1,5 +1,5 @@
 import { formatISO } from "date-fns";
-import { OrgApi } from "generated/openapi";
+import { OrgApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface OrgBenchmarksArgs {

@@ -1,10 +1,7 @@
-import {
-  LandingsArgs,
-  LandingsFilter,
-  LandingsMatrixArgs,
-} from "api/landingsApi";
 import { getMonth, getYear } from "date-fns";
-import { Landing, LandingMatrix } from "generated/openapi";
+import type { LandingsArgs, LandingsMatrixArgs } from "~/api/landingsApi";
+import { LandingsFilter } from "~/api/landingsApi";
+import type { Landing, LandingMatrix } from "~/generated/openapi";
 
 export interface LandingState {
   landings?: Landing[];

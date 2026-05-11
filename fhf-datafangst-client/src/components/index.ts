@@ -14,6 +14,7 @@ export { CurrentTripMenu } from "./CurrentTripMenu/CurrentTripMenu";
 export * from "./FileUpload/FileUpload";
 export { HaulFilters } from "./Filters/HaulFilters";
 export { LandingFilters } from "./Filters/LandingFilters";
+export { FishmapProvider } from "./FishmapProvider/FishmapProvider";
 export { AddFollowerList } from "./FollowList/AddFollowerList";
 export { FollowList } from "./FollowList/FollowList";
 export { SearchVesselInfo } from "./FollowList/SearchVesselInfo";

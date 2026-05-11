@@ -1,12 +1,12 @@
 import { Box, Modal, Typography } from "@mui/material";
-import { HistoricLineChart } from "components";
-import { FC } from "react";
+import type { FC } from "react";
+import { HistoricLineChart } from "~/components";
 import {
   selectBenchmarkModal,
   setBenchmarkModal,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 const style = {
   position: "absolute",

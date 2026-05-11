@@ -1,4 +1,4 @@
-import { Track } from "models";
+import type { Track } from "~/models";
 
 export interface AisState {
   ais?: Track;

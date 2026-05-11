@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import * as Api from "api";
-import { Trip } from "generated/openapi";
-import { TripTrackIdentifier } from "./state";
+import * as Api from "~/api";
+import type { Trip } from "~/generated/openapi";
+import type { TripTrackIdentifier } from "./state";
 
 export const getTrip = createAsyncThunk("trip/getTrip", Api.getTrip);
 

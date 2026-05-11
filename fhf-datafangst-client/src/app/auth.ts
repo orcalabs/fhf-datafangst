@@ -1,6 +1,7 @@
-import { AppPage } from "containers/App/App";
 import { WebStorageStateStore } from "oidc-client-ts";
-import { AuthProviderProps, UserManager } from "oidc-react";
+import type { AuthProviderProps } from "oidc-react";
+import { UserManager } from "oidc-react";
+import { AppPage } from "~/containers/App/App";
 
 export const authConfig: AuthProviderProps = {
   autoSignIn: false,
@@ -25,7 +26,7 @@ export const authConfig: AuthProviderProps = {
   userManager: new UserManager({
     accessTokenExpiringNotificationTimeInSeconds: 1,
     automaticSilentRenew: true,
-    authority: process.env.REACT_APP_BARENTSWATCH_AUTH as string,
+    authority: import.meta.env.VITE_BARENTSWATCH_AUTH as string,
     client_id: "fhf-datafangst",
     redirect_uri: window.location.origin,
     scope: "openid api",

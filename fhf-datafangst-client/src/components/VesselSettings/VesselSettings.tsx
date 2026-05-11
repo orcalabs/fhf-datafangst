@@ -1,23 +1,25 @@
+import type { SelectChangeEvent } from "@mui/material";
 import {
   Button,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Slider,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
-import { EngineType, UpdateVessel } from "generated/openapi";
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
+import theme from "~/app/theme";
+import type { UpdateVessel } from "~/generated/openapi";
+import { EngineType } from "~/generated/openapi";
 import {
   selectLoggedInVessel,
   updateVessel,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { numberInputLimiter } from "utils";
+} from "~/store";
+import { numberInputLimiter } from "~/utils";
 
 const inYearsRange = (year: number | null | undefined) => {
   if (year && year >= 1940 && year <= new Date().getFullYear()) {

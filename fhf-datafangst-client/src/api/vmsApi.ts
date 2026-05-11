@@ -1,4 +1,4 @@
-import { VmsApi } from "generated/openapi";
+import { VmsApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface VmsArgs {

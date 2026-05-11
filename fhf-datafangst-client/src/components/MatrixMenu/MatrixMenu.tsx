@@ -1,8 +1,9 @@
 import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import theme from "app/theme";
-import { HaulFilters, LandingFilters, OverlayScrollbars } from "components";
-import { MatrixTab, useMatrixTab } from "hooks";
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
+import theme from "~/app/theme";
+import { HaulFilters, LandingFilters, OverlayScrollbars } from "~/components";
+import { MatrixTab, useMatrixTab } from "~/hooks";
 import {
   initialHaulsMatrixSearch,
   initialLandingsMatrixSearch,
@@ -12,7 +13,7 @@ import {
   setLandingsMatrixSearch,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export const MatrixMenu: FC = () => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import { Backdrop } from "@mui/material";
-import loader from "assets/loader.gif";
-import { FC } from "react";
+import type { FC } from "react";
+import loader from "~/assets/loader.gif";
 
 interface Props {
   open: boolean;

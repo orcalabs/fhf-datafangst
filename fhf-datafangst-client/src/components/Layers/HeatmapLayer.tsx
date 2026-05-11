@@ -1,8 +1,9 @@
-import { Feature } from "ol";
-import { Geometry } from "ol/geom";
+import type { Feature } from "ol";
+import type { Geometry } from "ol/geom";
 import { Heatmap } from "ol/layer";
-import { FC, useEffect, useState } from "react";
-import { selectFishmap, useAppSelector } from "store";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import { useFishmapContext } from "~/hooks";
 
 interface Props {
   source: any;
@@ -13,9 +14,15 @@ interface Props {
 }
 
 // TODO: Change weighting to amount of fish caught
-export const HeatmapLayer: FC<Props> = (props) => {
-  const { source, blur, radius, weightDenominator, zIndex } = props;
-  const fishmap = useAppSelector(selectFishmap);
+export const HeatmapLayer: FC<Props> = ({
+  source,
+  blur,
+  radius,
+  weightDenominator,
+  zIndex,
+}) => {
+  const { map } = useFishmapContext();
+
   const [heatmap, setHeatmap] = useState<Heatmap>();
 
   useEffect(() => heatmap?.setBlur(blur), [blur, heatmap]);
@@ -23,7 +30,7 @@ export const HeatmapLayer: FC<Props> = (props) => {
   useEffect(() => heatmap?.setZIndex(zIndex), [heatmap, zIndex]);
 
   useEffect(() => {
-    if (!fishmap) return;
+    if (!map) return;
 
     const heatmapLayer = new Heatmap({
       source,
@@ -32,16 +39,16 @@ export const HeatmapLayer: FC<Props> = (props) => {
         feature.get("weight") / weightDenominator,
     });
 
-    fishmap.addLayer(heatmapLayer);
+    map.addLayer(heatmapLayer);
     setHeatmap(heatmapLayer);
 
     return () => {
-      if (fishmap) {
+      if (map) {
         setHeatmap(undefined);
-        fishmap.removeLayer(heatmapLayer);
+        map.removeLayer(heatmapLayer);
       }
     };
-  }, [fishmap, source]);
+  }, [map, source]);
 
   return null;
 };

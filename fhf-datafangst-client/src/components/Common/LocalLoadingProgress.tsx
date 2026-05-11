@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props {
   color?: string;

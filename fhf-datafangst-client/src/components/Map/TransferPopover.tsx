@@ -1,9 +1,11 @@
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import { Divider, Stack, Typography } from "@mui/material";
-import { ErsQuantumType, Tra, TraCatch } from "generated/openapi";
-import { FC, useMemo } from "react";
-import { selectVesselsByFiskeridirId, useAppSelector } from "store";
-import { dateFormat, kilosOrTonsFormatter, toTitleCase } from "utils";
+import type { FC } from "react";
+import { useMemo } from "react";
+import type { Tra, TraCatch } from "~/generated/openapi";
+import { ErsQuantumType } from "~/generated/openapi";
+import { selectVesselsByFiskeridirId, useAppSelector } from "~/store";
+import { dateFormat, kilosOrTonsFormatter, toTitleCase } from "~/utils";
 
 interface Props {
   transfer: Tra;

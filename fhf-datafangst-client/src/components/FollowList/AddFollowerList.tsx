@@ -1,14 +1,15 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { InputAdornment, Paper, TextField, Typography } from "@mui/material";
-import theme, { fontStyle } from "app/theme";
-import { SearchVesselInfo } from "components";
-import { FC, useMemo, useState } from "react";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import theme, { fontStyle } from "~/app/theme";
+import { SearchVesselInfo } from "~/components";
 import {
   selectUserFollowList,
   selectVesselsSorted,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export const AddFollowerList: FC = () => {
   const vessels = useAppSelector(selectVesselsSorted);

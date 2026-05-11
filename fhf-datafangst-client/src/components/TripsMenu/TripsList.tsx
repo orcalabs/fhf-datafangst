@@ -1,13 +1,14 @@
 import { Box, List, ListSubheader, Typography } from "@mui/material";
+import type { FC } from "react";
+import { useEffect, useMemo } from "react";
 import {
   LocalLoadingProgress,
   OverlayScrollbars,
   PaginationButtons,
   SearchFilters,
-} from "components";
-import { SearchParams } from "components/SearchFilters/SearchFilters";
-import { AppPage } from "containers/App/App";
-import { FC, useEffect, useMemo } from "react";
+} from "~/components";
+import type { SearchParams } from "~/components/SearchFilters/SearchFilters";
+import { AppPage } from "~/containers/App/App";
 import {
   paginateTripsSearch,
   selectAppPage,
@@ -18,7 +19,7 @@ import {
   setTripsSearch,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 import { TripItem } from "./TripItem";
 
 const filterParams: SearchParams = {
@@ -100,7 +101,9 @@ export const TripsList: FC = () => {
       ) : (
         <>
           <OverlayScrollbars style={{ flexGrow: 1 }}>
-            {trips?.map((t) => <TripItem key={t.tripId} trip={t} />)}
+            {trips?.map((t) => (
+              <TripItem key={t.tripId} trip={t} />
+            ))}
           </OverlayScrollbars>
 
           <Box sx={{ mt: 1, mr: appPage === AppPage.MyPage ? 2 : 0 }}>

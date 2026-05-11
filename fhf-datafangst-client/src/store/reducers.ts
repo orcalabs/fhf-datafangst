@@ -1,4 +1,5 @@
-import { ActionReducerMapBuilder, createReducer } from "@reduxjs/toolkit";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import {
   checkLoggedIn,
   getBwUser,
@@ -14,14 +15,15 @@ import { benchmarkBuilder } from "./benchmark";
 import { dashboardBuilder } from "./dashboard";
 import { deliveryPointBuilder } from "./deliveryPoint";
 import { fishingFacilityBuilder } from "./fishingFacility";
-import { fishmapBuilder } from "./fishmap/";
 import { fuelBuilder } from "./fuel";
 import { gearBuilder } from "./gear";
+import { gridBuilder } from "./grid/";
 import { haulBuilder } from "./haul";
 import { landingBuilder } from "./landing";
 import { orgBuilder } from "./org";
 import { speciesBuilder } from "./species";
-import { AppState, emptyState, initialAppState } from "./state";
+import type { AppState } from "./state";
+import { emptyState, initialAppState } from "./state";
 import { trackBuilder } from "./track";
 import { tripBuilder } from "./trip";
 import { tripBenchmarkBuilder } from "./tripBenchmark";
@@ -174,7 +176,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
 export const appReducer = createReducer(initialAppState, (builder) =>
   new AppActionReducerMapBuilder(builder)
     .extendBuilder(baseBuilder)
-    .extendBuilder(fishmapBuilder)
+    .extendBuilder(gridBuilder)
     .extendBuilder(vesselBuilder)
     .extendBuilder(haulBuilder)
     .extendBuilder(speciesBuilder)

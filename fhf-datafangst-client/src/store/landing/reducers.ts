@@ -1,6 +1,8 @@
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { Landing, LandingsSorting, Ordering } from "generated/openapi";
-import { AppState, emptyState } from "store/state";
+import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import type { Landing } from "~/generated/openapi";
+import { LandingsSorting, Ordering } from "~/generated/openapi";
+import type { AppState } from "~/store/state";
+import { emptyState } from "~/store/state";
 import {
   getLandings,
   getLandingsMatrix,

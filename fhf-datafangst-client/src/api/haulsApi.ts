@@ -1,14 +1,13 @@
-import {
-  ActiveHaulsFilter,
+import type {
   GearGroupDetailed,
-  HaulApi,
   HaulsSorting,
   Ordering,
   SpeciesGroupDetailed,
   Vessel,
-} from "generated/openapi";
-import { LengthGroup } from "models";
-import { MinErsYear } from "utils";
+} from "~/generated/openapi";
+import { ActiveHaulsFilter, HaulApi } from "~/generated/openapi";
+import type { LengthGroup } from "~/models";
+import { MinErsYear } from "~/utils";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 import { createTimestampsFromYearsMonths } from "./utils";
 

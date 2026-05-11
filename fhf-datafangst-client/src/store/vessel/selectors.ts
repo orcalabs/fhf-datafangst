@@ -1,9 +1,9 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { Vessel } from "generated/openapi";
-import { selectHaulsMap } from "store/haul";
-import { selectLandings } from "store/landing";
-import { selectAppState } from "store/selectAppState";
-import { selectBwUserCallSign } from "store/selectors";
+import type { Vessel } from "~/generated/openapi";
+import { selectHaulsMap } from "~/store/haul";
+import { selectLandings } from "~/store/landing";
+import { selectAppState } from "~/store/selectAppState";
+import { selectBwUserCallSign } from "~/store/selectors";
 
 export const selectVesselsLoading = createSelector(
   selectAppState,

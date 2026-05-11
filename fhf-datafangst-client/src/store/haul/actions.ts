@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import * as Api from "api";
-import { HaulsMatrixArgs } from "api";
-import { Haul } from "generated/openapi";
+import type { HaulsMatrixArgs } from "~/api";
+import * as Api from "~/api";
+import type { Haul } from "~/generated/openapi";
 
 export const getHauls = createAsyncThunk("haul/getHauls", Api.getHauls);
 

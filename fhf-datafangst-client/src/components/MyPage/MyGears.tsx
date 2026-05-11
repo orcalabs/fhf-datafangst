@@ -13,15 +13,15 @@ import {
   ListSubheader,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
+import type { FC } from "react";
+import theme from "~/app/theme";
 import {
   LocalLoadingProgress,
   OverlayScrollbars,
   PaginationButtons,
-} from "components";
-import { FishingFacility } from "generated/openapi";
-import { FishingFacilityToolTypes } from "models";
-import { FC } from "react";
+} from "~/components";
+import type { FishingFacility } from "~/generated/openapi";
+import { FishingFacilityToolTypes } from "~/models";
 import {
   paginateFishingFacilitiesSearch,
   selectFishingFacilities,
@@ -32,8 +32,8 @@ import {
   setSelectedFishingFacility,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { dateFormat } from "utils";
+} from "~/store";
+import { dateFormat } from "~/utils";
 
 const listItemSx = {
   px: 2.5,

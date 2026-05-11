@@ -1,4 +1,4 @@
-import { VmsPosition } from "generated/openapi";
+import type { VmsPosition } from "~/generated/openapi";
 
 export interface VmsState {
   vms?: VmsPosition[];

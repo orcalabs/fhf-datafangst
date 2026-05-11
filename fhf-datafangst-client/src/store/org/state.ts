@@ -1,4 +1,4 @@
-import { FuelEntry, OrgBenchmarks } from "generated/openapi";
+import type { FuelEntry, OrgBenchmarks } from "~/generated/openapi";
 
 export interface OrgState {
   orgBenchmarks?: OrgBenchmarks;

@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 
 export interface Props {
   open: boolean;

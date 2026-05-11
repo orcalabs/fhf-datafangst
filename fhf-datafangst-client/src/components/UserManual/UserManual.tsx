@@ -7,8 +7,9 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
+import theme from "~/app/theme";
 
 export interface Props {
   open: boolean;

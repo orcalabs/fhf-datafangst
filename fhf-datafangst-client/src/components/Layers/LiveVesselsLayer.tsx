@@ -1,39 +1,41 @@
-import { VectorLayer } from "components";
-import { Feature } from "ol";
-import Geometry from "ol/geom/Geometry";
-import VectorSource from "ol/source/Vector";
-import { FC, useEffect, useState } from "react";
+import type { Feature } from "ol";
+import type Geometry from "ol/geom/Geometry";
+import type VectorSource from "ol/source/Vector";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import { VectorLayer } from "~/components";
+import { useFishmapContext } from "~/hooks";
 import {
   selectCurrentPositions,
-  selectFishmapState,
   selectSelectedLiveVessel,
   useAppSelector,
-} from "store";
-import { changeIconSizeFromFeature, generateLiveVesselsVector } from "utils";
+} from "~/store";
+import { changeIconSizeFromFeature, generateLiveVesselsVector } from "~/utils";
 
 const ZOOM_FACTOR = 0.018;
 
 export const LiveVesselsLayer: FC = () => {
-  const state = useAppSelector(selectFishmapState);
+  const { map } = useFishmapContext();
+
   const positions = useAppSelector(selectCurrentPositions);
   const selectedPosition = useAppSelector(selectSelectedLiveVessel);
 
   const [vector, setVector] = useState<VectorSource<Feature<Geometry>>>();
   const [iconSize, setIconSize] = useState<number | undefined>(
-    (state.map.getView().getZoom() ?? 1) * ZOOM_FACTOR,
+    (map.getView().getZoom() ?? 1) * ZOOM_FACTOR,
   );
 
   // Store map zoom level in state
   useEffect(() => {
     const fn = () => {
-      const zoom = state.map.getView().getZoom();
+      const zoom = map.getView().getZoom();
       if (zoom) {
         setIconSize(zoom * ZOOM_FACTOR);
       }
     };
-    state.map.on("moveend", fn);
-    return () => state.map.un("moveend", fn);
-  }, [state.map, state.zoom]);
+    map.on("moveend", fn);
+    return () => map.un("moveend", fn);
+  }, [map]);
 
   // Change icon size from zoom level and if selected
   useEffect(() => {

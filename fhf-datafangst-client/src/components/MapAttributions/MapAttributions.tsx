@@ -10,9 +10,10 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import theme from "app/theme";
-import mapboxLogo from "assets/logos/mapbox-logo-white.svg";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
+import theme from "~/app/theme";
+import mapboxLogo from "~/assets/logos/mapbox-logo-white.svg";
 
 export const MapAttributions: FC = () => {
   const lowRes = useMediaQuery(theme.breakpoints.down("md"));

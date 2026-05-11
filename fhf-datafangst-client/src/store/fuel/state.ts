@@ -1,4 +1,4 @@
-import { FuelMeasurement } from "generated/openapi";
+import type { FuelMeasurement } from "~/generated/openapi";
 
 export interface FuelState {
   fuelMeasurements?: FuelMeasurement[];

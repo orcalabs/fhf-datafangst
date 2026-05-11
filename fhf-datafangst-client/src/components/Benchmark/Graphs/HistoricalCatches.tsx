@@ -1,18 +1,18 @@
 import { Box, Divider, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import chartsTheme from "app/chartsTheme";
 import ReactEChart from "echarts-for-react";
-import { Landing, SpeciesFiskeridir } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import chartsTheme from "~/app/chartsTheme";
+import type { Landing, SpeciesFiskeridir } from "~/generated/openapi";
+import type { BenchmarkTimeSpanParams } from "~/store";
 import {
-  BenchmarkTimeSpanParams,
   selectBenchmarkTimeSpan,
   selectLandings,
   selectSpeciesFiskeridir,
   useAppSelector,
-} from "store";
-import { kilosOrTonsFormatter, Months } from "utils";
+} from "~/store";
+import { kilosOrTonsFormatter, Months } from "~/utils";
 
 type BenchmarkTimeSpanObject = Record<
   number,

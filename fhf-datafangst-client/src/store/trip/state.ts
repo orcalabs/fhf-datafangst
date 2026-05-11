@@ -1,5 +1,5 @@
-import { TripsArgs } from "api";
-import { CurrentTrip, Trip } from "generated/openapi";
+import type { TripsArgs } from "~/api";
+import type { CurrentTrip, Trip } from "~/generated/openapi";
 
 export enum TripTrackIdentifier {
   TripId = 1,

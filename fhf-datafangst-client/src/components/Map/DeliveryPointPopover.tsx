@@ -1,9 +1,9 @@
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import theme from "app/theme";
-import { DeliveryPointIcon } from "assets/icons";
-import { DeliveryPoint } from "generated/openapi";
-import { FC } from "react";
-import { toTitleCase } from "utils";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import { DeliveryPointIcon } from "~/assets/icons";
+import type { DeliveryPoint } from "~/generated/openapi";
+import { toTitleCase } from "~/utils";
 
 interface Props {
   deliveryPoint: DeliveryPoint;

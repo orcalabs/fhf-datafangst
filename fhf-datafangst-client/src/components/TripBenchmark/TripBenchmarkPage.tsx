@@ -14,13 +14,14 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import chartsTheme from "app/chartsTheme";
-import theme, { fontStyle } from "app/theme";
-import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
-import { DateFilter, DateRange } from "components/SearchFilters/DateFilter";
 import { startOfYear } from "date-fns";
 import ReactEChart from "echarts-for-react";
-import { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
+import chartsTheme from "~/app/chartsTheme";
+import theme, { fontStyle } from "~/app/theme";
+import { LocalLoadingProgress } from "~/components/Common/LocalLoadingProgress";
+import { DateFilter, DateRange } from "~/components/SearchFilters/DateFilter";
 import {
   getAverageEeoi,
   getAverageTripBenchmarks,
@@ -36,13 +37,13 @@ import {
   selectTripBenchmarksLoading,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 import {
   createObjectDurationString,
   dateFormat,
   isDefined,
   kilosOrTonsFormatter,
-} from "utils";
+} from "~/utils";
 
 const nok = new Intl.NumberFormat("no-NB", {
   style: "currency",
@@ -557,7 +558,7 @@ export const TripBenchmarkPage: FC = () => {
               </ChartCard>
             </Grid>
           </Grid>
-          {process.env.REACT_APP_ENV === "staging" ? (
+          {import.meta.env.VITE_ENV === "staging" ? (
             <>
               <Divider sx={{ my: 2 }} />
               <Card

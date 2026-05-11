@@ -14,16 +14,16 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
-import { Vessel } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import type { Vessel } from "~/generated/openapi";
 import {
   selectUserFollowList,
   updateUser,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { createOwnersListString } from "utils";
+} from "~/store";
+import { createOwnersListString } from "~/utils";
 
 const StyledTableCell = styled(TableCell)(() => ({
   borderBottom: "none",

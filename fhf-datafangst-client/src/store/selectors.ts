@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { Policies, Roles } from "models";
+import { Policies, Roles } from "~/models";
 import { selectAppState } from "./selectAppState";
 
 export const selectError = createSelector(

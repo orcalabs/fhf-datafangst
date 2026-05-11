@@ -1,9 +1,9 @@
-import {
+import type {
   GearGroup,
   Ordering,
-  TripApi,
   VesselLengthGroup,
-} from "generated/openapi";
+} from "~/generated/openapi";
+import { TripApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface TripBenchmarksArgs {

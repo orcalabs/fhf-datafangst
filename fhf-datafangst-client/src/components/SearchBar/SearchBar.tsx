@@ -6,23 +6,26 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
-import { VesselIcon } from "assets/icons";
-import { ListboxComponent, StyledPopper } from "components/Common/Common";
-import { Vessel } from "generated/openapi";
-import { FC, useMemo, useState } from "react";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
+import theme from "~/app/theme";
+import { VesselIcon } from "~/assets/icons";
+import { ListboxComponent, StyledPopper } from "~/components/Common/Common";
+import type { Vessel } from "~/generated/openapi";
+import { useFishmapContext } from "~/hooks";
 import {
   selectCurrentPositionsMap,
-  selectFishmap,
   selectVesselsByFiskeridirId,
   useAppSelector,
-} from "store";
-import { fromLonLat, toTitleCase } from "utils";
+} from "~/store";
+import { fromLonLat, toTitleCase } from "~/utils";
 
 export const SearchBar: FC = () => {
   const [_, setParams] = useSearchParams();
-  const map = useAppSelector(selectFishmap);
+
+  const { map } = useFishmapContext();
+
   const vesselsMap = useAppSelector(selectVesselsByFiskeridirId);
   const currentPositionsMap = useAppSelector(selectCurrentPositionsMap);
 

@@ -1,5 +1,5 @@
-import { WeatherArgs } from "api";
-import { Weather } from "generated/openapi";
+import type { WeatherArgs } from "~/api";
+import type { Weather } from "~/generated/openapi";
 
 export interface WeatherState {
   weather?: Weather[];

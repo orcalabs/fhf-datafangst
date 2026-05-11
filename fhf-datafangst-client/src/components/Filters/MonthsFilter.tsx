@@ -2,9 +2,10 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Autocomplete, Checkbox, TextField, Typography } from "@mui/material";
-import { StyledDatePopper } from "components";
-import { FC, useMemo } from "react";
-import { Months } from "utils";
+import type { FC } from "react";
+import { useMemo } from "react";
+import { StyledDatePopper } from "~/components";
+import { Months } from "~/utils";
 
 interface Props {
   value?: number[];

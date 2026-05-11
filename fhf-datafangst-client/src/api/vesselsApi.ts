@@ -1,5 +1,6 @@
 import { formatISO } from "date-fns";
-import { UpdateVessel, VesselApi } from "generated/openapi";
+import type { UpdateVessel } from "~/generated/openapi";
+import { VesselApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface FuelArgs {

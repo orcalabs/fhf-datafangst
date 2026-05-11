@@ -1,5 +1,5 @@
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import { CSSProperties, FC, ReactNode } from "react";
+import type { CSSProperties, FC, ReactNode } from "react";
 
 export interface Props {
   style?: CSSProperties;

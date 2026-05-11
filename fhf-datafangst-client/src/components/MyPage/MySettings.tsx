@@ -1,8 +1,9 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
-import theme from "app/theme";
-import { OverlayScrollbars, VesselSettings } from "components";
-import { FollowList } from "components/FollowList/FollowList";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
+import theme from "~/app/theme";
+import { OverlayScrollbars, VesselSettings } from "~/components";
+import { FollowList } from "~/components/FollowList/FollowList";
 
 export const MySettings: FC = () => {
   const [tabValue, setTabValue] = useState("vessel");

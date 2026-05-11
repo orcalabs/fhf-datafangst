@@ -1,14 +1,14 @@
-import { VectorLayer } from "components";
-import { Feature } from "ol";
-import { Geometry } from "ol/geom";
-import VectorSource from "ol/source/Vector";
+import type { Feature } from "ol";
+import type { Geometry } from "ol/geom";
+import type VectorSource from "ol/source/Vector";
 import { useEffect, useState } from "react";
+import { VectorLayer } from "~/components";
 import {
   selectFishingFacilities,
   selectSelectedFishingFacility,
   useAppSelector,
-} from "store";
-import { generateFishingFacilitiesVector } from "utils";
+} from "~/store";
+import { generateFishingFacilitiesVector } from "~/utils";
 
 export const FishingFacilitiesLayer = () => {
   const fishingFacilities = useAppSelector(selectFishingFacilities);

@@ -1,10 +1,10 @@
-import {
+import type {
   Species,
   SpeciesFao,
   SpeciesFiskeridir,
   SpeciesGroupDetailed,
   SpeciesMainGroupDetailed,
-} from "generated/openapi";
+} from "~/generated/openapi";
 
 export interface SpeciesState {
   species?: Species[];

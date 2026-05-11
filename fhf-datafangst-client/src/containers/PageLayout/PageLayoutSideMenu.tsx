@@ -1,8 +1,8 @@
 import { Stack, useMediaQuery } from "@mui/material";
-import theme from "app/theme";
-import { OverlayScrollbars } from "components";
-import { HEADER_HEIGHT } from "components/Layout/Header";
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
+import theme from "~/app/theme";
+import { OverlayScrollbars } from "~/components";
+import { HEADER_HEIGHT } from "~/components/Layout/Header";
 
 interface Props {
   open?: boolean;

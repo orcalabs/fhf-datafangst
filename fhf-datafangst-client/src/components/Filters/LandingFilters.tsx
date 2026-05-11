@@ -1,8 +1,9 @@
 import { Box, Stack } from "@mui/material";
-import { LandingsArgs, LandingsFilter } from "api";
-import { LocalLoadingProgress } from "components/Common/LocalLoadingProgress";
-import { Vessel } from "generated/openapi";
-import { FC } from "react";
+import type { FC } from "react";
+import type { LandingsArgs } from "~/api";
+import { LandingsFilter } from "~/api";
+import { LocalLoadingProgress } from "~/components/Common/LocalLoadingProgress";
+import type { Vessel } from "~/generated/openapi";
 import {
   selectLandingGearFilterStats,
   selectLandingsMatrixLoading,
@@ -12,8 +13,8 @@ import {
   setLandingsMatrixSearch,
   useAppDispatch,
   useAppSelector,
-} from "store";
-import { MinLandingYear } from "utils";
+} from "~/store";
+import { MinLandingYear } from "~/utils";
 import { GearFilter } from "./GearFilter";
 import { LengthGroupFilter } from "./LengthGroupFilter";
 import { MonthsFilter } from "./MonthsFilter";

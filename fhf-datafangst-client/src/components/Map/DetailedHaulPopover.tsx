@@ -3,13 +3,17 @@ import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
 import { Box, Divider, SvgIcon, Typography } from "@mui/material";
-import theme from "app/theme";
-import { FishIcon } from "assets/icons";
-import { CatchesTable } from "components";
-import { Haul } from "generated/openapi";
-import { FC } from "react";
-import { selectGearsMap, useAppSelector } from "store";
-import { createHaulDurationString, dateFormat, distanceFormatter } from "utils";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import { FishIcon } from "~/assets/icons";
+import { CatchesTable } from "~/components";
+import type { Haul } from "~/generated/openapi";
+import { selectGearsMap, useAppSelector } from "~/store";
+import {
+  createHaulDurationString,
+  dateFormat,
+  distanceFormatter,
+} from "~/utils";
 
 interface Props {
   haul: Haul;

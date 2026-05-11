@@ -12,12 +12,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import theme from "app/theme";
-import { VesselIcon } from "assets/icons";
-import { Vessel } from "generated/openapi";
-import { FC } from "react";
-import { selectGearGroupsMap, useAppSelector } from "store";
-import { createOwnersListString } from "utils";
+import type { FC } from "react";
+import theme from "~/app/theme";
+import { VesselIcon } from "~/assets/icons";
+import type { Vessel } from "~/generated/openapi";
+import { selectGearGroupsMap, useAppSelector } from "~/store";
+import { createOwnersListString } from "~/utils";
 
 const StyledTableCell = styled(TableCell)(() => ({
   borderBottom: "none",

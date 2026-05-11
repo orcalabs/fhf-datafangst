@@ -1,4 +1,4 @@
-import { AisPosition } from "generated/openapi";
+import type { AisPosition } from "~/generated/openapi";
 
 export interface Track {
   mmsi: number;

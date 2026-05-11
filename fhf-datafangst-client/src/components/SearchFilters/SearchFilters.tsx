@@ -1,7 +1,9 @@
 import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Box, Button, Popper } from "@mui/material";
-import { TripsArgs } from "api";
+import type { FC } from "react";
+import { useRef } from "react";
+import type { TripsArgs } from "~/api";
 import {
   DateFilter,
   GearFilter,
@@ -9,16 +11,15 @@ import {
   SpeciesFilter,
   VesselLengthFilter,
   WeightFilter,
-} from "components";
-import { VesselFilter } from "components/Filters/VesselFilter";
-import { Vessel } from "generated/openapi";
-import { FC, useRef } from "react";
+} from "~/components";
+import { VesselFilter } from "~/components/Filters/VesselFilter";
+import type { Vessel } from "~/generated/openapi";
 import {
   selectTripFiltersOpen,
   setTripFiltersOpen,
   useAppDispatch,
   useAppSelector,
-} from "store";
+} from "~/store";
 
 export type SearchParams = Partial<
   Pick<

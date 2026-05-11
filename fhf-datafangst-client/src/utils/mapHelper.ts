@@ -1,29 +1,11 @@
-import theme from "app/theme";
-import fishingLocationsGrid from "assets/geojson/fishing-locations-grid.json";
-import shoreline from "assets/geojson/shoreline.json";
-import deliveryPointIcon from "assets/icons/delivery-point-map.svg";
-import transferIcon from "assets/icons/swap-24.svg";
-import darkPinkVesselPin from "assets/icons/vessel-map-dark-pink.svg";
-import greyVessel from "assets/icons/vessel-map-grey.svg";
-import pinkVesselPin from "assets/icons/vessel-map-pink.svg";
-import blueVessel from "assets/icons/vessel-map.svg";
 import ColorScale from "color-scales";
 import { differenceInHours } from "date-fns";
-import {
-  AisVmsPosition,
-  CurrentPosition,
-  DeliveryPoint,
-  FishingFacility,
-  FishingFacilityToolType,
-  Haul,
-  Tra,
-  TripPositionLayerId,
-} from "generated/openapi";
-import Feature, { FeatureLike } from "ol/Feature";
+import type { FeatureLike } from "ol/Feature";
+import Feature from "ol/Feature";
 import { WKT } from "ol/format";
 import GeoJSON from "ol/format/GeoJSON";
 import { LineString, Point } from "ol/geom";
-import Geometry from "ol/geom/Geometry";
+import type Geometry from "ol/geom/Geometry";
 import { fromLonLat as _fromLonLat } from "ol/proj";
 import VectorSource from "ol/source/Vector";
 import {
@@ -36,6 +18,27 @@ import {
   Text,
 } from "ol/style";
 import CircleStyle from "ol/style/Circle";
+import theme from "~/app/theme";
+import fishingLocationsGrid from "~/assets/geojson/fishing-locations-grid.json";
+import shoreline from "~/assets/geojson/shoreline.json";
+import deliveryPointIcon from "~/assets/icons/delivery-point-map.svg";
+import transferIcon from "~/assets/icons/swap-24.svg";
+import darkPinkVesselPin from "~/assets/icons/vessel-map-dark-pink.svg";
+import greyVessel from "~/assets/icons/vessel-map-grey.svg";
+import pinkVesselPin from "~/assets/icons/vessel-map-pink.svg";
+import blueVessel from "~/assets/icons/vessel-map.svg";
+import type {
+  AisVmsPosition,
+  CurrentPosition,
+  DeliveryPoint,
+  FishingFacility,
+  Haul,
+  Tra,
+} from "~/generated/openapi";
+import {
+  FishingFacilityToolType,
+  TripPositionLayerId,
+} from "~/generated/openapi";
 import { matrixSum } from "./matrix";
 import {
   differenceHours,
@@ -56,7 +59,7 @@ export const fromLonLat = (lon: number, lat: number) => {
 
 export const shorelineVector = new VectorSource({
   features: new GeoJSON({
-    featureProjection: process.env.REACT_APP_EPSG as string,
+    featureProjection: import.meta.env.VITE_EPSG as string,
     geometryName: "shoreline",
   }).readFeatures(shoreline),
 });
@@ -66,7 +69,7 @@ export const fishingLocationAreas = fishingLocationsGrid.features
   .sort((a, b) => a.localeCompare(b));
 
 const fishingLocationFeatures = new GeoJSON({
-  featureProjection: process.env.REACT_APP_EPSG as string,
+  featureProjection: import.meta.env.VITE_EPSG as string,
   geometryName: "fishingLocations",
 })
   .readFeatures(fishingLocationsGrid)
@@ -170,7 +173,7 @@ export const fishingFacilityStyle = (
     return;
   }
 
-  let color = "";
+  let color;
   if (toolType === FishingFacilityToolType.Crabpot) {
     // Teine
     color = "#f0ba29";
@@ -771,7 +774,7 @@ export const generateLiveVesselsVector = (
           rotation: ((pos.cog ?? 0) * Math.PI) / 180,
           src:
             differenceInHours(new Date(), new Date(pos.timestamp)) >
-            Number(process.env.REACT_APP_VESSEL_MAP_THRESHOLD_HOURS)
+            Number(import.meta.env.VITE_VESSEL_MAP_THRESHOLD_HOURS)
               ? greyVessel
               : blueVessel,
         }),

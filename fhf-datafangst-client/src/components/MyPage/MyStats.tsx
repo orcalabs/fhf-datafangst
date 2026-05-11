@@ -1,12 +1,13 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
-import theme from "app/theme";
+import type { FC } from "react";
+import { useState } from "react";
+import theme from "~/app/theme";
 import {
   BenchmarkOverview,
   Company,
   OverlayScrollbars,
   TripBenchmarkPage,
-} from "components";
-import { FC, useState } from "react";
+} from "~/components";
 
 export const MyStats: FC = () => {
   const [tabValue, setTabValue] = useState("overview");

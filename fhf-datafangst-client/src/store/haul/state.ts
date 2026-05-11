@@ -1,6 +1,7 @@
-import { HaulsArgs, HaulsFilter, HaulsMatrixArgs } from "api/haulsApi";
 import { getMonth, getYear } from "date-fns";
-import { Haul, HaulsMatrix } from "generated/openapi";
+import type { HaulsArgs, HaulsMatrixArgs } from "~/api/haulsApi";
+import { HaulsFilter } from "~/api/haulsApi";
+import type { Haul, HaulsMatrix } from "~/generated/openapi";
 
 export interface HaulState {
   hauls?: Record<number, Haul>;

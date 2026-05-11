@@ -1,9 +1,10 @@
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
-import { StyledPopper } from "components";
-import { SpeciesGroup, SpeciesGroupDetailed } from "generated/openapi";
-import { FC, useMemo } from "react";
-import { selectSpeciesGroupsSortedByName, useAppSelector } from "store";
+import type { FC } from "react";
+import { useMemo } from "react";
+import { StyledPopper } from "~/components";
+import type { SpeciesGroup, SpeciesGroupDetailed } from "~/generated/openapi";
+import { selectSpeciesGroupsSortedByName, useAppSelector } from "~/store";
 
 interface Props {
   value?: SpeciesGroupDetailed[];
