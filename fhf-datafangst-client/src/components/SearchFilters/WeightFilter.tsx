@@ -52,9 +52,7 @@ export const WeightFilter: FC<Props> = (props) => {
 
   return (
     <>
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-        Vekt
-      </Typography>
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>Vekt</Typography>
       <Slider
         sx={{
           left: "5px",

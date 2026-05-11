@@ -80,7 +80,7 @@ export const HomeView: FC<Props> = ({ page }) => {
         <Map></Map>
       </PageLayoutCenterFull>
       <PageLayoutCenter sx={{ placeContent: "end", pointerEvents: "none" }}>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" sx={{ justifyContent: "space-between" }}>
           <MapControls />
           <MapAttributions />
         </Stack>

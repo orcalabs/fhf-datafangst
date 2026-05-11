@@ -112,16 +112,16 @@ export const SelectedTripMenu: FC = () => {
     <>
       <Stack
         direction="row"
-        justifyContent="space-between"
-        alignItems="flex-start"
         sx={{
           py: 3,
           px: 2.5,
           bgcolor: "primary.light",
           color: "white",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
         }}
       >
-        <Stack direction="row" spacing={1.5} alignItems="flex-start">
+        <Stack direction="row" spacing={1.5} sx={{ alignItems: "flex-start" }}>
           <FishIcon width="32" height="26" />
           <Stack>
             <Typography variant="h5">LEVERANSE</Typography>
@@ -327,7 +327,7 @@ export const SelectedTripMenu: FC = () => {
                   <Typography
                     color="text.secondary"
                     variant="h6"
-                    fontSize="1rem"
+                    sx={{ fontSize: "1rem" }}
                   >
                     {kilosOrTonsFormatter(catchTotal)}
                   </Typography>

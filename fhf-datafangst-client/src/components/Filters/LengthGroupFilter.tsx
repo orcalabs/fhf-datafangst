@@ -40,7 +40,7 @@ export const LengthGroupFilter: FC<Props> = (props) => {
 
   return (
     <>
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>
         Fartøylengde
       </Typography>
       <Box>

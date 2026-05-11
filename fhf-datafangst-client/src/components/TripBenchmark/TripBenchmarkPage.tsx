@@ -246,7 +246,7 @@ export const TripBenchmarkPage: FC = () => {
               <Divider sx={{ my: 2 }} />
 
               {!!eeoi && (
-                <Stack gap={1} direction="row">
+                <Stack direction="row" sx={{ gap: 1 }}>
                   <Typography>EEOI (gCO2/t.nm): </Typography>
                   <Typography>
                     <span
@@ -624,7 +624,7 @@ export const TripBenchmarkPage: FC = () => {
           )}
         </Stack>
       ) : (
-        <Typography variant="h6" fontStyle="italic">
+        <Typography variant="h6" sx={{ fontStyle: "italic" }}>
           Finner ingen data for valgt tidsperiode
         </Typography>
       )}
@@ -633,7 +633,7 @@ export const TripBenchmarkPage: FC = () => {
 };
 
 const benchmarkItem = (label: string, value: string) => (
-  <Stack gap={1} direction="row">
+  <Stack direction="row" sx={{ gap: 1 }}>
     <Typography>{label}:</Typography>
     <Typography>{value}</Typography>
   </Stack>

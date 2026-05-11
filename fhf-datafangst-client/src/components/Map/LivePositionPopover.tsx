@@ -51,19 +51,18 @@ export const LivePositionPopover: FC<Props> = ({ position }) => {
     <Box sx={{ minWidth: 300 }}>
       <Stack
         direction="row"
-        justifyContent="space-between"
         sx={{
           px: 2,
           py: 1,
           bgcolor: "fourth.dark",
           color: "white",
+          justifyContent: "space-between",
         }}
       >
         <Typography
-          sx={{ alignSelf: "center" }}
           variant="h6"
           align="center"
-          fontWeight="bold"
+          sx={{ alignSelf: "center", fontWeight: "bold" }}
         >
           {vessel.fiskeridir.name ?? vessel.ais?.name ?? "Ukjent"}
         </Typography>

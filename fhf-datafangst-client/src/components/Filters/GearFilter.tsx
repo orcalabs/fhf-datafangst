@@ -41,9 +41,7 @@ export const GearFilter: FC<Props> = (props) => {
 
   return (
     <>
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-        Redskap
-      </Typography>
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>Redskap</Typography>
       <Box>
         {props.stats.map((val, i) => (
           <Box

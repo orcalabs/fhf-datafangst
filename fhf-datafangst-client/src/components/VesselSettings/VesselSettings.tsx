@@ -194,8 +194,7 @@ export const VesselSettings: FC = () => {
         <Stack
           direction="row"
           spacing={1}
-          sx={{ pt: 3 }}
-          justifyContent="space-between"
+          sx={{ pt: 3, justifyContent: "space-between" }}
         >
           <Button
             color="success"
@@ -298,8 +297,10 @@ const SettingsEntry: FC<SettingsEntryProps> = ({ name, children }) => {
     <Stack
       direction="row"
       spacing={3}
-      alignItems="center"
-      justifyContent="space-between"
+      sx={{
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
     >
       <Typography>{name}</Typography>
       {children}

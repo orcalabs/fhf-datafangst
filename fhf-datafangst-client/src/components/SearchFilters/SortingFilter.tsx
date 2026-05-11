@@ -18,7 +18,7 @@ export const SortingFilter: FC<Props> = ({ value, onChange }) => {
 
   return (
     <>
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>
         Sortering
       </Typography>
       <FormControl

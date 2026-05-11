@@ -140,13 +140,21 @@ const theme = createTheme(
             textTransform: "unset",
             fontWeight: 600,
           },
-          containedPrimary: {
-            color: "white",
-          },
-          containedSizeLarge: {
-            fontSize: "0.875rem",
-          },
         },
+        variants: [
+          {
+            props: { variant: "contained", color: "primary" },
+            style: {
+              color: "white",
+            },
+          },
+          {
+            props: { variant: "contained", color: "primary", size: "large" },
+            style: {
+              fontSize: "0.875rem",
+            },
+          },
+        ],
       },
       MuiToolbar: {
         styleOverrides: {

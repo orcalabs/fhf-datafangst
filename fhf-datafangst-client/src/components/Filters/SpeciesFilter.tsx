@@ -57,9 +57,7 @@ export const SpeciesFilter: FC<Props> = (props) => {
 
   return (
     <>
-      <Typography sx={{ pb: 1, pt: 2 }} fontWeight="bold">
-        Art
-      </Typography>
+      <Typography sx={{ pb: 1, pt: 2, fontWeight: "bold" }}>Art</Typography>
       <Box>
         {/* Magic number: 34 = 26px bar height, 8px margin */}
         <Collapse

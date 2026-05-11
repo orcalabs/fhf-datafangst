@@ -45,9 +45,7 @@ export const DateFilter: FC<Props> = (props) => {
 
   return (
     <>
-      <Typography sx={{ pb: 1.5 }} fontWeight="bold">
-        Dato
-      </Typography>
+      <Typography sx={{ pb: 1.5, fontWeight: "bold" }}>Dato</Typography>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
         <Stack spacing={1.5}>
           <Box

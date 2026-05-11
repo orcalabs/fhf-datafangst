@@ -97,13 +97,13 @@ export const SearchVesselInfo: FC<Props> = ({ vessel }) => {
           </Box>
           <Stack
             direction="row"
-            alignItems="center"
-            justifyContent="center"
             sx={{
               border: "1px solid green",
               width: 85,
               height: 36,
               borderRadius: "4px",
+              alignItems: "center",
+              justifyContent: "center",
               "&:hover": { bgcolor: "#ACD9B8", cursor: "pointer" },
             }}
             onClick={(e) => {

@@ -1,17 +1,11 @@
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Autocomplete,
-  Box,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, InputAdornment, TextField, Typography } from "@mui/material";
 import type { FC } from "react";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import theme from "~/app/theme";
 import { VesselIcon } from "~/assets/icons";
-import { ListboxComponent, StyledPopper } from "~/components";
+import { StyledPopper, VirtualAutocomplete } from "~/components";
 import type { Vessel } from "~/generated/openapi";
 import { useFishmapContext } from "~/hooks";
 import {
@@ -66,7 +60,7 @@ export const SearchBar: FC = () => {
         },
       }}
     >
-      <Autocomplete
+      <VirtualAutocomplete
         sx={{
           "& .MuiAutocomplete-inputRoot": { color: "white", height: 56 },
           "& .MuiOutlinedInput-notchedOutline": { borderColor: "primary.dark" },
@@ -79,11 +73,6 @@ export const SearchBar: FC = () => {
         getOptionLabel={(option: Vessel) =>
           option.fiskeridir.name ? option.fiskeridir.name : "Ukjent"
         }
-        slotProps={{
-          listbox: {
-            component: ListboxComponent,
-          },
-        }}
         slots={{
           popper: StyledPopper,
         }}
@@ -106,15 +95,16 @@ export const SearchBar: FC = () => {
             }
           }
         }}
-        renderInput={(params: any) => (
+        renderInput={(params) => (
           <TextField
             {...params}
             onChange={(event) => setInputValue(event.target.value)}
             variant={"outlined"}
             placeholder={"Søk etter fartøy"}
             slotProps={{
+              ...params.slotProps,
               input: {
-                ...params.InputProps,
+                ...params.slotProps.input,
                 startAdornment: (
                   <InputAdornment position="start">
                     <SearchIcon sx={{ color: theme.palette.text.secondary }} />
@@ -124,7 +114,9 @@ export const SearchBar: FC = () => {
             }}
           />
         )}
-        renderOption={(props: any, option: Vessel) => (
+        optionKey={(v) => v.fiskeridir.id}
+        renderOption={(props, option) => [
+          option,
           <li
             {...props}
             key={option.fiskeridir.id}
@@ -160,8 +152,8 @@ export const SearchBar: FC = () => {
                 </Typography>
               </Box>
             </Box>
-          </li>
-        )}
+          </li>,
+        ]}
       />
     </Box>
   );

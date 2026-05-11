@@ -26,7 +26,7 @@ export const AboutUs: FC<Props> = ({ open, onClose }) => {
         }}
       >
         <Stack spacing={2}>
-          <Typography fontWeight="bold" fontSize="1.7rem">
+          <Typography sx={{ fontWeight: "bold", fontSize: "1.7rem" }}>
             Om tjenesten
           </Typography>
           <Typography>
@@ -43,7 +43,7 @@ export const AboutUs: FC<Props> = ({ open, onClose }) => {
           <Box>
             <Typography variant="h5">Kilder</Typography>
             <Stack>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Link target="_blank" href="https://www.fiskeridir.no/">
                   Fiskeridirektoratet
                 </Link>
@@ -51,25 +51,25 @@ export const AboutUs: FC<Props> = ({ open, onClose }) => {
                   Fartøy- og fangstdata, Akvakulturregisteret, VMS, ERS
                 </Typography>
               </Stack>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Link target="_blank" href="https://www.kystverket.no/">
                   Kystverket
                 </Link>
                 <Typography>Posisjonsdata (AIS)</Typography>
               </Stack>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Link target="_blank" href="https://www.barentswatch.no/">
                   BarentsWatch
                 </Link>
                 <Typography>Faste redskap</Typography>
               </Stack>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Link target="_blank" href="https://www.mattilsynet.no/">
                   Mattilsynet
                 </Link>
                 <Typography>Godkjenningskoder for fiskemottak</Typography>
               </Stack>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Link target="_blank" href="https://www.rafisklaget.no/">
                   Råfisklaget
                 </Link>

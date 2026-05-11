@@ -109,7 +109,7 @@ export const TimeSlider: FC<Props> = ({
 
   return (
     <>
-      <Box position="relative">
+      <Box sx={{ position: "relative" }}>
         <Button
           sx={[
             {
