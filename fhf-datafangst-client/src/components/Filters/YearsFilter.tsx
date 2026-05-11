@@ -4,13 +4,8 @@ import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Autocomplete, Checkbox, TextField, Typography } from "@mui/material";
 import type { FC } from "react";
 import { useMemo } from "react";
+import { getAllYearsArray } from "~/api/utils";
 import { StyledDatePopper } from "~/components";
-
-export const getAllYearsArray = (minYear: number) =>
-  Array.from(
-    { length: new Date().getFullYear() - minYear + 1 },
-    (_, i) => i + minYear,
-  );
 
 interface Props {
   value?: number[];

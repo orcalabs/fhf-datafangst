@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { LandingsMatrixArgs } from "~/api";
 import { LandingsFilter } from "~/api";
-import { getAllYearsArray } from "~/components/Filters/YearsFilter";
+import { getAllYearsArray } from "~/api/utils";
 import type {
   GearGroupDetailed,
   SpeciesGroupDetailed,

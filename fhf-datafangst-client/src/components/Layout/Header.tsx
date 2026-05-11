@@ -20,7 +20,7 @@ import { useState } from "react";
 import { Link, Link as RouterLink } from "react-router";
 import LogoIcon from "~/assets/logos/logoIcon";
 import { AboutUs, HeaderMenuButtons, UserManual } from "~/components";
-import { AppPage } from "~/containers/App/App";
+import { AppPage } from "~/models";
 import { selectBwUserProfile, selectIsLoggedIn, useAppSelector } from "~/store";
 
 export const HEADER_HEIGHT = 52;

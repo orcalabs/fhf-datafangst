@@ -1,6 +1,5 @@
 import type { User } from "oidc-react";
-import type { AppPage } from "~/containers/App/App";
-import type { BwUser } from "~/models";
+import type { AppPage, BwUser } from "~/models";
 import type { AisState } from "./ais/state";
 import { initialAisState } from "./ais/state";
 import type { BenchmarkState } from "./benchmark/state";

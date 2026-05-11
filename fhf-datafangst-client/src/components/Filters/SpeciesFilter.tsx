@@ -2,7 +2,7 @@ import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import { Box, Button, Collapse, Typography } from "@mui/material";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import type { SpeciesGroup, SpeciesGroupDetailed } from "~/generated/openapi";
 import { selectSpeciesGroupsMap, useAppSelector } from "~/store";
 import { Bar } from "./Bar";
@@ -17,25 +17,20 @@ interface Props {
 
 export const SpeciesFilter: FC<Props> = (props) => {
   const speciesGroups = useAppSelector(selectSpeciesGroupsMap);
-  const [expanded, setExpanded] = useState<boolean>(false);
+
+  const [_expanded, setExpanded] = useState<boolean>(false);
 
   const value = props.value ?? [];
 
-  // Keep SpeciesFilter expanded if hidden options are selected
-  useEffect(() => {
-    let expand = false;
-    if (props.value?.length) {
-      value.forEach((sg, _) => {
-        const selectedIdx = props.stats.findIndex((item) => item.id === sg.id);
-        if (selectedIdx > NUM_BARS - 1) {
-          expand = true;
-        } else {
-          expand = expand || false;
-        }
-      });
-    }
-    setExpanded(expand);
-  }, [props.value]);
+  const expanded = useMemo(
+    () =>
+      _expanded ||
+      props.value?.some(
+        (sg) =>
+          props.stats.findIndex((item) => item.id === sg.id) > NUM_BARS - 1,
+      ),
+    [_expanded, props.value],
+  );
 
   if (!props.stats.length) {
     return <></>;

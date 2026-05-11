@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { HaulsMatrixArgs } from "~/api";
 import { HaulsFilter } from "~/api";
-import { getAllYearsArray } from "~/components/Filters/YearsFilter";
+import { getAllYearsArray } from "~/api/utils";
 import type {
   GearGroupDetailed,
   Haul,

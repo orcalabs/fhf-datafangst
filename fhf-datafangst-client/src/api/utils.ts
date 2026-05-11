@@ -1,5 +1,4 @@
 import { setMonth, setYear } from "date-fns";
-import { getAllYearsArray } from "~/components/Filters/YearsFilter";
 
 export const createTimestampsFromYearsMonths = (
   years: number[] | undefined,
@@ -27,3 +26,9 @@ export const createTimestampsFromYearsMonths = (
 
   return timestamps;
 };
+
+export const getAllYearsArray = (minYear: number) =>
+  Array.from(
+    { length: new Date().getFullYear() - minYear + 1 },
+    (_, i) => i + minYear,
+  );

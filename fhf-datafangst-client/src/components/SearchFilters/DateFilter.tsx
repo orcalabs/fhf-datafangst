@@ -2,12 +2,9 @@ import { Box, Chip, Stack, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
-  endOfDay,
   endOfMonth,
   endOfYear,
   getYear,
-  isValid,
-  startOfDay,
   startOfMonth,
   startOfYear,
   subMonths,
@@ -16,33 +13,8 @@ import {
 import { nb } from "date-fns/locale";
 import type { FC } from "react";
 import { useState } from "react";
+import { DateRange } from "~/api";
 import theme from "~/app/theme";
-
-export class DateRange {
-  rawStart?: Date;
-  rawEnd?: Date;
-
-  get start() {
-    return isValid(this.rawStart)
-      ? startOfDay(this.rawStart!)
-      : this.rawEnd
-        ? new Date(0)
-        : undefined;
-  }
-
-  get end() {
-    return isValid(this.rawEnd)
-      ? endOfDay(this.rawEnd!)
-      : this.rawStart
-        ? new Date()
-        : undefined;
-  }
-
-  constructor(start?: Date | null, end?: Date | null) {
-    this.rawStart = start ?? undefined;
-    this.rawEnd = end ?? undefined;
-  }
-}
 
 interface Props {
   value?: DateRange;

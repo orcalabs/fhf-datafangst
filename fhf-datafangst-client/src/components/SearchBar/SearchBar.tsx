@@ -11,7 +11,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import theme from "~/app/theme";
 import { VesselIcon } from "~/assets/icons";
-import { ListboxComponent, StyledPopper } from "~/components/Common/Common";
+import { ListboxComponent, StyledPopper } from "~/components";
 import type { Vessel } from "~/generated/openapi";
 import { useFishmapContext } from "~/hooks";
 import {

@@ -5,8 +5,8 @@ import type { FC } from "react";
 import { memo } from "react";
 import theme from "~/app/theme";
 import { ListboxComponent, StyledPopper } from "~/components";
-import { AppPage } from "~/containers/App/App";
 import type { Vessel } from "~/generated/openapi";
+import { AppPage } from "~/models";
 import { selectAppPage, selectVesselsSorted, useAppSelector } from "~/store";
 import { toTitleCase } from "~/utils";
 

@@ -9,7 +9,7 @@ export default defineConfig([
   globalIgnores(["dist"]),
   {
     files: ["**/*.{ts,tsx}"],
-    ignores: ["src/generated/**/*", "old_src/**/*", "**/*.{js,mjs}"],
+    ignores: ["src/generated/**/*", "**/*.{js,mjs}"],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -25,17 +25,6 @@ export default defineConfig([
       },
     },
     rules: {
-      // TODO
-      "react-hooks/set-state-in-effect": "off",
-      "react-hooks/immutability": "off",
-      "react-hooks/incompatible-library": "off",
-      "react-refresh/only-export-components": "off",
-      "react-hooks/static-components": "off",
-      "react-hooks/refs": "off",
-      "react-hooks/globals": "off",
-      "react-hooks/preserve-manual-memoization": "off",
-      "react-hooks/rules-of-hooks": "off",
-
       "react-hooks/exhaustive-deps": "off",
 
       "@typescript-eslint/no-deprecated": "warn",

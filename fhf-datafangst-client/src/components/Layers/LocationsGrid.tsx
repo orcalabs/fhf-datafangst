@@ -17,18 +17,20 @@ import { generateLocationsMatrix } from "~/utils";
 export const LocationsGrid = () => {
   const [matrixTab, __] = useMatrixTab();
 
+  const haulMatrix = useAppSelector(selectHaulLocationsMatrix);
+  const haulFilters = useAppSelector(
+    selectHaulsMatrixActiveFilterSelectedIndexes,
+  );
+  const landingMatrix = useAppSelector(selectLandingLocationsMatrix);
+  const landingFilters = useAppSelector(
+    selectLandingsMatrixActiveFilterSelectedIndexes,
+  );
+  const selectedGrids = useAppSelector(selectSelectedGridsString);
+
   const [matrix, selectedFilters] =
     matrixTab === MatrixTab.Ers
-      ? [
-          useAppSelector(selectHaulLocationsMatrix),
-          useAppSelector(selectHaulsMatrixActiveFilterSelectedIndexes),
-        ]
-      : [
-          useAppSelector(selectLandingLocationsMatrix),
-          useAppSelector(selectLandingsMatrixActiveFilterSelectedIndexes),
-        ];
-
-  const selectedGrids = useAppSelector(selectSelectedGridsString);
+      ? [haulMatrix, haulFilters]
+      : [landingMatrix, landingFilters];
 
   const [gridVector, _] = useState<VectorSource<Feature<Geometry>>>(
     new VectorSource(),

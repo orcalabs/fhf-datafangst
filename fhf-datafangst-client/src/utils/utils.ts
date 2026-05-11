@@ -294,3 +294,7 @@ export const numberInputLimiter = (e: React.KeyboardEvent<HTMLDivElement>) => {
 
 export const isDefined = <T>(value: T | undefined | null): value is T =>
   value !== undefined && value !== null;
+
+export const unreachable = (v: never): never => {
+  throw new Error(`Unreachable code reached, value: ${v}`);
+};

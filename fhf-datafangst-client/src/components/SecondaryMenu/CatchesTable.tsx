@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import type { FC } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { SpeciesFiskeridir } from "~/generated/openapi";
 import type { Catch, CatchWeightType } from "~/models";
 import { selectSpeciesFiskeridirMap, useAppSelector } from "~/store";
@@ -174,8 +174,13 @@ export const CatchesTable: FC<Props> = ({
   );
 
   const [weightTypeIdx, setWeightTypeIdx] = useState(initialWeightType);
+  const [prevInitialWeightType, setPrevInitialWeightType] =
+    useState(initialWeightType);
 
-  useEffect(() => setWeightTypeIdx(initialWeightType), [initialWeightType]);
+  if (initialWeightType !== prevInitialWeightType) {
+    setWeightTypeIdx(initialWeightType);
+    setPrevInitialWeightType(initialWeightType);
+  }
 
   if (catches.length === 0) {
     return (

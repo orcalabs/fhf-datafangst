@@ -2,7 +2,7 @@ import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Box, Button, Popper } from "@mui/material";
 import type { FC } from "react";
-import { useRef } from "react";
+import { useState } from "react";
 import type { TripsArgs } from "~/api";
 import {
   DateFilter,
@@ -46,8 +46,12 @@ export const SearchFilters: FC<Props> = ({
   onChange,
 }) => {
   const dispatch = useAppDispatch();
+
   const filtersAnchor = useAppSelector(selectTripFiltersOpen);
-  const filterButtonRef = useRef(null);
+
+  const [filterButtonRef, setFilterButtonRef] = useState<HTMLElement | null>(
+    null,
+  );
 
   const handleFilterClick = (_: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(setTripFiltersOpen(!filtersAnchor));
@@ -131,7 +135,7 @@ export const SearchFilters: FC<Props> = ({
         }}
       >
         <Button
-          ref={filterButtonRef}
+          ref={setFilterButtonRef}
           sx={[
             { color: "white" },
             !!filtersAnchor && {
@@ -162,7 +166,7 @@ export const SearchFilters: FC<Props> = ({
       </Box>
       <Popper
         open={filtersAnchor}
-        anchorEl={filterButtonRef.current}
+        anchorEl={filterButtonRef}
         placement="right-start"
         sx={{
           zIndex: 1201,

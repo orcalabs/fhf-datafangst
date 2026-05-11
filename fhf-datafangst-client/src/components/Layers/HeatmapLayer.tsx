@@ -2,7 +2,7 @@ import type { Feature } from "ol";
 import type { Geometry } from "ol/geom";
 import { Heatmap } from "ol/layer";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useFishmapContext } from "~/hooks";
 
 interface Props {
@@ -23,32 +23,29 @@ export const HeatmapLayer: FC<Props> = ({
 }) => {
   const { map } = useFishmapContext();
 
-  const [heatmap, setHeatmap] = useState<Heatmap>();
+  const heatmap = useMemo(
+    () =>
+      new Heatmap({
+        source,
+        opacity: 0.75,
+        weight: (feature: Feature<Geometry>) =>
+          feature.get("weight") / weightDenominator,
+      }),
+    [source],
+  );
 
   useEffect(() => heatmap?.setBlur(blur), [blur, heatmap]);
   useEffect(() => heatmap?.setRadius(radius), [heatmap, radius]);
   useEffect(() => heatmap?.setZIndex(zIndex), [heatmap, zIndex]);
 
   useEffect(() => {
-    if (!map) return;
-
-    const heatmapLayer = new Heatmap({
-      source,
-      opacity: 0.75,
-      weight: (feature: Feature<Geometry>) =>
-        feature.get("weight") / weightDenominator,
-    });
-
-    map.addLayer(heatmapLayer);
-    setHeatmap(heatmapLayer);
-
-    return () => {
-      if (map) {
-        setHeatmap(undefined);
-        map.removeLayer(heatmapLayer);
-      }
-    };
-  }, [map, source]);
+    if (map) {
+      map.addLayer(heatmap);
+      return () => {
+        map.removeLayer(heatmap);
+      };
+    }
+  }, [map, heatmap]);
 
   return null;
 };

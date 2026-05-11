@@ -15,23 +15,22 @@ import {
   useAppSelector,
 } from "~/store";
 
+const StyledTableCell = styled(TableCell)(() => ({
+  borderBottom: "none",
+  color: "black",
+  paddingLeft: 0,
+  paddingRight: 0,
+}));
+
 export interface Props {
   vesselId?: number;
-  color?: string;
 }
 
-export const VesselDetails: FC<Props> = ({ vesselId, color }) => {
+export const VesselDetails: FC<Props> = ({ vesselId }) => {
   const selectedTrip = useAppSelector(selectSelectedTrip);
   const vessel = useAppSelector((state) =>
     selectVesselByFiskeridirId(state, vesselId),
   );
-
-  const StyledTableCell = styled(TableCell)(() => ({
-    borderBottom: "none",
-    color: color ?? "black",
-    paddingLeft: 0,
-    paddingRight: 0,
-  }));
 
   return (
     <TableContainer sx={{ bgcolor: theme.palette.action.hover, p: 1 }}>

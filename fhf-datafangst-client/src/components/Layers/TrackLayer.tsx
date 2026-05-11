@@ -1,9 +1,8 @@
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { VectorLayer } from "~/components";
 import { useFishmapContext } from "~/hooks";
 import { selectSelectedHaul, selectTrack, useAppSelector } from "~/store";
-import type { TravelVector } from "~/utils";
 import { generateVesselTrackVector } from "~/utils";
 
 export const TrackLayer: FC = () => {
@@ -12,7 +11,6 @@ export const TrackLayer: FC = () => {
   const track = useAppSelector(selectTrack);
   const haul = useAppSelector(selectSelectedHaul);
 
-  const [trackVectors, setTrackVectors] = useState<TravelVector[]>();
   const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
 
   // Store map zoom level in state
@@ -27,10 +25,10 @@ export const TrackLayer: FC = () => {
     return () => map.un("moveend", onMoveEnd);
   }, [map]);
 
-  useEffect(() => {
-    const vec = generateVesselTrackVector(track, zoom, haul);
-    setTrackVectors(vec);
-  }, [track, zoom]);
+  const trackVectors = useMemo(
+    () => (track ? generateVesselTrackVector(track, zoom, haul) : undefined),
+    [track, zoom, haul],
+  );
 
   return (
     <>

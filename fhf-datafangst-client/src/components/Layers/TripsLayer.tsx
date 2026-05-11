@@ -1,11 +1,8 @@
-import type { Feature } from "ol";
-import type { Geometry, Point } from "ol/geom";
-import type VectorSource from "ol/source/Vector";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { VectorLayer } from "~/components";
-import { AppPage } from "~/containers/App/App";
 import { useFishmapContext } from "~/hooks";
+import { AppPage } from "~/models";
 import {
   selectAppPage,
   selectSelectedOrCurrentTrip,
@@ -13,7 +10,6 @@ import {
   selectTrack,
   useAppSelector,
 } from "~/store";
-import type { TravelVector } from "~/utils";
 import {
   generateCatchTransferVector,
   generateFishingFacilitiesVector,
@@ -31,15 +27,6 @@ export const TripsLayer: FC = () => {
   const selectedTripHaul = useAppSelector(selectSelectedTripHaul);
 
   const [zoom, setZoom] = useState<number | undefined>(map.getView().getZoom());
-  const [trackVectors, setTrackVectors] = useState<TravelVector[]>();
-  const [haulsVector, setHaulsVector] =
-    useState<VectorSource<Feature<Point>>>();
-  const [selectedHaulTrackVector, setSelectedHaulTrackVector] =
-    useState<TravelVector[]>();
-  const [fishingFacilityVector, setFishingFacilityVector] =
-    useState<VectorSource<Feature<Geometry>>>();
-  const [catchTransferVector, setCatchTransferVector] =
-    useState<VectorSource<Feature<Geometry>>>();
 
   useEffect(() => {
     if (track && trip && ("tripId" in trip || appPage === AppPage.MyPage)) {
@@ -59,46 +46,51 @@ export const TripsLayer: FC = () => {
     return () => map.un("moveend", onMoveEnd);
   }, [map]);
 
-  useEffect(() => {
-    if (trip) {
-      const vec = generateVesselTrackVector(track, zoom, undefined, true);
-      const haulsVec = generateTripHaulsVector(
-        trip.hauls,
-        zoom,
-        selectedTripHaul,
-      );
-      const fishingFacilityVec = generateFishingFacilitiesVector(
-        trip.fishingFacilities,
-      );
+  const trackVectors = useMemo(
+    () =>
+      track
+        ? generateVesselTrackVector(track, zoom, undefined, true)
+        : undefined,
+    [track, zoom],
+  );
 
-      if ("tra" in trip) {
-        const catchTransferVec = generateCatchTransferVector(
-          trip.tra,
-          track,
-          zoom,
-        );
+  const haulsVector = useMemo(
+    () =>
+      trip
+        ? generateTripHaulsVector(trip.hauls, zoom, selectedTripHaul)
+        : undefined,
+    [trip?.hauls, zoom, selectedTripHaul],
+  );
 
-        setCatchTransferVector(catchTransferVec);
-      }
+  const fishingFacilityVector = useMemo(
+    () =>
+      trip
+        ? generateFishingFacilitiesVector(trip.fishingFacilities)
+        : undefined,
+    [trip?.fishingFacilities],
+  );
 
-      setTrackVectors(vec);
-      setHaulsVector(haulsVec);
-      setFishingFacilityVector(fishingFacilityVec);
-    }
-  }, [track, zoom, trip, selectedTripHaul]);
+  const catchTransferVector = useMemo(
+    () =>
+      trip && "tra" in trip
+        ? generateCatchTransferVector(trip.tra, track, zoom)
+        : undefined,
+    [trip, track, zoom],
+  );
 
-  // Create a new track for a selected haul, to draw on top of original Trip track
-  useEffect(() => {
-    const selectedHaulTrack = trackForHaul(track, selectedTripHaul);
-    const vec = generateVesselTrackVector(
-      selectedHaulTrack,
-      zoom,
-      selectedTripHaul,
-      false,
-      true,
-    );
-    setSelectedHaulTrackVector(vec);
-  }, [selectedTripHaul, track, zoom]);
+  const selectedHaulTrackVector = useMemo(
+    () =>
+      track
+        ? generateVesselTrackVector(
+            trackForHaul(track, selectedTripHaul),
+            zoom,
+            selectedTripHaul,
+            false,
+            true,
+          )
+        : undefined,
+    [track, zoom, selectedTripHaul],
+  );
 
   return (
     <>

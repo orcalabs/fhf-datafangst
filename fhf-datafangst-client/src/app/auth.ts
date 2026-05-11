@@ -1,7 +1,7 @@
 import { WebStorageStateStore } from "oidc-client-ts";
 import type { AuthProviderProps } from "oidc-react";
 import { UserManager } from "oidc-react";
-import { AppPage } from "~/containers/App/App";
+import { AppPage } from "~/models";
 
 export const authConfig: AuthProviderProps = {
   autoSignIn: false,

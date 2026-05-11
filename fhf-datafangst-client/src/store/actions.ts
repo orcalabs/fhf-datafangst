@@ -2,7 +2,7 @@ import type { GetThunkAPI } from "@reduxjs/toolkit";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { User } from "oidc-react";
 import * as Api from "~/api";
-import type { AppPage } from "~/containers/App/App";
+import type { AppPage } from "~/models";
 import type { AppState } from "./state";
 
 export const authTokenRequired = <T>(

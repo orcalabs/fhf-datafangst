@@ -5,13 +5,7 @@ import { authConfig } from "~/app/auth";
 import { Layout } from "~/components";
 import { HomeView } from "~/containers";
 import { useQueryParams } from "~/hooks";
-
-export enum AppPage {
-  Live = "live",
-  Area = "area",
-  Trips = "trips",
-  MyPage = "mypage",
-}
+import { AppPage } from "~/models";
 
 export const App: React.FC = () => {
   const [query, _] = useQueryParams();
