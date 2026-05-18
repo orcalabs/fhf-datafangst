@@ -82,3 +82,8 @@ export const selectBwUserLoading = createSelector(
   selectAppState,
   (state) => state.bwUserLoading,
 );
+
+export const selectConsentDialogOpen = createSelector(
+  selectAppState,
+  (state) => state.consentDialogOpen,
+);

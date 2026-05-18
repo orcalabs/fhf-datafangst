@@ -49,6 +49,7 @@ export interface BaseState {
   authUser?: User;
   tripFiltersOpen: boolean;
   tripDetailsOpen: boolean;
+  consentDialogOpen: boolean;
 }
 
 const initialBaseState: BaseState = {
@@ -59,6 +60,7 @@ const initialBaseState: BaseState = {
   tripFiltersOpen: false,
   tripDetailsOpen: false,
   bwUserLoading: false,
+  consentDialogOpen: false,
 };
 
 export interface AppState
@@ -104,6 +106,7 @@ export const emptyState = {
   selectedLiveVessel: undefined,
   tripFiltersOpen: false,
   tripDetailsOpen: false,
+  consentDialogOpen: false,
   track: undefined,
   trips: undefined,
   tripsSearch: undefined,

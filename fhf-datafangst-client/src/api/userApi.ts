@@ -8,6 +8,7 @@ import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
 export interface UserArgs extends Omit<UpdateUser, "following"> {
   following?: Vessel[];
+  fuelConsent?: boolean;
   accessToken?: string;
 }
 

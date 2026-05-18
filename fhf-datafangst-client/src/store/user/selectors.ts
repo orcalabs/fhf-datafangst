@@ -17,3 +17,8 @@ export const selectUserFollowList = createSelector(
       .map((vesselId) => vesselsByFiskeridirId[vesselId])
       .filter((v) => v !== undefined),
 );
+
+export const selectUserConsent = createSelector(
+  selectAppState,
+  (state) => state.user?.fuelConsent,
+);
