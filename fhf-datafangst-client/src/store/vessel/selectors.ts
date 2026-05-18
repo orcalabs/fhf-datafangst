@@ -3,7 +3,10 @@ import type { Vessel } from "~/generated/openapi";
 import { selectHaulsMap } from "~/store/haul";
 import { selectLandings } from "~/store/landing";
 import { selectAppState } from "~/store/selectAppState";
-import { selectBwUserCallSign } from "~/store/selectors";
+import {
+  selectBwUserCallSign,
+  selectSelectedCallSign,
+} from "~/store/selectors";
 
 export const selectVesselsLoading = createSelector(
   selectAppState,
@@ -100,6 +103,24 @@ export const selectEstimatedLiveFuelConsumption = createSelector(
 
 export const selectLoggedInVessel = createSelector(
   selectVesselsByCallsign,
-  selectBwUserCallSign,
+  selectSelectedCallSign,
   (vessels, callSign) => (callSign && vessels ? vessels[callSign] : undefined),
+);
+
+export const selectFishery = createSelector(
+  selectBwUserCallSign,
+  selectVesselsByCallsign,
+  (callSign, vessels) =>
+    callSign && vessels
+      ? (vessels[callSign]?.fisheryId ?? undefined)
+      : undefined,
+);
+
+export const selectFisheryVessels = createSelector(
+  selectFishery,
+  selectVesselsSorted,
+  (fishery, vessels) =>
+    fishery !== undefined && vessels
+      ? vessels.filter((v) => v.fisheryId === fishery)
+      : [],
 );

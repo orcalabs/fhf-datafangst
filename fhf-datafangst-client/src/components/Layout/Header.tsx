@@ -19,9 +19,20 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Link, Link as RouterLink } from "react-router";
 import LogoIcon from "~/assets/logos/logoIcon";
-import { AboutUs, HeaderMenuButtons, UserManual } from "~/components";
+import {
+  AboutUs,
+  HeaderMenuButtons,
+  SelectedVessel,
+  UserManual,
+} from "~/components";
 import { AppPage } from "~/models";
-import { selectBwUserProfile, selectIsLoggedIn, useAppSelector } from "~/store";
+import {
+  selectBwUserProfile,
+  selectFisheryVessels,
+  selectIsLoggedIn,
+  selectIsProjectUser,
+  useAppSelector,
+} from "~/store";
 
 export const HEADER_HEIGHT = 52;
 
@@ -31,8 +42,11 @@ export interface Props {
 
 export const Header: FC<Props> = ({ page }) => {
   const { signIn, signOutRedirect } = useAuth();
+
   const bwProfile = useAppSelector(selectBwUserProfile);
   const loggedIn = useAppSelector(selectIsLoggedIn);
+  const fisheryVessels = useAppSelector(selectFisheryVessels);
+  const isProjectUser = useAppSelector(selectIsProjectUser);
 
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
   const [userManualModalOpen, setUserManualModalOpen] = useState(false);
@@ -124,19 +138,32 @@ export const Header: FC<Props> = ({ page }) => {
             </Button>
           )}
           {loggedIn && (
-            <Box sx={{ pl: 1.5, pr: 1.5 }}>
-              <Avatar
-                onClick={handleMenu}
-                sx={{
-                  width: 30,
-                  height: 30,
-                  bgcolor: "secondary.main",
-                  cursor: "pointer",
-                  color: "white",
-                }}
-              >
-                {bwProfile?.user.firstName?.charAt(0)}
-              </Avatar>
+            <>
+              {(isProjectUser || fisheryVessels.length > 0) && (
+                <>
+                  <SelectedVessel />
+
+                  <Divider
+                    orientation="vertical"
+                    sx={{ bgcolor: "white", height: 16 }}
+                  />
+                </>
+              )}
+
+              <Box sx={{ px: 1.5 }}>
+                <Avatar
+                  onClick={handleMenu}
+                  sx={{
+                    width: 30,
+                    height: 30,
+                    bgcolor: "secondary.main",
+                    cursor: "pointer",
+                    color: "white",
+                  }}
+                >
+                  {bwProfile?.user.firstName?.charAt(0)}
+                </Avatar>
+              </Box>
 
               <Menu
                 anchorEl={anchorEl}
@@ -189,7 +216,7 @@ export const Header: FC<Props> = ({ page }) => {
                   Logg ut
                 </MenuItem>
               </Menu>
-            </Box>
+            </>
           )}
         </Stack>
       </Toolbar>

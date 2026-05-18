@@ -3,9 +3,10 @@ import type { FC } from "react";
 
 interface Props {
   color?: string;
+  size?: number | string;
 }
 
-export const LocalLoadingProgress: FC<Props> = ({ color }) => {
+export const LocalLoadingProgress: FC<Props> = ({ color, size }) => {
   return (
     <Box
       sx={{
@@ -16,7 +17,7 @@ export const LocalLoadingProgress: FC<Props> = ({ color }) => {
         color: color ?? "white",
       }}
     >
-      <CircularProgress color="inherit" disableShrink />
+      <CircularProgress color="inherit" size={size} disableShrink />
     </Box>
   );
 };

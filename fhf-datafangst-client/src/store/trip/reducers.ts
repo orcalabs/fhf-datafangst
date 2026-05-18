@@ -60,7 +60,7 @@ export const tripBuilder = (
           vessel =
             state.vesselsByFiskeridirId?.[state.selectedLiveVessel.vesselId];
         } else {
-          const callSign = state.bwUser?.fiskInfoProfile?.ircs;
+          const callSign = state.selectedCallSign;
           vessel = callSign ? state.vesselsByCallSign?.[callSign] : undefined;
         }
 

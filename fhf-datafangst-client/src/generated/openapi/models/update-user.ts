@@ -32,5 +32,11 @@ export interface UpdateUser {
      * @memberof UpdateUser
      */
     'fuelConsent'?: boolean | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUser
+     */
+    'selectedVessel'?: string | null;
 }
 

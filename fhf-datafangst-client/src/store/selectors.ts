@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { Policies, Roles } from "~/models";
+import { PROJECT_USERS } from "./reducers";
 import { selectAppState } from "./selectAppState";
 
 export const selectError = createSelector(
@@ -47,7 +48,17 @@ export const selectBwUserProfile = createSelector(
 
 export const selectBwUserCallSign = createSelector(
   selectBwUserProfile,
-  (state) => state?.fiskInfoProfile?.ircs,
+  (state) => state?.fiskInfoProfile?.ircs ?? undefined,
+);
+
+export const selectIsProjectUser = createSelector(
+  selectBwUserProfile,
+  (state) => state?.user.email && state.user.email in PROJECT_USERS,
+);
+
+export const selectSelectedCallSign = createSelector(
+  selectAppState,
+  (state) => state.selectedCallSign,
 );
 
 const AIS_ROLES = [
