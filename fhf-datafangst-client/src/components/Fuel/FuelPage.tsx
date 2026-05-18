@@ -34,12 +34,15 @@ import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react";
 import theme from "~/app/theme";
 import { FileUpload, LocalLoadingProgress } from "~/components";
+import { useTimestampUpdater } from "~/hooks";
 import {
   createFuelMeasurement,
   deleteFuelMeasurement,
   getFuelMeasurements,
   selectFuelMeasurements,
   selectFuelMeasurementsLoading,
+  selectUserConsent,
+  setConsentDialogOpen,
   updateFuelMeasurement,
   uploadFuelMeasurements,
   useAppDispatch,
@@ -74,9 +77,11 @@ interface EditFuel {
 
 export const FuelPage: FC = () => {
   const dispatch = useAppDispatch();
+  const minuteTime = useTimestampUpdater();
 
   const fuel = useAppSelector(selectFuelMeasurements);
   const loading = useAppSelector(selectFuelMeasurementsLoading);
+  const consent = useAppSelector(selectUserConsent);
 
   const [inputType, setInputType] = useState<string>("measurement");
   const [inputDate, setInputDate] = useState<Date | null>(null);
@@ -112,7 +117,7 @@ export const FuelPage: FC = () => {
   const reportError =
     newFuelAfterBunker.length > 0 &&
     inputType === "bunker" &&
-    newFuelAfterBunker <= newFuel;
+    +newFuelAfterBunker <= +newFuel;
 
   return (
     <Box
@@ -124,25 +129,37 @@ export const FuelPage: FC = () => {
     >
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={nb}>
         <Stack sx={{ p: 3, width: "100%" }} spacing={3}>
-          <Stack spacing={2} sx={{ color: theme.palette.grey[800] }}>
+          <Stack spacing={2}>
             <Typography variant="h2" sx={{ color: "black" }}>
               Registrer drivstoff
             </Typography>
             <Typography>
-              Registrer mengde drivstoff i tanken på gitte tidspunkt.
-              Regelmessige målinger gir mer detaljert analyse av fisket. For
-              korrekt kalkulering av forbruket må drivstoff registreres
-              når:{" "}
+              Fyll ut skjemaet på siden for å registrere mengde drivstoff som er
+              i tanken på ditt fartøy på gitte tidspunkt under toktet.
+              <br />
+              Regelmessige (og helst hyppige) målinger gir mer detaljert analyse
+              av drivstofforbruket under ulike faser av fisket.
+            </Typography>
+            <Typography>
+              For korrekt kalkulering av forbruket må drivstoff registreres når:
             </Typography>
             <Stack sx={{ pl: 2 }}>
-              <Typography>1: Fartøyet forlater havn</Typography>
-              <Typography>2: Fartøyet ankommer havn</Typography>
-              <Typography>3: Fartøyet fyller drivstoff</Typography>
+              <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
+                1: Fartøyet forlater havn
+              </Typography>
+              <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
+                2: Fartøyet ankommer havn
+              </Typography>
+              <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
+                3: Fartøyet fyller drivstoff
+              </Typography>
+              <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
+                4: Redskap settes i sjøen (start av hal)
+              </Typography>
+              <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
+                5: Redskap tas opp av sjøen (slutt av hal)
+              </Typography>
             </Stack>
-            <Typography>
-              Hvis man i tillegg registrerer drivstoff før og etter
-              fiskeoperasjoner (hal) vil det gi mer korrekte resultater.
-            </Typography>
           </Stack>
           <Divider />
           <Stack
@@ -175,15 +192,21 @@ export const FuelPage: FC = () => {
                   variant="subtitle2"
                   sx={{ color: theme.palette.grey[500] }}
                 >
-                  {inputType === "measurement"
-                    ? "Drivstoff (liter)"
-                    : "Drivstoff før bunkring (liter)"}
+                  {inputType === "measurement" ? (
+                    <>Drivstoff i tanken</>
+                  ) : (
+                    <>
+                      Drivstoff i tank{" "}
+                      <span style={{ fontStyle: "italic" }}>før</span> bunkring
+                    </>
+                  )}
                 </Typography>
                 <TextField
-                  sx={{ width: inputType === "measurement" ? 125 : 205 }}
+                  sx={{ width: 190 }}
                   size="small"
                   variant="outlined"
                   value={newFuel}
+                  placeholder="Antall liter"
                   onKeyDown={numberInputLimiter}
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     setNewFuel(event.target.value)
@@ -196,7 +219,8 @@ export const FuelPage: FC = () => {
                     variant="subtitle2"
                     sx={{ color: theme.palette.grey[500] }}
                   >
-                    Drivstoff etter bunkring (liter)
+                    Drivstoff i tank{" "}
+                    <span style={{ fontStyle: "italic" }}>etter</span> bunkring
                   </Typography>
                   <TextField
                     sx={{
@@ -207,6 +231,7 @@ export const FuelPage: FC = () => {
                         mx: "2px",
                       },
                     }}
+                    placeholder="Antall liter"
                     size="small"
                     variant="outlined"
                     error={reportError}
@@ -230,11 +255,11 @@ export const FuelPage: FC = () => {
                 </Typography>
                 <DateTimePicker
                   disableFuture
-                  label="Nå"
                   sx={{
                     width: 250,
                     "& .MuiPickersOutlinedInput-notchedOutline legend": {
-                      display: "none",
+                      maxWidth: 0,
+                      visibility: "hidden",
                     },
                     "& .MuiInputLabel-root": {
                       color: "text.disabled",
@@ -244,11 +269,14 @@ export const FuelPage: FC = () => {
                     },
                   }}
                   slotProps={{
+                    textField: {
+                      size: "small",
+                    },
                     field: {
                       clearable: true,
                     },
                   }}
-                  value={inputDate}
+                  value={inputDate ?? minuteTime}
                   onChange={(value) => setInputDate(value)}
                 />
               </Stack>
@@ -261,7 +289,7 @@ export const FuelPage: FC = () => {
                   alignSelf: "flex-end",
                 }}
                 color="success"
-                disabled={newFuel === "" || reportError}
+                disabled={newFuel === "" || reportError || !consent}
                 startIcon={<PostAddIcon />}
                 onClick={() => {
                   dispatch(
@@ -285,6 +313,27 @@ export const FuelPage: FC = () => {
                 Registrer
               </Button>
             </Stack>
+            {!consent && (
+              <Stack spacing={1}>
+                <Typography
+                  sx={{
+                    color: "grey.A700",
+                    maxWidth: 620,
+                  }}
+                >
+                  * Du har ikke gitt oss samtykke for bruk av data og kan derfor
+                  ikke registrere drivstoff.
+                </Typography>
+                <Button
+                  color="info"
+                  variant="contained"
+                  sx={{ width: 200 }}
+                  onClick={() => dispatch(setConsentDialogOpen(true))}
+                >
+                  Åpne samtykkeskjema
+                </Button>
+              </Stack>
+            )}
           </Stack>
           <Stack spacing={2}>
             <Paper

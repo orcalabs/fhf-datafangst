@@ -10,6 +10,7 @@ export { BenchmarkOverview } from "./Benchmark/Overview";
 export { LocalLoadingProgress } from "./Common/LocalLoadingProgress";
 export * from "./Common/Popper";
 export { Company } from "./Company/Company";
+export { ConsentDialog } from "./ConsentDialog/ConsentDialog";
 export { CurrentTripMenu } from "./CurrentTripMenu/CurrentTripMenu";
 export * from "./FileUpload/FileUpload";
 export { HaulFilters } from "./Filters/HaulFilters";

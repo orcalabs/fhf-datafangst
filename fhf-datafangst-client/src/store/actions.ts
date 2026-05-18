@@ -29,3 +29,7 @@ export const setTripFiltersOpen = createAction<boolean>(
 export const setTripDetailsOpen = createAction<boolean>(
   "base/setTripDetailsOpen",
 );
+
+export const setConsentDialogOpen = createAction<boolean>(
+  "base/setConsentDialogOpen",
+);

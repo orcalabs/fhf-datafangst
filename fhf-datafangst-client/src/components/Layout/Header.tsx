@@ -1,5 +1,6 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutSharpIcon from "@mui/icons-material/LogoutSharp";
+import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {
   AppBar,
@@ -21,6 +22,7 @@ import { Link, Link as RouterLink } from "react-router";
 import LogoIcon from "~/assets/logos/logoIcon";
 import {
   AboutUs,
+  ConsentDialog,
   HeaderMenuButtons,
   SelectedVessel,
   UserManual,
@@ -28,9 +30,12 @@ import {
 import { AppPage } from "~/models";
 import {
   selectBwUserProfile,
+  selectConsentDialogOpen,
   selectFisheryVessels,
   selectIsLoggedIn,
   selectIsProjectUser,
+  setConsentDialogOpen,
+  useAppDispatch,
   useAppSelector,
 } from "~/store";
 
@@ -47,6 +52,8 @@ export const Header: FC<Props> = ({ page }) => {
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const fisheryVessels = useAppSelector(selectFisheryVessels);
   const isProjectUser = useAppSelector(selectIsProjectUser);
+  const dispatch = useAppDispatch();
+  const consentDialogOpen = useAppSelector(selectConsentDialogOpen);
 
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
   const [userManualModalOpen, setUserManualModalOpen] = useState(false);
@@ -172,6 +179,7 @@ export const Header: FC<Props> = ({ page }) => {
                   horizontal: "right",
                 }}
                 keepMounted
+                disableAutoFocusItem
                 transformOrigin={{
                   vertical: "top",
                   horizontal: "right",
@@ -195,7 +203,17 @@ export const Header: FC<Props> = ({ page }) => {
                   </Stack>,
                   <Divider key={2} sx={{ bgcolor: "primary.main", mb: 1 }} />,
                 ]}
-
+                <MenuItem
+                  onClick={() => {
+                    dispatch(setConsentDialogOpen(true));
+                    setAnchorEl(null);
+                  }}
+                >
+                  <ListItemIcon>
+                    <PrivacyTipIcon fontSize="small" />
+                  </ListItemIcon>
+                  Samtykkeerklæring
+                </MenuItem>
                 <Link
                   style={{ color: "black", textDecoration: "none" }}
                   to={"https://www.barentswatch.no/minside/"}
@@ -224,6 +242,12 @@ export const Header: FC<Props> = ({ page }) => {
       <UserManual
         open={userManualModalOpen}
         onClose={() => setUserManualModalOpen(false)}
+      />
+      <ConsentDialog
+        open={consentDialogOpen}
+        onClose={() => {
+          dispatch(setConsentDialogOpen(false));
+        }}
       />
     </AppBar>
   );

@@ -6,6 +6,7 @@ import {
   resetState,
   resetTrackState,
   setAppPage,
+  setConsentDialogOpen,
   setError,
   setTripDetailsOpen,
   setTripFiltersOpen,
@@ -116,6 +117,9 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     })
     .addCase(setTripDetailsOpen, (state, action) => {
       state.tripDetailsOpen = action.payload;
+    })
+    .addCase(setConsentDialogOpen, (state, action) => {
+      state.consentDialogOpen = action.payload;
     })
     .addCase(resetState, (state, _) => ({ ...state, ...emptyState }));
 
