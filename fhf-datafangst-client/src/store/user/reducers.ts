@@ -13,7 +13,9 @@ export const userBuilder = (
     .addCase(getUser.fulfilled, (state, action) => {
       state.userLoading = false;
       state.user = action.payload;
-      state.selectedCallSign = action.payload.selectedVessel ?? undefined;
+      if (action.payload.selectedVessel) {
+        state.selectedCallSign = action.payload.selectedVessel;
+      }
     })
     .addCase(getUser.rejected, (state, _) => {
       state.userLoading = false;
