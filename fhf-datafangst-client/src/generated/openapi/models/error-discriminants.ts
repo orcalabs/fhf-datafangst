@@ -21,6 +21,7 @@
  */
 
 export const ErrorDiscriminants = {
+    InvalidVesselSelection: 'InvalidVesselSelection',
     FuelAfterLowerThanFuel: 'FuelAfterLowerThanFuel',
     StartAfterEnd: 'StartAfterEnd',
     InvalidCallSign: 'InvalidCallSign',

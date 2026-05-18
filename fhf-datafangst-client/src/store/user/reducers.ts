@@ -13,6 +13,7 @@ export const userBuilder = (
     .addCase(getUser.fulfilled, (state, action) => {
       state.userLoading = false;
       state.user = action.payload;
+      state.selectedCallSign = action.payload.selectedVessel ?? undefined;
     })
     .addCase(getUser.rejected, (state, _) => {
       state.userLoading = false;
@@ -21,5 +22,7 @@ export const userBuilder = (
       action.meta.arg.accessToken = state.authUser?.access_token;
     })
     .addCase(updateUser.fulfilled, (state, action) => {
-      state.user = action.payload;
+      if (state.user) {
+        Object.assign(state.user, action.payload);
+      }
     });

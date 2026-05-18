@@ -63,6 +63,7 @@ export { CatchesTable } from "./SecondaryMenu/CatchesTable";
 export { HaulsMenu } from "./SecondaryMenu/HaulsMenu";
 export { LandingsMenu } from "./SecondaryMenu/LandingsMenu";
 export { SelectedTripMenu } from "./SelectedTripMenu/SelectedTripMenu";
+export { SelectedVessel } from "./SelectedVessel/SelectedVessel";
 export * from "./SortMenu/SortMenu";
 export { TimeSlider } from "./TimeSlider/TimeSlider";
 export { TripBenchmarkPage } from "./TripBenchmark/TripBenchmarkPage";

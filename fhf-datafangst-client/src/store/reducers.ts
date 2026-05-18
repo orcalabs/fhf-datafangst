@@ -32,6 +32,22 @@ import { vesselBuilder } from "./vessel";
 import { vmsBuilder } from "./vms";
 import { weatherBuilder } from "./weather";
 
+export const PROJECT_USERS: Record<string, string> = {
+  "post@orcalabs.no": "LFNX",
+  "stale.walderhaug@fhf.no": "LDDF",
+  "rita.naustvik@fhf.no": "LDDF",
+  "eskild.johansen@fhf.no": "LDDF",
+  "kim@orcalabs.no": "LDDF",
+  "eivind@rinde.no": "LDDF",
+  "bard.hanssen@sintef.no": "LDDF",
+  "fiskinfo.nord@gmail.com": "LDDF",
+  "dorthea.vatn@sintef.no": "LDDF",
+  "oystein.hermansen@gmail.com": "LDDF",
+  "per.finne@fiskeridir.no": "LFNX",
+  "erlend.stav@sintef.no": "LFLJ",
+  "per.gunnar.auran@sintef.no": "LFAJ",
+};
+
 const emptyTrackState = {
   track: undefined,
 };
@@ -73,81 +89,11 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       state.bwUserLoading = false;
       state.bwUser = action.payload;
 
-      // Hijack Skomværfisk as a vessel for testing purposes.
-      if (state.bwUser.user.email === "post@orcalabs.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LFNX",
-          mmsi: 257842500,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "",
-        };
-        // Assign Gadus Njord to Per Gunnar, Eivind, Bård, Tore and Dorthea
-      } else if (
-        state.bwUser.user.email === "stale.walderhaug@fhf.no" ||
-        state.bwUser.user.email === "rita.naustvik@fhf.no" ||
-        state.bwUser.user.email === "eskild.johansen@fhf.no" ||
-        state.bwUser.user.email === "kim@orcalabs.no" ||
-        state.bwUser.user.email === "eivind@rinde.no" ||
-        state.bwUser.user.email === "bard.hanssen@sintef.no" ||
-        state.bwUser.user.email === "fiskinfo.nord@gmail.com" ||
-        state.bwUser.user.email === "dorthea.vatn@sintef.no" ||
-        state.bwUser.user.email === "oystein.hermansen@gmail.com"
-      ) {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LDDF",
-          mmsi: 257656000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "",
-        };
-        // Assign Hermes to Per
-      } else if (state.bwUser.user.email === "per.finne@fiskeridir.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LFNX",
-          mmsi: 257640000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "",
-        };
-        // Assign Loran to Erlend
-      } else if (state.bwUser.user.email === "erlend.stav@sintef.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LFLJ",
-          mmsi: 259616000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "",
-        };
-      } else if (state.bwUser.user.email === "per.gunnar.auran@sintef.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LFAJ",
-          mmsi: 259616000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "",
-        };
-      }
+      state.selectedCallSign =
+        state.bwUser.user.email && state.bwUser.user.email in PROJECT_USERS
+          ? (localStorage.getItem("callSignOverride") ??
+            PROJECT_USERS[state.bwUser.user.email])
+          : (state.bwUser.fiskInfoProfile?.ircs ?? undefined);
     })
     .addCase(getBwUser.rejected, (state, _) => {
       state.bwUserLoading = false;

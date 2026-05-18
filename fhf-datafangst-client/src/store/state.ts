@@ -45,6 +45,7 @@ export interface BaseState {
   appPage?: AppPage;
   bwUser?: BwUser;
   bwUserLoading: boolean;
+  selectedCallSign?: string;
   authUser?: User;
   tripFiltersOpen: boolean;
   tripDetailsOpen: boolean;
