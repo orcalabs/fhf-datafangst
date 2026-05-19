@@ -38,7 +38,6 @@ export const PROJECT_USERS: Record<string, string> = {
   "stale.walderhaug@fhf.no": "LDDF",
   "rita.naustvik@fhf.no": "LDDF",
   "eskild.johansen@fhf.no": "LDDF",
-  "kim@orcalabs.no": "LDDF",
   "eivind@rinde.no": "LDDF",
   "bard.hanssen@sintef.no": "LDDF",
   "fiskinfo.nord@gmail.com": "LDDF",
