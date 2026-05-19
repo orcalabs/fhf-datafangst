@@ -17,26 +17,14 @@
 /**
  * 
  * @export
- * @interface UpdateUser
+ * @interface HaulEnd
  */
-export interface UpdateUser {
+export interface HaulEnd {
     /**
      * 
-     * @type {Array<number>}
-     * @memberof UpdateUser
+     * @type {number}
+     * @memberof HaulEnd
      */
-    'following'?: Array<number> | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UpdateUser
-     */
-    'fuelConsent'?: boolean | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateUser
-     */
-    'selectedVessel'?: string | null;
+    'fuelLiterEnd': number;
 }
 

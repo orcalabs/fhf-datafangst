@@ -8,6 +8,7 @@ import {
   Gauge,
   LocalLoadingProgress,
   Tabs,
+  UserHaul,
 } from "~/components";
 import { ConfirmSnackbar } from "~/components/ConfirmSnackbar/ConfirmSnackbar";
 import {
@@ -21,6 +22,10 @@ const TABS = [
   {
     key: "peiling",
     Element: Gauge,
+  },
+  {
+    key: "hal",
+    Element: UserHaul,
   },
   {
     key: "bunkring",

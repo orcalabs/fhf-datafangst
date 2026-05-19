@@ -21,6 +21,8 @@
  */
 
 export const ErrorDiscriminants = {
+    NoActiveUserHaul: 'NoActiveUserHaul',
+    InvalidVesselSelection: 'InvalidVesselSelection',
     FuelAfterLowerThanFuel: 'FuelAfterLowerThanFuel',
     StartAfterEnd: 'StartAfterEnd',
     InvalidCallSign: 'InvalidCallSign',

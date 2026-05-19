@@ -8,4 +8,5 @@ export { Header } from "./Layout/Header";
 export { Layout } from "./Layout/Layout";
 export { LocalLoadingProgress } from "./LoadingProgress/LocalLoadingProgress";
 export { Tabs } from "./Tabs/Tabs";
+export { UserHaul } from "./UserHaul/UserHaul";
 export { UserManual } from "./UserManual/UserManual";

@@ -4,6 +4,7 @@ import type { FuelState } from "./fuel/state";
 import { initialFuelState } from "./fuel/state";
 import type { UserState } from "./user/state";
 import { initialUserState } from "./user/state";
+import { initialUserHaulState, type UserHaulState } from "./userHaul";
 
 export interface BaseState {
   error: boolean;
@@ -20,10 +21,12 @@ const initialBaseState: BaseState = {
   bwUserLoading: false,
 };
 
-export interface AppState extends BaseState, UserState, FuelState {}
+export interface AppState
+  extends BaseState, UserState, FuelState, UserHaulState {}
 
 export const initialAppState: AppState = {
   ...initialBaseState,
   ...initialUserState,
   ...initialFuelState,
+  ...initialUserHaulState,
 };

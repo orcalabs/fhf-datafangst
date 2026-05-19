@@ -14,6 +14,7 @@ api/org-api.ts
 api/species-api.ts
 api/trip-api.ts
 api/user-api.ts
+api/user-haul-api.ts
 api/vessel-api.ts
 api/vms-api.ts
 api/weather-api.ts
@@ -77,7 +78,9 @@ models/gear-main-group-detailed.ts
 models/gear.ts
 models/has-track.ts
 models/haul-catch.ts
+models/haul-end.ts
 models/haul-ocean-climate.ts
+models/haul-start.ts
 models/haul-weather.ts
 models/haul.ts
 models/hauls-matrix-params.ts
@@ -121,6 +124,7 @@ models/species-group.ts
 models/species-main-group-detailed.ts
 models/species-main-group.ts
 models/species.ts
+models/started-user-haul.ts
 models/tra-catch.ts
 models/tra.ts
 models/trip-assembler-id.ts
@@ -137,6 +141,7 @@ models/twelve-mile-border.ts
 models/update-user.ts
 models/update-vessel.ts
 models/upload-fuel-measurement.ts
+models/user-haul.ts
 models/user.ts
 models/vessel-benchmarks.ts
 models/vessel-current-trip.ts
