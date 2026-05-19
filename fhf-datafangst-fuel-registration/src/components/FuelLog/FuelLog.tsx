@@ -28,8 +28,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { format, isToday, isYesterday } from "date-fns";
-import { nb } from "date-fns/locale";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import theme from "~/app/theme";
@@ -47,6 +45,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "~/store";
+import { dateFormat } from "~/utils";
 
 const StyledTableRow = styled(TableRow)(() => ({
   "&:last-child td, &:last-child th": {
@@ -79,23 +78,6 @@ interface EditFuel {
 
 const isValidDate = (d: Date) => {
   return d instanceof Date && !isNaN(d.valueOf());
-};
-
-type IntoDate = Date | number | string;
-const dateFormat = (d: IntoDate | undefined | null, f: string) => {
-  if (!d) {
-    return "";
-  }
-
-  if (isToday(d)) {
-    return `I dag, ${format(new Date(d), "HH:mm", { locale: nb })}`;
-  }
-
-  if (isYesterday(d)) {
-    return `I går, ${format(new Date(d), "HH:mm", { locale: nb })}`;
-  }
-
-  return d ? format(new Date(d), f, { locale: nb }) : "";
 };
 
 // Prevents all input from keys not related to input of a natural number

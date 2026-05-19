@@ -5,6 +5,7 @@ import { fuelBuilder } from "./fuel";
 import type { AppState } from "./state";
 import { initialAppState } from "./state";
 import { getUser, userBuilder } from "./user";
+import { userHaulBuilder } from "./userHaul";
 
 class AppActionReducerMapBuilder<State> {
   builder: ActionReducerMapBuilder<State>;
@@ -135,5 +136,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(baseBuilder)
     .extendBuilder(userBuilder)
     .extendBuilder(fuelBuilder)
+    .extendBuilder(userHaulBuilder)
     .finish(),
 );

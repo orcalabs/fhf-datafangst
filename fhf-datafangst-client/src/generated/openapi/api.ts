@@ -26,6 +26,7 @@ export * from './api/org-api';
 export * from './api/species-api';
 export * from './api/trip-api';
 export * from './api/user-api';
+export * from './api/user-haul-api';
 export * from './api/vessel-api';
 export * from './api/vms-api';
 export * from './api/weather-api';

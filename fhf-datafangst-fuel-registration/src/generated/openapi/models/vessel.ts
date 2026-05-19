@@ -71,5 +71,11 @@ export interface Vessel {
      * @memberof Vessel
      */
     'isActive': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof Vessel
+     */
+    'fisheryId'?: number | null;
 }
 
