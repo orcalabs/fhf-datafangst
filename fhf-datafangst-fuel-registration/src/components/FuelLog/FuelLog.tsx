@@ -557,6 +557,8 @@ export const FuelLog: FC = () => {
         <ConfirmModal
           {...confirmDelete}
           open
+          title="Bekreft sletting"
+          buttonConfirmText="Slett"
           onClose={() => setConfirmDelete(undefined)}
         />
       )}

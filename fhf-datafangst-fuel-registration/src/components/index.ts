@@ -1,12 +1,15 @@
 export { Bunker } from "./Bunker/Bunker";
+export { ConfirmHaulStopModal } from "./ConfirmModal/ConfirmHaulStopModal";
 export { ConfirmModal } from "./ConfirmModal/ConfirmModal";
 export { ConsentDialog } from "./ConsentDialog/ConsentDialog";
 export { ConsentText } from "./ConsentDialog/ConsentText";
+export { ElapsedTimer } from "./ElapsedTimer/ElapsedTimer";
 export { FuelLog } from "./FuelLog/FuelLog";
 export { Gauge } from "./Gauge/Gauge";
 export { Header } from "./Layout/Header";
 export { Layout } from "./Layout/Layout";
 export { LocalLoadingProgress } from "./LoadingProgress/LocalLoadingProgress";
 export { Tabs } from "./Tabs/Tabs";
+export { StartedHaul } from "./UserHaul/StartedHaul";
 export { UserHaul } from "./UserHaul/UserHaul";
 export { UserManual } from "./UserManual/UserManual";

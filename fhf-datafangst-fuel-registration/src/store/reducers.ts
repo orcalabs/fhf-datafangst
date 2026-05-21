@@ -42,7 +42,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       // Hijack Skomværfisk as a vessel for testing purposes.
       if (state.bwUser.user.email === "post@orcalabs.no") {
         state.bwUser.fiskInfoProfile = {
-          ircs: "JXMK",
+          ircs: "LFNX",
           mmsi: 257842500,
           imo: -1,
           regNum: "",
@@ -50,7 +50,7 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
           vesselId: "",
           vesselEmail: "",
           vesselPhone: "",
-          vesselName: "Skomværfisk",
+          vesselName: "Hermes",
         };
         // Assign Gadus Njord to most test users
       } else if (
