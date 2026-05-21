@@ -59,8 +59,13 @@ const theme = createTheme(
         fontSize: "1.4rem",
       },
       h6: {
+        fontWeight: fontStyle.fontWeightBold,
+        fontSize: "1.1rem",
+      },
+      body2: {
         fontWeight: fontStyle.fontWeightMedium,
         fontSize: "1.1rem",
+        color: "rgba(0, 0, 0, 0.70)",
       },
     },
     palette: {
@@ -188,8 +193,8 @@ const theme = createTheme(
         styleOverrides: {
           root: {
             "--TextField-brandBorderColor": "rgba(128, 136, 140, 1)",
-            "--TextField-brandBorderHoverColor": "red",
-            "--TextField-brandBorderFocusedColor": "red",
+            "--TextField-brandBorderHoverColor": "#004075",
+            "--TextField-brandBorderFocusedColor": "#004075",
             "& label.Mui-focused": {
               color: "var(--TextField-brandBorderFocusedColor)",
             },

@@ -23,13 +23,28 @@ const TABS = [
     key: "peiling",
     Element: Gauge,
   },
-  {
-    key: "hal",
-    Element: UserHaul,
-  },
+
   {
     key: "bunkring",
     Element: Bunker,
+  },
+  { key: "logg", Element: FuelLog },
+];
+
+// Only used for Hermes in a test phase
+const CUSTOMTABS = [
+  {
+    key: "peiling",
+    Element: Gauge,
+  },
+
+  {
+    key: "bunkring",
+    Element: Bunker,
+  },
+  {
+    key: "hal",
+    Element: UserHaul,
   },
   { key: "logg", Element: FuelLog },
 ];
@@ -60,7 +75,11 @@ export const HomeView: FC = () => {
         ) : bwUser ? (
           <>
             {bwUser.fiskInfoProfile?.ircs ? (
-              <Tabs tabs={TABS} />
+              <Tabs
+                tabs={
+                  bwUser.fiskInfoProfile.ircs === "LFNX" ? CUSTOMTABS : TABS
+                }
+              />
             ) : (
               <Typography variant="h6" align="center">
                 Finner ingen fartøy tilknyttet din profil i BarentsWatch

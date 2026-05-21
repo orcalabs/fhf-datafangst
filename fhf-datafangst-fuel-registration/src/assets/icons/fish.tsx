@@ -1,0 +1,30 @@
+interface Props {
+  fill?: string;
+  width?: string | number;
+  height?: string | number;
+}
+
+function FishIcon({ fill = "currentColor", width = 48, height = 48 }: Props) {
+  return (
+    <svg
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      x="0px"
+      y="0px"
+      width={width}
+      height={height}
+      viewBox="0 0 313 144.8"
+    >
+      <g>
+        <polygon
+          fill={fill}
+          points="187.8,144.8 187.8,144.8 93.8,90.3 31.3,126.6 0,108.7 62.5,72.4 0,36.3 31.3,18.2 93.8,54.2 187.8,0 
+		313,72.4 	"
+        />
+      </g>
+    </svg>
+  );
+}
+
+export default FishIcon;
