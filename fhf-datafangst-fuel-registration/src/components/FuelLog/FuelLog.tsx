@@ -544,6 +544,7 @@ export const FuelLog: FC = () => {
         !fuel?.length && (
           <Typography
             sx={{
+              justifySelf: "center",
               pl: 1,
               fontStyle: "italic",
             }}

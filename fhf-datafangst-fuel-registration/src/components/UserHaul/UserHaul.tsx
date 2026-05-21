@@ -1,6 +1,7 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import PhishingIcon from "@mui/icons-material/Phishing";
 import {
+  Box,
   Button,
   Checkbox,
   Divider,
@@ -112,7 +113,7 @@ export const UserHaul: FC = () => {
   };
 
   return (
-    <>
+    <Box sx={{ px: 2 }}>
       {activeHaulLoading ? (
         <LocalLoadingProgress color={theme.palette.primary.main} />
       ) : activeHaul ? (
@@ -212,7 +213,7 @@ export const UserHaul: FC = () => {
                 }}
               />
 
-              <Stack direction="row" spacing={6}>
+              <Stack direction="row" spacing={4}>
                 <Stack spacing={2}>
                   <Typography variant="h6">Lodd</Typography>
                   <NumberedTextField
@@ -250,7 +251,7 @@ export const UserHaul: FC = () => {
               </Stack>
               <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.15)" }} />
 
-              <Stack direction="row" spacing={6}>
+              <Stack direction="row" spacing={4}>
                 <Stack spacing={2}>
                   <Typography variant="h6">Oversweeper</Typography>
                   <NumberedTextField
@@ -287,7 +288,7 @@ export const UserHaul: FC = () => {
                 </Stack>
               </Stack>
               <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.15)" }} />
-              <Stack direction="row" spacing={6}>
+              <Stack direction="row" spacing={4}>
                 <Stack spacing={2}>
                   <Typography variant="h6">Gir</Typography>
                   <NumberedTextField
@@ -377,7 +378,7 @@ export const UserHaul: FC = () => {
           </Form>
         </>
       )}
-    </>
+    </Box>
   );
 };
 
