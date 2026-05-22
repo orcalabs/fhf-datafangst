@@ -24,11 +24,19 @@ import { Link } from "react-router";
 import { useAuth } from "~/app/auth";
 import theme from "~/app/theme";
 import { VesselIcon } from "~/assets/icons";
-import { ConsentDialog, UserManual } from "~/components";
 import {
-  selectBwUserLoading,
-  selectBwUserProfile,
+  ConsentDialog,
+  LocalLoadingProgress,
+  SelectedVessel,
+  UserManual,
+} from "~/components";
+import {
+  selectFisheryVessels,
+  selectIsProjectUser,
+  selectLoggedInVessel,
   selectUser,
+  selectUserLoading,
+  selectVesselsLoading,
   useAppSelector,
 } from "~/store";
 
@@ -40,8 +48,11 @@ export const Header: FC = () => {
   const isSmallMobile = useMediaQuery(theme.breakpoints.down(400));
 
   const user = useAppSelector(selectUser);
-  const userData = useAppSelector(selectBwUserProfile);
-  const bwUserLoading = useAppSelector(selectBwUserLoading);
+  const isProjectUser = useAppSelector(selectIsProjectUser);
+  const vessel = useAppSelector(selectLoggedInVessel);
+  const fisheryVessels = useAppSelector(selectFisheryVessels);
+  const vesselLoading = useAppSelector(selectVesselsLoading);
+  const userLoading = useAppSelector(selectUserLoading);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userManualModalOpen, setUserManualModalOpen] = useState(false);
@@ -124,16 +135,17 @@ export const Header: FC = () => {
                 width={isSmallMobile ? 28 : isMobile ? 30 : 44}
                 fill="white"
               />
-              {!bwUserLoading && (
+
+              {vesselLoading || userLoading ? (
+                <LocalLoadingProgress size={20} />
+              ) : toggleMenu && (isProjectUser || fisheryVessels.length > 0) ? (
+                <SelectedVessel />
+              ) : (
                 <Typography
                   sx={{ color: "white" }}
                   variant={isSmallMobile ? "h3" : isMobile ? "h5" : "h4"}
                 >
-                  {userData?.fiskInfoProfile
-                    ? (userData.fiskInfoProfile.vesselName ??
-                      userData?.fiskInfoProfile?.ircs ??
-                      "Ukjent fartøy")
-                    : "Ukjent fartøy"}
+                  {vessel?.fiskeridir.name ?? "Ukjent fartøy"}
                 </Typography>
               )}
             </Stack>
@@ -235,6 +247,11 @@ export const Header: FC = () => {
               >
                 <InfoOutlinedIcon />
               </IconButton>
+              <Divider
+                orientation="vertical"
+                sx={{ bgcolor: "white", height: 16 }}
+              />
+              <SelectedVessel />
               <Divider
                 orientation="vertical"
                 sx={{ bgcolor: "white", height: 16 }}

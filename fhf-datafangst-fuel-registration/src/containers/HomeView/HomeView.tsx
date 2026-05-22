@@ -12,9 +12,9 @@ import {
 } from "~/components";
 import { ConfirmSnackbar } from "~/components/ConfirmSnackbar/ConfirmSnackbar";
 import {
-  selectBwUserLoading,
-  selectBwUserProfile,
+  selectLoggedInVessel,
   selectUserLoading,
+  selectVesselsLoading,
   useAppSelector,
 } from "~/store";
 
@@ -50,9 +50,9 @@ const CUSTOMTABS = [
 ];
 
 export const HomeView: FC = () => {
-  const bwUser = useAppSelector(selectBwUserProfile);
-  const bwUserLoading = useAppSelector(selectBwUserLoading);
   const userLoading = useAppSelector(selectUserLoading);
+  const vessel = useAppSelector(selectLoggedInVessel);
+  const vesselLoading = useAppSelector(selectVesselsLoading);
 
   return (
     <Stack
@@ -70,16 +70,12 @@ export const HomeView: FC = () => {
         }}
         spacing={4}
       >
-        {userLoading || bwUserLoading ? (
+        {userLoading || vesselLoading ? (
           <LocalLoadingProgress color={theme.palette.primary.main} />
-        ) : bwUser ? (
+        ) : (
           <>
-            {bwUser.fiskInfoProfile?.ircs ? (
-              <Tabs
-                tabs={
-                  bwUser.fiskInfoProfile.ircs === "LFNX" ? CUSTOMTABS : TABS
-                }
-              />
+            {vessel ? (
+              <Tabs tabs={vessel.fisheryId === 1 ? CUSTOMTABS : TABS} />
             ) : (
               <Typography variant="h6" align="center">
                 Finner ingen fartøy tilknyttet din profil i BarentsWatch
@@ -87,19 +83,6 @@ export const HomeView: FC = () => {
               </Typography>
             )}
           </>
-        ) : (
-          <Stack sx={{ px: 3, alignItems: "center" }} spacing={3}>
-            <Typography variant="h5">Beklager!</Typography>
-            <Stack spacing={2}>
-              <Typography variant="h6" align="center">
-                En feil oppsto ved henting av din profil fra BarentsWatch
-                FiskInfo.
-              </Typography>
-              <Typography variant="h6" align="center">
-                Prøv igjen senere.
-              </Typography>
-            </Stack>
-          </Stack>
         )}
       </Stack>
       <ConfirmSnackbar />

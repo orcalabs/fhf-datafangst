@@ -5,6 +5,7 @@ import { Layout } from "~/components";
 import { HomeView } from "~/containers";
 import {
   checkLoggedIn,
+  getVessels,
   selectIsLoggedIn,
   useAppDispatch,
   useAppSelector,
@@ -20,6 +21,10 @@ export const App: React.FC = () => {
       dispatch(checkLoggedIn(userData));
     }
   }, [userData, isLoading, loggedIn]);
+
+  useEffect(() => {
+    dispatch(getVessels());
+  }, []);
 
   return (
     <>

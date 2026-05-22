@@ -6,6 +6,22 @@ import type { AppState } from "./state";
 import { initialAppState } from "./state";
 import { getUser, userBuilder } from "./user";
 import { userHaulBuilder } from "./userHaul";
+import { vesselBuilder } from "./vessel";
+
+export const PROJECT_USERS: Record<string, string> = {
+  "post@orcalabs.no": "LFNX",
+  "stale.walderhaug@fhf.no": "LDDF",
+  "rita.naustvik@fhf.no": "LDDF",
+  "eskild.johansen@fhf.no": "LDDF",
+  "eivind@rinde.no": "LDDF",
+  "bard.hanssen@sintef.no": "LDDF",
+  "fiskinfo.nord@gmail.com": "LDDF",
+  "dorthea.vatn@sintef.no": "LDDF",
+  "oystein.hermansen@gmail.com": "LDDF",
+  "per.finne@fiskeridir.no": "LFNX",
+  "erlend.stav@sintef.no": "LFLJ",
+  "per.gunnar.auran@sintef.no": "LFAJ",
+};
 
 class AppActionReducerMapBuilder<State> {
   builder: ActionReducerMapBuilder<State>;
@@ -39,81 +55,11 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
       state.bwUserLoading = false;
       state.bwUser = action.payload;
 
-      // Hijack Skomværfisk as a vessel for testing purposes.
-      if (state.bwUser.user.email === "post@orcalabs.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LFNX",
-          mmsi: 257842500,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "Hermes",
-        };
-        // Assign Gadus Njord to most test users
-      } else if (
-        state.bwUser.user.email === "stale.walderhaug@fhf.no" ||
-        state.bwUser.user.email === "rita.naustvik@fhf.no" ||
-        state.bwUser.user.email === "eskild.johansen@fhf.no" ||
-        state.bwUser.user.email === "kim@orcalabs.no" ||
-        state.bwUser.user.email === "eivind@rinde.no" ||
-        state.bwUser.user.email === "bard.hanssen@sintef.no" ||
-        state.bwUser.user.email === "fiskinfo.nord@gmail.com" ||
-        state.bwUser.user.email === "dorthea.vatn@sintef.no"
-      ) {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LDDF",
-          mmsi: 257656000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "Gadus Njord",
-        };
-        // Assign Hermes to Per
-      } else if (state.bwUser.user.email === "per.finne@fiskeridir.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LFNX",
-          mmsi: 257640000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "Hermes",
-        };
-        // Assign Frøyanes Junior to Erlend
-      } else if (state.bwUser.user.email === "erlend.stav@sintef.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LFLJ",
-          mmsi: 259616000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "Frøyanes Junior",
-        };
-        // Assign Selvåg Senior to Per Gunnar
-      } else if (state.bwUser.user.email === "per.gunnar.auran@sintef.no") {
-        state.bwUser.fiskInfoProfile = {
-          ircs: "LGOQ",
-          mmsi: 259616000,
-          imo: -1,
-          regNum: "",
-          sbrRegNum: "",
-          vesselId: "",
-          vesselEmail: "",
-          vesselPhone: "",
-          vesselName: "Selvåg Senior",
-        };
-      }
+      state.selectedCallSign =
+        state.bwUser.user.email && state.bwUser.user.email in PROJECT_USERS
+          ? (localStorage.getItem("callSignOverride") ??
+            PROJECT_USERS[state.bwUser.user.email])
+          : (state.bwUser.fiskInfoProfile?.ircs ?? undefined);
     })
     .addCase(getBwUser.rejected, (state, _) => {
       state.bwUserLoading = false;
@@ -135,6 +81,7 @@ export const appReducer = createReducer(initialAppState, (builder) =>
   new AppActionReducerMapBuilder(builder)
     .extendBuilder(baseBuilder)
     .extendBuilder(userBuilder)
+    .extendBuilder(vesselBuilder)
     .extendBuilder(fuelBuilder)
     .extendBuilder(userHaulBuilder)
     .finish(),
