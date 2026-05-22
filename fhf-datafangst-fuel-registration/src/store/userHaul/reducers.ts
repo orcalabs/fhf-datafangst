@@ -15,6 +15,7 @@ export const userHaulBuilder = (
   builder
     .addCase(getUserHauls.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       state.userHauls = undefined;
       state.userHaulsLoading = true;
     })
@@ -27,6 +28,7 @@ export const userHaulBuilder = (
     })
     .addCase(getActiveUserHaul.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       state.activeUserHaul = undefined;
       state.activeUserHaulLoading = true;
     })
@@ -39,6 +41,7 @@ export const userHaulBuilder = (
     })
     .addCase(startUserHaul.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       state.activeUserHaulLoading = true;
     })
     .addCase(startUserHaul.fulfilled, (state, action) => {
@@ -50,6 +53,7 @@ export const userHaulBuilder = (
     })
     .addCase(stopUserHaul.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       state.activeUserHaulLoading = true;
     })
     .addCase(stopUserHaul.fulfilled, (state, action) => {
@@ -67,12 +71,14 @@ export const userHaulBuilder = (
     })
     .addCase(abortUserHaul.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
     })
     .addCase(abortUserHaul.fulfilled, (state, _) => {
       state.activeUserHaul = undefined;
     })
     .addCase(deleteUserHaul.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
     })
     .addCase(deleteUserHaul.fulfilled, (state, action) => {
       state.userHauls = state.userHauls?.filter(
