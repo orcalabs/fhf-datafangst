@@ -11,12 +11,7 @@ import {
   UserHaul,
 } from "~/components";
 import { ConfirmSnackbar } from "~/components/ConfirmSnackbar/ConfirmSnackbar";
-import {
-  selectLoggedInVessel,
-  selectUserLoading,
-  selectVesselsLoading,
-  useAppSelector,
-} from "~/store";
+import { selectLoading, selectLoggedInVessel, useAppSelector } from "~/store";
 
 const TABS = [
   {
@@ -50,9 +45,8 @@ const CUSTOMTABS = [
 ];
 
 export const HomeView: FC = () => {
-  const userLoading = useAppSelector(selectUserLoading);
+  const loading = useAppSelector(selectLoading);
   const vessel = useAppSelector(selectLoggedInVessel);
-  const vesselLoading = useAppSelector(selectVesselsLoading);
 
   return (
     <Stack
@@ -70,7 +64,7 @@ export const HomeView: FC = () => {
         }}
         spacing={4}
       >
-        {userLoading || vesselLoading ? (
+        {loading ? (
           <LocalLoadingProgress color={theme.palette.primary.main} />
         ) : (
           <>

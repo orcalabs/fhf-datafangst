@@ -17,14 +17,15 @@ export const selectIsLoggedIn = createSelector(
   (state) => state.isLoggedIn,
 );
 
+export const selectLoading = createSelector(
+  selectAppState,
+  (state) =>
+    state.bwUserLoading || state.userLoading || state.vessels === undefined,
+);
+
 export const selectBwUserProfile = createSelector(
   selectAppState,
   (state) => state.bwUser,
-);
-
-export const selectBwUserLoading = createSelector(
-  selectAppState,
-  (state) => state.bwUserLoading,
 );
 
 export const selectBwUserCallSign = createSelector(

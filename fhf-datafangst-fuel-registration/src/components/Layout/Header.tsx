@@ -33,10 +33,9 @@ import {
 import {
   selectFisheryVessels,
   selectIsProjectUser,
+  selectLoading,
   selectLoggedInVessel,
   selectUser,
-  selectUserLoading,
-  selectVesselsLoading,
   useAppSelector,
 } from "~/store";
 
@@ -47,12 +46,11 @@ export const Header: FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down(400));
 
+  const loading = useAppSelector(selectLoading);
   const user = useAppSelector(selectUser);
   const isProjectUser = useAppSelector(selectIsProjectUser);
   const vessel = useAppSelector(selectLoggedInVessel);
   const fisheryVessels = useAppSelector(selectFisheryVessels);
-  const vesselLoading = useAppSelector(selectVesselsLoading);
-  const userLoading = useAppSelector(selectUserLoading);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userManualModalOpen, setUserManualModalOpen] = useState(false);
@@ -136,7 +134,7 @@ export const Header: FC = () => {
                 fill="white"
               />
 
-              {vesselLoading || userLoading ? (
+              {loading ? (
                 <LocalLoadingProgress size={20} />
               ) : toggleMenu && (isProjectUser || fisheryVessels.length > 0) ? (
                 <SelectedVessel />
