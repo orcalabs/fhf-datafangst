@@ -17,10 +17,10 @@ export const App: React.FC = () => {
   const loggedIn = useAppSelector(selectIsLoggedIn);
 
   useEffect(() => {
-    if (userData && !isLoading && !loggedIn) {
+    if (userData && !isLoading) {
       dispatch(checkLoggedIn(userData));
     }
-  }, [userData, isLoading, loggedIn]);
+  }, [userData, isLoading]);
 
   useEffect(() => {
     dispatch(getVessels());
