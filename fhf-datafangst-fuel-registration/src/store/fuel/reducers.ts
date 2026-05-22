@@ -13,7 +13,7 @@ export const fuelBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(getFuelMeasurements.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       action.meta.arg.token = state.authUser?.access_token;
       action.meta.arg.limit += 1;
       state.fuelMeasurementsLoading = true;
@@ -39,7 +39,7 @@ export const fuelBuilder = (
       state.fuelMeasurementsLoading = false;
     })
     .addCase(createFuelMeasurement.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(createFuelMeasurement.fulfilled, (state, action) => {
@@ -57,7 +57,7 @@ export const fuelBuilder = (
       state.fuelPostStatus = "error";
     })
     .addCase(updateFuelMeasurement.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(updateFuelMeasurement.fulfilled, (state, action) => {
@@ -76,7 +76,7 @@ export const fuelBuilder = (
       state.fuelPostStatus = "error";
     })
     .addCase(deleteFuelMeasurement.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.bwUser?.fiskInfoProfile?.ircs;
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       action.meta.arg.token = state.authUser?.access_token;
     })
     .addCase(deleteFuelMeasurement.fulfilled, (state, action) => {
