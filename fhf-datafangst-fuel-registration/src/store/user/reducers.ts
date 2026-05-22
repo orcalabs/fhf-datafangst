@@ -13,6 +13,9 @@ export const userBuilder = (
     .addCase(getUser.fulfilled, (state, action) => {
       state.userLoading = false;
       state.user = action.payload;
+      if (action.payload.selectedVessel) {
+        state.selectedCallSign = action.payload.selectedVessel;
+      }
     })
     .addCase(getUser.rejected, (state, _) => {
       state.userLoading = false;
@@ -22,6 +25,6 @@ export const userBuilder = (
     })
     .addCase(updateUser.fulfilled, (state, action) => {
       if (state.user) {
-        state.user.fuelConsent = action.payload.fuelConsent;
+        Object.assign(state.user, action.payload);
       }
     });
