@@ -20,7 +20,7 @@ import type { Config } from "./UserHaul";
 
 interface Props {
   haul: StartedUserHaul;
-  onStop: (fuelLiter: number) => void;
+  onStop: (fuelLiter: number, livingWeight?: number) => void;
   onAbort: () => void;
 }
 
@@ -57,11 +57,8 @@ const ExpandMore = styled(({ expand, children, ...other }: ExpandMoreProps) => (
   textTransform: "none",
 }));
 
-export const StartedHaul: FC<Props> = (props) => {
-  const { haul, onStop, onAbort } = props;
+export const StartedHaul: FC<Props> = ({ haul, onStop, onAbort }) => {
   const [expanded, setExpanded] = useState(false);
-  const config: Config = { ...haul.config } as Config;
-
   const [confirmStopOpen, setConfirmStopOpen] = useState<boolean>(false);
   const [confirmAbort, setConfirmAbort] = useState<Confirm | undefined>(
     undefined,
@@ -70,6 +67,8 @@ export const StartedHaul: FC<Props> = (props) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const config = haul.config as Config;
 
   return (
     <>
@@ -268,7 +267,7 @@ export const StartedHaul: FC<Props> = (props) => {
           open
           startFuelLiter={haul.startFuelLiter}
           onClose={() => setConfirmStopOpen(false)}
-          onConfirm={(fuelLiter: number) => onStop(fuelLiter)}
+          onConfirm={onStop}
         />
       )}
       {confirmAbort && (

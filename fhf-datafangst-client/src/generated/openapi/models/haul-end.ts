@@ -26,5 +26,11 @@ export interface HaulEnd {
      * @memberof HaulEnd
      */
     'fuelLiterEnd': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof HaulEnd
+     */
+    'totalLivingWeightKg'?: number | null;
 }
 

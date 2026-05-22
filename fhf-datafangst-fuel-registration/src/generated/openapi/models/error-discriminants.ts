@@ -21,6 +21,7 @@
  */
 
 export const ErrorDiscriminants = {
+    ObjectNotFound: 'ObjectNotFound',
     NoActiveUserHaul: 'NoActiveUserHaul',
     InvalidVesselSelection: 'InvalidVesselSelection',
     FuelAfterLowerThanFuel: 'FuelAfterLowerThanFuel',
@@ -40,8 +41,6 @@ export const ErrorDiscriminants = {
     Base64Decode: 'Base64Decode',
     InvalidExcel: 'InvalidExcel',
     QueryPayload: 'QueryPayload',
-    UpdateVesselNotFound: 'UpdateVesselNotFound',
-    OrgNotFound: 'OrgNotFound',
     CallSignDoesNotExist: 'CallSignDoesNotExist',
     Unexpected: 'Unexpected'
 } as const;

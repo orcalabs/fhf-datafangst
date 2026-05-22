@@ -138,6 +138,7 @@ models/trip-sorting.ts
 models/trip.ts
 models/trips-parameters.ts
 models/twelve-mile-border.ts
+models/update-user-haul.ts
 models/update-user.ts
 models/update-vessel.ts
 models/upload-fuel-measurement.ts

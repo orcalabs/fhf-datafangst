@@ -9,6 +9,7 @@ export { Gauge } from "./Gauge/Gauge";
 export { Header } from "./Layout/Header";
 export { Layout } from "./Layout/Layout";
 export { LocalLoadingProgress } from "./LoadingProgress/LocalLoadingProgress";
+export { NumberInput } from "./NumberInput/NumberInput";
 export { SelectedVessel } from "./SelectedVessel/SelectedVessel";
 export { Tabs } from "./Tabs/Tabs";
 export { StartedHaul } from "./UserHaul/StartedHaul";
