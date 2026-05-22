@@ -52,6 +52,12 @@ export interface UserHaul {
     'endFuelLiter': number;
     /**
      * 
+     * @type {number}
+     * @memberof UserHaul
+     */
+    'totalLivingWeightKg'?: number | null;
+    /**
+     * 
      * @type {object}
      * @memberof UserHaul
      */

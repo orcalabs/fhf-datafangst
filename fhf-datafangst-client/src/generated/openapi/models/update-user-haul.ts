@@ -17,49 +17,43 @@
 /**
  * 
  * @export
- * @interface UserHaul
+ * @interface UpdateUserHaul
  */
-export interface UserHaul {
-    /**
-     * 
-     * @type {number}
-     * @memberof UserHaul
-     */
-    'id': number;
+export interface UpdateUserHaul {
     /**
      * 
      * @type {string}
-     * @memberof UserHaul
+     * @memberof UpdateUserHaul
      */
     'startTs': string;
     /**
      * 
      * @type {string}
-     * @memberof UserHaul
+     * @memberof UpdateUserHaul
      */
     'endTs': string;
     /**
      * 
      * @type {number}
-     * @memberof UserHaul
+     * @memberof UpdateUserHaul
      */
     'startFuelLiter': number;
     /**
      * 
      * @type {number}
-     * @memberof UserHaul
+     * @memberof UpdateUserHaul
      */
     'endFuelLiter': number;
     /**
      * 
      * @type {number}
-     * @memberof UserHaul
+     * @memberof UpdateUserHaul
      */
     'totalLivingWeightKg'?: number | null;
     /**
      * 
      * @type {object}
-     * @memberof UserHaul
+     * @memberof UpdateUserHaul
      */
     'config': object;
 }

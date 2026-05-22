@@ -113,6 +113,7 @@ export * from './trip-sorting';
 export * from './trips-parameters';
 export * from './twelve-mile-border';
 export * from './update-user';
+export * from './update-user-haul';
 export * from './update-vessel';
 export * from './upload-fuel-measurement';
 export * from './user';

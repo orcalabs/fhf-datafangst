@@ -1,16 +1,11 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import {
-  Button,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import type { ChangeEvent, FC } from "react";
+import type { FC } from "react";
 import { useState } from "react";
 import theme from "~/app/theme";
+import { NumberInput } from "~/components";
 import { useTimestampUpdater } from "~/hooks/useTimestampUpdater";
 import {
   createFuelMeasurement,
@@ -18,7 +13,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "~/store";
-import { numberInputLimiter } from "~/utils";
 
 export const Gauge: FC = () => {
   const dispatch = useAppDispatch();
@@ -57,41 +51,13 @@ export const Gauge: FC = () => {
             onChange={(value) => setInputDate(value)}
           />
         </Stack>
-        <Stack spacing={0.5}>
-          <Typography
-            variant="subtitle2"
-            sx={{ color: theme.palette.grey[500] }}
-          >
-            Drivstoff i tanken
-          </Typography>
-          <TextField
-            sx={{ width: 205 }}
-            variant="outlined"
-            color="secondary"
-            value={newFuel}
-            placeholder="Antall liter"
-            onKeyDown={numberInputLimiter}
-            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              setNewFuel(event.target.value)
-            }
-            slotProps={{
-              htmlInput: {
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              },
-              input: {
-                inputMode: "numeric",
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {newFuel && (
-                      <Typography sx={{ fontSize: "0.9rem" }}>liter</Typography>
-                    )}
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        </Stack>
+        <NumberInput
+          title="Drivstoff i tanken"
+          placeholder="Antall liter"
+          endAdornment="liter"
+          value={newFuel}
+          onChange={setNewFuel}
+        />
       </Stack>
       <Stack direction="row" spacing={3} sx={{ pt: 1 }}>
         <Button

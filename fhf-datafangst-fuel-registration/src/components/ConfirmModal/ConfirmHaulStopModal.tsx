@@ -4,20 +4,17 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  InputAdornment,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useState, type ChangeEvent, type FC } from "react";
-import theme from "~/app/theme";
-import { numberInputLimiter } from "~/utils";
+import { useState, type FC } from "react";
+import { NumberInput } from "../NumberInput/NumberInput";
 
 interface Props {
   open: boolean;
   startFuelLiter: number;
   onClose: () => void;
-  onConfirm: (fuelLiter: number) => void;
+  onConfirm: (fuelLiter: number, livingWeight?: number) => void;
 }
 
 export const ConfirmHaulStopModal: FC<Props> = ({
@@ -26,7 +23,8 @@ export const ConfirmHaulStopModal: FC<Props> = ({
   onClose,
   onConfirm,
 }) => {
-  const [fuel, setFuel] = useState<string>("");
+  const [fuel, setFuel] = useState("");
+  const [livingWeight, setLivingWeight] = useState("");
 
   const error = fuel.length > 0 && +fuel >= +startFuelLiter;
 
@@ -46,43 +44,25 @@ export const ConfirmHaulStopModal: FC<Props> = ({
         <Typography sx={{ fontSize: "1.25rem" }}>Stopp pågående hal</Typography>
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={0.5}>
-          <Typography
-            variant="subtitle2"
-            sx={{ color: theme.palette.grey[500] }}
-          >
-            Drivstoff i tanken
-          </Typography>
-          <TextField
-            sx={{ width: 205 }}
-            error={error}
-            helperText={
-              error ? "Må være mindre enn angitt mengde når halet startet" : ""
-            }
-            variant="outlined"
-            color="secondary"
-            value={fuel}
+        <Stack spacing={2}>
+          <NumberInput
+            title="Drivstoff i tanken"
             placeholder="Antall liter"
-            onKeyDown={numberInputLimiter}
-            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              setFuel(event.target.value)
+            endAdornment="liter"
+            error={
+              error
+                ? "Må være mindre enn angitt mengde når halet startet"
+                : undefined
             }
-            slotProps={{
-              htmlInput: {
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              },
-              input: {
-                inputMode: "numeric",
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {fuel && (
-                      <Typography sx={{ fontSize: "0.9rem" }}>liter</Typography>
-                    )}
-                  </InputAdornment>
-                ),
-              },
-            }}
+            value={fuel}
+            onChange={setFuel}
+          />
+          <NumberInput
+            title="Total levende vekt fanget"
+            placeholder="Antall kg"
+            endAdornment="kg"
+            value={livingWeight}
+            onChange={setLivingWeight}
           />
         </Stack>
       </DialogContent>

@@ -1,16 +1,11 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import {
-  Button,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import type { ChangeEvent, FC } from "react";
+import type { FC } from "react";
 import { useState } from "react";
 import theme from "~/app/theme";
+import { NumberInput } from "~/components";
 import { useTimestampUpdater } from "~/hooks/useTimestampUpdater";
 import {
   createFuelMeasurement,
@@ -18,7 +13,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "~/store";
-import { numberInputLimiter } from "~/utils";
 
 export const Bunker: FC = () => {
   const dispatch = useAppDispatch();
@@ -62,87 +56,31 @@ export const Bunker: FC = () => {
             onChange={(value) => setInputDate(value)}
           />
         </Stack>
-        <Stack spacing={0.5}>
-          <Typography
-            variant="subtitle2"
-            sx={{ color: theme.palette.grey[500] }}
-          >
-            Drivstoff i tank <span style={{ fontStyle: "italic" }}>før</span>{" "}
-            bunkring
-          </Typography>
-          <TextField
-            sx={{ width: 205 }}
-            variant="outlined"
-            color="secondary"
-            value={newFuel}
-            placeholder="Antall liter"
-            onKeyDown={numberInputLimiter}
-            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              setNewFuel(event.target.value)
-            }
-            slotProps={{
-              htmlInput: {
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              },
-              input: {
-                inputMode: "numeric",
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {newFuel && (
-                      <Typography sx={{ fontSize: "0.9rem" }}>liter</Typography>
-                    )}
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        </Stack>
-        <Stack spacing={0.5}>
-          <Typography
-            variant="subtitle2"
-            sx={{ color: theme.palette.grey[500] }}
-          >
-            Drivstoff i tank <span style={{ fontStyle: "italic" }}>etter</span>{" "}
-            bunkring
-          </Typography>
-          <TextField
-            sx={{
-              width: 205,
-              "& .MuiFormHelperText-root": {
-                position: "absolute",
-                top: 55,
-                mx: "2px",
-              },
-            }}
-            placeholder="Antall liter"
-            color="secondary"
-            variant="outlined"
-            error={error}
-            helperText={error ? "Må være større enn før bunkring" : ""}
-            value={newFuelAfterBunker}
-            onKeyDown={numberInputLimiter}
-            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              setNewFuelAfterBunker(event.target.value)
-            }
-            slotProps={{
-              htmlInput: {
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              },
-              input: {
-                inputMode: "numeric",
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {newFuelAfterBunker && (
-                      <Typography sx={{ fontSize: "0.9rem" }}>liter</Typography>
-                    )}
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        </Stack>
+        <NumberInput
+          title={
+            <>
+              Drivstoff i tank <span style={{ fontStyle: "italic" }}>før</span>{" "}
+              bunkring
+            </>
+          }
+          placeholder="Antall liter"
+          endAdornment="liter"
+          value={newFuel}
+          onChange={setNewFuel}
+        />
+        <NumberInput
+          title={
+            <>
+              Drivstoff i tank{" "}
+              <span style={{ fontStyle: "italic" }}>etter</span> bunkring
+            </>
+          }
+          placeholder="Antall liter"
+          endAdornment="liter"
+          value={newFuelAfterBunker}
+          error={error ? "Må være større enn før bunkring" : undefined}
+          onChange={setNewFuelAfterBunker}
+        />
       </Stack>
       <Stack direction="row" spacing={3} sx={{ pt: 1 }}>
         <Button

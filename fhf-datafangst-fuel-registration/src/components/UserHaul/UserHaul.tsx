@@ -7,16 +7,15 @@ import {
   Divider,
   FormControlLabel,
   FormGroup,
-  InputAdornment,
   Stack,
   TextField,
   Typography,
   type TextFieldProps,
 } from "@mui/material";
-import { useEffect, useRef, useState, type ChangeEvent, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { Controller, Form, useForm } from "react-hook-form";
 import theme from "~/app/theme";
-import { LocalLoadingProgress, StartedHaul } from "~/components";
+import { LocalLoadingProgress, NumberInput, StartedHaul } from "~/components";
 import { useAppDispatch, useAppSelector } from "~/store";
 import {
   abortUserHaul,
@@ -114,10 +113,11 @@ export const UserHaul: FC = () => {
     );
   };
 
-  const onStopHaul = (fuelLiter: number) => {
+  const onStopHaul = (fuelLiter: number, livingWeight?: number) => {
     dispatch(
       stopUserHaul({
         fuelLiterEnd: fuelLiter,
+        totalLivingWeightKg: livingWeight,
       }),
     );
   };
@@ -133,7 +133,7 @@ export const UserHaul: FC = () => {
       ) : activeHaul ? (
         <StartedHaul
           haul={activeHaul}
-          onStop={(fuelLiter) => onStopHaul(fuelLiter)}
+          onStop={onStopHaul}
           onAbort={onAbortHaul}
         />
       ) : (
@@ -146,42 +146,17 @@ export const UserHaul: FC = () => {
           >
             <Stack spacing={4}>
               <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                <Stack spacing={2}>
-                  <Typography variant="h6">
-                    Drivstoff i tanken <span style={{ color: "red" }}>*</span>
-                  </Typography>
-                  <TextField
-                    required
-                    sx={{ width: 205 }}
-                    variant="outlined"
-                    color="secondary"
-                    value={newFuel}
-                    placeholder="Antall liter"
-                    onKeyDown={numberInputLimiter}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      setNewFuel(event.target.value)
-                    }
-                    slotProps={{
-                      htmlInput: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                      input: {
-                        inputMode: "numeric",
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            {newFuel && (
-                              <Typography sx={{ fontSize: "0.9rem" }}>
-                                liter
-                              </Typography>
-                            )}
-                          </InputAdornment>
-                        ),
-                      },
-                    }}
-                  />
-                </Stack>
-
+                <NumberInput
+                  title={
+                    <>
+                      Drivstoff i tanken <span style={{ color: "red" }}>*</span>
+                    </>
+                  }
+                  placeholder="Antall liter"
+                  endAdornment="liter"
+                  value={newFuel}
+                  onChange={setNewFuel}
+                />
                 <Stack spacing={1} sx={{ pt: 1, alignSelf: "flex-end" }}>
                   <Button
                     variant="contained"

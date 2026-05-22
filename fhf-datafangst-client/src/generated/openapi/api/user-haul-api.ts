@@ -30,6 +30,8 @@ import type { HaulStart } from '../models';
 // @ts-ignore
 import type { StartedUserHaul } from '../models';
 // @ts-ignore
+import type { UpdateUserHaul } from '../models';
+// @ts-ignore
 import type { UserHaul } from '../models';
 /**
  * UserHaulApi - axios parameter creator
@@ -265,6 +267,106 @@ export const UserHaulApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {HaulStart} haulStart 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1UserHaulUpdateCurrentUserHaul: async (haulStart: HaulStart, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'haulStart' is not null or undefined
+            assertParamExists('routesV1UserHaulUpdateCurrentUserHaul', 'haulStart', haulStart)
+            const localVarPath = `/v1.0/user_hauls/current`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(haulStart, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} userHaulId 
+         * @param {UpdateUserHaul} updateUserHaul 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1UserHaulUpdateUserHaul: async (userHaulId: number, updateUserHaul: UpdateUserHaul, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userHaulId' is not null or undefined
+            assertParamExists('routesV1UserHaulUpdateUserHaul', 'userHaulId', userHaulId)
+            // verify required parameter 'updateUserHaul' is not null or undefined
+            assertParamExists('routesV1UserHaulUpdateUserHaul', 'updateUserHaul', updateUserHaul)
+            const localVarPath = `/v1.0/user_hauls/{user_haul_id}`
+                .replace(`{${"user_haul_id"}}`, encodeURIComponent(String(userHaulId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateUserHaul, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -380,6 +482,33 @@ export const UserHaulApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {HaulStart} haulStart 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1UserHaulUpdateCurrentUserHaul(haulStart: HaulStart, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StartedUserHaul>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1UserHaulUpdateCurrentUserHaul(haulStart, authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserHaulApi.routesV1UserHaulUpdateCurrentUserHaul']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} userHaulId 
+         * @param {UpdateUserHaul} updateUserHaul 
+         * @param {string} [authorization] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1UserHaulUpdateUserHaul(userHaulId: number, updateUserHaul: UpdateUserHaul, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserHaul>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1UserHaulUpdateUserHaul(userHaulId, updateUserHaul, authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserHaulApi.routesV1UserHaulUpdateUserHaul']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -444,6 +573,24 @@ export const UserHaulApiFactory = function (configuration?: Configuration, baseP
          */
         routesV1UserHaulStopUserHaul(requestParameters: UserHaulApiRoutesV1UserHaulStopUserHaulRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserHaul> {
             return localVarFp.routesV1UserHaulStopUserHaul(requestParameters.haulEnd, requestParameters.authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaulRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1UserHaulUpdateCurrentUserHaul(requestParameters: UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaulRequest, options?: RawAxiosRequestConfig): AxiosPromise<StartedUserHaul> {
+            return localVarFp.routesV1UserHaulUpdateCurrentUserHaul(requestParameters.haulStart, requestParameters.authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UserHaulApiRoutesV1UserHaulUpdateUserHaulRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1UserHaulUpdateUserHaul(requestParameters: UserHaulApiRoutesV1UserHaulUpdateUserHaulRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserHaul> {
+            return localVarFp.routesV1UserHaulUpdateUserHaul(requestParameters.userHaulId, requestParameters.updateUserHaul, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -549,6 +696,55 @@ export interface UserHaulApiRoutesV1UserHaulStopUserHaulRequest {
 }
 
 /**
+ * Request parameters for routesV1UserHaulUpdateCurrentUserHaul operation in UserHaulApi.
+ * @export
+ * @interface UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaulRequest
+ */
+export interface UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaulRequest {
+    /**
+     * 
+     * @type {HaulStart}
+     * @memberof UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaul
+     */
+    readonly haulStart: HaulStart
+
+    /**
+     * 
+     * @type {string}
+     * @memberof UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaul
+     */
+    readonly authorization?: string
+}
+
+/**
+ * Request parameters for routesV1UserHaulUpdateUserHaul operation in UserHaulApi.
+ * @export
+ * @interface UserHaulApiRoutesV1UserHaulUpdateUserHaulRequest
+ */
+export interface UserHaulApiRoutesV1UserHaulUpdateUserHaulRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserHaulApiRoutesV1UserHaulUpdateUserHaul
+     */
+    readonly userHaulId: number
+
+    /**
+     * 
+     * @type {UpdateUserHaul}
+     * @memberof UserHaulApiRoutesV1UserHaulUpdateUserHaul
+     */
+    readonly updateUserHaul: UpdateUserHaul
+
+    /**
+     * 
+     * @type {string}
+     * @memberof UserHaulApiRoutesV1UserHaulUpdateUserHaul
+     */
+    readonly authorization?: string
+}
+
+/**
  * Request parameters for routesV1UserHaulUserHauls operation in UserHaulApi.
  * @export
  * @interface UserHaulApiRoutesV1UserHaulUserHaulsRequest
@@ -622,6 +818,28 @@ export class UserHaulApi extends BaseAPI {
      */
     public routesV1UserHaulStopUserHaul(requestParameters: UserHaulApiRoutesV1UserHaulStopUserHaulRequest, options?: RawAxiosRequestConfig) {
         return UserHaulApiFp(this.configuration).routesV1UserHaulStopUserHaul(requestParameters.haulEnd, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaulRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserHaulApi
+     */
+    public routesV1UserHaulUpdateCurrentUserHaul(requestParameters: UserHaulApiRoutesV1UserHaulUpdateCurrentUserHaulRequest, options?: RawAxiosRequestConfig) {
+        return UserHaulApiFp(this.configuration).routesV1UserHaulUpdateCurrentUserHaul(requestParameters.haulStart, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UserHaulApiRoutesV1UserHaulUpdateUserHaulRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserHaulApi
+     */
+    public routesV1UserHaulUpdateUserHaul(requestParameters: UserHaulApiRoutesV1UserHaulUpdateUserHaulRequest, options?: RawAxiosRequestConfig) {
+        return UserHaulApiFp(this.configuration).routesV1UserHaulUpdateUserHaul(requestParameters.userHaulId, requestParameters.updateUserHaul, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
