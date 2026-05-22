@@ -10,6 +10,11 @@ export const selectUserHaulsDesc = createSelector(selectUserHauls, (state) =>
   state ? [...state].reverse() : undefined,
 );
 
+export const selectPrevConfig = createSelector(
+  selectUserHaulsDesc,
+  (state) => state?.[0],
+);
+
 export const selectUserHaulsLoading = createSelector(
   selectAppState,
   (state) => state.userHaulsLoading,
