@@ -60,6 +60,9 @@ export const userHaulBuilder = (
       state.activeUserHaul = undefined;
       state.activeUserHaulLoading = false;
 
+      // TODO: Make custom status for user hauls
+      state.fuelPostStatus = "success";
+
       if (state.userHauls) {
         state.userHauls.push(action.payload);
       } else {
@@ -68,6 +71,9 @@ export const userHaulBuilder = (
     })
     .addCase(stopUserHaul.rejected, (state, _) => {
       state.activeUserHaulLoading = false;
+
+      // TODO: Make custom status for user hauls
+      state.fuelPostStatus = "error";
     })
     .addCase(abortUserHaul.pending, (state, action) => {
       action.meta.arg.token = state.authUser?.access_token;
