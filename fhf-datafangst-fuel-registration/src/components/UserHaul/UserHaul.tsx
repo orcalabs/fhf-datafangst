@@ -13,7 +13,7 @@ import {
   Typography,
   type TextFieldProps,
 } from "@mui/material";
-import { useEffect, useState, type ChangeEvent, type FC } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FC } from "react";
 import { Controller, Form, useForm } from "react-hook-form";
 import theme from "~/app/theme";
 import { LocalLoadingProgress, StartedHaul } from "~/components";
@@ -21,8 +21,10 @@ import { useAppDispatch, useAppSelector } from "~/store";
 import {
   abortUserHaul,
   getActiveUserHaul,
+  getUserHauls,
   selectActiveUserHaul,
   selectActiveUserHaulLoading,
+  selectPrevConfig,
   startUserHaul,
   stopUserHaul,
 } from "~/store/userHaul";
@@ -73,9 +75,13 @@ export const UserHaul: FC = () => {
 
   const activeHaul = useAppSelector(selectActiveUserHaul);
   const activeHaulLoading = useAppSelector(selectActiveUserHaulLoading);
+  const prevConfig = useAppSelector(selectPrevConfig);
 
-  const { control, register, reset } = useForm<Config>({});
+  const configSet = useRef(false);
 
+  const { control, register, reset } = useForm<Config>({
+    defaultValues: prevConfig?.config,
+  });
   const [newFuel, setNewFuel] = useState<string>("");
 
   const resetForm = () => {
@@ -85,7 +91,15 @@ export const UserHaul: FC = () => {
 
   useEffect(() => {
     dispatch(getActiveUserHaul({}));
+    dispatch(getUserHauls({}));
   }, []);
+
+  useEffect(() => {
+    if (prevConfig && !configSet.current) {
+      reset(prevConfig.config);
+      configSet.current = true;
+    }
+  }, [prevConfig]);
 
   if (activeHaulLoading) {
     return <LocalLoadingProgress color={theme.palette.primary.main} />;
@@ -131,40 +145,73 @@ export const UserHaul: FC = () => {
             }}
           >
             <Stack spacing={4}>
-              <Stack spacing={2}>
-                <Typography variant="h6">
-                  Drivstoff i tanken <span style={{ color: "red" }}>*</span>
-                </Typography>
-                <TextField
-                  required
-                  sx={{ width: 205 }}
-                  variant="outlined"
-                  color="secondary"
-                  value={newFuel}
-                  placeholder="Antall liter"
-                  onKeyDown={numberInputLimiter}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                    setNewFuel(event.target.value)
-                  }
-                  slotProps={{
-                    htmlInput: {
-                      inputMode: "numeric",
-                      pattern: "[0-9]*",
-                    },
-                    input: {
-                      inputMode: "numeric",
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          {newFuel && (
-                            <Typography sx={{ fontSize: "0.9rem" }}>
-                              liter
-                            </Typography>
-                          )}
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-                />
+              <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+                <Stack spacing={2}>
+                  <Typography variant="h6">
+                    Drivstoff i tanken <span style={{ color: "red" }}>*</span>
+                  </Typography>
+                  <TextField
+                    required
+                    sx={{ width: 205 }}
+                    variant="outlined"
+                    color="secondary"
+                    value={newFuel}
+                    placeholder="Antall liter"
+                    onKeyDown={numberInputLimiter}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                      setNewFuel(event.target.value)
+                    }
+                    slotProps={{
+                      htmlInput: {
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      },
+                      input: {
+                        inputMode: "numeric",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            {newFuel && (
+                              <Typography sx={{ fontSize: "0.9rem" }}>
+                                liter
+                              </Typography>
+                            )}
+                          </InputAdornment>
+                        ),
+                      },
+                    }}
+                  />
+                </Stack>
+
+                <Stack spacing={1} sx={{ pt: 1, alignSelf: "flex-end" }}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      width: 170,
+                      height: 60,
+                      alignItems: "center",
+                      bgcolor: "grey.A400",
+                    }}
+                    disabled={newFuel === ""}
+                    startIcon={<PhishingIcon />}
+                    type="submit"
+                  >
+                    Start hal
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    color="inherit"
+                    sx={{
+                      color: "#696F74",
+                      alignItems: "center",
+                    }}
+                    startIcon={<ClearIcon />}
+                    onClick={() => resetForm()}
+                  >
+                    Nullstill
+                  </Button>
+                </Stack>
               </Stack>
               <Stack spacing={1} sx={{ alignSelf: "flex-start" }}>
                 <Typography variant="h6">Trål</Typography>
@@ -341,39 +388,6 @@ export const UserHaul: FC = () => {
                 label="Kommentarer"
                 {...register("comments")}
               />
-              <Stack
-                direction="row"
-                spacing={3}
-                sx={{ pt: 1, justifyContent: "space-between" }}
-              >
-                <Button
-                  variant="contained"
-                  size="large"
-                  sx={{
-                    width: 170,
-                    alignItems: "center",
-                    bgcolor: "grey.A400",
-                  }}
-                  disabled={newFuel === ""}
-                  startIcon={<PhishingIcon />}
-                  type="submit"
-                >
-                  Start hal
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  color="inherit"
-                  sx={{
-                    color: "#696F74",
-                    alignItems: "center",
-                  }}
-                  startIcon={<ClearIcon />}
-                  onClick={() => resetForm()}
-                >
-                  Nullstill
-                </Button>
-              </Stack>
             </Stack>
           </Form>
         </>

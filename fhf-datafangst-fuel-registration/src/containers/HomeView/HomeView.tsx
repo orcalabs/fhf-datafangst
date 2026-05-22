@@ -31,7 +31,7 @@ const TABS = [
   { key: "logg", Element: FuelLog },
 ];
 
-// Only used for Hermes in a test phase
+// Only used for Hermes and Hero in a test phase
 const CUSTOMTABS = [
   {
     key: "peiling",
