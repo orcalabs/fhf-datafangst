@@ -11,6 +11,7 @@ export const numberInputLimiter = (e: React.KeyboardEvent<HTMLDivElement>) => {
     e.key !== "ArrowRight" &&
     e.key !== "Home" &&
     e.key !== "End" &&
+    e.key !== "Tab" &&
     e.key !== "Shift"
   ) {
     e.preventDefault();

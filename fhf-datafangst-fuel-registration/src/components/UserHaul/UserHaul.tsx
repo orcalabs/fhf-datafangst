@@ -76,12 +76,12 @@ export const UserHaul: FC = () => {
   const activeHaulLoading = useAppSelector(selectActiveUserHaulLoading);
   const prevConfig = useAppSelector(selectPrevConfig);
 
-  const configSet = useRef(false);
+  const configSet = useRef<number | null>(prevConfig?.id);
 
   const { control, register, reset } = useForm<Config>({
     defaultValues: prevConfig?.config,
   });
-  const [newFuel, setNewFuel] = useState<string>("");
+  const [newFuel, setNewFuel] = useState("");
 
   const resetForm = () => {
     reset();
@@ -94,9 +94,12 @@ export const UserHaul: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (prevConfig && !configSet.current) {
+    if (
+      prevConfig &&
+      (configSet.current === null || prevConfig.id !== configSet.current)
+    ) {
       reset(prevConfig.config);
-      configSet.current = true;
+      configSet.current = prevConfig.id;
     }
   }, [prevConfig]);
 
@@ -111,6 +114,7 @@ export const UserHaul: FC = () => {
         fuelLiterStart: +newFuel,
       }),
     );
+    setNewFuel("");
   };
 
   const onStopHaul = (fuelLiter: number, livingWeight?: number) => {
@@ -140,9 +144,7 @@ export const UserHaul: FC = () => {
         <>
           <Form
             control={control}
-            onSubmit={async ({ data }) => {
-              onStartHaul(data);
-            }}
+            onSubmit={async ({ data }) => onStartHaul(data)}
           >
             <Stack spacing={4}>
               <Stack direction="row" sx={{ justifyContent: "space-between" }}>
