@@ -3,13 +3,12 @@ import type { PWAInstallElement } from "@khmyznikov/pwa-install";
 import AddToHomeScreenIcon from "@mui/icons-material/AddToHomeScreen";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MenuIcon from "@mui/icons-material/Menu";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
 import {
   AppBar,
-  Button,
+  Avatar,
+  Box,
   Divider,
-  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -31,6 +30,7 @@ import {
   UserManual,
 } from "~/components";
 import {
+  selectBwUserProfile,
   selectFisheryVessels,
   selectIsProjectUser,
   selectLoading,
@@ -42,7 +42,6 @@ import {
 export const Header: FC = () => {
   const { signOutRedirect } = useAuth();
 
-  const toggleMenu = useMediaQuery(theme.breakpoints.down(900));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down(400));
 
@@ -51,6 +50,7 @@ export const Header: FC = () => {
   const isProjectUser = useAppSelector(selectIsProjectUser);
   const vessel = useAppSelector(selectLoggedInVessel);
   const fisheryVessels = useAppSelector(selectFisheryVessels);
+  const bwProfile = useAppSelector(selectBwUserProfile);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userManualModalOpen, setUserManualModalOpen] = useState(false);
@@ -136,7 +136,7 @@ export const Header: FC = () => {
 
               {loading ? (
                 <LocalLoadingProgress size={20} />
-              ) : toggleMenu && (isProjectUser || fisheryVessels.length > 0) ? (
+              ) : isMobile && (isProjectUser || fisheryVessels.length > 0) ? (
                 <SelectedVessel />
               ) : (
                 <Typography
@@ -149,11 +149,39 @@ export const Header: FC = () => {
             </Stack>
           </Link>
 
-          {toggleMenu ? (
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              gridColumn: 3,
+              alignItems: "center",
+              justifySelf: "flex-end",
+            }}
+          >
+            {!isMobile && (isProjectUser || fisheryVessels.length > 0) && (
+              <>
+                <SelectedVessel />
+                <Divider
+                  orientation="vertical"
+                  sx={{ bgcolor: "white", height: 16 }}
+                />
+              </>
+            )}
             <>
-              <IconButton onClick={handleMenu} sx={{ justifySelf: "flex-end" }}>
-                <MenuIcon sx={{ color: "white" }} />
-              </IconButton>
+              <Box sx={{ pl: 1.5 }}>
+                <Avatar
+                  onClick={handleMenu}
+                  sx={{
+                    width: 30,
+                    height: 30,
+                    bgcolor: "secondary.main",
+                    cursor: "pointer",
+                    color: "white",
+                  }}
+                >
+                  {bwProfile?.user.firstName?.charAt(0)}
+                </Avatar>
+              </Box>
               <Menu
                 disableScrollLock
                 anchorEl={anchorEl}
@@ -169,6 +197,22 @@ export const Header: FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={() => setAnchorEl(null)}
               >
+                {bwProfile && [
+                  <Stack key={1} direction="row" sx={{ gap: 1.5, p: 2, pt: 1 }}>
+                    <Avatar>{bwProfile?.user.firstName?.charAt(0)}</Avatar>
+                    <Stack direction="column">
+                      <Typography>
+                        {bwProfile?.user.firstName +
+                          " " +
+                          bwProfile?.user.lastName}
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {bwProfile?.user.email}
+                      </Typography>
+                    </Stack>
+                  </Stack>,
+                  <Divider key={2} sx={{ bgcolor: "primary.main", mb: 1 }} />,
+                ]}
                 {!isInstalled && (
                   <MenuItem
                     onClick={() => {
@@ -177,7 +221,7 @@ export const Header: FC = () => {
                     }}
                   >
                     <ListItemIcon>
-                      <AddToHomeScreenIcon fontSize="small" color="secondary" />
+                      <AddToHomeScreenIcon fontSize="small" color="primary" />
                     </ListItemIcon>
                     Legg til på startskjerm
                   </MenuItem>
@@ -189,7 +233,7 @@ export const Header: FC = () => {
                   }}
                 >
                   <ListItemIcon>
-                    <InfoOutlinedIcon fontSize="small" color="secondary" />
+                    <InfoOutlinedIcon fontSize="small" color="primary" />
                   </ListItemIcon>
                   Brukerveiledning
                 </MenuItem>
@@ -200,7 +244,7 @@ export const Header: FC = () => {
                   }}
                 >
                   <ListItemIcon>
-                    <PrivacyTipIcon fontSize="small" color="secondary" />
+                    <PrivacyTipIcon fontSize="small" color="primary" />
                   </ListItemIcon>
                   Samtykkeerklæring
                 </MenuItem>
@@ -223,51 +267,7 @@ export const Header: FC = () => {
                 />
               )}
             </>
-          ) : (
-            <Stack
-              direction="row"
-              spacing={1}
-              sx={{
-                gridColumn: 3,
-                alignItems: "center",
-                justifySelf: "flex-end",
-              }}
-            >
-              <IconButton
-                sx={{ color: "secondary.light" }}
-                onClick={() => setConsentDialogOpen(true)}
-              >
-                <PrivacyTipIcon />
-              </IconButton>
-              <IconButton
-                sx={{ color: "secondary.light" }}
-                onClick={() => setUserManualModalOpen(true)}
-              >
-                <InfoOutlinedIcon />
-              </IconButton>
-              <Divider
-                orientation="vertical"
-                sx={{ bgcolor: "white", height: 16 }}
-              />
-              <SelectedVessel />
-              <Divider
-                orientation="vertical"
-                sx={{ bgcolor: "white", height: 16 }}
-              />
-              <Button
-                sx={{
-                  justifySelf: "end",
-                  color: "white",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                }}
-                onClick={() => signOutRedirect()}
-                endIcon={<LogoutIcon sx={{ color: "secondary.light" }} />}
-              >
-                Logg ut
-              </Button>
-            </Stack>
-          )}
+          </Stack>
         </Toolbar>
         <UserManual
           open={userManualModalOpen}
