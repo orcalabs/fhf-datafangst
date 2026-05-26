@@ -10,6 +10,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
   type TextFieldProps,
 } from "@mui/material";
 import { useEffect, useRef, useState, type FC } from "react";
@@ -71,6 +72,7 @@ const trawlOptions = [
 
 export const UserHaul: FC = () => {
   const dispatch = useAppDispatch();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const activeHaul = useAppSelector(selectActiveUserHaul);
   const activeHaulLoading = useAppSelector(selectActiveUserHaulLoading);
@@ -164,7 +166,7 @@ export const UserHaul: FC = () => {
                     variant="contained"
                     size="large"
                     sx={{
-                      width: 170,
+                      width: isMobile ? "unset" : 170,
                       height: 60,
                       alignItems: "center",
                       bgcolor: "grey.A400",
