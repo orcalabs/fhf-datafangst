@@ -1,4 +1,6 @@
 import type {
+  ConditionDetailed,
+  QualityDetailed,
   Species,
   SpeciesFao,
   SpeciesFiskeridir,
@@ -12,6 +14,8 @@ export interface SpeciesState {
   speciesFiskeridir?: SpeciesFiskeridir[];
   speciesGroups?: SpeciesGroupDetailed[];
   speciesMainGroups?: SpeciesMainGroupDetailed[];
+  conditions?: ConditionDetailed[];
+  qualities?: QualityDetailed[];
 }
 
 export const initialSpeciesState: SpeciesState = {
@@ -20,4 +24,6 @@ export const initialSpeciesState: SpeciesState = {
   speciesFiskeridir: undefined,
   speciesGroups: undefined,
   speciesMainGroups: undefined,
+  conditions: undefined,
+  qualities: undefined,
 };

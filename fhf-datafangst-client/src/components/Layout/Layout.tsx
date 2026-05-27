@@ -3,10 +3,12 @@ import type { ReactNode } from "react";
 import React, { useEffect } from "react";
 import {
   checkLoggedIn,
+  getConditions,
   getDeliveryPoints,
   getGear,
   getGearGroups,
   getGearMainGroups,
+  getQualities,
   getSpecies,
   getSpeciesFao,
   getSpeciesFiskeridir,
@@ -40,6 +42,8 @@ export const Layout: React.FC<Props> = ({ children }) => {
     dispatch(getSpeciesFiskeridir());
     dispatch(getSpeciesGroups());
     dispatch(getSpeciesMainGroups());
+    dispatch(getConditions());
+    dispatch(getQualities());
     dispatch(getDeliveryPoints());
     // dispatch(setFishingFacilitiesSearch({}));
   }, [dispatch]);

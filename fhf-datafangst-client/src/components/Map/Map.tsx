@@ -5,11 +5,7 @@ import MousePosition from "ol/control/MousePosition";
 import ScaleLine from "ol/control/ScaleLine";
 import { toStringHDMS, type Coordinate } from "ol/coordinate";
 import { pointerMove } from "ol/events/condition";
-import type Feature from "ol/Feature";
-import type { FeatureLike } from "ol/Feature";
-import type { Geometry } from "ol/geom";
 import Select from "ol/interaction/Select";
-import RenderFeature from "ol/render/Feature";
 import type { FC } from "react";
 import React, { useEffect, useState } from "react";
 import {
@@ -28,7 +24,7 @@ import type {
   Haul,
   Tra,
 } from "~/generated/openapi";
-import { useFishmapContext, useQueryParams } from "~/hooks";
+import { pixelFeature, useFishmapContext, useQueryParams } from "~/hooks";
 import {
   resetState,
   selectSelectedOrCurrentTrip,
@@ -47,10 +43,6 @@ import { LivePositionPopover } from "./LivePositionPopover";
 interface Props {
   children?: React.ReactNode;
 }
-
-// Background map from Mapbox returns as RenderFeature.
-const pixelFeature = (feature: FeatureLike): Feature<Geometry> | undefined =>
-  feature instanceof RenderFeature ? undefined : feature;
 
 export const Map: FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();

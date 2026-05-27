@@ -11,6 +11,7 @@ api/gear-api.ts
 api/haul-api.ts
 api/landing-api.ts
 api/org-api.ts
+api/price-api.ts
 api/species-api.ts
 api/trip-api.ts
 api/user-api.ts
@@ -41,6 +42,8 @@ models/benchmark-entry.ts
 models/benchmark.ts
 models/buyer-location-type.ts
 models/catch.ts
+models/condition-detailed.ts
+models/condition.ts
 models/create-fuel-measurement.ts
 models/cumulative-landings.ts
 models/current-position-parameters.ts
@@ -112,6 +115,8 @@ models/org-benchmark-path.ts
 models/org-benchmark-species.ts
 models/org-benchmarks.ts
 models/org-fuel-path.ts
+models/price-query.ts
+models/quality-detailed.ts
 models/quality.ts
 models/quota.ts
 models/register-vessel-entity-type.ts

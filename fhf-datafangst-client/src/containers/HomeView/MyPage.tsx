@@ -2,6 +2,7 @@ import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import EditDocumentIcon from "@mui/icons-material/EditDocument";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SpeedIcon from "@mui/icons-material/Speed";
@@ -40,6 +41,7 @@ import {
   VesselInfo,
 } from "~/components";
 import { FishingFacilitiesLayer } from "~/components/Layers/FishingFacilitiesLayer";
+import { TripPlanner } from "~/components/MyPage/TripPlanner";
 import { PageLayoutLeft, PageLayoutRight } from "~/containers";
 import {
   PageLayoutCenter,
@@ -139,7 +141,10 @@ export const MyPage: FC = () => {
   useEffect(() => {
     if (!vessel) return;
 
-    if (subMenu === MyPageSubmenu.Trips) {
+    if (
+      subMenu === MyPageSubmenu.Trips ||
+      subMenu === MyPageSubmenu.TripPlanner
+    ) {
       dispatch(getCurrentTrip({ vessel }));
     } else if (subMenu === MyPageSubmenu.Area) {
       dispatch(
@@ -244,7 +249,7 @@ export const MyPage: FC = () => {
                 sx={{ color: "secondary.light", fontSize: 32 }}
               />
             </Box>
-            <Typography variant="h6"> Mine turer </Typography>
+            <Typography variant="h6">Mine turer</Typography>
           </AccordionSummary>
         </Accordion>
         {subMenu === MyPageSubmenu.Trips && (
@@ -280,7 +285,7 @@ export const MyPage: FC = () => {
                 fill={`${theme.palette.secondary.light}`}
               />
             </Box>
-            <Typography variant="h6"> Mine områder </Typography>
+            <Typography variant="h6">Mine områder</Typography>
           </AccordionSummary>
         </Accordion>
         {subMenu === MyPageSubmenu.Area && (
@@ -320,7 +325,7 @@ export const MyPage: FC = () => {
                 sx={{ color: "secondary.light", fontSize: 32 }}
               />
             </Box>
-            <Typography variant="h6"> Mine redskap </Typography>
+            <Typography variant="h6">Mine redskap</Typography>
           </AccordionSummary>
         </Accordion>
         {subMenu === MyPageSubmenu.Facility && (
@@ -333,6 +338,41 @@ export const MyPage: FC = () => {
             }}
           >
             <MyGears />
+          </Stack>
+        )}
+        <Accordion
+          square
+          disableGutters
+          sx={accordionSx}
+          expanded={subMenu === MyPageSubmenu.TripPlanner}
+          onChange={() => setSubmenu(MyPageSubmenu.TripPlanner)}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                "& svg": { mr: 2 },
+              }}
+            >
+              <MapOutlinedIcon
+                sx={{ color: "secondary.light", fontSize: 32 }}
+              />
+            </Box>
+            <Typography variant="h6">Tur planlegger</Typography>
+          </AccordionSummary>
+        </Accordion>
+        {subMenu === MyPageSubmenu.TripPlanner && (
+          <Stack
+            sx={{
+              pl: 2,
+              bgcolor: theme.palette.primary.alt,
+              overflowY: "hidden",
+              borderBottom: `1px solid ${theme.palette.grey[700]}`,
+            }}
+          >
+            <TripPlanner />
           </Stack>
         )}
         <Button
@@ -498,6 +538,7 @@ export const MyPage: FC = () => {
       >
         <HaulsMenu />
       </PageLayoutRight>
+
       {(selectedTrip ?? currentTrip) ? (
         <TripsLayer />
       ) : (

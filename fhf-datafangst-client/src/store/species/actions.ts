@@ -25,3 +25,13 @@ export const getSpeciesMainGroups = createAsyncThunk(
   "species/getSpeciesMainGroups",
   Api.getSpeciesMainGroups,
 );
+
+export const getConditions = createAsyncThunk(
+  "species/getConditions",
+  Api.getConditions,
+);
+
+export const getQualities = createAsyncThunk(
+  "species/getQualities",
+  Api.getQualities,
+);
