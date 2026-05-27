@@ -23,6 +23,7 @@ export * from './api/gear-api';
 export * from './api/haul-api';
 export * from './api/landing-api';
 export * from './api/org-api';
+export * from './api/price-api';
 export * from './api/species-api';
 export * from './api/trip-api';
 export * from './api/user-api';

@@ -22,3 +22,11 @@ export const getSpeciesMainGroups = apiFn((_: undefined, signal) =>
 export const getSpeciesGroups = apiFn((_: undefined, signal) =>
   api.routesV1SpeciesSpeciesGroups({ signal }),
 );
+
+export const getConditions = apiFn((_: undefined, signal) =>
+  api.routesV1SpeciesConditions({ signal }),
+);
+
+export const getQualities = apiFn((_: undefined, signal) =>
+  api.routesV1SpeciesQualities({ signal }),
+);

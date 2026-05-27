@@ -1,6 +1,8 @@
 import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import type { AppState } from "~/store/state";
 import {
+  getConditions,
+  getQualities,
   getSpecies,
   getSpeciesFao,
   getSpeciesFiskeridir,
@@ -26,4 +28,10 @@ export const speciesBuilder = (
     })
     .addCase(getSpeciesMainGroups.fulfilled, (state, action) => {
       state.speciesMainGroups = action.payload;
+    })
+    .addCase(getConditions.fulfilled, (state, action) => {
+      state.conditions = action.payload;
+    })
+    .addCase(getQualities.fulfilled, (state, action) => {
+      state.qualities = action.payload;
     });

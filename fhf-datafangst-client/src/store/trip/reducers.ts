@@ -121,6 +121,9 @@ export const tripBuilder = (
     .addCase(getCurrentTrip.pending, (state, action) => {
       action.meta.arg.accessToken = state.authUser?.access_token;
       state.currentTrip = undefined;
+      state.selectedTrip = undefined;
+      state.track = undefined;
+      state.selectedTripHaul = undefined;
       state.currentTripLoading = true;
     })
     .addCase(getCurrentTrip.fulfilled, (state, action) => {

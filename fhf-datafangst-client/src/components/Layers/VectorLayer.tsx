@@ -25,9 +25,7 @@ export const VectorLayer: FC<Props> = ({ source, style, zIndex, name }) => {
     map.addLayer(vectorLayer);
 
     return () => {
-      if (map) {
-        map.removeLayer(vectorLayer);
-      }
+      map.removeLayer(vectorLayer);
     };
   }, [map, source, style, zIndex]);
 

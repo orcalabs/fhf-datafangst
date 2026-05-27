@@ -17,6 +17,8 @@ import type {
 } from "~/generated/openapi";
 import type { Catch, CatchWeightType } from "~/models";
 
+export const KNOTS_TO_MS = 0.5144;
+
 export const Months: Record<number, string> = {
   1: "Januar",
   2: "Februar",
@@ -184,15 +186,18 @@ export const createHaulDurationString = (haul: Haul) =>
     end: haul.stopTimestamp,
   });
 
-export const kilosOrTonsFormatter = (weight: number) =>
+export const kilosOrTonsFormatter = (weight: number, precision?: number) =>
   weight >= 1000
-    ? (weight / 1000).toFixed(1) + " tonn"
-    : weight.toFixed(1) + "  kg";
+    ? (weight / 1000).toFixed(precision ?? 1) + " tonn"
+    : weight.toFixed(precision ?? 1) + "  kg";
 
-export const metersOrNauticalMilesFormatter = (distance: number) =>
+export const metersOrNauticalMilesFormatter = (
+  distance: number,
+  precision?: number,
+) =>
   distance >= 1852
-    ? (distance / 1852).toFixed(1) + " nautiske mil"
-    : distance.toFixed(1) + " meter";
+    ? (distance / 1852).toFixed(precision ?? 1) + " nautiske mil"
+    : distance.toFixed(precision ?? 1) + " meter";
 
 export const metersToNatuticalMilesString = (distance: number) =>
   (distance / 1852).toFixed(1) + " nautiske mil";
@@ -285,6 +290,7 @@ export const numberInputLimiter = (e: React.KeyboardEvent<HTMLDivElement>) => {
     e.key !== "ArrowRight" &&
     e.key !== "Home" &&
     e.key !== "End" &&
+    e.key !== "Tab" &&
     e.key !== "Shift"
   ) {
     e.preventDefault();

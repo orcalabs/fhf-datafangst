@@ -1,4 +1,10 @@
 import { createSelector } from "@reduxjs/toolkit";
+import type {
+  Condition,
+  ConditionDetailed,
+  Quality,
+  QualityDetailed,
+} from "~/generated/openapi";
 import { selectAppState } from "~/store/selectAppState";
 
 export const selectSpecies = createSelector(
@@ -18,6 +24,14 @@ export const selectSpeciesFao = createSelector(
 export const selectSpeciesFiskeridir = createSelector(
   selectAppState,
   (state) => state.speciesFiskeridir ?? [],
+);
+
+export const selectSpeciesFiskeridirSorted = createSelector(
+  selectSpeciesFiskeridir,
+  (state) =>
+    [...state].sort((a, b) =>
+      (a.name ?? "Ukjent").localeCompare(b.name ?? "Ukjent", "no"),
+    ),
 );
 
 export const selectSpeciesFiskeridirMap = createSelector(
@@ -44,4 +58,46 @@ export const selectSpeciesGroupsMap = createSelector(
 export const selectSpeciesMainGroups = createSelector(
   selectAppState,
   (state) => state.speciesMainGroups,
+);
+
+export const selectConditions = createSelector(
+  selectAppState,
+  (state) => state.conditions,
+);
+
+export const selectConditionsMap = createSelector(selectConditions, (state) =>
+  state
+    ? (Object.fromEntries(state.map((v) => [v.id, v])) as Record<
+        Condition,
+        ConditionDetailed
+      >)
+    : undefined,
+);
+
+export const selectConditionsSorted = createSelector(
+  selectConditions,
+  (state) =>
+    state
+      ? [...state].sort((a, b) => a.name.localeCompare(b.name, "no"))
+      : undefined,
+);
+
+export const selectQualities = createSelector(
+  selectAppState,
+  (state) => state.qualities,
+);
+
+export const selectQualitiesMap = createSelector(selectQualities, (state) =>
+  state
+    ? (Object.fromEntries(state.map((v) => [v.id, v])) as Record<
+        Quality,
+        QualityDetailed
+      >)
+    : undefined,
+);
+
+export const selectQualitiesSorted = createSelector(selectQualities, (state) =>
+  state
+    ? [...state].sort((a, b) => a.name.localeCompare(b.name, "no"))
+    : undefined,
 );
