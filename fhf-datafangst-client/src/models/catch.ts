@@ -6,6 +6,6 @@ export interface Catch {
   productWeight?: number;
   grossWeight?: number;
   productQualityId?: Quality;
-  productQualityName?: string;
+  productQualityName?: string | null;
   priceForFisher?: number | null;
 }

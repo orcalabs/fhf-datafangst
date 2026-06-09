@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Gear } from './gear';
 
 /**
  * 
@@ -26,6 +29,12 @@ export interface UserHaul {
      * @memberof UserHaul
      */
     'id': number;
+    /**
+     * 
+     * @type {Gear}
+     * @memberof UserHaul
+     */
+    'gear': Gear;
     /**
      * 
      * @type {string}
@@ -63,4 +72,6 @@ export interface UserHaul {
      */
     'config': object;
 }
+
+
 

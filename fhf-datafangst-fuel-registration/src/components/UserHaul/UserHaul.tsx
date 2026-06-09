@@ -113,6 +113,8 @@ export const UserHaul: FC = () => {
     dispatch(
       startUserHaul({
         config,
+        // TODO: Hardcoded to gear used by HERA
+        gear: "BottomTrawl",
         fuelLiterStart: +newFuel,
       }),
     );
