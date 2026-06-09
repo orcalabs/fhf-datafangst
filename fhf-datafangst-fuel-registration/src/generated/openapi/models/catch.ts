@@ -52,13 +52,13 @@ export interface Catch {
      * @type {Quality}
      * @memberof Catch
      */
-    'productQualityId': Quality;
+    'productQualityId'?: Quality;
     /**
      * 
      * @type {string}
      * @memberof Catch
      */
-    'productQualityName': string;
+    'productQualityName'?: string | null;
     /**
      * 
      * @type {number}

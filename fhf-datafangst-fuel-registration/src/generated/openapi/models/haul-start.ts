@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Gear } from './gear';
 
 /**
  * 
@@ -20,6 +23,12 @@
  * @interface HaulStart
  */
 export interface HaulStart {
+    /**
+     * 
+     * @type {Gear}
+     * @memberof HaulStart
+     */
+    'gear': Gear;
     /**
      * 
      * @type {number}
@@ -33,4 +42,6 @@ export interface HaulStart {
      */
     'config': object;
 }
+
+
 
