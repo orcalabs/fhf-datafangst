@@ -34,6 +34,7 @@ import type {
   FishingFacility,
   Haul,
   Tra,
+  TripsDetailedHaul,
 } from "~/generated/openapi";
 import {
   FishingFacilityToolType,
@@ -43,6 +44,7 @@ import { matrixSum } from "./matrix";
 import {
   differenceHours,
   findHighestHaulCatchWeight,
+  isDefined,
   sumCatches,
 } from "./utils";
 
@@ -668,7 +670,7 @@ export const tripHaulStyle = (
 
 /* Generates map markers for Hauls in a Trip */
 export const generateTripHaulsVector = (
-  hauls: Haul[],
+  hauls: TripsDetailedHaul[],
   zoomLevel: number | undefined,
   selectedTripHaul?: Haul,
 ) => {
@@ -680,6 +682,11 @@ export const generateTripHaulsVector = (
 
   for (let i = 0; i < hauls.length; i++) {
     const haul = hauls[i];
+
+    if (!isDefined(haul.startLongitude) || !isDefined(haul.startLatitude)) {
+      continue;
+    }
+
     const isSelected = haul.id === selectedTripHaul?.id;
     const haulFeature = new Feature({
       geometry: new Point(fromLonLat(haul.startLongitude, haul.startLatitude)),
