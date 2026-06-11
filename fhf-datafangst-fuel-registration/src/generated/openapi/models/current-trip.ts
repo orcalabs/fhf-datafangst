@@ -18,7 +18,7 @@
 import type { FishingFacility } from './fishing-facility';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Haul } from './haul';
+import type { TripsDetailedHaul } from './trips-detailed-haul';
 
 /**
  * 
@@ -40,10 +40,10 @@ export interface CurrentTrip {
     'targetSpeciesFiskeridirId'?: number | null;
     /**
      * 
-     * @type {Array<Haul>}
+     * @type {Array<TripsDetailedHaul>}
      * @memberof CurrentTrip
      */
-    'hauls': Array<Haul>;
+    'hauls': Array<TripsDetailedHaul>;
     /**
      * 
      * @type {Array<FishingFacility>}

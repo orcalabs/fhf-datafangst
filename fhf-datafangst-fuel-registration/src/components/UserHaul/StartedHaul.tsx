@@ -146,7 +146,7 @@ export const StartedHaul: FC<Props> = ({ haul, onStop, onAbort }) => {
                 <Typography sx={{ fontWeight: "bold" }}>Trål</Typography>
                 <Stack>
                   {config.trawl.map((t) => (
-                    <Typography>{t.name}</Typography>
+                    <Typography key={t.name}>{t.name}</Typography>
                   ))}
                 </Stack>
               </Stack>

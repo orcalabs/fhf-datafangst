@@ -141,6 +141,7 @@ models/trip-of-landing-path.ts
 models/trip-position-layer-id.ts
 models/trip-sorting.ts
 models/trip.ts
+models/trips-detailed-haul.ts
 models/trips-parameters.ts
 models/twelve-mile-border.ts
 models/update-user-haul.ts

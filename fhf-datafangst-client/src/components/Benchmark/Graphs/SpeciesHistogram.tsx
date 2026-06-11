@@ -15,6 +15,7 @@ import type {
   Haul,
   SpeciesFiskeridir,
   Trip,
+  TripsDetailedHaul,
 } from "~/generated/openapi";
 import {
   BenchmarkDataSource,
@@ -29,7 +30,7 @@ import {
 } from "~/store";
 import { kilosOrTonsFormatter } from "~/utils";
 
-const sumObjectValues = (hauls: (Haul | Delivery)[]) => {
+const sumObjectValues = (hauls: (Haul | Delivery | TripsDetailedHaul)[]) => {
   const res: Record<number, number> = {};
   for (const h of hauls) {
     for (const c of (h as Haul).catches ?? (h as Delivery).delivered) {

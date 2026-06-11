@@ -27,13 +27,13 @@ import type { Gear } from './gear';
 import type { HasTrack } from './has-track';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Haul } from './haul';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { Tra } from './tra';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { TripAssemblerId } from './trip-assembler-id';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { TripsDetailedHaul } from './trips-detailed-haul';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { VesselEvent } from './vessel-event';
@@ -106,10 +106,10 @@ export interface Trip {
     'deliveryPointIds': Array<string>;
     /**
      * 
-     * @type {Array<Haul>}
+     * @type {Array<TripsDetailedHaul>}
      * @memberof Trip
      */
-    'hauls': Array<Haul>;
+    'hauls': Array<TripsDetailedHaul>;
     /**
      * 
      * @type {Array<Tra>}

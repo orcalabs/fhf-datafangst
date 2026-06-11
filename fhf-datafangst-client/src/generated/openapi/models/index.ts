@@ -114,6 +114,7 @@ export * from './trip-benchmarks-params';
 export * from './trip-of-landing-path';
 export * from './trip-position-layer-id';
 export * from './trip-sorting';
+export * from './trips-detailed-haul';
 export * from './trips-parameters';
 export * from './twelve-mile-border';
 export * from './update-user';
