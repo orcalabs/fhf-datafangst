@@ -37,6 +37,7 @@ export class DateRange {
 export interface TripArgs {
   tripId: number;
   accessToken?: string;
+  callSignOverride?: string | null;
 }
 
 export interface TripsArgs {
@@ -53,17 +54,20 @@ export interface TripsArgs {
   limit?: number;
   accessToken?: string;
   cancel?: boolean;
+  callSignOverride?: string | null;
 }
 
 export interface CurrentTripArgs {
   vessel: Vessel;
   accessToken?: string;
+  callSignOverride?: string | null;
 }
 
 export interface CurrentTripTrackArgs {
   vesselId: number;
   loading: boolean;
   accessToken?: string;
+  callSignOverride?: string | null;
 }
 
 const api = new TripApi(apiConfiguration, undefined, axiosInstance);
@@ -74,7 +78,7 @@ export const getTrip = apiFn((query: TripArgs, signal) =>
       tripIds: [query.tripId],
       authorization: query.accessToken,
     },
-    { signal },
+    { params: { call_sign_override: query.callSignOverride }, signal },
   ),
 );
 
@@ -97,7 +101,10 @@ export const getTrips = apiFn((query: TripsArgs, signal) =>
       offset: query.offset ?? 0,
       authorization: query.accessToken,
     },
-    { signal: query.cancel === false ? undefined : signal },
+    {
+      params: { call_sign_override: query.callSignOverride },
+      signal: query.cancel === false ? undefined : signal,
+    },
   ),
 );
 
@@ -107,7 +114,7 @@ export const getCurrentTrip = apiFn((query: CurrentTripArgs, signal) =>
       fiskeridirVesselId: query.vessel.fiskeridir.id,
       authorization: query.accessToken,
     },
-    { signal },
+    { params: { call_sign_override: query.callSignOverride }, signal },
   ),
 );
 
@@ -118,6 +125,6 @@ export const getCurrentTripTrack = apiFn(
         fiskeridirVesselId: query.vesselId,
         authorization: query.accessToken,
       },
-      { signal },
+      { params: { call_sign_override: query.callSignOverride }, signal },
     ),
 );

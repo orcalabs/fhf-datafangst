@@ -62,6 +62,7 @@ export const trackBuilder = (
       state.currentPositionsLoading = false;
     })
     .addCase(getCurrentTripTrack.pending, (state, action) => {
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       action.meta.arg.accessToken = state.authUser?.access_token;
       state.trackLoading = action.meta.arg.loading;
       if (state.trackLoading) {

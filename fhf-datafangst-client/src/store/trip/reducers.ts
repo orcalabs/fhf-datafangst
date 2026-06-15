@@ -24,6 +24,7 @@ export const tripBuilder = (
 ): ActionReducerMapBuilder<AppState> =>
   builder
     .addCase(getTrip.pending, (state, action) => {
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       action.meta.arg.accessToken = state.authUser?.access_token;
     })
     .addCase(getTrip.fulfilled, (state, action) => {
@@ -31,7 +32,9 @@ export const tripBuilder = (
       state.selectedTrip = trip;
       (action as any).asyncDispatch(getTripTrack({ trip }));
     })
-    .addCase(getTrips.pending, (state, _) => {
+    .addCase(getTrips.pending, (state, action) => {
+      action.meta.arg.callSignOverride = state.selectedCallSign;
+      action.meta.arg.accessToken = state.authUser?.access_token;
       state.trips = undefined;
       state.tripsLoading = true;
     })
@@ -94,7 +97,7 @@ export const tripBuilder = (
 
       if (newSearch) {
         newSearch.accessToken = state.authUser?.access_token;
-        (action as any).asyncDispatch(getTrips(action.payload));
+        (action as any).asyncDispatch(getTrips({ ...action.payload }));
       }
       return {
         ...state,
@@ -119,6 +122,7 @@ export const tripBuilder = (
       );
     })
     .addCase(getCurrentTrip.pending, (state, action) => {
+      action.meta.arg.callSignOverride = state.selectedCallSign;
       action.meta.arg.accessToken = state.authUser?.access_token;
       state.currentTrip = undefined;
       state.selectedTrip = undefined;
