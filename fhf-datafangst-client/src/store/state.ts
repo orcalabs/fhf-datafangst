@@ -32,6 +32,7 @@ import type { TripBenchmarkState } from "./tripBenchmark";
 import { initialTripBenchmarkState } from "./tripBenchmark";
 import type { UserState } from "./user/state";
 import { initialUserState } from "./user/state";
+import { initialUserHaulState, type UserHaulState } from "./userHaul";
 import type { VesselState } from "./vessel/state";
 import { initialVesselState } from "./vessel/state";
 import type { VmsState } from "./vms/state";
@@ -84,6 +85,7 @@ export interface AppState
     FuelState,
     DeliveryPointState,
     BenchmarkState,
+    UserHaulState,
     OrgState {}
 
 export const emptyState = {
@@ -134,4 +136,5 @@ export const initialAppState: AppState = {
   ...initialFuelState,
   ...initialDeliveryPointState,
   ...initialOrgState,
+  ...initialUserHaulState,
 };

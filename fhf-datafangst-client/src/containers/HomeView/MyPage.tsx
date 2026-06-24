@@ -32,6 +32,7 @@ import {
   MySettings,
   MyStats,
   OverlayScrollbars,
+  SelectedHaulMenu,
   SelectedTripMenu,
   TimeSlider,
   TrackLayer,
@@ -40,6 +41,7 @@ import {
   TripsList,
   VesselInfo,
 } from "~/components";
+import { HaulsSlider } from "~/components/HaulsSlider/HaulsSlider";
 import { FishingFacilitiesLayer } from "~/components/Layers/FishingFacilitiesLayer";
 import { TripPlanner } from "~/components/MyPage/TripPlanner";
 import { PageLayoutLeft, PageLayoutRight } from "~/containers";
@@ -60,6 +62,7 @@ import {
   selectSelectedGridsString,
   selectSelectedHaul,
   selectSelectedTrip,
+  selectSelectedTripHaul,
   selectTripDetailsOpen,
   selectVesselsLoading,
   setFishingFacilitiesSearch,
@@ -125,6 +128,7 @@ export const MyPage: FC = () => {
   const vesselsLoading = useAppSelector(selectVesselsLoading);
   const selectedHaul = useAppSelector(selectSelectedHaul);
   const tripDetailsOpen = useAppSelector(selectTripDetailsOpen);
+  const selectedTripHaul = useAppSelector(selectSelectedTripHaul);
 
   const [subMenu, setSubmenu] = useMyPageSubmenu();
 
@@ -526,6 +530,9 @@ export const MyPage: FC = () => {
           }}
         />
       </PageLayoutCenterBottom>
+      <PageLayoutCenterBottom open={!!selectedTrip || !!currentTrip}>
+        <HaulsSlider />
+      </PageLayoutCenterBottom>
       <PageLayoutRight
         open={
           subMenu === MyPageSubmenu.Trips && (!!selectedTrip || !!currentTrip)
@@ -538,7 +545,11 @@ export const MyPage: FC = () => {
       >
         <HaulsMenu />
       </PageLayoutRight>
-
+      <PageLayoutRight
+        open={subMenu === MyPageSubmenu.Trips && !!selectedTripHaul}
+      >
+        {selectedTripHaul && <SelectedHaulMenu />}
+      </PageLayoutRight>
       {(selectedTrip ?? currentTrip) ? (
         <TripsLayer />
       ) : (

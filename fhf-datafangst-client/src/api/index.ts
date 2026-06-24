@@ -14,6 +14,7 @@ export * from "./trackApi";
 export * from "./tripBenchmarkApi";
 export * from "./tripsApi";
 export * from "./userApi";
+export * from "./userHaulsApi";
 export * from "./vesselsApi";
 export * from "./vmsApi";
 export * from "./weatherApi";

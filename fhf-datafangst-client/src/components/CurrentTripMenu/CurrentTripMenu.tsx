@@ -136,17 +136,22 @@ export const CurrentTripMenu: FC = () => {
           <CatchesTable catches={trip.hauls.flatMap((h) => h.catches)} />
         </Stack>
         {estimatedLiveFuel && (
-          <Stack sx={{ width: "100%", py: 3 }}>
+          <Stack sx={{ width: "100%", pt: 3 }}>
             <Typography sx={{ fontSize: "1rem", pb: 0.5 }} variant="h5">
               Estimert drivstofforbruk
             </Typography>
-            <Typography sx={{ color: "text.secondary", px: 3 }}>
+            <Typography sx={{ color: "text.secondary", px: 2.5 }}>
               Siste 24 timer: {estimatedLiveFuel.totalFuel.toFixed(0)} liter
             </Typography>
             <ReactEChart
+              style={{ height: 220 }}
               option={{
                 backgroundColor: theme.palette.primary.light,
                 color: theme.palette.fifth.main,
+                grid: {
+                  bottom: 30,
+                  top: 50,
+                },
                 textStyle: {
                   color: "white",
                 },

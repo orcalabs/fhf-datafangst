@@ -8,9 +8,16 @@ interface Props {
   zIndex: number;
   style?: any;
   name?: string;
+  opacity?: number;
 }
 
-export const VectorLayer: FC<Props> = ({ source, style, zIndex, name }) => {
+export const VectorLayer: FC<Props> = ({
+  source,
+  style,
+  zIndex,
+  name,
+  opacity = 1,
+}) => {
   const { map } = useFishmapContext();
 
   useEffect(() => {
@@ -21,13 +28,14 @@ export const VectorLayer: FC<Props> = ({ source, style, zIndex, name }) => {
       style,
       zIndex,
       properties: { name },
+      opacity,
     });
     map.addLayer(vectorLayer);
 
     return () => {
       map.removeLayer(vectorLayer);
     };
-  }, [map, source, style, zIndex]);
+  }, [map, source, style, zIndex, opacity]);
 
   return null;
 };

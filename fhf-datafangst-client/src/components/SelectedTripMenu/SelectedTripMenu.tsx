@@ -125,7 +125,7 @@ export const SelectedTripMenu: FC = () => {
           <FishIcon width="32" height="26" />
           <Stack>
             <Typography variant="h5">LEVERANSE</Typography>
-            <Typography color="secondary.light" variant="h6">
+            <Typography sx={{ color: "secondary.light" }} variant="h6">
               {toTitleCase(
                 vessels[trip.fiskeridirVesselId]?.fiskeridir.name ?? "Ukjent",
               )}

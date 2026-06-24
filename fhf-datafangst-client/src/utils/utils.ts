@@ -13,6 +13,7 @@ import type {
   GearGroupDetailed,
   Haul,
   RegisterVesselOwner,
+  TripsDetailedHaul,
   Vessel,
 } from "~/generated/openapi";
 import type { Catch, CatchWeightType } from "~/models";
@@ -250,7 +251,7 @@ export const reduceCatchesOnSpecies = (
 
 export const trackForHaul = (
   track: AisVmsPosition[] | undefined,
-  haul: Haul | undefined,
+  haul: Haul | TripsDetailedHaul | undefined,
 ) => {
   if (!track || !haul) {
     return;
@@ -304,3 +305,7 @@ export const isDefined = <T>(value: T | undefined | null): value is T =>
 export const unreachable = (v: never): never => {
   throw new Error(`Unreachable code reached, value: ${v}`);
 };
+export const haulHasPosition = (h: Haul | TripsDetailedHaul) =>
+  [h.startLatitude, h.startLongitude, h.stopLatitude, h.stopLongitude].every(
+    (v): v is number => v != null,
+  );

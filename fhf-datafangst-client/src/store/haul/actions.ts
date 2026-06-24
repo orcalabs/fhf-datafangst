@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { HaulsMatrixArgs } from "~/api";
 import * as Api from "~/api";
-import type { Haul } from "~/generated/openapi";
+import type { Haul, TripsDetailedHaul } from "~/generated/openapi";
 
 export const getHauls = createAsyncThunk("haul/getHauls", Api.getHauls);
 
@@ -35,6 +35,6 @@ export const setSelectedHaul = createAction<Haul | number | undefined>(
   "haul/setSelectedHaul",
 );
 
-export const setSelectedTripHaul = createAction<Haul | undefined>(
+export const setSelectedTripHaul = createAction<TripsDetailedHaul | undefined>(
   "haul/setSelectedTripHaul",
 );
