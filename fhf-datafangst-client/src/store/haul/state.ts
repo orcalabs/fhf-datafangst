@@ -1,7 +1,7 @@
 import { getMonth, getYear } from "date-fns";
 import type { HaulsArgs, HaulsMatrixArgs } from "~/api/haulsApi";
 import { HaulsFilter } from "~/api/haulsApi";
-import type { Haul, HaulsMatrix } from "~/generated/openapi";
+import type { Haul, HaulsMatrix, TripsDetailedHaul } from "~/generated/openapi";
 
 export interface HaulState {
   hauls?: Record<number, Haul>;
@@ -14,7 +14,7 @@ export interface HaulState {
   haulsMatrixSearch?: HaulsMatrixArgs;
   haulsMatrix2Search?: HaulsMatrixArgs;
   selectedHaul?: Haul;
-  selectedTripHaul?: Haul;
+  selectedTripHaul?: TripsDetailedHaul;
   showTimeSlider: boolean;
   haulDateSliderFrame?: Date;
 }

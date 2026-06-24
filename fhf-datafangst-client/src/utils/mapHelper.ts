@@ -44,6 +44,7 @@ import { matrixSum } from "./matrix";
 import {
   differenceHours,
   findHighestHaulCatchWeight,
+  haulHasPosition,
   isDefined,
   sumCatches,
 } from "./utils";
@@ -490,7 +491,7 @@ const lineFeature = (line: LineString): Feature =>
 export const generateVesselTrackVector = (
   positions: AisVmsPosition[] | undefined,
   zoomLevel: number | undefined,
-  haul: Haul | undefined,
+  haul: Haul | TripsDetailedHaul | undefined,
   showStartStop?: boolean,
   selected?: boolean,
 ): TravelVector[] => {
@@ -513,6 +514,7 @@ export const generateVesselTrackVector = (
   // Draw dashed line from start of haul position to first AIS point if we're missing data
   if (
     haul &&
+    haulHasPosition(haul) &&
     differenceHours(
       new Date(positions[0].timestamp),
       new Date(haul.startTimestamp),
@@ -523,7 +525,7 @@ export const generateVesselTrackVector = (
       style: selected ? selectedDashedLineStyle : dashedLineStyle,
     };
     const line = new LineString([
-      fromLonLat(haul.startLongitude, haul.startLatitude),
+      fromLonLat(haul.startLongitude!, haul.startLatitude!),
       fromLonLat(positions[0].lon, positions[0].lat),
     ]);
 
@@ -535,6 +537,7 @@ export const generateVesselTrackVector = (
   // Draw dashed line from end of AIS track to haul's stop position if we're missing data
   if (
     haul &&
+    haulHasPosition(haul) &&
     differenceHours(
       new Date(positions[positions.length - 1].timestamp),
       new Date(haul.stopTimestamp),
@@ -545,7 +548,7 @@ export const generateVesselTrackVector = (
       style: selected ? selectedDashedLineStyle : dashedLineStyle,
     };
     const line = new LineString([
-      fromLonLat(haul.stopLongitude, haul.stopLatitude),
+      fromLonLat(haul.stopLongitude!, haul.stopLatitude!),
       fromLonLat(
         positions[positions.length - 1].lon,
         positions[positions.length - 1].lat,
@@ -672,7 +675,7 @@ export const tripHaulStyle = (
 export const generateTripHaulsVector = (
   hauls: TripsDetailedHaul[],
   zoomLevel: number | undefined,
-  selectedTripHaul?: Haul,
+  selectedTripHaul?: Haul | TripsDetailedHaul,
 ) => {
   if (!hauls.length) {
     return;

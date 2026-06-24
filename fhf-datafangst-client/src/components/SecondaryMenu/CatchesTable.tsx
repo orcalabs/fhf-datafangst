@@ -184,8 +184,10 @@ export const CatchesTable: FC<Props> = ({
 
   if (catches.length === 0) {
     return (
-      <Box sx={{ color: "white", px: 3 }}>
-        <Typography> Ingen fangstdata </Typography>
+      <Box sx={{ color: "white", px: 2.5 }}>
+        <Typography sx={{ fontStyle: "italic", color: "text.secondary" }}>
+          Ingen fangstdata
+        </Typography>
       </Box>
     );
   }

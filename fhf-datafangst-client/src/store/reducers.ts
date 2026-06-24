@@ -29,6 +29,7 @@ import { trackBuilder } from "./track";
 import { tripBuilder } from "./trip";
 import { tripBenchmarkBuilder } from "./tripBenchmark";
 import { getUser, userBuilder } from "./user";
+import { userHaulBuilder } from "./userHaul";
 import { vesselBuilder } from "./vessel";
 import { vmsBuilder } from "./vms";
 import { weatherBuilder } from "./weather";
@@ -144,5 +145,6 @@ export const appReducer = createReducer(initialAppState, (builder) =>
     .extendBuilder(fuelBuilder)
     .extendBuilder(deliveryPointBuilder)
     .extendBuilder(orgBuilder)
+    .extendBuilder(userHaulBuilder)
     .finish(),
 );

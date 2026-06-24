@@ -81,7 +81,13 @@ export const TripsLayer: FC = () => {
   return (
     <>
       {trackVectors?.map((v, i) => (
-        <VectorLayer key={i} source={v.vector} zIndex={6} style={v.style} />
+        <VectorLayer
+          key={i}
+          source={v.vector}
+          zIndex={6}
+          style={v.style}
+          opacity={selectedTripHaul ? 0.6 : 1}
+        />
       ))}
       {selectedHaulTrackVector?.map((v, i) => (
         <VectorLayer key={i} source={v.vector} zIndex={7} style={v.style} />

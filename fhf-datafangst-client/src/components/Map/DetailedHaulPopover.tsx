@@ -1,83 +1,41 @@
-import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
-import StraightenIcon from "@mui/icons-material/Straighten";
-import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import { Box, Divider, SvgIcon, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import type { FC } from "react";
 import theme from "~/app/theme";
-import { FishIcon } from "~/assets/icons";
-import { CatchesTable } from "~/components";
 import type { Haul } from "~/generated/openapi";
-import { selectGearsMap, useAppSelector } from "~/store";
-import {
-  createHaulDurationString,
-  dateFormat,
-  distanceFormatter,
-} from "~/utils";
+import { dateFormat, kilosOrTonsFormatter, sumCatches } from "~/utils";
 
 interface Props {
   haul: Haul;
 }
-
 export const DetailedHaulPopover: FC<Props> = ({ haul }) => {
-  const gears = useAppSelector(selectGearsMap);
-
-  const item = (Icon: any, text: string) => (
-    <Box sx={{ display: "flex", gap: 2 }}>
-      <SvgIcon sx={{ position: "relative", color: "white" }}>
-        <Icon width={20} height={20} />
-      </SvgIcon>
-      <Typography sx={{ color: "white" }}>{text}</Typography>
-    </Box>
-  );
-
   return (
-    <Box sx={{ px: 2, py: 1, bgcolor: "fourth.dark" }}>
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            "& svg": { mr: 2 },
-          }}
-        >
-          <Box sx={{ display: "flex", color: "white" }}>
-            <FishIcon
-              fill={theme.palette.secondary.main}
-              width="36"
-              height="36"
-            />
-            <Box sx={{ display: "flex", ml: 1, alignItems: "center" }}>
-              <Typography variant="h5" color="white">
-                HAL
-              </Typography>
-            </Box>
-          </Box>
-          <Divider sx={{ bgcolor: "text.secondary", mt: 0, mb: 1, mx: 0 }} />
+    <Stack spacing={1} sx={{ p: 1, pr: 1.5, pb: 0.5 }}>
+      <Stack direction="row" spacing={1}>
+        <PhishingSharpIcon
+          fontSize="large"
+          sx={{ color: theme.palette.fourth.main }}
+        />
+        <Stack>
+          <Typography
+            sx={{ lineHeight: 1.43, fontSize: "0.876rem", fontWeight: 400 }}
+          >{`HAL - ${kilosOrTonsFormatter(sumCatches(haul.catches))}`}</Typography>
+          <Typography variant="subtitle2">
+            {dateFormat(haul.startTimestamp, "d MMM p")}
+          </Typography>
+        </Stack>
+      </Stack>
 
-          {item(
-            CalendarMonthSharpIcon,
-            dateFormat(haul.startTimestamp, "d. MMM HH:mm") +
-              " - " +
-              dateFormat(haul.stopTimestamp, "d. MMM HH:mm yyyy"),
-          )}
-          {item(TimerSharpIcon, createHaulDurationString(haul))}
-          {item(StraightenIcon, distanceFormatter(haul.haulDistance ?? 0))}
-          {item(PhishingSharpIcon, gears[haul.gear].name)}
-        </Box>
-
-        <Typography
-          sx={{
-            color: "white",
-            fontWeight: 600,
-            mt: 3,
-          }}
-        >
-          Rapportert fangst
-        </Typography>
-        <CatchesTable catches={haul.catches} />
-      </Box>
-    </Box>
+      <Typography
+        variant="subtitle2"
+        sx={{
+          fontStyle: "italic",
+          textAlign: "center",
+          color: "#575757",
+        }}
+      >
+        Klikk for mer detaljer
+      </Typography>
+    </Stack>
   );
 };

@@ -2,7 +2,9 @@ import type { FC } from "react";
 import { useEffect, useRef } from "react";
 import {
   CurrentTripMenu,
+  HaulsSlider,
   LoadingScreen,
+  SelectedHaulMenu,
   SelectedLiveVesselMenu,
   SelectedTripMenu,
   TrackLayer,
@@ -12,6 +14,7 @@ import {
 import { LiveVesselsLayer } from "~/components/Layers/LiveVesselsLayer";
 import {
   PageLayoutCenter,
+  PageLayoutCenterBottom,
   PageLayoutLeft,
   PageLayoutRight,
 } from "~/containers";
@@ -25,6 +28,7 @@ import {
   selectCurrentTripLoading,
   selectSelectedLiveVessel,
   selectSelectedTrip,
+  selectSelectedTripHaul,
   selectTrack,
   selectTripDetailsOpen,
   selectVesselsByCallsign,
@@ -51,6 +55,7 @@ export const LivePage: FC = () => {
   const loading = useAppSelector(selectCurrentPositionsLoading);
   const currentPositionsMap = useAppSelector(selectCurrentPositionsMap);
   const vessels = useAppSelector(selectVesselsByCallsign);
+  const selectedTripHaul = useAppSelector(selectSelectedTripHaul);
 
   const { map } = useFishmapContext();
 
@@ -140,6 +145,14 @@ export const LivePage: FC = () => {
         {selectedTrip ? <SelectedTripMenu /> : <CurrentTripMenu />}
         <TripsLayer />
       </PageLayoutRight>
+      <PageLayoutRight open={!!selectedTripHaul}>
+        {selectedTripHaul && <SelectedHaulMenu />}
+      </PageLayoutRight>
+      <PageLayoutCenterBottom
+        open={!!selectedTrip?.hauls.length || !!currentTrip?.hauls.length}
+      >
+        <HaulsSlider />
+      </PageLayoutCenterBottom>
       {loading ? <LoadingScreen open /> : !selectedTrip && <LiveVesselsLayer />}
       {track && !currentTrip && !selectedTrip && <TrackLayer />}
     </>

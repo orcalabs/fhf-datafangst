@@ -20,5 +20,6 @@ export * from "./track";
 export * from "./trip";
 export * from "./tripBenchmark";
 export * from "./user";
+export * from "./userHaul";
 export * from "./vessel";
 export * from "./vms";

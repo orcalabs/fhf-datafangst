@@ -29,6 +29,14 @@ export const tripBuilder = (
     })
     .addCase(getTrip.fulfilled, (state, action) => {
       const trip = action.payload[0];
+
+      // If hauls dont have an ID (when it is a UserHaul), set an ID.
+      trip.hauls.forEach((h) => {
+        if (h.id === null) {
+          h.id = new Date(h.startTimestamp).getTime();
+        }
+      });
+
       state.selectedTrip = trip;
       (action as any).asyncDispatch(getTripTrack({ trip }));
     })
@@ -132,7 +140,15 @@ export const tripBuilder = (
     })
     .addCase(getCurrentTrip.fulfilled, (state, action) => {
       if (action.payload) {
-        state.currentTrip = action.payload;
+        const trip = action.payload;
+
+        // If hauls dont have an ID (when it is a UserHaul), set an ID.
+        trip.hauls.forEach((h) => {
+          if (h.id === null) {
+            h.id = new Date(h.startTimestamp).getTime();
+          }
+        });
+        state.currentTrip = trip;
         (action as any).asyncDispatch(
           getCurrentTripTrack({
             vesselId: action.meta.arg.vessel.fiskeridir.id,
