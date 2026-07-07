@@ -11,7 +11,6 @@ import {
   Divider,
   IconButton,
   Stack,
-  styled,
   SvgIcon,
   Typography,
 } from "@mui/material";
@@ -32,18 +31,8 @@ import {
   metersToNatuticalMilesString,
   sumCatches,
 } from "~/utils";
+import { iconStyle, InfoItem } from "../Common/InfoItem";
 import { CatchesTable } from "../SecondaryMenu/CatchesTable";
-
-const InfoItem = styled("div")(({ theme }) => ({
-  display: "flex",
-  marginBottom: theme.spacing(3),
-}));
-
-const iconStyle = {
-  position: "relative",
-  mr: 5,
-  color: "white",
-} as const;
 
 export const SelectedHaulMenu: FC = () => {
   const dispatch = useAppDispatch();

@@ -36,7 +36,6 @@ export const tripBuilder = (
           h.id = new Date(h.startTimestamp).getTime();
         }
       });
-
       state.selectedTrip = trip;
       (action as any).asyncDispatch(getTripTrack({ trip }));
     })
@@ -47,7 +46,18 @@ export const tripBuilder = (
       state.tripsLoading = true;
     })
     .addCase(getTrips.fulfilled, (state, action) => {
-      state.trips = action.payload;
+      const trips = action.payload;
+
+      // If hauls dont have an ID (when it is a UserHaul), set an ID.
+      trips.forEach((trip) => {
+        trip.hauls.forEach((h) => {
+          if (h.id === null) {
+            h.id = new Date(h.startTimestamp).getTime();
+          }
+        });
+      });
+
+      state.trips = trips;
       state.tripsLoading = false;
     })
     .addCase(getTrips.rejected, (state, _) => {
