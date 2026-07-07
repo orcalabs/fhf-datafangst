@@ -1,4 +1,5 @@
 import LayersIcon from "@mui/icons-material/Layers";
+import LocalAtmSharpIcon from "@mui/icons-material/LocalAtmSharp";
 import MapSharpIcon from "@mui/icons-material/MapSharp";
 import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
 import type { FC } from "react";
@@ -92,6 +93,18 @@ export const MapFilters: FC<Props> = (props) => {
           icon={<MapSharpIcon />}
           slotProps={{
             tooltip: { title: "Vis sjøkart", placement: "left" },
+          }}
+        />
+        <SpeedDialAction
+          sx={
+            mapFilter.economicZones
+              ? activeStyle
+              : { "&:hover": { svg: { color: "primary.light" } } }
+          }
+          onClick={() => handleChange("economicZones")}
+          icon={<LocalAtmSharpIcon />}
+          slotProps={{
+            tooltip: { title: "Vis økonomiske soner", placement: "left" },
           }}
         />
       </SpeedDial>

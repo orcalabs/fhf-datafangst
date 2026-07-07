@@ -3,14 +3,7 @@ import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
 import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import PhishingSharpIcon from "@mui/icons-material/PhishingSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import {
-  Box,
-  Divider,
-  Stack,
-  styled,
-  SvgIcon,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Stack, SvgIcon, Typography } from "@mui/material";
 import ReactEChart from "echarts-for-react";
 import type { FC } from "react";
 import { useMemo } from "react";
@@ -29,17 +22,7 @@ import {
   createObjectDurationString,
   dateFormat,
 } from "~/utils";
-
-const InfoItem = styled("div")(({ theme }) => ({
-  display: "flex",
-  marginBottom: theme.spacing(3),
-}));
-
-const iconStyle = {
-  position: "relative",
-  mr: 5,
-  color: "white",
-} as const;
+import { iconStyle, InfoItem } from "../Common/InfoItem";
 
 export const CurrentTripMenu: FC = () => {
   const trip = useAppSelector(selectCurrentTrip);
