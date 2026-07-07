@@ -16,6 +16,7 @@ import {
   PositionPopover,
   ShorelinePopover,
   TransferPopover,
+  ZonePopover,
 } from "~/components";
 import type {
   AisVmsPosition,
@@ -56,6 +57,7 @@ export const Map: FC<Props> = ({ children }) => {
   const [hoveredLivePosition, setHoveredLivePosition] =
     useState<CurrentPosition>();
   const [hoveredShoreline, setHoveredShoreline] = useState<string>();
+  const [hoveredZone, setHoveredZone] = useState<string[]>();
   const [hoveredHaulId, setHoveredHaulId] = useState<number>();
   const [hoveredFishingFacilityIdx, setHoveredFishingFacilityIdx] =
     useState<number>();
@@ -80,6 +82,7 @@ export const Map: FC<Props> = ({ children }) => {
     setHoveredHaul(undefined);
     setHoveredDeliveryPoint(undefined);
     setHoveredTransfer(undefined);
+    setHoveredZone(undefined);
   };
 
   useEffect(() => {
@@ -250,7 +253,7 @@ export const Map: FC<Props> = ({ children }) => {
         const weightedArea = feature.get("weight");
         const aisPosition = feature.get("aisPosition");
         const livePosition = feature.get("livePosition");
-        const shoreLine = feature.getProperties();
+        const zoneLine = feature.getProperties();
         const haulId = feature.get("haulId");
         const fishingFacilityIdx = feature.get("fishingFacilityIdx");
         const haul = feature.get("haul");
@@ -265,10 +268,13 @@ export const Map: FC<Props> = ({ children }) => {
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
           map.getTargetElement().style.cursor = "pointer";
         } else if (
-          shoreLine.navn === "12 nautiske mil" ||
-          shoreLine.navn === "4 nautiske mil"
+          zoneLine.navn === "12 nautiske mil" ||
+          zoneLine.navn === "4 nautiske mil"
         ) {
-          setHoveredShoreline(shoreLine.navn);
+          setHoveredShoreline(zoneLine.navn);
+          setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
+        } else if (zoneLine.eez) {
+          setHoveredZone([zoneLine.territory1, zoneLine.territory2]);
           setAnchorPos({ left: evt.pixel[0], top: evt.pixel[1] + 32 });
         } else if (weightedArea && weightedArea !== 0) {
           map.getTargetElement().style.cursor = "pointer";
@@ -344,6 +350,7 @@ export const Map: FC<Props> = ({ children }) => {
           <LivePositionPopover position={hoveredLivePosition} />
         )}
         {hoveredShoreline && <ShorelinePopover name={hoveredShoreline} />}
+        {hoveredZone && <ZonePopover name={hoveredZone} />}
         {hoveredDeliveryPoint && (
           <DeliveryPointPopover deliveryPoint={hoveredDeliveryPoint} />
         )}

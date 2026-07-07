@@ -11,6 +11,7 @@ import {
   SeamapLayer,
   ShorelineLayer,
 } from "~/components";
+import { EconomicZonesLayer } from "~/components/Layers/EconomicZonesLayer";
 import { SearchBar } from "~/components/SearchBar/SearchBar";
 import { AreaPage } from "~/containers/HomeView/AreaPage";
 import { LivePage } from "~/containers/HomeView/LivePage";
@@ -34,6 +35,7 @@ export interface MapFilter {
   coastline: boolean;
   seamap: boolean;
   deliveryPoints: boolean;
+  economicZones: boolean;
   [key: string]: boolean;
 }
 
@@ -41,6 +43,7 @@ const initialMapFilter: MapFilter = {
   coastline: false,
   seamap: false,
   deliveryPoints: false,
+  economicZones: false,
 };
 
 export interface Props {
@@ -98,6 +101,7 @@ export const HomeView: FC<Props> = ({ page }) => {
         {mapFilter.coastline && <ShorelineLayer />}
         {mapFilter.seamap && <SeamapLayer />}
         {mapFilter.deliveryPoints && <DeliveryPointsLayer />}
+        {mapFilter.economicZones && <EconomicZonesLayer />}
       </PageLayoutCenter>
     </PageLayout>
   );

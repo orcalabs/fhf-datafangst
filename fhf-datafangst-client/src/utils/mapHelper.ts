@@ -19,6 +19,7 @@ import {
 } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import theme from "~/app/theme";
+import eez from "~/assets/geojson/eez.json";
 import fishingLocationsGrid from "~/assets/geojson/fishing-locations-grid.json";
 import shoreline from "~/assets/geojson/shoreline.json";
 import deliveryPointIcon from "~/assets/icons/delivery-point-map.svg";
@@ -65,6 +66,14 @@ export const shorelineVector = new VectorSource({
     featureProjection: import.meta.env.VITE_EPSG as string,
     geometryName: "shoreline",
   }).readFeatures(shoreline),
+});
+
+export const eezVector = new VectorSource({
+  features: new GeoJSON({
+    dataProjection: import.meta.env.VITE_EPSG as string,
+    featureProjection: import.meta.env.VITE_EPSG as string,
+    geometryName: "eez",
+  }).readFeatures(eez),
 });
 
 export const fishingLocationAreas = fishingLocationsGrid.features
