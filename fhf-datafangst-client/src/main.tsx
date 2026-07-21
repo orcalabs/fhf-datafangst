@@ -11,6 +11,7 @@ import { FishmapProvider } from "./components";
 import { App } from "./containers/App/App";
 import "./index.css";
 
+// hei
 if (window !== window.top) {
   // `window !== window.top` means that the app is currently being rendered inside an iframe,
   // which happens during auth token renewal.
