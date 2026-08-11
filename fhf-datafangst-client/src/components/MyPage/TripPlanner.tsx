@@ -18,6 +18,7 @@ import {
   GearGroupSelect,
   LocalLoadingProgress,
   NumberInput,
+  OverlayScrollbars,
   QualitySelect,
   SpeciesSelect,
 } from "~/components";
@@ -81,164 +82,166 @@ export const TripPlanner: FC = () => {
   }
 
   return (
-    <Stack sx={{ pb: 2, pr: 2, gap: 2 }}>
-      <GearGroupSelect
-        value={gearGroup}
-        options={vessel.gearGroups.length > 0 ? vessel.gearGroups : undefined}
-        onChange={setGearGroup}
-      />
-      <SpeciesSelect value={species} onChange={setSpecies} />
-      <ConditionSelect value={condition} onChange={setCondition} />
-      <QualitySelect value={quality} onChange={setQuality} />
+    <OverlayScrollbars>
+      <Stack sx={{ pb: 2, pr: 2, gap: 2 }}>
+        <GearGroupSelect
+          value={gearGroup}
+          options={vessel.gearGroups.length > 0 ? vessel.gearGroups : undefined}
+          onChange={setGearGroup}
+        />
+        <SpeciesSelect value={species} onChange={setSpecies} />
+        <ConditionSelect value={condition} onChange={setCondition} />
+        <QualitySelect value={quality} onChange={setQuality} />
 
-      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-        <NumberInput
-          title="Fangst (kg)"
-          endAdornment="kg"
-          value={targetWeight}
-          onChange={setTargetWeight}
-        />
-        <NumberInput
-          decimal
-          title="Pris (kr/kg)"
-          endAdornment="kr/kg"
-          value={speciesPrice}
-          onChange={setSpeciesPrice}
-        />
-      </Stack>
-
-      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-        <NumberInput
-          title="Haletid (timer)"
-          endAdornment="timer"
-          value={haulTime}
-          onChange={setHaulTime}
-        />
-        <NumberInput
-          title="Forbruk (liter/døgn)"
-          endAdornment="liter/døgn"
-          value={haulFuelPerDay}
-          onChange={setHaulFuelPerDay}
-        />
-      </Stack>
-
-      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-        <NumberInput
-          decimal
-          title="Steaming fart (knop)"
-          endAdornment="knop"
-          value={steamSpeedKnots}
-          onChange={setSteamSpeedKnots}
-        />
-        <NumberInput
-          title="Forbruk (liter/døgn)"
-          endAdornment="liter/døgn"
-          value={steamFuelPerDay}
-          onChange={setSteamFuelPerDay}
-        />
-      </Stack>
-
-      <NumberInput
-        decimal
-        title="Drivstoff pris (kr/liter)"
-        endAdornment="kr/liter"
-        value={fuelPrice}
-        onChange={setFuelPrice}
-      />
-
-      <FormControlLabel
-        label="Vis distanse"
-        control={
-          <Switch
-            color="secondary"
-            checked={showDistance}
-            onChange={(_, v) => setShowDistance(v)}
+        <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+          <NumberInput
+            title="Fangst (kg)"
+            endAdornment="kg"
+            value={targetWeight}
+            onChange={setTargetWeight}
           />
-        }
-      />
+          <NumberInput
+            decimal
+            title="Pris (kr/kg)"
+            endAdornment="kr/kg"
+            value={speciesPrice}
+            onChange={setSpeciesPrice}
+          />
+        </Stack>
 
-      <Divider
-        sx={{
-          my: 1,
-          bgcolor: "rgba(255, 255, 255, 0.5)",
-        }}
-      />
+        <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+          <NumberInput
+            title="Haletid (timer)"
+            endAdornment="timer"
+            value={haulTime}
+            onChange={setHaulTime}
+          />
+          <NumberInput
+            title="Forbruk (liter/døgn)"
+            endAdornment="liter/døgn"
+            value={haulFuelPerDay}
+            onChange={setHaulFuelPerDay}
+          />
+        </Stack>
 
-      <Box>
-        {routes.map(({ steamingFuel }, i) => {
-          const totalFuel =
-            haulFuelPerDay !== undefined
-              ? (steamingFuel ?? 0) + (haulTime ?? 0) * (haulFuelPerDay / 24)
-              : steamingFuel;
+        <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+          <NumberInput
+            decimal
+            title="Steaming fart (knop)"
+            endAdornment="knop"
+            value={steamSpeedKnots}
+            onChange={setSteamSpeedKnots}
+          />
+          <NumberInput
+            title="Forbruk (liter/døgn)"
+            endAdornment="liter/døgn"
+            value={steamFuelPerDay}
+            onChange={setSteamFuelPerDay}
+          />
+        </Stack>
 
-          const totalFuelPrice =
-            fuelPrice !== undefined ? totalFuel * fuelPrice : undefined;
+        <NumberInput
+          decimal
+          title="Drivstoff pris (kr/liter)"
+          endAdornment="kr/liter"
+          value={fuelPrice}
+          onChange={setFuelPrice}
+        />
 
-          const totalCatchPrice =
-            targetWeight !== undefined && speciesPrice !== undefined
-              ? targetWeight * speciesPrice
-              : undefined;
+        <FormControlLabel
+          label="Vis distanse"
+          control={
+            <Switch
+              color="secondary"
+              checked={showDistance}
+              onChange={(_, v) => setShowDistance(v)}
+            />
+          }
+        />
 
-          const profit =
-            totalFuelPrice !== undefined && totalCatchPrice !== undefined
-              ? totalCatchPrice - totalFuelPrice
-              : undefined;
+        <Divider
+          sx={{
+            my: 1,
+            bgcolor: "rgba(255, 255, 255, 0.5)",
+          }}
+        />
 
-          return (
-            <Accordion
-              key={i}
-              expanded={selectedRoute === i}
-              onChange={(_, expanded) =>
-                setSelectedRoute(expanded ? i : undefined)
-              }
-            >
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography component="span" sx={{ width: "50%" }}>
-                  Tur {i + 1}
-                </Typography>
-                {profit !== undefined && (
-                  <Typography
-                    component="span"
-                    sx={{ color: profit > 0 ? "green" : "red" }}
-                  >
-                    {profit > 0 ? "+" : ""}
-                    {profit.toFixed(0)}
+        <Box>
+          {routes.map(({ steamingFuel }, i) => {
+            const totalFuel =
+              haulFuelPerDay !== undefined
+                ? (steamingFuel ?? 0) + (haulTime ?? 0) * (haulFuelPerDay / 24)
+                : steamingFuel;
+
+            const totalFuelPrice =
+              fuelPrice !== undefined ? totalFuel * fuelPrice : undefined;
+
+            const totalCatchPrice =
+              targetWeight !== undefined && speciesPrice !== undefined
+                ? targetWeight * speciesPrice
+                : undefined;
+
+            const profit =
+              totalFuelPrice !== undefined && totalCatchPrice !== undefined
+                ? totalCatchPrice - totalFuelPrice
+                : undefined;
+
+            return (
+              <Accordion
+                key={i}
+                expanded={selectedRoute === i}
+                onChange={(_, expanded) =>
+                  setSelectedRoute(expanded ? i : undefined)
+                }
+              >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography component="span" sx={{ width: "50%" }}>
+                    Tur {i + 1}
                   </Typography>
-                )}
-              </AccordionSummary>
-              <AccordionDetails>
-                <TripPlannerRoute
-                  selected={selectedRoute === i}
-                  targetWeight={targetWeight}
-                  speciesPrice={speciesPrice}
-                  haulTime={haulTime}
-                  haulFuelPerDay={haulFuelPerDay}
-                  steamFuelPerDay={steamFuelPerDay}
-                  steamSpeedKnots={steamSpeedKnots}
-                  fuelPrice={fuelPrice}
-                  initialPoint={track?.last()}
-                  showDistance={showDistance}
-                  onChange={(route) =>
-                    setRoutes((r) => r.map((v, j) => (i === j ? route : v)))
-                  }
-                />
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
-      </Box>
+                  {profit !== undefined && (
+                    <Typography
+                      component="span"
+                      sx={{ color: profit > 0 ? "green" : "red" }}
+                    >
+                      {profit > 0 ? "+" : ""}
+                      {profit.toFixed(0)}
+                    </Typography>
+                  )}
+                </AccordionSummary>
+                <AccordionDetails>
+                  <TripPlannerRoute
+                    selected={selectedRoute === i}
+                    targetWeight={targetWeight}
+                    speciesPrice={speciesPrice}
+                    haulTime={haulTime}
+                    haulFuelPerDay={haulFuelPerDay}
+                    steamFuelPerDay={steamFuelPerDay}
+                    steamSpeedKnots={steamSpeedKnots}
+                    fuelPrice={fuelPrice}
+                    initialPoint={track?.last()}
+                    showDistance={showDistance}
+                    onChange={(route) =>
+                      setRoutes((r) => r.map((v, j) => (i === j ? route : v)))
+                    }
+                  />
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
+        </Box>
 
-      <Button
-        variant="text"
-        color="secondary"
-        onClick={() => {
-          setRoutes((v) => [...v, defaultRoute()]);
-          setSelectedRoute(routes.length);
-        }}
-      >
-        Legg til tur
-      </Button>
-    </Stack>
+        <Button
+          variant="text"
+          color="secondary"
+          onClick={() => {
+            setRoutes((v) => [...v, defaultRoute()]);
+            setSelectedRoute(routes.length);
+          }}
+        >
+          Legg til tur
+        </Button>
+      </Stack>
+    </OverlayScrollbars>
   );
 };
 
