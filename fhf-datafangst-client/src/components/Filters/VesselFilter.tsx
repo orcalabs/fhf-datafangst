@@ -1,6 +1,6 @@
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, createFilterOptions, TextField, Typography } from "@mui/material";
 import type { FC } from "react";
 import { memo } from "react";
 import theme from "~/app/theme";
@@ -71,6 +71,10 @@ const VesselFilterInner = memo(
           getOptionLabel={(option: Vessel) =>
             toTitleCase(option?.fiskeridir?.name ?? "Ukjent")
           }
+          filterOptions={createFilterOptions({
+            stringify: (v) =>
+              (v.fiskeridir.name ?? "") + " " + (v.fiskeridir.callSign ?? ""),
+          })}
           renderInput={(params: any) => (
             <TextField
               {...params}

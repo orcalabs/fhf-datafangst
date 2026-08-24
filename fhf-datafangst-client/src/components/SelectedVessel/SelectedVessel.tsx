@@ -1,5 +1,6 @@
 import {
   Box,
+  createFilterOptions,
   MenuItem,
   Select,
   TextField,
@@ -50,6 +51,10 @@ export const SelectedVessel = () => {
       options={vessels}
       noOptionsText="Ingen fartøy funnet"
       getOptionLabel={(option) => option.fiskeridir.name ?? "Ukjent"}
+      filterOptions={createFilterOptions({
+        stringify: (v) =>
+          (v.fiskeridir.name ?? "") + " " + (v.fiskeridir.callSign ?? ""),
+      })}
       sx={sx}
       onChange={(_, value) => {
         localStorage.setItem("callSignOverride", value.fiskeridir.callSign!);

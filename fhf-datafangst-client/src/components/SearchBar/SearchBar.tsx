@@ -1,5 +1,11 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  createFilterOptions,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import type { FC } from "react";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
@@ -70,12 +76,14 @@ export const SearchBar: FC = () => {
         disableListWrap
         options={vessels}
         noOptionsText={"Ingen fartøy funnet"}
-        getOptionLabel={(option: Vessel) =>
-          option.fiskeridir.name ? option.fiskeridir.name : "Ukjent"
-        }
+        getOptionLabel={(option: Vessel) => option.fiskeridir.name ?? "Ukjent"}
         slots={{
           popper: StyledPopper,
         }}
+        filterOptions={createFilterOptions({
+          stringify: (v) =>
+            (v.fiskeridir.name ?? "") + " " + (v.fiskeridir.callSign ?? ""),
+        })}
         onChange={(_: any, value: Vessel | null) => {
           setInputValue("");
           if (value) {
