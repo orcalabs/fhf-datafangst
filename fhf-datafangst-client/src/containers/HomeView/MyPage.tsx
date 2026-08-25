@@ -530,7 +530,11 @@ export const MyPage: FC = () => {
           }}
         />
       </PageLayoutCenterBottom>
-      <PageLayoutCenterBottom open={!!selectedTrip || !!currentTrip}>
+      <PageLayoutCenterBottom
+        open={
+          subMenu === MyPageSubmenu.Trips && (!!selectedTrip || !!currentTrip)
+        }
+      >
         <HaulsSlider />
       </PageLayoutCenterBottom>
       <PageLayoutRight
