@@ -147,7 +147,6 @@ models/twelve-mile-border.ts
 models/update-user-haul.ts
 models/update-user.ts
 models/update-vessel.ts
-models/upload-fuel-measurement.ts
 models/user-haul.ts
 models/user.ts
 models/vessel-benchmarks.ts

@@ -32,11 +32,5 @@ export interface CreateFuelMeasurement {
      * @memberof CreateFuelMeasurement
      */
     'fuel': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CreateFuelMeasurement
-     */
-    'fuelAfter'?: number | null;
 }
 

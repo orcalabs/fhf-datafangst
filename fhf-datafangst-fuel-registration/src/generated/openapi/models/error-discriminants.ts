@@ -22,7 +22,7 @@
 
 export const ErrorDiscriminants = {
     ObjectNotFound: 'ObjectNotFound',
-    CannotUpdateActiveUserHaul: 'CannotUpdateActiveUserHaul',
+    CannotModifyActiveUserHaul: 'CannotModifyActiveUserHaul',
     NoActiveUserHaul: 'NoActiveUserHaul',
     InvalidVesselSelection: 'InvalidVesselSelection',
     FuelAfterLowerThanFuel: 'FuelAfterLowerThanFuel',
@@ -40,7 +40,6 @@ export const ErrorDiscriminants = {
     JwtDecode: 'JWTDecode',
     InvalidJwtParts: 'InvalidJWTParts',
     Base64Decode: 'Base64Decode',
-    InvalidExcel: 'InvalidExcel',
     QueryPayload: 'QueryPayload',
     CallSignDoesNotExist: 'CallSignDoesNotExist',
     Unexpected: 'Unexpected'
