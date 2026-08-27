@@ -172,9 +172,7 @@ export const FuelLog: FC = () => {
                       <Table>
                         <TableHead>
                           <StyledTableRow>
-                            <StyledTableCell>
-                              {f.fuelAfter ? "Bunkring" : "Peiling"}
-                            </StyledTableCell>
+                            <StyledTableCell>Peiling</StyledTableCell>
                             <StyledTableCell align="right">
                               <Stack
                                 direction="row"
@@ -252,23 +250,11 @@ export const FuelLog: FC = () => {
                             </StyledTableCell>
                           </StyledTableRow>
                           <StyledTableRow>
-                            <StyledTableCell>
-                              {f.fuelAfter ? "Liter før bunkring" : "Liter"}
-                            </StyledTableCell>
+                            <StyledTableCell>Liter</StyledTableCell>
                             <StyledTableCell align="right">
                               {f.fuel}
                             </StyledTableCell>
                           </StyledTableRow>
-                          {f.fuelAfter && (
-                            <StyledTableRow>
-                              <StyledTableCell>
-                                Liter etter bunkring
-                              </StyledTableCell>
-                              <StyledTableCell align="right">
-                                {f.fuelAfter}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          )}
                         </TableBody>
                       </Table>
                     </TableContainer>
@@ -291,10 +277,7 @@ export const FuelLog: FC = () => {
                       Tidspunkt
                     </StyledTableCell>
                     <StyledTableCell sx={{ width: 180 }} align="right">
-                      Måling (liter)
-                    </StyledTableCell>
-                    <StyledTableCell sx={{ width: 250 }} align="right">
-                      Måling etter bunkring (liter)
+                      Drivstoffmåler / Flowmeter
                     </StyledTableCell>
                     <StyledTableCell sx={{ width: 240 }} />
                   </TableRow>
@@ -348,62 +331,13 @@ export const FuelLog: FC = () => {
                                 setEditEntry({
                                   ...editEntry,
                                   fuel: +e.target.value,
-                                  error: editEntry.fuelAfter
-                                    ? +e.target.value > editEntry.fuelAfter
-                                    : false,
+                                  // error: editEntry.fuelAfter
+                                  //   ? +e.target.value > editEntry.fuelAfter
+                                  //   : false,
                                 })
                               }
                             />
                           </StyledTableCell>
-                          <StyledTableCell align="right">
-                            <TextField
-                              sx={{
-                                width: 120,
-                                "& .MuiInputBase-input": {
-                                  textAlign: "right",
-                                  pr: 1,
-                                },
-                                "& .MuiFormHelperText-root": {
-                                  position: "absolute",
-                                  top: 38,
-                                  fontWeight: 400,
-                                  lineHeight: 1.66,
-                                  fontSize: "0.75rem",
-                                  width: 180,
-                                  color: "error.main",
-                                  mx: "1px",
-                                },
-                              }}
-                              slotProps={{
-                                htmlInput: {
-                                  inputMode: "numeric",
-                                  pattern: "[0-9]*",
-                                },
-                                input: {
-                                  inputMode: "numeric",
-                                },
-                              }}
-                              error={editEntry.error}
-                              size="small"
-                              helperText={
-                                editEntry.error &&
-                                "Må være større enn før bunkring"
-                              }
-                              onKeyDown={numberInputLimiter}
-                              variant="outlined"
-                              value={editEntry?.fuelAfter ?? ""}
-                              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                setEditEntry({
-                                  ...editEntry,
-                                  fuelAfter: e.target.value
-                                    ? +e.target.value
-                                    : null,
-                                  error: !!(editEntry.fuel > +e.target.value),
-                                })
-                              }
-                            />
-                          </StyledTableCell>
-
                           <StyledTableCell align="right">
                             <Stack
                               direction="row"
@@ -456,10 +390,7 @@ export const FuelLog: FC = () => {
                             {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
                           </StyledTableCell>
                           <StyledTableCell align="right">
-                            {f.fuel}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {f.fuelAfter}
+                            {f.fuel} liter
                           </StyledTableCell>
 
                           <StyledTableCell align="right">
@@ -607,7 +538,7 @@ export const FuelLog: FC = () => {
                     endAdornment: (
                       <InputAdornment position="end">
                         <Typography sx={{ fontSize: "0.9rem" }}>
-                          {editEntry.fuelAfter ? "liter før bunkring" : "liter"}
+                          liter
                         </Typography>
                       </InputAdornment>
                     ),
@@ -621,60 +552,12 @@ export const FuelLog: FC = () => {
                   setEditEntry({
                     ...editEntry,
                     fuel: +e.target.value,
-                    error: editEntry.fuelAfter
-                      ? +e.target.value > editEntry.fuelAfter
-                      : false,
+                    // error: editEntry.fuelAfter
+                    //   ? +e.target.value > editEntry.fuelAfter
+                    //   : false,
                   })
                 }
               />
-              {editEntry.fuelAfter !== undefined &&
-                editEntry.fuelAfter !== null && (
-                  <>
-                    <TextField
-                      slotProps={{
-                        htmlInput: {
-                          inputMode: "numeric",
-                          pattern: "[0-9]*",
-                        },
-                        input: {
-                          inputMode: "numeric",
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Typography sx={{ fontSize: "0.9rem" }}>
-                                liter etter bunkring
-                              </Typography>
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
-                      error={editEntry.error}
-                      size="small"
-                      onKeyDown={numberInputLimiter}
-                      variant="outlined"
-                      value={editEntry.fuelAfter}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        setEditEntry({
-                          ...editEntry,
-                          fuelAfter: +e.target.value,
-                          error: !!(editEntry.fuel > +e.target.value),
-                        })
-                      }
-                    />
-                    {editEntry.error && (
-                      <Typography
-                        sx={{
-                          fontWeight: 400,
-                          lineHeight: 1.66,
-                          fontSize: "0.75rem",
-                          color: "error.main",
-                          mt: "4px !important",
-                        }}
-                      >
-                        Må være større enn før bunkring
-                      </Typography>
-                    )}
-                  </>
-                )}
             </Stack>
           </DialogContent>
           <DialogActions>

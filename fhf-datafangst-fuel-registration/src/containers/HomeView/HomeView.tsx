@@ -3,7 +3,6 @@ import { Stack, Typography } from "@mui/material";
 import type { FC } from "react";
 import theme from "~/app/theme";
 import {
-  Bunker,
   FuelLog,
   Gauge,
   LocalLoadingProgress,
@@ -18,24 +17,14 @@ const TABS = [
     key: "peiling",
     Element: Gauge,
   },
-
-  {
-    key: "bunkring",
-    Element: Bunker,
-  },
   { key: "logg", Element: FuelLog },
 ];
 
-// Only used for Hermes and Hero in a test phase
+// Only used for Hermes and Hera in a test phase
 const CUSTOMTABS = [
   {
     key: "peiling",
     Element: Gauge,
-  },
-
-  {
-    key: "bunkring",
-    Element: Bunker,
   },
   {
     key: "hal",
