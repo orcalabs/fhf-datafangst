@@ -52,7 +52,7 @@ export const Gauge: FC = () => {
           />
         </Stack>
         <NumberInput
-          title="Drivstoff i tanken"
+          title="Drivstoffmåler / Flowmeter"
           placeholder="Antall liter"
           endAdornment="liter"
           value={newFuel}

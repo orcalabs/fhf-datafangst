@@ -46,7 +46,12 @@ export const ConfirmHaulStopModal: FC<Props> = ({
       <DialogContent>
         <Stack spacing={2}>
           <NumberInput
-            title="Drivstoff i tanken"
+            title={
+              <>
+                Drivstoffmåler / Flowmeter
+                <span style={{ color: "red" }}>*</span>
+              </>
+            }
             placeholder="Antall liter"
             endAdornment="liter"
             error={

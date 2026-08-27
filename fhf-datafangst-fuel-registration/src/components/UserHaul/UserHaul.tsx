@@ -135,7 +135,7 @@ export const UserHaul: FC = () => {
   };
 
   return (
-    <Box sx={{ px: 2 }}>
+    <Box sx={{ px: 2.5 }}>
       {activeHaulLoading ? (
         <LocalLoadingProgress color={theme.palette.primary.main} />
       ) : activeHaul ? (
@@ -155,7 +155,8 @@ export const UserHaul: FC = () => {
                 <NumberInput
                   title={
                     <>
-                      Drivstoff i tanken <span style={{ color: "red" }}>*</span>
+                      Drivstoffmåler / Flowmeter
+                      <span style={{ color: "red" }}>*</span>
                     </>
                   }
                   placeholder="Antall liter"
