@@ -5,7 +5,6 @@ import {
   deleteFuelMeasurement,
   getFuelMeasurements,
   updateFuelMeasurement,
-  uploadFuelMeasurements,
 } from "./actions";
 
 export const fuelBuilder = (
@@ -31,26 +30,12 @@ export const fuelBuilder = (
     })
     .addCase(createFuelMeasurement.fulfilled, (state, action) => {
       if (state.fuelMeasurements) {
-        state.fuelMeasurements = state.fuelMeasurements.concat(action.payload);
+        state.fuelMeasurements.push(action.payload);
         state.fuelMeasurements.sort((a, b) =>
           b.timestamp.localeCompare(a.timestamp),
         );
       } else {
-        state.fuelMeasurements = action.payload;
-      }
-    })
-    .addCase(uploadFuelMeasurements.pending, (state, action) => {
-      action.meta.arg.callSignOverride = state.selectedCallSign;
-      action.meta.arg.token = state.authUser?.access_token;
-    })
-    .addCase(uploadFuelMeasurements.fulfilled, (state, action) => {
-      if (state.fuelMeasurements) {
-        state.fuelMeasurements = state.fuelMeasurements.concat(action.payload);
-        state.fuelMeasurements.sort((a, b) =>
-          b.timestamp.localeCompare(a.timestamp),
-        );
-      } else {
-        state.fuelMeasurements = action.payload;
+        state.fuelMeasurements = [action.payload];
       }
     })
     .addCase(updateFuelMeasurement.pending, (state, action) => {

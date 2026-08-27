@@ -11,11 +11,6 @@ export const createFuelMeasurement = createAsyncThunk(
   Api.createFuelMeasurement,
 );
 
-export const uploadFuelMeasurements = createAsyncThunk(
-  "fuel/uploadFuelMeasurements",
-  Api.uploadFuelMeasurements,
-);
-
 export const updateFuelMeasurement = createAsyncThunk(
   "fuel/updateFuelMeasurement",
   Api.updateFuelMeasurement,

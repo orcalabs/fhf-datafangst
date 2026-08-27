@@ -47,9 +47,9 @@ export const getFuelMeasurements = apiFn(
 
 export const createFuelMeasurement = apiFn(
   ({ token, ...body }: CreateFuelMeasurementsArgs) =>
-    api.routesV1FuelMeasurementCreateFuelMeasurements(
+    api.routesV1FuelMeasurementCreateFuelMeasurement(
       {
-        createFuelMeasurement: [body],
+        createFuelMeasurement: body,
         authorization: token!,
       },
       {
@@ -60,9 +60,9 @@ export const createFuelMeasurement = apiFn(
 
 export const updateFuelMeasurement = apiFn(
   ({ token, ...body }: UpdateFuelMeasurementsArgs) =>
-    api.routesV1FuelMeasurementUpdateFuelMeasurements(
+    api.routesV1FuelMeasurementUpdateFuelMeasurement(
       {
-        fuelMeasurement: [body],
+        fuelMeasurement: body,
         authorization: token!,
       },
       {
@@ -73,9 +73,9 @@ export const updateFuelMeasurement = apiFn(
 
 export const deleteFuelMeasurement = apiFn(
   ({ token, ...body }: DeleteFuelMeasurementsArgs) =>
-    api.routesV1FuelMeasurementDeleteFuelMeasurements(
+    api.routesV1FuelMeasurementDeleteFuelMeasurement(
       {
-        deleteFuelMeasurement: [body],
+        deleteFuelMeasurement: body,
         authorization: token!,
       },
       {

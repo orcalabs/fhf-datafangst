@@ -2,7 +2,6 @@ import type {
   CreateFuelMeasurement,
   DeleteFuelMeasurement,
   FuelMeasurement,
-  UploadFuelMeasurement,
 } from "~/generated/openapi";
 import { FuelMeasurementApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
@@ -15,11 +14,6 @@ export interface FuelMeasurementsArgs {
 }
 
 export interface CreateFuelMeasurementsArgs extends CreateFuelMeasurement {
-  callSignOverride?: string | null;
-  token?: string;
-}
-
-export interface UploadFuelMeasurementsArgs extends UploadFuelMeasurement {
   callSignOverride?: string | null;
   token?: string;
 }
@@ -49,22 +43,9 @@ export const getFuelMeasurements = apiFn((args: FuelMeasurementsArgs, signal) =>
 
 export const createFuelMeasurement = apiFn(
   ({ token, ...body }: CreateFuelMeasurementsArgs) =>
-    api.routesV1FuelMeasurementCreateFuelMeasurements(
+    api.routesV1FuelMeasurementCreateFuelMeasurement(
       {
-        createFuelMeasurement: [body],
-        authorization: token!,
-      },
-      {
-        params: { call_sign_override: body.callSignOverride },
-      },
-    ),
-);
-
-export const uploadFuelMeasurements = apiFn(
-  ({ token, ...body }: UploadFuelMeasurementsArgs) =>
-    api.routesV1FuelMeasurementUploadFuelMeasurements(
-      {
-        uploadFuelMeasurement: body,
+        createFuelMeasurement: body,
         authorization: token!,
       },
       {
@@ -75,9 +56,9 @@ export const uploadFuelMeasurements = apiFn(
 
 export const updateFuelMeasurement = apiFn(
   ({ token, ...body }: UpdateFuelMeasurementsArgs) =>
-    api.routesV1FuelMeasurementUpdateFuelMeasurements(
+    api.routesV1FuelMeasurementUpdateFuelMeasurement(
       {
-        fuelMeasurement: [body],
+        fuelMeasurement: body,
         authorization: token!,
       },
       {
@@ -88,9 +69,9 @@ export const updateFuelMeasurement = apiFn(
 
 export const deleteFuelMeasurement = apiFn(
   ({ token, ...body }: DeleteFuelMeasurementsArgs) =>
-    api.routesV1FuelMeasurementDeleteFuelMeasurements(
+    api.routesV1FuelMeasurementDeleteFuelMeasurement(
       {
-        deleteFuelMeasurement: [body],
+        deleteFuelMeasurement: body,
         authorization: token!,
       },
       {

@@ -133,7 +133,7 @@ export const SelectedHaulMenu: FC = () => {
             </SvgIcon>
             <Typography>
               {selectedHaul.startFuelLiter && selectedHaul.endFuelLiter
-                ? `${selectedHaul.startFuelLiter - selectedHaul.endFuelLiter} liter`
+                ? `${selectedHaul.endFuelLiter - selectedHaul.startFuelLiter} liter`
                 : "Ukjent"}
             </Typography>
           </InfoItem>

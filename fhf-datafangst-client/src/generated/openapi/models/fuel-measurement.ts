@@ -38,11 +38,5 @@ export interface FuelMeasurement {
      * @memberof FuelMeasurement
      */
     'fuel': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FuelMeasurement
-     */
-    'fuelAfter'?: number | null;
 }
 

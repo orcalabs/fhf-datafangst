@@ -40,7 +40,6 @@ export const ErrorDiscriminants = {
     JwtDecode: 'JWTDecode',
     InvalidJwtParts: 'InvalidJWTParts',
     Base64Decode: 'Base64Decode',
-    InvalidExcel: 'InvalidExcel',
     QueryPayload: 'QueryPayload',
     CallSignDoesNotExist: 'CallSignDoesNotExist',
     Unexpected: 'Unexpected'

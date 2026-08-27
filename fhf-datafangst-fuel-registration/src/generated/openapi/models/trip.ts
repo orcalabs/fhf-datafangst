@@ -187,6 +187,12 @@ export interface Trip {
      * @type {number}
      * @memberof Trip
      */
+    'percentageOfTripCoveredByMeasurements'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Trip
+     */
     'trackCoverage': number;
     /**
      * 

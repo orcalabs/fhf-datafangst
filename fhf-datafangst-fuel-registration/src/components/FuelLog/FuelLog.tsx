@@ -72,7 +72,6 @@ interface EditFuel {
   id: number;
   timestamp: Date | null;
   fuel: number;
-  fuelAfter: number | null | undefined;
   error: boolean;
 }
 
@@ -192,7 +191,6 @@ export const FuelLog: FC = () => {
                                     setEditEntry({
                                       id: f.id,
                                       fuel: f.fuel,
-                                      fuelAfter: f.fuelAfter,
                                       timestamp: new Date(f.timestamp),
                                       error: false,
                                     });
@@ -331,9 +329,6 @@ export const FuelLog: FC = () => {
                                 setEditEntry({
                                   ...editEntry,
                                   fuel: +e.target.value,
-                                  // error: editEntry.fuelAfter
-                                  //   ? +e.target.value > editEntry.fuelAfter
-                                  //   : false,
                                 })
                               }
                             />
@@ -362,7 +357,6 @@ export const FuelLog: FC = () => {
                                     updateFuelMeasurement({
                                       id: editEntry.id,
                                       fuel: editEntry.fuel,
-                                      fuelAfter: editEntry.fuelAfter,
                                       timestamp:
                                         editEntry.timestamp!.toISOString(),
                                     }),
@@ -413,7 +407,6 @@ export const FuelLog: FC = () => {
                                   setEditEntry({
                                     id: f.id,
                                     fuel: f.fuel,
-                                    fuelAfter: f.fuelAfter,
                                     timestamp: new Date(f.timestamp),
                                     error: false,
                                   });
@@ -549,13 +542,7 @@ export const FuelLog: FC = () => {
                 variant="outlined"
                 value={editEntry?.fuel}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEditEntry({
-                    ...editEntry,
-                    fuel: +e.target.value,
-                    // error: editEntry.fuelAfter
-                    //   ? +e.target.value > editEntry.fuelAfter
-                    //   : false,
-                  })
+                  setEditEntry({ ...editEntry, fuel: +e.target.value })
                 }
               />
             </Stack>
@@ -580,7 +567,6 @@ export const FuelLog: FC = () => {
                   updateFuelMeasurement({
                     id: editEntry.id,
                     fuel: editEntry.fuel,
-                    fuelAfter: editEntry.fuelAfter,
                     timestamp: editEntry.timestamp!.toISOString(),
                   }),
                 );

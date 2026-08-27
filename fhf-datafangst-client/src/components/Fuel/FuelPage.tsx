@@ -3,8 +3,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import EditIcon from "@mui/icons-material/Edit";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import type { TooltipProps } from "@mui/material";
 import {
   Box,
   Button,
@@ -21,10 +19,6 @@ import {
   TableHead,
   TableRow,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-  tooltipClasses,
   Typography,
 } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -33,11 +27,7 @@ import { nb } from "date-fns/locale";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react";
 import theme from "~/app/theme";
-import {
-  FileUpload,
-  LocalLoadingProgress,
-  OverlayScrollbars,
-} from "~/components";
+import { LocalLoadingProgress, OverlayScrollbars } from "~/components";
 import { useTimestampUpdater } from "~/hooks";
 import {
   createFuelMeasurement,
@@ -48,7 +38,6 @@ import {
   selectUserConsent,
   setConsentDialogOpen,
   updateFuelMeasurement,
-  uploadFuelMeasurements,
   useAppDispatch,
   useAppSelector,
 } from "~/store";
@@ -75,7 +64,6 @@ interface EditFuel {
   id: number;
   timestamp: Date | null;
   fuel: number;
-  fuelAfter: number | null | undefined;
   error: boolean;
 }
 
@@ -87,14 +75,11 @@ export const FuelPage: FC = () => {
   const loading = useAppSelector(selectFuelMeasurementsLoading);
   const consent = useAppSelector(selectUserConsent);
 
-  const [inputType, setInputType] = useState<string>("measurement");
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
-  const [newFuelAfterBunker, setNewFuelAfterBunker] = useState<string>("");
   const [editEntry, setEditEntry] = useState<EditFuel | undefined>({
     id: -1,
     fuel: 0,
-    fuelAfter: null,
     timestamp: null,
     error: false,
   });
@@ -108,20 +93,6 @@ export const FuelPage: FC = () => {
   const resetEdit = () => {
     setEditEntry(undefined);
   };
-
-  const handleInputTypeChange = (
-    _: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    if (newAlignment !== null) {
-      setInputType(newAlignment);
-    }
-  };
-
-  const reportError =
-    newFuelAfterBunker.length > 0 &&
-    inputType === "bunker" &&
-    +newFuelAfterBunker <= +newFuel;
 
   return (
     <Box
@@ -157,13 +128,10 @@ export const FuelPage: FC = () => {
                   2: Fartøyet ankommer havn
                 </Typography>
                 <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
-                  3: Fartøyet fyller drivstoff
+                  3: Redskap settes i sjøen (start av hal)
                 </Typography>
                 <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
-                  4: Redskap settes i sjøen (start av hal)
-                </Typography>
-                <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
-                  5: Redskap tas opp av sjøen (slutt av hal)
+                  4: Redskap tas opp av sjøen (slutt av hal)
                 </Typography>
               </Stack>
             </Stack>
@@ -177,17 +145,6 @@ export const FuelPage: FC = () => {
                 width: "fit-content",
               }}
             >
-              <ToggleButtonGroup
-                sx={{ width: 250 }}
-                color="info"
-                size="small"
-                value={inputType}
-                exclusive
-                onChange={handleInputTypeChange}
-              >
-                <ToggleButton value="measurement">Peiling</ToggleButton>
-                <ToggleButton value="bunker">Bunkring</ToggleButton>
-              </ToggleButtonGroup>
               <Stack
                 direction="row"
                 spacing={2}
@@ -198,15 +155,7 @@ export const FuelPage: FC = () => {
                     variant="subtitle2"
                     sx={{ color: theme.palette.grey[500] }}
                   >
-                    {inputType === "measurement" ? (
-                      <>Drivstoff i tanken</>
-                    ) : (
-                      <>
-                        Drivstoff i tank{" "}
-                        <span style={{ fontStyle: "italic" }}>før</span>{" "}
-                        bunkring
-                      </>
-                    )}
+                    Drivstoffmåler / Flowmeter
                   </Typography>
                   <TextField
                     sx={{ width: 190 }}
@@ -220,40 +169,6 @@ export const FuelPage: FC = () => {
                     }
                   />
                 </Stack>
-                {inputType === "bunker" && (
-                  <Stack spacing={0.5}>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ color: theme.palette.grey[500] }}
-                    >
-                      Drivstoff i tank{" "}
-                      <span style={{ fontStyle: "italic" }}>etter</span>{" "}
-                      bunkring
-                    </Typography>
-                    <TextField
-                      sx={{
-                        width: 205,
-                        "& .MuiFormHelperText-root": {
-                          position: "absolute",
-                          top: 40,
-                          mx: "2px",
-                        },
-                      }}
-                      placeholder="Antall liter"
-                      size="small"
-                      variant="outlined"
-                      error={reportError}
-                      helperText={
-                        reportError ? "Må være større enn før bunkring" : ""
-                      }
-                      value={newFuelAfterBunker}
-                      onKeyDown={numberInputLimiter}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setNewFuelAfterBunker(event.target.value)
-                      }
-                    />
-                  </Stack>
-                )}
                 <Stack spacing={0.5}>
                   <Typography
                     variant="subtitle2"
@@ -297,7 +212,7 @@ export const FuelPage: FC = () => {
                     alignSelf: "flex-end",
                   }}
                   color="success"
-                  disabled={newFuel === "" || reportError || !consent}
+                  disabled={newFuel === "" || !consent}
                   startIcon={<PostAddIcon />}
                   onClick={() => {
                     dispatch(
@@ -306,16 +221,11 @@ export const FuelPage: FC = () => {
                           ? inputDate.toISOString()
                           : new Date().toISOString(),
                         fuel: +newFuel,
-                        fuelAfter:
-                          inputType === "bunker" && newFuelAfterBunker
-                            ? +newFuelAfterBunker
-                            : null,
                       }),
                     );
 
                     setNewFuel("");
                     setInputDate(null);
-                    setNewFuelAfterBunker("");
                   }}
                 >
                   Registrer
@@ -361,70 +271,6 @@ export const FuelPage: FC = () => {
                   }}
                 >
                   <Typography variant="h5">Logg</Typography>
-                  <FileUpload
-                    accept=".xlsx"
-                    onChange={(file) => {
-                      dispatch(uploadFuelMeasurements({ file }));
-                    }}
-                  >
-                    <ImportTooltip
-                      title={
-                        <>
-                          <Stack direction="row" spacing={1}>
-                            <Typography sx={{ fontWeight: "bold" }}>
-                              Akseptert filtype:
-                            </Typography>
-                            <Typography
-                              sx={{ color: "grey.A400", fontWeight: "bold" }}
-                            >
-                              .xlsx
-                            </Typography>
-                          </Stack>
-                          <Divider sx={{ mt: 1 }} />
-                          <Typography sx={{ pt: 1, color: "#5B6165" }}>
-                            Gyldig kolonnestruktur:
-                          </Typography>
-                          <Stack
-                            direction="row"
-                            spacing={1}
-                            sx={{ pl: 1.5, color: "fourth.dark" }}
-                          >
-                            <Typography>Tid (dd.mm.åååå TT:MM:SS)</Typography>
-                            <Typography>|</Typography>
-                            <Typography>Liter</Typography>
-                            <Typography>|</Typography>
-                            <Typography>
-                              Liter etter bunkring (valgfritt)
-                            </Typography>
-                          </Stack>
-                          <Typography sx={{ pt: 0.5, color: "#5B6165" }}>
-                            Eksempel:
-                          </Typography>
-                          <Stack
-                            direction="row"
-                            spacing={1}
-                            sx={{ pl: 1.5, color: "fourth.dark" }}
-                          >
-                            <Typography>01.01.2001 11:11:10</Typography>
-                            <Typography>|</Typography>
-                            <Typography>560</Typography>
-                            <Typography>|</Typography>
-                            <Typography>2000</Typography>
-                          </Stack>
-                        </>
-                      }
-                    >
-                      <Button
-                        variant="contained"
-                        size="small"
-                        // sx={{ minWidth: 120, height: 40, alignItems: "center" }}
-                        color="secondary"
-                        startIcon={<UploadFileIcon />}
-                      >
-                        Importer
-                      </Button>
-                    </ImportTooltip>
-                  </FileUpload>
                 </Stack>
                 {fuel && fuel.length ? (
                   <TableContainer>
@@ -444,9 +290,6 @@ export const FuelPage: FC = () => {
                           </StyledTableCell>
                           <StyledTableCell sx={{ width: 180 }} align="right">
                             Måling (liter)
-                          </StyledTableCell>
-                          <StyledTableCell sx={{ width: 250 }} align="right">
-                            Måling etter bunkring (liter)
                           </StyledTableCell>
                           <StyledTableCell sx={{ width: 150 }} />
                         </TableRow>
@@ -497,48 +340,6 @@ export const FuelPage: FC = () => {
                                     }
                                   />
                                 </StyledTableCell>
-                                <StyledTableCell align="right">
-                                  <TextField
-                                    sx={{
-                                      width: 120,
-                                      "& .MuiInputBase-input": {
-                                        textAlign: "right",
-                                        pr: 1,
-                                      },
-                                    }}
-                                    error={editEntry.error}
-                                    size="small"
-                                    onKeyDown={numberInputLimiter}
-                                    variant="outlined"
-                                    value={editEntry?.fuelAfter ?? ""}
-                                    onChange={(
-                                      e: ChangeEvent<HTMLInputElement>,
-                                    ) =>
-                                      setEditEntry({
-                                        ...editEntry,
-                                        fuelAfter: e.target.value
-                                          ? +e.target.value
-                                          : null,
-                                        error: !!(
-                                          editEntry.fuel > +e.target.value
-                                        ),
-                                      })
-                                    }
-                                  />
-                                  {editEntry.error && (
-                                    <Typography
-                                      sx={{
-                                        fontWeight: 400,
-                                        lineHeight: 1.66,
-                                        fontSize: "0.75rem",
-                                        color: "error.main",
-                                        mt: "2px",
-                                      }}
-                                    >
-                                      Må være større enn før bunkring
-                                    </Typography>
-                                  )}
-                                </StyledTableCell>
 
                                 <StyledTableCell align="right">
                                   <Stack
@@ -564,7 +365,6 @@ export const FuelPage: FC = () => {
                                           updateFuelMeasurement({
                                             id: editEntry.id,
                                             fuel: editEntry.fuel,
-                                            fuelAfter: editEntry.fuelAfter,
                                             timestamp:
                                               editEntry.timestamp!.toISOString(),
                                           }),
@@ -594,9 +394,6 @@ export const FuelPage: FC = () => {
                                 <StyledTableCell align="right">
                                   {f.fuel}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">
-                                  {f.fuelAfter}
-                                </StyledTableCell>
 
                                 <StyledTableCell align="right">
                                   <Stack
@@ -611,7 +408,6 @@ export const FuelPage: FC = () => {
                                         setEditEntry({
                                           id: f.id,
                                           fuel: f.fuel,
-                                          fuelAfter: f.fuelAfter,
                                           timestamp: new Date(f.timestamp),
                                           error: false,
                                         });
@@ -665,15 +461,3 @@ export const FuelPage: FC = () => {
     </Box>
   );
 };
-
-const ImportTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.grey[300],
-    color: "rgba(0, 0, 0, 0.87)",
-    maxWidth: 650,
-    "& .MuiTypography-root": { fontSize: "0.85rem" },
-    border: `1px solid ${theme.palette.grey[400]}`,
-  },
-}));

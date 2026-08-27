@@ -44,12 +44,12 @@ export const fuelBuilder = (
     })
     .addCase(createFuelMeasurement.fulfilled, (state, action) => {
       if (state.fuelMeasurements) {
-        state.fuelMeasurements = state.fuelMeasurements.concat(action.payload);
+        state.fuelMeasurements.push(action.payload);
         state.fuelMeasurements.sort((a, b) =>
           b.timestamp.localeCompare(a.timestamp),
         );
       } else {
-        state.fuelMeasurements = action.payload;
+        state.fuelMeasurements = [action.payload];
       }
       state.fuelPostStatus = "success";
     })
