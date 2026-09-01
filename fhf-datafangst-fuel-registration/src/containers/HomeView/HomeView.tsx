@@ -1,6 +1,6 @@
 import "@khmyznikov/pwa-install";
 import { Stack, Typography } from "@mui/material";
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import theme from "~/app/theme";
 import {
   FuelLog,
@@ -10,11 +10,18 @@ import {
   UserHaul,
 } from "~/components";
 import { ConfirmSnackbar } from "~/components/ConfirmSnackbar/ConfirmSnackbar";
-import { selectLoading, selectLoggedInVessel, useAppSelector } from "~/store";
+import {
+  getActiveUserHaul,
+  getFuelMeasurements,
+  selectLoading,
+  selectLoggedInVessel,
+  useAppDispatch,
+  useAppSelector,
+} from "~/store";
 
 const TABS = [
   {
-    key: "peiling",
+    key: "forbruk",
     Element: Gauge,
   },
   { key: "logg", Element: FuelLog },
@@ -23,7 +30,7 @@ const TABS = [
 // Only used for Hermes and Hera in a test phase
 const CUSTOMTABS = [
   {
-    key: "peiling",
+    key: "forbruk",
     Element: Gauge,
   },
   {
@@ -36,6 +43,15 @@ const CUSTOMTABS = [
 export const HomeView: FC = () => {
   const loading = useAppSelector(selectLoading);
   const vessel = useAppSelector(selectLoggedInVessel);
+  const dispatch = useAppDispatch();
+
+  // Get latest fuel measurement for verifying input
+  useEffect(() => {
+    if (vessel) {
+      dispatch(getFuelMeasurements({ limit: 1, offset: 0 }));
+      dispatch(getActiveUserHaul({}));
+    }
+  }, [vessel]);
 
   return (
     <Stack

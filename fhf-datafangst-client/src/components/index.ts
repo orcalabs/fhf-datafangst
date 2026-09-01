@@ -7,6 +7,7 @@ export { HistoricalCatches } from "./Benchmark/Graphs/HistoricalCatches";
 export { HistoricLineChart } from "./Benchmark/Graphs/HistoricLineChart";
 export { SpeciesHistogram } from "./Benchmark/Graphs/SpeciesHistogram";
 export { BenchmarkOverview } from "./Benchmark/Overview";
+export { ConfirmModal } from "./Common/ConfirmModal";
 export { LocalLoadingProgress } from "./Common/LocalLoadingProgress";
 export * from "./Common/Popper";
 export { Company } from "./Company/Company";
