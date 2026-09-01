@@ -19,7 +19,6 @@ interface Props {
   open: boolean;
   title: string;
   buttonConfirmText: string;
-  confirmButtonColor?: "info" | "success" | "warning" | "error";
   onClose: () => void;
   onConfirm: () => void;
 }
@@ -29,7 +28,6 @@ export const ConfirmModal: FC<Props> = ({
   open,
   title,
   buttonConfirmText,
-  confirmButtonColor,
   onClose,
   onConfirm,
 }) => {
@@ -66,7 +64,7 @@ export const ConfirmModal: FC<Props> = ({
         </Button>
         <Button
           sx={{ width: 100 }}
-          color={confirmButtonColor ?? "error"}
+          color="success"
           variant="contained"
           onClick={() => {
             onConfirm();

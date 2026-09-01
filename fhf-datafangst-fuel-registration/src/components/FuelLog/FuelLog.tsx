@@ -171,7 +171,7 @@ export const FuelLog: FC = () => {
                       <Table>
                         <TableHead>
                           <StyledTableRow>
-                            <StyledTableCell>Peiling</StyledTableCell>
+                            <StyledTableCell>Måling</StyledTableCell>
                             <StyledTableCell align="right">
                               <Stack
                                 direction="row"

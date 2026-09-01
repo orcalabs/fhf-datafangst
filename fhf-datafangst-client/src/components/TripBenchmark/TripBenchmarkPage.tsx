@@ -73,6 +73,8 @@ export const TripBenchmarkPage: FC = () => {
         start: dateRange?.start,
         end: dateRange?.end,
         callSignOverride: vessel?.fiskeridir.callSign,
+        accessToken:
+          "eyJhbGciOiJSUzI1NiIsImtpZCI6IkIyQ0RDNkEzMTY4MkE0MUQ2QjVCOEJDODFEQjMzMUFCIiwidHlwIjoiYXQrand0In0.eyJpc3MiOiJodHRwczovL2lkLmJhcmVudHN3YXRjaC5ubyIsIm5iZiI6MTc3ODU3MjE2MiwiaWF0IjoxNzc4NTcyMTYyLCJleHAiOjE3Nzg1NzU3NjIsImF1ZCI6ImFwaSIsInNjb3BlIjpbIm9wZW5pZCIsImFwaSJdLCJhbXIiOlsicHdkIl0sImNsaWVudF9pZCI6ImZoZi1kYXRhZmFuZ3N0Iiwic3ViIjoiODJjMDAxMmItZjMzNy00N2FmLWFkYzMtYmFhYWJjZTU0MGE0IiwiYXV0aF90aW1lIjoxNzc2MTUwMjU0LCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InBvc3RAb3JjYWxhYnMubm8iLCJzaWQiOiI3MjY5RENCQ0EyNUQyNjJGMjg3OTQyODkxNDFGNTM1QiJ9.NjVGr8ftxrbx5impTiN_fdNLoxSGA56XY_IcAWYwCx0YvaOt85JIe30Yv-Wii-YzH58FYvTAflqUZnjYzHAN4Wfga0pbJGsRjhmgj9z1gOaSMXa-dOTZVPuSxFF02ollptZx3gMaYQq8wMQdPC453oN16uPbTitREpAYSLQqQwtjlAfMMR3ikqOwGJO6SUYsGvjLGMtMKlyirog4VygP7-kyGGltSJVBnrt1FtgaJDNNmbGBtRCwnPdQ4jnKlF-MIyl5z5Eq24r_dVGqxXf-i7frC9hY2lzoRNKhCYP0KqKTN56cW01utxkogofMCfziszZm1hKg-186JsF6qQKcnQ",
       }),
     );
 

@@ -16,11 +16,20 @@ import {
 import { useEffect, useRef, useState, type FC } from "react";
 import { Controller, Form, useForm } from "react-hook-form";
 import theme from "~/app/theme";
-import { LocalLoadingProgress, NumberInput, StartedHaul } from "~/components";
-import { useAppDispatch, useAppSelector } from "~/store";
+import {
+  ConfirmModal,
+  LocalLoadingProgress,
+  NumberInput,
+  StartedHaul,
+} from "~/components";
+import {
+  getFuelMeasurements,
+  selectLastFuelMeasurement,
+  useAppDispatch,
+  useAppSelector,
+} from "~/store";
 import {
   abortUserHaul,
-  getActiveUserHaul,
   getUserHauls,
   selectActiveUserHaul,
   selectActiveUserHaulLoading,
@@ -29,6 +38,7 @@ import {
   stopUserHaul,
 } from "~/store/userHaul";
 import { numberInputLimiter } from "~/utils";
+import type { Confirm } from "../ConfirmModal/ConfirmModal";
 
 export interface Config {
   trawl: {
@@ -77,6 +87,7 @@ export const UserHaul: FC = () => {
   const activeHaul = useAppSelector(selectActiveUserHaul);
   const activeHaulLoading = useAppSelector(selectActiveUserHaulLoading);
   const prevConfig = useAppSelector(selectPrevConfig);
+  const lastFuelMeasurement = useAppSelector(selectLastFuelMeasurement);
 
   const configSet = useRef<number | null>(prevConfig?.id);
 
@@ -84,6 +95,9 @@ export const UserHaul: FC = () => {
     defaultValues: prevConfig?.config,
   });
   const [newFuel, setNewFuel] = useState("");
+  const [confirmRegistration, setConfirmRegistration] = useState<
+    Confirm | undefined
+  >(undefined);
 
   const resetForm = () => {
     reset();
@@ -91,7 +105,6 @@ export const UserHaul: FC = () => {
   };
 
   useEffect(() => {
-    dispatch(getActiveUserHaul({}));
     dispatch(getUserHauls({}));
   }, []);
 
@@ -110,15 +123,36 @@ export const UserHaul: FC = () => {
   }
 
   const onStartHaul = (config: Config) => {
-    dispatch(
-      startUserHaul({
-        config,
-        // TODO: Hardcoded to gear used by HERA
-        gear: "BottomTrawl",
-        fuelLiterStart: +newFuel,
-      }),
-    );
-    setNewFuel("");
+    if (lastFuelMeasurement && +newFuel < lastFuelMeasurement) {
+      setConfirmRegistration({
+        message: `Denne målingen er lavere enn forrige registrerte verdi på
+              ${lastFuelMeasurement} liter. Er du sikker på at tallet
+              du har fylt inn er korrekt?`,
+        onConfirm: () => {
+          dispatch(
+            startUserHaul({
+              config,
+              // TODO: Hardcoded to gear used by HERA
+              gear: "BottomTrawl",
+              fuelLiterStart: +newFuel,
+            }),
+          );
+          setNewFuel("");
+        },
+      });
+    } else {
+      dispatch(
+        startUserHaul({
+          config,
+          // TODO: Hardcoded to gear used by HERA
+          gear: "BottomTrawl",
+          fuelLiterStart: +newFuel,
+        }),
+      );
+      setNewFuel("");
+    }
+    // Get new fuelmeasurements
+    dispatch(getFuelMeasurements({ limit: 1, offset: 0 }));
   };
 
   const onStopHaul = (fuelLiter: number, livingWeight?: number) => {
@@ -155,7 +189,7 @@ export const UserHaul: FC = () => {
                 <NumberInput
                   title={
                     <>
-                      Drivstoffmåler / Flowmeter
+                      Drivstoffmåler / Flowmeter{" "}
                       <span style={{ color: "red" }}>*</span>
                     </>
                   }
@@ -371,6 +405,16 @@ export const UserHaul: FC = () => {
                 {...register("comments")}
               />
             </Stack>
+            {confirmRegistration && (
+              <ConfirmModal
+                {...confirmRegistration}
+                open
+                title="Bekreft måling"
+                buttonConfirmText="Bekreft"
+                confirmButtonColor="info"
+                onClose={() => setConfirmRegistration(undefined)}
+              />
+            )}
           </Form>
         </>
       )}

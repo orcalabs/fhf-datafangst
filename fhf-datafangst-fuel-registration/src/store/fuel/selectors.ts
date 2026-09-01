@@ -20,3 +20,21 @@ export const selectFuelPostStatus = createSelector(
   selectAppState,
   (state) => state.fuelPostStatus,
 );
+
+export const selectLastFuelMeasurement = createSelector(
+  selectAppState,
+  (state) => {
+    const registeredFuel = state.fuelMeasurements?.[0];
+
+    if (
+      state.activeUserHaul &&
+      (!registeredFuel ||
+        new Date(state.activeUserHaul.startTs) >
+          new Date(registeredFuel.timestamp))
+    ) {
+      return state.activeUserHaul.startFuelLiter;
+    }
+
+    return registeredFuel?.fuel;
+  },
+);

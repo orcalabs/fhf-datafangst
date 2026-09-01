@@ -27,7 +27,11 @@ import { nb } from "date-fns/locale";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react";
 import theme from "~/app/theme";
-import { LocalLoadingProgress, OverlayScrollbars } from "~/components";
+import {
+  ConfirmModal,
+  LocalLoadingProgress,
+  OverlayScrollbars,
+} from "~/components";
 import { useTimestampUpdater } from "~/hooks";
 import {
   createFuelMeasurement,
@@ -42,6 +46,7 @@ import {
   useAppSelector,
 } from "~/store";
 import { dateFormat, numberInputLimiter } from "~/utils";
+import type { Confirm } from "../Common/ConfirmModal";
 
 const isValidDate = (d: Date) => {
   return d instanceof Date && !isNaN(d.valueOf());
@@ -75,6 +80,9 @@ export const FuelPage: FC = () => {
   const loading = useAppSelector(selectFuelMeasurementsLoading);
   const consent = useAppSelector(selectUserConsent);
 
+  const [confirmRegistration, setConfirmRegistration] = useState<
+    Confirm | undefined
+  >(undefined);
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
   const [editEntry, setEditEntry] = useState<EditFuel | undefined>({
@@ -94,6 +102,8 @@ export const FuelPage: FC = () => {
     setEditEntry(undefined);
   };
 
+  const lastFuelMeasurement = fuel?.[0].fuel;
+
   return (
     <Box
       sx={{
@@ -110,15 +120,16 @@ export const FuelPage: FC = () => {
                 Registrer drivstoff
               </Typography>
               <Typography>
-                Fyll ut skjemaet på siden for å registrere mengde drivstoff som
-                er i tanken på ditt fartøy på gitte tidspunkt under toktet.
+                Fartøy som anvender drivstoffmålere (flowmeter) kan bruke
+                skjemaet under til å registrere avlesninger av mengde drivstoff
+                som er brukt til enhver tid.
                 <br />
                 Regelmessige (og helst hyppige) målinger gir mer detaljert
                 analyse av drivstofforbruket under ulike faser av fisket.
               </Typography>
               <Typography>
-                For korrekt kalkulering av forbruket må drivstoff registreres
-                når:
+                For korrekt kalkulering av forbruket ditt bør flowmeteret leses
+                av og registereres når:
               </Typography>
               <Stack sx={{ pl: 2 }}>
                 <Typography sx={{ color: "#007598", fontSize: "1.1rem" }}>
@@ -134,6 +145,11 @@ export const FuelPage: FC = () => {
                   4: Redskap tas opp av sjøen (slutt av hal)
                 </Typography>
               </Stack>
+              <Typography sx={{ color: theme.palette.error.main }}>
+                NB: Dersom du nullstiller flowmeteret på ditt fartøy bør du
+                registrere avlesninger både før og etter. (Etter nullstilling
+                registreres verdien 0 i skjemaet).
+              </Typography>
             </Stack>
             <Divider />
             <Stack
@@ -214,15 +230,32 @@ export const FuelPage: FC = () => {
                   color="success"
                   disabled={newFuel === "" || !consent}
                   startIcon={<PostAddIcon />}
-                  onClick={() => {
-                    dispatch(
-                      createFuelMeasurement({
-                        timestamp: inputDate
-                          ? inputDate.toISOString()
-                          : new Date().toISOString(),
-                        fuel: +newFuel,
-                      }),
-                    );
+                  onClick={(e) => {
+                    if (lastFuelMeasurement && lastFuelMeasurement > +newFuel) {
+                      e.stopPropagation();
+                      setConfirmRegistration({
+                        message: `Denne målingen er lavere enn forrige registrerte verdi på ${lastFuelMeasurement}. Er du sikker på at tallet du har fylt inn er korrekt?`,
+                        onConfirm: () => {
+                          dispatch(
+                            createFuelMeasurement({
+                              timestamp: inputDate
+                                ? inputDate.toISOString()
+                                : new Date().toISOString(),
+                              fuel: +newFuel,
+                            }),
+                          );
+                        },
+                      });
+                    } else {
+                      dispatch(
+                        createFuelMeasurement({
+                          timestamp: inputDate
+                            ? inputDate.toISOString()
+                            : new Date().toISOString(),
+                          fuel: +newFuel,
+                        }),
+                      );
+                    }
 
                     setNewFuel("");
                     setInputDate(null);
@@ -353,8 +386,7 @@ export const FuelPage: FC = () => {
                                         !(
                                           editEntry &&
                                           editEntry.timestamp &&
-                                          isValidDate(editEntry.timestamp) &&
-                                          editEntry.fuel
+                                          isValidDate(editEntry.timestamp)
                                         ) || editEntry.error
                                       }
                                       size="small"
@@ -456,6 +488,15 @@ export const FuelPage: FC = () => {
               </Paper>
             </Stack>
           </Stack>
+          {confirmRegistration && (
+            <ConfirmModal
+              {...confirmRegistration}
+              open
+              title="Bekreft måling"
+              buttonConfirmText="Bekreft"
+              onClose={() => setConfirmRegistration(undefined)}
+            />
+          )}
         </LocalizationProvider>
       </OverlayScrollbars>
     </Box>
