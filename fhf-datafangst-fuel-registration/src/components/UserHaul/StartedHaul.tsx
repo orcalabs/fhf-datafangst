@@ -265,7 +265,6 @@ export const StartedHaul: FC<Props> = ({ haul, onStop, onAbort }) => {
       {confirmStopOpen && (
         <ConfirmHaulStopModal
           open
-          startFuelLiter={haul.startFuelLiter}
           onClose={() => setConfirmStopOpen(false)}
           onConfirm={onStop}
         />

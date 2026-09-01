@@ -8,25 +8,30 @@ import {
   Typography,
 } from "@mui/material";
 import { useState, type FC } from "react";
+import theme from "~/app/theme";
+import {
+  selectActiveUserHaul,
+  selectLastFuelMeasurement,
+  useAppSelector,
+} from "~/store";
 import { NumberInput } from "../NumberInput/NumberInput";
 
 interface Props {
   open: boolean;
-  startFuelLiter: number;
   onClose: () => void;
   onConfirm: (fuelLiter: number, livingWeight?: number) => void;
 }
 
 export const ConfirmHaulStopModal: FC<Props> = ({
   open,
-  startFuelLiter,
   onClose,
   onConfirm,
 }) => {
   const [fuel, setFuel] = useState("");
   const [livingWeight, setLivingWeight] = useState("");
-
-  const error = fuel.length > 0 && +fuel >= +startFuelLiter;
+  const [confirmText, setConfirmText] = useState(false);
+  const activeUserHaul = useAppSelector(selectActiveUserHaul);
+  const lastFuelMeasurement = useAppSelector(selectLastFuelMeasurement);
 
   return (
     <Dialog
@@ -54,11 +59,6 @@ export const ConfirmHaulStopModal: FC<Props> = ({
             }
             placeholder="Antall liter"
             endAdornment="liter"
-            error={
-              error
-                ? "Må være mindre enn angitt mengde når halet startet"
-                : undefined
-            }
             value={fuel}
             onChange={setFuel}
           />
@@ -69,6 +69,13 @@ export const ConfirmHaulStopModal: FC<Props> = ({
             value={livingWeight}
             onChange={setLivingWeight}
           />
+          {confirmText && (
+            <Typography sx={{ width: 200, color: theme.palette.grey.A700 }}>
+              * Denne målingen er lavere enn forrige registrerte verdi på{" "}
+              {lastFuelMeasurement} liter. Er du sikker på at tallet du har fylt
+              inn er korrekt?
+            </Typography>
+          )}
         </Stack>
       </DialogContent>
       <DialogActions>
@@ -85,11 +92,20 @@ export const ConfirmHaulStopModal: FC<Props> = ({
           Avbryt
         </Button>
         <Button
-          sx={{ width: 110 }}
+          sx={{ width: 120 }}
           color="error"
-          disabled={fuel === "" || +fuel >= startFuelLiter}
+          disabled={fuel === ""}
           variant="contained"
           onClick={() => {
+            if (
+              !confirmText &&
+              activeUserHaul &&
+              lastFuelMeasurement &&
+              +fuel < lastFuelMeasurement
+            ) {
+              setConfirmText(true);
+              return;
+            }
             onConfirm(+fuel);
             onClose();
           }}

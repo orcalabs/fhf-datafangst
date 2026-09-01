@@ -46,7 +46,7 @@ export const GearConfig: FC<Props> = ({ haul }) => {
     <Stack spacing={1.5} sx={{ width: "100%", px: 2.5 }}>
       <Stack direction="row" sx={{ justifyContent: "space-between" }}>
         <Typography sx={{ fontStyle: "italic", color: "text.secondary" }}>
-          Drivstoff ved start
+          Drivstoffmåler ved start
         </Typography>
         <Typography>{haul.startFuelLiter}</Typography>
       </Stack>
