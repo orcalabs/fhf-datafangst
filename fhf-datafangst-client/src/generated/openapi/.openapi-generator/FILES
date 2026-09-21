@@ -4,6 +4,7 @@
 api.ts
 api/ais-api.ts
 api/ais-vms-api.ts
+api/bunkering-api.ts
 api/delivery-point-api.ts
 api/fishing-facility-api.ts
 api/fuel-measurement-api.ts
@@ -38,12 +39,15 @@ models/average-eeoi-params.ts
 models/average-fui-params.ts
 models/average-trip-benchmarks-params.ts
 models/average-trip-benchmarks.ts
+models/average-vessels-benchmarks.ts
 models/benchmark-entry.ts
 models/benchmark.ts
+models/bunkering.ts
 models/buyer-location-type.ts
 models/catch.ts
 models/condition-detailed.ts
 models/condition.ts
+models/create-bunkering.ts
 models/create-fuel-measurement.ts
 models/cumulative-landings.ts
 models/current-position-parameters.ts
@@ -54,7 +58,6 @@ models/current-trip.ts
 models/date-time-range-inner-required.ts
 models/date-time-range-inner.ts
 models/date-time-range.ts
-models/delete-fuel-measurement.ts
 models/delivery-point.ts
 models/delivery.ts
 models/document-type.ts
@@ -70,6 +73,10 @@ models/fishing-facility.ts
 models/fiskdir-vessel-nationality-group.ts
 models/fiskeridir-vessel.ts
 models/fuel-entry.ts
+models/fuel-measurement-or-bunkering-one-of-value.ts
+models/fuel-measurement-or-bunkering-one-of.ts
+models/fuel-measurement-or-bunkering-one-of1.ts
+models/fuel-measurement-or-bunkering.ts
 models/fuel-measurement.ts
 models/fuel-measurements-params.ts
 models/fuel-params.ts
@@ -115,6 +122,7 @@ models/org-benchmark-path.ts
 models/org-benchmark-species.ts
 models/org-benchmarks.ts
 models/org-fuel-path.ts
+models/per-vessel-benchmark-params.ts
 models/price-query.ts
 models/quality-detailed.ts
 models/quality.ts
@@ -130,6 +138,7 @@ models/species-main-group-detailed.ts
 models/species-main-group.ts
 models/species.ts
 models/started-user-haul.ts
+models/sum-vessel-benchmark.ts
 models/tra-catch.ts
 models/tra.ts
 models/trip-assembler-id.ts

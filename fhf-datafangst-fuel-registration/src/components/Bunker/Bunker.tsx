@@ -3,42 +3,26 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import { Button, Stack, Typography } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import theme from "~/app/theme";
-import { ConfirmModal, NumberInput } from "~/components";
+import { NumberInput } from "~/components";
 import { useTimestampUpdater } from "~/hooks/useTimestampUpdater";
 import {
-  createFuelMeasurement,
-  getFuelMeasurements,
-  selectLastFuelMeasurement,
+  createBunkering,
   selectUserConsent,
   useAppDispatch,
   useAppSelector,
 } from "~/store";
-import type { Confirm } from "../ConfirmModal/ConfirmModal";
 
-export const Gauge: FC = () => {
+export const Bunker: FC = () => {
   const dispatch = useAppDispatch();
 
   const minuteTime = useTimestampUpdater();
 
   const consent = useAppSelector(selectUserConsent);
-  const lastFuelMeasurement = useAppSelector(selectLastFuelMeasurement);
+
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
-  const [confirmRegistration, setConfirmRegistration] = useState<
-    Confirm | undefined
-  >(undefined);
-
-  // Get latest fuel measurement for verifying input
-  useEffect(() => {
-    dispatch(
-      getFuelMeasurements({
-        limit: 1,
-        offset: 0,
-      }),
-    );
-  }, []);
 
   const resetForm = () => {
     setNewFuel("");
@@ -68,11 +52,7 @@ export const Gauge: FC = () => {
           />
         </Stack>
         <NumberInput
-          title={
-            <>
-              Drivstoffmåler / Flowmeter <span style={{ color: "red" }}>*</span>
-            </>
-          }
+          title={"Bunkret"}
           placeholder="Antall liter"
           endAdornment="liter"
           value={newFuel}
@@ -87,38 +67,19 @@ export const Gauge: FC = () => {
             alignItems: "center",
             bgcolor: "grey.A400",
           }}
-          disabled={newFuel === "" || !consent}
+          disabled={newFuel === "" || !newFuel || !consent}
           startIcon={<PostAddIcon />}
-          onClick={(e) => {
-            if (lastFuelMeasurement && lastFuelMeasurement > +newFuel) {
-              e.stopPropagation();
-              setConfirmRegistration({
-                message: `Denne målingen er lavere enn forrige registrerte verdi på
-              ${lastFuelMeasurement} liter. Er du sikker på at tallet
-              du har fylt inn er korrekt?`,
-                onConfirm: () => {
-                  dispatch(
-                    createFuelMeasurement({
-                      timestamp: inputDate
-                        ? inputDate.toISOString()
-                        : new Date().toISOString(),
-                      fuel: +newFuel,
-                    }),
-                  );
-                  resetForm();
-                },
-              });
-            } else {
-              dispatch(
-                createFuelMeasurement({
-                  timestamp: inputDate
-                    ? inputDate.toISOString()
-                    : new Date().toISOString(),
-                  fuel: +newFuel,
-                }),
-              );
-              resetForm();
-            }
+          onClick={() => {
+            dispatch(
+              createBunkering({
+                timestamp: inputDate
+                  ? inputDate.toISOString()
+                  : new Date().toISOString(),
+                fuel: +newFuel,
+              }),
+            );
+
+            resetForm();
           }}
         >
           Registrer
@@ -150,16 +111,6 @@ export const Gauge: FC = () => {
           * Du har ikke gitt oss samtykke for bruk av data og kan derfor ikke
           registrere drivstoff. Samtykke kan endres fra menyen.
         </Typography>
-      )}
-      {confirmRegistration && (
-        <ConfirmModal
-          {...confirmRegistration}
-          open
-          title="Bekreft måling"
-          buttonConfirmText="Bekreft"
-          confirmButtonColor="info"
-          onClose={() => setConfirmRegistration(undefined)}
-        />
       )}
     </Stack>
   );

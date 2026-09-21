@@ -3,6 +3,7 @@ import { Stack, Typography } from "@mui/material";
 import { useEffect, type FC } from "react";
 import theme from "~/app/theme";
 import {
+  Bunker,
   FuelLog,
   Gauge,
   LocalLoadingProgress,
@@ -24,6 +25,10 @@ const TABS = [
     key: "forbruk",
     Element: Gauge,
   },
+  {
+    key: "bunkring",
+    Element: Bunker,
+  },
   { key: "logg", Element: FuelLog },
 ];
 
@@ -32,6 +37,10 @@ const CUSTOMTABS = [
   {
     key: "forbruk",
     Element: Gauge,
+  },
+  {
+    key: "bunkring",
+    Element: Bunker,
   },
   {
     key: "hal",
@@ -48,7 +57,12 @@ export const HomeView: FC = () => {
   // Get latest fuel measurement for verifying input
   useEffect(() => {
     if (vessel) {
-      dispatch(getFuelMeasurements({ limit: 1, offset: 0 }));
+      dispatch(
+        getFuelMeasurements({
+          limit: 1,
+          offset: 0,
+        }),
+      );
       dispatch(getActiveUserHaul({}));
     }
   }, [vessel]);

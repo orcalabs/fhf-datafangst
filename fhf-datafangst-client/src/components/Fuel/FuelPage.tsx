@@ -19,6 +19,8 @@ import {
   TableHead,
   TableRow,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -34,13 +36,16 @@ import {
 } from "~/components";
 import { useTimestampUpdater } from "~/hooks";
 import {
+  createBunkering,
   createFuelMeasurement,
+  deleteBunkering,
   deleteFuelMeasurement,
-  getFuelMeasurements,
-  selectFuelMeasurements,
-  selectFuelMeasurementsLoading,
+  getFuelMeasurementsAndBunkerings,
+  selectFuelMeasurementsAndBunkerings,
+  selectFuelMeasurementsAndBunkeringsLoading,
   selectUserConsent,
   setConsentDialogOpen,
+  updateBunkering,
   updateFuelMeasurement,
   useAppDispatch,
   useAppSelector,
@@ -66,6 +71,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 interface EditFuel {
+  type: string;
+  index: number;
   id: number;
   timestamp: Date | null;
   fuel: number;
@@ -76,8 +83,8 @@ export const FuelPage: FC = () => {
   const dispatch = useAppDispatch();
   const minuteTime = useTimestampUpdater();
 
-  const fuel = useAppSelector(selectFuelMeasurements);
-  const loading = useAppSelector(selectFuelMeasurementsLoading);
+  const fuelLog = useAppSelector(selectFuelMeasurementsAndBunkerings);
+  const loading = useAppSelector(selectFuelMeasurementsAndBunkeringsLoading);
   const consent = useAppSelector(selectUserConsent);
 
   const [confirmRegistration, setConfirmRegistration] = useState<
@@ -85,16 +92,13 @@ export const FuelPage: FC = () => {
   >(undefined);
   const [inputDate, setInputDate] = useState<Date | null>(null);
   const [newFuel, setNewFuel] = useState<string>("");
-  const [editEntry, setEditEntry] = useState<EditFuel | undefined>({
-    id: -1,
-    fuel: 0,
-    timestamp: null,
-    error: false,
-  });
+  const [editEntry, setEditEntry] = useState<EditFuel | undefined>(undefined);
+
+  const [inputType, setInputType] = useState<string>("measurement");
 
   useEffect(() => {
-    if (!fuel) {
-      dispatch(getFuelMeasurements({}));
+    if (!fuelLog) {
+      dispatch(getFuelMeasurementsAndBunkerings({}));
     }
   }, []);
 
@@ -102,7 +106,17 @@ export const FuelPage: FC = () => {
     setEditEntry(undefined);
   };
 
-  const lastFuelMeasurement = fuel?.[0].fuel;
+  const handleInputTypeChange = (
+    _: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    if (newAlignment !== null) {
+      setInputType(newAlignment);
+    }
+  };
+
+  const lastFuelMeasurement = fuelLog?.find((f) => f.type === "fuelMeasurement")
+    ?.value.fuel;
 
   return (
     <Box
@@ -126,6 +140,11 @@ export const FuelPage: FC = () => {
                 <br />
                 Regelmessige (og helst hyppige) målinger gir mer detaljert
                 analyse av drivstofforbruket under ulike faser av fisket.
+              </Typography>
+              <Typography>
+                Dersom man i tillegg ønsker å holde oversikt over egne
+                bunkringer kan man bruke skjemaet under til å loggføre dette
+                også.{" "}
               </Typography>
               <Typography>
                 For korrekt kalkulering av forbruket ditt bør flowmeteret leses
@@ -161,6 +180,17 @@ export const FuelPage: FC = () => {
                 width: "fit-content",
               }}
             >
+              <ToggleButtonGroup
+                sx={{ width: 250 }}
+                color="info"
+                size="small"
+                value={inputType}
+                exclusive
+                onChange={handleInputTypeChange}
+              >
+                <ToggleButton value="measurement">Peiling</ToggleButton>
+                <ToggleButton value="bunker">Bunkring</ToggleButton>
+              </ToggleButtonGroup>
               <Stack
                 direction="row"
                 spacing={2}
@@ -171,7 +201,11 @@ export const FuelPage: FC = () => {
                     variant="subtitle2"
                     sx={{ color: theme.palette.grey[500] }}
                   >
-                    Drivstoffmåler / Flowmeter
+                    {inputType === "measurement" ? (
+                      <>Drivstoffmåler / Flowmeter</>
+                    ) : (
+                      <>Bunkret</>
+                    )}
                   </Typography>
                   <TextField
                     sx={{ width: 190 }}
@@ -231,32 +265,46 @@ export const FuelPage: FC = () => {
                   disabled={newFuel === "" || !consent}
                   startIcon={<PostAddIcon />}
                   onClick={(e) => {
-                    if (lastFuelMeasurement && lastFuelMeasurement > +newFuel) {
+                    if (inputType === "bunker") {
                       e.stopPropagation();
-                      setConfirmRegistration({
-                        message: `Denne målingen er lavere enn forrige registrerte verdi på ${lastFuelMeasurement}. Er du sikker på at tallet du har fylt inn er korrekt?`,
-                        onConfirm: () => {
-                          dispatch(
-                            createFuelMeasurement({
-                              timestamp: inputDate
-                                ? inputDate.toISOString()
-                                : new Date().toISOString(),
-                              fuel: +newFuel,
-                            }),
-                          );
-                        },
-                      });
-                    } else {
                       dispatch(
-                        createFuelMeasurement({
+                        createBunkering({
                           timestamp: inputDate
                             ? inputDate.toISOString()
                             : new Date().toISOString(),
                           fuel: +newFuel,
                         }),
                       );
+                    } else {
+                      if (
+                        lastFuelMeasurement &&
+                        lastFuelMeasurement > +newFuel
+                      ) {
+                        e.stopPropagation();
+                        setConfirmRegistration({
+                          message: `Denne målingen er lavere enn forrige registrerte verdi på ${lastFuelMeasurement}. Er du sikker på at tallet du har fylt inn er korrekt?`,
+                          onConfirm: () => {
+                            dispatch(
+                              createFuelMeasurement({
+                                timestamp: inputDate
+                                  ? inputDate.toISOString()
+                                  : new Date().toISOString(),
+                                fuel: +newFuel,
+                              }),
+                            );
+                          },
+                        });
+                      } else {
+                        dispatch(
+                          createFuelMeasurement({
+                            timestamp: inputDate
+                              ? inputDate.toISOString()
+                              : new Date().toISOString(),
+                            fuel: +newFuel,
+                          }),
+                        );
+                      }
                     }
-
                     setNewFuel("");
                     setInputDate(null);
                   }}
@@ -305,7 +353,7 @@ export const FuelPage: FC = () => {
                 >
                   <Typography variant="h5">Logg</Typography>
                 </Stack>
-                {fuel && fuel.length ? (
+                {fuelLog && fuelLog.length ? (
                   <TableContainer>
                     <Table
                       size="small"
@@ -319,6 +367,9 @@ export const FuelPage: FC = () => {
                       <TableHead>
                         <TableRow>
                           <StyledTableCell sx={{ width: 180 }}>
+                            Type
+                          </StyledTableCell>
+                          <StyledTableCell sx={{ width: 180 }}>
                             Tidspunkt
                           </StyledTableCell>
                           <StyledTableCell sx={{ width: 180 }} align="right">
@@ -328,9 +379,9 @@ export const FuelPage: FC = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {fuel?.map((f, i) => (
+                        {fuelLog?.map((f, i) => (
                           <TableRow key={i}>
-                            {f.id === editEntry?.id && editEntry ? (
+                            {i === editEntry?.index && editEntry ? (
                               <>
                                 <StyledTableCell>
                                   <DateTimePicker
@@ -393,14 +444,25 @@ export const FuelPage: FC = () => {
                                       color="success"
                                       startIcon={<DoneIcon />}
                                       onClick={() => {
-                                        dispatch(
-                                          updateFuelMeasurement({
-                                            id: editEntry.id,
-                                            fuel: editEntry.fuel,
-                                            timestamp:
-                                              editEntry.timestamp!.toISOString(),
-                                          }),
-                                        );
+                                        if (editEntry.type === "bunkering") {
+                                          dispatch(
+                                            updateBunkering({
+                                              bunkeringId: editEntry.id,
+                                              fuel: editEntry.fuel,
+                                              timestamp:
+                                                editEntry.timestamp!.toISOString(),
+                                            }),
+                                          );
+                                        } else {
+                                          dispatch(
+                                            updateFuelMeasurement({
+                                              fuelMeasurementId: editEntry.id,
+                                              fuel: editEntry.fuel,
+                                              timestamp:
+                                                editEntry.timestamp!.toISOString(),
+                                            }),
+                                          );
+                                        }
                                         resetEdit();
                                       }}
                                     >
@@ -421,10 +483,18 @@ export const FuelPage: FC = () => {
                             ) : (
                               <>
                                 <StyledTableCell>
-                                  {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
+                                  {f.type === "bunkering"
+                                    ? "Bunkring"
+                                    : "Måling"}
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                  {dateFormat(
+                                    f.value.timestamp,
+                                    "dd.MM.yyyy HH:mm",
+                                  )}
                                 </StyledTableCell>
                                 <StyledTableCell align="right">
-                                  {f.fuel}
+                                  {f.value.fuel}
                                 </StyledTableCell>
 
                                 <StyledTableCell align="right">
@@ -438,9 +508,13 @@ export const FuelPage: FC = () => {
                                       size="small"
                                       onClick={() => {
                                         setEditEntry({
-                                          id: f.id,
-                                          fuel: f.fuel,
-                                          timestamp: new Date(f.timestamp),
+                                          type: f.type,
+                                          index: i,
+                                          id: f.value.id,
+                                          fuel: f.value.fuel,
+                                          timestamp: new Date(
+                                            f.value.timestamp,
+                                          ),
                                           error: false,
                                         });
                                       }}
@@ -451,11 +525,19 @@ export const FuelPage: FC = () => {
                                       size="small"
                                       color="error"
                                       onClick={() => {
-                                        dispatch(
-                                          deleteFuelMeasurement({
-                                            id: f.id,
-                                          }),
-                                        );
+                                        if (f.type === "bunkering") {
+                                          dispatch(
+                                            deleteBunkering({
+                                              bunkeringId: f.value.id,
+                                            }),
+                                          );
+                                        } else {
+                                          dispatch(
+                                            deleteFuelMeasurement({
+                                              fuelMeasurementId: f.value.id,
+                                            }),
+                                          );
+                                        }
                                         resetEdit();
                                       }}
                                     >

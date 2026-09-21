@@ -24,11 +24,11 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { CreateFuelMeasurement } from '../models';
 // @ts-ignore
-import type { DeleteFuelMeasurement } from '../models';
-// @ts-ignore
 import type { ErrorResponse } from '../models';
 // @ts-ignore
 import type { FuelMeasurement } from '../models';
+// @ts-ignore
+import type { FuelMeasurementOrBunkering } from '../models';
 /**
  * FuelMeasurementApi - axios parameter creator
  * @export
@@ -85,15 +85,16 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {DeleteFuelMeasurement} deleteFuelMeasurement 
+         * @param {number} fuelMeasurementId 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementDeleteFuelMeasurement: async (deleteFuelMeasurement: DeleteFuelMeasurement, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'deleteFuelMeasurement' is not null or undefined
-            assertParamExists('routesV1FuelMeasurementDeleteFuelMeasurement', 'deleteFuelMeasurement', deleteFuelMeasurement)
-            const localVarPath = `/v1.0/fuel_measurements`;
+        routesV1FuelMeasurementDeleteFuelMeasurement: async (fuelMeasurementId: number, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fuelMeasurementId' is not null or undefined
+            assertParamExists('routesV1FuelMeasurementDeleteFuelMeasurement', 'fuelMeasurementId', fuelMeasurementId)
+            const localVarPath = `/v1.0/fuel_measurements/{fuel_measurement_id}`
+                .replace(`{${"fuel_measurement_id"}}`, encodeURIComponent(String(fuelMeasurementId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -119,12 +120,9 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(deleteFuelMeasurement, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -199,15 +197,85 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {FuelMeasurement} fuelMeasurement 
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {number | null} [limit] 
+         * @param {number | null} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings: async (authorization?: string, start?: string | null, end?: string | null, limit?: number | null, offset?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/fuel_measurements_and_bunkerings`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} fuelMeasurementId 
+         * @param {CreateFuelMeasurement} createFuelMeasurement 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1FuelMeasurementUpdateFuelMeasurement: async (fuelMeasurement: FuelMeasurement, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'fuelMeasurement' is not null or undefined
-            assertParamExists('routesV1FuelMeasurementUpdateFuelMeasurement', 'fuelMeasurement', fuelMeasurement)
-            const localVarPath = `/v1.0/fuel_measurements`;
+        routesV1FuelMeasurementUpdateFuelMeasurement: async (fuelMeasurementId: number, createFuelMeasurement: CreateFuelMeasurement, authorization?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fuelMeasurementId' is not null or undefined
+            assertParamExists('routesV1FuelMeasurementUpdateFuelMeasurement', 'fuelMeasurementId', fuelMeasurementId)
+            // verify required parameter 'createFuelMeasurement' is not null or undefined
+            assertParamExists('routesV1FuelMeasurementUpdateFuelMeasurement', 'createFuelMeasurement', createFuelMeasurement)
+            const localVarPath = `/v1.0/fuel_measurements/{fuel_measurement_id}`
+                .replace(`{${"fuel_measurement_id"}}`, encodeURIComponent(String(fuelMeasurementId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -238,7 +306,7 @@ export const FuelMeasurementApiAxiosParamCreator = function (configuration?: Con
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(fuelMeasurement, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createFuelMeasurement, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -270,13 +338,13 @@ export const FuelMeasurementApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {DeleteFuelMeasurement} deleteFuelMeasurement 
+         * @param {number} fuelMeasurementId 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementDeleteFuelMeasurement(deleteFuelMeasurement: DeleteFuelMeasurement, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementDeleteFuelMeasurement(deleteFuelMeasurement, authorization, options);
+        async routesV1FuelMeasurementDeleteFuelMeasurement(fuelMeasurementId: number, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementDeleteFuelMeasurement(fuelMeasurementId, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementDeleteFuelMeasurement']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -299,13 +367,30 @@ export const FuelMeasurementApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {FuelMeasurement} fuelMeasurement 
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {number | null} [limit] 
+         * @param {number | null} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings(authorization?: string, start?: string | null, end?: string | null, limit?: number | null, offset?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FuelMeasurementOrBunkering>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings(authorization, start, end, limit, offset, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} fuelMeasurementId 
+         * @param {CreateFuelMeasurement} createFuelMeasurement 
          * @param {string} [authorization] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1FuelMeasurementUpdateFuelMeasurement(fuelMeasurement: FuelMeasurement, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementUpdateFuelMeasurement(fuelMeasurement, authorization, options);
+        async routesV1FuelMeasurementUpdateFuelMeasurement(fuelMeasurementId: number, createFuelMeasurement: CreateFuelMeasurement, authorization?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1FuelMeasurementUpdateFuelMeasurement(fuelMeasurementId, createFuelMeasurement, authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FuelMeasurementApi.routesV1FuelMeasurementUpdateFuelMeasurement']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -336,7 +421,7 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         routesV1FuelMeasurementDeleteFuelMeasurement(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1FuelMeasurementDeleteFuelMeasurement(requestParameters.deleteFuelMeasurement, requestParameters.authorization, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1FuelMeasurementDeleteFuelMeasurement(requestParameters.fuelMeasurementId, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -349,12 +434,21 @@ export const FuelMeasurementApiFactory = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkeringsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkeringsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<FuelMeasurementOrBunkering>> {
+            return localVarFp.routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         routesV1FuelMeasurementUpdateFuelMeasurement(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routesV1FuelMeasurementUpdateFuelMeasurement(requestParameters.fuelMeasurement, requestParameters.authorization, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1FuelMeasurementUpdateFuelMeasurement(requestParameters.fuelMeasurementId, requestParameters.createFuelMeasurement, requestParameters.authorization, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -388,10 +482,10 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementCreateFuelMeasurementR
 export interface FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementRequest {
     /**
      * 
-     * @type {DeleteFuelMeasurement}
+     * @type {number}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurement
      */
-    readonly deleteFuelMeasurement: DeleteFuelMeasurement
+    readonly fuelMeasurementId: number
 
     /**
      * 
@@ -444,6 +538,48 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsReq
 }
 
 /**
+ * Request parameters for routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings operation in FuelMeasurementApi.
+ * @export
+ * @interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkeringsRequest
+ */
+export interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkeringsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkerings
+     */
+    readonly authorization?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkerings
+     */
+    readonly start?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkerings
+     */
+    readonly end?: string | null
+
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkerings
+     */
+    readonly limit?: number | null
+
+    /**
+     * 
+     * @type {number}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkerings
+     */
+    readonly offset?: number | null
+}
+
+/**
  * Request parameters for routesV1FuelMeasurementUpdateFuelMeasurement operation in FuelMeasurementApi.
  * @export
  * @interface FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementRequest
@@ -451,10 +587,17 @@ export interface FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsReq
 export interface FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementRequest {
     /**
      * 
-     * @type {FuelMeasurement}
+     * @type {number}
      * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurement
      */
-    readonly fuelMeasurement: FuelMeasurement
+    readonly fuelMeasurementId: number
+
+    /**
+     * 
+     * @type {CreateFuelMeasurement}
+     * @memberof FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurement
+     */
+    readonly createFuelMeasurement: CreateFuelMeasurement
 
     /**
      * 
@@ -490,7 +633,7 @@ export class FuelMeasurementApi extends BaseAPI {
      * @memberof FuelMeasurementApi
      */
     public routesV1FuelMeasurementDeleteFuelMeasurement(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementDeleteFuelMeasurementRequest, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementDeleteFuelMeasurement(requestParameters.deleteFuelMeasurement, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementDeleteFuelMeasurement(requestParameters.fuelMeasurementId, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -506,13 +649,24 @@ export class FuelMeasurementApi extends BaseAPI {
 
     /**
      * 
+     * @param {FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkeringsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FuelMeasurementApi
+     */
+    public routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementGetFuelMeasurementsAndBunkeringsRequest = {}, options?: RawAxiosRequestConfig) {
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FuelMeasurementApi
      */
     public routesV1FuelMeasurementUpdateFuelMeasurement(requestParameters: FuelMeasurementApiRoutesV1FuelMeasurementUpdateFuelMeasurementRequest, options?: RawAxiosRequestConfig) {
-        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementUpdateFuelMeasurement(requestParameters.fuelMeasurement, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
+        return FuelMeasurementApiFp(this.configuration).routesV1FuelMeasurementUpdateFuelMeasurement(requestParameters.fuelMeasurementId, requestParameters.createFuelMeasurement, requestParameters.authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -106,6 +106,14 @@ export const UserHaul: FC = () => {
 
   useEffect(() => {
     dispatch(getUserHauls({}));
+
+    // Get latest fuel measurement for verifying input
+    dispatch(
+      getFuelMeasurements({
+        limit: 1,
+        offset: 0,
+      }),
+    );
   }, []);
 
   useEffect(() => {
@@ -152,7 +160,12 @@ export const UserHaul: FC = () => {
       setNewFuel("");
     }
     // Get new fuelmeasurements
-    dispatch(getFuelMeasurements({ limit: 1, offset: 0 }));
+    dispatch(
+      getFuelMeasurements({
+        limit: 1,
+        offset: 0,
+      }),
+    );
   };
 
   const onStopHaul = (fuelLiter: number, livingWeight?: number) => {
@@ -160,6 +173,13 @@ export const UserHaul: FC = () => {
       stopUserHaul({
         fuelLiterEnd: fuelLiter,
         totalLivingWeightKg: livingWeight,
+      }),
+    );
+    // Get latest fuel measurement for verifying input
+    dispatch(
+      getFuelMeasurements({
+        limit: 1,
+        offset: 0,
       }),
     );
   };

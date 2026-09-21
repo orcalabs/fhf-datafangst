@@ -1,8 +1,4 @@
-import type {
-  CreateFuelMeasurement,
-  DeleteFuelMeasurement,
-  FuelMeasurement,
-} from "~/generated/openapi";
+import type { CreateFuelMeasurement } from "~/generated/openapi";
 import { FuelMeasurementApi } from "~/generated/openapi";
 import { apiConfiguration, apiFn, axiosInstance } from "./baseApi";
 
@@ -18,12 +14,14 @@ export interface CreateFuelMeasurementsArgs extends CreateFuelMeasurement {
   token?: string;
 }
 
-export interface UpdateFuelMeasurementsArgs extends FuelMeasurement {
+export interface UpdateFuelMeasurementsArgs extends CreateFuelMeasurement {
+  fuelMeasurementId: number;
   callSignOverride?: string | null;
   token?: string;
 }
 
-export interface DeleteFuelMeasurementsArgs extends DeleteFuelMeasurement {
+export interface DeleteFuelMeasurementsArgs {
+  fuelMeasurementId: number;
   callSignOverride?: string | null;
   token?: string;
 }
@@ -55,27 +53,49 @@ export const createFuelMeasurement = apiFn(
 );
 
 export const updateFuelMeasurement = apiFn(
-  ({ token, ...body }: UpdateFuelMeasurementsArgs) =>
+  ({
+    token,
+    callSignOverride,
+    fuelMeasurementId,
+    ...createFuelMeasurement
+  }: UpdateFuelMeasurementsArgs) =>
     api.routesV1FuelMeasurementUpdateFuelMeasurement(
       {
-        fuelMeasurement: body,
+        fuelMeasurementId,
+        createFuelMeasurement,
         authorization: token!,
       },
       {
-        params: { call_sign_override: body.callSignOverride },
+        params: { call_sign_override: callSignOverride },
       },
     ),
 );
 
 export const deleteFuelMeasurement = apiFn(
-  ({ token, ...body }: DeleteFuelMeasurementsArgs) =>
+  ({
+    fuelMeasurementId,
+    token,
+    callSignOverride,
+  }: DeleteFuelMeasurementsArgs) =>
     api.routesV1FuelMeasurementDeleteFuelMeasurement(
       {
-        deleteFuelMeasurement: body,
+        fuelMeasurementId,
         authorization: token!,
       },
       {
-        params: { call_sign_override: body.callSignOverride },
+        params: { call_sign_override: callSignOverride },
       },
+    ),
+);
+
+export const getFuelMeasurementsAndBunkerings = apiFn(
+  (args: FuelMeasurementsArgs, signal) =>
+    api.routesV1FuelMeasurementGetFuelMeasurementsAndBunkerings(
+      {
+        start: args.startDate?.toISOString(),
+        end: args.endDate?.toISOString(),
+        authorization: args.token!,
+      },
+      { params: { call_sign_override: args.callSignOverride }, signal },
     ),
 );

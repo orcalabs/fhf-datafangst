@@ -1,5 +1,6 @@
 export * from "./aisApi";
 export * from "./baseApi";
+export * from "./bunkeringApi";
 export * from "./bwApi";
 export * from "./deliveryPointsApi";
 export * from "./fishingFacilityApi";
