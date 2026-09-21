@@ -33,7 +33,9 @@ export const FishingFacilityToolType = {
     Seismic: 'Seismic',
     Mooring: 'Mooring',
     PlannedCableLaying: 'PlannedCableLaying',
-    Fishpot: 'Fishpot'
+    Fishpot: 'Fishpot',
+    Storagecage: 'Storagecage',
+    Storagepot: 'Storagepot'
 } as const;
 
 export type FishingFacilityToolType = typeof FishingFacilityToolType[keyof typeof FishingFacilityToolType];

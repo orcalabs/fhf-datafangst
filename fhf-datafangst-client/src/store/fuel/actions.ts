@@ -20,3 +20,23 @@ export const deleteFuelMeasurement = createAsyncThunk(
   "fuel/deleteFuelMeasurement",
   Api.deleteFuelMeasurement,
 );
+
+export const getFuelMeasurementsAndBunkerings = createAsyncThunk(
+  "fuel/getFuelMeasurementsAndBunkerings",
+  Api.getFuelMeasurementsAndBunkerings,
+);
+
+export const createBunkering = createAsyncThunk(
+  "fuel/createBunkering",
+  Api.createBunkering,
+);
+
+export const updateBunkering = createAsyncThunk(
+  "fuel/updateBunkering",
+  Api.updateBunkering,
+);
+
+export const deleteBunkering = createAsyncThunk(
+  "fuel/deleteBunkering",
+  Api.deleteBunkering,
+);

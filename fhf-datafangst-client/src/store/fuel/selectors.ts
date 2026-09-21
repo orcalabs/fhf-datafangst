@@ -10,3 +10,13 @@ export const selectFuelMeasurements = createSelector(
   selectAppState,
   (state) => state.fuelMeasurements,
 );
+
+export const selectFuelMeasurementsAndBunkerings = createSelector(
+  selectAppState,
+  (state) => state.fuelMeasurementsAndBunkerings,
+);
+
+export const selectFuelMeasurementsAndBunkeringsLoading = createSelector(
+  selectAppState,
+  (state) => state.fuelMeasurementsAndBunkeringsLoading,
+);

@@ -22,3 +22,23 @@ export const deleteFuelMeasurement = createAsyncThunk(
 );
 
 export const resetFuelPostStatus = createAction("base/resetFuelPostStatus");
+
+export const getFuelMeasurementsAndBunkerings = createAsyncThunk(
+  "fuel/getFuelMeasurementsAndBunkerings",
+  Api.getFuelMeasurementsAndBunkerings,
+);
+
+export const createBunkering = createAsyncThunk(
+  "fuel/createBunkering",
+  Api.createBunkering,
+);
+
+export const updateBunkering = createAsyncThunk(
+  "fuel/updateBunkering",
+  Api.updateBunkering,
+);
+
+export const deleteBunkering = createAsyncThunk(
+  "fuel/deleteBunkering",
+  Api.deleteBunkering,
+);

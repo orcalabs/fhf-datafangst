@@ -35,12 +35,14 @@ import { LocalLoadingProgress } from "~/components";
 import type { Confirm } from "~/components/ConfirmModal/ConfirmModal";
 import { ConfirmModal } from "~/components/ConfirmModal/ConfirmModal";
 import {
+  deleteBunkering,
   deleteFuelMeasurement,
-  getFuelMeasurements,
-  selectFuelMeasurements,
-  selectFuelMeasurementsLoading,
+  getFuelMeasurementsAndBunkerings,
+  selectFuelMeasurementsAndBunkerings,
+  selectFuelMeasurementsAndBunkeringsLoading,
   selectFuelMeasurementsScrollable,
   selectUserConsent,
+  updateBunkering,
   updateFuelMeasurement,
   useAppDispatch,
   useAppSelector,
@@ -69,6 +71,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 interface EditFuel {
+  type: string;
+  index: number;
   id: number;
   timestamp: Date | null;
   fuel: number;
@@ -105,8 +109,8 @@ export const FuelLog: FC = () => {
   const isSmallResolution = useMediaQuery(theme.breakpoints.between(470, 920));
   const isMobile = useMediaQuery(theme.breakpoints.down(435));
 
-  const fuel = useAppSelector(selectFuelMeasurements);
-  const loading = useAppSelector(selectFuelMeasurementsLoading);
+  const fuel = useAppSelector(selectFuelMeasurementsAndBunkerings);
+  const loading = useAppSelector(selectFuelMeasurementsAndBunkeringsLoading);
   const scrollable = useAppSelector(selectFuelMeasurementsScrollable);
   const consent = useAppSelector(selectUserConsent);
 
@@ -119,7 +123,12 @@ export const FuelLog: FC = () => {
   const limit = 20;
 
   useEffect(() => {
-    dispatch(getFuelMeasurements({ limit, offset }));
+    dispatch(
+      getFuelMeasurementsAndBunkerings({
+        limit,
+        offset,
+      }),
+    );
   }, [offset]);
 
   useEffect(() => {
@@ -130,7 +139,7 @@ export const FuelLog: FC = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setOffset((v) => v + limit);
+          setOffset((v) => v + 20);
         }
       },
       { threshold: 1 },
@@ -171,7 +180,11 @@ export const FuelLog: FC = () => {
                       <Table>
                         <TableHead>
                           <StyledTableRow>
-                            <StyledTableCell>Måling</StyledTableCell>
+                            <StyledTableCell>
+                              {f.type === "bunkering"
+                                ? "Bunkring"
+                                : "Flowmeter"}
+                            </StyledTableCell>
                             <StyledTableCell align="right">
                               <Stack
                                 direction="row"
@@ -189,9 +202,11 @@ export const FuelLog: FC = () => {
                                   disabled={!consent}
                                   onClick={() => {
                                     setEditEntry({
-                                      id: f.id,
-                                      fuel: f.fuel,
-                                      timestamp: new Date(f.timestamp),
+                                      type: f.type,
+                                      index: i,
+                                      id: f.value.id,
+                                      fuel: f.value.fuel,
+                                      timestamp: new Date(f.value.timestamp),
                                       error: false,
                                     });
                                   }}
@@ -208,32 +223,34 @@ export const FuelLog: FC = () => {
                                 <IconButton
                                   size="small"
                                   sx={{ bgcolor: "#F1DFDF", borderRadius: 1 }}
-                                  onClick={() => {
-                                    dispatch(
-                                      deleteFuelMeasurement({
-                                        id: f.id,
-                                      }),
-                                    );
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setConfirmDelete({
+                                      message:
+                                        "Er du sikker på at du vil slette denne målingen?",
+                                      onConfirm: () => {
+                                        if (f.type === "bunkering") {
+                                          dispatch(
+                                            deleteBunkering({
+                                              bunkeringId: f.value.id,
+                                            }),
+                                          );
+                                        } else {
+                                          dispatch(
+                                            deleteFuelMeasurement({
+                                              fuelMeasurementId: f.value.id,
+                                            }),
+                                          );
+                                        }
+                                      },
+                                    });
+
                                     resetEdit();
                                   }}
                                 >
                                   <DeleteOutlinedIcon
                                     fontSize="small"
                                     sx={{ color: "error.main" }}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setConfirmDelete({
-                                        message:
-                                          "Er du sikker på at du vil slette denne målingen?",
-                                        onConfirm: () => {
-                                          dispatch(
-                                            deleteFuelMeasurement({
-                                              id: f.id,
-                                            }),
-                                          );
-                                        },
-                                      });
-                                    }}
                                   />
                                 </IconButton>
                               </Stack>
@@ -244,13 +261,16 @@ export const FuelLog: FC = () => {
                           <StyledTableRow>
                             <StyledTableCell>Tidspunkt</StyledTableCell>
                             <StyledTableCell align="right">
-                              {dateFormat(f.timestamp, "dd.MM.yyyy, HH:mm")}
+                              {dateFormat(
+                                f.value.timestamp,
+                                "dd.MM.yyyy, HH:mm",
+                              )}
                             </StyledTableCell>
                           </StyledTableRow>
                           <StyledTableRow>
                             <StyledTableCell>Liter</StyledTableCell>
                             <StyledTableCell align="right">
-                              {f.fuel}
+                              {f.value.fuel}
                             </StyledTableCell>
                           </StyledTableRow>
                         </TableBody>
@@ -271,11 +291,12 @@ export const FuelLog: FC = () => {
               >
                 <TableHead>
                   <TableRow>
+                    <StyledTableCell sx={{ width: 170 }}>Type</StyledTableCell>
                     <StyledTableCell sx={{ width: 220 }}>
                       Tidspunkt
                     </StyledTableCell>
                     <StyledTableCell sx={{ width: 180 }} align="right">
-                      Drivstoffmåler / Flowmeter
+                      Verdi
                     </StyledTableCell>
                     <StyledTableCell sx={{ width: 240 }} />
                   </TableRow>
@@ -283,8 +304,11 @@ export const FuelLog: FC = () => {
                 <TableBody>
                   {fuel?.map((f, i) => (
                     <TableRow key={i} sx={{ height: 85 }}>
-                      {f.id === editEntry?.id && editEntry ? (
+                      {i === editEntry?.index && editEntry ? (
                         <>
+                          <StyledTableCell>
+                            {f.type === "bunkering" ? "Bunkring" : "Flowmeter"}
+                          </StyledTableCell>
                           <StyledTableCell>
                             <DateTimePicker
                               sx={{ width: 230 }}
@@ -353,14 +377,25 @@ export const FuelLog: FC = () => {
                                 color="success"
                                 startIcon={<DoneIcon />}
                                 onClick={() => {
-                                  dispatch(
-                                    updateFuelMeasurement({
-                                      id: editEntry.id,
-                                      fuel: editEntry.fuel,
-                                      timestamp:
-                                        editEntry.timestamp!.toISOString(),
-                                    }),
-                                  );
+                                  if (editEntry.type === "bunkering") {
+                                    dispatch(
+                                      updateBunkering({
+                                        bunkeringId: editEntry.id,
+                                        fuel: editEntry.fuel,
+                                        timestamp:
+                                          editEntry.timestamp!.toISOString(),
+                                      }),
+                                    );
+                                  } else {
+                                    dispatch(
+                                      updateFuelMeasurement({
+                                        fuelMeasurementId: editEntry.id,
+                                        fuel: editEntry.fuel,
+                                        timestamp:
+                                          editEntry.timestamp!.toISOString(),
+                                      }),
+                                    );
+                                  }
                                   resetEdit();
                                 }}
                               >
@@ -381,10 +416,13 @@ export const FuelLog: FC = () => {
                       ) : (
                         <>
                           <StyledTableCell>
-                            {dateFormat(f.timestamp, "dd.MM.yyyy HH:mm")}
+                            {f.type === "bunkering" ? "Bunkring" : "Flowmeter"}
+                          </StyledTableCell>
+                          <StyledTableCell>
+                            {dateFormat(f.value.timestamp, "dd.MM.yyyy HH:mm")}
                           </StyledTableCell>
                           <StyledTableCell align="right">
-                            {f.fuel} liter
+                            {f.value.fuel} liter
                           </StyledTableCell>
 
                           <StyledTableCell align="right">
@@ -405,9 +443,11 @@ export const FuelLog: FC = () => {
                                 disabled={!consent}
                                 onClick={() => {
                                   setEditEntry({
-                                    id: f.id,
-                                    fuel: f.fuel,
-                                    timestamp: new Date(f.timestamp),
+                                    type: f.type,
+                                    index: i,
+                                    id: f.value.id,
+                                    fuel: f.value.fuel,
+                                    timestamp: new Date(f.value.timestamp),
                                     error: false,
                                   });
                                 }}
@@ -431,11 +471,19 @@ export const FuelLog: FC = () => {
                                     message:
                                       "Er du sikker på at du vil slette denne målingen?",
                                     onConfirm: () => {
-                                      dispatch(
-                                        deleteFuelMeasurement({
-                                          id: f.id,
-                                        }),
-                                      );
+                                      if (f.type === "bunkering") {
+                                        dispatch(
+                                          deleteBunkering({
+                                            bunkeringId: f.value.id,
+                                          }),
+                                        );
+                                      } else {
+                                        dispatch(
+                                          deleteFuelMeasurement({
+                                            fuelMeasurementId: f.value.id,
+                                          }),
+                                        );
+                                      }
                                     },
                                   });
                                 }}
@@ -563,13 +611,23 @@ export const FuelLog: FC = () => {
               sx={{ bgcolor: "fourth.main" }}
               variant="contained"
               onClick={() => {
-                dispatch(
-                  updateFuelMeasurement({
-                    id: editEntry.id,
-                    fuel: editEntry.fuel,
-                    timestamp: editEntry.timestamp!.toISOString(),
-                  }),
-                );
+                if (editEntry.type === "bunkering") {
+                  dispatch(
+                    updateBunkering({
+                      bunkeringId: editEntry.id,
+                      fuel: editEntry.fuel,
+                      timestamp: editEntry.timestamp!.toISOString(),
+                    }),
+                  );
+                } else {
+                  dispatch(
+                    updateFuelMeasurement({
+                      fuelMeasurementId: editEntry.id,
+                      fuel: editEntry.fuel,
+                      timestamp: editEntry.timestamp!.toISOString(),
+                    }),
+                  );
+                }
                 setEditEntry(undefined);
               }}
               disabled={

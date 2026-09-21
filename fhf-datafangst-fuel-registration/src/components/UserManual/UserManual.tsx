@@ -36,6 +36,10 @@ export const UserManual: FC<Props> = ({ open, onClose }) => {
               av drivstofforbruket under ulike faser av fisket.
             </Typography>
             <Typography>
+              Dersom man i tillegg ønsker å holde oversikt over egne bunkringer
+              kan man bruke appen til å loggføre dette også.
+            </Typography>
+            <Typography>
               For korrekt kalkulering av forbruket ditt bør flowmeteret leses av
               og registereres når:
             </Typography>

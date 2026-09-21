@@ -17,14 +17,26 @@
 /**
  * 
  * @export
- * @interface DeleteFuelMeasurement
+ * @interface Bunkering
  */
-export interface DeleteFuelMeasurement {
+export interface Bunkering {
     /**
      * 
      * @type {number}
-     * @memberof DeleteFuelMeasurement
+     * @memberof Bunkering
      */
     'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Bunkering
+     */
+    'timestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Bunkering
+     */
+    'fuel': number;
 }
 

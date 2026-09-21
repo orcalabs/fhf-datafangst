@@ -22,6 +22,7 @@
 
 export const ErrorDiscriminants = {
     ObjectNotFound: 'ObjectNotFound',
+    BunkeringAlreadyExists: 'BunkeringAlreadyExists',
     CannotModifyActiveUserHaul: 'CannotModifyActiveUserHaul',
     NoActiveUserHaul: 'NoActiveUserHaul',
     InvalidVesselSelection: 'InvalidVesselSelection',

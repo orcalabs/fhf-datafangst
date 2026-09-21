@@ -24,17 +24,25 @@ export const selectFuelPostStatus = createSelector(
 export const selectLastFuelMeasurement = createSelector(
   selectAppState,
   (state) => {
-    const registeredFuel = state.fuelMeasurements?.[0];
-
     if (
       state.activeUserHaul &&
-      (!registeredFuel ||
+      (state.lastFuelMeasurement === undefined ||
         new Date(state.activeUserHaul.startTs) >
-          new Date(registeredFuel.timestamp))
+          new Date(state.lastFuelMeasurement?.timestamp))
     ) {
       return state.activeUserHaul.startFuelLiter;
+    } else {
+      return state.lastFuelMeasurement?.fuel;
     }
-
-    return registeredFuel?.fuel;
   },
+);
+
+export const selectFuelMeasurementsAndBunkerings = createSelector(
+  selectAppState,
+  (state) => state.fuelMeasurementsAndBunkerings,
+);
+
+export const selectFuelMeasurementsAndBunkeringsLoading = createSelector(
+  selectAppState,
+  (state) => state.fuelMeasurementsAndBunkeringsLoading,
 );

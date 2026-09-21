@@ -16,6 +16,7 @@
 
 export * from './api/ais-api';
 export * from './api/ais-vms-api';
+export * from './api/bunkering-api';
 export * from './api/delivery-point-api';
 export * from './api/fishing-facility-api';
 export * from './api/fuel-measurement-api';
