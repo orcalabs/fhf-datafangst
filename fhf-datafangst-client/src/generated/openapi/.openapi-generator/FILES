@@ -38,6 +38,7 @@ models/average-eeoi-params.ts
 models/average-fui-params.ts
 models/average-trip-benchmarks-params.ts
 models/average-trip-benchmarks.ts
+models/average-vessels-benchmarks.ts
 models/benchmark-entry.ts
 models/benchmark.ts
 models/buyer-location-type.ts
@@ -115,6 +116,7 @@ models/org-benchmark-path.ts
 models/org-benchmark-species.ts
 models/org-benchmarks.ts
 models/org-fuel-path.ts
+models/per-vessel-benchmark-params.ts
 models/price-query.ts
 models/quality-detailed.ts
 models/quality.ts
@@ -130,6 +132,7 @@ models/species-main-group-detailed.ts
 models/species-main-group.ts
 models/species.ts
 models/started-user-haul.ts
+models/sum-vessel-benchmark.ts
 models/tra-catch.ts
 models/tra.ts
 models/trip-assembler-id.ts

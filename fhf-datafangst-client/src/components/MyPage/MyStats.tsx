@@ -19,7 +19,7 @@ export const MyStats: FC = () => {
         bgcolor: "#EDF0F3",
       }}
     >
-      <Stack sx={{ p: 3, height: "100%" }} spacing={2}>
+      <Stack sx={{ p: 3, pb: 0, height: "100%" }} spacing={2}>
         <Typography variant="h2">Statistikker</Typography>
         <Tabs
           sx={{

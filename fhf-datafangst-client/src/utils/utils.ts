@@ -187,10 +187,14 @@ export const createHaulDurationString = (haul: Haul) =>
     end: haul.stopTimestamp,
   });
 
-export const kilosOrTonsFormatter = (weight: number, precision?: number) =>
+export const kilosOrTonsFormatter = (
+  weight: number,
+  precision?: number,
+  suffix?: string,
+) =>
   weight >= 1000
-    ? (weight / 1000).toFixed(precision ?? 1) + " tonn"
-    : weight.toFixed(precision ?? 1) + "  kg";
+    ? (weight / 1000).toFixed(precision ?? 1) + " tonn" + (suffix ?? "")
+    : weight.toFixed(precision ?? 1) + "  kg" + (suffix ?? "");
 
 export const metersOrNauticalMilesFormatter = (
   distance: number,

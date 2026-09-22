@@ -113,6 +113,7 @@ export const DateFilter: FC<Props> = (props) => {
               spacing={1}
               sx={{
                 "& .MuiChip-root": {
+                  bgcolor: "grey.A200",
                   ":hover": {
                     bgcolor: theme.palette.grey[300],
                   },

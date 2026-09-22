@@ -15,4 +15,5 @@ export const FishingFacilityToolTypes: Record<FishingFacilityToolType, string> =
     [FishingFacilityToolType.Mooring]: "Fortøyning",
     [FishingFacilityToolType.PlannedCableLaying]: "Planlagt kabellegging",
     [FishingFacilityToolType.Fishpot]: "Fisketeine",
+    [FishingFacilityToolType.Storagecage]: "Merd",
   };

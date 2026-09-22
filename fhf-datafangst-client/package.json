@@ -10,13 +10,14 @@
     "preview": "vite preview",
     "fmt": "prettier -w .",
     "api-gen": "rm -rf src/generated/openapi && openapi-generator-cli generate -i https://api.dev.datafangst.orcalabs.no/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models",
-    "api-gen:local": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://localhost:8081/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models"
+    "api-gen:local": "rm -rf src/generated/openapi && openapi-generator-cli generate -i http://192.168.0.175:8080/api-doc/openapi.json --generator-name typescript-axios -o src/generated/openapi --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
+    "@mui/x-charts": "^9.13.0",
     "@mui/x-date-pickers": "^9.10.1",
     "@nivo/bar": "^0.99.0",
     "@nivo/core": "^0.99.0",

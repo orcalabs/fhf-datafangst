@@ -98,9 +98,14 @@ const baseBuilder = (builder: ActionReducerMapBuilder<AppState>) =>
     })
     .addCase(getBwUser.rejected, (state, _) => {
       state.bwUserLoading = false;
+      state.selectedCallSign = "LFNX";
     })
     .addCase(checkLoggedIn, (state, action) => {
+      // Temp export of BW token for local testing
+      const BW_TOKEN: string =
+        "eyJhbGciOiJSUzI1NiIsImtpZCI6IjgwMjlENjhCMTU3OTM3NUQ2Qjk4NTNFMzZCNzM3QjFGIiwidHlwIjoiYXQrand0In0.eyJpc3MiOiJodHRwczovL2lkLmJhcmVudHN3YXRjaC5ubyIsIm5iZiI6MTc5MDA1ODEyMiwiaWF0IjoxNzkwMDU4MTIyLCJleHAiOjE3OTAwNjE3MjIsImF1ZCI6ImFwaSIsInNjb3BlIjpbIm9wZW5pZCIsImFwaSJdLCJhbXIiOlsicHdkIl0sImNsaWVudF9pZCI6ImZoZi1kYXRhZmFuZ3N0Iiwic3ViIjoiODJjMDAxMmItZjMzNy00N2FmLWFkYzMtYmFhYWJjZTU0MGE0IiwiYXV0aF90aW1lIjoxNzg3MjEyMjczLCJpZHAiOiJsb2NhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InBvc3RAb3JjYWxhYnMubm8iLCJzaWQiOiJCNkE0N0E3RkQ2MDEwNDkxNTVEOTk0RTZDNzcxODlFQyJ9.Avfv-mVNspg1PTQpr46RyunbZJ_Q8YWtY0qZC6_S5GQM-OSAwPB3gctdiMll3d_asb-8QxQDWxppCoETV0NhKhHA1655ULy8d9wJKdYA0JtLLMeVz8ButnLXwCOhf7ciMcpcXmygcEEBo85S_WSMWRPKU51fSugRDn-_9dx-9gIatEBXr7dtC6Vb1m2RypoNV9RTTL3WTNrxtBVORH5npCxTWu7ZBfczUO1uAFybZU9XivEk2lutY0a-kZgDfkVB26QVhD9iPhI-UdXyz2fNK41aY6-ad6JoYiyj4IyQ9nDwCefTn4X2fJhzeNmvEcEu7gt_6TpjXIARSLIxxSTByg";
       const user = action.payload;
+      user.access_token = BW_TOKEN;
       const token = user.access_token;
 
       state.isLoggedIn = token !== undefined;

@@ -3,7 +3,9 @@ import type { AppState } from "~/store/state";
 import {
   getAverageEeoi,
   getAverageTripBenchmarks,
+  getAvgVesselBenchmark,
   getEeoi,
+  getSumPerVesselBenchmark,
   getTripBenchmarks,
 } from "./actions";
 
@@ -11,8 +13,8 @@ export const tripBenchmarkBuilder = (
   builder: ActionReducerMapBuilder<AppState>,
 ): ActionReducerMapBuilder<AppState> =>
   builder
-    .addCase(getTripBenchmarks.pending, (state, action) => {
-      action.meta.arg.accessToken = state.authUser?.access_token;
+    .addCase(getTripBenchmarks.pending, (state, _) => {
+      // action.meta.arg.accessToken = state.authUser?.access_token;
       state.tripBenchmarks = undefined;
       state.tripBenchmarksLoading = true;
     })
@@ -48,4 +50,28 @@ export const tripBenchmarkBuilder = (
     })
     .addCase(getAverageEeoi.rejected, (state, _action) => {
       state.averageEeoiLoading = false;
+    })
+    .addCase(getSumPerVesselBenchmark.rejected, (state, _action) => {
+      state.sumPerVesselBenchmarksLoading = false;
+    })
+    .addCase(getSumPerVesselBenchmark.fulfilled, (state, action) => {
+      state.sumPerVesselBenchmarks = action.payload;
+      state.sumPerVesselBenchmarksLoading = false;
+    })
+    .addCase(getSumPerVesselBenchmark.pending, (state, _action) => {
+      // action.meta.arg.accessToken = state.authUser?.access_token;
+      state.sumPerVesselBenchmarks = undefined;
+      state.sumPerVesselBenchmarksLoading = true;
+    })
+    .addCase(getAvgVesselBenchmark.rejected, (state, _action) => {
+      state.avgVesselBenchmarksLoading = false;
+    })
+    .addCase(getAvgVesselBenchmark.fulfilled, (state, action) => {
+      state.avgVesselBenchmarks = action.payload;
+      state.avgVesselBenchmarksLoading = false;
+    })
+    .addCase(getAvgVesselBenchmark.pending, (state, _action) => {
+      // action.meta.arg.accessToken = state.authUser?.access_token;
+      state.avgVesselBenchmarks = undefined;
+      state.avgVesselBenchmarksLoading = true;
     });

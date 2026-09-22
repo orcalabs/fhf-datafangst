@@ -1,6 +1,7 @@
 import type {
   GearGroup,
   Ordering,
+  SpeciesMainGroup,
   VesselLengthGroup,
 } from "~/generated/openapi";
 import { TripApi } from "~/generated/openapi";
@@ -33,6 +34,17 @@ export interface AverageEeoiArgs {
   endDate: Date;
   gearGroups?: GearGroup[];
   lengthGroup?: VesselLengthGroup;
+}
+
+export interface PerVesselBenchmarkArgs {
+  accessToken?: string;
+  callSignOverride?: string | null;
+  start?: Date;
+  end?: Date;
+  gearGroups?: GearGroup[];
+  lengthGroups?: VesselLengthGroup[];
+  speciesMainGroupIds?: SpeciesMainGroup[];
+  useFollowingList?: boolean;
 }
 
 const api = new TripApi(apiConfiguration, undefined, axiosInstance);
@@ -91,4 +103,42 @@ export const getAverageEeoi = apiFn((query: AverageEeoiArgs, signal) =>
     },
     { signal },
   ),
+);
+
+export const getSumPerVesselBenchmark = apiFn(
+  (query: PerVesselBenchmarkArgs, signal) =>
+    api.routesV1TripBenchmarksPerVesselBenchmarksSum(
+      {
+        authorization: query.accessToken,
+        start: query.start?.toISOString(),
+        end: query.end?.toISOString(),
+        gearGroups: query.gearGroups,
+        lengthGroups: query.lengthGroups,
+        speciesMainGroupIds: query.speciesMainGroupIds,
+        useFollowingList: query.useFollowingList,
+      },
+      {
+        params: { call_sign_override: query.callSignOverride },
+        signal,
+      },
+    ),
+);
+
+export const getAvgVesselBenchmark = apiFn(
+  (query: PerVesselBenchmarkArgs, signal) =>
+    api.routesV1TripBenchmarksPerVesselBenchmarksAvg(
+      {
+        authorization: query.accessToken,
+        start: query.start?.toISOString(),
+        end: query.end?.toISOString(),
+        gearGroups: query.gearGroups,
+        lengthGroups: query.lengthGroups,
+        speciesMainGroupIds: query.speciesMainGroupIds,
+        useFollowingList: query.useFollowingList,
+      },
+      {
+        params: { call_sign_override: query.callSignOverride },
+        signal,
+      },
+    ),
 );

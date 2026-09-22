@@ -59,6 +59,7 @@ export const selectIsProjectUser = createSelector(
 export const selectSelectedCallSign = createSelector(
   selectAppState,
   (state) => state.selectedCallSign,
+  (_) => "LFNX",
 );
 
 const AIS_ROLES = [

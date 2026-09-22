@@ -17,3 +17,13 @@ export const getAverageEeoi = createAsyncThunk(
   "tripBenchmarks/getAverageEeoi",
   Api.getAverageEeoi,
 );
+
+export const getSumPerVesselBenchmark = createAsyncThunk(
+  "tripBenchmark/getSumPerVesselBenchmark",
+  Api.getSumPerVesselBenchmark,
+);
+
+export const getAvgVesselBenchmark = createAsyncThunk(
+  "tripBenchmark/getAvgVesselBenchmark",
+  Api.getAvgVesselBenchmark,
+);
