@@ -60,8 +60,8 @@ export const tripBenchmarkBuilder = (
       state.sumPerVesselBenchmarks = action.payload;
       state.sumPerVesselBenchmarksLoading = false;
     })
-    .addCase(getSumPerVesselBenchmark.pending, (state, _action) => {
-      // action.meta.arg.accessToken = state.authUser?.access_token;
+    .addCase(getSumPerVesselBenchmark.pending, (state, action) => {
+      action.meta.arg.accessToken = state.authUser?.access_token;
       state.sumPerVesselBenchmarks = undefined;
       state.sumPerVesselBenchmarksLoading = true;
     })
