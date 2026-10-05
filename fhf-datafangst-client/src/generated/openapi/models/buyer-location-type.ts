@@ -27,7 +27,8 @@ export const BuyerLocationType = {
     Vessel: 'Vessel',
     Vehicle: 'Vehicle',
     OrdinaryFacility: 'OrdinaryFacility',
-    NetPen: 'NetPen'
+    NetPen: 'NetPen',
+    FrozenStorageFacility: 'FrozenStorageFacility'
 } as const;
 
 export type BuyerLocationType = typeof BuyerLocationType[keyof typeof BuyerLocationType];

@@ -113,18 +113,13 @@ export const DateFilter: FC<Props> = (props) => {
               spacing={1}
               sx={{
                 "& .MuiChip-root": {
+                  bgcolor: "grey.A200",
                   ":hover": {
                     bgcolor: theme.palette.grey[300],
                   },
                 },
               }}
             >
-              <Chip
-                label="Denne måneden"
-                onClick={() =>
-                  onChange(new DateRange(startOfMonth(new Date()), new Date()))
-                }
-              />
               <Chip
                 label="Forrige måned"
                 onClick={() =>
@@ -163,6 +158,12 @@ export const DateFilter: FC<Props> = (props) => {
                   />
                 ),
               )}
+              <Chip
+                label="I år"
+                onClick={() =>
+                  onChange(new DateRange(startOfYear(new Date()), new Date()))
+                }
+              />
             </Stack>
           )}
         </Stack>

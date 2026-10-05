@@ -1,6 +1,7 @@
 import type {
   GearGroup,
   Ordering,
+  SpeciesGroupDetailed,
   VesselLengthGroup,
 } from "~/generated/openapi";
 import { TripApi } from "~/generated/openapi";
@@ -14,7 +15,7 @@ export interface TripBenchmarksArgs {
   callSignOverride?: string | null;
 }
 
-export interface EeoiArgs {
+export interface EeoiAndFuiArgs {
   start?: Date;
   end?: Date;
   accessToken?: string;
@@ -28,11 +29,21 @@ export interface AverageTripBenchmarkArgs {
   lengthGroup?: VesselLengthGroup;
 }
 
-export interface AverageEeoiArgs {
+export interface AverageEeoiAndFuiArgs {
   startDate: Date;
   endDate: Date;
   gearGroups?: GearGroup[];
   lengthGroup?: VesselLengthGroup;
+  speciesGroupId?: SpeciesGroupDetailed;
+  vesselIds?: number[];
+}
+
+export interface PerVesselBenchmarkArgs {
+  accessToken?: string;
+  callSignOverride?: string | null;
+  start?: Date;
+  end?: Date;
+  useFollowingList?: boolean;
 }
 
 const api = new TripApi(apiConfiguration, undefined, axiosInstance);
@@ -66,7 +77,7 @@ export const getAverageTripBenchmarks = apiFn(
     ),
 );
 
-export const getEeoi = apiFn((query: EeoiArgs, signal) =>
+export const getEeoi = apiFn((query: EeoiAndFuiArgs, signal) =>
   api.routesV1TripBenchmarksEeoi(
     {
       start: query.start?.toISOString(),
@@ -81,13 +92,76 @@ export const getEeoi = apiFn((query: EeoiArgs, signal) =>
   ),
 );
 
-export const getAverageEeoi = apiFn((query: AverageEeoiArgs, signal) =>
+export const getAverageEeoi = apiFn((query: AverageEeoiAndFuiArgs, signal) =>
   api.routesV1TripBenchmarksAverageEeoi(
     {
       start: query.startDate.toISOString(),
       end: query.endDate.toISOString(),
       gearGroups: query.gearGroups,
       lengthGroup: query.lengthGroup,
+      vesselIds: query.vesselIds,
+      speciesGroupId: query.speciesGroupId?.id,
+    },
+    { signal },
+  ),
+);
+
+export const getSumPerVesselBenchmark = apiFn(
+  (query: PerVesselBenchmarkArgs, signal) =>
+    api.routesV1TripBenchmarksPerVesselBenchmarksSum(
+      {
+        authorization: query.accessToken,
+        start: query.start?.toISOString(),
+        end: query.end?.toISOString(),
+        useFollowingList: query.useFollowingList,
+      },
+      {
+        params: { call_sign_override: query.callSignOverride },
+        signal,
+      },
+    ),
+);
+
+export const getAvgVesselBenchmark = apiFn(
+  (query: PerVesselBenchmarkArgs, signal) =>
+    api.routesV1TripBenchmarksPerVesselBenchmarksAvg(
+      {
+        authorization: query.accessToken,
+        start: query.start?.toISOString(),
+        end: query.end?.toISOString(),
+        useFollowingList: query.useFollowingList,
+      },
+      {
+        params: { call_sign_override: query.callSignOverride },
+        signal,
+      },
+    ),
+);
+
+export const getFui = apiFn((query: EeoiAndFuiArgs, signal) =>
+  api.routesV1TripBenchmarksFui(
+    {
+      start: query.start?.toISOString(),
+      end: query.end?.toISOString(),
+      authorization: query.accessToken!,
+    },
+    {
+      // Temporary fix for assigning a vessel to user in prod
+      params: { call_sign_override: query.callSignOverride },
+      signal,
+    },
+  ),
+);
+
+export const getAverageFui = apiFn((query: AverageEeoiAndFuiArgs, signal) =>
+  api.routesV1TripBenchmarksAverageFui(
+    {
+      start: query.startDate.toISOString(),
+      end: query.endDate.toISOString(),
+      gearGroups: query.gearGroups,
+      lengthGroup: query.lengthGroup,
+      vesselIds: query.vesselIds,
+      speciesGroupId: query.speciesGroupId?.id,
     },
     { signal },
   ),

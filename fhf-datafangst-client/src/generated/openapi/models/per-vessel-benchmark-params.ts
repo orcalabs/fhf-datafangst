@@ -13,15 +13,6 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { GearGroup } from './gear-group';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { SpeciesMainGroup } from './species-main-group';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { VesselLengthGroup } from './vessel-length-group';
 
 /**
  * 
@@ -41,24 +32,6 @@ export interface PerVesselBenchmarkParams {
      * @memberof PerVesselBenchmarkParams
      */
     'end'?: string | null;
-    /**
-     * 
-     * @type {Array<GearGroup>}
-     * @memberof PerVesselBenchmarkParams
-     */
-    'gearGroups'?: Array<GearGroup> | null;
-    /**
-     * 
-     * @type {Array<VesselLengthGroup>}
-     * @memberof PerVesselBenchmarkParams
-     */
-    'lengthGroups'?: Array<VesselLengthGroup> | null;
-    /**
-     * 
-     * @type {Array<SpeciesMainGroup>}
-     * @memberof PerVesselBenchmarkParams
-     */
-    'speciesMainGroupIds'?: Array<SpeciesMainGroup> | null;
     /**
      * 
      * @type {boolean}

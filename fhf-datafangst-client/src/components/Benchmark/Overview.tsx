@@ -1,69 +1,83 @@
 import { Box, Typography } from "@mui/material";
 import type { FC } from "react";
 import { useEffect } from "react";
-import {
-  BenchmarkCards,
-  HistoricalCatches,
-  LocalLoadingProgress,
-  SpeciesHistogram,
-} from "~/components";
+import type { DateRange } from "~/api";
+import { BenchmarkCards, LocalLoadingProgress } from "~/components";
 import { Ordering, TripSorting } from "~/generated/openapi";
 import {
-  getBenchmarkData,
-  getLandings,
+  getAvgVesselBenchmark,
+  getSumPerVesselBenchmark,
+  getTripBenchmarks,
   getTrips,
-  selectBenchmarkNumHistoric,
-  selectBenchmarkTimeSpan,
+  selectAvgVesselBenchmark,
   selectLoggedInVessel,
+  selectTripBenchmarks,
   selectTrips,
   selectTripsLoading,
-  selectUserFollowList,
   useAppDispatch,
   useAppSelector,
 } from "~/store";
+import { EEOI } from "./EEOI";
+import { GeneralStatsCard } from "./GeneralStatsCard";
+import { CatchChart } from "./Graphs/CatchChart";
+import { VesselRanking } from "./VesselRanking";
 
-export const BenchmarkOverview: FC = () => {
+interface Props {
+  dateRange?: DateRange;
+}
+
+export const BenchmarkOverview: FC<Props> = ({ dateRange }) => {
   const dispatch = useAppDispatch();
 
   const trips = useAppSelector(selectTrips);
   const tripsLoading = useAppSelector(selectTripsLoading);
-  const benchmarkHistoric = useAppSelector(selectBenchmarkNumHistoric);
-  const benchmarkTimespan = useAppSelector(selectBenchmarkTimeSpan);
   const vessel = useAppSelector(selectLoggedInVessel);
-  const followVessels = useAppSelector(selectUserFollowList);
+  const avgVesselBenchmark = useAppSelector(selectAvgVesselBenchmark);
+  const tripsBenchmarks = useAppSelector(selectTripBenchmarks);
+
+  // TODO: Remove before push
+  // const token = useAppSelector(selectAccessToken);
 
   useEffect(() => {
     if (vessel) {
       dispatch(
         getTrips({
           vessels: [vessel],
-          sorting: [TripSorting.StopDate, Ordering.Desc],
-          limit: benchmarkHistoric,
+          sorting: [TripSorting.StopDate, Ordering.Asc],
+          dateRange: dateRange,
           offset: 0,
           cancel: false,
         }),
       );
+    }
+  }, [vessel, dateRange]);
+
+  useEffect(() => {
+    if (vessel) {
       dispatch(
-        getLandings({
-          vessels: [vessel],
-          years: [benchmarkTimespan.startYear, benchmarkTimespan.endYear],
+        getAvgVesselBenchmark({
+          callSignOverride: vessel?.fiskeridir.callSign,
+          start: dateRange?.start,
+          end: dateRange?.end,
+        }),
+      );
+      dispatch(
+        getSumPerVesselBenchmark({
+          callSignOverride: vessel?.fiskeridir.callSign,
+          start: dateRange?.start,
+          end: dateRange?.end,
+        }),
+      );
+      dispatch(
+        getTripBenchmarks({
+          start: dateRange?.start,
+          end: dateRange?.end,
+          ordering: Ordering.Asc,
+          callSignOverride: vessel?.fiskeridir.callSign,
         }),
       );
     }
-    if (followVessels) {
-      followVessels.forEach((vessel) => {
-        dispatch(
-          getBenchmarkData({
-            vessels: [vessel],
-            sorting: [TripSorting.StopDate, Ordering.Desc],
-            limit: benchmarkHistoric,
-            offset: 0,
-            cancel: false,
-          }),
-        );
-      });
-    }
-  }, [vessel]);
+  }, [vessel, dateRange]);
 
   if (!vessel) {
     return <></>;
@@ -72,30 +86,54 @@ export const BenchmarkOverview: FC = () => {
   return (
     <>
       {tripsLoading && <LocalLoadingProgress />}
-      {trips?.length && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-          }}
-        >
-          <BenchmarkCards />
-          <SpeciesHistogram />
-          <HistoricalCatches />
-        </Box>
-      )}
-      {!tripsLoading && !trips?.length && (
-        <Box sx={{ display: "grid", placeItems: "center" }}>
-          <Typography color="text.secondary" variant="h2">
-            Fant ingen turer for ditt fartøy
-          </Typography>
-          <Typography sx={{ pt: 3 }} color="text.secondary" variant="h5">
-            For å kunne gi deg statistikk for dine turer må du ha levert
-            landingssedler eller ERS-meldinger.
-          </Typography>
-        </Box>
-      )}
+
+      <Box
+        sx={{
+          p: 2,
+          display: "grid",
+          width: "100%",
+          height: "100%",
+          gap: 3,
+          gridTemplateColumns: "1fr auto 25%",
+          gridTemplateRows: "auto 1fr 1fr",
+          gridTemplateAreas: `
+              'general general rank'
+              'kpi eeoi rank'
+              'chart chart rank'
+            `,
+        }}
+      >
+        {!!trips?.length && (
+          <>
+            <Box sx={{ gridColumn: "1 / 3", gridRow: "1 / 1" }}>
+              <GeneralStatsCard trips={trips} />
+            </Box>
+            <Box sx={{ gridArea: "kpi" }}>
+              <BenchmarkCards />
+            </Box>
+            <Box sx={{ gridArea: "chart" }}>
+              <CatchChart />
+            </Box>
+            <Box sx={{ gridArea: "rank" }}>
+              <VesselRanking />
+            </Box>
+            <Box sx={{ gridColumn: "2 / 3", gridRow: "2 / 2" }}>
+              <EEOI
+                tripBenchmarks={tripsBenchmarks}
+                avgVesselBenchmark={avgVesselBenchmark}
+                trips={trips}
+              />
+            </Box>
+          </>
+        )}
+        {!tripsLoading && !trips?.length && (
+          <Box sx={{ gridColumn: "1 / 3", gridRow: "1 / 4" }}>
+            <Typography sx={{ fontStyle: "italic", fontSize: "1.3rem" }}>
+              Fant ingen data for ditt fartøy på følgende tidsseleksjon
+            </Typography>
+          </Box>
+        )}
+      </Box>
     </>
   );
 };
