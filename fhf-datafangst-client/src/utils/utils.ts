@@ -154,6 +154,16 @@ export const createDurationString = (duration: Duration) => {
 
   return durationString[0].toUpperCase() + durationString.substring(1);
 };
+
+export const nok = new Intl.NumberFormat("no-NB", {
+  style: "currency",
+  currency: "NOK",
+  maximumFractionDigits: 0,
+});
+
+export const hoursToDays = (hours: number) =>
+  Math.round((hours / 24) * 10) / 10;
+
 export const createDurationFromHours = (hours: number) =>
   createDurationString(
     intervalToDuration({
@@ -187,10 +197,14 @@ export const createHaulDurationString = (haul: Haul) =>
     end: haul.stopTimestamp,
   });
 
-export const kilosOrTonsFormatter = (weight: number, precision?: number) =>
+export const kilosOrTonsFormatter = (
+  weight: number,
+  precision?: number,
+  suffix?: string,
+) =>
   weight >= 1000
-    ? (weight / 1000).toFixed(precision ?? 1) + " tonn"
-    : weight.toFixed(precision ?? 1) + "  kg";
+    ? (weight / 1000).toFixed(precision ?? 1) + " tonn" + (suffix ?? "")
+    : weight.toFixed(precision ?? 1) + "  kg" + (suffix ?? "");
 
 export const metersOrNauticalMilesFormatter = (
   distance: number,

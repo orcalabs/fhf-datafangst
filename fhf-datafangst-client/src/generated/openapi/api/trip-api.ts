@@ -38,8 +38,6 @@ import type { Ordering } from '../models';
 // @ts-ignore
 import type { SpeciesGroup } from '../models';
 // @ts-ignore
-import type { SpeciesMainGroup } from '../models';
-// @ts-ignore
 import type { SumVesselBenchmark } from '../models';
 // @ts-ignore
 import type { Trip } from '../models';
@@ -441,14 +439,11 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {Array<VesselLengthGroup> | null} [lengthGroups] 
-         * @param {Array<SpeciesMainGroup> | null} [speciesMainGroupIds] 
          * @param {boolean | null} [useFollowingList] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksPerVesselBenchmarksAvg: async (authorization?: string, start?: string | null, end?: string | null, gearGroups?: Array<GearGroup> | null, lengthGroups?: Array<VesselLengthGroup> | null, speciesMainGroupIds?: Array<SpeciesMainGroup> | null, useFollowingList?: boolean | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripBenchmarksPerVesselBenchmarksAvg: async (authorization?: string, start?: string | null, end?: string | null, useFollowingList?: boolean | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trip/benchmarks/per_vessel_avg`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -481,18 +476,6 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
                     end;
             }
 
-            if (gearGroups) {
-                localVarQueryParameter['gearGroups'] = gearGroups;
-            }
-
-            if (lengthGroups) {
-                localVarQueryParameter['lengthGroups'] = lengthGroups;
-            }
-
-            if (speciesMainGroupIds) {
-                localVarQueryParameter['speciesMainGroupIds'] = speciesMainGroupIds;
-            }
-
             if (useFollowingList !== undefined) {
                 localVarQueryParameter['useFollowingList'] = useFollowingList;
             }
@@ -517,14 +500,11 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {Array<VesselLengthGroup> | null} [lengthGroups] 
-         * @param {Array<SpeciesMainGroup> | null} [speciesMainGroupIds] 
          * @param {boolean | null} [useFollowingList] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksPerVesselBenchmarksSum: async (authorization?: string, start?: string | null, end?: string | null, gearGroups?: Array<GearGroup> | null, lengthGroups?: Array<VesselLengthGroup> | null, speciesMainGroupIds?: Array<SpeciesMainGroup> | null, useFollowingList?: boolean | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripBenchmarksPerVesselBenchmarksSum: async (authorization?: string, start?: string | null, end?: string | null, useFollowingList?: boolean | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trip/benchmarks/per_vessel_sum`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -555,18 +535,6 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['end'] = (end as any instanceof Date) ?
                     (end as any).toISOString() :
                     end;
-            }
-
-            if (gearGroups) {
-                localVarQueryParameter['gearGroups'] = gearGroups;
-            }
-
-            if (lengthGroups) {
-                localVarQueryParameter['lengthGroups'] = lengthGroups;
-            }
-
-            if (speciesMainGroupIds) {
-                localVarQueryParameter['speciesMainGroupIds'] = speciesMainGroupIds;
             }
 
             if (useFollowingList !== undefined) {
@@ -904,15 +872,12 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {Array<VesselLengthGroup> | null} [lengthGroups] 
-         * @param {Array<SpeciesMainGroup> | null} [speciesMainGroupIds] 
          * @param {boolean | null} [useFollowingList] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksPerVesselBenchmarksAvg(authorization?: string, start?: string | null, end?: string | null, gearGroups?: Array<GearGroup> | null, lengthGroups?: Array<VesselLengthGroup> | null, speciesMainGroupIds?: Array<SpeciesMainGroup> | null, useFollowingList?: boolean | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageVesselsBenchmarks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksPerVesselBenchmarksAvg(authorization, start, end, gearGroups, lengthGroups, speciesMainGroupIds, useFollowingList, options);
+        async routesV1TripBenchmarksPerVesselBenchmarksAvg(authorization?: string, start?: string | null, end?: string | null, useFollowingList?: boolean | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AverageVesselsBenchmarks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksPerVesselBenchmarksAvg(authorization, start, end, useFollowingList, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksPerVesselBenchmarksAvg']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -922,15 +887,12 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {Array<VesselLengthGroup> | null} [lengthGroups] 
-         * @param {Array<SpeciesMainGroup> | null} [speciesMainGroupIds] 
          * @param {boolean | null} [useFollowingList] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksPerVesselBenchmarksSum(authorization?: string, start?: string | null, end?: string | null, gearGroups?: Array<GearGroup> | null, lengthGroups?: Array<VesselLengthGroup> | null, speciesMainGroupIds?: Array<SpeciesMainGroup> | null, useFollowingList?: boolean | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SumVesselBenchmark>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksPerVesselBenchmarksSum(authorization, start, end, gearGroups, lengthGroups, speciesMainGroupIds, useFollowingList, options);
+        async routesV1TripBenchmarksPerVesselBenchmarksSum(authorization?: string, start?: string | null, end?: string | null, useFollowingList?: boolean | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SumVesselBenchmark>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksPerVesselBenchmarksSum(authorization, start, end, useFollowingList, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksPerVesselBenchmarksSum']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1058,7 +1020,7 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1TripBenchmarksPerVesselBenchmarksAvg(requestParameters: TripApiRoutesV1TripBenchmarksPerVesselBenchmarksAvgRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AverageVesselsBenchmarks> {
-            return localVarFp.routesV1TripBenchmarksPerVesselBenchmarksAvg(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroups, requestParameters.speciesMainGroupIds, requestParameters.useFollowingList, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1TripBenchmarksPerVesselBenchmarksAvg(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.useFollowingList, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1067,7 +1029,7 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         routesV1TripBenchmarksPerVesselBenchmarksSum(requestParameters: TripApiRoutesV1TripBenchmarksPerVesselBenchmarksSumRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<SumVesselBenchmark>> {
-            return localVarFp.routesV1TripBenchmarksPerVesselBenchmarksSum(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroups, requestParameters.speciesMainGroupIds, requestParameters.useFollowingList, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1TripBenchmarksPerVesselBenchmarksSum(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.useFollowingList, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the current trip of the given vessel, which is determined by the vessel\'s last reported DEP message. All vessels below 15m will not have a current trip as they do not report DEP messages.
@@ -1359,27 +1321,6 @@ export interface TripApiRoutesV1TripBenchmarksPerVesselBenchmarksAvgRequest {
 
     /**
      * 
-     * @type {Array<GearGroup>}
-     * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksAvg
-     */
-    readonly gearGroups?: Array<GearGroup> | null
-
-    /**
-     * 
-     * @type {Array<VesselLengthGroup>}
-     * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksAvg
-     */
-    readonly lengthGroups?: Array<VesselLengthGroup> | null
-
-    /**
-     * 
-     * @type {Array<SpeciesMainGroup>}
-     * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksAvg
-     */
-    readonly speciesMainGroupIds?: Array<SpeciesMainGroup> | null
-
-    /**
-     * 
      * @type {boolean}
      * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksAvg
      */
@@ -1412,27 +1353,6 @@ export interface TripApiRoutesV1TripBenchmarksPerVesselBenchmarksSumRequest {
      * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksSum
      */
     readonly end?: string | null
-
-    /**
-     * 
-     * @type {Array<GearGroup>}
-     * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksSum
-     */
-    readonly gearGroups?: Array<GearGroup> | null
-
-    /**
-     * 
-     * @type {Array<VesselLengthGroup>}
-     * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksSum
-     */
-    readonly lengthGroups?: Array<VesselLengthGroup> | null
-
-    /**
-     * 
-     * @type {Array<SpeciesMainGroup>}
-     * @memberof TripApiRoutesV1TripBenchmarksPerVesselBenchmarksSum
-     */
-    readonly speciesMainGroupIds?: Array<SpeciesMainGroup> | null
 
     /**
      * 
@@ -1677,7 +1597,7 @@ export class TripApi extends BaseAPI {
      * @memberof TripApi
      */
     public routesV1TripBenchmarksPerVesselBenchmarksAvg(requestParameters: TripApiRoutesV1TripBenchmarksPerVesselBenchmarksAvgRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksPerVesselBenchmarksAvg(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroups, requestParameters.speciesMainGroupIds, requestParameters.useFollowingList, options).then((request) => request(this.axios, this.basePath));
+        return TripApiFp(this.configuration).routesV1TripBenchmarksPerVesselBenchmarksAvg(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.useFollowingList, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1688,7 +1608,7 @@ export class TripApi extends BaseAPI {
      * @memberof TripApi
      */
     public routesV1TripBenchmarksPerVesselBenchmarksSum(requestParameters: TripApiRoutesV1TripBenchmarksPerVesselBenchmarksSumRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksPerVesselBenchmarksSum(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroups, requestParameters.speciesMainGroupIds, requestParameters.useFollowingList, options).then((request) => request(this.axios, this.basePath));
+        return TripApiFp(this.configuration).routesV1TripBenchmarksPerVesselBenchmarksSum(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.useFollowingList, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

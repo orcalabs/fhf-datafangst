@@ -32,3 +32,40 @@ export const selectAverageEeoiLoading = createSelector(
   selectAppState,
   (state) => state.averageEeoiLoading,
 );
+
+export const selectSumPerVesselBenchmark = createSelector(
+  selectAppState,
+  (state) => state.sumPerVesselBenchmarks,
+);
+
+export const selectSumPerVesselBenchmarkLoading = createSelector(
+  selectAppState,
+  (state) => state.sumPerVesselBenchmarksLoading,
+);
+
+export const selectAvgVesselBenchmark = createSelector(
+  selectAppState,
+  (state) => state.avgVesselBenchmarks,
+);
+
+export const selectAvgVesselBenchmarkLoading = createSelector(
+  selectAppState,
+  (state) => state.avgVesselBenchmarksLoading,
+);
+
+export const selectFui = createSelector(selectAppState, (state) => state.fui);
+
+export const selectFuiLoading = createSelector(
+  selectAppState,
+  (state) => state.fuiLoading,
+);
+
+export const selectAverageFui = createSelector(
+  selectAppState,
+  (state) => state.averageFui,
+);
+
+export const selectAverageFuiLoading = createSelector(
+  selectAppState,
+  (state) => state.averageFuiLoading,
+);

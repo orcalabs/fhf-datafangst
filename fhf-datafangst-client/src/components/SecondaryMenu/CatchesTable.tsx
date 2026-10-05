@@ -21,6 +21,7 @@ import type { Catch, CatchWeightType } from "~/models";
 import { selectSpeciesFiskeridirMap, useAppSelector } from "~/store";
 import {
   kilosOrTonsFormatter,
+  nok,
   reduceCatchesOnSpecies,
   sumCatches,
   sumPriceFromCatches,
@@ -128,12 +129,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     "&:last-of-type": { width: "33%" },
   },
 }));
-
-const nok = new Intl.NumberFormat("no-NB", {
-  style: "currency",
-  currency: "NOK",
-  maximumFractionDigits: 0,
-});
 
 interface Props {
   catches: Catch[];

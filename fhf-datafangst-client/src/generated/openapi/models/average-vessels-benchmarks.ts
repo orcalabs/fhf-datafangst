@@ -61,6 +61,18 @@ export interface AverageVesselsBenchmarks {
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
+    'averageEeoi'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'averageFui'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
     'ownAverageFuelConsumptionLiter'?: number | null;
     /**
      * 
@@ -92,5 +104,17 @@ export interface AverageVesselsBenchmarks {
      * @memberof AverageVesselsBenchmarks
      */
     'ownAverageLivingWeight'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'ownEeoi'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'ownFui'?: number | null;
 }
 
