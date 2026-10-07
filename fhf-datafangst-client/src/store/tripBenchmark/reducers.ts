@@ -2,11 +2,9 @@ import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import type { AppState } from "~/store/state";
 import {
   getAverageEeoi,
-  getAverageFui,
   getAverageTripBenchmarks,
   getAvgVesselBenchmark,
   getEeoi,
-  getFui,
   getSumPerVesselBenchmark,
   getTripBenchmarks,
 } from "./actions";
@@ -76,27 +74,4 @@ export const tripBenchmarkBuilder = (
       action.meta.arg.accessToken = state.authUser?.access_token;
       state.avgVesselBenchmarks = undefined;
       state.avgVesselBenchmarksLoading = true;
-    })
-    .addCase(getFui.pending, (state, action) => {
-      action.meta.arg.accessToken = state.authUser?.access_token;
-      state.fui = undefined;
-      state.fuiLoading = true;
-    })
-    .addCase(getFui.fulfilled, (state, action) => {
-      state.fui = action.payload;
-      state.fuiLoading = false;
-    })
-    .addCase(getFui.rejected, (state, _action) => {
-      state.fuiLoading = false;
-    })
-    .addCase(getAverageFui.pending, (state, _action) => {
-      state.averageFui = undefined;
-      state.averageFuiLoading = true;
-    })
-    .addCase(getAverageFui.fulfilled, (state, action) => {
-      state.averageFui = action.payload;
-      state.averageFuiLoading = false;
-    })
-    .addCase(getAverageFui.rejected, (state, _action) => {
-      state.averageFuiLoading = false;
     });

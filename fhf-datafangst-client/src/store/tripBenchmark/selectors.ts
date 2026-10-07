@@ -52,20 +52,3 @@ export const selectAvgVesselBenchmarkLoading = createSelector(
   selectAppState,
   (state) => state.avgVesselBenchmarksLoading,
 );
-
-export const selectFui = createSelector(selectAppState, (state) => state.fui);
-
-export const selectFuiLoading = createSelector(
-  selectAppState,
-  (state) => state.fuiLoading,
-);
-
-export const selectAverageFui = createSelector(
-  selectAppState,
-  (state) => state.averageFui,
-);
-
-export const selectAverageFuiLoading = createSelector(
-  selectAppState,
-  (state) => state.averageFuiLoading,
-);

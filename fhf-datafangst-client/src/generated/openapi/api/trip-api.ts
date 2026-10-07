@@ -120,7 +120,8 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * Returns the average carbon intensity of all vessels matching the given parameters.
+         * @param {string} [authorization] 
          * @param {string} [start] 
          * @param {string} [end] 
          * @param {Array<GearGroup> | null} [gearGroups] 
@@ -130,7 +131,83 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksAverageEeoi: async (start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routesV1TripBenchmarksAverageCarbonIntensity: async (authorization?: string, start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip/benchmarks/average_carbon_intensity`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+            if (gearGroups) {
+                localVarQueryParameter['gearGroups'] = gearGroups;
+            }
+
+            if (lengthGroup !== undefined) {
+                localVarQueryParameter['lengthGroup'] = lengthGroup;
+            }
+
+            if (vesselIds) {
+                localVarQueryParameter['vesselIds'] = vesselIds;
+            }
+
+            if (speciesGroupId !== undefined) {
+                localVarQueryParameter['speciesGroupId'] = speciesGroupId;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} [authorization] 
+         * @param {string} [start] 
+         * @param {string} [end] 
+         * @param {Array<GearGroup> | null} [gearGroups] 
+         * @param {VesselLengthGroup} [lengthGroup] 
+         * @param {Array<number> | null} [vesselIds] 
+         * @param {SpeciesGroup} [speciesGroupId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverageEeoi: async (authorization?: string, start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1.0/trip/benchmarks/average_eeoi`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -179,75 +256,8 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['speciesGroupId'] = speciesGroupId;
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Returns the average FUI of all vessels matching the given parameters.
-         * @param {string} [start] 
-         * @param {string} [end] 
-         * @param {Array<GearGroup> | null} [gearGroups] 
-         * @param {VesselLengthGroup} [lengthGroup] 
-         * @param {Array<number> | null} [vesselIds] 
-         * @param {SpeciesGroup} [speciesGroupId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarksAverageFui: async (start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/trip/benchmarks/average_fui`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication auth0 required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
-
-            // authentication barentswatch required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (start !== undefined) {
-                localVarQueryParameter['start'] = (start as any instanceof Date) ?
-                    (start as any).toISOString() :
-                    start;
-            }
-
-            if (end !== undefined) {
-                localVarQueryParameter['end'] = (end as any instanceof Date) ?
-                    (end as any).toISOString() :
-                    end;
-            }
-
-            if (gearGroups) {
-                localVarQueryParameter['gearGroups'] = gearGroups;
-            }
-
-            if (lengthGroup !== undefined) {
-                localVarQueryParameter['lengthGroup'] = lengthGroup;
-            }
-
-            if (vesselIds) {
-                localVarQueryParameter['vesselIds'] = vesselIds;
-            }
-
-            if (speciesGroupId !== undefined) {
-                localVarQueryParameter['speciesGroupId'] = speciesGroupId;
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
             }
 
 
@@ -323,15 +333,15 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * Returns the carbon intensity of the logged in user for the given period.
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksEeoi: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/trip/benchmarks/eeoi`;
+        routesV1TripBenchmarksCarbonIntensity: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip/benchmarks/carbon_intensity`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -379,15 +389,15 @@ export const TripApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Returns the FUI of the logged in user for the given period.
+         * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
          * @param {string} [authorization] 
          * @param {string | null} [start] 
          * @param {string | null} [end] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routesV1TripBenchmarksFui: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1.0/trip/benchmarks/fui`;
+        routesV1TripBenchmarksEeoi: async (authorization?: string, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/trip/benchmarks/eeoi`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -791,7 +801,8 @@ export const TripApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * Returns the average carbon intensity of all vessels matching the given parameters.
+         * @param {string} [authorization] 
          * @param {string} [start] 
          * @param {string} [end] 
          * @param {Array<GearGroup> | null} [gearGroups] 
@@ -801,14 +812,15 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksAverageEeoi(start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageEeoi(start, end, gearGroups, lengthGroup, vesselIds, speciesGroupId, options);
+        async routesV1TripBenchmarksAverageCarbonIntensity(authorization?: string, start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageCarbonIntensity(authorization, start, end, gearGroups, lengthGroup, vesselIds, speciesGroupId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverageEeoi']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverageCarbonIntensity']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Returns the average FUI of all vessels matching the given parameters.
+         * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
+         * @param {string} [authorization] 
          * @param {string} [start] 
          * @param {string} [end] 
          * @param {Array<GearGroup> | null} [gearGroups] 
@@ -818,10 +830,10 @@ export const TripApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routesV1TripBenchmarksAverageFui(start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageFui(start, end, gearGroups, lengthGroup, vesselIds, speciesGroupId, options);
+        async routesV1TripBenchmarksAverageEeoi(authorization?: string, start?: string, end?: string, gearGroups?: Array<GearGroup> | null, lengthGroup?: VesselLengthGroup, vesselIds?: Array<number> | null, speciesGroupId?: SpeciesGroup, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksAverageEeoi(authorization, start, end, gearGroups, lengthGroup, vesselIds, speciesGroupId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverageFui']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksAverageEeoi']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -840,6 +852,20 @@ export const TripApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Returns the carbon intensity of the logged in user for the given period.
+         * @param {string} [authorization] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1TripBenchmarksCarbonIntensity(authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksCarbonIntensity(authorization, start, end, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksCarbonIntensity']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
          * @param {string} [authorization] 
          * @param {string | null} [start] 
@@ -851,20 +877,6 @@ export const TripApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksEeoi(authorization, start, end, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksEeoi']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Returns the FUI of the logged in user for the given period.
-         * @param {string} [authorization] 
-         * @param {string | null} [start] 
-         * @param {string | null} [end] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async routesV1TripBenchmarksFui(authorization?: string, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1TripBenchmarksFui(authorization, start, end, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TripApi.routesV1TripBenchmarksFui']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -969,22 +981,22 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.routesV1TripBenchmarksAverage(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, options).then((request) => request(axios, basePath));
         },
         /**
+         * Returns the average carbon intensity of all vessels matching the given parameters.
+         * @param {TripApiRoutesV1TripBenchmarksAverageCarbonIntensityRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksAverageCarbonIntensity(requestParameters: TripApiRoutesV1TripBenchmarksAverageCarbonIntensityRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1TripBenchmarksAverageCarbonIntensity(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
          * @param {TripApiRoutesV1TripBenchmarksAverageEeoiRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         routesV1TripBenchmarksAverageEeoi(requestParameters: TripApiRoutesV1TripBenchmarksAverageEeoiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1TripBenchmarksAverageEeoi(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns the average FUI of all vessels matching the given parameters.
-         * @param {TripApiRoutesV1TripBenchmarksAverageFuiRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarksAverageFui(requestParameters: TripApiRoutesV1TripBenchmarksAverageFuiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1TripBenchmarksAverageFui(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(axios, basePath));
+            return localVarFp.routesV1TripBenchmarksAverageEeoi(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns trip benchmarks for the vessel associated with the authenticated user.
@@ -996,6 +1008,15 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.routesV1TripBenchmarksBenchmarks(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.ordering, options).then((request) => request(axios, basePath));
         },
         /**
+         * Returns the carbon intensity of the logged in user for the given period.
+         * @param {TripApiRoutesV1TripBenchmarksCarbonIntensityRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1TripBenchmarksCarbonIntensity(requestParameters: TripApiRoutesV1TripBenchmarksCarbonIntensityRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.routesV1TripBenchmarksCarbonIntensity(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
          * @param {TripApiRoutesV1TripBenchmarksEeoiRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -1003,15 +1024,6 @@ export const TripApiFactory = function (configuration?: Configuration, basePath?
          */
         routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
             return localVarFp.routesV1TripBenchmarksEeoi(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns the FUI of the logged in user for the given period.
-         * @param {TripApiRoutesV1TripBenchmarksFuiRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        routesV1TripBenchmarksFui(requestParameters: TripApiRoutesV1TripBenchmarksFuiRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<number> {
-            return localVarFp.routesV1TripBenchmarksFui(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1104,6 +1116,62 @@ export interface TripApiRoutesV1TripBenchmarksAverageRequest {
 }
 
 /**
+ * Request parameters for routesV1TripBenchmarksAverageCarbonIntensity operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksAverageCarbonIntensityRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksAverageCarbonIntensityRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageCarbonIntensity
+     */
+    readonly authorization?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageCarbonIntensity
+     */
+    readonly start?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageCarbonIntensity
+     */
+    readonly end?: string
+
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageCarbonIntensity
+     */
+    readonly gearGroups?: Array<GearGroup> | null
+
+    /**
+     * 
+     * @type {VesselLengthGroup}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageCarbonIntensity
+     */
+    readonly lengthGroup?: VesselLengthGroup
+
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageCarbonIntensity
+     */
+    readonly vesselIds?: Array<number> | null
+
+    /**
+     * 
+     * @type {SpeciesGroup}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageCarbonIntensity
+     */
+    readonly speciesGroupId?: SpeciesGroup
+}
+
+/**
  * Request parameters for routesV1TripBenchmarksAverageEeoi operation in TripApi.
  * @export
  * @interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest
@@ -1114,6 +1182,13 @@ export interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest {
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
      */
+    readonly authorization?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
+     */
     readonly start?: string
 
     /**
@@ -1148,55 +1223,6 @@ export interface TripApiRoutesV1TripBenchmarksAverageEeoiRequest {
      * 
      * @type {SpeciesGroup}
      * @memberof TripApiRoutesV1TripBenchmarksAverageEeoi
-     */
-    readonly speciesGroupId?: SpeciesGroup
-}
-
-/**
- * Request parameters for routesV1TripBenchmarksAverageFui operation in TripApi.
- * @export
- * @interface TripApiRoutesV1TripBenchmarksAverageFuiRequest
- */
-export interface TripApiRoutesV1TripBenchmarksAverageFuiRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
-     */
-    readonly start?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
-     */
-    readonly end?: string
-
-    /**
-     * 
-     * @type {Array<GearGroup>}
-     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
-     */
-    readonly gearGroups?: Array<GearGroup> | null
-
-    /**
-     * 
-     * @type {VesselLengthGroup}
-     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
-     */
-    readonly lengthGroup?: VesselLengthGroup
-
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
-     */
-    readonly vesselIds?: Array<number> | null
-
-    /**
-     * 
-     * @type {SpeciesGroup}
-     * @memberof TripApiRoutesV1TripBenchmarksAverageFui
      */
     readonly speciesGroupId?: SpeciesGroup
 }
@@ -1237,6 +1263,34 @@ export interface TripApiRoutesV1TripBenchmarksBenchmarksRequest {
 }
 
 /**
+ * Request parameters for routesV1TripBenchmarksCarbonIntensity operation in TripApi.
+ * @export
+ * @interface TripApiRoutesV1TripBenchmarksCarbonIntensityRequest
+ */
+export interface TripApiRoutesV1TripBenchmarksCarbonIntensityRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksCarbonIntensity
+     */
+    readonly authorization?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksCarbonIntensity
+     */
+    readonly start?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TripApiRoutesV1TripBenchmarksCarbonIntensity
+     */
+    readonly end?: string | null
+}
+
+/**
  * Request parameters for routesV1TripBenchmarksEeoi operation in TripApi.
  * @export
  * @interface TripApiRoutesV1TripBenchmarksEeoiRequest
@@ -1260,34 +1314,6 @@ export interface TripApiRoutesV1TripBenchmarksEeoiRequest {
      * 
      * @type {string}
      * @memberof TripApiRoutesV1TripBenchmarksEeoi
-     */
-    readonly end?: string | null
-}
-
-/**
- * Request parameters for routesV1TripBenchmarksFui operation in TripApi.
- * @export
- * @interface TripApiRoutesV1TripBenchmarksFuiRequest
- */
-export interface TripApiRoutesV1TripBenchmarksFuiRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripBenchmarksFui
-     */
-    readonly authorization?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripBenchmarksFui
-     */
-    readonly start?: string | null
-
-    /**
-     * 
-     * @type {string}
-     * @memberof TripApiRoutesV1TripBenchmarksFui
      */
     readonly end?: string | null
 }
@@ -1535,6 +1561,17 @@ export class TripApi extends BaseAPI {
     }
 
     /**
+     * Returns the average carbon intensity of all vessels matching the given parameters.
+     * @param {TripApiRoutesV1TripBenchmarksAverageCarbonIntensityRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksAverageCarbonIntensity(requestParameters: TripApiRoutesV1TripBenchmarksAverageCarbonIntensityRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageCarbonIntensity(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Returns the average EEOI of all vessels matching the given parameters. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
      * @param {TripApiRoutesV1TripBenchmarksAverageEeoiRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -1542,18 +1579,7 @@ export class TripApi extends BaseAPI {
      * @memberof TripApi
      */
     public routesV1TripBenchmarksAverageEeoi(requestParameters: TripApiRoutesV1TripBenchmarksAverageEeoiRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageEeoi(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns the average FUI of all vessels matching the given parameters.
-     * @param {TripApiRoutesV1TripBenchmarksAverageFuiRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripApi
-     */
-    public routesV1TripBenchmarksAverageFui(requestParameters: TripApiRoutesV1TripBenchmarksAverageFuiRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageFui(requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(this.axios, this.basePath));
+        return TripApiFp(this.configuration).routesV1TripBenchmarksAverageEeoi(requestParameters.authorization, requestParameters.start, requestParameters.end, requestParameters.gearGroups, requestParameters.lengthGroup, requestParameters.vesselIds, requestParameters.speciesGroupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1568,6 +1594,17 @@ export class TripApi extends BaseAPI {
     }
 
     /**
+     * Returns the carbon intensity of the logged in user for the given period.
+     * @param {TripApiRoutesV1TripBenchmarksCarbonIntensityRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TripApi
+     */
+    public routesV1TripBenchmarksCarbonIntensity(requestParameters: TripApiRoutesV1TripBenchmarksCarbonIntensityRequest = {}, options?: RawAxiosRequestConfig) {
+        return TripApiFp(this.configuration).routesV1TripBenchmarksCarbonIntensity(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Returns the EEOI of the logged in user for the given period. EEOI is given with the unit: `tonn / (tonn * nautical miles)`
      * @param {TripApiRoutesV1TripBenchmarksEeoiRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -1576,17 +1613,6 @@ export class TripApi extends BaseAPI {
      */
     public routesV1TripBenchmarksEeoi(requestParameters: TripApiRoutesV1TripBenchmarksEeoiRequest = {}, options?: RawAxiosRequestConfig) {
         return TripApiFp(this.configuration).routesV1TripBenchmarksEeoi(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns the FUI of the logged in user for the given period.
-     * @param {TripApiRoutesV1TripBenchmarksFuiRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TripApi
-     */
-    public routesV1TripBenchmarksFui(requestParameters: TripApiRoutesV1TripBenchmarksFuiRequest = {}, options?: RawAxiosRequestConfig) {
-        return TripApiFp(this.configuration).routesV1TripBenchmarksFui(requestParameters.authorization, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
