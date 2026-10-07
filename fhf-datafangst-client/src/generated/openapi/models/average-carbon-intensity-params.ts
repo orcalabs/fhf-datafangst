@@ -26,43 +26,43 @@ import type { VesselLengthGroup } from './vessel-length-group';
 /**
  * 
  * @export
- * @interface AverageFuiParams
+ * @interface AverageCarbonIntensityParams
  */
-export interface AverageFuiParams {
+export interface AverageCarbonIntensityParams {
     /**
      * 
      * @type {string}
-     * @memberof AverageFuiParams
+     * @memberof AverageCarbonIntensityParams
      */
     'start': string;
     /**
      * 
      * @type {string}
-     * @memberof AverageFuiParams
+     * @memberof AverageCarbonIntensityParams
      */
     'end': string;
     /**
      * 
      * @type {Array<GearGroup>}
-     * @memberof AverageFuiParams
+     * @memberof AverageCarbonIntensityParams
      */
     'gearGroups'?: Array<GearGroup> | null;
     /**
      * 
      * @type {VesselLengthGroup}
-     * @memberof AverageFuiParams
+     * @memberof AverageCarbonIntensityParams
      */
     'lengthGroup'?: VesselLengthGroup;
     /**
      * 
      * @type {Array<number>}
-     * @memberof AverageFuiParams
+     * @memberof AverageCarbonIntensityParams
      */
     'vesselIds'?: Array<number> | null;
     /**
      * 
      * @type {SpeciesGroup}
-     * @memberof AverageFuiParams
+     * @memberof AverageCarbonIntensityParams
      */
     'speciesGroupId'?: SpeciesGroup;
 }

@@ -61,6 +61,42 @@ export interface AverageVesselsBenchmarks {
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
+    'averageFuelConsumptionLiter'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'averageWeightPerHour'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'averageWeightPerDistance'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'averageWeightPerFuelLiter'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'averageCatchValuePerFuelLiter'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'averageLivingWeight'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
     'averageEeoi'?: number | null;
     /**
      * 
@@ -68,6 +104,12 @@ export interface AverageVesselsBenchmarks {
      * @memberof AverageVesselsBenchmarks
      */
     'averageFui'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'averageCarbonIntensity'?: number | null;
     /**
      * 
      * @type {number}
@@ -116,5 +158,11 @@ export interface AverageVesselsBenchmarks {
      * @memberof AverageVesselsBenchmarks
      */
     'ownFui'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'ownCarbonIntensity'?: number | null;
 }
 

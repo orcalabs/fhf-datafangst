@@ -74,5 +74,17 @@ export interface TripBenchmark {
      * @memberof TripBenchmark
      */
     'eeoi'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmark
+     */
+    'fui'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TripBenchmark
+     */
+    'carbonIntensity'?: number | null;
 }
 

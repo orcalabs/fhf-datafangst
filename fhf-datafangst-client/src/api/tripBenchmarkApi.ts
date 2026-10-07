@@ -137,32 +137,3 @@ export const getAvgVesselBenchmark = apiFn(
       },
     ),
 );
-
-export const getFui = apiFn((query: EeoiAndFuiArgs, signal) =>
-  api.routesV1TripBenchmarksFui(
-    {
-      start: query.start?.toISOString(),
-      end: query.end?.toISOString(),
-      authorization: query.accessToken!,
-    },
-    {
-      // Temporary fix for assigning a vessel to user in prod
-      params: { call_sign_override: query.callSignOverride },
-      signal,
-    },
-  ),
-);
-
-export const getAverageFui = apiFn((query: AverageEeoiAndFuiArgs, signal) =>
-  api.routesV1TripBenchmarksAverageFui(
-    {
-      start: query.startDate.toISOString(),
-      end: query.endDate.toISOString(),
-      gearGroups: query.gearGroups,
-      lengthGroup: query.lengthGroup,
-      vesselIds: query.vesselIds,
-      speciesGroupId: query.speciesGroupId?.id,
-    },
-    { signal },
-  ),
-);

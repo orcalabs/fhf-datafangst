@@ -17,10 +17,6 @@ export interface TripBenchmarkState {
   sumPerVesselBenchmarksLoading: boolean;
   avgVesselBenchmarks?: AverageVesselsBenchmarks;
   avgVesselBenchmarksLoading: boolean;
-  fui?: number;
-  averageFui?: number;
-  fuiLoading: boolean;
-  averageFuiLoading: boolean;
 }
 
 export const initialTripBenchmarkState: TripBenchmarkState = {
@@ -35,8 +31,4 @@ export const initialTripBenchmarkState: TripBenchmarkState = {
   sumPerVesselBenchmarksLoading: false,
   avgVesselBenchmarks: undefined,
   avgVesselBenchmarksLoading: false,
-  fui: undefined,
-  averageFui: undefined,
-  fuiLoading: false,
-  averageFuiLoading: false,
 };

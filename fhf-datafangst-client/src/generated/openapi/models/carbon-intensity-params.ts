@@ -17,19 +17,19 @@
 /**
  * 
  * @export
- * @interface FuiParams
+ * @interface CarbonIntensityParams
  */
-export interface FuiParams {
+export interface CarbonIntensityParams {
     /**
      * 
      * @type {string}
-     * @memberof FuiParams
+     * @memberof CarbonIntensityParams
      */
     'start'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof FuiParams
+     * @memberof CarbonIntensityParams
      */
     'end'?: string | null;
 }

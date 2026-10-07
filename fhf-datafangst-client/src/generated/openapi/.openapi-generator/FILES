@@ -35,8 +35,8 @@ models/ais-vessel.ts
 models/ais-vms-parameters.ts
 models/ais-vms-position-details.ts
 models/ais-vms-position.ts
+models/average-carbon-intensity-params.ts
 models/average-eeoi-params.ts
-models/average-fui-params.ts
 models/average-trip-benchmarks-params.ts
 models/average-trip-benchmarks.ts
 models/average-vessels-benchmarks.ts
@@ -44,6 +44,7 @@ models/benchmark-entry.ts
 models/benchmark.ts
 models/bunkering.ts
 models/buyer-location-type.ts
+models/carbon-intensity-params.ts
 models/catch.ts
 models/condition-detailed.ts
 models/condition.ts
@@ -80,7 +81,6 @@ models/fuel-measurement-or-bunkering.ts
 models/fuel-measurement.ts
 models/fuel-measurements-params.ts
 models/fuel-params.ts
-models/fui-params.ts
 models/gear-detailed.ts
 models/gear-group-detailed.ts
 models/gear-group.ts
