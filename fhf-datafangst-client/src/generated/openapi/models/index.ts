@@ -10,6 +10,7 @@ export * from './ais-vms-position';
 export * from './ais-vms-position-details';
 export * from './average-carbon-intensity-params';
 export * from './average-eeoi-params';
+export * from './average-stats';
 export * from './average-trip-benchmarks';
 export * from './average-trip-benchmarks-params';
 export * from './average-vessels-benchmarks';

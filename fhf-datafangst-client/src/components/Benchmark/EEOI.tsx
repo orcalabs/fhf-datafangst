@@ -45,19 +45,18 @@ export const EEOI: FC<Props> = ({
   );
 
   const percentEEOIChange =
-    avgVesselBenchmark?.ownEeoi != null &&
-    avgVesselBenchmark?.averageEeoi != null
+    avgVesselBenchmark?.own.eeoi != null && avgVesselBenchmark?.all.eeoi != null
       ? -(
-          (avgVesselBenchmark?.ownEeoi - avgVesselBenchmark?.averageEeoi) /
-          avgVesselBenchmark?.averageEeoi
+          (avgVesselBenchmark?.own.eeoi - avgVesselBenchmark?.all.eeoi) /
+          avgVesselBenchmark?.all.eeoi
         ) * 100
       : undefined;
 
   const percentFUIChange =
-    avgVesselBenchmark?.ownFui != null && avgVesselBenchmark?.averageFui != null
+    avgVesselBenchmark?.own.fui != null && avgVesselBenchmark?.all.fui != null
       ? -(
-          (avgVesselBenchmark?.ownFui - avgVesselBenchmark?.averageFui) /
-          avgVesselBenchmark?.averageFui
+          (avgVesselBenchmark?.own.fui - avgVesselBenchmark?.all.fui) /
+          avgVesselBenchmark?.all.fui
         ) * 100
       : undefined;
 
@@ -93,8 +92,8 @@ export const EEOI: FC<Props> = ({
             <Stack direction="row" spacing={1} sx={{ alignItems: "flex-end" }}>
               <Typography variant="h3" sx={{ color: "primary.light" }}>
                 {(
-                  avgVesselBenchmark?.ownEeoi &&
-                  avgVesselBenchmark.ownEeoi * 1_000_000
+                  avgVesselBenchmark?.own.eeoi &&
+                  avgVesselBenchmark.own.eeoi * 1_000_000
                 )?.toFixed(2)}
               </Typography>
               <Typography sx={{ color: "primary.light", fontSize: "1.2rem" }}>
@@ -185,7 +184,7 @@ export const EEOI: FC<Props> = ({
                 sx={{ alignItems: "flex-end" }}
               >
                 <Typography variant="h3" sx={{ color: "primary.light" }}>
-                  {avgVesselBenchmark?.ownFui?.toFixed(2)}
+                  {avgVesselBenchmark?.own.fui?.toFixed(2)}
                 </Typography>
                 <Typography sx={{ color: "primary.light", fontSize: "1.2rem" }}>
                   L/tonn

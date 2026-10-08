@@ -27,7 +27,9 @@ export const TripBenchmarkId = {
     FuelConsumption: 'FuelConsumption',
     WeightPerFuel: 'WeightPerFuel',
     CatchValuePerFuel: 'CatchValuePerFuel',
-    Eeoi: 'Eeoi'
+    Eeoi: 'Eeoi',
+    CarbonIntensity: 'CarbonIntensity',
+    Fui: 'Fui'
 } as const;
 
 export type TripBenchmarkId = typeof TripBenchmarkId[keyof typeof TripBenchmarkId];
