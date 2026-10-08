@@ -37,6 +37,7 @@ models/ais-vms-position-details.ts
 models/ais-vms-position.ts
 models/average-carbon-intensity-params.ts
 models/average-eeoi-params.ts
+models/average-stats.ts
 models/average-trip-benchmarks-params.ts
 models/average-trip-benchmarks.ts
 models/average-vessels-benchmarks.ts

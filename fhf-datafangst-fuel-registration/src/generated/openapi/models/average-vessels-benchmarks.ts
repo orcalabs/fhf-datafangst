@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { AverageStats } from './average-stats';
 
 /**
  * 
@@ -58,39 +61,15 @@ export interface AverageVesselsBenchmarks {
     'highestAverageLivingWeight'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {AverageStats}
      * @memberof AverageVesselsBenchmarks
      */
-    'ownAverageFuelConsumptionLiter'?: number | null;
+    'all': AverageStats;
     /**
      * 
-     * @type {number}
+     * @type {AverageStats}
      * @memberof AverageVesselsBenchmarks
      */
-    'ownAverageWeightPerHour'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageWeightPerDistance'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageWeightPerFuelLiter'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageCatchValuePerFuelLiter'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageLivingWeight'?: number | null;
+    'own': AverageStats;
 }
 

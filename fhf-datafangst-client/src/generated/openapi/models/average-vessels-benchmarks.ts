@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { AverageStats } from './average-stats';
 
 /**
  * 
@@ -58,111 +61,15 @@ export interface AverageVesselsBenchmarks {
     'highestAverageLivingWeight'?: number | null;
     /**
      * 
-     * @type {number}
+     * @type {AverageStats}
      * @memberof AverageVesselsBenchmarks
      */
-    'averageFuelConsumptionLiter'?: number | null;
+    'all': AverageStats;
     /**
      * 
-     * @type {number}
+     * @type {AverageStats}
      * @memberof AverageVesselsBenchmarks
      */
-    'averageWeightPerHour'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'averageWeightPerDistance'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'averageWeightPerFuelLiter'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'averageCatchValuePerFuelLiter'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'averageLivingWeight'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'averageEeoi'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'averageFui'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'averageCarbonIntensity'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageFuelConsumptionLiter'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageWeightPerHour'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageWeightPerDistance'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageWeightPerFuelLiter'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageCatchValuePerFuelLiter'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownAverageLivingWeight'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownEeoi'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownFui'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'ownCarbonIntensity'?: number | null;
+    'own': AverageStats;
 }
 

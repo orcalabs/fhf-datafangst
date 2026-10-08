@@ -15,20 +15,18 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkPieChart
             title="Total fangstvekt"
-            value={avgVesselBenchmark?.ownAverageLivingWeight}
+            value={avgVesselBenchmark?.own.livingWeight}
             max={avgVesselBenchmark?.highestAverageLivingWeight}
             valueText={
-              avgVesselBenchmark?.ownAverageLivingWeight
-                ? avgVesselBenchmark.ownAverageLivingWeight >= 1000
-                  ? (avgVesselBenchmark.ownAverageLivingWeight / 1000).toFixed(
-                      1,
-                    )
-                  : avgVesselBenchmark?.ownAverageLivingWeight?.toFixed(1)
+              avgVesselBenchmark?.own.livingWeight
+                ? avgVesselBenchmark.own.livingWeight >= 1000
+                  ? (avgVesselBenchmark.own.livingWeight / 1000).toFixed(1)
+                  : avgVesselBenchmark?.own.livingWeight?.toFixed(1)
                 : ""
             }
             suffix={
-              avgVesselBenchmark?.ownAverageLivingWeight
-                ? avgVesselBenchmark.ownAverageLivingWeight >= 1000
+              avgVesselBenchmark?.own.livingWeight
+                ? avgVesselBenchmark.own.livingWeight >= 1000
                   ? "tonn/tur"
                   : "kg"
                 : ""
@@ -40,21 +38,21 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkPieChart
             title="Fangst per dag"
-            value={avgVesselBenchmark?.ownAverageWeightPerHour}
+            value={avgVesselBenchmark?.own.weightPerHour}
             max={avgVesselBenchmark?.highestAverageWeightPerHour}
             valueText={
-              avgVesselBenchmark?.ownAverageWeightPerHour
-                ? avgVesselBenchmark.ownAverageWeightPerHour >= 1000
+              avgVesselBenchmark?.own.weightPerHour
+                ? avgVesselBenchmark.own.weightPerHour >= 1000
                   ? (
-                      (avgVesselBenchmark.ownAverageWeightPerHour * 24) /
+                      (avgVesselBenchmark.own.weightPerHour * 24) /
                       1000
                     ).toFixed(1)
-                  : (avgVesselBenchmark.ownAverageWeightPerHour * 24).toFixed(1)
+                  : (avgVesselBenchmark.own.weightPerHour * 24).toFixed(1)
                 : ""
             }
             suffix={
-              avgVesselBenchmark?.ownAverageWeightPerHour
-                ? avgVesselBenchmark.ownAverageWeightPerHour >= 1000
+              avgVesselBenchmark?.own.weightPerHour
+                ? avgVesselBenchmark.own.weightPerHour >= 1000
                   ? "tonn/dag"
                   : "kg/dag"
                 : ""
@@ -66,20 +64,18 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkPieChart
             title="Fangst per distanse"
-            value={avgVesselBenchmark?.ownAverageWeightPerDistance}
+            value={avgVesselBenchmark?.own.weightPerDistance}
             max={avgVesselBenchmark?.highestAverageWeightPerDistance}
             valueText={
-              avgVesselBenchmark?.ownAverageWeightPerDistance
-                ? avgVesselBenchmark.ownAverageWeightPerDistance >= 1000
-                  ? (
-                      avgVesselBenchmark.ownAverageWeightPerDistance / 1000
-                    ).toFixed(1)
-                  : avgVesselBenchmark.ownAverageWeightPerDistance.toFixed(1)
+              avgVesselBenchmark?.own.weightPerDistance
+                ? avgVesselBenchmark.own.weightPerDistance >= 1000
+                  ? (avgVesselBenchmark.own.weightPerDistance / 1000).toFixed(1)
+                  : avgVesselBenchmark.own.weightPerDistance.toFixed(1)
                 : ""
             }
             suffix={
-              avgVesselBenchmark?.ownAverageWeightPerDistance
-                ? avgVesselBenchmark.ownAverageWeightPerDistance >= 1000
+              avgVesselBenchmark?.own.weightPerDistance
+                ? avgVesselBenchmark.own.weightPerDistance >= 1000
                   ? "tonn"
                   : "kg/nm"
                 : ""
@@ -91,7 +87,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkPieChart
             title="Drivstofforbruk"
-            value={avgVesselBenchmark?.ownAverageFuelConsumptionLiter}
+            value={avgVesselBenchmark?.own.fuelConsumptionLiter}
             max={avgVesselBenchmark?.highestAverageFuelConsumptionLiter}
             suffix={"liter/tur"}
             precision={0}
@@ -104,7 +100,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkPieChart
             title="Fangstvekt per liter drivstoff"
-            value={avgVesselBenchmark?.ownAverageWeightPerFuelLiter}
+            value={avgVesselBenchmark?.own.weightPerFuelLiter}
             max={avgVesselBenchmark?.highestAverageWeightPerFuelLiter}
             suffix={"kg/liter"}
             color={theme.palette.grey.A400}
@@ -115,7 +111,7 @@ export const BenchmarkCards: FC = () => {
         <Box>
           <BenchmarkPieChart
             title="Fangstverdi per liter drivstoff"
-            value={avgVesselBenchmark?.ownAverageCatchValuePerFuelLiter}
+            value={avgVesselBenchmark?.own.catchValuePerFuelLiter}
             max={avgVesselBenchmark?.highestAverageCatchValuePerFuelLiter}
             suffix={"kr/liter"}
             color={theme.palette.grey.A400}
