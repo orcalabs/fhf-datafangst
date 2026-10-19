@@ -1,9 +1,13 @@
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import {
   Box,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   Skeleton,
+  Stack,
   Typography,
 } from "@mui/material";
 import {
@@ -11,9 +15,10 @@ import {
   GaugeReferenceArc,
   GaugeValueArc,
 } from "@mui/x-charts/Gauge";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import theme from "~/app/theme";
 import { selectAvgVesselBenchmarkLoading, useAppSelector } from "~/store";
+import { formatNumber } from "~/utils";
 
 interface Props {
   title: string;
@@ -24,6 +29,9 @@ interface Props {
   inverse?: boolean;
   valueText?: string;
   precision?: number;
+  icon?: any;
+  averagePercent?: number | null;
+  dataDescription?: ReactNode;
 }
 
 const colors = [
@@ -39,7 +47,7 @@ const colors = [
   "#16803C", // 90–100
 ];
 
-export const BenchmarkPieChart: FC<Props> = ({
+export const GaugeChart: FC<Props> = ({
   value,
   max,
   suffix,
@@ -47,6 +55,9 @@ export const BenchmarkPieChart: FC<Props> = ({
   inverse,
   valueText,
   precision,
+  icon,
+  averagePercent,
+  dataDescription,
 }) => {
   const isLoading = useAppSelector(selectAvgVesselBenchmarkLoading);
 
@@ -65,11 +76,26 @@ export const BenchmarkPieChart: FC<Props> = ({
       sx={{ m: "auto", bgcolor: "white", borderRadius: 2 }}
     >
       <CardHeader
+        avatar={icon}
+        action={dataDescription}
         title={title}
         slotProps={{
           title: {
             sx: {
-              fontSize: "1.2rem",
+              fontSize: "1.15rem",
+              fontWeight: "bold",
+              color: "#324F7C",
+            },
+          },
+          avatar: {
+            sx: {
+              color: "#0045ad",
+            },
+          },
+          action: {
+            sx: {
+              mt: "4px",
+              mr: 0,
             },
           },
         }}
@@ -130,11 +156,11 @@ export const BenchmarkPieChart: FC<Props> = ({
                   <tspan
                     x="50%"
                     dy="26"
-                    fill={theme.palette.secondary.dark}
+                    fill={"#324F7C"}
                     fontSize="28"
                     fontWeight="bold"
                   >
-                    {valueText ?? value.toFixed(precision ?? 1)}
+                    {valueText ?? formatNumber(value, precision ?? 1)}
                   </tspan>
 
                   <tspan
@@ -142,6 +168,7 @@ export const BenchmarkPieChart: FC<Props> = ({
                     dy="24"
                     fill={theme.palette.grey.A100}
                     fontSize="16"
+                    fontWeight="bold"
                   >
                     {suffix}
                   </tspan>
@@ -170,6 +197,53 @@ export const BenchmarkPieChart: FC<Props> = ({
           </>
         )}
       </CardContent>
+      {averagePercent && (
+        <CardActions sx={{ p: 2 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ alignItems: "center", flexWrap: "wrap" }}
+          >
+            {averagePercent >= 0 ? (
+              <ArrowUpwardIcon
+                color={inverse ? "error" : "success"}
+                fontSize="small"
+              />
+            ) : (
+              <ArrowDownwardIcon
+                color={inverse ? "error" : "success"}
+                fontSize="small"
+              />
+            )}
+            <Stack direction="row" spacing={0.8}>
+              <Typography
+                sx={{
+                  fontSize: "1.05rem",
+                  fontWeight: "bold",
+                  whiteSpace: "nowrap",
+                  color:
+                    !inverse && averagePercent >= 0
+                      ? "success.main"
+                      : "error.main",
+                }}
+              >
+                +{averagePercent.toFixed(0)}%
+              </Typography>
+              <Typography
+                sx={{
+                  //fontSize: "0.9rem",
+                  color: theme.palette.grey.A100,
+                  flex: "1 1 auto",
+                  minWidth: 0,
+                  alignSelf: "flex-end",
+                }}
+              >
+                {`${averagePercent >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+              </Typography>
+            </Stack>
+          </Stack>
+        </CardActions>
+      )}
     </Card>
   );
 };

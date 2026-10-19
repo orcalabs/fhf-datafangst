@@ -44,13 +44,8 @@ import {
   dateFormat,
   isDefined,
   kilosOrTonsFormatter,
+  nok,
 } from "~/utils";
-
-const nok = new Intl.NumberFormat("no-NB", {
-  style: "currency",
-  currency: "NOK",
-  maximumFractionDigits: 0,
-});
 
 export const TripBenchmarkPage: FC = () => {
   const dispatch = useAppDispatch();

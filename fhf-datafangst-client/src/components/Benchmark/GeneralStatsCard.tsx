@@ -1,3 +1,6 @@
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import {
   Box,
   Card,
@@ -5,41 +8,29 @@ import {
   Divider,
   Skeleton,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import type { FC } from "react";
-import type { Trip } from "~/generated/openapi";
+import theme from "~/app/theme";
 import {
+  CoinStackIcon,
+  FishingTripIcon,
+  FishLocationIcon,
+  GearIcon,
+} from "~/assets/icons";
+import {
+  selectAvgVesselBenchmark,
   selectAvgVesselBenchmarkLoading,
   selectTripsLoading,
   useAppSelector,
 } from "~/store";
 import { hoursToDays, kilosOrTonsFormatter, nok } from "~/utils";
 
-interface Props {
-  trips?: Trip[];
-}
-
-export const GeneralStatsCard: FC<Props> = ({ trips }) => {
+export const GeneralStatsCard: FC = () => {
   const isLoading = useAppSelector(selectAvgVesselBenchmarkLoading);
   const tripsLoading = useAppSelector(selectTripsLoading);
-
-  const sumWeight = trips?.reduce(
-    (sum, trip) => sum + trip.delivery.totalLivingWeight,
-    0,
-  );
-
-  const sumHauls = trips?.reduce((sum, trip) => sum + trip.hauls.length, 0);
-  const totalTime = trips?.map(
-    (trip) =>
-      (new Date(trip.end).getTime() - new Date(trip.start).getTime()) /
-      3_600_000,
-  )?.[0];
-
-  const sumPrice = trips?.reduce(
-    (sum, trip) => sum + trip.delivery.totalPriceForFisher,
-    0,
-  );
+  const avgVesselBenchmark = useAppSelector(selectAvgVesselBenchmark);
 
   return (
     <>
@@ -49,14 +40,13 @@ export const GeneralStatsCard: FC<Props> = ({ trips }) => {
           m: "auto",
           borderRadius: 2,
           width: "100%",
-          color: "#5868ae",
+          color: "#243a9c",
         }}
       >
         <CardContent
           sx={{
             display: "flex",
             height: "100%",
-            alignItems: "center",
             pt: 3,
           }}
         >
@@ -67,24 +57,95 @@ export const GeneralStatsCard: FC<Props> = ({ trips }) => {
               direction="row"
               sx={{ justifyContent: "space-evenly", width: "100%" }}
             >
-              <StatBox title="Antall turer" value={trips?.length} />
+              <StatBox
+                title="Antall turer"
+                value={avgVesselBenchmark?.own.numTrips}
+                icon={<FishingTripIcon width={35} height={35} />}
+                change={
+                  avgVesselBenchmark?.own.numTrips &&
+                  avgVesselBenchmark.all.numTrips
+                    ? avgVesselBenchmark.all.numTrips -
+                      avgVesselBenchmark.own.numTrips
+                    : undefined
+                }
+                changeType="number"
+              />
 
               <Divider orientation="vertical" flexItem />
               <StatBox
-                title="Total rundvekt (levert)"
-                value={sumWeight ? kilosOrTonsFormatter(sumWeight) : undefined}
+                title="Total rundvekt"
+                value={
+                  avgVesselBenchmark?.ownTotalLivingWeight
+                    ? kilosOrTonsFormatter(
+                        avgVesselBenchmark.ownTotalLivingWeight,
+                      )
+                    : undefined
+                }
+                icon={<FishLocationIcon width={35} height={35} />}
+                change={
+                  avgVesselBenchmark?.ownTotalLivingWeight &&
+                  avgVesselBenchmark.all.livingWeight
+                    ? (avgVesselBenchmark.ownTotalLivingWeight /
+                        avgVesselBenchmark.all.livingWeight) *
+                      100
+                    : undefined
+                }
+                changeType="percent"
               />
               <Divider orientation="vertical" flexItem />
-              <StatBox title="Antall hal" value={sumHauls} />
+              <StatBox
+                title="Antall hal"
+                value={avgVesselBenchmark?.own.numHauls}
+                icon={<GearIcon width={35} height={35} />}
+                change={
+                  avgVesselBenchmark?.own.numHauls &&
+                  avgVesselBenchmark.all.numHauls
+                    ? avgVesselBenchmark.all.numHauls -
+                      avgVesselBenchmark.own.numHauls
+                    : undefined
+                }
+                changeType="number"
+              />
               <Divider orientation="vertical" flexItem />
               <StatBox
                 title="Dager brukt"
-                value={totalTime ? hoursToDays(totalTime) : undefined}
+                value={
+                  avgVesselBenchmark?.own.tripDurationSeconds
+                    ? hoursToDays(
+                        avgVesselBenchmark.own.tripDurationSeconds / 3600,
+                      )
+                    : undefined
+                }
+                icon={<TimerOutlinedIcon fontSize="large" />}
+                change={
+                  avgVesselBenchmark?.own.tripDurationSeconds &&
+                  avgVesselBenchmark.all.tripDurationSeconds
+                    ? (avgVesselBenchmark.own.tripDurationSeconds /
+                        avgVesselBenchmark.all.tripDurationSeconds) *
+                      100
+                    : undefined
+                }
+                changeType="percent"
               />
               <Divider orientation="vertical" flexItem />
               <StatBox
                 title="Verdi"
-                value={sumPrice ? nok.format(sumPrice) : undefined}
+                value={
+                  avgVesselBenchmark?.own.valueNok
+                    ? nok.format(avgVesselBenchmark.own.valueNok)
+                    : undefined
+                }
+                icon={<CoinStackIcon width={35} height={35} />}
+                change={
+                  avgVesselBenchmark?.own.valueNok &&
+                  avgVesselBenchmark.all.valueNok
+                    ? (avgVesselBenchmark.own.valueNok /
+                        avgVesselBenchmark.all.valueNok) *
+                      100
+                    : undefined
+                }
+                changeType="percent"
+                showAsterix={avgVesselBenchmark?.ownTripsHasPriceEstimation}
               />
             </Stack>
           )}
@@ -96,27 +157,93 @@ export const GeneralStatsCard: FC<Props> = ({ trips }) => {
 
 interface StatProps {
   title: string;
-  suffix?: string;
   value?: number | string | null | undefined;
+  suffix?: string;
+  icon?: any;
+  change?: number;
+  changeType?: "percent" | "number";
+  showAsterix?: boolean | null;
 }
 
-const StatBox: FC<StatProps> = ({ title, suffix, value }) => {
+const StatBox: FC<StatProps> = ({
+  title,
+  value,
+  suffix,
+  icon,
+  change,
+  changeType,
+  showAsterix,
+}) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Stack spacing={1}>
-        <Typography sx={{ color: "#757d81", textAlign: "center" }}>
-          {title}
-        </Typography>
-        <Typography variant="h3" sx={{ textAlign: "center" }}>
-          {value ?? "Ukjent"} {suffix ?? ""}
-        </Typography>
+    <Stack spacing={3} sx={{ px: 3 }}>
+      <Stack direction="row" spacing={2}>
+        <Box>{icon}</Box>
+
+        <Stack spacing={1}>
+          <Typography sx={{ color: "#757d81" }}>{title}</Typography>
+          <Tooltip
+            title={
+              showAsterix
+                ? "* Hele eller deler av beløpet baseres på estimerte verdier fra ukentlig salgsdata fra Råfisklaget"
+                : undefined
+            }
+          >
+            <Typography variant="h3">
+              <Box component="span">{value ?? "Ukjent"}</Box>
+              <Typography component="span" sx={{ whiteSpace: "nowrap" }}>
+                {suffix ?? ""}{" "}
+                {showAsterix && (
+                  <Box
+                    component="span"
+                    sx={{
+                      fontSize: "1.2rem",
+                      verticalAlign: "top",
+                      color: theme.palette.error.main,
+                    }}
+                  >
+                    *
+                  </Box>
+                )}
+              </Typography>
+            </Typography>
+          </Tooltip>
+        </Stack>
       </Stack>
-    </Box>
+      {change && (
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ alignItems: "center", flexWrap: "wrap" }}
+        >
+          {change >= 0 ? (
+            <ArrowUpwardIcon color="success" fontSize="small" />
+          ) : (
+            <ArrowDownwardIcon color="error" fontSize="small" />
+          )}
+          <Typography
+            sx={{
+              fontSize: "1.05rem",
+              fontWeight: "bold",
+              whiteSpace: "nowrap",
+              color: change >= 0 ? "success.main" : "error.main",
+            }}
+          >
+            {change >= 0 && "+"}
+            {change.toFixed(0)}
+            {changeType === "percent" && "%"}
+          </Typography>
+          <Typography
+            sx={{
+              alignSelf: "flex-end",
+              color: theme.palette.grey.A100,
+              flex: "1 1 auto",
+              minWidth: 0,
+            }}
+          >
+            {`${change >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+          </Typography>
+        </Stack>
+      )}
+    </Stack>
   );
 };

@@ -161,6 +161,11 @@ export const nok = new Intl.NumberFormat("no-NB", {
   maximumFractionDigits: 0,
 });
 
+export const formatNumber = (value: number, maximumFractionDigits = 0) =>
+  new Intl.NumberFormat("nb-NO", {
+    maximumFractionDigits,
+  }).format(value);
+
 export const hoursToDays = (hours: number) =>
   Math.round((hours / 24) * 10) / 10;
 

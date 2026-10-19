@@ -1,12 +1,13 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import ReactEChart from "echarts-for-react";
 import type { FC } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import chartsTheme from "~/app/chartsTheme";
 import theme from "~/app/theme";
+import { FishIcon } from "~/assets/icons";
 import type { Delivery, SpeciesFiskeridir, Trip } from "~/generated/openapi";
 import { selectSpeciesFiskeridir, selectTrips, useAppSelector } from "~/store";
-import { kilosOrTonsFormatter } from "~/utils";
+import { formatNumber, kilosOrTonsFormatter } from "~/utils";
 
 const sumObjectValues = (deliveries: Delivery[]) => {
   const res: Record<number, number> = {};
@@ -39,7 +40,7 @@ export const CatchChart: FC = () => {
   };
 
   const { data } = generateLandingData(trips);
-  const barHeight = 30;
+  const barHeight = 26;
   const chartHeight = data ? Object.keys(data).length * barHeight + 100 : 200;
 
   return (
@@ -51,18 +52,25 @@ export const CatchChart: FC = () => {
         borderRadius: 2,
       }}
     >
-      <CardContent
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          // height: 550,
+      <CardHeader
+        avatar={<FishIcon width={34} height={34} />}
+        title={"Fangst"}
+        slotProps={{
+          title: {
+            sx: {
+              fontSize: "1.15rem",
+              fontWeight: "bold",
+              color: "#324F7C",
+            },
+          },
+          avatar: {
+            sx: {
+              color: "#0045ad",
+            },
+          },
         }}
-      >
-        <Typography variant="h5" sx={{ fontSize: "1.2rem" }}>
-          Fangst
-        </Typography>
+      />
+      <CardContent sx={{}}>
         {data && (
           <ReactEChart
             option={datasetOption(data, species)}
@@ -79,6 +87,11 @@ const datasetOption = (
   a: Record<number, number>,
   species: SpeciesFiskeridir[],
 ) => ({
+  grid: {
+    top: 0,
+    left: 150,
+    right: 50,
+  },
   legend: { show: false },
   tooltip: {
     trigger: "axis",
@@ -97,11 +110,16 @@ const datasetOption = (
     ],
   },
 
-  xAxis: { type: "value", name: "Kilo" },
+  xAxis: { type: "value", name: "Kilo", nameLocation: "center" },
   yAxis: { type: "category", inverse: true },
   series: [
     {
       type: "bar",
+      label: {
+        show: true,
+        position: "right",
+        formatter: (params: any) => formatNumber(params.value[1]),
+      },
       itemStyle: {
         color: (params: any) => {
           const colors = [
