@@ -61,6 +61,24 @@ export interface AverageVesselsBenchmarks {
     'highestAverageLivingWeight'?: number | null;
     /**
      * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'ownFuelMeasurementCoveragePercentage'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'ownTripsHasPriceEstimation'?: boolean | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'ownTotalLivingWeight'?: number | null;
+    /**
+     * 
      * @type {AverageStats}
      * @memberof AverageVesselsBenchmarks
      */
