@@ -5,59 +5,40 @@ import { SparkLineChart } from "@mui/x-charts";
 import { chartsAxisHighlightClasses } from "@mui/x-charts/ChartsAxisHighlight";
 import { lineClasses } from "@mui/x-charts/LineChart";
 import { useState, type FC } from "react";
-import type {
-  AverageVesselsBenchmarks,
-  Trip,
-  TripBenchmarks,
-} from "~/generated/openapi";
-import { dateFormat } from "~/utils";
+import theme from "~/app/theme";
+import { FuiIcon, LeafIcon } from "~/assets/icons";
+import {
+  selectAvgVesselBenchmark,
+  selectTripBenchmarks,
+  useAppSelector,
+} from "~/store";
+import { dateFormat, formatNumber } from "~/utils";
 
-interface Props {
-  avgVesselBenchmark?: AverageVesselsBenchmarks;
-  tripBenchmarks?: TripBenchmarks;
-  trips?: Trip[];
-}
-
-export const EEOI: FC<Props> = ({
-  avgVesselBenchmark,
-  tripBenchmarks,
-  trips,
-}) => {
+export const EEOI: FC = () => {
   const [tripIndex, setTripIndex] = useState<number | null>(null);
   const [fuiTripIndex, setFuiTripIndex] = useState<number | null>(null);
-
+  const avgVesselBenchmark = useAppSelector(selectAvgVesselBenchmark);
+  const tripBenchmarks = useAppSelector(selectTripBenchmarks);
   const eeoiData = tripBenchmarks?.trips.map((trip) => trip.eeoi ?? 0) ?? [];
-  const fuiData =
-    trips?.map((trip) =>
-      trip.fuelConsumption && trip.delivery.totalLivingWeight
-        ? trip.fuelConsumption / trip.delivery.totalLivingWeight
-        : 0,
-    ) ?? [];
+  const fuiData = tripBenchmarks?.trips.map((trip) => trip.fui ?? 0) ?? [];
 
   const tripLabels = tripBenchmarks?.trips.map(
     (trip) =>
       `Tur: ${dateFormat(trip.start, "d/M/y")} – ${dateFormat(trip.end, "d/M/y")}`,
   );
 
-  const fuiLabels = trips?.map(
-    (trip) =>
-      `Tur: ${dateFormat(trip.start, "d/M/y")} – ${dateFormat(trip.end, "d/M/y")}`,
-  );
-
   const percentEEOIChange =
     avgVesselBenchmark?.own.eeoi != null && avgVesselBenchmark?.all.eeoi != null
-      ? -(
-          (avgVesselBenchmark?.own.eeoi - avgVesselBenchmark?.all.eeoi) /
-          avgVesselBenchmark?.all.eeoi
-        ) * 100
+      ? ((avgVesselBenchmark?.own.eeoi - avgVesselBenchmark?.all.eeoi) /
+          avgVesselBenchmark?.all.eeoi) *
+        100
       : undefined;
 
   const percentFUIChange =
     avgVesselBenchmark?.own.fui != null && avgVesselBenchmark?.all.fui != null
-      ? -(
-          (avgVesselBenchmark?.own.fui - avgVesselBenchmark?.all.fui) /
-          avgVesselBenchmark?.all.fui
-        ) * 100
+      ? ((avgVesselBenchmark?.own.fui - avgVesselBenchmark?.all.fui) /
+          avgVesselBenchmark?.all.fui) *
+        100
       : undefined;
 
   return (
@@ -83,44 +64,59 @@ export const EEOI: FC<Props> = ({
           sx={{
             height: "100%",
             justifyContent: "space-evenly",
+            width: 260,
           }}
         >
           <Stack spacing={2}>
-            <Typography variant="h5" sx={{ color: "grey" }}>
-              EEOI
-            </Typography>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+              <LeafIcon width={34} height={34} fill="#307731" />
+              <Typography variant="h5" sx={{ color: "#324F7C" }}>
+                EEOI
+              </Typography>
+            </Stack>
             <Stack direction="row" spacing={1} sx={{ alignItems: "flex-end" }}>
               <Typography variant="h3" sx={{ color: "primary.light" }}>
-                {(
-                  avgVesselBenchmark?.own.eeoi &&
-                  avgVesselBenchmark.own.eeoi * 1_000_000
-                )?.toFixed(2)}
+                {avgVesselBenchmark?.own.eeoi &&
+                  formatNumber(avgVesselBenchmark.own.eeoi * 1_000_000, 1)}
               </Typography>
-              <Typography sx={{ color: "primary.light", fontSize: "1.2rem" }}>
+              <Typography
+                sx={{ color: theme.palette.grey.A100, fontSize: "1.2rem" }}
+              >
                 gCO2/t.nm
               </Typography>
             </Stack>
             {percentEEOIChange && (
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ alignItems: "flex-start" }}
+              >
                 {percentEEOIChange >= 0 ? (
-                  <ArrowUpwardIcon color="success" fontSize="small" />
+                  <ArrowUpwardIcon color="error" fontSize="small" />
                 ) : (
-                  <ArrowDownwardIcon color="error" fontSize="small" />
+                  <ArrowDownwardIcon color="success" fontSize="small" />
                 )}
-                <Typography
-                  sx={{
-                    fontSize: "1.05rem",
-                    color:
-                      percentEEOIChange >= 0 ? "success.main" : "error.main",
-                  }}
-                >
-                  {percentEEOIChange.toFixed(2)}%
-                </Typography>
+                <Stack>
+                  <Typography
+                    sx={{
+                      fontSize: "1.05rem",
+                      fontWeight: "bold",
+                      color:
+                        percentEEOIChange >= 0 ? "error.main" : "success.main",
+                    }}
+                  >
+                    {percentEEOIChange >= 0 && "+"}
+                    {formatNumber(percentEEOIChange, 2)}%
+                  </Typography>
+                  <Typography sx={{ color: theme.palette.grey.A100 }}>
+                    {`${percentEEOIChange >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+                  </Typography>
+                </Stack>
               </Stack>
             )}
             <SparkLineChart
               data={eeoiData}
-              height={60}
+              height={100}
               area
               showHighlight
               showTooltip
@@ -175,16 +171,25 @@ export const EEOI: FC<Props> = ({
           <Divider variant="middle" />
           <Stack>
             <Stack spacing={2}>
-              <Typography variant="h5" sx={{ color: "grey" }}>
-                FUI
-              </Typography>
+              <Stack
+                direction="row"
+                spacing={1.5}
+                sx={{ alignItems: "center" }}
+              >
+                <FuiIcon width={34} height={34} fill="#307731" />
+                <Typography variant="h5" sx={{ color: "#324F7C" }}>
+                  FUI
+                </Typography>
+              </Stack>
+
               <Stack
                 direction="row"
                 spacing={1}
                 sx={{ alignItems: "flex-end" }}
               >
                 <Typography variant="h3" sx={{ color: "primary.light" }}>
-                  {avgVesselBenchmark?.own.fui?.toFixed(2)}
+                  {avgVesselBenchmark?.own.fui &&
+                    formatNumber(avgVesselBenchmark?.own.fui, 1)}
                 </Typography>
                 <Typography sx={{ color: "primary.light", fontSize: "1.2rem" }}>
                   L/tonn
@@ -194,28 +199,35 @@ export const EEOI: FC<Props> = ({
                 <Stack
                   direction="row"
                   spacing={1}
-                  sx={{ alignItems: "center" }}
+                  sx={{ alignItems: "flex-start" }}
                 >
                   {percentFUIChange >= 0 ? (
-                    <ArrowUpwardIcon color="success" fontSize="small" />
+                    <ArrowUpwardIcon color="error" fontSize="small" />
                   ) : (
-                    <ArrowDownwardIcon color="error" fontSize="small" />
+                    <ArrowDownwardIcon color="success" fontSize="small" />
                   )}
-                  <Typography
-                    sx={{
-                      fontSize: "1.05rem",
-                      color:
-                        percentFUIChange >= 0 ? "success.main" : "error.main",
-                    }}
-                  >
-                    {percentFUIChange.toFixed(2)} %
-                  </Typography>
+                  <Stack>
+                    <Typography
+                      sx={{
+                        fontSize: "1.05rem",
+                        fontWeight: "bold",
+                        color:
+                          percentFUIChange >= 0 ? "error.main" : "success.main",
+                      }}
+                    >
+                      {percentFUIChange >= 0 && "+"}
+                      {formatNumber(percentFUIChange, 2)}%
+                    </Typography>
+                    <Typography sx={{ color: theme.palette.grey.A100 }}>
+                      {`${percentFUIChange >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+                    </Typography>
+                  </Stack>
                 </Stack>
               )}
             </Stack>
             <SparkLineChart
               data={fuiData}
-              height={60}
+              height={100}
               area
               showHighlight
               showTooltip
@@ -235,7 +247,7 @@ export const EEOI: FC<Props> = ({
               }
               xAxis={{
                 id: "trip-axis",
-                data: fuiLabels,
+                data: tripLabels,
               }}
               valueFormatter={(value) =>
                 value == null ? "" : `${value.toFixed(2)} L/t`

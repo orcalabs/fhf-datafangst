@@ -1,6 +1,15 @@
+export { default as CalendarFishIcon } from "./calendar-fish-icon";
+export { default as ValuePerFuelIcon } from "./catch-value-per-fuel";
 export { default as CoastlineIcon } from "./coastline";
+export { default as CoinStackIcon } from "./coin-icon";
 export { default as DeliveryIcon } from "./delivery";
 export { default as DeliveryPointIcon } from "./delivery-point";
 export { default as FishIcon } from "./fish";
 export { default as FishLocationIcon } from "./fish-location";
+export { default as FishPerDistanceIcon } from "./fish-per-distance";
+export { default as FishValuePerFuelIcon } from "./fish-per-fuel";
+export { default as FuiIcon } from "./fui-icon";
+export { default as GearIcon } from "./gear";
+export { default as LeafIcon } from "./leaf-icon";
+export { default as FishingTripIcon } from "./trip-icon";
 export { default as VesselIcon } from "./vessel";

@@ -6,6 +6,9 @@ import {
   CardContent,
   CardHeader,
   CircularProgress,
+  Divider,
+  MenuItem,
+  Select,
   Stack,
   styled,
   Table,
@@ -16,7 +19,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { type FC } from "react";
+import { useMemo, useState, type FC } from "react";
+import theme from "~/app/theme";
 import type { SumVesselBenchmark } from "~/generated/openapi";
 import {
   selectLoggedInVessel,
@@ -25,12 +29,14 @@ import {
   selectVesselsByFiskeridirId,
   useAppSelector,
 } from "~/store";
-import { toTitleCase } from "~/utils";
+import { formatNumber, toTitleCase } from "~/utils";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.root}`]: {
     padding: "10px 6px",
     fontSize: "0.87rem",
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.grey[700],
@@ -39,9 +45,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       width: 60,
       marginRight: 5,
     },
+    "&:last-of-type": {
+      paddingRight: 0,
+    },
   },
   [`&.${tableCellClasses.body}`]: {
     border: 0,
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    fontSize: "0.9rem",
   },
   [`&.${tableCellClasses.footer}`]: {
     borderBottom: 0,
@@ -51,24 +62,33 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+const kpis: {
+  value: keyof SumVesselBenchmark;
+  label: string;
+}[] = [
+  { value: "sumLivingWeight", label: "Rundvekt (kg)" },
+  { value: "sumWeightPerHour", label: "Fangst per dag (kg/dag)" },
+  { value: "sumWeightPerDistance", label: "Fangst per distanse (kg/nm)" },
+];
+
 export const VesselRanking: FC = () => {
   const vesselStats = useAppSelector(selectSumPerVesselBenchmark);
   const isLoading = useAppSelector(selectSumPerVesselBenchmarkLoading);
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
 
   const loggedInVessel = useAppSelector(selectLoggedInVessel);
+  const [selectedKpi, setSelectedKpi] =
+    useState<keyof SumVesselBenchmark>("sumLivingWeight");
 
-  const sortByValue = (
-    parameter: keyof SumVesselBenchmark,
-  ): SumVesselBenchmark[] | undefined => {
-    if (vesselStats) {
-      return [...vesselStats].sort(
-        (a, b) => (b[parameter] ?? 0) - (a[parameter] ?? 0),
-      );
-    }
-  };
-
-  const data = sortByValue("sumLivingWeight");
+  const data = useMemo(
+    () =>
+      vesselStats
+        ? [...vesselStats].sort(
+            (a, b) => (b[selectedKpi] ?? 0) - (a[selectedKpi] ?? 0),
+          )
+        : [],
+    [vesselStats, selectedKpi],
+  );
 
   const myRank = data?.findIndex(
     (v) => v.fiskeridirVesselId === loggedInVessel?.fiskeridir.id,
@@ -106,7 +126,6 @@ export const VesselRanking: FC = () => {
             sx={{
               flexShrink: 0,
               p: 2.5,
-              borderBottom: `1px solid rgba(200, 200, 200, 1)`,
             }}
             slotProps={{
               title: {
@@ -118,36 +137,77 @@ export const VesselRanking: FC = () => {
             }}
           />
 
+          <Divider
+            sx={{ mb: 1, mx: 2.5, bgcolor: "rgba(200, 200, 200, 0.7)" }}
+          />
           <CardContent
             sx={{
               flex: 1,
               minHeight: 0,
               overflowY: "auto",
+              pt: 0,
+              px: 3,
             }}
           >
             <Table>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="center">#</StyledTableCell>
+                  <StyledTableCell>#</StyledTableCell>
                   <StyledTableCell>Fartøy</StyledTableCell>
-                  <StyledTableCell align="right">Rundvekt</StyledTableCell>
-                  <StyledTableCell />
+                  <StyledTableCell align="right">
+                    <Select
+                      variant="standard"
+                      value={selectedKpi}
+                      onChange={(event) =>
+                        setSelectedKpi(
+                          event.target.value as keyof SumVesselBenchmark,
+                        )
+                      }
+                      disableUnderline
+                      sx={{
+                        color: theme.palette.grey[700],
+                        fontWeight: "bold",
+                        fontSize: "0.87rem",
+                      }}
+                    >
+                      {kpis.map((kpi) => (
+                        <MenuItem key={kpi.value} value={kpi.value}>
+                          {kpi.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data?.map((vessel, i) => (
-                  <TableRow key={i}>
-                    <StyledTableCell align="center">{i + 1}</StyledTableCell>
-                    {/* TODO: Change ! when api supports it */}
+                  <TableRow
+                    key={i}
+                    sx={{
+                      borderRadius: 2,
+                      bgcolor:
+                        vessel.fiskeridirVesselId ===
+                        loggedInVessel?.fiskeridir.id
+                          ? "#e6f8e5"
+                          : "inherit",
+                    }}
+                  >
+                    <StyledTableCell>{i + 1}</StyledTableCell>
                     <StyledTableCell>
                       {toTitleCase(
-                        vessels[vessel.fiskeridirVesselId!].fiskeridir.name,
+                        vessels[vessel.fiskeridirVesselId].fiskeridir.name,
                       )}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {vessel.sumLivingWeight?.toFixed(0)}
+                      {vessel[selectedKpi] != null
+                        ? formatNumber(
+                            selectedKpi === "sumWeightPerHour"
+                              ? vessel[selectedKpi] * 24
+                              : vessel[selectedKpi],
+                            0,
+                          )
+                        : "–"}
                     </StyledTableCell>
-                    <StyledTableCell></StyledTableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -168,7 +228,7 @@ export const VesselRanking: FC = () => {
               sx={{
                 width: "100%",
                 p: 2,
-                bgcolor: "grey.300",
+                bgcolor: "#cfddeb",
               }}
             >
               {myRank !== undefined && myRank >= 0 ? (

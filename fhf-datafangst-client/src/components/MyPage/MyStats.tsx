@@ -33,7 +33,7 @@ export const MyStats: FC = () => {
           sx={{ justifyContent: "space-between", pr: 5 }}
         >
           <Stack spacing={2}>
-            <Typography variant="h2">Statistikker</Typography>
+            <Typography variant="h2">Statistikk</Typography>
             <Tabs
               sx={{
                 width: "100%",
@@ -57,13 +57,6 @@ export const MyStats: FC = () => {
                 sx={{
                   color: theme.palette.grey[500],
                 }}
-                value="performance"
-                label="Ytelse"
-              />
-              <Tab
-                sx={{
-                  color: theme.palette.grey[500],
-                }}
                 value="company"
                 label="Rederi"
               />
@@ -76,6 +69,7 @@ export const MyStats: FC = () => {
               onChange={setDateRange}
               validateRange
               showShortCuts
+              showDash
             />
           </Box>
         </Stack>

@@ -5,6 +5,7 @@ import {
   endOfMonth,
   endOfYear,
   getYear,
+  isEqual,
   startOfMonth,
   startOfYear,
   subMonths,
@@ -21,10 +22,46 @@ interface Props {
   onChange: (_?: DateRange) => void;
   validateRange?: boolean;
   showShortCuts?: boolean;
+  showDash?: boolean;
 }
 
+const dateRangeShortcuts = [
+  {
+    id: "previousMonth",
+    label: "Forrige måned",
+    getRange: () =>
+      new DateRange(
+        startOfMonth(subMonths(new Date(), 1)),
+        endOfMonth(subMonths(new Date(), 1)),
+      ),
+  },
+  {
+    id: "last3Months",
+    label: "Siste 3 måneder",
+    getRange: () =>
+      new DateRange(
+        startOfMonth(subMonths(new Date(), 3)),
+        endOfMonth(subMonths(new Date(), 1)),
+      ),
+  },
+  ...[2, 1].map((yearsAgo) => {
+    const date = subYears(new Date(), yearsAgo);
+
+    return {
+      id: `year${getYear(date)}`,
+      label: String(getYear(date)),
+      getRange: () => new DateRange(startOfYear(date), endOfYear(date)),
+    };
+  }),
+  {
+    id: "yearToDate",
+    label: "Hittil i år",
+    getRange: () => new DateRange(startOfYear(new Date()), new Date()),
+  },
+];
+
 export const DateFilter: FC<Props> = (props) => {
-  const { value, onChange, validateRange, showShortCuts } = props;
+  const { value, onChange, validateRange, showShortCuts, showDash } = props;
   const [error, setError] = useState<boolean>(false);
 
   const handleStartDateChange = (date: Date | null) => {
@@ -42,6 +79,14 @@ export const DateFilter: FC<Props> = (props) => {
     }
     onChange(new DateRange(value?.rawStart, date));
   };
+
+  const selectedShortcut = dateRangeShortcuts.find(({ getRange }) => {
+    const range = getRange();
+    if (!value?.start || !value.end) {
+      return;
+    }
+    return isEqual(value.start, range.start!) && isEqual(value.end, range.end!);
+  });
 
   return (
     <>
@@ -91,6 +136,17 @@ export const DateFilter: FC<Props> = (props) => {
               minDate={new Date("2011-01-01")}
               maxDate={new Date()}
             />
+            {showDash && (
+              <Typography
+                sx={{
+                  alignSelf: "center",
+                  px: 1,
+                  fontSize: "1.3rem",
+                }}
+              >
+                -
+              </Typography>
+            )}
             <DatePicker
               label={"Til"}
               slotProps={{
@@ -108,62 +164,31 @@ export const DateFilter: FC<Props> = (props) => {
             />
           </Box>
           {showShortCuts && (
-            <Stack
-              direction="row"
-              spacing={1}
-              sx={{
-                "& .MuiChip-root": {
-                  bgcolor: "grey.A200",
-                  ":hover": {
-                    bgcolor: theme.palette.grey[300],
-                  },
-                },
-              }}
-            >
-              <Chip
-                label="Forrige måned"
-                onClick={() =>
-                  onChange(
-                    new DateRange(
-                      startOfMonth(subMonths(new Date(), 1)),
-                      endOfMonth(subMonths(new Date(), 1)),
-                    ),
-                  )
-                }
-              />
-              <Chip
-                label="Siste 3 måneder"
-                onClick={() =>
-                  onChange(
-                    new DateRange(
-                      startOfMonth(subMonths(new Date(), 3)),
-                      endOfMonth(subMonths(new Date(), 1)),
-                    ),
-                  )
-                }
-              />
-              {[subYears(new Date(), 2), subYears(new Date(), 1)].map(
-                (yearDate, i) => (
+            <Stack direction="row" spacing={1}>
+              {dateRangeShortcuts.map((shortcut) => {
+                const selected = selectedShortcut?.id === shortcut.id;
+
+                return (
                   <Chip
-                    key={i}
-                    label={getYear(yearDate)}
-                    onClick={() =>
-                      onChange(
-                        new DateRange(
-                          startOfYear(yearDate),
-                          endOfYear(yearDate),
-                        ),
-                      )
+                    key={shortcut.id}
+                    label={shortcut.label}
+                    onClick={() => onChange(shortcut.getRange())}
+                    // color={selected ? "primary" : "default"}
+                    sx={
+                      selected
+                        ? {
+                            bgcolor: "primary.main",
+                            color: "primary.contrastText",
+                            "&:hover": { bgcolor: "primary.dark" },
+                          }
+                        : {
+                            bgcolor: theme.palette.grey[300],
+                            "&:hover": { bgcolor: theme.palette.grey[400] },
+                          }
                     }
                   />
-                ),
-              )}
-              <Chip
-                label="I år"
-                onClick={() =>
-                  onChange(new DateRange(startOfYear(new Date()), new Date()))
-                }
-              />
+                );
+              })}
             </Stack>
           )}
         </Stack>
