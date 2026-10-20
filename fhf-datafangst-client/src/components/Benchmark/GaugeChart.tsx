@@ -30,7 +30,7 @@ interface Props {
   valueText?: string;
   precision?: number;
   icon?: any;
-  averagePercent?: number | null;
+  averagePercent?: number;
   dataDescription?: ReactNode;
 }
 
@@ -197,8 +197,8 @@ export const GaugeChart: FC<Props> = ({
           </>
         )}
       </CardContent>
-      {averagePercent && (
-        <CardActions sx={{ p: 2 }}>
+      <CardActions sx={{ p: 2 }}>
+        {averagePercent !== undefined && (
           <Stack
             direction="row"
             spacing={1}
@@ -211,7 +211,7 @@ export const GaugeChart: FC<Props> = ({
               />
             ) : (
               <ArrowDownwardIcon
-                color={inverse ? "error" : "success"}
+                color={inverse ? "success" : "error"}
                 fontSize="small"
               />
             )}
@@ -227,11 +227,11 @@ export const GaugeChart: FC<Props> = ({
                       : "error.main",
                 }}
               >
-                +{averagePercent.toFixed(0)}%
+                {averagePercent >= 0 && "+"}
+                {formatNumber(averagePercent)}%
               </Typography>
               <Typography
                 sx={{
-                  //fontSize: "0.9rem",
                   color: theme.palette.grey.A100,
                   flex: "1 1 auto",
                   minWidth: 0,
@@ -242,8 +242,8 @@ export const GaugeChart: FC<Props> = ({
               </Typography>
             </Stack>
           </Stack>
-        </CardActions>
-      )}
+        )}
+      </CardActions>
     </Card>
   );
 };

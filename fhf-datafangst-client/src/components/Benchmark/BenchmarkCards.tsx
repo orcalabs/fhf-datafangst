@@ -43,7 +43,8 @@ export const BenchmarkCards: FC = () => {
             averagePercent={
               avgVesselBenchmark?.all.livingWeight &&
               avgVesselBenchmark?.own.livingWeight
-                ? (avgVesselBenchmark.own.livingWeight /
+                ? ((avgVesselBenchmark.own.livingWeight -
+                    avgVesselBenchmark.all.livingWeight) /
                     avgVesselBenchmark.all.livingWeight) *
                   100
                 : undefined
@@ -78,7 +79,8 @@ export const BenchmarkCards: FC = () => {
             averagePercent={
               avgVesselBenchmark?.all.weightPerHour &&
               avgVesselBenchmark?.own.weightPerHour
-                ? (avgVesselBenchmark.own.weightPerHour /
+                ? ((avgVesselBenchmark.own.weightPerHour -
+                    avgVesselBenchmark.all.weightPerHour) /
                     avgVesselBenchmark.all.weightPerHour) *
                   100
                 : undefined
@@ -113,7 +115,8 @@ export const BenchmarkCards: FC = () => {
             averagePercent={
               avgVesselBenchmark?.all.weightPerDistance &&
               avgVesselBenchmark?.own.weightPerDistance
-                ? (avgVesselBenchmark.own.weightPerDistance /
+                ? ((avgVesselBenchmark.own.weightPerDistance -
+                    avgVesselBenchmark.all.weightPerDistance) /
                     avgVesselBenchmark.all.weightPerDistance) *
                   100
                 : undefined
@@ -135,7 +138,8 @@ export const BenchmarkCards: FC = () => {
             averagePercent={
               avgVesselBenchmark?.all.fuelConsumptionLiter &&
               avgVesselBenchmark?.own.fuelConsumptionLiter
-                ? (avgVesselBenchmark.own.fuelConsumptionLiter /
+                ? ((avgVesselBenchmark.own.fuelConsumptionLiter -
+                    avgVesselBenchmark.all.fuelConsumptionLiter) /
                     avgVesselBenchmark.all.fuelConsumptionLiter) *
                   100
                 : undefined
@@ -155,7 +159,8 @@ export const BenchmarkCards: FC = () => {
             averagePercent={
               avgVesselBenchmark?.all.weightPerFuelLiter &&
               avgVesselBenchmark?.own.weightPerFuelLiter
-                ? (avgVesselBenchmark.own.weightPerFuelLiter /
+                ? ((avgVesselBenchmark.own.weightPerFuelLiter -
+                    avgVesselBenchmark.all.weightPerFuelLiter) /
                     avgVesselBenchmark.all.weightPerFuelLiter) *
                   100
                 : undefined
@@ -175,7 +180,8 @@ export const BenchmarkCards: FC = () => {
             averagePercent={
               avgVesselBenchmark?.all.catchValuePerFuelLiter &&
               avgVesselBenchmark?.own.catchValuePerFuelLiter
-                ? (avgVesselBenchmark.own.catchValuePerFuelLiter /
+                ? ((avgVesselBenchmark.own.catchValuePerFuelLiter -
+                    avgVesselBenchmark.all.catchValuePerFuelLiter) /
                     avgVesselBenchmark.all.catchValuePerFuelLiter) *
                   100
                 : undefined
