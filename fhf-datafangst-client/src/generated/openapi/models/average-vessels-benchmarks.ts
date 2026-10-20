@@ -64,6 +64,12 @@ export interface AverageVesselsBenchmarks {
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
+    'otherAverageTotalLivingWeight'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AverageVesselsBenchmarks
+     */
     'ownFuelMeasurementCoveragePercentage'?: number | null;
     /**
      * 

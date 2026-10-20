@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { SpeciesGroup } from './species-group';
 
 /**
  * 
@@ -38,5 +41,11 @@ export interface PerVesselBenchmarkParams {
      * @memberof PerVesselBenchmarkParams
      */
     'useFollowingList'?: boolean | null;
+    /**
+     * 
+     * @type {Array<SpeciesGroup>}
+     * @memberof PerVesselBenchmarkParams
+     */
+    'speciesGroupIds'?: Array<SpeciesGroup> | null;
 }
 
