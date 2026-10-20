@@ -74,18 +74,33 @@ export const EEOI: FC = () => {
                 EEOI
               </Typography>
             </Stack>
-            <Stack direction="row" spacing={1} sx={{ alignItems: "flex-end" }}>
-              <Typography variant="h3" sx={{ color: "primary.light" }}>
-                {avgVesselBenchmark?.own.eeoi &&
-                  formatNumber(avgVesselBenchmark.own.eeoi * 1_000_000, 1)}
-              </Typography>
-              <Typography
-                sx={{ color: theme.palette.grey.A100, fontSize: "1.2rem" }}
+            {avgVesselBenchmark?.own.eeoi ? (
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ alignItems: "flex-end" }}
               >
-                gCO2/t.nm
+                <Typography variant="h3" sx={{ color: "primary.light" }}>
+                  {avgVesselBenchmark?.own.eeoi &&
+                    formatNumber(avgVesselBenchmark.own.eeoi * 1_000_000, 1)}
+                </Typography>
+                <Typography
+                  sx={{ color: theme.palette.grey.A100, fontSize: "1.2rem" }}
+                >
+                  gCO2/t.nm
+                </Typography>
+              </Stack>
+            ) : (
+              <Typography
+                sx={{
+                  color: theme.palette.grey.A100,
+                  fontSize: "1.15rem",
+                }}
+              >
+                Ingen data
               </Typography>
-            </Stack>
-            {percentEEOIChange && (
+            )}
+            {percentEEOIChange !== undefined && (
               <Stack
                 direction="row"
                 spacing={1}
@@ -181,21 +196,33 @@ export const EEOI: FC = () => {
                   FUI
                 </Typography>
               </Stack>
-
-              <Stack
-                direction="row"
-                spacing={1}
-                sx={{ alignItems: "flex-end" }}
-              >
-                <Typography variant="h3" sx={{ color: "primary.light" }}>
-                  {avgVesselBenchmark?.own.fui &&
-                    formatNumber(avgVesselBenchmark?.own.fui, 1)}
+              {avgVesselBenchmark?.own.fui ? (
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  sx={{ alignItems: "flex-end" }}
+                >
+                  <Typography variant="h3" sx={{ color: "primary.light" }}>
+                    {avgVesselBenchmark?.own.fui &&
+                      formatNumber(avgVesselBenchmark?.own.fui, 1)}
+                  </Typography>
+                  <Typography
+                    sx={{ color: "primary.light", fontSize: "1.2rem" }}
+                  >
+                    L/tonn
+                  </Typography>
+                </Stack>
+              ) : (
+                <Typography
+                  sx={{
+                    color: theme.palette.grey.A100,
+                    fontSize: "1.15rem",
+                  }}
+                >
+                  Ingen data
                 </Typography>
-                <Typography sx={{ color: "primary.light", fontSize: "1.2rem" }}>
-                  L/tonn
-                </Typography>
-              </Stack>
-              {percentFUIChange && (
+              )}
+              {percentFUIChange !== undefined && (
                 <Stack
                   direction="row"
                   spacing={1}

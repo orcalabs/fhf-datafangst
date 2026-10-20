@@ -25,7 +25,7 @@ import {
   selectTripsLoading,
   useAppSelector,
 } from "~/store";
-import { hoursToDays, kilosOrTonsFormatter, nok } from "~/utils";
+import { formatNumber, hoursToDays, kilosOrTonsFormatter, nok } from "~/utils";
 
 export const GeneralStatsCard: FC = () => {
   const isLoading = useAppSelector(selectAvgVesselBenchmarkLoading);
@@ -64,8 +64,8 @@ export const GeneralStatsCard: FC = () => {
                 change={
                   avgVesselBenchmark?.own.numTrips &&
                   avgVesselBenchmark.all.numTrips
-                    ? avgVesselBenchmark.all.numTrips -
-                      avgVesselBenchmark.own.numTrips
+                    ? avgVesselBenchmark.own.numTrips -
+                      avgVesselBenchmark.all.numTrips
                     : undefined
                 }
                 changeType="number"
@@ -84,9 +84,10 @@ export const GeneralStatsCard: FC = () => {
                 icon={<FishLocationIcon width={35} height={35} />}
                 change={
                   avgVesselBenchmark?.ownTotalLivingWeight &&
-                  avgVesselBenchmark.all.livingWeight
-                    ? (avgVesselBenchmark.ownTotalLivingWeight /
-                        avgVesselBenchmark.all.livingWeight) *
+                  avgVesselBenchmark.otherAverageTotalLivingWeight
+                    ? ((avgVesselBenchmark.ownTotalLivingWeight -
+                        avgVesselBenchmark.otherAverageTotalLivingWeight) /
+                        avgVesselBenchmark.otherAverageTotalLivingWeight) *
                       100
                     : undefined
                 }
@@ -100,8 +101,8 @@ export const GeneralStatsCard: FC = () => {
                 change={
                   avgVesselBenchmark?.own.numHauls &&
                   avgVesselBenchmark.all.numHauls
-                    ? avgVesselBenchmark.all.numHauls -
-                      avgVesselBenchmark.own.numHauls
+                    ? avgVesselBenchmark.own.numHauls -
+                      avgVesselBenchmark.all.numHauls
                     : undefined
                 }
                 changeType="number"
@@ -120,7 +121,8 @@ export const GeneralStatsCard: FC = () => {
                 change={
                   avgVesselBenchmark?.own.tripDurationSeconds &&
                   avgVesselBenchmark.all.tripDurationSeconds
-                    ? (avgVesselBenchmark.own.tripDurationSeconds /
+                    ? ((avgVesselBenchmark.own.tripDurationSeconds -
+                        avgVesselBenchmark.all.tripDurationSeconds) /
                         avgVesselBenchmark.all.tripDurationSeconds) *
                       100
                     : undefined
@@ -139,7 +141,8 @@ export const GeneralStatsCard: FC = () => {
                 change={
                   avgVesselBenchmark?.own.valueNok &&
                   avgVesselBenchmark.all.valueNok
-                    ? (avgVesselBenchmark.own.valueNok /
+                    ? ((avgVesselBenchmark.own.valueNok -
+                        avgVesselBenchmark.all.valueNok) /
                         avgVesselBenchmark.all.valueNok) *
                       100
                     : undefined
@@ -229,7 +232,7 @@ const StatBox: FC<StatProps> = ({
             }}
           >
             {change >= 0 && "+"}
-            {change.toFixed(0)}
+            {formatNumber(change)}
             {changeType === "percent" && "%"}
           </Typography>
           <Typography
