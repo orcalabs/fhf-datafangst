@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AverageStats } from './average-stats';
+import type { Stats } from './stats';
 
 /**
  * 
@@ -28,43 +28,37 @@ export interface AverageVesselsBenchmarks {
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
-    'highestAverageFuelConsumptionLiter'?: number | null;
+    'highestFuelConsumptionLiter'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
-    'highestAverageWeightPerHour'?: number | null;
+    'highestWeightPerHour'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
-    'highestAverageWeightPerDistance'?: number | null;
+    'highestWeightPerDistance'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
-    'highestAverageWeightPerFuelLiter'?: number | null;
+    'highestWeightPerFuelLiter'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
-    'highestAverageCatchValuePerFuelLiter'?: number | null;
+    'highestCatchValuePerFuelLiter'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
-    'highestAverageLivingWeight'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'otherAverageTotalLivingWeight'?: number | null;
+    'highestLivingWeight'?: number | null;
     /**
      * 
      * @type {number}
@@ -79,21 +73,15 @@ export interface AverageVesselsBenchmarks {
     'ownTripsHasPriceEstimation'?: boolean | null;
     /**
      * 
-     * @type {number}
+     * @type {Stats}
      * @memberof AverageVesselsBenchmarks
      */
-    'ownTotalLivingWeight'?: number | null;
+    'all': Stats;
     /**
      * 
-     * @type {AverageStats}
+     * @type {Stats}
      * @memberof AverageVesselsBenchmarks
      */
-    'all': AverageStats;
-    /**
-     * 
-     * @type {AverageStats}
-     * @memberof AverageVesselsBenchmarks
-     */
-    'own': AverageStats;
+    'own': Stats;
 }
 

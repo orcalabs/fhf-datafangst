@@ -37,7 +37,6 @@ models/ais-vms-position-details.ts
 models/ais-vms-position.ts
 models/average-carbon-intensity-params.ts
 models/average-eeoi-params.ts
-models/average-stats.ts
 models/average-trip-benchmarks-params.ts
 models/average-trip-benchmarks.ts
 models/average-vessels-benchmarks.ts
@@ -139,6 +138,7 @@ models/species-main-group-detailed.ts
 models/species-main-group.ts
 models/species.ts
 models/started-user-haul.ts
+models/stats.ts
 models/sum-vessel-benchmark.ts
 models/tra-catch.ts
 models/tra.ts

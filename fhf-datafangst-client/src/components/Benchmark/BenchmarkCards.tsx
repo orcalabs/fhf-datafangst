@@ -25,7 +25,7 @@ export const BenchmarkCards: FC = () => {
             title="Fangst, rundvekt"
             value={avgVesselBenchmark?.own.livingWeight}
             icon={<FishLocationIcon width={34} height={34} />}
-            max={avgVesselBenchmark?.highestAverageLivingWeight}
+            max={avgVesselBenchmark?.highestLivingWeight}
             valueText={
               avgVesselBenchmark?.own.livingWeight
                 ? avgVesselBenchmark.own.livingWeight >= 1000
@@ -58,7 +58,7 @@ export const BenchmarkCards: FC = () => {
             title="Fangst per dag"
             value={avgVesselBenchmark?.own.weightPerHour}
             icon={<CalendarFishIcon width={34} height={34} />}
-            max={avgVesselBenchmark?.highestAverageWeightPerHour}
+            max={avgVesselBenchmark?.highestWeightPerHour}
             valueText={
               avgVesselBenchmark?.own.weightPerHour
                 ? avgVesselBenchmark.own.weightPerHour >= 1000
@@ -94,7 +94,7 @@ export const BenchmarkCards: FC = () => {
             title="Fangst per distanse"
             value={avgVesselBenchmark?.own.weightPerDistance}
             icon={<FishPerDistanceIcon width={34} height={34} />}
-            max={avgVesselBenchmark?.highestAverageWeightPerDistance}
+            max={avgVesselBenchmark?.highestWeightPerDistance}
             valueText={
               avgVesselBenchmark?.own.weightPerDistance
                 ? avgVesselBenchmark.own.weightPerDistance >= 1000
@@ -130,7 +130,7 @@ export const BenchmarkCards: FC = () => {
             title="Drivstofforbruk"
             value={avgVesselBenchmark?.own.fuelConsumptionLiter}
             icon={<LocalGasStationIcon sx={{ width: 34, height: 34 }} />}
-            max={avgVesselBenchmark?.highestAverageFuelConsumptionLiter}
+            max={avgVesselBenchmark?.highestFuelConsumptionLiter}
             suffix={"liter/tur"}
             precision={0}
             color={theme.palette.grey.A400}
@@ -153,7 +153,7 @@ export const BenchmarkCards: FC = () => {
             title="Fangstvekt per liter drivstoff"
             value={avgVesselBenchmark?.own.weightPerFuelLiter}
             icon={<FishValuePerFuelIcon width={34} height={34} />}
-            max={avgVesselBenchmark?.highestAverageWeightPerFuelLiter}
+            max={avgVesselBenchmark?.highestWeightPerFuelLiter}
             suffix={"kg/liter"}
             color={theme.palette.grey.A400}
             averagePercent={
@@ -174,7 +174,7 @@ export const BenchmarkCards: FC = () => {
             icon={<ValuePerFuelIcon width={34} height={34} />}
             title="Fangstverdi per liter drivstoff"
             value={avgVesselBenchmark?.own.catchValuePerFuelLiter}
-            max={avgVesselBenchmark?.highestAverageCatchValuePerFuelLiter}
+            max={avgVesselBenchmark?.highestCatchValuePerFuelLiter}
             suffix={"kr/liter"}
             color={theme.palette.grey.A400}
             averagePercent={
