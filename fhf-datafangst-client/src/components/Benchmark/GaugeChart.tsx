@@ -222,7 +222,7 @@ export const GaugeChart: FC<Props> = ({
                   fontWeight: "bold",
                   whiteSpace: "nowrap",
                   color:
-                    !inverse && averagePercent >= 0
+                    Boolean(averagePercent >= 0) !== Boolean(inverse)
                       ? "success.main"
                       : "error.main",
                 }}

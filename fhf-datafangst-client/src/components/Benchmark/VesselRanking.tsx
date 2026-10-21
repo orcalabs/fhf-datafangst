@@ -67,8 +67,8 @@ const kpis: {
   label: string;
 }[] = [
   { value: "sumLivingWeight", label: "Rundvekt (kg)" },
-  { value: "sumWeightPerHour", label: "Fangst per dag (kg/dag)" },
-  { value: "sumWeightPerDistance", label: "Fangst per distanse (kg/nm)" },
+  { value: "averageWeightPerHour", label: "Fangst per dag (kg/dag)" },
+  { value: "averageWeightPerDistance", label: "Fangst per distanse (kg/nm)" },
 ];
 
 export const VesselRanking: FC = () => {
@@ -201,7 +201,7 @@ export const VesselRanking: FC = () => {
                     <StyledTableCell align="right">
                       {vessel[selectedKpi] != null
                         ? formatNumber(
-                            selectedKpi === "sumWeightPerHour"
+                            selectedKpi === "averageWeightPerHour"
                               ? vessel[selectedKpi] * 24
                               : vessel[selectedKpi],
                             0,

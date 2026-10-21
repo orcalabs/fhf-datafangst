@@ -31,13 +31,13 @@ export interface SumVesselBenchmark {
      * @type {number}
      * @memberof SumVesselBenchmark
      */
-    'sumWeightPerHour'?: number | null;
+    'averageWeightPerHour'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof SumVesselBenchmark
      */
-    'sumWeightPerDistance'?: number | null;
+    'averageWeightPerDistance'?: number | null;
     /**
      * 
      * @type {number}
