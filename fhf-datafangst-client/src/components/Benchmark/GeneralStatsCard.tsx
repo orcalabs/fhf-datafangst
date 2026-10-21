@@ -13,19 +13,14 @@ import {
 } from "@mui/material";
 import type { FC } from "react";
 import theme from "~/app/theme";
-import {
-  CoinStackIcon,
-  FishingTripIcon,
-  FishLocationIcon,
-  GearIcon,
-} from "~/assets/icons";
+import { CoinStackIcon, FishingTripIcon, GearIcon } from "~/assets/icons";
 import {
   selectAvgVesselBenchmark,
   selectAvgVesselBenchmarkLoading,
   selectTripsLoading,
   useAppSelector,
 } from "~/store";
-import { formatNumber, hoursToDays, kilosOrTonsFormatter, nok } from "~/utils";
+import { formatNumber, hoursToDays, nok } from "~/utils";
 
 export const GeneralStatsCard: FC = () => {
   const isLoading = useAppSelector(selectAvgVesselBenchmarkLoading);
@@ -72,28 +67,7 @@ export const GeneralStatsCard: FC = () => {
               />
 
               <Divider orientation="vertical" flexItem />
-              <StatBox
-                title="Total rundvekt"
-                value={
-                  avgVesselBenchmark?.ownTotalLivingWeight
-                    ? kilosOrTonsFormatter(
-                        avgVesselBenchmark.ownTotalLivingWeight,
-                      )
-                    : undefined
-                }
-                icon={<FishLocationIcon width={35} height={35} />}
-                change={
-                  avgVesselBenchmark?.ownTotalLivingWeight &&
-                  avgVesselBenchmark.otherAverageTotalLivingWeight
-                    ? ((avgVesselBenchmark.ownTotalLivingWeight -
-                        avgVesselBenchmark.otherAverageTotalLivingWeight) /
-                        avgVesselBenchmark.otherAverageTotalLivingWeight) *
-                      100
-                    : undefined
-                }
-                changeType="percent"
-              />
-              <Divider orientation="vertical" flexItem />
+
               <StatBox
                 title="Antall hal"
                 value={avgVesselBenchmark?.own.numHauls}

@@ -17,85 +17,85 @@
 /**
  * 
  * @export
- * @interface AverageStats
+ * @interface Stats
  */
-export interface AverageStats {
+export interface Stats {
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'fuelConsumptionLiter'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'weightPerHour'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'weightPerDistance'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'weightPerFuelLiter'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'catchValuePerFuelLiter'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'livingWeight'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'eeoi'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'fui'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'carbonIntensity'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'numTrips'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'numHauls'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'valueNok'?: number | null;
     /**
      * 
      * @type {number}
-     * @memberof AverageStats
+     * @memberof Stats
      */
     'tripDurationSeconds'?: number | null;
 }
