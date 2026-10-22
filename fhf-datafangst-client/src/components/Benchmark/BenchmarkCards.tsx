@@ -36,7 +36,7 @@ export const BenchmarkCards: FC = () => {
             suffix={
               avgVesselBenchmark?.own.livingWeight
                 ? avgVesselBenchmark.own.livingWeight >= 1000
-                  ? "tonn/tur"
+                  ? "tonn"
                   : "kg"
                 : ""
             }
@@ -108,7 +108,7 @@ export const BenchmarkCards: FC = () => {
             suffix={
               avgVesselBenchmark?.own.weightPerDistance
                 ? avgVesselBenchmark.own.weightPerDistance >= 1000
-                  ? "tonn"
+                  ? "tonn/nm"
                   : "kg/nm"
                 : ""
             }
@@ -130,8 +130,8 @@ export const BenchmarkCards: FC = () => {
             title="Drivstofforbruk"
             value={avgVesselBenchmark?.own.fuelConsumptionLiter}
             icon={<LocalGasStationIcon sx={{ width: 34, height: 34 }} />}
-            max={avgVesselBenchmark?.highestFuelConsumptionLiter}
-            suffix={"liter/tur"}
+            max={avgVesselBenchmark?.lowestFuelConsumptionLiter}
+            suffix={"liter"}
             precision={0}
             color={theme.palette.grey.A400}
             inverse

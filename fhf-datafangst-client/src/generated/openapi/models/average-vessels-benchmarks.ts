@@ -31,7 +31,7 @@ export interface AverageVesselsBenchmarks {
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */
-    'highestFuelConsumptionLiter'?: number | null;
+    'lowestFuelConsumptionLiter'?: number | null;
     /**
      * 
      * @type {number}
