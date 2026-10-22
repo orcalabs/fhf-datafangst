@@ -53,6 +53,7 @@ export const BenchmarkOverview: FC<Props> = ({ dateRange }) => {
           sorting: [TripSorting.StopDate, Ordering.Asc],
           dateRange: dateRange,
           offset: 0,
+          limit: 0,
           cancel: false,
         }),
       );

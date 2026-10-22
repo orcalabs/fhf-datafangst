@@ -121,7 +121,7 @@ export const GaugeChart: FC<Props> = ({
                 width={250}
                 height={200}
                 value={clamp(
-                  inverse ? 100 - (value / max) * 100 : (value / max) * 100,
+                  inverse ? (max / value) * 100 : (value / max) * 100,
                   0,
                   100,
                 )}
@@ -137,9 +137,7 @@ export const GaugeChart: FC<Props> = ({
                   style={{
                     fill: getColorForPercent(
                       clamp(
-                        inverse
-                          ? 100 - (value / max) * 100
-                          : (value / max) * 100,
+                        inverse ? (max / value) * 100 : (value / max) * 100,
                         0,
                         100,
                       ),

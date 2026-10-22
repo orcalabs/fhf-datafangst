@@ -186,41 +186,55 @@ const StatBox: FC<StatProps> = ({
           </Tooltip>
         </Stack>
       </Stack>
-      {change && (
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ alignItems: "center", flexWrap: "wrap" }}
-        >
-          {change >= 0 ? (
-            <ArrowUpwardIcon color="success" fontSize="small" />
-          ) : (
-            <ArrowDownwardIcon color="error" fontSize="small" />
-          )}
-          <Typography
-            sx={{
-              fontSize: "1.05rem",
-              fontWeight: "bold",
-              whiteSpace: "nowrap",
-              color: change >= 0 ? "success.main" : "error.main",
-            }}
-          >
-            {change >= 0 && "+"}
-            {formatNumber(change)}
-            {changeType === "percent" && "%"}
-          </Typography>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{ alignItems: "center", flexWrap: "wrap" }}
+      >
+        {change !== undefined ? (
+          <>
+            {change >= 0 ? (
+              <ArrowUpwardIcon color="success" fontSize="small" />
+            ) : (
+              <ArrowDownwardIcon color="error" fontSize="small" />
+            )}
+            <Typography
+              sx={{
+                fontSize: "1.05rem",
+                fontWeight: "bold",
+                whiteSpace: "nowrap",
+                color: change >= 0 ? "success.main" : "error.main",
+              }}
+            >
+              {change >= 0 && "+"}
+              {formatNumber(change)}
+              {changeType === "percent" && "%"}
+            </Typography>
+            <Typography
+              sx={{
+                alignSelf: "flex-end",
+                color: theme.palette.grey.A100,
+                flex: "1 1 auto",
+                minWidth: 0,
+              }}
+            >
+              {`${change >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+            </Typography>
+          </>
+        ) : (
           <Typography
             sx={{
               alignSelf: "flex-end",
               color: theme.palette.grey.A100,
               flex: "1 1 auto",
               minWidth: 0,
+              fontStyle: "italic",
             }}
           >
-            {`${change >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+            Ingen sammenligningsgrunnlag
           </Typography>
-        </Stack>
-      )}
+        )}
+      </Stack>
     </Stack>
   );
 };

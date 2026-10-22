@@ -69,7 +69,7 @@ const kpis: {
   { value: "livingWeight", label: "Rundvekt (kg)" },
   { value: "weightPerHour", label: "Fangst per dag (kg/dag)" },
   { value: "weightPerDistance", label: "Fangst per distanse (kg/nm)" },
-  { value: "fuelConsumptionLiter", label: "Drivstofforbruk" },
+  { value: "fuelConsumptionLiter", label: "Drivstofforbruk (liter)" },
   { value: "weightPerFuelLiter", label: "Fangst per liter drivstoff (kg/l)" },
   {
     value: "catchValuePerFuelLiter",
@@ -158,7 +158,7 @@ export const VesselRanking: FC = () => {
               px: 3,
             }}
           >
-            <Table>
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   <StyledTableCell>#</StyledTableCell>
