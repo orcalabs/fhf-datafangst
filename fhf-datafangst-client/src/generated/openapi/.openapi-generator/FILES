@@ -123,6 +123,7 @@ models/org-benchmark-species.ts
 models/org-benchmarks.ts
 models/org-fuel-path.ts
 models/per-vessel-benchmark-params.ts
+models/per-vessel-stats.ts
 models/price-query.ts
 models/quality-detailed.ts
 models/quality.ts
@@ -139,7 +140,6 @@ models/species-main-group.ts
 models/species.ts
 models/started-user-haul.ts
 models/stats.ts
-models/sum-vessel-benchmark.ts
 models/tra-catch.ts
 models/tra.ts
 models/trip-assembler-id.ts
