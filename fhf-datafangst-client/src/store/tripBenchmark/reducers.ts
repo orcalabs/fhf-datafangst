@@ -5,7 +5,6 @@ import {
   getAverageTripBenchmarks,
   getAvgVesselBenchmark,
   getEeoi,
-  getSumPerVesselBenchmark,
   getTripBenchmarks,
 } from "./actions";
 
@@ -50,18 +49,6 @@ export const tripBenchmarkBuilder = (
     })
     .addCase(getAverageEeoi.rejected, (state, _action) => {
       state.averageEeoiLoading = false;
-    })
-    .addCase(getSumPerVesselBenchmark.rejected, (state, _action) => {
-      state.sumPerVesselBenchmarksLoading = false;
-    })
-    .addCase(getSumPerVesselBenchmark.fulfilled, (state, action) => {
-      state.sumPerVesselBenchmarks = action.payload;
-      state.sumPerVesselBenchmarksLoading = false;
-    })
-    .addCase(getSumPerVesselBenchmark.pending, (state, action) => {
-      action.meta.arg.accessToken = state.authUser?.access_token;
-      state.sumPerVesselBenchmarks = undefined;
-      state.sumPerVesselBenchmarksLoading = true;
     })
     .addCase(getAvgVesselBenchmark.rejected, (state, _action) => {
       state.avgVesselBenchmarksLoading = false;

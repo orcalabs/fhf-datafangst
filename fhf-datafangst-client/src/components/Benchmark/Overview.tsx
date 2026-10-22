@@ -6,7 +6,6 @@ import { BenchmarkCards, LocalLoadingProgress } from "~/components";
 import { Ordering, TripSorting } from "~/generated/openapi";
 import {
   getAvgVesselBenchmark,
-  getSumPerVesselBenchmark,
   getTripBenchmarks,
   getTrips,
   selectAvgVesselBenchmark,
@@ -35,13 +34,6 @@ export const BenchmarkOverview: FC<Props> = ({ dateRange }) => {
     if (vessel) {
       dispatch(
         getAvgVesselBenchmark({
-          callSignOverride: vessel?.fiskeridir.callSign,
-          start: dateRange?.start,
-          end: dateRange?.end,
-        }),
-      );
-      dispatch(
-        getSumPerVesselBenchmark({
           callSignOverride: vessel?.fiskeridir.callSign,
           start: dateRange?.start,
           end: dateRange?.end,

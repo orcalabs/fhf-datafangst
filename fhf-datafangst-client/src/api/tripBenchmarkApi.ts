@@ -106,22 +106,6 @@ export const getAverageEeoi = apiFn((query: AverageEeoiAndFuiArgs, signal) =>
   ),
 );
 
-export const getSumPerVesselBenchmark = apiFn(
-  (query: PerVesselBenchmarkArgs, signal) =>
-    api.routesV1TripBenchmarksPerVesselBenchmarksSum(
-      {
-        authorization: query.accessToken,
-        start: query.start?.toISOString(),
-        end: query.end?.toISOString(),
-        useFollowingList: query.useFollowingList,
-      },
-      {
-        params: { call_sign_override: query.callSignOverride },
-        signal,
-      },
-    ),
-);
-
 export const getAvgVesselBenchmark = apiFn(
   (query: PerVesselBenchmarkArgs, signal) =>
     api.routesV1TripBenchmarksPerVesselBenchmarksAvg(

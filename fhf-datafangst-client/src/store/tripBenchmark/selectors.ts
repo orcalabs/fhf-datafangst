@@ -33,11 +33,6 @@ export const selectAverageEeoiLoading = createSelector(
   (state) => state.averageEeoiLoading,
 );
 
-export const selectSumPerVesselBenchmark = createSelector(
-  selectAppState,
-  (state) => state.sumPerVesselBenchmarks,
-);
-
 export const selectSumPerVesselBenchmarkLoading = createSelector(
   selectAppState,
   (state) => state.sumPerVesselBenchmarksLoading,

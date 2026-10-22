@@ -1,7 +1,6 @@
 import type {
   AverageTripBenchmarks,
   AverageVesselsBenchmarks,
-  SumVesselBenchmark,
   TripBenchmarks,
 } from "~/generated/openapi";
 
@@ -13,7 +12,6 @@ export interface TripBenchmarkState {
   averageEeoi?: number;
   eeoiLoading: boolean;
   averageEeoiLoading: boolean;
-  sumPerVesselBenchmarks?: SumVesselBenchmark[];
   sumPerVesselBenchmarksLoading: boolean;
   avgVesselBenchmarks?: AverageVesselsBenchmarks;
   avgVesselBenchmarksLoading: boolean;
@@ -27,7 +25,6 @@ export const initialTripBenchmarkState: TripBenchmarkState = {
   averageEeoi: undefined,
   eeoiLoading: false,
   averageEeoiLoading: false,
-  sumPerVesselBenchmarks: undefined,
   sumPerVesselBenchmarksLoading: false,
   avgVesselBenchmarks: undefined,
   avgVesselBenchmarksLoading: false,

@@ -21,10 +21,10 @@ import {
 } from "@mui/material";
 import { useMemo, useState, type FC } from "react";
 import theme from "~/app/theme";
-import type { SumVesselBenchmark } from "~/generated/openapi";
+import type { PerVesselStats } from "~/generated/openapi";
 import {
+  selectAvgVesselBenchmark,
   selectLoggedInVessel,
-  selectSumPerVesselBenchmark,
   selectSumPerVesselBenchmarkLoading,
   selectVesselsByFiskeridirId,
   useAppSelector,
@@ -63,27 +63,32 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const kpis: {
-  value: keyof SumVesselBenchmark;
+  value: keyof PerVesselStats;
   label: string;
 }[] = [
-  { value: "sumLivingWeight", label: "Rundvekt (kg)" },
-  { value: "averageWeightPerHour", label: "Fangst per dag (kg/dag)" },
-  { value: "averageWeightPerDistance", label: "Fangst per distanse (kg/nm)" },
+  { value: "livingWeight", label: "Rundvekt (kg)" },
+  { value: "weightPerHour", label: "Fangst per dag (kg/dag)" },
+  { value: "weightPerDistance", label: "Fangst per distanse (kg/nm)" },
+  { value: "fuelConsumptionLiter", label: "Drivstofforbruk" },
+  { value: "weightPerFuelLiter", label: "Fangst per liter drivstoff (kg/l)" },
+  {
+    value: "catchValuePerFuelLiter",
+    label: "Fangstverdi per liter drivstoff (kr/l)",
+  },
 ];
 
 export const VesselRanking: FC = () => {
-  const vesselStats = useAppSelector(selectSumPerVesselBenchmark);
   const isLoading = useAppSelector(selectSumPerVesselBenchmarkLoading);
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
-
+  const vesselStats = useAppSelector(selectAvgVesselBenchmark);
   const loggedInVessel = useAppSelector(selectLoggedInVessel);
   const [selectedKpi, setSelectedKpi] =
-    useState<keyof SumVesselBenchmark>("sumLivingWeight");
+    useState<keyof PerVesselStats>("livingWeight");
 
   const data = useMemo(
     () =>
       vesselStats
-        ? [...vesselStats].sort(
+        ? [...vesselStats.perVessel].sort(
             (a, b) => (b[selectedKpi] ?? 0) - (a[selectedKpi] ?? 0),
           )
         : [],
@@ -91,6 +96,10 @@ export const VesselRanking: FC = () => {
   );
 
   const myRank = data?.findIndex(
+    (v) => v.fiskeridirVesselId === loggedInVessel?.fiskeridir.id,
+  );
+
+  const myVesselStats = vesselStats?.perVessel.find(
     (v) => v.fiskeridirVesselId === loggedInVessel?.fiskeridir.id,
   );
 
@@ -160,7 +169,7 @@ export const VesselRanking: FC = () => {
                       value={selectedKpi}
                       onChange={(event) =>
                         setSelectedKpi(
-                          event.target.value as keyof SumVesselBenchmark,
+                          event.target.value as keyof PerVesselStats,
                         )
                       }
                       disableUnderline
@@ -201,7 +210,7 @@ export const VesselRanking: FC = () => {
                     <StyledTableCell align="right">
                       {vessel[selectedKpi] != null
                         ? formatNumber(
-                            selectedKpi === "averageWeightPerHour"
+                            selectedKpi === "weightPerHour"
                               ? vessel[selectedKpi] * 24
                               : vessel[selectedKpi],
                             0,
@@ -244,7 +253,14 @@ export const VesselRanking: FC = () => {
                     {loggedInVessel?.fiskeridir.name}
                   </Typography>
                   <Typography sx={{ ml: "auto", fontWeight: "bold" }}>
-                    {data?.[myRank].sumLivingWeight?.toFixed(0)}
+                    {myVesselStats && myVesselStats[selectedKpi] != null
+                      ? formatNumber(
+                          selectedKpi === "weightPerHour"
+                            ? myVesselStats[selectedKpi]! * 24
+                            : myVesselStats[selectedKpi]!,
+                          0,
+                        )
+                      : "–"}
                   </Typography>
                 </Stack>
               ) : (
