@@ -45,6 +45,7 @@ import {
   useAppSelector,
 } from "~/store";
 import {
+  createDurationFromSeconds,
   createGearListString,
   createObjectDurationString,
   dateFormat,
@@ -70,10 +71,19 @@ export const SelectedTripMenu: FC = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [aisToggle, setAisToggle] = useState<TripTrackIdentifier>(identifier);
 
-  const { haulCatches, catchTotal } = useMemo(() => {
+  const { haulCatches, catchTotal, totalHaulSeconds } = useMemo(() => {
     const haulCatches = trip?.hauls.flatMap((h) => h.catches) ?? [];
+
+    const totalHaulSeconds = trip?.hauls.reduce<number>((sum, haul) => {
+      return (
+        sum +
+        (Date.parse(haul.stopTimestamp) - Date.parse(haul.startTimestamp)) /
+          1000
+      );
+    }, 0);
+
     const catchTotal = sumCatches(haulCatches);
-    return { haulCatches, catchTotal };
+    return { haulCatches, catchTotal, totalHaulSeconds };
   }, [trip?.hauls]);
 
   // Use gear from landing notes as priority. If not landing, use gears described in hauls.
@@ -254,6 +264,25 @@ export const SelectedTripMenu: FC = () => {
             </SvgIcon>
             <Typography>
               {tripGears.length ? createGearListString(tripGears) : "Ukjent"}
+            </Typography>
+          </InfoItem>
+          <InfoItem>
+            <Box sx={{ position: "relative", display: "inline-flex" }}>
+              <PhishingSharpIcon sx={iconStyle} />
+              <TimerSharpIcon
+                sx={{
+                  position: "absolute",
+                  bottom: -5,
+                  right: 35,
+                  fontSize: 14,
+                  color: iconStyle.color,
+                  bgcolor: "inherit",
+                  borderRadius: "50%",
+                }}
+              />
+            </Box>
+            <Typography>
+              {createDurationFromSeconds(totalHaulSeconds!)}
             </Typography>
           </InfoItem>
           <InfoItem>
