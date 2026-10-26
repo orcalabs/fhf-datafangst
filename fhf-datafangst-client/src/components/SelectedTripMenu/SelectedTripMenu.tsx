@@ -48,6 +48,7 @@ import {
   createGearListString,
   createObjectDurationString,
   dateFormat,
+  formatNumber,
   kilosOrTonsFormatter,
   metersToNatuticalMilesString,
   sumCatches,
@@ -342,7 +343,7 @@ export const SelectedTripMenu: FC = () => {
                   </Stack>
                 ) : (
                   <>
-                    {trip.fuelConsumptionEstimatedOnly!.toFixed(0)} liter{" "}
+                    {formatNumber(trip.fuelConsumptionEstimatedOnly!)} liter{" "}
                     <Typography
                       component="span"
                       variant="overline"
