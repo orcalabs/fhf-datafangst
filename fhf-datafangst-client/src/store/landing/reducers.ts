@@ -4,6 +4,7 @@ import { LandingsSorting, Ordering } from "~/generated/openapi";
 import type { AppState } from "~/store/state";
 import { emptyState } from "~/store/state";
 import {
+  getLandingCatchWeights,
   getLandings,
   getLandingsMatrix,
   getLandingsMatrix2,
@@ -131,4 +132,16 @@ export const landingBuilder = (
         landingsMatrix2Search: undefined,
         landingDateSliderFrame: action.payload,
       };
+    })
+    .addCase(getLandingCatchWeights.pending, (state, action) => {
+      action.meta.arg.accessToken = state.authUser?.access_token;
+      state.landingCatchWeightsLoading = true;
+      state.landingCatchWeights = undefined;
+    })
+    .addCase(getLandingCatchWeights.fulfilled, (state, action) => {
+      state.landingCatchWeights = action.payload;
+      state.landingCatchWeightsLoading = false;
+    })
+    .addCase(getLandingCatchWeights.rejected, (state, _) => {
+      state.landingCatchWeightsLoading = false;
     });

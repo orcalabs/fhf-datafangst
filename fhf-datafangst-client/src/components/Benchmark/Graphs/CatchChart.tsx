@@ -5,43 +5,26 @@ import { renderToStaticMarkup } from "react-dom/server";
 import chartsTheme from "~/app/chartsTheme";
 import theme from "~/app/theme";
 import { FishIcon } from "~/assets/icons";
-import type { Delivery, SpeciesFiskeridir, Trip } from "~/generated/openapi";
-import { selectSpeciesFiskeridir, selectTrips, useAppSelector } from "~/store";
+import type {
+  LandingCatchWeight,
+  SpeciesFiskeridir,
+} from "~/generated/openapi";
+import {
+  selectLandingCatchWeights,
+  selectSpeciesFiskeridir,
+  useAppSelector,
+} from "~/store";
 import { formatNumber, kilosOrTonsFormatter } from "~/utils";
 
-const sumObjectValues = (deliveries: Delivery[]) => {
-  const res: Record<number, number> = {};
-  for (const d of deliveries) {
-    for (const c of d.delivered) {
-      res[c.speciesFiskeridirId] =
-        (res[c.speciesFiskeridirId] ?? 0) + c.livingWeight;
-    }
-  }
-  return res;
-};
-
-const getDictSortedOnValue = (obj: Record<number, number>) =>
-  Object.keys(obj).sort((a: string, b: string) => obj[+b] - obj[+a]);
-
 export const CatchChart: FC = () => {
-  const trips = useAppSelector(selectTrips);
   const species = useAppSelector(selectSpeciesFiskeridir);
 
-  const generateLandingData = (trips?: Trip[]) => {
-    if (!trips) {
-      return { data: {} };
-    }
-    const data = sumObjectValues(trips.map((t) => t.delivery));
-    for (const [key, value] of Object.entries(data)) {
-      data[+key] = value;
-    }
+  const landingCatchWeights = useAppSelector(selectLandingCatchWeights);
 
-    return { data };
-  };
-
-  const { data } = generateLandingData(trips);
   const barHeight = 26;
-  const chartHeight = data ? Object.keys(data).length * barHeight + 100 : 200;
+  const chartHeight = landingCatchWeights
+    ? landingCatchWeights.length * barHeight + 100
+    : 200;
 
   return (
     <Card
@@ -71,9 +54,9 @@ export const CatchChart: FC = () => {
         }}
       />
       <CardContent sx={{}}>
-        {data && (
+        {landingCatchWeights && (
           <ReactEChart
-            option={datasetOption(data, species)}
+            option={datasetOption(landingCatchWeights, species)}
             theme={chartsTheme}
             style={{ width: "100%", height: chartHeight }}
           />
@@ -84,7 +67,7 @@ export const CatchChart: FC = () => {
 };
 
 const datasetOption = (
-  a: Record<number, number>,
+  landingCatchWeights: LandingCatchWeight[],
   species: SpeciesFiskeridir[],
 ) => ({
   grid: {
@@ -103,10 +86,13 @@ const datasetOption = (
   dataset: {
     source: [
       ["Art", "Kilo"],
-      ...getDictSortedOnValue(a).map((key) => [
-        species.find((s: SpeciesFiskeridir) => s.id === parseInt(key))?.name,
-        a[+key],
-      ]),
+      ...[...landingCatchWeights]
+        .sort((a, b) => b.livingWeight - a.livingWeight)
+        .map(({ speciesFiskeridirId, livingWeight }) => [
+          species.find((group) => group.id === speciesFiskeridirId)?.name ??
+            "Ukjent artsgruppe",
+          livingWeight,
+        ]),
     ],
   },
 

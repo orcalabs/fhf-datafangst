@@ -345,3 +345,13 @@ export const selectLandingVesselLengthFilterGridStats = createSelector(
   selectVesselLengthFilterGridStats,
   (state) => [...state].sort((a, b) => b.value - a.value),
 );
+
+export const selectLandingCatchWeights = createSelector(
+  selectAppState,
+  (state) => state.landingCatchWeights,
+);
+
+export const selectLandingCatchWeightsLoading = createSelector(
+  selectAppState,
+  (state) => state.landingCatchWeightsLoading,
+);

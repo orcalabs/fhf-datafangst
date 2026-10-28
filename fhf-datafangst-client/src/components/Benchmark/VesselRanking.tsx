@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   CircularProgress,
-  Divider,
   MenuItem,
   Select,
   Stack,
@@ -17,16 +16,24 @@ import {
   tableCellClasses,
   TableHead,
   TableRow,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useMemo, useState, type FC } from "react";
+import { useMemo, type FC } from "react";
 import theme from "~/app/theme";
 import type { PerVesselStats } from "~/generated/openapi";
+import { VesselRankingType } from "~/models";
 import {
   selectAvgVesselBenchmark,
   selectLoggedInVessel,
   selectSumPerVesselBenchmarkLoading,
+  selectVesselRankingKpi,
+  selectVesselRankingType,
   selectVesselsByFiskeridirId,
+  setVesselRankingKpi,
+  setVesselRankingType,
+  useAppDispatch,
   useAppSelector,
 } from "~/store";
 import { formatNumber, toTitleCase } from "~/utils";
@@ -78,12 +85,13 @@ const kpis: {
 ];
 
 export const VesselRanking: FC = () => {
+  const dispatch = useAppDispatch();
   const isLoading = useAppSelector(selectSumPerVesselBenchmarkLoading);
   const vessels = useAppSelector(selectVesselsByFiskeridirId);
   const vesselStats = useAppSelector(selectAvgVesselBenchmark);
   const loggedInVessel = useAppSelector(selectLoggedInVessel);
-  const [selectedKpi, setSelectedKpi] =
-    useState<keyof PerVesselStats>("livingWeight");
+  const vesselRankingType = useAppSelector(selectVesselRankingType);
+  const selectedKpi = useAppSelector(selectVesselRankingKpi);
 
   const data = useMemo(
     () =>
@@ -128,13 +136,57 @@ export const VesselRanking: FC = () => {
       ) : (
         <>
           <CardHeader
+            action={
+              <ToggleButtonGroup
+                value={vesselRankingType}
+                exclusive
+                onChange={(_, value: VesselRankingType) => {
+                  if (value !== null) {
+                    dispatch(setVesselRankingType(value));
+                  }
+                }}
+                size="small"
+                sx={{
+                  "& .MuiToggleButton-root": {
+                    textTransform: "none",
+                    fontSize: "0.88rem",
+                    width: 90,
+                    height: 35,
+                    "&.Mui-selected": {
+                      fontWeight: "bold",
+                      bgcolor: "#1b79c5",
+                      color: "white",
+                      ":hover": {
+                        bgcolor: "#1b79c5",
+                      },
+                    },
+                  },
+                  "& .MuiToggleButton-root:first-of-type": {
+                    borderTopLeftRadius: 8,
+                    borderBottomLeftRadius: 8,
+                  },
+                  "& .MuiToggleButton-root:last-of-type": {
+                    borderTopRightRadius: 8,
+                    borderBottomRightRadius: 8,
+                  },
+                }}
+              >
+                <ToggleButton value={VesselRankingType.Similar}>
+                  Lignende
+                </ToggleButton>
+                <ToggleButton value={VesselRankingType.Following}>
+                  Følgeliste
+                </ToggleButton>
+              </ToggleButtonGroup>
+            }
             avatar={
               <EmojiEventsIcon fontSize="large" sx={{ color: "#F2C94C" }} />
             }
-            title={"Topp lignende fartøy"}
+            title={"Topp fartøy"}
             sx={{
               flexShrink: 0,
               p: 2.5,
+              pr: 4,
             }}
             slotProps={{
               title: {
@@ -143,11 +195,12 @@ export const VesselRanking: FC = () => {
                   fontWeight: "bold",
                 },
               },
+              action: {
+                sx: {
+                  mt: 0,
+                },
+              },
             }}
-          />
-
-          <Divider
-            sx={{ mb: 1, mx: 2.5, bgcolor: "rgba(200, 200, 200, 0.7)" }}
           />
           <CardContent
             sx={{
@@ -158,116 +211,134 @@ export const VesselRanking: FC = () => {
               px: 3,
             }}
           >
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>#</StyledTableCell>
-                  <StyledTableCell>Fartøy</StyledTableCell>
-                  <StyledTableCell align="right">
-                    <Select
-                      variant="standard"
-                      value={selectedKpi}
-                      onChange={(event) =>
-                        setSelectedKpi(
-                          event.target.value as keyof PerVesselStats,
-                        )
-                      }
-                      disableUnderline
+            {data.length > 0 ? (
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>#</StyledTableCell>
+                    <StyledTableCell>Fartøy</StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Select
+                        value={selectedKpi}
+                        onChange={(event) =>
+                          dispatch(
+                            setVesselRankingKpi(
+                              event.target.value as keyof PerVesselStats,
+                            ),
+                          )
+                        }
+                        size="small"
+                        sx={{
+                          color: theme.palette.grey[700],
+                          fontWeight: "bold",
+                          fontSize: "0.87rem",
+                        }}
+                      >
+                        {kpis.map((kpi) => (
+                          <MenuItem key={kpi.value} value={kpi.value}>
+                            {kpi.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data?.map((vessel, i) => (
+                    <TableRow
+                      key={i}
                       sx={{
-                        color: theme.palette.grey[700],
-                        fontWeight: "bold",
-                        fontSize: "0.87rem",
+                        borderRadius: 2,
+                        bgcolor:
+                          vessel.fiskeridirVesselId ===
+                          loggedInVessel?.fiskeridir.id
+                            ? "#e6f8e5"
+                            : "inherit",
                       }}
                     >
-                      {kpis.map((kpi) => (
-                        <MenuItem key={kpi.value} value={kpi.value}>
-                          {kpi.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data?.map((vessel, i) => (
-                  <TableRow
-                    key={i}
-                    sx={{
-                      borderRadius: 2,
-                      bgcolor:
-                        vessel.fiskeridirVesselId ===
-                        loggedInVessel?.fiskeridir.id
-                          ? "#e6f8e5"
-                          : "inherit",
-                    }}
+                      <StyledTableCell>{i + 1}</StyledTableCell>
+                      <StyledTableCell>
+                        {toTitleCase(
+                          vessels[vessel.fiskeridirVesselId].fiskeridir.name,
+                        )}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {vessel[selectedKpi] != null
+                          ? formatNumber(
+                              selectedKpi === "weightPerHour"
+                                ? vessel[selectedKpi] * 24
+                                : vessel[selectedKpi],
+                              0,
+                            )
+                          : "–"}
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <Typography
+                sx={{
+                  p: 1,
+                  pt: 2,
+                  color: theme.palette.grey.A100,
+                  fontStyle: "italic",
+                }}
+              >
+                {vesselRankingType === VesselRankingType.Following
+                  ? "Du har ingen fartøy i din følgeliste."
+                  : "Fant ingen sammenlignbare fartøy"}
+              </Typography>
+            )}
+          </CardContent>
+          {data.length > 0 && (
+            <CardActions
+              sx={{
+                p: 0,
+                width: "100%",
+                bgcolor: "grey",
+                borderRadius: "0 0 8px 8px",
+                overflow: "hidden",
+                flexShrink: 0,
+                borderTop: `2px solid rgba(200, 200, 200, 1)`,
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  p: 2,
+                  bgcolor: "#cfddeb",
+                }}
+              >
+                {myRank !== undefined && myRank >= 0 ? (
+                  <Stack
+                    direction="row"
+                    spacing={5}
+                    sx={{ px: 2.5, width: "100%" }}
                   >
-                    <StyledTableCell>{i + 1}</StyledTableCell>
-                    <StyledTableCell>
-                      {toTitleCase(
-                        vessels[vessel.fiskeridirVesselId].fiskeridir.name,
-                      )}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {vessel[selectedKpi] != null
+                    <Typography sx={{ fontWeight: "bold" }}>
+                      {myRank + 1}
+                    </Typography>
+                    <Typography sx={{ flex: 1, fontWeight: "bold" }}>
+                      {loggedInVessel?.fiskeridir.name}
+                    </Typography>
+                    <Typography sx={{ ml: "auto", fontWeight: "bold" }}>
+                      {myVesselStats && myVesselStats[selectedKpi] != null
                         ? formatNumber(
                             selectedKpi === "weightPerHour"
-                              ? vessel[selectedKpi] * 24
-                              : vessel[selectedKpi],
+                              ? myVesselStats[selectedKpi]! * 24
+                              : myVesselStats[selectedKpi]!,
                             0,
                           )
                         : "–"}
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-          <CardActions
-            sx={{
-              p: 0,
-              width: "100%",
-              bgcolor: "grey",
-              borderRadius: "0 0 8px 8px",
-              overflow: "hidden",
-              flexShrink: 0,
-              borderTop: `2px solid rgba(200, 200, 200, 1)`,
-            }}
-          >
-            <Box
-              sx={{
-                width: "100%",
-                p: 2,
-                bgcolor: "#cfddeb",
-              }}
-            >
-              {myRank !== undefined && myRank >= 0 ? (
-                <Stack
-                  direction="row"
-                  spacing={5}
-                  sx={{ px: 2.5, width: "100%" }}
-                >
-                  <Typography sx={{ fontWeight: "bold" }}>
-                    {myRank + 1}
-                  </Typography>
-                  <Typography sx={{ flex: 1, fontWeight: "bold" }}>
-                    {loggedInVessel?.fiskeridir.name}
-                  </Typography>
-                  <Typography sx={{ ml: "auto", fontWeight: "bold" }}>
-                    {myVesselStats && myVesselStats[selectedKpi] != null
-                      ? formatNumber(
-                          selectedKpi === "weightPerHour"
-                            ? myVesselStats[selectedKpi]! * 24
-                            : myVesselStats[selectedKpi]!,
-                          0,
-                        )
-                      : "–"}
-                  </Typography>
-                </Stack>
-              ) : (
-                <Typography>Ikke rangert</Typography>
-              )}
-            </Box>
-          </CardActions>
+                    </Typography>
+                  </Stack>
+                ) : (
+                  <Typography>Ikke rangert</Typography>
+                )}
+              </Box>
+            </CardActions>
+          )}
         </>
       )}
     </Card>

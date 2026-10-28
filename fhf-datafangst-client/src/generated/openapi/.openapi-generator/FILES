@@ -99,6 +99,8 @@ models/hauls-matrix.ts
 models/hauls-params.ts
 models/hauls-sorting.ts
 models/index.ts
+models/landing-catch-weight.ts
+models/landing-catch-weights-params.ts
 models/landing-catch.ts
 models/landing-matrix-params.ts
 models/landing-matrix-path.ts
@@ -115,6 +117,7 @@ models/month.ts
 models/naive-date-range-inner.ts
 models/navigation-status.ts
 models/optional-date-time-range.ts
+models/orca-vessel-length-group.ts
 models/ordering.ts
 models/org-benchmark-entry.ts
 models/org-benchmark-parameters.ts

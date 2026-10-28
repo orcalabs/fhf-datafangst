@@ -1,6 +1,8 @@
+import { differenceInHours } from "date-fns";
 import type { FC } from "react";
 import { useEffect, useMemo } from "react";
 import { VectorLayer } from "~/components";
+import type { CurrentPosition } from "~/generated/openapi";
 import { useFishmapContext } from "~/hooks";
 import {
   selectCurrentPositions,
@@ -26,14 +28,21 @@ export const LiveVesselsLayer: FC = () => {
 
   // Change icon size from zoom level and if selected
   useEffect(() => {
-    vector.forEachFeature((f) =>
+    vector.forEachFeature((feature) => {
+      const pos = feature.get("livePosition") as CurrentPosition;
+      const isSelected = pos.vesselId === selectedPosition?.vesselId;
+
+      const isOld =
+        differenceInHours(new Date(), new Date(pos.timestamp)) >
+        Number(import.meta.env.VITE_VESSEL_MAP_THRESHOLD_HOURS);
+
       changeIconSizeFromFeature(
-        f,
-        f.get("livePosition")?.vesselId === selectedPosition?.vesselId
-          ? iconSize * 2
-          : iconSize,
-      ),
-    );
+        feature,
+        iconSize * (isSelected ? 2 : 1),
+        isSelected,
+        isOld,
+      );
+    });
   }, [iconSize, selectedPosition]);
 
   return <VectorLayer source={vector} zIndex={7} />;

@@ -41,3 +41,8 @@ export const setSelectedLanding = createAction<Landing | number | undefined>(
 export const setSelectedTripLanding = createAction<Landing | undefined>(
   "landing/setSelectedTripLanding",
 );
+
+export const getLandingCatchWeights = createAsyncThunk(
+  "landing/getLandingCatchWeights",
+  Api.getLandingCatchWeight,
+);

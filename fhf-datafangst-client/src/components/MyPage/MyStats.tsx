@@ -9,7 +9,6 @@ import {
   Company,
   DateFilter,
   OverlayScrollbars,
-  TripBenchmarkPage,
 } from "~/components";
 
 export const MyStats: FC = () => {
@@ -78,8 +77,7 @@ export const MyStats: FC = () => {
             {tabValue === "overview" && (
               <BenchmarkOverview dateRange={dateRange} />
             )}
-            {tabValue === "performance" && <TripBenchmarkPage />}
-            {tabValue === "company" && <Company />}
+            {tabValue === "company" && <Company dateRange={dateRange} />}
           </OverlayScrollbars>
         </Stack>
       </Stack>

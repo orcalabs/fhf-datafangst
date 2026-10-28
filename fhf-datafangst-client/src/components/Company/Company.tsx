@@ -1,10 +1,8 @@
-import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { endOfYear, startOfYear } from "date-fns";
+import { Stack } from "@mui/material";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
-import { DateRange } from "~/api";
-import theme from "~/app/theme";
-import { DateFilter, LocalLoadingProgress } from "~/components";
+import { useEffect } from "react";
+import type { DateRange } from "~/api";
+import { LocalLoadingProgress } from "~/components";
 import { RegisterVesselEntityType } from "~/generated/openapi";
 import {
   getOrgBenchmarks,
@@ -15,23 +13,17 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "~/store";
-import { CatchStats } from "./CatchStats";
 import { GeneralStats } from "./GeneralStats";
 
-export const Company: FC = () => {
-  const dispatch = useAppDispatch();
+interface Props {
+  dateRange?: DateRange;
+}
 
+export const Company: FC<Props> = ({ dateRange }) => {
+  const dispatch = useAppDispatch();
   const orgBenchmarks = useAppSelector(selectOrgBenchmarks);
   const orgBenchmarksLoading = useAppSelector(selectOrgBenchmarksLoading);
   const vessel = useAppSelector(selectLoggedInVessel);
-
-  const [tabValue, setTabValue] = useState("general");
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(
-    new DateRange(
-      startOfYear(new Date(2024, 1, 1)),
-      endOfYear(new Date(2024, 1, 1)),
-    ),
-  );
 
   const orgId =
     vessel?.fiskeridir.owners[0]?.entityType ===
@@ -67,38 +59,7 @@ export const Company: FC = () => {
 
   return (
     <Stack spacing={2} sx={{ p: 2, width: "100%" }}>
-      <Stack
-        direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center" }}
-      >
-        <Typography variant="h3">
-          {vessel?.fiskeridir.owners[0]?.name}
-        </Typography>
-
-        <Box sx={{ width: 400 }}>
-          <DateFilter value={dateRange} onChange={setDateRange} />
-        </Box>
-      </Stack>
-      <Tabs
-        sx={{ borderBottom: `1px solid ${theme.palette.text.secondary}` }}
-        indicatorColor="secondary"
-        value={tabValue}
-        onChange={(_, newVal: string) => setTabValue(newVal)}
-      >
-        <Tab value="general" label="Generelt" />
-        <Tab value="catches" label="Fangst" />
-        <Tab value="performance" label="Ytelse" />
-      </Tabs>
-      {orgBenchmarks && (
-        <Box>
-          {tabValue === "general" && (
-            <GeneralStats vesselEntries={orgBenchmarks?.vessels} />
-          )}
-          {tabValue === "catches" && (
-            <CatchStats vesselEntries={orgBenchmarks?.vessels} />
-          )}
-        </Box>
-      )}
+      {orgBenchmarks && <GeneralStats vesselEntries={orgBenchmarks?.vessels} />}
     </Stack>
   );
 };

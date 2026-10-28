@@ -17,6 +17,14 @@ import { createTimestampsFromYearsMonths } from "./utils";
 export type LandingsFilter = ActiveLandingFilter;
 export const LandingsFilter = ActiveLandingFilter;
 
+export interface LandingCatchWeightsArgs {
+  accessToken?: string;
+  callSignOverride?: string | null;
+  start?: Date;
+  end?: Date;
+  gearGroupIds?: GearGroupDetailed[];
+}
+
 export interface LandingsMatrixArgs {
   filter: LandingsFilter;
   years?: number[];
@@ -100,4 +108,21 @@ export const getLandingsMatrix = apiFn((query: LandingsMatrixArgs, signal) =>
     },
     { signal },
   ),
+);
+
+export const getLandingCatchWeight = apiFn(
+  (query: LandingCatchWeightsArgs, signal) =>
+    api.routesV1LandingLandingCatchWeights(
+      {
+        authorization: query.accessToken,
+        gearGroupIds: query.gearGroupIds?.map((g) => g.id),
+        start: query.start?.toISOString(),
+        end: query.end?.toISOString(),
+      },
+
+      {
+        params: { call_sign_override: query.callSignOverride },
+        signal,
+      },
+    ),
 );
