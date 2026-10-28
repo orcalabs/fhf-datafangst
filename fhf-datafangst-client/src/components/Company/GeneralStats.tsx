@@ -8,6 +8,7 @@ import { fontStyle } from "~/app/theme";
 import type { OrgBenchmarkEntry } from "~/generated/openapi";
 import {
   selectOrgFuelConsumption,
+  selectSpeciesGroupsMap,
   selectVesselsByFiskeridirId,
   useAppSelector,
 } from "~/store";
@@ -32,6 +33,39 @@ export const GeneralStats: FC<Props> = ({ vesselEntries }) => {
         : 0,
     [vesselEntries],
   );
+
+  const speciesGroupsMap = useAppSelector(selectSpeciesGroupsMap);
+
+  const { avgWeight, speciesGroupIds, catchDataset } = useMemo(() => {
+    const avgWeight = vesselEntries.length
+      ? vesselEntries.sum((v) => v.landingTotalLivingWeight) /
+        vesselEntries.length
+      : 0;
+
+    const speciesGroupIds = Array.from(
+      new Set(
+        vesselEntries.flatMap((e) => e.species).map((s) => s.speciesGroupId),
+      ),
+    ).sort();
+    const catchDataset: Record<string, number[]> = Object.fromEntries(
+      speciesGroupIds.map((sg) => [sg, []]),
+    );
+
+    speciesGroupIds.forEach((sg) => {
+      vesselEntries.forEach((ve) => {
+        const found = ve.species.find((v) => v.speciesGroupId === sg);
+        if (found) {
+          catchDataset[found.speciesGroupId].push(
+            found.landingTotalLivingWeight,
+          );
+        } else {
+          catchDataset[sg].push(0);
+        }
+      });
+    });
+
+    return { avgWeight, speciesGroupIds, catchDataset };
+  }, [vesselEntries]);
 
   return (
     <Grid container spacing={3} sx={{ p: 1 }}>
@@ -211,6 +245,101 @@ export const GeneralStats: FC<Props> = ({ vesselEntries }) => {
               theme={chartsTheme}
             />
           )}
+        </ChartCard>
+      </Grid>
+      <Grid size={6}>
+        <ChartCard title="Fangst">
+          <ReactEChart
+            option={{
+              tooltip: {
+                trigger: "axis",
+                valueFormatter: (weight: number | null) =>
+                  avgWeight > 1000 && weight
+                    ? (weight / 1000).toFixed(2)
+                    : weight && weight.toFixed(2),
+              },
+              dataset: {
+                dimensions: ["fiskeridirVesselId", "landingTotalLivingWeight"],
+                source: vesselEntries,
+              },
+              yAxis: {
+                type: "value",
+                name: avgWeight >= 1000 ? "Rundvekt (tonn)" : "Rundvekt (kg)",
+                axisLabel: {
+                  formatter: (weight: number) =>
+                    avgWeight > 1000 ? weight / 1000 : weight,
+                },
+              },
+              xAxis: {
+                type: "category",
+                axisLabel: {
+                  formatter: (id: number) =>
+                    toTitleCase(vesselsMap[id].fiskeridir.name),
+                },
+              },
+              series: [
+                {
+                  type: "bar",
+                  colorBy: "data",
+                  encode: {
+                    x: "fiskeridirVesselId",
+                    y: "landingTotalLivingWeight",
+                  },
+                },
+              ],
+            }}
+            theme={chartsTheme}
+          />
+        </ChartCard>
+      </Grid>
+      <Grid size={6}>
+        <ChartCard title="Fangst, artsvis">
+          <ReactEChart
+            option={{
+              grid: {
+                top: 80,
+              },
+              xAxis: {
+                type: "category",
+                data: vesselEntries.map((e) => e.fiskeridirVesselId),
+                axisLabel: {
+                  formatter: (id: number) =>
+                    toTitleCase(vesselsMap[id].fiskeridir.name),
+                },
+              },
+              yAxis: {
+                type: "value",
+                name: avgWeight >= 1000 ? "Rundvekt (tonn)" : "Rundvekt (kg)",
+                axisLabel: {
+                  formatter: (weight: number) =>
+                    avgWeight > 1000 ? weight / 1000 : weight,
+                },
+              },
+              legend: {
+                data: speciesGroupIds,
+                formatter: (name: string) => speciesGroupsMap[name].name,
+              },
+              tooltip: {
+                valueFormatter: (weight: number | null) =>
+                  avgWeight > 1000 && weight
+                    ? (weight / 1000).toFixed(2)
+                    : weight && weight.toFixed(2),
+              },
+              series: Object.entries(catchDataset).map((e) => {
+                return {
+                  name: e[0],
+                  type: "bar",
+                  barGap: 0,
+                  emphasis: {
+                    focus: "series",
+                  },
+                  data: e[1],
+                  encode: { tooltip: [1] },
+                };
+              }),
+            }}
+            theme={chartsTheme}
+          />
         </ChartCard>
       </Grid>
     </Grid>

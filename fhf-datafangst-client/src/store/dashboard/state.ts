@@ -1,3 +1,6 @@
+import type { PerVesselStats } from "~/generated/openapi";
+import { VesselRankingType } from "~/models";
+
 export enum DashboardViewState {
   Overview = "overview",
   Benchmark = "benchmark",
@@ -6,8 +9,12 @@ export enum DashboardViewState {
 
 export interface DashboardState {
   activeMenu: DashboardViewState;
+  vesselRankingType: VesselRankingType;
+  vesselRankingKpi: keyof PerVesselStats;
 }
 
 export const initialDashboardState: DashboardState = {
   activeMenu: DashboardViewState.Overview,
+  vesselRankingType: VesselRankingType.Following,
+  vesselRankingKpi: "livingWeight",
 };

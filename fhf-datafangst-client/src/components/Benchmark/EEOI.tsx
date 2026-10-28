@@ -7,9 +7,11 @@ import { lineClasses } from "@mui/x-charts/LineChart";
 import { useState, type FC } from "react";
 import theme from "~/app/theme";
 import { FuiIcon, LeafIcon } from "~/assets/icons";
+import { VesselRankingType } from "~/models";
 import {
   selectAvgVesselBenchmark,
   selectTripBenchmarks,
+  selectVesselRankingType,
   useAppSelector,
 } from "~/store";
 import { dateFormat, formatNumber } from "~/utils";
@@ -21,6 +23,7 @@ export const EEOI: FC = () => {
   const tripBenchmarks = useAppSelector(selectTripBenchmarks);
   const eeoiData = tripBenchmarks?.trips.map((trip) => trip.eeoi ?? 0) ?? [];
   const fuiData = tripBenchmarks?.trips.map((trip) => trip.fui ?? 0) ?? [];
+  const vesselRankingType = useAppSelector(selectVesselRankingType);
 
   const tripLabels = tripBenchmarks?.trips.map(
     (trip) =>
@@ -124,7 +127,7 @@ export const EEOI: FC = () => {
                     {formatNumber(percentEEOIChange, 2)}%
                   </Typography>
                   <Typography sx={{ color: theme.palette.grey.A100 }}>
-                    {`${percentEEOIChange >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+                    {`${percentEEOIChange >= 0 ? "over" : "under"} snittet for ${vesselRankingType === VesselRankingType.Similar ? "lignende" : "fulgte"} fartøy`}
                   </Typography>
                 </Stack>
               </Stack>
@@ -246,7 +249,7 @@ export const EEOI: FC = () => {
                       {formatNumber(percentFUIChange, 2)}%
                     </Typography>
                     <Typography sx={{ color: theme.palette.grey.A100 }}>
-                      {`${percentFUIChange >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+                      {`${percentFUIChange >= 0 ? "over" : "under"} snittet for ${vesselRankingType === VesselRankingType.Similar ? "lignende" : "fulgte"} fartøy`}
                     </Typography>
                   </Stack>
                 </Stack>

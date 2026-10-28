@@ -3,14 +3,16 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import type { DateRange } from "~/api";
 import { BenchmarkCards, LocalLoadingProgress } from "~/components";
-import { Ordering, TripSorting } from "~/generated/openapi";
+import { Ordering } from "~/generated/openapi";
+import { VesselRankingType } from "~/models";
 import {
   getAvgVesselBenchmark,
+  getLandingCatchWeights,
   getTripBenchmarks,
-  getTrips,
   selectAvgVesselBenchmark,
   selectAvgVesselBenchmarkLoading,
   selectLoggedInVessel,
+  selectVesselRankingType,
   useAppDispatch,
   useAppSelector,
 } from "~/store";
@@ -29,6 +31,7 @@ export const BenchmarkOverview: FC<Props> = ({ dateRange }) => {
   const vessel = useAppSelector(selectLoggedInVessel);
   const avgVesselBenchmark = useAppSelector(selectAvgVesselBenchmark);
   const benchmarkLoading = useAppSelector(selectAvgVesselBenchmarkLoading);
+  const vesselRankingType = useAppSelector(selectVesselRankingType);
 
   useEffect(() => {
     if (vessel) {
@@ -37,6 +40,7 @@ export const BenchmarkOverview: FC<Props> = ({ dateRange }) => {
           callSignOverride: vessel?.fiskeridir.callSign,
           start: dateRange?.start,
           end: dateRange?.end,
+          useFollowingList: vesselRankingType === VesselRankingType.Following,
         }),
       );
       dispatch(
@@ -48,17 +52,14 @@ export const BenchmarkOverview: FC<Props> = ({ dateRange }) => {
         }),
       );
       dispatch(
-        getTrips({
-          vessels: [vessel],
-          sorting: [TripSorting.StopDate, Ordering.Asc],
-          dateRange: dateRange,
-          offset: 0,
-          limit: 0,
-          cancel: false,
+        getLandingCatchWeights({
+          start: dateRange?.start,
+          end: dateRange?.end,
+          callSignOverride: vessel?.fiskeridir.callSign,
         }),
       );
     }
-  }, [vessel, dateRange]);
+  }, [vessel, dateRange, vesselRankingType]);
 
   if (!vessel) {
     return <></>;

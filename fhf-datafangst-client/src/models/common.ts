@@ -45,3 +45,8 @@ export const EventType: Record<VesselEventType, string> = {
 };
 
 export type CatchWeightType = "livingWeight" | "grossWeight" | "productWeight";
+
+export enum VesselRankingType {
+  Similar,
+  Following,
+}

@@ -1,7 +1,11 @@
 import { getMonth, getYear } from "date-fns";
 import type { LandingsArgs, LandingsMatrixArgs } from "~/api/landingsApi";
 import { LandingsFilter } from "~/api/landingsApi";
-import type { Landing, LandingMatrix } from "~/generated/openapi";
+import type {
+  Landing,
+  LandingCatchWeight,
+  LandingMatrix,
+} from "~/generated/openapi";
 
 export interface LandingState {
   landings?: Landing[];
@@ -17,6 +21,8 @@ export interface LandingState {
   selectedTripLanding?: Landing;
   showTimeSlider: boolean;
   landingDateSliderFrame?: Date;
+  landingCatchWeights?: LandingCatchWeight[];
+  landingCatchWeightsLoading: boolean;
 }
 
 export const initialLandingState: LandingState = {
@@ -32,6 +38,8 @@ export const initialLandingState: LandingState = {
   selectedLanding: undefined,
   selectedTripLanding: undefined,
   showTimeSlider: false,
+  landingCatchWeights: undefined,
+  landingCatchWeightsLoading: false,
 };
 
 const month = getMonth(new Date());

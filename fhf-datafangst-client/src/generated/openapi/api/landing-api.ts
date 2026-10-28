@@ -30,6 +30,8 @@ import type { GearGroup } from '../models';
 // @ts-ignore
 import type { Landing } from '../models';
 // @ts-ignore
+import type { LandingCatchWeight } from '../models';
+// @ts-ignore
 import type { LandingMatrix } from '../models';
 // @ts-ignore
 import type { LandingsSorting } from '../models';
@@ -45,6 +47,67 @@ import type { VesselLengthGroup } from '../models';
  */
 export const LandingApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {string} [authorization] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1LandingLandingCatchWeights: async (authorization?: string, gearGroupIds?: Array<GearGroup> | null, start?: string | null, end?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1.0/landing_catch_weights`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication auth0 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "auth0", [], configuration)
+
+            // authentication barentswatch required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (gearGroupIds) {
+                localVarQueryParameter['gearGroupIds'] = gearGroupIds;
+            }
+
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * Returns an aggregated matrix view of landing living weights.
          * @param {ActiveLandingFilter} activeFilter 
@@ -228,6 +291,21 @@ export const LandingApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = LandingApiAxiosParamCreator(configuration)
     return {
         /**
+         * 
+         * @param {string} [authorization] 
+         * @param {Array<GearGroup> | null} [gearGroupIds] 
+         * @param {string | null} [start] 
+         * @param {string | null} [end] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async routesV1LandingLandingCatchWeights(authorization?: string, gearGroupIds?: Array<GearGroup> | null, start?: string | null, end?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<LandingCatchWeight>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routesV1LandingLandingCatchWeights(authorization, gearGroupIds, start, end, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LandingApi.routesV1LandingLandingCatchWeights']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Returns an aggregated matrix view of landing living weights.
          * @param {ActiveLandingFilter} activeFilter 
          * @param {Array<number> | null} [months] 
@@ -279,6 +357,15 @@ export const LandingApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = LandingApiFp(configuration)
     return {
         /**
+         * 
+         * @param {LandingApiRoutesV1LandingLandingCatchWeightsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        routesV1LandingLandingCatchWeights(requestParameters: LandingApiRoutesV1LandingLandingCatchWeightsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<LandingCatchWeight>> {
+            return localVarFp.routesV1LandingLandingCatchWeights(requestParameters.authorization, requestParameters.gearGroupIds, requestParameters.start, requestParameters.end, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns an aggregated matrix view of landing living weights.
          * @param {LandingApiRoutesV1LandingLandingMatrixRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -298,6 +385,41 @@ export const LandingApiFactory = function (configuration?: Configuration, basePa
         },
     };
 };
+
+/**
+ * Request parameters for routesV1LandingLandingCatchWeights operation in LandingApi.
+ * @export
+ * @interface LandingApiRoutesV1LandingLandingCatchWeightsRequest
+ */
+export interface LandingApiRoutesV1LandingLandingCatchWeightsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof LandingApiRoutesV1LandingLandingCatchWeights
+     */
+    readonly authorization?: string
+
+    /**
+     * 
+     * @type {Array<GearGroup>}
+     * @memberof LandingApiRoutesV1LandingLandingCatchWeights
+     */
+    readonly gearGroupIds?: Array<GearGroup> | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof LandingApiRoutesV1LandingLandingCatchWeights
+     */
+    readonly start?: string | null
+
+    /**
+     * 
+     * @type {string}
+     * @memberof LandingApiRoutesV1LandingLandingCatchWeights
+     */
+    readonly end?: string | null
+}
 
 /**
  * Request parameters for routesV1LandingLandingMatrix operation in LandingApi.
@@ -453,6 +575,17 @@ export interface LandingApiRoutesV1LandingLandingsRequest {
  * @extends {BaseAPI}
  */
 export class LandingApi extends BaseAPI {
+    /**
+     * 
+     * @param {LandingApiRoutesV1LandingLandingCatchWeightsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LandingApi
+     */
+    public routesV1LandingLandingCatchWeights(requestParameters: LandingApiRoutesV1LandingLandingCatchWeightsRequest = {}, options?: RawAxiosRequestConfig) {
+        return LandingApiFp(this.configuration).routesV1LandingLandingCatchWeights(requestParameters.authorization, requestParameters.gearGroupIds, requestParameters.start, requestParameters.end, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Returns an aggregated matrix view of landing living weights.
      * @param {LandingApiRoutesV1LandingLandingMatrixRequest} requestParameters Request parameters.

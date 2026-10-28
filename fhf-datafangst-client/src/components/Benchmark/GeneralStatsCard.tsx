@@ -14,10 +14,12 @@ import {
 import type { FC } from "react";
 import theme from "~/app/theme";
 import { CoinStackIcon, FishingTripIcon, GearIcon } from "~/assets/icons";
+import { VesselRankingType } from "~/models";
 import {
   selectAvgVesselBenchmark,
   selectAvgVesselBenchmarkLoading,
   selectTripsLoading,
+  selectVesselRankingType,
   useAppSelector,
 } from "~/store";
 import { formatNumber, hoursToDays, nok } from "~/utils";
@@ -151,6 +153,8 @@ const StatBox: FC<StatProps> = ({
   changeType,
   showAsterix,
 }) => {
+  const vesselRankingType = useAppSelector(selectVesselRankingType);
+
   return (
     <Stack spacing={3} sx={{ px: 3 }}>
       <Stack direction="row" spacing={2}>
@@ -218,7 +222,7 @@ const StatBox: FC<StatProps> = ({
                 minWidth: 0,
               }}
             >
-              {`${change >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+              {`${change >= 0 ? "over" : "under"} snittet for ${vesselRankingType === VesselRankingType.Similar ? "lignende" : "fulgte"} fartøy`}
             </Typography>
           </>
         ) : (

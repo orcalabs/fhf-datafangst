@@ -25,9 +25,8 @@ import shoreline from "~/assets/geojson/shoreline.json";
 import deliveryPointIcon from "~/assets/icons/delivery-point-map.svg";
 import transferIcon from "~/assets/icons/swap-24.svg";
 import darkPinkVesselPin from "~/assets/icons/vessel-map-dark-pink.svg";
-import greyVessel from "~/assets/icons/vessel-map-grey.svg";
 import pinkVesselPin from "~/assets/icons/vessel-map-pink.svg";
-import blueVessel from "~/assets/icons/vessel-map.svg";
+import mapVesselSvg from "~/assets/icons/vessel-map.svg?raw";
 import type {
   AisVmsPosition,
   CurrentPosition,
@@ -49,6 +48,27 @@ import {
   isDefined,
   sumCatches,
 } from "./utils";
+
+const greenMapVessel = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+  mapVesselSvg.replace(
+    /\.st0\s*\{\s*fill:\s*#[0-9A-Fa-f]+\s*;\s*\}/,
+    `.st0 { fill: #218739; }`,
+  ),
+)}`;
+
+const greyMapVessel = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+  mapVesselSvg.replace(
+    /\.st0\s*\{\s*fill:\s*#[0-9A-Fa-f]+\s*;\s*\}/,
+    `.st0 { fill: #868686; }`,
+  ),
+)}`;
+
+const blueMapVessel = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+  mapVesselSvg.replace(
+    /\.st0\s*\{\s*fill:\s*#[0-9A-Fa-f]+\s*;\s*\}/,
+    `.st0 { fill: #111c4e; }`,
+  ),
+)}`;
 
 export const fromLonLat = (lon: number, lat: number) => {
   if (lat > 90) {
@@ -414,20 +434,37 @@ export const generateLocationsMatrix = (
   return fishingLocationFeatures;
 };
 
-export const changeIconSizes = (
-  vector: VectorSource<Feature<Geometry>> | undefined,
-  size: number,
-) => vector?.forEachFeature((f) => changeIconSizeFromFeature(f, size));
+const mapVesselIcon = (scale: number, rotation: number, src: string) =>
+  new Icon({
+    opacity: 1,
+    anchor: [0.5, 0.5],
+    scale: scale,
+    rotation,
+    src,
+  });
 
 export const changeIconSizeFromFeature = (
   feature: Feature<Geometry>,
   size: number,
+  isSelected: boolean,
+  isOld?: boolean,
 ) => {
   const style = feature.getStyle() as Style;
   if (!style) return;
 
   const image = style.getImage();
-  image?.setScale(size);
+
+  if (image instanceof Icon) {
+    style.setImage(
+      mapVesselIcon(
+        size,
+        image?.getRotation(),
+        isSelected ? greenMapVessel : isOld ? greyMapVessel : blueMapVessel,
+      ),
+    );
+  }
+
+  style.setZIndex(isSelected ? 100 : 7);
 
   // Re-draw change on map
   feature.changed();
@@ -783,19 +820,25 @@ export const generateLiveVesselsVector = (
       livePosition: pos,
     });
 
+    const isSelected = pos.vesselId === selected?.vesselId;
+    const isOld =
+      differenceInHours(new Date(), new Date(pos.timestamp)) >
+      Number(import.meta.env.VITE_VESSEL_MAP_THRESHOLD_HOURS);
+
+    const vesselIcon = isSelected
+      ? greenMapVessel
+      : isOld
+        ? greyMapVessel
+        : blueMapVessel;
+
     feature.setStyle(
       new Style({
         image: new Icon({
           opacity: 1,
           anchor: [0.5, 0.5],
-          scale:
-            (iconSize ?? 0.05) * (pos.vesselId === selected?.vesselId ? 2 : 1),
+          scale: (iconSize ?? 0.05) * (isSelected ? 2 : 1),
           rotation: ((pos.cog ?? 0) * Math.PI) / 180,
-          src:
-            differenceInHours(new Date(), new Date(pos.timestamp)) >
-            Number(import.meta.env.VITE_VESSEL_MAP_THRESHOLD_HOURS)
-              ? greyVessel
-              : blueVessel,
+          src: vesselIcon,
         }),
       }),
     );

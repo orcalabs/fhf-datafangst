@@ -17,7 +17,12 @@ import {
 } from "@mui/x-charts/Gauge";
 import type { FC, ReactNode } from "react";
 import theme from "~/app/theme";
-import { selectAvgVesselBenchmarkLoading, useAppSelector } from "~/store";
+import { VesselRankingType } from "~/models";
+import {
+  selectAvgVesselBenchmarkLoading,
+  selectVesselRankingType,
+  useAppSelector,
+} from "~/store";
 import { formatNumber } from "~/utils";
 
 interface Props {
@@ -60,6 +65,7 @@ export const GaugeChart: FC<Props> = ({
   dataDescription,
 }) => {
   const isLoading = useAppSelector(selectAvgVesselBenchmarkLoading);
+  const vesselRankingType = useAppSelector(selectVesselRankingType);
 
   const getColorForPercent = (percent: number) => {
     const index = Math.min(Math.floor(percent / 10), colors.length - 1);
@@ -236,7 +242,7 @@ export const GaugeChart: FC<Props> = ({
                   alignSelf: "flex-end",
                 }}
               >
-                {`${averagePercent >= 0 ? "over" : "under"} snittet for lignende fartøy`}
+                {`${averagePercent >= 0 ? "over" : "under"} snittet for ${vesselRankingType === VesselRankingType.Similar ? "lignende" : "fulgte"} fartøy`}
               </Typography>
             </Stack>
           </Stack>
