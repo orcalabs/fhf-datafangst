@@ -15,6 +15,6 @@ export interface DashboardState {
 
 export const initialDashboardState: DashboardState = {
   activeMenu: DashboardViewState.Overview,
-  vesselRankingType: VesselRankingType.Following,
+  vesselRankingType: VesselRankingType.Similar,
   vesselRankingKpi: "livingWeight",
 };
