@@ -64,6 +64,12 @@ export interface AverageVesselsBenchmarks {
     'highestLivingWeight'?: number | null;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'vesselGroupings'?: Array<string> | null;
+    /**
+     * 
      * @type {number}
      * @memberof AverageVesselsBenchmarks
      */

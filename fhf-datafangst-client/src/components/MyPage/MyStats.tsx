@@ -25,7 +25,7 @@ export const MyStats: FC = () => {
         bgcolor: "#EDF0F3",
       }}
     >
-      <Stack sx={{ p: 3, pb: 0, height: "100%" }} spacing={3}>
+      <Stack sx={{ p: 3, height: "100%" }} spacing={3}>
         <Stack
           direction="row"
           spacing={10}

@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import type { FC } from "react";
 import { useEffect } from "react";
 import type { DateRange } from "~/api";
+import theme from "~/app/theme";
 import { BenchmarkCards, LocalLoadingProgress } from "~/components";
 import { Ordering } from "~/generated/openapi";
 import { VesselRankingType } from "~/models";
@@ -75,31 +76,50 @@ export const BenchmarkOverview: FC<Props> = ({ dateRange }) => {
           width: "100%",
           height: "100%",
           gap: 3,
-          gridTemplateColumns: "1fr auto minmax(450px, 23%)",
-          gridTemplateRows: "auto 1fr 1fr",
+
+          gridTemplateColumns:
+            "minmax(0, 1fr) minmax(0, auto) minmax(500px, 23%)",
+
+          gridTemplateRows: "auto auto auto",
+
           gridTemplateAreas: `
-          'general general rank'
-          'kpi eeoi rank'
-          'chart chart rank'
+            'general general rank'
+            'kpi eeoi rank'
+            'chart chart rank'
           `,
+
+          [theme.breakpoints.down(2420)]: {
+            gridTemplateAreas: `
+              'general general rank'
+              'kpi kpi rank'
+              'chart eeoi rank'
+            `,
+          },
+          [theme.breakpoints.down(1921)]: {
+            gridTemplateAreas: `
+              'general general rank'
+              'kpi kpi rank'
+              'chart chart eeoi '
+            `,
+          },
         }}
       >
         {avgVesselBenchmark ? (
           <>
-            <Box sx={{ gridColumn: "1 / 3", gridRow: "1 / 1" }}>
+            <Box sx={{ gridArea: "general" }}>
               <GeneralStatsCard />
             </Box>
             <Box sx={{ gridArea: "kpi" }}>
               <BenchmarkCards />
+            </Box>
+            <Box sx={{ gridArea: "eeoi" }}>
+              <EEOI />
             </Box>
             <Box sx={{ gridArea: "chart" }}>
               <CatchChart />
             </Box>
             <Box sx={{ gridArea: "rank" }}>
               <VesselRanking />
-            </Box>
-            <Box sx={{ gridColumn: "2 / 3", gridRow: "2 / 2" }}>
-              <EEOI />
             </Box>
           </>
         ) : (

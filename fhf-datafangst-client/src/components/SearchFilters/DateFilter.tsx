@@ -44,7 +44,7 @@ const dateRangeShortcuts = [
         endOfMonth(subMonths(new Date(), 1)),
       ),
   },
-  ...[2, 1].map((yearsAgo) => {
+  ...[3, 2, 1].map((yearsAgo) => {
     const date = subYears(new Date(), yearsAgo);
 
     return {

@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import type {
   GearGroup,
   Ordering,
@@ -111,8 +112,10 @@ export const getAvgVesselBenchmark = apiFn(
     api.routesV1TripBenchmarksPerVesselBenchmarksAvg(
       {
         authorization: query.accessToken,
-        start: query.start?.toISOString(),
-        end: query.end?.toISOString(),
+        start: query.start
+          ? format(query?.start, "yyyy-MM-dd'T'HH:mm:ss'Z'")
+          : "",
+        end: query.end ? format(query?.end, "yyyy-MM-dd'T'HH:mm:ss'Z'") : "",
         useFollowingList: query.useFollowingList,
       },
       {

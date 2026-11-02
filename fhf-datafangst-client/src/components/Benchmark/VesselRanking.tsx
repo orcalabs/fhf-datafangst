@@ -232,6 +232,13 @@ export const VesselRanking: FC = () => {
                           color: theme.palette.grey[700],
                           fontWeight: "bold",
                           fontSize: "0.87rem",
+                          maxWidth: 200,
+                          minWidth: 0,
+                          "& .MuiSelect-select": {
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          },
                         }}
                       >
                         {kpis.map((kpi) => (
