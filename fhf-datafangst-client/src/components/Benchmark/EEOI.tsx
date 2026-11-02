@@ -49,7 +49,8 @@ export const EEOI: FC = () => {
       variant="elevation"
       sx={{
         m: "auto",
-        px: 3,
+        px: 2,
+        py: 2,
         bgcolor: "white",
         borderRadius: 2,
         height: "100%",
@@ -69,6 +70,7 @@ export const EEOI: FC = () => {
             justifyContent: "space-evenly",
             width: 260,
           }}
+          spacing={4}
         >
           <Stack spacing={2}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>

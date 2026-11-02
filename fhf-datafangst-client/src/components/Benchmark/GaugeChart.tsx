@@ -79,7 +79,7 @@ export const GaugeChart: FC<Props> = ({
   return (
     <Card
       variant="elevation"
-      sx={{ m: "auto", bgcolor: "white", borderRadius: 2 }}
+      sx={{ m: "auto", bgcolor: "white", borderRadius: 2, height: "100%" }}
     >
       <CardHeader
         avatar={icon}
@@ -203,11 +203,7 @@ export const GaugeChart: FC<Props> = ({
       </CardContent>
       <CardActions sx={{ p: 2 }}>
         {averagePercent !== undefined && (
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ alignItems: "center", flexWrap: "wrap" }}
-          >
+          <Stack direction="row" spacing={1} sx={{ alignItems: "flex-start" }}>
             {averagePercent >= 0 ? (
               <ArrowUpwardIcon
                 color={inverse ? "error" : "success"}
@@ -219,7 +215,7 @@ export const GaugeChart: FC<Props> = ({
                 fontSize="small"
               />
             )}
-            <Stack direction="row" spacing={0.8}>
+            <Stack direction="row" spacing={0.8} sx={{ flexWrap: "wrap" }}>
               <Typography
                 sx={{
                   fontSize: "1.05rem",

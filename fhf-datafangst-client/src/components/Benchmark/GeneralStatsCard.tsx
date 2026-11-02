@@ -10,6 +10,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import type { FC } from "react";
 import theme from "~/app/theme";
@@ -22,7 +23,7 @@ import {
   selectVesselRankingType,
   useAppSelector,
 } from "~/store";
-import { formatNumber, hoursToDays, nok } from "~/utils";
+import { formatNumber, hoursToDays, nokCompact } from "~/utils";
 
 export const GeneralStatsCard: FC = () => {
   const isLoading = useAppSelector(selectAvgVesselBenchmarkLoading);
@@ -50,83 +51,108 @@ export const GeneralStatsCard: FC = () => {
           {isLoading || tripsLoading ? (
             <Skeleton variant="rectangular" width={"100%"} height={74} />
           ) : (
-            <Stack
-              direction="row"
-              sx={{ justifyContent: "space-evenly", width: "100%" }}
+            <Box
+              sx={{
+                display: "grid",
+                gap: 3,
+                gridTemplateColumns: {
+                  xs: "repeat(2, minmax(0, 1fr))",
+                  lg: "repeat(4, minmax(0, 1fr))",
+                },
+                width: "100%",
+              }}
             >
-              <StatBox
-                title="Antall turer"
-                value={avgVesselBenchmark?.own.numTrips}
-                icon={<FishingTripIcon width={35} height={35} />}
-                change={
-                  avgVesselBenchmark?.own.numTrips &&
-                  avgVesselBenchmark.all.numTrips
-                    ? avgVesselBenchmark.own.numTrips -
-                      avgVesselBenchmark.all.numTrips
-                    : undefined
-                }
-                changeType="number"
-              />
-
-              <Divider orientation="vertical" flexItem />
-
-              <StatBox
-                title="Antall hal"
-                value={avgVesselBenchmark?.own.numHauls}
-                icon={<GearIcon width={35} height={35} />}
-                change={
-                  avgVesselBenchmark?.own.numHauls &&
-                  avgVesselBenchmark.all.numHauls
-                    ? avgVesselBenchmark.own.numHauls -
-                      avgVesselBenchmark.all.numHauls
-                    : undefined
-                }
-                changeType="number"
-              />
-              <Divider orientation="vertical" flexItem />
-              <StatBox
-                title="Dager brukt"
-                value={
-                  avgVesselBenchmark?.own.tripDurationSeconds
-                    ? hoursToDays(
-                        avgVesselBenchmark.own.tripDurationSeconds / 3600,
-                      )
-                    : undefined
-                }
-                icon={<TimerOutlinedIcon fontSize="large" />}
-                change={
-                  avgVesselBenchmark?.own.tripDurationSeconds &&
-                  avgVesselBenchmark.all.tripDurationSeconds
-                    ? ((avgVesselBenchmark.own.tripDurationSeconds -
-                        avgVesselBenchmark.all.tripDurationSeconds) /
-                        avgVesselBenchmark.all.tripDurationSeconds) *
-                      100
-                    : undefined
-                }
-                changeType="percent"
-              />
-              <Divider orientation="vertical" flexItem />
-              <StatBox
-                title="Verdi"
-                value={
-                  avgVesselBenchmark?.own.valueNok
-                    ? nok.format(avgVesselBenchmark.own.valueNok)
-                    : undefined
-                }
-                icon={<CoinStackIcon width={35} height={35} />}
-                change={
-                  avgVesselBenchmark?.own.valueNok &&
-                  avgVesselBenchmark.all.valueNok
-                    ? ((avgVesselBenchmark.own.valueNok -
-                        avgVesselBenchmark.all.valueNok) /
-                        avgVesselBenchmark.all.valueNok) *
-                      100
-                    : undefined
-                }
-                changeType="percent"
-                showAsterix={avgVesselBenchmark?.ownTripsHasPriceEstimation}
-              />
-            </Stack>
+              <Box sx={{ display: "flex", alignItems: "stretch" }}>
+                <StatBox
+                  title="Antall turer"
+                  value={avgVesselBenchmark?.own.numTrips}
+                  icon={<FishingTripIcon width={35} height={35} />}
+                  change={
+                    avgVesselBenchmark?.own.numTrips &&
+                    avgVesselBenchmark.all.numTrips
+                      ? avgVesselBenchmark.own.numTrips -
+                        avgVesselBenchmark.all.numTrips
+                      : undefined
+                  }
+                  changeType="number"
+                />
+                <Divider orientation="vertical" flexItem />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "stretch" }}>
+                <StatBox
+                  title="Antall hal"
+                  value={avgVesselBenchmark?.own.numHauls}
+                  icon={<GearIcon width={35} height={35} />}
+                  change={
+                    avgVesselBenchmark?.own.numHauls &&
+                    avgVesselBenchmark.all.numHauls
+                      ? avgVesselBenchmark.own.numHauls -
+                        avgVesselBenchmark.all.numHauls
+                      : undefined
+                  }
+                  changeType="number"
+                />
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{ display: { xs: "none", lg: "block" } }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: { xs: "contents", lg: "none" },
+                }}
+              >
+                <Divider sx={{ gridColumn: "1", mr: 3 }} />
+                <Divider sx={{ gridColumn: "2" }} />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "stretch" }}>
+                <StatBox
+                  title="Dager brukt"
+                  value={
+                    avgVesselBenchmark?.own.tripDurationSeconds
+                      ? hoursToDays(
+                          avgVesselBenchmark.own.tripDurationSeconds / 3600,
+                        )
+                      : undefined
+                  }
+                  icon={<TimerOutlinedIcon fontSize="large" />}
+                  change={
+                    avgVesselBenchmark?.own.tripDurationSeconds &&
+                    avgVesselBenchmark.all.tripDurationSeconds
+                      ? ((avgVesselBenchmark.own.tripDurationSeconds -
+                          avgVesselBenchmark.all.tripDurationSeconds) /
+                          avgVesselBenchmark.all.tripDurationSeconds) *
+                        100
+                      : undefined
+                  }
+                  changeType="percent"
+                />
+                <Divider orientation="vertical" flexItem />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "stretch" }}>
+                <StatBox
+                  title="Verdi"
+                  value={
+                    avgVesselBenchmark?.own.valueNok
+                      ? nokCompact.format(avgVesselBenchmark.own.valueNok)
+                      : undefined
+                  }
+                  icon={<CoinStackIcon width={35} height={35} />}
+                  change={
+                    avgVesselBenchmark?.own.valueNok &&
+                    avgVesselBenchmark.all.valueNok
+                      ? ((avgVesselBenchmark.own.valueNok -
+                          avgVesselBenchmark.all.valueNok) /
+                          avgVesselBenchmark.all.valueNok) *
+                        100
+                      : undefined
+                  }
+                  changeType="percent"
+                  showAsterix={avgVesselBenchmark?.ownTripsHasPriceEstimation}
+                />
+              </Box>
+            </Box>
           )}
         </CardContent>
       </Card>
@@ -154,9 +180,10 @@ const StatBox: FC<StatProps> = ({
   showAsterix,
 }) => {
   const vesselRankingType = useAppSelector(selectVesselRankingType);
+  const useSmallerText = useMediaQuery(theme.breakpoints.between("lg", 2200));
 
   return (
-    <Stack spacing={3} sx={{ px: 3 }}>
+    <Stack spacing={3} sx={{ px: 3, flex: 1 }}>
       <Stack direction="row" spacing={2}>
         <Box>{icon}</Box>
 
@@ -169,7 +196,10 @@ const StatBox: FC<StatProps> = ({
                 : undefined
             }
           >
-            <Typography variant="h3">
+            <Typography
+              variant="h3"
+              sx={{ fontSize: useSmallerText ? "1.8rem" : "2.25rem" }}
+            >
               <Box component="span">{value ?? "Ukjent"}</Box>
               <Typography component="span" sx={{ whiteSpace: "nowrap" }}>
                 {suffix ?? ""}{" "}

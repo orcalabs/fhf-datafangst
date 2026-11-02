@@ -161,6 +161,13 @@ export const nok = new Intl.NumberFormat("no-NB", {
   maximumFractionDigits: 0,
 });
 
+export const nokCompact = new Intl.NumberFormat("no-NB", {
+  style: "currency",
+  currency: "NOK",
+  maximumFractionDigits: 0,
+  notation: "compact",
+});
+
 export const formatNumber = (value: number, maximumFractionDigits = 0) =>
   new Intl.NumberFormat("nb-NO", {
     maximumFractionDigits,

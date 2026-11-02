@@ -117,6 +117,7 @@ models/month.ts
 models/naive-date-range-inner.ts
 models/navigation-status.ts
 models/optional-date-time-range.ts
+models/orca-gear-group.ts
 models/orca-vessel-length-group.ts
 models/ordering.ts
 models/org-benchmark-entry.ts
@@ -168,6 +169,7 @@ models/vessel-event-params.ts
 models/vessel-event-path.ts
 models/vessel-event-type.ts
 models/vessel-event.ts
+models/vessel-grouping.ts
 models/vessel-length-group.ts
 models/vessel-source.ts
 models/vessel-type.ts
