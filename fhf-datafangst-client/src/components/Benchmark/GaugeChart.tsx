@@ -79,7 +79,13 @@ export const GaugeChart: FC<Props> = ({
   return (
     <Card
       variant="elevation"
-      sx={{ m: "auto", bgcolor: "white", borderRadius: 2, height: "100%" }}
+      sx={{
+        m: "auto",
+        bgcolor: "white",
+        borderRadius: 2,
+        height: "100%",
+        ":hover": { bgcolor: theme.palette.grey[50] },
+      }}
     >
       <CardHeader
         avatar={icon}

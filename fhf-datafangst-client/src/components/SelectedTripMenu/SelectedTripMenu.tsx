@@ -307,82 +307,80 @@ export const SelectedTripMenu: FC = () => {
               <SvgIcon sx={iconStyle}>
                 <LocalGasStationIcon />
               </SvgIcon>
-              <Typography>
-                {trip.fuelConsumption ? (
-                  <Stack
-                    direction="row"
-                    spacing={1}
-                    sx={{ alignItems: "center" }}
-                  >
-                    <Typography>
-                      {trip.fuelConsumption.toFixed(0)} liter
-                    </Typography>
-                    <Tooltip
-                      slotProps={{
-                        tooltip: {
-                          sx: {
-                            border: `1px solid ${theme.palette.grey[700]}`,
-                            bgcolor: theme.palette.primary.alt,
-                            width: 200,
-                          },
+              {trip.fuelConsumption ? (
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  sx={{ alignItems: "center" }}
+                >
+                  <Typography>
+                    {trip.fuelConsumption.toFixed(0)} liter
+                  </Typography>
+                  <Tooltip
+                    slotProps={{
+                      tooltip: {
+                        sx: {
+                          border: `1px solid ${theme.palette.grey[700]}`,
+                          bgcolor: theme.palette.primary.alt,
+                          width: 200,
                         },
-                      }}
-                      title={
-                        <Stack sx={{ alignItems: "center" }}>
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              color: fuelInfoColor,
-                            }}
-                          >
-                            {trip.percentageOfTripCoveredByMeasurements?.toFixed(
-                              0,
+                      },
+                    }}
+                    title={
+                      <Stack sx={{ alignItems: "center" }}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: fuelInfoColor,
+                          }}
+                        >
+                          {trip.percentageOfTripCoveredByMeasurements?.toFixed(
+                            0,
+                          )}
+                          %
+                        </Typography>
+                        <Typography
+                          sx={{ textAlign: "center", fontSize: "0.9rem" }}
+                        >
+                          av turen består av dine drivstoffmålinger.
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            pt: 1.5,
+                            textAlign: "center",
+                            color: "text.secondary",
+                          }}
+                        >
+                          På resterende{" "}
+                          {100 -
+                            Number(
+                              trip.percentageOfTripCoveredByMeasurements?.toFixed(
+                                0,
+                              ),
                             )}
-                            %
-                          </Typography>
-                          <Typography
-                            sx={{ textAlign: "center", fontSize: "0.9rem" }}
-                          >
-                            av turen består av dine drivstoffmålinger.
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            sx={{
-                              pt: 1.5,
-                              textAlign: "center",
-                              color: "text.secondary",
-                            }}
-                          >
-                            På resterende{" "}
-                            {100 -
-                              Number(
-                                trip.percentageOfTripCoveredByMeasurements?.toFixed(
-                                  0,
-                                ),
-                              )}
-                            % er forbruket estimert basert på spor.
-                          </Typography>
-                        </Stack>
-                      }
-                    >
-                      <SvgIcon fontSize="small">
-                        <AssessmentIcon sx={{ color: fuelInfoColor }} />
-                      </SvgIcon>
-                    </Tooltip>
-                  </Stack>
-                ) : (
-                  <>
-                    {formatNumber(trip.fuelConsumptionEstimatedOnly!)} liter{" "}
-                    <Typography
-                      component="span"
-                      variant="overline"
-                      sx={{ color: "fifth.light" }}
-                    >
-                      (estimert)
-                    </Typography>
-                  </>
-                )}
-              </Typography>
+                          % er forbruket estimert basert på spor.
+                        </Typography>
+                      </Stack>
+                    }
+                  >
+                    <SvgIcon fontSize="small">
+                      <AssessmentIcon sx={{ color: fuelInfoColor }} />
+                    </SvgIcon>
+                  </Tooltip>
+                </Stack>
+              ) : (
+                <>
+                  {formatNumber(trip.fuelConsumptionEstimatedOnly!)} liter{" "}
+                  <Typography
+                    component="span"
+                    variant="overline"
+                    sx={{ color: "fifth.light" }}
+                  >
+                    (estimert)
+                  </Typography>
+                </>
+              )}
             </InfoItem>
           )}
         </Box>

@@ -27,6 +27,7 @@ export const VesselGrouping = {
     TraalHvitfiskReke: 'TraalHvitfiskReke',
     TraalNotPelagisk: 'TraalNotPelagisk',
     NotPelagisk: 'NotPelagisk',
+    NotHvitfisk: 'NotHvitfisk',
     Teine: 'Teine',
     Snurrevad: 'Snurrevad',
     LineOgGarn: 'LineOgGarn',

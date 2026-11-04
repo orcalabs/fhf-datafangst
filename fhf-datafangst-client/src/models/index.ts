@@ -5,3 +5,4 @@ export * from "./common";
 export * from "./fishingFacility";
 export * from "./fiskinfoProfile";
 export * from "./position";
+export * from "./tripKpis";

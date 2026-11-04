@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { PerTripStats } from './per-trip-stats';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { PerVesselStats } from './per-vessel-stats';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -98,5 +101,11 @@ export interface AverageVesselsBenchmarks {
      * @memberof AverageVesselsBenchmarks
      */
     'perVessel': Array<PerVesselStats>;
+    /**
+     * 
+     * @type {Array<PerTripStats>}
+     * @memberof AverageVesselsBenchmarks
+     */
+    'ownTripStats': Array<PerTripStats>;
 }
 
