@@ -126,6 +126,7 @@ models/org-benchmark-path.ts
 models/org-benchmark-species.ts
 models/org-benchmarks.ts
 models/org-fuel-path.ts
+models/per-trip-stats.ts
 models/per-vessel-benchmark-params.ts
 models/per-vessel-stats.ts
 models/price-query.ts

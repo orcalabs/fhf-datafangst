@@ -98,6 +98,7 @@ export * from './org-benchmark-path';
 export * from './org-benchmark-species';
 export * from './org-benchmarks';
 export * from './org-fuel-path';
+export * from './per-trip-stats';
 export * from './per-vessel-benchmark-params';
 export * from './per-vessel-stats';
 export * from './price-query';

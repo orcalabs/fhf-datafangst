@@ -3,7 +3,13 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import type { DateRange } from "~/api";
 import theme from "~/app/theme";
-import { BenchmarkCards, LocalLoadingProgress } from "~/components";
+import {
+  BenchmarkCards,
+  CatchChart,
+  GeneralStatsCard,
+  LocalLoadingProgress,
+  VesselRanking,
+} from "~/components";
 import { Ordering } from "~/generated/openapi";
 import { VesselRankingType } from "~/models";
 import {
@@ -18,9 +24,6 @@ import {
   useAppSelector,
 } from "~/store";
 import { EEOI } from "./EEOI";
-import { GeneralStatsCard } from "./GeneralStatsCard";
-import { CatchChart } from "./Graphs/CatchChart";
-import { VesselRanking } from "./VesselRanking";
 
 interface Props {
   dateRange?: DateRange;

@@ -26,7 +26,8 @@ export const OrcaGearGroup = {
     TraalHvitfisk: 'TraalHvitfisk',
     Teine: 'Teine',
     Snurrevad: 'Snurrevad',
-    Not: 'Not',
+    NotPelagisk: 'NotPelagisk',
+    NotHvitfisk: 'NotHvitfisk',
     Garn: 'Garn',
     Line: 'Line',
     Annet: 'Annet'
