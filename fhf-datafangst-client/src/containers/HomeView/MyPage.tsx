@@ -132,6 +132,8 @@ export const MyPage: FC = () => {
 
   const [subMenu, setSubmenu] = useMyPageSubmenu();
 
+  const isInitialLoading = !vessel && (userLoading || vesselsLoading);
+
   useEffect(() => {
     if (subMenu !== MyPageSubmenu.Trips && !loggedIn && !isLoading) {
       window.localStorage.setItem(
@@ -170,7 +172,7 @@ export const MyPage: FC = () => {
     }
   }, [subMenu, vessel]);
 
-  if (userLoading || vesselsLoading) {
+  if (isInitialLoading) {
     return (
       <PageLayoutLeft>
         <Box sx={{ pt: 4 }}>
