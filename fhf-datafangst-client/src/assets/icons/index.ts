@@ -4,6 +4,7 @@ export { default as CoastlineIcon } from "./coastline";
 export { default as CoinStackIcon } from "./coin-icon";
 export { default as DeliveryIcon } from "./delivery";
 export { default as DeliveryPointIcon } from "./delivery-point";
+export { default as EngineIcon } from "./engine-icon";
 export { default as FishIcon } from "./fish";
 export { default as FishLocationIcon } from "./fish-location";
 export { default as FishPerDistanceIcon } from "./fish-per-distance";
