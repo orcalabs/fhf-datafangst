@@ -18,57 +18,85 @@ function FishingTripIcon({
       fill="none"
       aria-hidden="true"
     >
-      {/* Route leading up to the front of the vessel */}
+      {/* Route approaching the vessel */}
       <path
         d="
-          M45 45
-          C45 15 275 15 275 115
-          C275 170 260 140 248 138
+          M45 73
+          C45 25 265 22 270 94
+          C275 132 242 145 219 151
         "
         stroke={fill}
-        strokeWidth="30"
+        strokeWidth="16"
+        strokeDasharray="22 25"
         strokeLinecap="round"
-        strokeDasharray="3 42"
       />
 
-      {/* Route continuing from the back of the vessel */}
+      {/* Route leaving the vessel */}
       <path
         d="
-          M42 158
-          C35 185 45 200 45 205
-          C45 295 275 295 275 275
+          M102 176
+          C56 176 42 205 49 239
+          C58 291 214 298 272 266
         "
         stroke={fill}
-        strokeWidth="30"
+        strokeWidth="16"
+        strokeDasharray="22 25"
         strokeLinecap="round"
-        strokeDasharray="3 42"
       />
 
       {/* Start marker */}
-      <circle cx="45" cy="45" r="15" fill={fill} />
-      <circle cx="45" cy="45" r="6" fill="white" />
+      <circle cx="45" cy="73" r="17" fill={fill} />
+      <circle cx="45" cy="73" r="7" fill="white" />
 
       {/* Destination marker */}
-      <circle cx="275" cy="275" r="15" stroke={fill} strokeWidth="9" />
-      <circle cx="275" cy="275" r="5" fill={fill} />
+      <circle cx="272" cy="266" r="17" stroke={fill} strokeWidth="9" />
 
-      {/* Larger, upright vessel — flipped horizontally to face right */}
-      <g
-        transform="
-          translate(135 140)
-          scale(-0.65 0.65)
-          translate(-199.65 -91.25)
-        "
-      >
-        <path
-          fill={fill}
-          d="
-            M359.3,73L317.1,73l42.2-73H190.4l-21.1,36.5h42.1h0.1h0
-            l0.1,0.1l-0.2-0.1l-42.2,73h0h-42.2h0h0h0h0L63.7,0.1
-            H21.5l42,73h-0.1l-21.1,36.5H0l42.2,73h253.6L359.3,73z
-            M232.6,73L232.6,73l21.1-36.5h42.2l0,0.1l-21,36.5H232.6z
-          "
-        />
+      {/* Vessel rotated 35 degrees */}
+      <g transform="rotate(35 160 160)">
+        {/* 15% narrower, maintaining center position */}
+        <g transform="translate(24 0) scale(0.85 1)">
+          {/* Main hull with sharp bow */}
+          <path
+            d="
+              M160 57
+              C155 57 119 109 112 140
+              L112 211
+              Q160 242 208 211
+              L208 140
+              C201 109 165 57 160 57
+              Z
+            "
+            fill={fill}
+          />
+
+          {/* Cabin */}
+          <path
+            d="
+              M140 151
+              L180 151
+              L188 196
+              Q160 211 132 196
+              Z
+            "
+            fill="white"
+          />
+
+          {/* Stern detail */}
+          <path
+            d="M140 213 L180 213"
+            stroke="white"
+            strokeWidth="7"
+            strokeLinecap="round"
+          />
+
+          {/* Bow detail */}
+          <path
+            d="M160 98 L160 129"
+            stroke="white"
+            strokeWidth="6"
+            strokeLinecap="round"
+          />
+        </g>
       </g>
     </svg>
   );
