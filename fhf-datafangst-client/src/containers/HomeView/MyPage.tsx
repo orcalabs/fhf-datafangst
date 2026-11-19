@@ -1,4 +1,3 @@
-import AllInclusiveSharpIcon from "@mui/icons-material/AllInclusiveSharp";
 import EditDocumentIcon from "@mui/icons-material/EditDocument";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -19,7 +18,7 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import { HaulsFilter } from "~/api";
 import theme from "~/app/theme";
-import { FishIcon } from "~/assets/icons";
+import { FishIcon, FishingTripIcon } from "~/assets/icons";
 import {
   CurrentTripMenu,
   FuelPage,
@@ -251,8 +250,10 @@ export const MyPage: FC = () => {
                 "& svg": { mr: 2 },
               }}
             >
-              <AllInclusiveSharpIcon
-                sx={{ color: "secondary.light", fontSize: 32 }}
+              <FishingTripIcon
+                width={32}
+                height={32}
+                fill={`${theme.palette.secondary.light}`}
               />
             </Box>
             <Typography variant="h6">Mine turer</Typography>
