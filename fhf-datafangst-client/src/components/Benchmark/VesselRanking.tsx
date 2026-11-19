@@ -275,7 +275,10 @@ export const VesselRanking: FC = () => {
                               selectedKpi === "weightPerHour"
                                 ? vessel[selectedKpi] * 24
                                 : vessel[selectedKpi],
-                              0,
+                              selectedKpi === "weightPerFuelLiter" ||
+                                selectedKpi === "catchValuePerFuelLiter"
+                                ? 1
+                                : 0,
                             )
                           : "–"}
                       </StyledTableCell>
@@ -335,7 +338,10 @@ export const VesselRanking: FC = () => {
                             selectedKpi === "weightPerHour"
                               ? myVesselStats[selectedKpi]! * 24
                               : myVesselStats[selectedKpi]!,
-                            0,
+                            selectedKpi === "weightPerFuelLiter" ||
+                              selectedKpi === "catchValuePerFuelLiter"
+                              ? 1
+                              : 0,
                           )
                         : "–"}
                     </Typography>
