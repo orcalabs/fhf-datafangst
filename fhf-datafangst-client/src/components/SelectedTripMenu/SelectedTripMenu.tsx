@@ -370,7 +370,7 @@ export const SelectedTripMenu: FC = () => {
                   </Tooltip>
                 </Stack>
               ) : (
-                <>
+                <Typography>
                   {formatNumber(trip.fuelConsumptionEstimatedOnly!)} liter{" "}
                   <Typography
                     component="span"
@@ -379,7 +379,7 @@ export const SelectedTripMenu: FC = () => {
                   >
                     (estimert)
                   </Typography>
-                </>
+                </Typography>
               )}
             </InfoItem>
           )}
